@@ -127,7 +127,7 @@ export default function PredictiveRiskAnalysis() {
 
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="text-green-400 border-green-400/50">
-                $10,000 - $18,000 annually
+                Custom pricing available
               </Badge>
               <Badge variant="outline" className="text-cyan-400 border-cyan-400/50">
                 Predictive intelligence

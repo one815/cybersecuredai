@@ -122,7 +122,7 @@ export default function AutomatedIncidentResponse() {
 
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="text-cyan-400 border-cyan-400/50">
-                $10,000 - $18,000 annually
+                Custom pricing available
               </Badge>
               <Badge variant="outline" className="text-green-400 border-green-400/50">
                 Enterprise-grade security
@@ -450,7 +450,7 @@ export default function AutomatedIncidentResponse() {
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-2">$2.22M</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">2.22M+</div>
                   <div className="text-sm text-gray-400">Average cost savings vs traditional security</div>
                 </div>
                 <div className="text-center">

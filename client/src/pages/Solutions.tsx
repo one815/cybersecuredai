@@ -32,21 +32,18 @@ export default function Solutions() {
   const aiSolutions = [
     {
       title: "Automated Threat Detection System",
-      price: "$12,000 - $20,000",
       description: "AI-powered threat detection using NIST Cybersecurity Framework 2.0 to automatically identify and classify security threats in real-time",
       features: ["Real-time threat analysis", "NIST CSF 2.0 compliance", "Automated classification", "Machine learning algorithms", "24/7 monitoring"],
       icon: <Brain className="w-8 h-8 text-cyan-400" />
     },
     {
       title: "Predictive Risk Analysis Engine", 
-      price: "$10,000 - $18,000",
       description: "AI-driven system that analyzes historical data, system configurations, and threat intelligence to predict potential vulnerabilities",
       features: ["Historical data analysis", "Configuration assessment", "Threat intelligence integration", "Vulnerability prediction", "Risk scoring"],
       icon: <TrendingUp className="w-8 h-8 text-purple-400" />
     },
     {
       title: "Automated Incident Response System",
-      price: "$10,000 - $18,000", 
       description: "Intelligent response system that automatically contains, investigates, and remediates security incidents based on predefined playbooks",
       features: ["Automatic containment", "Incident investigation", "Smart remediation", "Custom playbooks", "Response automation"],
       icon: <Zap className="w-8 h-8 text-orange-400" />
@@ -56,7 +53,6 @@ export default function Solutions() {
   const complianceSolutions = [
     {
       title: "Multi-Framework Compliance Automation",
-      price: "$8,000 - $15,000",
       description: "Comprehensive compliance management system supporting FERPA, CIPA, FedRAMP, and FISMA requirements",
       features: ["FERPA compliance", "CIPA framework support", "FedRAMP authorization", "FISMA requirements", "Automated reporting"],
       icon: <Shield className="w-8 h-8 text-green-400" />
@@ -120,14 +116,12 @@ export default function Solutions() {
   const trainingServices = [
     {
       title: "Security Awareness Training",
-      price: "$5,000 - $10,000",
       description: "Interactive training modules for cybersecurity best practices customized for education and government personnel",
       features: ["Interactive modules", "Sector-specific content", "Progress tracking", "Certification", "Regular updates"],
       icon: <Award className="w-8 h-8 text-blue-400" />
     },
     {
       title: "24/7 Monitoring and Vulnerability Management",
-      price: "$5,000 - $7,000", 
       description: "Continuous monitoring service using AI to detect vulnerabilities",
       features: ["24/7 monitoring", "Vulnerability scanning", "AI-powered detection", "Threat intelligence", "Alert management"],
       icon: <Activity className="w-8 h-8 text-red-400" />

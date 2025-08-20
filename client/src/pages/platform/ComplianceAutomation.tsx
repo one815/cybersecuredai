@@ -99,7 +99,7 @@ export default function ComplianceAutomation() {
   const auditBenefits = [
     { benefit: "Reduced Audit Preparation Time", improvement: "85% faster", description: "Automated evidence collection and report generation" },
     { benefit: "Improved Compliance Scores", improvement: "23% increase", description: "Continuous monitoring prevents violations" },
-    { benefit: "Lower Audit Costs", improvement: "$2.1M saved", description: "Reduced external audit firm engagement" },
+    { benefit: "Lower Audit Costs", improvement: "2.1M+ saved", description: "Reduced external audit firm engagement" },
     { benefit: "Faster Issue Resolution", improvement: "72% reduction", description: "Automated remediation of common violations" }
   ];
 
@@ -136,7 +136,7 @@ export default function ComplianceAutomation() {
 
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="text-orange-400 border-orange-400/50">
-                $8,000 - $15,000 annually
+                Custom pricing available
               </Badge>
               <Badge variant="outline" className="text-green-400 border-green-400/50">
                 Multi-framework support

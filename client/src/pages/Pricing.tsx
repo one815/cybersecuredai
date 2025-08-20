@@ -23,7 +23,6 @@ export default function Pricing() {
     {
       id: "essential",
       name: "CyberSecure Essential",
-      price: "$25,000 - $40,000",
       target: "Small K-12 schools, small municipal governments",
       icon: <Shield className="w-8 h-8 text-blue-400" />,
       color: "blue",
@@ -51,7 +50,6 @@ export default function Pricing() {
     {
       id: "advanced",
       name: "CyberSecure Advanced", 
-      price: "$50,000 - $80,000",
       target: "Medium-sized school districts, colleges, city governments",
       icon: <Building className="w-8 h-8 text-green-400" />,
       color: "green",
@@ -84,7 +82,7 @@ export default function Pricing() {
     {
       id: "enterprise",
       name: "CyberSecure Enterprise",
-      price: "$100,000 - $250,000", 
+ 
       target: "Large school districts, universities, state agencies, federal departments",
       icon: <Crown className="w-8 h-8 text-purple-400" />,
       color: "purple",
@@ -123,22 +121,19 @@ export default function Pricing() {
   const additionalServices = [
     {
       name: "Secure Server Room Kit",
-      price: "$15,000 - $30,000",
       description: "Complete secure server room infrastructure with environmental controls"
     },
     {
       name: "Multi-Factor Authentication Hardware",
-      price: "$5,000 - $15,000", 
+ 
       description: "Hardware tokens and biometric authentication devices"
     },
     {
       name: "Network Segmentation Bundle",
-      price: "$10,000 - $25,000",
       description: "Advanced network segmentation and micro-segmentation tools"
     },
     {
       name: "Disaster Recovery Infrastructure", 
-      price: "$20,000 - $40,000",
       description: "Complete disaster recovery and business continuity infrastructure"
     }
   ];
