@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search } from "lucide-react";
+
+// Extend window interface for Google Maps
+declare global {
+  interface Window {
+    google: typeof google;
+  }
+}
 
 export default function ThreatMonitoring() {
   const [selectedTab, setSelectedTab] = useState("map");
@@ -139,6 +147,305 @@ export default function ThreatMonitoring() {
     { country: "China", percentage: 28 },
     { country: "Others", percentage: 30 }
   ];
+
+  // Threat locations for Google Maps
+  const threatLocations = [
+    {
+      lat: 55.7558,
+      lng: 37.6176,
+      country: "Russia",
+      attacks: 34,
+      severity: "critical",
+      city: "Moscow"
+    },
+    {
+      lat: 39.9042,
+      lng: 116.4074,
+      country: "China",
+      attacks: 21,
+      severity: "high",
+      city: "Beijing"
+    },
+    {
+      lat: 39.0392,
+      lng: 125.7625,
+      country: "North Korea",
+      attacks: 15,
+      severity: "medium",
+      city: "Pyongyang"
+    },
+    {
+      lat: 35.6762,
+      lng: 139.6503,
+      country: "Japan",
+      attacks: 8,
+      severity: "low",
+      city: "Tokyo"
+    },
+    {
+      lat: 52.5200,
+      lng: 13.4050,
+      country: "Germany",
+      attacks: 12,
+      severity: "medium",
+      city: "Berlin"
+    },
+    {
+      lat: 51.5074,
+      lng: -0.1278,
+      country: "United Kingdom",
+      attacks: 6,
+      severity: "low",
+      city: "London"
+    }
+  ];
+
+  // Google Maps component
+  const ThreatMap = ({ locations }: { locations: typeof threatLocations }) => {
+    const mapRef = useRef<HTMLDivElement>(null);
+    const [map, setMap] = useState<google.maps.Map | null>(null);
+
+    const initMap = useCallback(() => {
+      if (!mapRef.current || !window.google) return;
+
+      const mapInstance = new window.google.maps.Map(mapRef.current, {
+        center: { lat: 30, lng: 0 },
+        zoom: 2,
+        styles: [
+          {
+            elementType: "geometry",
+            stylers: [{ color: "#1a1a2e" }]
+          },
+          {
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#1a1a2e" }]
+          },
+          {
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#746855" }]
+          },
+          {
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }]
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [{ color: "#263c3f" }]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#6b9a76" }]
+          },
+          {
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#38414e" }]
+          },
+          {
+            featureType: "road",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#212a37" }]
+          },
+          {
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#9ca5b3" }]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [{ color: "#746855" }]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry.stroke",
+            stylers: [{ color: "#1f2835" }]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#f3d19c" }]
+          },
+          {
+            featureType: "transit",
+            elementType: "geometry",
+            stylers: [{ color: "#2f3948" }]
+          },
+          {
+            featureType: "transit.station",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#d59563" }]
+          },
+          {
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [{ color: "#17263c" }]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#515c6d" }]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.stroke",
+            stylers: [{ color: "#17263c" }]
+          }
+        ],
+        disableDefaultUI: true,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.TOP_RIGHT
+        }
+      });
+
+      setMap(mapInstance);
+
+      // Add threat markers
+      locations.forEach((location) => {
+        const getMarkerColor = (severity: string) => {
+          switch (severity) {
+            case 'critical': return '#ef4444';
+            case 'high': return '#f97316';
+            case 'medium': return '#eab308';
+            case 'low': return '#22c55e';
+            default: return '#6b7280';
+          }
+        };
+
+        const marker = new window.google.maps.Marker({
+          position: { lat: location.lat, lng: location.lng },
+          map: mapInstance,
+          icon: {
+            path: window.google.maps.SymbolPath.CIRCLE,
+            scale: Math.max(6, location.attacks / 2),
+            fillColor: getMarkerColor(location.severity),
+            fillOpacity: 0.8,
+            strokeColor: '#ffffff',
+            strokeWeight: 2
+          },
+          title: `${location.city}, ${location.country}: ${location.attacks} attacks`
+        });
+
+        // Add info window
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: `
+            <div style="color: #000; padding: 8px;">
+              <h3 style="margin: 0 0 8px 0; font-size: 14px; font-weight: bold;">${location.city}, ${location.country}</h3>
+              <p style="margin: 0; font-size: 12px;">Active Attacks: <strong>${location.attacks}</strong></p>
+              <p style="margin: 0; font-size: 12px;">Severity: <strong style="color: ${getMarkerColor(location.severity)};">${location.severity.toUpperCase()}</strong></p>
+            </div>
+          `
+        });
+
+        marker.addListener('click', () => {
+          infoWindow.open(mapInstance, marker);
+        });
+      });
+    }, [locations]);
+
+    useEffect(() => {
+      if (window.google) {
+        initMap();
+      }
+    }, [initMap]);
+
+    return (
+      <div 
+        ref={mapRef} 
+        className="w-full h-80 rounded-lg overflow-hidden"
+        style={{ minHeight: '320px' }}
+      />
+    );
+  };
+
+  const renderMap = (status: Status): React.ReactElement => {
+    switch (status) {
+      case Status.LOADING:
+        return (
+          <div className="w-full h-80 bg-gray-900 rounded-lg flex items-center justify-center">
+            <div className="text-white">Loading map...</div>
+          </div>
+        );
+      case Status.FAILURE:
+        return (
+          <div className="w-full h-80 bg-gray-900 rounded-lg flex items-center justify-center">
+            <div className="text-red-400">Error loading map. Using fallback visualization.</div>
+            <FallbackMap locations={threatLocations} />
+          </div>
+        );
+      case Status.SUCCESS:
+        return <ThreatMap locations={threatLocations} />;
+      default:
+        return (
+          <div className="w-full h-80 bg-gray-900 rounded-lg flex items-center justify-center">
+            <div className="text-white">Initializing map...</div>
+          </div>
+        );
+    }
+  };
+
+  // Fallback SVG map component
+  const FallbackMap = ({ locations }: { locations: typeof threatLocations }) => {
+    return (
+      <div className="relative bg-gray-900 rounded-lg h-80 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20">
+          <svg viewBox="0 0 800 400" className="w-full h-full">
+            {/* Continents (simplified shapes) */}
+            <path d="M150 100 L250 90 L300 120 L280 180 L200 200 L120 160 Z" fill="#1e3a8a" opacity="0.6" />
+            <path d="M350 80 L500 70 L550 100 L520 150 L480 180 L400 170 L330 140 Z" fill="#1e3a8a" opacity="0.6" />
+            <path d="M100 220 L200 210 L250 240 L220 300 L150 320 L80 280 Z" fill="#1e3a8a" opacity="0.6" />
+            <path d="M300 200 L400 190 L450 220 L420 280 L350 300 L280 260 Z" fill="#1e3a8a" opacity="0.6" />
+            
+            {/* Attack indicators based on actual data */}
+            {locations.map((location, index) => {
+              // Convert lat/lng to SVG coordinates (simplified)
+              const x = ((location.lng + 180) / 360) * 800;
+              const y = ((90 - location.lat) / 180) * 400;
+              
+              const getColor = (severity: string) => {
+                switch (severity) {
+                  case 'critical': return '#ef4444';
+                  case 'high': return '#f97316';
+                  case 'medium': return '#eab308';
+                  case 'low': return '#22c55e';
+                  default: return '#6b7280';
+                }
+              };
+              
+              return (
+                <g key={index}>
+                  <circle 
+                    cx={x} 
+                    cy={y} 
+                    r={Math.max(4, location.attacks / 4)} 
+                    fill={getColor(location.severity)} 
+                    className="animate-pulse" 
+                  />
+                  <text 
+                    x={x + 10} 
+                    y={y + 5} 
+                    className="text-xs fill-white"
+                    fontSize="12"
+                  >
+                    {location.country} - {location.attacks} attacks
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+      </div>
+    );
+  };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -296,65 +603,64 @@ export default function ThreatMonitoring() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="relative bg-gray-900 rounded-lg h-80 overflow-hidden">
-                {/* Simplified world map representation */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20">
-                  <svg viewBox="0 0 800 400" className="w-full h-full">
-                    {/* Continents (simplified shapes) */}
-                    <path d="M150 100 L250 90 L300 120 L280 180 L200 200 L120 160 Z" fill="#1e3a8a" opacity="0.6" />
-                    <path d="M350 80 L500 70 L550 100 L520 150 L480 180 L400 170 L330 140 Z" fill="#1e3a8a" opacity="0.6" />
-                    <path d="M100 220 L200 210 L250 240 L220 300 L150 320 L80 280 Z" fill="#1e3a8a" opacity="0.6" />
-                    <path d="M300 200 L400 190 L450 220 L420 280 L350 300 L280 260 Z" fill="#1e3a8a" opacity="0.6" />
-                    
-                    {/* Attack indicators */}
-                    <circle cx="450" cy="120" r="8" fill="#ef4444" className="animate-pulse" />
-                    <text x="460" y="125" className="text-xs fill-white">Russia - 34 attacks</text>
-                    
-                    <circle cx="380" cy="140" r="6" fill="#f97316" className="animate-pulse" />
-                    <text x="390" y="145" className="text-xs fill-white">China - 21 attacks</text>
-                    
-                    <circle cx="420" cy="160" r="4" fill="#eab308" className="animate-pulse" />
-                    <text x="430" y="165" className="text-xs fill-white">N. Korea - 15 attacks</text>
-                    
-                    <circle cx="320" cy="200" r="3" fill="#22c55e" className="animate-pulse" />
-                    <text x="330" y="205" className="text-xs fill-white">Others - 28 attacks</text>
-                  </svg>
+              {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? (
+                <Wrapper 
+                  apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} 
+                  render={renderMap}
+                  libraries={["marker"]}
+                >
+                  <ThreatMap locations={threatLocations} />
+                </Wrapper>
+              ) : (
+                <div>
+                  <div className="mb-2 text-yellow-400 text-sm">Demo Mode - Google Maps API not configured</div>
+                  <FallbackMap locations={threatLocations} />
                 </div>
-                
-                {/* Map controls */}
-                <div className="absolute top-4 right-4 space-y-2">
-                  <Button size="sm" variant="outline" className="w-8 h-8 p-0">
-                    +
-                  </Button>
-                  <Button size="sm" variant="outline" className="w-8 h-8 p-0">
-                    -
-                  </Button>
-                  <Button size="sm" variant="outline" className="w-8 h-8 p-0">
-                    <MapPin className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
+              )}
               
               {/* Attack sources legend */}
               <div className="mt-4 grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="text-sm font-medium text-white mb-2">Active Attack Sources</h4>
                   <div className="space-y-1">
+                    {threatLocations.map((location, index) => {
+                      const getColor = (severity: string) => {
+                        switch (severity) {
+                          case 'critical': return 'bg-red-500';
+                          case 'high': return 'bg-orange-500';
+                          case 'medium': return 'bg-yellow-500';
+                          case 'low': return 'bg-green-500';
+                          default: return 'bg-gray-500';
+                        }
+                      };
+                      
+                      return (
+                        <div key={index} className="flex items-center space-x-2">
+                          <div className={`w-3 h-3 rounded-full ${getColor(location.severity)}`}></div>
+                          <span className="text-sm text-gray-300">{location.country} - {location.attacks} attacks</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="text-sm font-medium text-white mb-2">Threat Severity</h4>
+                  <div className="space-y-1">
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                      <span className="text-sm text-gray-300">Russia - 34 attacks</span>
+                      <span className="text-sm text-gray-300">Critical</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                      <span className="text-sm text-gray-300">China - 21 attacks</span>
+                      <span className="text-sm text-gray-300">High</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                      <span className="text-sm text-gray-300">North Korea - 15 attacks</span>
+                      <span className="text-sm text-gray-300">Medium</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span className="text-sm text-gray-300">Others - 28 attacks</span>
+                      <span className="text-sm text-gray-300">Low</span>
                     </div>
                   </div>
                 </div>
