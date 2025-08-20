@@ -1,25 +1,31 @@
 import { Link, useLocation } from "wouter";
-import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings } from "lucide-react";
+import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
 const navigationItems: NavigationItem[] = [
   { id: "dashboard", label: "Dashboard", icon: "tachometer", path: "/" },
   { id: "threats", label: "Threat Monitoring", icon: "exclamation-triangle", path: "/threats" },
+  { id: "incidents", label: "Incident Response", icon: "alert-triangle", path: "/incidents" },
   { id: "auth", label: "Authentication", icon: "lock", path: "/authentication" },
   { id: "files", label: "File Sharing", icon: "share", path: "/files" },
   { id: "compliance", label: "Compliance", icon: "clipboard-check", path: "/compliance" },
   { id: "users", label: "User Management", icon: "users", path: "/users" },
+  { id: "admin", label: "Admin Panel", icon: "user-cog", path: "/admin" },
+  { id: "ai-config", label: "AI Configuration", icon: "brain", path: "/ai-config" },
   { id: "reports", label: "Reports", icon: "chart-bar", path: "/reports" },
 ];
 
 const iconMap = {
   tachometer: Gauge,
   "exclamation-triangle": TriangleAlert,
+  "alert-triangle": AlertTriangle,
   lock: Lock,
   share: Share,
   "clipboard-check": ClipboardCheck,
   users: Users,
+  "user-cog": UserCog,
+  brain: Brain,
   "chart-bar": ChartBar,
 };
 
