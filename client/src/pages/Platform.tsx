@@ -34,21 +34,18 @@ export default function Platform() {
         {
           name: "Automated Incident Response",
           description: "AI-powered system for detecting, analyzing, and responding to cybersecurity incidents in real-time",
-          price: "$10,000-18,000",
           href: "/platform/automated-incident-response",
           features: ["Real-time threat containment", "Automated remediation", "Escalation management"]
         },
         {
           name: "Threat Detection System", 
           description: "Using AI analysis for identifying and classifying security threats with 98% detection rate",
-          price: "$12,000-20,000",
           href: "/platform/threat-detection",
           features: ["Machine learning models", "Behavioral analysis", "Pattern recognition"]
         },
         {
           name: "Predictive Risk Analysis",
           description: "AI algorithms that analyze data to predict potential vulnerabilities before exploitation",
-          price: "$10,000-18,000", 
           href: "/platform/predictive-risk-analysis",
           features: ["Vulnerability prediction", "Risk scoring", "Threat intelligence"]
         }
@@ -92,7 +89,6 @@ export default function Platform() {
         {
           name: "24/7 Monitoring & Vulnerability",
           description: "Around-the-clock vulnerability detection and remediation for all endpoints",
-          price: "$5,000-7,000",
           href: "/platform/monitoring-vulnerability",
           features: ["Continuous monitoring", "Vulnerability scanning", "Automated patching"]
         },
@@ -121,14 +117,12 @@ export default function Platform() {
         {
           name: "Compliance Automation",
           description: "Tools to automate meeting cybersecurity regulatory requirements including FERPA, FISMA, and FedRAMP",
-          price: "$8,000-15,000",
           href: "/platform/compliance-automation",
           features: ["Continuous monitoring", "Automated reporting", "Policy enforcement"]
         },
         {
           name: "Security Awareness Training",
           description: "Interactive training modules for cybersecurity best practices customized for education and government personnel",
-          price: "$5,000-10,000", 
           href: "/platform/security-training",
           features: ["Interactive modules", "Role-based training", "Progress tracking"]
         }
@@ -140,7 +134,7 @@ export default function Platform() {
     { label: "Threat Detection Rate", value: "98%", icon: <Eye className="w-5 h-5" /> },
     { label: "Incident Response Time", value: "70% Reduction", icon: <Zap className="w-5 h-5" /> },
     { label: "Manual Task Reduction", value: "60-80%", icon: <Bot className="w-5 h-5" /> },
-    { label: "Average Cost Savings", value: "$2.22M", icon: <CheckCircle className="w-5 h-5" /> }
+    { label: "Average Cost Savings", value: "2.22M annually", icon: <CheckCircle className="w-5 h-5" /> }
   ];
 
   return (
@@ -207,14 +201,9 @@ export default function Platform() {
                   {category.services.map((service, serviceIndex) => (
                     <Card key={serviceIndex} className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
                       <CardHeader className="pb-4">
-                        <div className="flex items-start justify-between">
-                          <CardTitle className="text-white text-lg group-hover:text-cyan-400 transition-colors">
-                            {service.name}
-                          </CardTitle>
-                          <Badge variant="outline" className="text-cyan-400 border-cyan-400/50">
-                            {service.price}
-                          </Badge>
-                        </div>
+                        <CardTitle className="text-white text-lg group-hover:text-cyan-400 transition-colors">
+                          {service.name}
+                        </CardTitle>
                         <p className="text-gray-400 text-sm leading-relaxed">
                           {service.description}
                         </p>
@@ -228,7 +217,7 @@ export default function Platform() {
                             </div>
                           ))}
                         </div>
-                        <Link href={service.href}>
+                        <Link href="/demo">
                           <Button 
                             variant="outline" 
                             className="w-full border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"

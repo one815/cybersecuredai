@@ -142,7 +142,7 @@ export default function ThreatDetection() {
 
             <div className="flex items-center space-x-4">
               <Badge variant="outline" className="text-purple-400 border-purple-400/50">
-                $12,000 - $20,000 annually
+                Custom pricing available
               </Badge>
               <Badge variant="outline" className="text-green-400 border-green-400/50">
                 AI-powered detection
