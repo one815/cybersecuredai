@@ -1,0 +1,523 @@
+Here's a guide for building a Live Threat Intelligence Map Integration for the CyberSecure AI Platform using Replit:
+
+## Setting Up the Project in Replit
+
+1. **Create a new Replit project**
+- Choose a Python template as your starting point
+- Name your project "CyberSecure-ThreatMap"
+
+## Backend Development
+
+1. **Set up dependencies** in a requirements.txt file:
+
+```
+flask
+flask-socketio
+requests
+pandas
+geojson
+python-dotenv
+
+```
+
+1. **Create the Flask application** ([main.py](http://main.py)):
+
+```python
+from flask import Flask, render_template, jsonify
+from flask_socketio import SocketIO
+import requests
+import json
+import os
+from dotenv import load_dotenv
+import time
+import threading
+
+# Load environment variables
+load_dotenv()
+
+app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Replace with your actual API key or source
+API_KEY = os.getenv("THREAT_INTEL_API_KEY")
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/api/threats', methods=['GET'])
+def get_threats():
+    # This would be replaced with your actual threat intelligence API call
+    # Example using a mock response for demonstration
+    return jsonify(get_threat_data())
+
+def get_threat_data():
+    # In a real implementation, you would call your threat intelligence API
+    # Example: response = requests.get(f"https://api.threatintel.com/v1/live?key={API_KEY}")
+    
+    # Mock data for demonstration
+    mock_data = {
+        "threats": [
+            {"type": "malware", "latitude": 40.7128, "longitude": -74.0060, "severity": "high", "timestamp": time.time()},
+            {"type": "ddos", "latitude": 34.0522, "longitude": -118.2437, "severity": "medium", "timestamp": time.time()},
+            {"type": "phishing", "latitude": 51.5074, "longitude": -0.1278, "severity": "low", "timestamp": time.time()}
+        ]
+    }
+    return mock_data
+
+def background_threat_updater():
+    """Background thread that sends threat updates to connected clients"""
+    while True:
+        threat_data = get_threat_data()
+        socketio.emit('threat_update', threat_data)
+        time.sleep(10)  # Update every 10 seconds
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+if __name__ == '__main__':
+    # Start the background thread for updates
+    threat_thread = threading.Thread(target=background_threat_updater)
+    threat_thread.daemon = True
+    threat_thread.start()
+    
+    # Start the Flask app
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
+
+```
+
+## Frontend Development
+
+1. **Create the directory structure**:
+
+```bash
+mkdir -p templates static/css static/js
+
+```
+
+1. **Create an HTML template** (templates/index.html):
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSecure AI - Threat Intelligence Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>CyberSecure AI Platform</h1>
+        <h2>Live Threat Intelligence Map</h2>
+    </header>
+    
+    <div class="dashboard">
+        <div class="map-container">
+            <div id="threat-map"></div>
+        </div>
+        <div class="stats-panel">
+            <h3>Threat Statistics</h3>
+            <div class="stat-box">
+                <span class="stat-label">Active Threats:</span>
+                <span id="active-threats" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">High Severity:</span>
+                <span id="high-severity" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Medium Severity:</span>
+                <span id="medium-severity" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Low Severity:</span>
+                <span id="low-severity" class="stat-value">0</span>
+            </div>
+            <div class="threat-list">
+                <h3>Recent Threats</h3>
+                <ul id="recent-threats"></ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="/static/js/map.js"></script>
+</body>
+</html>
+
+```
+
+1. **Create CSS for styling** (static/css/style.css):
+
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.map-container {
+    flex: 3;
+    min-width: 300px;
+}
+
+#threat-map {
+    height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats-panel {
+    flex: 1;
+    min-width: 250px;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.threat-list {
+    margin-top: 1.5rem;
+}
+
+.threat-list ul {
+    list-style: none;
+    margin-top: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.threat-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+.high-severity {
+    color: #e74c3c;
+}
+
+.medium-severity {
+    color: #f39c12;
+}
+
+.low-severity {
+    color: #3498db;
+}
+
+```
+
+1. **Create JavaScript for the map** (static/js/map.js):
+
+```jsx
+// Initialize map
+const map = L.map('threat-map').setView([20, 0], 2);
+
+// Add tile layer (map background)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Store threat markers for easy reference and updates
+const threatMarkers = {};
+
+// Connect to WebSocket for real-time updates
+const socket = io();
+
+socket.on('connect', () => {
+    console.log('Connected to server');
+    updateStats({ threats: [] }); // Initialize with empty data
+});
+
+socket.on('threat_update', (data) => {
+    console.log('Received threat update:', data);
+    updateMap(data);
+    updateStats(data);
+    updateRecentThreats(data);
+});
+
+// Initial data load
+fetch('/api/threats')
+    .then(response => response.json())
+    .then(data => {
+        updateMap(data);
+        updateStats(data);
+        updateRecentThreats(data);
+    })
+    .catch(error => console.error('Error fetching initial threat data:', error));
+
+// Update map with threat data
+function updateMap(data) {
+    // Clear old markers that aren't in the new data
+    for (const id in threatMarkers) {
+        if (!data.threats.some(threat => `${threat.latitude}-${threat.longitude}` === id)) {
+            map.removeLayer(threatMarkers[id]);
+            delete threatMarkers[id];
+        }
+    }
+
+    // Add or update markers for current threats
+    data.threats.forEach(threat => {
+        const id = `${threat.latitude}-${threat.longitude}`;
+        const markerColor = getThreatColor(threat.severity);
+        
+        if (id in threatMarkers) {
+            // Update existing marker
+            threatMarkers[id].setPopupContent(createPopupContent(threat));
+        } else {
+            // Create new marker
+            const marker = L.circleMarker([threat.latitude, threat.longitude], {
+                radius: 8,
+                fillColor: markerColor,
+                color: '#fff',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map);
+            
+            marker.bindPopup(createPopupContent(threat));
+            threatMarkers[id] = marker;
+            
+            // Add a pulse animation effect
+            marker.on('add', function() {
+                marker._path.classList.add('pulse-marker');
+            });
+        }
+    });
+}
+
+function createPopupContent(threat) {
+    const date = new Date(threat.timestamp * 1000).toLocaleString();
+    return `
+        <div class="threat-popup">
+            <h3>${capitalize(threat.type)} Attack</h3>
+            <p><strong>Severity:</strong> <span class="${threat.severity}-severity">${capitalize(threat.severity)}</span></p>
+            <p><strong>Detected:</strong> ${date}</p>
+        </div>
+    `;
+}
+
+function getThreatColor(severity) {
+    switch (severity.toLowerCase()) {
+        case 'high': return '#e74c3c';
+        case 'medium': return '#f39c12';
+        case 'low': return '#3498db';
+        default: return '#95a5a6';
+    }
+}
+
+// Update statistics panel
+function updateStats(data) {
+    const threats = data.threats || [];
+    document.getElementById('active-threats').textContent = threats.length;
+    
+    const severityCounts = {
+        high: threats.filter(t => t.severity === 'high').length,
+        medium: threats.filter(t => t.severity === 'medium').length,
+        low: threats.filter(t => t.severity === 'low').length
+    };
+    
+    document.getElementById('high-severity').textContent = severityCounts.high;
+    document.getElementById('medium-severity').textContent = severityCounts.medium;
+    document.getElementById('low-severity').textContent = severityCounts.low;
+}
+
+// Update recent threats list
+function updateRecentThreats(data) {
+    const recentThreatsEl = document.getElementById('recent-threats');
+    const threats = data.threats || [];
+    
+    // Sort threats by timestamp (newest first)
+    const sortedThreats = [...threats].sort((a, b) => b.timestamp - a.timestamp);
+    
+    // Take only the 5 most recent threats
+    const recentThreats = sortedThreats.slice(0, 5);
+    
+    // Create HTML for threat list
+    recentThreatsEl.innerHTML = recentThreats.map(threat => {
+        const date = new Date(threat.timestamp * 1000).toLocaleTimeString();
+        return `
+            <li>
+                <span class="${threat.severity}-severity">■</span>
+                ${capitalize(threat.type)} attack detected at ${date}
+            </li>
+        `;
+    }).join('');
+}
+
+// Helper function to capitalize first letter
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Add CSS for pulse animation
+const style = document.createElement('style');
+style.textContent = `
+    .pulse-marker {
+        animation: pulse 1.5s ease-out;
+        animation-iteration-count: 1;
+        transform-origin: center center;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+```
+
+## Integrating with Real Threat Intelligence
+
+1. **Create a .env file** for your API credentials:
+
+```
+THREAT_INTEL_API_KEY=your_api_key_here
+
+```
+
+1. **Update the get_threat_data() function** in [main.py](http://main.py) to use a real threat intelligence API:
+
+```python
+def get_threat_data():
+    """Fetch real-time threat data from a threat intelligence provider"""
+    try:
+        # Example APIs you could integrate with:
+        # - AlienVault OTX
+        # - VirusTotal
+        # - AbuseIPDB
+        # - IBM X-Force Exchange
+        
+        response = requests.get(
+            f"https://api.threatintelligence.com/v1/threats/live",
+            headers={
+                "X-API-Key": API_KEY,
+                "Content-Type": "application/json"
+            }
+        )
+        
+        if response.status_code == 200:
+            data = response.json()
+            # Transform the data to match our expected format if needed
+            transformed_data = {
+                "threats": []
+            }
+            
+            for threat in data["results"]:
+                transformed_data["threats"].append({
+                    "type": threat["category"],
+                    "latitude": threat["geo"]["latitude"],
+                    "longitude": threat["geo"]["longitude"],
+                    "severity": threat["risk_level"],
+                    "timestamp": threat["timestamp"]
+                })
+            
+            return transformed_data
+        else:
+            # If API call fails, return mock data
+            print(f"API call failed with status {response.status_code}")
+            return get_mock_threat_data()
+            
+    except Exception as e:
+        print(f"Error fetching threat data: {e}")
+        return get_mock_threat_data()
+
+def get_mock_threat_data():
+    """Generate mock threat data for testing or when API is unavailable"""
+    import random
+    
+    # List of common cyber threats
+    threat_types = ["malware", "ddos", "phishing", "ransomware", "data_breach", "sql_injection"]
+    severity_levels = ["low", "medium", "high"]
+    
+    # Generate 5-15 random threats
+    num_threats = random.randint(5, 15)
+    threats = []
+    
+    for _ in range(num_threats):
+        # Generate random coordinates (avoid oceans by using major population centers)
+        major_cities = [
+            {"lat": 40.7128, "lon": -74.0060},  # New York
+            {"lat": 34.0522, "lon": -118.2437},  # Los Angeles
+            {"lat": 51.5074, "lon": -0.1278},    # London
+            {"lat": 48.8566, "lon": 2.3522},     # Paris
+            {"lat": 35.6762, "lon": 139.6503},   # Tokyo
+            {"lat": 22.3193, "lon": 114.1694},   # Hong Kong
+            {"lat": 19.0760, "lon": 72.8777},    # Mumbai
+            {"lat": -33.8688, "lon": 151.2093},  # Sydney
+            {"lat": -23.5505, "lon": -46.6333},  # São Paulo
+            {"lat": 55.7558, "lon": 37.6173}     # Moscow
+        ]
+        
+        city = random.choice(major_cities)
+        # Add some randomness to the coordinates to spread them out
+        lat = city["lat"] + random.uniform(-2, 2)
+        lon = city["lon"] + random.uniform(-2, 2)
+        
+        threats.append({
+            "type": random.choice(threat_types),
+            "latitude": lat,
+            "longitude": lon,
+            "severity": random.choice(severity_levels),
+            "timestamp": time.time() - random.randint(0, 3600)  # Random time in the last hour
+        })
+    
+    return {"threats": threats}
+
+```
+
+## Deployment on Replit
+
+1. **Configure Replit to run your application**:
+- In the Replit interface, click on the "Run" button to start your application
+- Replit will automatically use the [main.py](http://main.py) file as the entry point
+- Make sure port 8080 is exposed for web traffic
+- The application will be available at your Replit URL
+1. **Set up environment secrets**:
+- In Replit, go to the "Secrets" tab (lock icon)
+- Add your THREAT_INTEL_API_KEY as a secret
+
+That's it! You now have a live threat intelligence map integration for your CyberSecure AI Platform built on Replit.

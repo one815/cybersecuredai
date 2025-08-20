@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap } from "lucide-react";
+import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap, MapPin } from "lucide-react";
+import { ThreatMap } from "@/components/ThreatMap";
 
 export default function ThreatAnalysis() {
   return (
@@ -94,57 +95,33 @@ export default function ThreatAnalysis() {
             </CardContent>
           </Card>
 
-          {/* Geographic Threat Heatmap */}
+          {/* Live Threat Intelligence Map */}
           <Card className="bg-surface border-gray-700" data-testid="card-geographic-threats">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
-                <BarChart3 className="w-5 h-5 mr-2" />
-                Geographic Threat Intelligence
+                <MapPin className="w-5 h-5 mr-2" />
+                Live Threat Intelligence Map
               </CardTitle>
+              <div className="flex items-center space-x-2 mt-2">
+                <Badge variant="outline" className="bg-green-900/50 text-green-400 border-green-700">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                  Real-time
+                </Badge>
+                <Badge variant="outline" className="bg-blue-900/50 text-blue-400 border-blue-700">
+                  Global Coverage
+                </Badge>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="h-64 relative bg-gray-900 rounded-lg overflow-hidden">
-                <svg viewBox="0 0 400 200" className="w-full h-full">
-                  {/* World regions heatmap */}
-                  <rect x="50" y="40" width="80" height="40" fill="#ef4444" opacity="0.8" rx="4" />
-                  <text x="90" y="65" className="text-xs fill-white" fontSize="10" textAnchor="middle">Russia</text>
-                  <text x="90" y="78" className="text-xs fill-white" fontSize="8" textAnchor="middle">High Risk</text>
-                  
-                  <rect x="180" y="50" width="70" height="35" fill="#f97316" opacity="0.8" rx="4" />
-                  <text x="215" y="70" className="text-xs fill-white" fontSize="10" textAnchor="middle">China</text>
-                  <text x="215" y="83" className="text-xs fill-white" fontSize="8" textAnchor="middle">Med Risk</text>
-                  
-                  <rect x="280" y="45" width="60" height="30" fill="#eab308" opacity="0.8" rx="4" />
-                  <text x="310" y="63" className="text-xs fill-white" fontSize="10" textAnchor="middle">N. Korea</text>
-                  <text x="310" y="76" className="text-xs fill-white" fontSize="8" textAnchor="middle">Med Risk</text>
-                  
-                  <rect x="50" y="110" width="90" height="35" fill="#22c55e" opacity="0.8" rx="4" />
-                  <text x="95" y="130" className="text-xs fill-white" fontSize="10" textAnchor="middle">Europe</text>
-                  <text x="95" y="143" className="text-xs fill-white" fontSize="8" textAnchor="middle">Low Risk</text>
-                  
-                  <rect x="180" y="120" width="80" height="30" fill="#3b82f6" opacity="0.8" rx="4" />
-                  <text x="220" y="138" className="text-xs fill-white" fontSize="10" textAnchor="middle">Americas</text>
-                  <text x="220" y="151" className="text-xs fill-white" fontSize="8" textAnchor="middle">Very Low</text>
-                </svg>
-              </div>
-              <div className="mt-4 flex justify-between items-center">
-                <div className="text-sm text-gray-300">Risk Level Distribution</div>
-                <div className="flex items-center space-x-4 text-xs">
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-red-500 rounded"></div>
-                    <span className="text-gray-400">Critical</span>
+              <ThreatMap height="320px" />
+              <div className="mt-4 p-3 bg-orange-900/20 rounded-lg border border-orange-700/50">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <AlertTriangle className="w-4 h-4 text-orange-400" />
+                    <span className="text-sm text-orange-300">Auto-refreshes every 30 seconds</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-orange-500 rounded"></div>
-                    <span className="text-gray-400">High</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-yellow-500 rounded"></div>
-                    <span className="text-gray-400">Medium</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-500 rounded"></div>
-                    <span className="text-gray-400">Low</span>
+                  <div className="text-xs text-gray-400">
+                    Last update: {new Date().toLocaleTimeString()}
                   </div>
                 </div>
               </div>
