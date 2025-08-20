@@ -21,8 +21,46 @@ import {
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
 
 export default function AutomatedIncidentResponse() {
+  const [activeIncidents, setActiveIncidents] = useState(12);
+  const [resolvedToday, setResolvedToday] = useState(89);
+  const [responseTime, setResponseTime] = useState("12.3s");
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isLive, setIsLive] = useState(true);
+  const [liveIncidents, setLiveIncidents] = useState([
+    { id: "INC-2025-001", type: "Malware Detection", status: "CONTAINED", time: "14:23:47", severity: "high" },
+    { id: "INC-2025-002", type: "Phishing Attempt", status: "ANALYZING", time: "14:22:12", severity: "medium" },
+    { id: "INC-2025-003", type: "Ransomware", status: "BLOCKED", time: "14:21:58", severity: "critical" },
+    { id: "INC-2025-004", type: "Data Exfiltration", status: "RESPONDING", time: "14:20:33", severity: "high" }
+  ]);
+
+  // Simulate live incident response updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+      if (Math.random() > 0.7) {
+        setActiveIncidents(prev => Math.max(0, prev + Math.floor(Math.random() * 3) - 1));
+        setResolvedToday(prev => prev + Math.floor(Math.random() * 2));
+        setResponseTime(`${(Math.random() * 20 + 5).toFixed(1)}s`);
+        
+        // Update incident statuses
+        const statuses = ["DETECTING", "ANALYZING", "CONTAINING", "RESPONDING", "RESOLVED"];
+        const newIncident = {
+          id: `INC-2025-${String(Math.floor(Math.random() * 999)).padStart(3, '0')}`,
+          type: ["Malware", "Phishing", "Ransomware", "DDoS", "Data Breach"][Math.floor(Math.random() * 5)],
+          status: statuses[Math.floor(Math.random() * statuses.length)],
+          time: new Date().toLocaleTimeString(),
+          severity: ["low", "medium", "high", "critical"][Math.floor(Math.random() * 4)]
+        };
+        
+        setLiveIncidents(prev => [newIncident, ...prev.slice(0, 6)]);
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
   const responseSteps = [
     {
       step: "Detection",
@@ -110,14 +148,46 @@ export default function AutomatedIncidentResponse() {
               </div>
             </div>
 
+            {/* Live Status Indicator */}
+            <div className="flex items-center space-x-2 mb-4">
+              <div className={`w-3 h-3 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
+              <span className="text-green-400 font-medium">LIVE INCIDENT RESPONSE ACTIVE</span>
+              <span className="text-gray-400 text-sm">Updated: {currentTime.toLocaleTimeString()}</span>
+            </div>
+
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              {metrics.map((metric, index) => (
-                <div key={index} className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                  <div className="text-2xl font-bold text-white mb-1">{metric.value}</div>
-                  <div className="text-sm text-gray-400 mb-1">{metric.label}</div>
-                  <div className="text-xs text-cyan-400">{metric.trend}</div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-cyan-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-cyan-400 mb-1 font-mono animate-pulse">{activeIncidents}</div>
+                <div className="text-sm text-gray-400 mb-1">Active Incidents</div>
+                <div className="text-xs text-cyan-400 flex items-center">
+                  <Activity className="w-3 h-3 mr-1 animate-pulse" />
+                  Live count
                 </div>
-              ))}
+              </div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-green-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-green-400 mb-1 font-mono">{resolvedToday}</div>
+                <div className="text-sm text-gray-400 mb-1">Resolved Today</div>
+                <div className="text-xs text-green-400 flex items-center">
+                  <CheckCircle className="w-3 h-3 mr-1" />
+                  Auto-resolved
+                </div>
+              </div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-orange-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-orange-400 mb-1 font-mono">{responseTime}</div>
+                <div className="text-sm text-gray-400 mb-1">Avg Response Time</div>
+                <div className="text-xs text-orange-400 flex items-center">
+                  <Clock className="w-3 h-3 mr-1" />
+                  Real-time
+                </div>
+              </div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-purple-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-purple-400 mb-1">98.7%</div>
+                <div className="text-sm text-gray-400 mb-1">Success Rate</div>
+                <div className="text-xs text-purple-400 flex items-center">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  Industry leading
+                </div>
+              </div>
             </div>
 
             <div className="flex items-center space-x-4">

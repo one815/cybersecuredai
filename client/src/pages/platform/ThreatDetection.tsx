@@ -17,12 +17,56 @@ import {
   Zap,
   Settings,
   BarChart3,
-  Bot
+  Bot,
+  Clock,
+  Wifi
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
 
 export default function ThreatDetection() {
+  const [liveThreatCount, setLiveThreatCount] = useState(4521);
+  const [blockedCount, setBlockedCount] = useState(4516);
+  const [isLive, setIsLive] = useState(true);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [recentActivity, setRecentActivity] = useState([
+    { time: "14:23:47", type: "BLOCKED", threat: "Trojan.Win32.Malware", source: "Email Gateway", severity: "high" },
+    { time: "14:23:12", type: "DETECTED", threat: "Phishing Attempt", source: "Web Filter", severity: "medium" },
+    { time: "14:22:58", type: "BLOCKED", threat: "Ransomware.Crypto", source: "Endpoint", severity: "critical" },
+    { time: "14:22:33", type: "ANALYZED", threat: "Suspicious Script", source: "Network Monitor", severity: "low" },
+    { time: "14:22:01", type: "BLOCKED", threat: "Adware.Generic", source: "Browser Protection", severity: "low" }
+  ]);
+
+  // Simulate live threat detection updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+      if (Math.random() > 0.6) {
+        setLiveThreatCount(prev => prev + Math.floor(Math.random() * 3) + 1);
+        setBlockedCount(prev => prev + Math.floor(Math.random() * 3) + 1);
+        
+        // Add new activity
+        const threats = ["Malware.Generic", "Phishing.Email", "Trojan.Backdoor", "Ransomware.Lock", "Spyware.Keylog"];
+        const sources = ["Email Gateway", "Web Filter", "Endpoint", "Network Monitor", "Browser Protection"];
+        const types = ["BLOCKED", "DETECTED", "ANALYZED"];
+        const severities = ["low", "medium", "high", "critical"];
+        
+        const newActivity = {
+          time: new Date().toLocaleTimeString(),
+          type: types[Math.floor(Math.random() * types.length)],
+          threat: threats[Math.floor(Math.random() * threats.length)],
+          source: sources[Math.floor(Math.random() * sources.length)],
+          severity: severities[Math.floor(Math.random() * severities.length)]
+        };
+        
+        setRecentActivity(prev => [newActivity, ...prev.slice(0, 9)]);
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const detectionMethods = [
     {
       title: "Behavioral Analysis",
@@ -117,26 +161,45 @@ export default function ThreatDetection() {
               </div>
             </div>
 
+            {/* Live Status Indicator */}
+            <div className="flex items-center space-x-2 mb-4">
+              <div className={`w-3 h-3 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
+              <span className="text-green-400 font-medium">LIVE MONITORING ACTIVE</span>
+              <span className="text-gray-400 text-sm">Last updated: {currentTime.toLocaleTimeString()}</span>
+            </div>
+
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <div className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                <div className="text-2xl font-bold text-white mb-1">98%</div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-green-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-white mb-1 animate-pulse">98.4%</div>
                 <div className="text-sm text-gray-400 mb-1">Detection Accuracy</div>
-                <div className="text-xs text-green-400">Industry leading</div>
+                <div className="text-xs text-green-400 flex items-center">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  +0.2% today
+                </div>
               </div>
-              <div className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                <div className="text-2xl font-bold text-white mb-1">&lt; 1s</div>
-                <div className="text-sm text-gray-400 mb-1">Detection Time</div>
-                <div className="text-xs text-cyan-400">Real-time analysis</div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-cyan-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-cyan-400 mb-1 font-mono">{liveThreatCount.toLocaleString()}</div>
+                <div className="text-sm text-gray-400 mb-1">Threats Detected</div>
+                <div className="text-xs text-cyan-400 flex items-center">
+                  <Activity className="w-3 h-3 mr-1 animate-pulse" />
+                  Live count
+                </div>
               </div>
-              <div className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                <div className="text-2xl font-bold text-white mb-1">&lt; 2%</div>
-                <div className="text-sm text-gray-400 mb-1">False Positives</div>
-                <div className="text-xs text-purple-400">Minimal disruption</div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-purple-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-purple-400 mb-1 font-mono">{blockedCount.toLocaleString()}</div>
+                <div className="text-sm text-gray-400 mb-1">Threats Blocked</div>
+                <div className="text-xs text-purple-400 flex items-center">
+                  <Shield className="w-3 h-3 mr-1" />
+                  {((blockedCount / liveThreatCount) * 100).toFixed(1)}% success rate
+                </div>
               </div>
-              <div className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                <div className="text-2xl font-bold text-white mb-1">24/7</div>
-                <div className="text-sm text-gray-400 mb-1">Monitoring</div>
-                <div className="text-xs text-orange-400">Continuous protection</div>
+              <div className="bg-surface/50 rounded-lg p-4 border border-orange-500/30 cyber-glow">
+                <div className="text-2xl font-bold text-orange-400 mb-1 font-mono">&lt; 47ms</div>
+                <div className="text-sm text-gray-400 mb-1">Response Time</div>
+                <div className="text-xs text-orange-400 flex items-center">
+                  <Zap className="w-3 h-3 mr-1" />
+                  Real-time processing
+                </div>
               </div>
             </div>
 
@@ -346,78 +409,86 @@ export default function ThreatDetection() {
                   </div>
                 </div>
 
-                {/* Live Threat Feed */}
+                {/* Live Activity Feed */}
                 <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700 cyber-glow">
                     <h4 className="text-white font-medium mb-4 flex items-center">
-                      <AlertTriangle className="w-4 h-4 text-red-400 mr-2" />
-                      Live Threat Detection
+                      <AlertTriangle className="w-4 h-4 text-red-400 mr-2 animate-pulse" />
+                      Live Activity Feed
+                      <div className="ml-auto flex items-center space-x-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-green-400 text-xs">LIVE</span>
+                      </div>
                     </h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-red-900/20 rounded border-l-2 border-red-500">
-                        <div>
-                          <div className="text-white text-sm font-medium">Advanced Persistent Threat</div>
-                          <div className="text-red-400 text-xs">Source: 192.168.1.47</div>
+                    <div className="space-y-2 max-h-48 overflow-y-auto">
+                      {recentActivity.map((activity, index) => (
+                        <div key={index} className={`flex items-center justify-between p-2 rounded border-l-2 ${
+                          activity.severity === 'critical' ? 'bg-red-900/20 border-red-500' :
+                          activity.severity === 'high' ? 'bg-orange-900/20 border-orange-500' :
+                          activity.severity === 'medium' ? 'bg-yellow-900/20 border-yellow-500' :
+                          'bg-blue-900/20 border-blue-500'
+                        } ${index === 0 ? 'animate-pulse' : ''}`}>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-white text-xs font-medium truncate">{activity.threat}</div>
+                            <div className="text-gray-400 text-xs flex items-center space-x-2">
+                              <span>{activity.time}</span>
+                              <span>•</span>
+                              <span>{activity.source}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <Badge className={`text-xs ${
+                              activity.type === 'BLOCKED' ? 'bg-green-500 text-white' :
+                              activity.type === 'DETECTED' ? 'bg-orange-500 text-white' :
+                              'bg-blue-500 text-white'
+                            }`}>{activity.type}</Badge>
+                          </div>
                         </div>
-                        <Badge className="bg-red-500 text-white text-xs">Critical</Badge>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-orange-900/20 rounded border-l-2 border-orange-500">
-                        <div>
-                          <div className="text-white text-sm font-medium">Suspicious Network Traffic</div>
-                          <div className="text-orange-400 text-xs">Source: External</div>
-                        </div>
-                        <Badge className="bg-orange-500 text-white text-xs">High</Badge>
-                      </div>
-                      <div className="flex items-center justify-between p-3 bg-yellow-900/20 rounded border-l-2 border-yellow-500">
-                        <div>
-                          <div className="text-white text-sm font-medium">Malware Signature Match</div>
-                          <div className="text-yellow-400 text-xs">Source: Email Attachment</div>
-                        </div>
-                        <Badge className="bg-yellow-500 text-black text-xs">Medium</Badge>
-                      </div>
+                      ))}
                     </div>
                   </div>
 
-                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700 cyber-glow">
                     <h4 className="text-white font-medium mb-4 flex items-center">
                       <BarChart3 className="w-4 h-4 text-blue-400 mr-2" />
-                      Detection Analytics
+                      Real-Time Analytics
+                      <div className="ml-auto text-xs text-blue-400 animate-pulse">Updating...</div>
                     </h4>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-400">Malware Detection</span>
-                          <span className="text-white">847 today</span>
+                          <span className="text-gray-400">Threats Blocked Today</span>
+                          <span className="text-green-400 font-mono animate-pulse">{blockedCount.toLocaleString()}</span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div className="bg-red-500 h-2 rounded-full" style={{width: '73%'}}></div>
+                          <div className="bg-green-500 h-2 rounded-full animate-pulse" style={{width: '89%'}}></div>
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-400">Phishing Attempts</span>
-                          <span className="text-white">234 today</span>
+                          <span className="text-gray-400">Detection Accuracy</span>
+                          <span className="text-cyan-400 font-mono">98.4%</span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div className="bg-orange-500 h-2 rounded-full" style={{width: '45%'}}></div>
+                          <div className="bg-cyan-500 h-2 rounded-full" style={{width: '98%'}}></div>
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-400">Intrusion Attempts</span>
-                          <span className="text-white">89 today</span>
+                          <span className="text-gray-400">Response Time</span>
+                          <span className="text-orange-400 font-mono">&lt; 47ms</span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div className="bg-yellow-500 h-2 rounded-full" style={{width: '23%'}}></div>
+                          <div className="bg-orange-500 h-2 rounded-full" style={{width: '95%'}}></div>
                         </div>
                       </div>
                       <div>
                         <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-400">Data Breaches</span>
-                          <span className="text-white">3 today</span>
+                          <span className="text-gray-400">System Load</span>
+                          <span className="text-purple-400 font-mono">23.7%</span>
                         </div>
                         <div className="w-full bg-gray-700 rounded-full h-2">
-                          <div className="bg-purple-500 h-2 rounded-full" style={{width: '8%'}}></div>
+                          <div className="bg-purple-500 h-2 rounded-full" style={{width: '24%'}}></div>
                         </div>
                       </div>
                     </div>

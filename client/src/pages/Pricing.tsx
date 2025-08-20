@@ -237,7 +237,7 @@ export default function Pricing() {
                       {pkg.icon}
                     </div>
                     <CardTitle className="text-2xl text-white">{pkg.name}</CardTitle>
-                    <div className="text-3xl font-bold text-white mt-2">{pkg.price}</div>
+                    <div className="text-xl font-bold text-white mt-2">Contact for Pricing</div>
                     <p className="text-gray-400 text-sm mt-2">{pkg.target}</p>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -306,7 +306,7 @@ export default function Pricing() {
                       <Lock className="w-6 h-6 text-orange-400" />
                     </div>
                     <CardTitle className="text-lg text-white">{service.name}</CardTitle>
-                    <Badge className="bg-orange-600 text-white w-fit">{service.price}</Badge>
+                    <Badge className="bg-orange-600 text-white w-fit">Contact for Pricing</Badge>
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-400 text-sm">{service.description}</p>
