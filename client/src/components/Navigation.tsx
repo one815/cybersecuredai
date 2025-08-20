@@ -20,7 +20,8 @@ export function Navigation() {
         { label: "Identity & Access Management", href: "/platform/iam" },
         { label: "Vulnerability Management", href: "/platform/vulnerability" },
         { label: "Compliance Management", href: "/platform/compliance" },
-        { label: "Incident Response", href: "/platform/incident-response" }
+        { label: "Incident Response", href: "/platform/incident-response" },
+        { label: "Security Playbook Simulator", href: "/security-playbook-simulator" }
       ]
     },
     {

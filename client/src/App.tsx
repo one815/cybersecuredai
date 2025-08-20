@@ -36,6 +36,7 @@ import Careers from "@/pages/Careers";
 import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
+import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -73,6 +74,7 @@ function Router() {
       <Route path="/blog" component={Blogs} />
       <Route path="/news" component={News} />
       <Route path="/client-login" component={ClientLogin} />
+      <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">
