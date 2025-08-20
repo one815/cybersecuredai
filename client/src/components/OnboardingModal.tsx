@@ -55,6 +55,61 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
   const [currentStep, setCurrentStep] = useState(1);
   const [steps, setSteps] = useState(onboardingSteps);
   const [selectedMfaMethod, setSelectedMfaMethod] = useState<string>("");
+  const [yubiKeyVerified, setYubiKeyVerified] = useState(false);
+  const [yubiKeyVerifying, setYubiKeyVerifying] = useState(false);
+
+  // YubiKey verification using WebAuthn/FIDO2
+  const handleYubiKeyVerification = async () => {
+    setYubiKeyVerifying(true);
+    
+    try {
+      // Check if WebAuthn is supported
+      if (!window.PublicKeyCredential) {
+        throw new Error("WebAuthn is not supported in this browser");
+      }
+
+      // Create credential request options
+      const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions = {
+        challenge: new Uint8Array(32).map(() => Math.random() * 256),
+        allowCredentials: [],
+        timeout: 60000,
+        userVerification: "preferred",
+        rpId: window.location.hostname,
+      };
+
+      // Request authentication from YubiKey
+      const credential = await navigator.credentials.get({
+        publicKey: publicKeyCredentialRequestOptions
+      }) as PublicKeyCredential;
+
+      if (credential) {
+        // Simulate server verification (in real app, send to backend)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        setYubiKeyVerified(true);
+        console.log("YubiKey verification successful:", credential.id);
+      } else {
+        throw new Error("No credential received");
+      }
+    } catch (error: any) {
+      console.error("YubiKey verification failed:", error);
+      
+      // Handle specific error cases
+      if (error.name === "NotAllowedError") {
+        alert("YubiKey verification was cancelled or timed out. Please try again.");
+      } else if (error.name === "SecurityError") {
+        alert("Security error: Please ensure you're using HTTPS and your YubiKey is properly inserted.");
+      } else if (error.message.includes("not supported")) {
+        alert("Your browser doesn't support WebAuthn/FIDO2. Please use a modern browser like Chrome, Firefox, or Edge.");
+      } else {
+        alert("YubiKey verification failed. Please ensure your YubiKey is inserted and try again.");
+      }
+      
+      setYubiKeyVerified(false);
+    } finally {
+      setYubiKeyVerifying(false);
+    }
+  };
   const [policyAccepted, setPolicyAccepted] = useState(false);
   const [dataConsentGiven, setDataConsentGiven] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -200,7 +255,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                     <Checkbox 
                       checked={policyAccepted} 
                       onCheckedChange={(checked) => setPolicyAccepted(checked === true)}
-                      className="mt-1"
+                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
                       data-testid="checkbox-policy-accepted"
                     />
                     <label className="text-gray-300 text-sm">I have read and accept the Security Policy</label>
@@ -210,7 +265,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                     <Checkbox 
                       checked={dataConsentGiven} 
                       onCheckedChange={(checked) => setDataConsentGiven(checked === true)}
-                      className="mt-1"
+                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
                       data-testid="checkbox-data-consent"
                     />
                     <label className="text-gray-300 text-sm">I consent to the processing of my data as described in the policy</label>
@@ -220,7 +275,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                     <Checkbox 
                       checked={notificationsEnabled} 
                       onCheckedChange={(checked) => setNotificationsEnabled(checked === true)}
-                      className="mt-1"
+                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
                       data-testid="checkbox-notifications"
                     />
                     <label className="text-gray-300 text-sm">I would like to receive security updates and notifications</label>
@@ -320,6 +375,72 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                 </CardContent>
               </Card>
             </div>
+
+            {/* YubiKey Verification Section */}
+            {selectedMfaMethod === 'hardware' && (
+              <Card className="bg-yellow-900/20 border-yellow-700/50 mb-4">
+                <CardContent className="p-6">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
+                      <KeyRound className="text-yellow-400 w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-yellow-300">YubiKey Verification</span>
+                      <p className="text-gray-300 text-sm">Insert your YubiKey and click verify to test the connection</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-4">
+                    <Button 
+                      onClick={handleYubiKeyVerification}
+                      disabled={yubiKeyVerifying}
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                      data-testid="button-verify-yubikey"
+                    >
+                      {yubiKeyVerifying ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Verifying...
+                        </>
+                      ) : yubiKeyVerified ? (
+                        <>
+                          <Check className="w-4 h-4 mr-2" />
+                          Verified
+                        </>
+                      ) : (
+                        <>
+                          <KeyRound className="w-4 h-4 mr-2" />
+                          Verify YubiKey
+                        </>
+                      )}
+                    </Button>
+                    
+                    {yubiKeyVerified && (
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-green-400 text-sm">YubiKey Connected</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {!yubiKeyVerified && (
+                    <div className="mt-4 p-3 bg-blue-900/30 rounded-lg border border-blue-700/50">
+                      <div className="flex items-start space-x-2">
+                        <HelpCircle className="w-4 h-4 text-blue-400 mt-0.5" />
+                        <div>
+                          <p className="text-blue-300 text-sm font-medium">Setup Instructions:</p>
+                          <ol className="text-gray-300 text-xs mt-1 space-y-1 list-decimal list-inside">
+                            <li>Insert your YubiKey into a USB port</li>
+                            <li>Click "Verify YubiKey" and touch the key when prompted</li>
+                            <li>Your browser may ask for permission to access the device</li>
+                          </ol>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
             <Card className="bg-blue-900/30 border-blue-700/50">
               <CardContent className="p-4">
@@ -475,7 +596,10 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
           <Button 
             onClick={handleNext}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md"
-            disabled={(currentStep === 2 && (!policyAccepted || !dataConsentGiven)) || (currentStep === 3 && !selectedMfaMethod)}
+            disabled={
+              (currentStep === 2 && (!policyAccepted || !dataConsentGiven)) || 
+              (currentStep === 3 && (!selectedMfaMethod || (selectedMfaMethod === 'hardware' && !yubiKeyVerified)))
+            }
             data-testid="onboarding-next"
           >
             {currentStep === 1 ? "Get Started" : currentStep === steps.length ? "Go to Dashboard" : "Continue"}
