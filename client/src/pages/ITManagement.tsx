@@ -192,10 +192,10 @@ export default function ITManagement() {
                 <Wrench className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent geometric-text">
                   IT Management
                 </h2>
-                <p className="text-gray-400">Comprehensive system administration and infrastructure management</p>
+                <p className="text-gray-400 cyber-font">Comprehensive system administration and infrastructure management</p>
               </div>
             </div>
           </div>

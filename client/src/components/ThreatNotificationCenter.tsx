@@ -24,25 +24,25 @@ import {
 import { apiRequest } from "@/lib/queryClient";
 import type { ThreatNotification } from "@shared/schema";
 
-// Emoji mappings for severity and category
-const getSeverityEmoji = (severity: string) => {
+// Icon mappings for severity and category
+const getSeverityIcon = (severity: string) => {
   switch (severity.toLowerCase()) {
-    case "critical": return "🚨";
-    case "high": return "⚠️";
-    case "medium": return "🟡";
-    case "low": return "🔵";
-    default: return "ℹ️";
+    case "critical": return <AlertTriangle className="w-4 h-4" />;
+    case "high": return <Zap className="w-4 h-4" />;
+    case "medium": return <Clock className="w-4 h-4" />;
+    case "low": return <Eye className="w-4 h-4" />;
+    default: return <Bell className="w-4 h-4" />;
   }
 };
 
-const getCategoryEmoji = (category: string) => {
+const getCategoryIcon = (category: string) => {
   switch (category.toLowerCase()) {
-    case "malware": return "🦠";
-    case "phishing": return "🎣";
-    case "breach": return "🔓";
-    case "anomaly": return "🔍";
-    case "system": return "⚙️";
-    default: return "🛡️";
+    case "malware": return <Bug className="w-4 h-4" />;
+    case "phishing": return <Skull className="w-4 h-4" />;
+    case "breach": return <Lock className="w-4 h-4" />;
+    case "anomaly": return <Activity className="w-4 h-4" />;
+    case "system": return <Shield className="w-4 h-4" />;
+    default: return <Shield className="w-4 h-4" />;
   }
 };
 
@@ -279,10 +279,10 @@ export function ThreatNotificationCenter() {
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center space-x-2">
                             <span className="text-lg">
-                              {getSeverityEmoji(notification.severity)}
+                              {getSeverityIcon(notification.severity)}
                             </span>
                             <span className="text-sm">
-                              {getCategoryEmoji(notification.category)}
+                              {getCategoryIcon(notification.category)}
                             </span>
                             {getPriorityIcon(notification.priority ?? 3)}
                             {!notification.isRead && (
@@ -362,10 +362,10 @@ export function ThreatNotificationCenter() {
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center space-x-2">
                             <span className="text-lg">
-                              {getSeverityEmoji(notification.severity)}
+                              {getSeverityIcon(notification.severity)}
                             </span>
                             <span className="text-sm">
-                              {getCategoryEmoji(notification.category)}
+                              {getCategoryIcon(notification.category)}
                             </span>
                             {getPriorityIcon(notification.priority ?? 3)}
                             <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
@@ -404,7 +404,7 @@ export function ThreatNotificationCenter() {
                           <div className="flex items-center space-x-2">
                             <span className="text-lg animate-pulse">🚨</span>
                             <span className="text-sm">
-                              {getCategoryEmoji(notification.category)}
+                              {getCategoryIcon(notification.category)}
                             </span>
                             <Zap className="w-4 h-4 text-red-500" />
                           </div>

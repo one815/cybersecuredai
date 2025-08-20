@@ -179,7 +179,7 @@ export default function Solutions() {
             {/* AI-Powered Security */}
             <TabsContent value="ai-security" className="space-y-8">
               <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-white mb-4">AI-Powered Security Solutions</h2>
+                <h2 className="text-4xl font-bold text-white mb-4 geometric-text">AI-Powered Security Solutions</h2>
                 <p className="text-lg text-gray-400 max-w-3xl mx-auto">
                   Advanced artificial intelligence and machine learning technologies for proactive threat detection, 
                   predictive analysis, and automated incident response.
@@ -195,7 +195,7 @@ export default function Solutions() {
                           {solution.icon}
                         </div>
                       </div>
-                      <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
+                      <CardTitle className="text-xl text-white geometric-text">{solution.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-400 mb-6">{solution.description}</p>
@@ -237,7 +237,7 @@ export default function Solutions() {
                           {solution.icon}
                         </div>
                       </div>
-                      <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
+                      <CardTitle className="text-xl text-white geometric-text">{solution.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-400 mb-6">{solution.description}</p>
@@ -277,7 +277,7 @@ export default function Solutions() {
                       <div className="w-16 h-16 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                         {solution.icon}
                       </div>
-                      <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
+                      <CardTitle className="text-xl text-white geometric-text">{solution.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-400 mb-6">{solution.description}</p>
@@ -317,7 +317,7 @@ export default function Solutions() {
                       <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
                         {solution.icon}
                       </div>
-                      <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
+                      <CardTitle className="text-xl text-white geometric-text">{solution.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-400 mb-6">{solution.description}</p>
@@ -359,7 +359,7 @@ export default function Solutions() {
                           {solution.icon}
                         </div>
                       </div>
-                      <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
+                      <CardTitle className="text-xl text-white geometric-text">{solution.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-gray-400 mb-6">{solution.description}</p>
