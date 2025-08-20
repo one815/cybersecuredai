@@ -179,7 +179,7 @@ export function Navigation() {
                                 {/* Cloud Security & AI Analytics */}
                                 <div>
                                   <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
-                                    ☁️ Cloud Security & AI Analytics
+                                    Cloud Security & AI Analytics
                                   </div>
                                   <Link href="/platform/automated-incident-response">
                                     <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
@@ -201,7 +201,7 @@ export function Navigation() {
                                 {/* Network Infrastructure & Management */}
                                 <div>
                                   <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/20 border-b border-green-500/30">
-                                    🌐 Network Infrastructure & Management
+                                    Network Infrastructure & Management
                                   </div>
                                   <Link href="/platform/firewall-management">
                                     <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
@@ -226,7 +226,7 @@ export function Navigation() {
                                 {/* Endpoint Security & Management */}
                                 <div>
                                   <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
-                                    💻 Endpoint Security & Management
+                                    Endpoint Security & Management
                                   </div>
                                   <Link href="/platform/monitoring-vulnerability">
                                     <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
@@ -248,7 +248,7 @@ export function Navigation() {
                                 {/* Compliance & Risk Management */}
                                 <div>
                                   <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30">
-                                    📋 Compliance & Risk Management
+                                    Compliance & Risk Management
                                   </div>
                                   <Link href="/platform/compliance-automation">
                                     <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">

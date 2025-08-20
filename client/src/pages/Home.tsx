@@ -321,7 +321,7 @@ export default function Home() {
           {/* Cloud Security & AI Analytics */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">☁️ Cloud Security & AI Analytics</h3>
+              <h3 className="text-2xl font-bold text-white mb-3">Cloud Security & AI Analytics</h3>
               <p className="text-gray-400">AI-powered threat detection and cloud-based security management</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -387,7 +387,7 @@ export default function Home() {
           {/* Network Infrastructure & Management */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">🌐 Network Infrastructure & Management</h3>
+              <h3 className="text-2xl font-bold text-white mb-3">Network Infrastructure & Management</h3>
               <p className="text-gray-400">Comprehensive network security and zero-trust architecture</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -453,7 +453,7 @@ export default function Home() {
           {/* Endpoint Security & Management */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">💻 Endpoint Security & Management</h3>
+              <h3 className="text-2xl font-bold text-white mb-3">Endpoint Security & Management</h3>
               <p className="text-gray-400">Comprehensive workstation and device security management</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -519,7 +519,7 @@ export default function Home() {
           {/* Compliance & Risk Management */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h3 className="text-2xl font-bold text-white mb-3">📋 Compliance & Risk Management</h3>
+              <h3 className="text-2xl font-bold text-white mb-3">Compliance & Risk Management</h3>
               <p className="text-gray-400">Automated regulatory compliance and risk assessment</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
