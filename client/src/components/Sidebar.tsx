@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap } from "lucide-react";
+import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap, Wrench, HelpCircle, GraduationCap } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -9,9 +9,12 @@ const navigationItems: NavigationItem[] = [
   { id: "threat-analysis", label: "Threat Analysis", icon: "activity", path: "/threat-analysis" },
   { id: "incidents", label: "Incident Response", icon: "alert-triangle", path: "/incidents" },
   { id: "security-integrations", label: "Security Integrations", icon: "zap", path: "/security-integrations" },
+  { id: "it-management", label: "IT Management", icon: "wrench", path: "/it-management" },
   { id: "auth", label: "Authentication", icon: "lock", path: "/authentication" },
   { id: "files", label: "File Sharing", icon: "share", path: "/files" },
   { id: "compliance", label: "Compliance", icon: "clipboard-check", path: "/compliance" },
+  { id: "training", label: "Security Training", icon: "graduation-cap", path: "/training" },
+  { id: "support", label: "Help Desk", icon: "help-circle", path: "/support" },
   { id: "users", label: "User Management", icon: "users", path: "/users" },
   { id: "admin", label: "Admin Panel", icon: "user-cog", path: "/admin" },
   { id: "ai-config", label: "AI Configuration", icon: "brain", path: "/ai-config" },
@@ -24,9 +27,12 @@ const iconMap = {
   activity: Activity,
   "alert-triangle": AlertTriangle,
   zap: Zap,
+  wrench: Wrench,
   lock: Lock,
   share: Share,
   "clipboard-check": ClipboardCheck,
+  "graduation-cap": GraduationCap,
+  "help-circle": HelpCircle,
   users: Users,
   "user-cog": UserCog,
   brain: Brain,
