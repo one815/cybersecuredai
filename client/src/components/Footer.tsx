@@ -41,13 +41,21 @@ export function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Platform</h3>
             <ul className="space-y-2">
-              <li><Link href="/platform/mdr"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Managed Detection & Response</span></Link></li>
-              <li><Link href="/platform/endpoint"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Endpoint Security</span></Link></li>
-              <li><Link href="/platform/network"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Network Security</span></Link></li>
-              <li><Link href="/platform/email"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Email Security</span></Link></li>
-              <li><Link href="/platform/iam"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Identity & Access</span></Link></li>
-              <li><Link href="/platform/vulnerability"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Vulnerability Management</span></Link></li>
-              <li><Link href="/platform/compliance"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Compliance Management</span></Link></li>
+              <li className="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2">Cloud Security & AI Analytics</li>
+              <li><Link href="/platform/automated-incident-response"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Automated Incident Response</span></Link></li>
+              <li><Link href="/platform/threat-detection"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Threat Detection System</span></Link></li>
+              <li><Link href="/platform/predictive-risk-analysis"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Predictive Risk Analysis</span></Link></li>
+              <li className="text-green-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">Network Infrastructure</li>
+              <li><Link href="/platform/firewall-management"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Firewall Management</span></Link></li>
+              <li><Link href="/platform/network-monitoring"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Router & Switch Monitoring</span></Link></li>
+              <li><Link href="/platform/zero-trust"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Zero-Trust Architecture</span></Link></li>
+              <li className="text-purple-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">Endpoint Security</li>
+              <li><Link href="/platform/monitoring-vulnerability"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">24/7 Monitoring & Vulnerability</span></Link></li>
+              <li><Link href="/platform/iam"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Identity & Access Management</span></Link></li>
+              <li><Link href="/platform/system-administration"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">System Administration</span></Link></li>
+              <li className="text-orange-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">Compliance & Risk</li>
+              <li><Link href="/platform/compliance-automation"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Compliance Automation</span></Link></li>
+              <li><Link href="/platform/security-training"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Security Awareness Training</span></Link></li>
             </ul>
           </div>
 
@@ -59,6 +67,7 @@ export function Footer() {
               <li><Link href="/solutions/ransomware"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Ransomware Protection</span></Link></li>
               <li><Link href="/solutions/zero-trust"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Zero Trust Security</span></Link></li>
               <li><Link href="/solutions/cloud"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Cloud Security</span></Link></li>
+              <li><Link href="/solutions/ai-threat-detection"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">AI-Powered Threat Detection</span></Link></li>
               <li className="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">By Industry</li>
               <li><Link href="/solutions/k12"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">K-12 Education</span></Link></li>
               <li><Link href="/solutions/higher-ed"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Higher Education</span></Link></li>
@@ -81,6 +90,9 @@ export function Footer() {
               <li className="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">Knowledge Center</li>
               <li><Link href="/blogs"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Blogs</span></Link></li>
               <li><Link href="/resources/demos"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Demos</span></Link></li>
+              <li className="text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-2 mt-4">Features</li>
+              <li><Link href="/resources/threat-report-2025"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Annual Threat Report 2025</span></Link></li>
+              <li><Link href="/resources/integrations"><span className="text-gray-400 hover:text-cyan-400 transition-colors text-sm">Tech Integrations</span></Link></li>
             </ul>
           </div>
 
