@@ -146,8 +146,11 @@ export default function SIEMDashboard() {
                 <Activity className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                  SIEM Dashboard
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>SIEM Dashboard</span>
+                  <Activity className="w-6 h-6 text-green-400" />
+                  <Database className="w-6 h-6 text-blue-400" />
+                  <Monitor className="w-6 h-6 text-purple-400" />
                 </h2>
                 <p className="text-gray-400 flex items-center space-x-2">
                   <span>Security Information and Event Management - Real-time monitoring</span>

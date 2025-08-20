@@ -54,7 +54,11 @@ export default function Dashboard() {
                 <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Security Dashboard</h2>
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>AI Security Dashboard</span>
+                  <Shield className="w-6 h-6 text-blue-400" />
+                  <ClipboardCheck className="w-6 h-6 text-green-400" />
+                </h2>
                 <div className="text-gray-400 flex items-center space-x-2">
                   <span>Real-time AI threat monitoring and RPA security automation</span>
                   <div className="flex items-center space-x-1">

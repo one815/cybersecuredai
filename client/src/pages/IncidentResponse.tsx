@@ -467,8 +467,11 @@ export default function IncidentResponse() {
                 <Bot className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent">
-                  AI-Powered Incident Response
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-orange-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>AI-Powered Incident Response</span>
+                  <AlertTriangle className="w-6 h-6 text-red-400" />
+                  <Shield className="w-6 h-6 text-orange-400" />
+                  <Brain className="w-6 h-6 text-purple-400" />
                 </h2>
                 <div className="text-gray-400 flex items-center space-x-4">
                   <span>Automated detection, analysis, and response system</span>
