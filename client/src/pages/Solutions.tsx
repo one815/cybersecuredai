@@ -194,9 +194,6 @@ export default function Solutions() {
                         <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center">
                           {solution.icon}
                         </div>
-                        {solution.price && (
-                          <Badge className="bg-cyan-600 text-white">{solution.price}</Badge>
-                        )}
                       </div>
                       <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
                     </CardHeader>
@@ -239,9 +236,6 @@ export default function Solutions() {
                         <div className="w-16 h-16 bg-green-500/20 rounded-lg flex items-center justify-center">
                           {solution.icon}
                         </div>
-                        {solution.price && (
-                          <Badge className="bg-green-600 text-white">{solution.price}</Badge>
-                        )}
                       </div>
                       <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
                     </CardHeader>
@@ -364,7 +358,6 @@ export default function Solutions() {
                         <div className="w-16 h-16 bg-orange-500/20 rounded-lg flex items-center justify-center">
                           {solution.icon}
                         </div>
-                        <Badge className="bg-orange-600 text-white">{solution.price}</Badge>
                       </div>
                       <CardTitle className="text-xl text-white">{solution.title}</CardTitle>
                     </CardHeader>
