@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/Dashboard";
 import ThreatMonitoring from "@/pages/ThreatMonitoring";
+import ThreatAnalysis from "@/pages/ThreatAnalysis";
 import Authentication from "@/pages/Authentication";
 import FileSharing from "@/pages/FileSharing";
 import Compliance from "@/pages/Compliance";
@@ -48,6 +49,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Dashboard} />
         <Route path="/threats" component={ThreatMonitoring} />
+        <Route path="/threat-analysis" component={ThreatAnalysis} />
         <Route path="/authentication" component={Authentication} />
         <Route path="/files" component={FileSharing} />
         <Route path="/compliance" component={Compliance} />
