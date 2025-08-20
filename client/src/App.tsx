@@ -15,6 +15,9 @@ import FileSharing from "@/pages/FileSharing";
 import Compliance from "@/pages/Compliance";
 import UserManagement from "@/pages/UserManagement";
 import Reports from "@/pages/Reports";
+import IncidentResponse from "@/pages/IncidentResponse";
+import AdminPanel from "@/pages/AdminPanel";
+import AIConfiguration from "@/pages/AIConfiguration";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -50,6 +53,9 @@ function Router() {
         <Route path="/compliance" component={Compliance} />
         <Route path="/users" component={UserManagement} />
         <Route path="/reports" component={Reports} />
+        <Route path="/incidents" component={IncidentResponse} />
+        <Route path="/admin" component={AdminPanel} />
+        <Route path="/ai-config" component={AIConfiguration} />
         <Route component={NotFound} />
       </Switch>
       
