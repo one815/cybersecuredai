@@ -89,7 +89,7 @@ export function Navigation() {
               <img 
                 src="/attached_assets/2_1755699581990.png" 
                 alt="CyberSecure AI" 
-                className="h-8 w-auto"
+                className="h-24 w-auto"
               />
             </div>
           </Link>

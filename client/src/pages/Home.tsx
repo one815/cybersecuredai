@@ -34,7 +34,7 @@ export default function Home() {
               <img 
                 src="/attached_assets/2_1755699581990.png" 
                 alt="CyberSecure AI" 
-                className="h-20 w-auto"
+                className="h-60 w-auto"
               />
             </div>
             <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto">

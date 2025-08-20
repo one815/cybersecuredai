@@ -12,7 +12,7 @@ export function Footer() {
               <img 
                 src="/attached_assets/2_1755699581990.png" 
                 alt="CyberSecure AI" 
-                className="h-8 w-auto"
+                className="h-24 w-auto"
               />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
