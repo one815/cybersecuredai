@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
-import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap, Wrench, HelpCircle, GraduationCap } from "lucide-react";
+// Vector security icons from attached assets
+import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -22,21 +23,21 @@ const navigationItems: NavigationItem[] = [
 ];
 
 const iconMap = {
-  tachometer: Gauge,
-  "exclamation-triangle": TriangleAlert,
-  activity: Activity,
-  "alert-triangle": AlertTriangle,
-  zap: Zap,
-  wrench: Wrench,
-  lock: Lock,
-  share: Share,
-  "clipboard-check": ClipboardCheck,
-  "graduation-cap": GraduationCap,
-  "help-circle": HelpCircle,
-  users: Users,
-  "user-cog": UserCog,
-  brain: Brain,
-  "chart-bar": ChartBar,
+  tachometer: { position: '30% 40%', color: 'hue-rotate(200deg)' },
+  "exclamation-triangle": { position: '10% 90%', color: 'hue-rotate(50deg)' },
+  activity: { position: '50% 70%', color: 'hue-rotate(120deg)' },
+  "alert-triangle": { position: '10% 90%', color: 'hue-rotate(0deg)' },
+  zap: { position: '50% 70%', color: 'hue-rotate(200deg)' },
+  wrench: { position: '70% 90%', color: 'hue-rotate(20deg)' },
+  lock: { position: '90% 10%', color: 'hue-rotate(120deg)' },
+  share: { position: '30% 40%', color: 'hue-rotate(180deg)' },
+  "clipboard-check": { position: '90% 40%', color: 'hue-rotate(120deg)' },
+  "graduation-cap": { position: '50% 90%', color: 'hue-rotate(280deg)' },
+  "help-circle": { position: '30% 40%', color: 'hue-rotate(200deg)' },
+  users: { position: '50% 40%', color: 'hue-rotate(200deg)' },
+  "user-cog": { position: '30% 40%', color: 'hue-rotate(280deg)' },
+  brain: { position: '50% 90%', color: 'hue-rotate(180deg)' },
+  "chart-bar": { position: '30% 90%', color: 'hue-rotate(200deg)' },
 };
 
 export function Sidebar() {
@@ -63,7 +64,7 @@ export function Sidebar() {
       {/* Navigation Menu */}
       <nav className="p-4 space-y-2">
         {navigationItems.map((item) => {
-          const IconComponent = iconMap[item.icon as keyof typeof iconMap];
+          const iconConfig = iconMap[item.icon as keyof typeof iconMap];
           const isActive = location === item.path;
           
           return (
@@ -76,7 +77,14 @@ export function Sidebar() {
                 }`}
                 data-testid={`nav-${item.id}`}
               >
-                <IconComponent className="w-5 h-5" />
+                <div 
+                  className="w-5 h-5 bg-contain bg-no-repeat bg-center" 
+                  style={{
+                    backgroundImage: `url(${securityIconsPath})`, 
+                    backgroundPosition: iconConfig?.position || '50% 50%', 
+                    filter: `${iconConfig?.color || 'hue-rotate(180deg)'} saturate(1.5) brightness(1.2)`
+                  }} 
+                />
                 <span>{item.label}</span>
               </div>
             </Link>
@@ -97,7 +105,14 @@ export function Sidebar() {
             <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
           </div>
           <button className="text-gray-400 hover:text-white" data-testid="user-settings">
-            <Settings className="w-4 h-4" />
+            <div 
+              className="w-4 h-4 bg-contain bg-no-repeat bg-center" 
+              style={{
+                backgroundImage: `url(${securityIconsPath})`, 
+                backgroundPosition: '70% 90%', 
+                filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'
+              }} 
+            />
           </button>
         </div>
       </div>
