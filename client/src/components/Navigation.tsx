@@ -258,11 +258,11 @@ export function Navigation() {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <div className="text-xs text-gray-400">
-              <Link href="/dashboard">
-                <span className="hover:text-cyan-400 transition-colors cursor-pointer">Client Login</span>
-              </Link>
-            </div>
+            <Link href="/client-login">
+              <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300">
+                Client Portal
+              </Button>
+            </Link>
             <Link href="/security-scanner">
               <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700">
                 Free Scan
