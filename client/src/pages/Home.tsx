@@ -16,7 +16,8 @@ import {
   Zap,
   Eye,
   ArrowRight,
-  Bot
+  Bot,
+  Activity
 } from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
