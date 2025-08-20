@@ -5,6 +5,7 @@ import {
   complianceReports, 
   incidents, 
   auditLogs,
+  threatNotifications,
   type User, 
   type InsertUser,
   type Threat,
@@ -14,7 +15,9 @@ import {
   type ComplianceReport,
   type Incident,
   type InsertIncident,
-  type AuditLog
+  type AuditLog,
+  type ThreatNotification,
+  type InsertThreatNotification
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -47,6 +50,13 @@ export interface IStorage {
   
   // Audit operations
   createAuditLog(log: Omit<AuditLog, 'id' | 'timestamp'>): Promise<AuditLog>;
+  
+  // Threat Notification operations
+  getThreatNotifications(userId?: string): Promise<ThreatNotification[]>;
+  createThreatNotification(notification: InsertThreatNotification): Promise<ThreatNotification>;
+  markNotificationAsRead(id: string): Promise<ThreatNotification>;
+  acknowledgeNotification(id: string): Promise<ThreatNotification>;
+  deleteNotification(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -56,6 +66,7 @@ export class MemStorage implements IStorage {
   private complianceReports: Map<string, ComplianceReport> = new Map();
   private incidents: Map<string, Incident> = new Map();
   private auditLogs: Map<string, AuditLog> = new Map();
+  private threatNotifications: Map<string, ThreatNotification> = new Map();
 
   constructor() {
     this.initializeData();
@@ -265,6 +276,160 @@ export class MemStorage implements IStorage {
     };
     this.auditLogs.set(id, auditLog);
     return auditLog;
+  }
+
+  // Threat Notification operations
+  async getThreatNotifications(userId?: string): Promise<ThreatNotification[]> {
+    const notifications = Array.from(this.threatNotifications.values());
+    if (userId) {
+      return notifications.filter(n => n.userId === userId);
+    }
+    return notifications;
+  }
+
+  async createThreatNotification(insertNotification: InsertThreatNotification): Promise<ThreatNotification> {
+    const id = randomUUID();
+    const notification: ThreatNotification = {
+      ...insertNotification,
+      id,
+      isRead: insertNotification.isRead ?? false,
+      isAcknowledged: insertNotification.isAcknowledged ?? false,
+      actionRequired: insertNotification.actionRequired ?? false,
+      priority: insertNotification.priority ?? 3,
+      metadata: insertNotification.metadata ?? null,
+      createdAt: new Date(),
+      acknowledgedAt: null,
+      expiresAt: insertNotification.expiresAt ?? null,
+      userId: insertNotification.userId ?? null,
+    };
+    this.threatNotifications.set(id, notification);
+    
+    // Auto-create sample notifications when the first one is created
+    if (this.threatNotifications.size === 1) {
+      this.createSampleNotifications();
+    }
+    
+    return notification;
+  }
+
+  async markNotificationAsRead(id: string): Promise<ThreatNotification> {
+    const notification = this.threatNotifications.get(id);
+    if (!notification) throw new Error("Notification not found");
+    
+    const updatedNotification = { ...notification, isRead: true };
+    this.threatNotifications.set(id, updatedNotification);
+    return updatedNotification;
+  }
+
+  async acknowledgeNotification(id: string): Promise<ThreatNotification> {
+    const notification = this.threatNotifications.get(id);
+    if (!notification) throw new Error("Notification not found");
+    
+    const updatedNotification = {
+      ...notification,
+      isAcknowledged: true,
+      acknowledgedAt: new Date()
+    };
+    this.threatNotifications.set(id, updatedNotification);
+    return updatedNotification;
+  }
+
+  async deleteNotification(id: string): Promise<void> {
+    this.threatNotifications.delete(id);
+  }
+
+  private createSampleNotifications() {
+    const sampleNotifications = [
+      {
+        id: "notif-1",
+        threatId: "threat-1",
+        userId: null,
+        title: "Critical Ransomware Activity Detected",
+        message: "BlackCat ransomware variant detected attempting file encryption on File Server (192.168.2.12). Immediate containment initiated.",
+        severity: "critical",
+        category: "malware",
+        isRead: false,
+        isAcknowledged: false,
+        actionRequired: true,
+        priority: 1,
+        metadata: { sourceIp: "192.168.2.12", targetFiles: 2847 },
+        createdAt: new Date(Date.now() - 5 * 60 * 1000),
+        acknowledgedAt: null,
+        expiresAt: null
+      },
+      {
+        id: "notif-2",
+        threatId: "threat-2", 
+        userId: null,
+        title: "Data Exfiltration Attempt Blocked",
+        message: "Unusual outbound data transfer of 2.4GB to unknown IP address 45.227.x.x (Russia) has been blocked by AI detection system.",
+        severity: "high",
+        category: "breach",
+        isRead: false,
+        isAcknowledged: false,
+        actionRequired: true,
+        priority: 2,
+        metadata: { dataSize: "2.4GB", destinationCountry: "Russia" },
+        createdAt: new Date(Date.now() - 14 * 60 * 1000),
+        acknowledgedAt: null,
+        expiresAt: null
+      },
+      {
+        id: "notif-3",
+        threatId: "threat-3",
+        userId: null,
+        title: "Multiple Failed Authentication Attempts",
+        message: "Detected 47 failed login attempts on admin portal from multiple Chinese IP addresses. Account lockout policies activated.",
+        severity: "medium",
+        category: "anomaly",
+        isRead: true,
+        isAcknowledged: false,
+        actionRequired: false,
+        priority: 3,
+        metadata: { attempts: 47, sourceCountry: "China" },
+        createdAt: new Date(Date.now() - 35 * 60 * 1000),
+        acknowledgedAt: null,
+        expiresAt: null
+      },
+      {
+        id: "notif-4",
+        threatId: "threat-4",
+        userId: null,
+        title: "Phishing Email Campaign Detected",
+        message: "AI-powered email security identified and quarantined 23 phishing emails targeting faculty accounts. All recipients notified.",
+        severity: "medium",
+        category: "phishing",
+        isRead: false,
+        isAcknowledged: true,
+        actionRequired: false,
+        priority: 3,
+        metadata: { emailsBlocked: 23, targetGroup: "faculty" },
+        createdAt: new Date(Date.now() - 62 * 60 * 1000),
+        acknowledgedAt: new Date(Date.now() - 45 * 60 * 1000),
+        expiresAt: null
+      },
+      {
+        id: "notif-5",
+        threatId: "threat-5",
+        userId: null,
+        title: "System Update Security Patch Applied",
+        message: "Critical security patch KB5034441 successfully applied to all Windows servers. System reboot completed without issues.",
+        severity: "low",
+        category: "system",
+        isRead: true,
+        isAcknowledged: true,
+        actionRequired: false,
+        priority: 4,
+        metadata: { patchId: "KB5034441", serversUpdated: 12 },
+        createdAt: new Date(Date.now() - 120 * 60 * 1000),
+        acknowledgedAt: new Date(Date.now() - 100 * 60 * 1000),
+        expiresAt: null
+      }
+    ];
+
+    sampleNotifications.forEach(notification => {
+      this.threatNotifications.set(notification.id, notification as ThreatNotification);
+    });
   }
 }
 

@@ -81,6 +81,24 @@ export const auditLogs = pgTable("audit_logs", {
   timestamp: timestamp("timestamp").defaultNow(),
 });
 
+export const threatNotifications = pgTable("threat_notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  threatId: varchar("threat_id").notNull().references(() => threats.id),
+  userId: varchar("user_id").references(() => users.id),
+  title: varchar("title").notNull(),
+  message: text("message").notNull(),
+  severity: varchar("severity").notNull(), // critical, high, medium, low
+  category: varchar("category").notNull(), // malware, phishing, breach, anomaly, system
+  isRead: boolean("is_read").default(false),
+  isAcknowledged: boolean("is_acknowledged").default(false),
+  actionRequired: boolean("action_required").default(false),
+  priority: integer("priority").default(3), // 1=urgent, 2=high, 3=normal, 4=low
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+  acknowledgedAt: timestamp("acknowledged_at"),
+  expiresAt: timestamp("expires_at"),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
@@ -102,6 +120,11 @@ export const insertIncidentSchema = createInsertSchema(incidents).omit({
   reportedAt: true,
 });
 
+export const insertThreatNotificationSchema = createInsertSchema(threatNotifications).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Threat = typeof threats.$inferSelect;
@@ -112,3 +135,5 @@ export type ComplianceReport = typeof complianceReports.$inferSelect;
 export type Incident = typeof incidents.$inferSelect;
 export type InsertIncident = z.infer<typeof insertIncidentSchema>;
 export type AuditLog = typeof auditLogs.$inferSelect;
+export type ThreatNotification = typeof threatNotifications.$inferSelect;
+export type InsertThreatNotification = z.infer<typeof insertThreatNotificationSchema>;
