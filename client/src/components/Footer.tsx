@@ -1,5 +1,10 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
+import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.png";
+import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
+import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";
+import nistCompliantImg from "@assets/NIST compliant_1755703344784.png";
+import soc2CompliantImg from "@assets/SOC 2 Type Compliance_1755703349137.jpg";
 
 export function Footer() {
   return (
@@ -155,27 +160,27 @@ export function Footer() {
           <div className="flex flex-col lg:flex-row items-center justify-between">
             <div className="flex flex-wrap items-center gap-6 mb-4 lg:mb-0">
               <img 
-                src="/attached_assets/ferpa compliant_1755703343167.png" 
+                src={ferpaCompliantImg} 
                 alt="FERPA Compliant" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
               <img 
-                src="/attached_assets/fisme compliant_1755703347744.webp" 
+                src={fismaCompliantImg} 
                 alt="FISMA Compliant" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
               <img 
-                src="/attached_assets/fedramp authorized_1755703346268.png" 
+                src={fedrampAuthorizedImg} 
                 alt="FedRAMP Authorized" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
               <img 
-                src="/attached_assets/NIST compliant_1755703344784.png" 
+                src={nistCompliantImg} 
                 alt="NIST SP 800-53 Compliant" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
               <img 
-                src="/attached_assets/SOC 2 Type Compliance_1755703349137.jpg" 
+                src={soc2CompliantImg} 
                 alt="SOC 2 Type II Compliant" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
