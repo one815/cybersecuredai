@@ -24,6 +24,7 @@ import {
   Download,
   FileText
 } from "lucide-react";
+import { MarketingLayout } from "@/components/MarketingLayout";
 
 interface ScanResult {
   check: string;
@@ -221,7 +222,8 @@ export default function SecurityScanner() {
   };
 
   return (
-    <div className="ai-dashboard-bg min-h-screen">
+    <MarketingLayout>
+      <div className="ai-dashboard-bg min-h-screen">
       {/* Header */}
       <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
         <div className="container mx-auto max-w-6xl">
@@ -436,6 +438,7 @@ export default function SecurityScanner() {
           )}
         </div>
       </main>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }

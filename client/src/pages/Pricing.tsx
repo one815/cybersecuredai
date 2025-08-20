@@ -16,6 +16,7 @@ import {
   Award
 } from "lucide-react";
 import { Link } from "wouter";
+import { MarketingLayout } from "@/components/MarketingLayout";
 
 export default function Pricing() {
   const packages = [
@@ -180,7 +181,8 @@ export default function Pricing() {
   };
 
   return (
-    <div className="ai-dashboard-bg min-h-screen">
+    <MarketingLayout>
+      <div className="ai-dashboard-bg min-h-screen">
       {/* Header */}
       <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
         <div className="container mx-auto max-w-6xl">
@@ -407,6 +409,7 @@ export default function Pricing() {
           </section>
         </div>
       </main>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }

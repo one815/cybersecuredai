@@ -18,6 +18,7 @@ import {
   FileText,
   Bot
 } from "lucide-react";
+import { MarketingLayout } from "@/components/MarketingLayout";
 
 interface BlogPost {
   id: string;
@@ -143,7 +144,8 @@ export default function Blogs() {
   };
 
   return (
-    <div className="ai-dashboard-bg min-h-screen">
+    <MarketingLayout>
+      <div className="ai-dashboard-bg min-h-screen">
       {/* Header */}
       <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
         <div className="container mx-auto max-w-6xl">
@@ -366,6 +368,7 @@ export default function Blogs() {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }
