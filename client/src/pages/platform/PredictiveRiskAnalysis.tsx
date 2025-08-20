@@ -50,7 +50,7 @@ export default function PredictiveRiskAnalysis() {
       description: "Identify potential system vulnerabilities before they can be exploited",
       accuracy: 92,
       timeframe: "1-30 days ahead",
-      icon: <Shield className="w-6 h-6" />,
+      icon: <div className="w-6 h-6 text-2xl">🛡️</div>,
       color: "text-cyan-400"
     },
     {
@@ -58,7 +58,7 @@ export default function PredictiveRiskAnalysis() {
       description: "Predictive analysis of emerging threat patterns and attack vectors", 
       accuracy: 89,
       timeframe: "1-14 days ahead",
-      icon: <Eye className="w-6 h-6" />,
+      icon: <div className="w-6 h-6 text-2xl">👁️</div>,
       color: "text-purple-400"
     },
     {
@@ -66,7 +66,7 @@ export default function PredictiveRiskAnalysis() {
       description: "Dynamic risk assessment based on organizational behavior and threat landscape",
       accuracy: 94,
       timeframe: "Real-time updates",
-      icon: <BarChart3 className="w-6 h-6" />,
+      icon: <div className="w-6 h-6 text-2xl">📊</div>,
       color: "text-green-400"
     },
     {
@@ -74,7 +74,7 @@ export default function PredictiveRiskAnalysis() {
       description: "Predict anomalous user behavior patterns that may indicate insider threats",
       accuracy: 87,
       timeframe: "1-7 days ahead",
-      icon: <Activity className="w-6 h-6" />,
+      icon: <div className="w-6 h-6 text-2xl">📈</div>,
       color: "text-orange-400"
     }
   ];
@@ -129,8 +129,8 @@ export default function PredictiveRiskAnalysis() {
                   📈
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Predictive Risk Analysis Dashboard</h1>
-                  <p className="text-gray-400 text-sm">AI-powered risk forecasting and threat prediction</p>
+                  <h1 className="text-2xl font-bold text-white geometric-text">Predictive Risk Analysis Dashboard</h1>
+                  <p className="text-gray-400 text-sm cyber-font">AI-powered risk forecasting and threat prediction</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">
@@ -146,7 +146,7 @@ export default function PredictiveRiskAnalysis() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="holographic-card p-4 border border-red-500/30 data-glow floating-3d">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm tech-font">Current Risk Score</span>
+                  <span className="text-gray-400 text-sm cyber-font">Current Risk Score</span>
                   <div className="w-4 h-4 text-red-400 text-lg">⚠️</div>
                 </div>
                 <div className="text-3xl font-bold text-red-400 tech-font animate-pulse">{currentRiskScore}</div>
@@ -158,7 +158,7 @@ export default function PredictiveRiskAnalysis() {
               
               <div className="holographic-card p-4 border border-green-500/30 data-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm tech-font">Predictions Generated</span>
+                  <span className="text-gray-400 text-sm cyber-font">Predictions Generated</span>
                   <div className="w-4 h-4 text-green-400 text-lg">🧠</div>
                 </div>
                 <div className="text-3xl font-bold text-green-400 tech-font">{predictionsGenerated.toLocaleString()}</div>
@@ -170,7 +170,7 @@ export default function PredictiveRiskAnalysis() {
               
               <div className="holographic-card p-4 border border-cyan-500/30 chart-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm tech-font">Accuracy Rate</span>
+                  <span className="text-gray-400 text-sm cyber-font">Accuracy Rate</span>
                   <div className="w-4 h-4 text-cyan-400 text-lg">🎯</div>
                 </div>
                 <div className="text-3xl font-bold text-cyan-400 tech-font">{accuracyRate.toFixed(1)}%</div>
@@ -182,7 +182,7 @@ export default function PredictiveRiskAnalysis() {
               
               <div className="holographic-card p-4 border border-purple-500/30 holographic-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm tech-font">Threat Prevention</span>
+                  <span className="text-gray-400 text-sm cyber-font">Threat Prevention</span>
                   <div className="w-4 h-4 text-purple-400 text-lg">🛡️</div>
                 </div>
                 <div className="text-3xl font-bold text-purple-400 tech-font">68%</div>
@@ -203,7 +203,7 @@ export default function PredictiveRiskAnalysis() {
             {/* Live Risk Timeline */}
             <div className="lg:col-span-2 holographic-card p-6 border border-green-500/30 chart-glow floating-3d">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-white flex items-center tech-font">
+                <h3 className="text-xl font-bold text-white flex items-center geometric-text">
                   <div className="w-5 h-5 mr-2 text-green-400 text-lg">📊</div>
                   Risk Score Timeline
                 </h3>
@@ -250,8 +250,8 @@ export default function PredictiveRiskAnalysis() {
             
             {/* Risk Analysis Models */}
             <div className="bg-black/40 rounded-xl p-6 border border-cyan-500/30 cyber-glow">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                <Brain className="w-5 h-5 mr-2 text-cyan-400" />
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center geometric-text">
+                <div className="w-5 h-5 mr-2 text-cyan-400 text-lg">🧠</div>
                 AI Models Status
               </h3>
               
@@ -284,10 +284,10 @@ export default function PredictiveRiskAnalysis() {
                     factor.trend === 'decreasing' ? 'text-green-400' :
                     'text-yellow-400'
                   }`}>
-                    <TrendingUp className={`w-3 h-3 ${
+                    <div className={`w-3 h-3 text-lg ${
                       factor.trend === 'decreasing' ? 'rotate-180' : 
                       factor.trend === 'stable' ? 'rotate-90' : ''
-                    }`} />
+                    }`}>📈</div>
                     <span className="text-xs">{factor.trend}</span>
                   </div>
                 </div>
