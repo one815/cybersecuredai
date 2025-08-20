@@ -1,8 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// Vector security icons from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+import { 
+  CheckCircle, 
+  Shield, 
+  Users, 
+  Building, 
+  Crown,
+  Bot,
+  AlertTriangle,
+  Lock,
+  Eye,
+  Network,
+  Database,
+  Award
+} from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 

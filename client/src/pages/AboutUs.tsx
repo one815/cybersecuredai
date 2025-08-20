@@ -1,7 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// Cinematic security imagery from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+import { 
+  Shield, 
+  Brain, 
+  Users, 
+  Award, 
+  Target, 
+  Zap,
+  CheckCircle,
+  TrendingUp,
+  Globe,
+  Lock,
+  Bot,
+  GraduationCap,
+  Flag
+} from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
 export default function AboutUs() {
