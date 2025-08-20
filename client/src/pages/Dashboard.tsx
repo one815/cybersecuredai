@@ -183,22 +183,25 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+          <Card className="holographic-card border border-green-500/30 data-glow micro-hover">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <Shield className="w-6 h-6 text-green-400" />
-                  <span className="text-sm text-gray-400">System Security</span>
+                  <span className="text-sm text-gray-400 tech-font">SYSTEM SECURITY</span>
                 </div>
                 <Check className="w-5 h-5 text-green-400" />
               </div>
-              <div className="text-3xl font-bold text-white mb-2">86%</div>
+              <div className="text-3xl font-bold text-white mb-2 geometric-text">86%</div>
               <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-                <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: '86%'}}></div>
+                <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full chart-glow" style={{width: '86%'}}></div>
               </div>
-              <div className="flex justify-between text-xs">
+              <div className="flex justify-between text-xs mb-2">
                 <span className="text-gray-400">0%</span>
                 <span className="text-gray-400">100%</span>
+              </div>
+              <div className="verification-badge">
+                SECURED
               </div>
             </CardContent>
           </Card>
