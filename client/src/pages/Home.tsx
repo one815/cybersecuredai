@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
+import { ThreatMap } from "@/components/ThreatMap";
 
 export default function Home() {
   return (
@@ -105,7 +106,11 @@ export default function Home() {
                       </div>
                       
                       {/* Full Dashboard Interface */}
-                      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-b-xl border border-cyan-500/20 overflow-hidden">
+                      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-b-xl border border-cyan-500/20 overflow-hidden relative">
+                        {/* Shiny dashboard glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-purple-500/10 animate-pulse"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/5 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+                        <div className="relative z-10">
                         
                         {/* Dashboard Header */}
                         <div className="bg-gray-800/80 px-6 py-4 border-b border-cyan-500/20">
@@ -154,102 +159,26 @@ export default function Home() {
                           <div className="grid grid-cols-3 gap-6">
                             
                             {/* Live Threat Map */}
-                            <div className="col-span-2 bg-gray-800/40 rounded-xl p-6 border border-red-500/30">
-                              <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center gap-3">
-                                  <Globe className="w-6 h-6 text-red-400" />
-                                  <h4 className="text-lg font-semibold text-white">Live Threat Map</h4>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
-                                  <span className="text-sm text-red-400">Live Updates</span>
-                                </div>
-                              </div>
+                            <div className="col-span-2 bg-gray-800/40 rounded-xl p-4 border border-red-500/30 shadow-2xl relative overflow-hidden">
+                              {/* Shiny border effect */}
+                              <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-transparent to-cyan-500/20 rounded-xl animate-pulse"></div>
+                              <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-400/5 to-transparent rounded-xl animate-pulse" style={{animationDelay: '0.5s'}}></div>
                               
-                              {/* Animated World Map with Threats */}
-                              <div className="relative bg-gray-900 rounded-lg h-64 overflow-hidden">
-                                {/* Simplified World Map Background */}
-                                <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-green-900/20"></div>
-                                
-                                {/* Animated Threat Indicators */}
-                                {[
-                                  { x: '15%', y: '25%', color: 'red', severity: 'Critical' },
-                                  { x: '45%', y: '35%', color: 'yellow', severity: 'Medium' },
-                                  { x: '65%', y: '20%', color: 'red', severity: 'High' },
-                                  { x: '75%', y: '45%', color: 'orange', severity: 'High' },
-                                  { x: '25%', y: '55%', color: 'yellow', severity: 'Low' },
-                                  { x: '85%', y: '30%', color: 'red', severity: 'Critical' }
-                                ].map((threat, index) => (
-                                  <div
-                                    key={index}
-                                    className={`absolute w-3 h-3 rounded-full animate-ping bg-${threat.color}-400`}
-                                    style={{ 
-                                      left: threat.x, 
-                                      top: threat.y,
-                                      animationDelay: `${index * 0.5}s`,
-                                      animationDuration: '2s'
-                                    }}
-                                  >
-                                    <div className={`absolute inset-0 w-3 h-3 rounded-full bg-${threat.color}-500 animate-pulse`}></div>
+                              <div className="relative z-10">
+                                <div className="flex items-center justify-between mb-4">
+                                  <div className="flex items-center gap-3">
+                                    <Globe className="w-6 h-6 text-red-400 drop-shadow-glow" />
+                                    <h4 className="text-lg font-semibold text-white drop-shadow-glow">Live Threat Map</h4>
                                   </div>
-                                ))}
-
-                                {/* Animated Data Streams */}
-                                <div className="absolute top-4 left-4 right-4">
-                                  <div className="flex justify-between text-xs">
-                                    <div className="bg-red-900/80 px-2 py-1 rounded text-red-300 animate-bounce">
-                                      🔴 Malware Detected - Russia
-                                    </div>
-                                    <div className="bg-yellow-900/80 px-2 py-1 rounded text-yellow-300 animate-bounce" style={{animationDelay: '1s'}}>
-                                      🟡 Phishing - China  
-                                    </div>
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-red-400 rounded-full animate-ping drop-shadow-glow"></div>
+                                    <span className="text-sm text-red-400 drop-shadow-glow">Live Updates</span>
                                   </div>
                                 </div>
                                 
-                                <div className="absolute bottom-4 left-4 right-4">
-                                  <div className="flex justify-between text-xs">
-                                    <div className="bg-orange-900/80 px-2 py-1 rounded text-orange-300 animate-bounce" style={{animationDelay: '0.5s'}}>
-                                      🟠 DDoS Attack - Brazil
-                                    </div>
-                                    <div className="bg-red-900/80 px-2 py-1 rounded text-red-300 animate-bounce" style={{animationDelay: '1.5s'}}>
-                                      🔴 Ransomware - North Korea
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {/* Animated Activity Lines */}
-                                <div className="absolute inset-0">
-                                  <svg className="w-full h-full opacity-30">
-                                    {[1, 2, 3, 4].map((line, index) => (
-                                      <line
-                                        key={index}
-                                        x1={`${20 + index * 20}%`}
-                                        y1="10%"
-                                        x2={`${60 + index * 10}%`}
-                                        y2="90%"
-                                        stroke="#ef4444"
-                                        strokeWidth="1"
-                                        className="animate-pulse"
-                                        style={{animationDelay: `${index * 0.3}s`}}
-                                      />
-                                    ))}
-                                  </svg>
-                                </div>
-                              </div>
-                              
-                              {/* Threat Statistics */}
-                              <div className="grid grid-cols-3 gap-3 mt-4">
-                                <div className="text-center p-2 bg-red-900/20 rounded">
-                                  <div className="text-lg font-bold text-red-400">47</div>
-                                  <div className="text-xs text-gray-400">Active Threats</div>
-                                </div>
-                                <div className="text-center p-2 bg-orange-900/20 rounded">
-                                  <div className="text-lg font-bold text-orange-400">156</div>
-                                  <div className="text-xs text-gray-400">Blocked Today</div>
-                                </div>
-                                <div className="text-center p-2 bg-green-900/20 rounded">
-                                  <div className="text-lg font-bold text-green-400">99.2%</div>
-                                  <div className="text-xs text-gray-400">Detection Rate</div>
+                                {/* Professional Threat Map Component */}
+                                <div className="threat-map-container">
+                                  <ThreatMap height="300px" />
                                 </div>
                               </div>
                             </div>
@@ -335,6 +264,7 @@ export default function Home() {
                               </div>
                             </div>
                           </div>
+                        </div>
                         </div>
                       </div>
                     </div>
