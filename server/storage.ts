@@ -74,6 +74,9 @@ export class MemStorage implements IStorage {
       isActive: true,
       lastLogin: new Date(),
       mfaEnabled: true,
+      mfaMethod: "biometric",
+      biometricEnabled: true,
+      planType: "enterprise",
       onboardingCompleted: true,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -124,8 +127,20 @@ export class MemStorage implements IStorage {
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
     const user: User = { 
-      ...insertUser, 
+      ...insertUser,
       id,
+      role: insertUser.role ?? "user",
+      firstName: insertUser.firstName ?? null,
+      lastName: insertUser.lastName ?? null,
+      organization: insertUser.organization ?? null,
+      profileImageUrl: insertUser.profileImageUrl ?? null,
+      isActive: insertUser.isActive ?? true,
+      lastLogin: insertUser.lastLogin ?? null,
+      mfaEnabled: insertUser.mfaEnabled ?? false,
+      mfaMethod: insertUser.mfaMethod ?? "none",
+      biometricEnabled: insertUser.biometricEnabled ?? false,
+      planType: insertUser.planType ?? "standard",
+      onboardingCompleted: insertUser.onboardingCompleted ?? false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -155,6 +170,10 @@ export class MemStorage implements IStorage {
     const threat: Threat = {
       ...insertThreat,
       id,
+      status: insertThreat.status ?? "active",
+      source: insertThreat.source ?? null,
+      description: insertThreat.description ?? null,
+      metadata: insertThreat.metadata ?? null,
       detectedAt: new Date(),
       resolvedAt: null,
     };
@@ -190,6 +209,9 @@ export class MemStorage implements IStorage {
     const file: File = {
       ...insertFile,
       id,
+      encryptionStatus: insertFile.encryptionStatus ?? "encrypted",
+      accessLevel: insertFile.accessLevel ?? "private",
+      checksum: insertFile.checksum ?? null,
       uploadedAt: new Date(),
     };
     this.files.set(id, file);
@@ -213,6 +235,11 @@ export class MemStorage implements IStorage {
     const incident: Incident = {
       ...insertIncident,
       id,
+      status: insertIncident.status ?? "open",
+      description: insertIncident.description ?? null,
+      assignedTo: insertIncident.assignedTo ?? null,
+      reportedBy: insertIncident.reportedBy ?? null,
+      metadata: insertIncident.metadata ?? null,
       reportedAt: new Date(),
       resolvedAt: null,
     };

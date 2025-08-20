@@ -18,23 +18,23 @@ import {
 } from "lucide-react";
 
 export default function Reports() {
-  const { data: dashboardStats } = useQuery({
+  const { data: dashboardStats = {} } = useQuery<any>({
     queryKey: ["/api/dashboard/stats"],
   });
 
-  const { data: threats } = useQuery({
+  const { data: threats = [] } = useQuery<any[]>({
     queryKey: ["/api/threats"],
   });
 
-  const { data: users } = useQuery({
+  const { data: users = [] } = useQuery<any[]>({
     queryKey: ["/api/users"],
   });
 
-  const { data: complianceReports } = useQuery({
+  const { data: complianceReports = [] } = useQuery<any[]>({
     queryKey: ["/api/compliance"],
   });
 
-  const { data: incidents } = useQuery({
+  const { data: incidents = [] } = useQuery<any[]>({
     queryKey: ["/api/incidents"],
   });
 
