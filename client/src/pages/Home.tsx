@@ -19,10 +19,12 @@ import {
   Bot
 } from "lucide-react";
 import { Link } from "wouter";
+import { MarketingLayout } from "@/components/MarketingLayout";
 
 export default function Home() {
   return (
-    <div className="ai-dashboard-bg min-h-screen">
+    <MarketingLayout>
+      <div className="ai-dashboard-bg min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 px-6 bg-gradient-to-br from-background via-surface/50 to-background">
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -350,6 +352,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }
