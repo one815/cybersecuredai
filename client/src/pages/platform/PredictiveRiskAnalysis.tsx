@@ -2,25 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  TrendingUp, 
-  Brain, 
-  AlertTriangle, 
-  Shield, 
-  Target, 
-  CheckCircle, 
-  BarChart3,
-  Activity,
-  Database,
-  Network,
-  Eye,
-  Settings,
-  Clock,
-  Bot,
-  Zap,
-  Wifi,
-  Monitor
-} from "lucide-react";
+// Using emoji representations for cybersecurity icons
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 import { useState, useEffect } from "react";
@@ -143,8 +125,8 @@ export default function PredictiveRiskAnalysis() {
             {/* Dashboard Title Bar */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-lg flex items-center justify-center text-white text-xl">
+                  📈
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-white">Predictive Risk Analysis Dashboard</h1>
@@ -165,7 +147,7 @@ export default function PredictiveRiskAnalysis() {
               <div className="holographic-card p-4 border border-red-500/30 data-glow floating-3d">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm tech-font">Current Risk Score</span>
-                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                  <div className="w-4 h-4 text-red-400 text-lg">⚠️</div>
                 </div>
                 <div className="text-3xl font-bold text-red-400 tech-font animate-pulse">{currentRiskScore}</div>
                 <div className="text-xs text-gray-500">Real-time analysis</div>
@@ -177,7 +159,7 @@ export default function PredictiveRiskAnalysis() {
               <div className="holographic-card p-4 border border-green-500/30 data-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm tech-font">Predictions Generated</span>
-                  <Brain className="w-4 h-4 text-green-400" />
+                  <div className="w-4 h-4 text-green-400 text-lg">🧠</div>
                 </div>
                 <div className="text-3xl font-bold text-green-400 tech-font">{predictionsGenerated.toLocaleString()}</div>
                 <div className="text-xs text-gray-500">Last 30 days</div>
@@ -189,7 +171,7 @@ export default function PredictiveRiskAnalysis() {
               <div className="holographic-card p-4 border border-cyan-500/30 chart-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm tech-font">Accuracy Rate</span>
-                  <Target className="w-4 h-4 text-cyan-400" />
+                  <div className="w-4 h-4 text-cyan-400 text-lg">🎯</div>
                 </div>
                 <div className="text-3xl font-bold text-cyan-400 tech-font">{accuracyRate.toFixed(1)}%</div>
                 <div className="text-xs text-gray-500">AI model performance</div>
@@ -201,7 +183,7 @@ export default function PredictiveRiskAnalysis() {
               <div className="holographic-card p-4 border border-purple-500/30 holographic-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm tech-font">Threat Prevention</span>
-                  <Shield className="w-4 h-4 text-purple-400" />
+                  <div className="w-4 h-4 text-purple-400 text-lg">🛡️</div>
                 </div>
                 <div className="text-3xl font-bold text-purple-400 tech-font">68%</div>
                 <div className="text-xs text-gray-500">Risk reduction</div>
@@ -222,7 +204,7 @@ export default function PredictiveRiskAnalysis() {
             <div className="lg:col-span-2 holographic-card p-6 border border-green-500/30 chart-glow floating-3d">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold text-white flex items-center tech-font">
-                  <BarChart3 className="w-5 h-5 mr-2 text-green-400" />
+                  <div className="w-5 h-5 mr-2 text-green-400 text-lg">📊</div>
                   Risk Score Timeline
                 </h3>
                 <div className="flex items-center space-x-3">

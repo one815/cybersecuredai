@@ -50,14 +50,14 @@ export default function Dashboard() {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-6">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d">
-                <Bot className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-2xl">
+                🤖
               </div>
               <div>
                 <h2 className="text-3xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-3">
                   <span>AI SECURITY COMMAND CENTER</span>
-                  <Shield className="w-6 h-6 text-blue-400" />
-                  <ClipboardCheck className="w-6 h-6 text-green-400" />
+                  <div className="text-blue-400 text-2xl">🛡️</div>
+                  <div className="text-green-400 text-2xl">📋</div>
                 </h2>
                 <div className="text-gray-400 flex items-center space-x-4 cyber-font">
                   <span>Real-time AI threat monitoring and autonomous security automation</span>
@@ -102,20 +102,20 @@ export default function Dashboard() {
                 className="bg-background border-surface-light pl-10 w-80 text-sm focus:border-interactive"
                 data-testid="dashboard-search"
               />
-              <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
+              <div className="absolute left-3 top-3 w-4 h-4 text-gray-400">🔍</div>
             </div>
             
             {/* Notifications */}
             <div className="relative">
               <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-white" data-testid="notifications-button">
-                <Bell className="w-5 h-5" />
+                <div className="w-5 h-5 text-lg">🔔</div>
                 <span className="absolute -top-1 -right-1 w-5 h-5 bg-critical text-xs rounded-full flex items-center justify-center">3</span>
               </Button>
             </div>
 
             {/* Quick Actions */}
             <Button className="bg-interactive hover:bg-orange-600" data-testid="new-incident-button">
-              <Plus className="w-4 h-4 mr-2" />
+              <div className="w-4 h-4 mr-2">➕</div>
               New Incident
             </Button>
           </div>
@@ -130,10 +130,10 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Shield className="w-6 h-6 text-yellow-400" />
+                  <div className="w-6 h-6 text-yellow-400 text-lg">🛡️</div>
                   <span className="text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
-                <AlertTriangle className="w-5 h-5 text-yellow-400" />
+                <div className="w-5 h-5 text-yellow-400 text-lg">⚠️</div>
               </div>
               <div className="mb-4">
                 <div className="text-3xl font-bold text-white mb-1 geometric-text">MEDIUM</div>
@@ -155,8 +155,8 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 text-red-400 relative">
-                    <Zap className="w-6 h-6" />
+                  <div className="w-6 h-6 text-red-400 relative text-lg">
+                    <div>⚡</div>
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   </div>
                   <span className="text-sm text-gray-400 tech-font">ACTIVE THREATS</span>
@@ -187,10 +187,10 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Shield className="w-6 h-6 text-green-400" />
+                  <div className="w-6 h-6 text-green-400 text-lg">🔒</div>
                   <span className="text-sm text-gray-400 tech-font">SYSTEM SECURITY</span>
                 </div>
-                <Check className="w-5 h-5 text-green-400" />
+                <div className="w-5 h-5 text-green-400 text-lg">✅</div>
               </div>
               <div className="text-3xl font-bold text-white mb-2 geometric-text">86%</div>
               <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
@@ -210,7 +210,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Brain className="w-6 h-6 text-cyan-400" />
+                  <div className="w-6 h-6 text-cyan-400 text-lg">🧠</div>
                   <span className="text-sm text-gray-400 tech-font">AUTHENTICATION</span>
                 </div>
                 <div className="mfa-badge">
