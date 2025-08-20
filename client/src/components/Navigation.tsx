@@ -39,19 +39,7 @@ export function Navigation() {
         { label: "Federal Agencies", href: "/solutions/federal" }
       ]
     },
-    {
-      label: "Why CyberSecure AI",
-      href: "/why-cybersecure-ai",
-      dropdown: [
-        { label: "Who We Serve", href: "/who-we-serve" },
-        { label: "Case Studies", href: "/case-studies" },
-        { label: "vs. CrowdStrike", href: "/compare/crowdstrike" },
-        { label: "vs. SentinelOne", href: "/compare/sentinelone" },
-        { label: "vs. Microsoft Defender", href: "/compare/microsoft" },
-        { label: "vs. Palo Alto Networks", href: "/compare/palo-alto" },
-        { label: "vs. Fortinet", href: "/compare/fortinet" }
-      ]
-    },
+    { label: "Why CyberSecure AI", href: "/why-cybersecure-ai" },
     {
       label: "Resources",
       href: "/resources",
