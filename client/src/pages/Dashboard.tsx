@@ -45,32 +45,56 @@ export default function Dashboard() {
 
   return (
     <div className="ai-dashboard-bg min-h-screen">
-      {/* Enhanced Header with AI Theme */}
-      <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-4 cyber-glow">
+      {/* Enhanced Header with Holographic AI Theme */}
+      <header className="holographic-card backdrop-blur-md border-b border-surface-light p-4 chart-glow">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <Bot className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d">
+                <Bot className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
-                  <span>AI Security Dashboard</span>
+                <h2 className="text-3xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-3">
+                  <span>AI SECURITY COMMAND CENTER</span>
                   <Shield className="w-6 h-6 text-blue-400" />
                   <ClipboardCheck className="w-6 h-6 text-green-400" />
                 </h2>
-                <div className="text-gray-400 flex items-center space-x-2">
-                  <span>Real-time AI threat monitoring and RPA security automation</span>
-                  <div className="flex items-center space-x-1">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-green-400 text-xs">AI Online</span>
+                <div className="text-gray-400 flex items-center space-x-4 cyber-font">
+                  <span>Real-time AI threat monitoring and autonomous security automation</span>
+                  <div className="live-indicator">
+                    AI NEURAL NETWORK ACTIVE
                   </div>
                 </div>
               </div>
             </div>
+            
+            {/* Security Indicators Panel */}
+            <div className="flex items-center space-x-4">
+              <div className="encryption-indicator">
+                QUANTUM ENCRYPTED
+              </div>
+              <div className="verification-badge">
+                BIOMETRIC VERIFIED
+              </div>
+              <div className="security-protocol">
+                ZERO-TRUST ACTIVE
+              </div>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            {/* Search */}
+          <div className="flex items-center space-x-6">
+            {/* Facial Recognition Auth */}
+            <div className="face-recognition scale-75"></div>
+            
+            {/* Multi-factor Authentication Panel */}
+            <div className="flex items-center space-x-2 p-3 holographic-card rounded-lg">
+              <div className="fingerprint-scanner scale-50"></div>
+              <div className="text-sm">
+                <div className="tech-font text-green-400">ADMIN AUTHENTICATED</div>
+                <div className="text-gray-400 text-xs">Security Level: MAX</div>
+              </div>
+            </div>
+            
+            {/* Enhanced Search */}
             <div className="relative">
               <Input
                 type="text"
@@ -102,29 +126,32 @@ export default function Dashboard() {
       <main className="p-6">
         {/* Enhanced Security Overview Cards with AI Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
+          <Card className="holographic-card border border-blue-500/30 data-glow micro-hover floating-3d">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <Shield className="w-6 h-6 text-yellow-400" />
-                  <span className="text-sm text-gray-400">Threat Level</span>
+                  <span className="text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
                 <AlertTriangle className="w-5 h-5 text-yellow-400" />
               </div>
               <div className="mb-4">
-                <div className="text-3xl font-bold text-white mb-1">Medium</div>
+                <div className="text-3xl font-bold text-white mb-1 geometric-text">MEDIUM</div>
                 <div className="flex justify-between mb-2">
                   <span className="text-xs text-gray-400">Safe</span>
                   <span className="text-xs text-gray-400">Critical</span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
-                  <div className="bg-gradient-to-r from-green-500 to-yellow-500 h-2 rounded-full" style={{width: '60%'}}></div>
+                  <div className="bg-gradient-to-r from-green-500 to-yellow-500 h-2 rounded-full chart-glow" style={{width: '60%'}}></div>
                 </div>
+              </div>
+              <div className="security-protocol">
+                QUANTUM SCAN ACTIVE
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
+          <Card className="holographic-card border border-red-500/30 holographic-glow micro-hover">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
@@ -132,22 +159,25 @@ export default function Dashboard() {
                     <Zap className="w-6 h-6" />
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   </div>
-                  <span className="text-sm text-gray-400">Active Threats</span>
+                  <span className="text-sm text-gray-400 tech-font">ACTIVE THREATS</span>
+                </div>
+                <div className="live-indicator">
+                  LIVE
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white mb-2">7</div>
+              <div className="text-3xl font-bold text-white mb-2 geometric-text">07</div>
               <div className="space-y-1 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Critical</span>
-                  <span className="text-red-400">2</span>
+                  <span className="text-gray-400 cyber-font">Critical</span>
+                  <span className="text-red-400 font-bold">2</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">High</span>
-                  <span className="text-orange-400">3</span>
+                  <span className="text-gray-400 cyber-font">High</span>
+                  <span className="text-orange-400 font-bold">3</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Medium</span>
-                  <span className="text-yellow-400">2</span>
+                  <span className="text-gray-400 cyber-font">Medium</span>
+                  <span className="text-yellow-400 font-bold">2</span>
                 </div>
               </div>
             </CardContent>
@@ -173,21 +203,29 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+          <Card className="holographic-card border border-cyan-500/30 chart-glow micro-hover">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <Brain className="w-6 h-6 text-cyan-400" />
-                  <span className="text-sm text-gray-400">Authentication</span>
+                  <span className="text-sm text-gray-400 tech-font">AUTHENTICATION</span>
                 </div>
-                <div className="text-cyan-400 text-sm">MFA Active</div>
+                <div className="mfa-badge">
+                  MFA ACTIVE
+                </div>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">✓ Biometric</span>
+                  <span className="text-sm text-gray-400 cyber-font">Biometric Scan</span>
+                  <div className="verification-badge">
+                    VERIFIED
+                  </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">✓ 2FA</span>
+                  <span className="text-sm text-gray-400 cyber-font">Multi-Factor Auth</span>
+                  <div className="encryption-indicator">
+                    ACTIVE
+                  </div>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-400">✓ Password</span>

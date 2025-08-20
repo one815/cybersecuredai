@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Bot, Menu, X, ChevronDown } from "lucide-react";
+import { Bot, Menu, X, ChevronDown, Shield, Lock, Wifi, User } from "lucide-react";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -345,18 +345,43 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <Link href="/client-login">
-              <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300">
-                Client Portal
-              </Button>
-            </Link>
-            <Link href="/security-scanner">
-              <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700">
-                Free Scan
-              </Button>
-            </Link>
+          {/* Security Indicators & Enhanced CTA */}
+          <div className="hidden lg:flex items-center space-x-6">
+            {/* Security Status Indicators */}
+            <div className="flex items-center space-x-3">
+              <div className="live-indicator tech-font">
+                LIVE
+              </div>
+              <div className="encryption-indicator">
+                AES-256
+              </div>
+              <div className="verification-badge">
+                VERIFIED
+              </div>
+            </div>
+
+            {/* Authentication Visual */}
+            <div className="flex items-center space-x-2 p-2 holographic-card micro-hover rounded-lg">
+              <div className="fingerprint-scanner scale-50"></div>
+              <div className="text-xs">
+                <div className="tech-font text-green-400">AUTHENTICATED</div>
+                <div className="text-gray-400">Admin User</div>
+              </div>
+            </div>
+
+            {/* Enhanced CTA Buttons */}
+            <div className="flex items-center space-x-3">
+              <Link href="/client-login">
+                <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 micro-hover">
+                  Client Portal
+                </Button>
+              </Link>
+              <Link href="/security-scanner">
+                <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 micro-hover ripple-effect">
+                  Free Scan
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
