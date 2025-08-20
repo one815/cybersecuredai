@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap, Wrench, HelpCircle, GraduationCap } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -21,21 +22,21 @@ const navigationItems: NavigationItem[] = [
 ];
 
 const iconMap = {
-  tachometer: "📊",
-  "exclamation-triangle": "⚠️",
-  activity: "📈",
-  "alert-triangle": "🚨",
-  zap: "⚡",
-  wrench: "🔧",
-  lock: "🔒",
-  share: "📤",
-  "clipboard-check": "📋",
-  "graduation-cap": "🎓",
-  "help-circle": "❓",
-  users: "👥",
-  "user-cog": "⚙️",
-  brain: "🧠",
-  "chart-bar": "📊",
+  tachometer: Gauge,
+  "exclamation-triangle": TriangleAlert,
+  activity: Activity,
+  "alert-triangle": AlertTriangle,
+  zap: Zap,
+  wrench: Wrench,
+  lock: Lock,
+  share: Share,
+  "clipboard-check": ClipboardCheck,
+  "graduation-cap": GraduationCap,
+  "help-circle": HelpCircle,
+  users: Users,
+  "user-cog": UserCog,
+  brain: Brain,
+  "chart-bar": ChartBar,
 };
 
 export function Sidebar() {
@@ -53,7 +54,7 @@ export function Sidebar() {
             className="w-10 h-10 object-contain"
           />
           <div>
-            <h1 className="text-xl font-bold text-white">CyberSecure AI</h1>
+            <h1 className="text-xl font-bold text-white geometric-text">CyberSecure AI</h1>
             <div className="text-xs text-gray-400">Security Platform</div>
           </div>
         </div>
@@ -62,7 +63,7 @@ export function Sidebar() {
       {/* Navigation Menu */}
       <nav className="p-4 space-y-2">
         {navigationItems.map((item) => {
-          const iconEmoji = iconMap[item.icon as keyof typeof iconMap];
+          const IconComponent = iconMap[item.icon as keyof typeof iconMap];
           const isActive = location === item.path;
           
           return (
@@ -75,7 +76,7 @@ export function Sidebar() {
                 }`}
                 data-testid={`nav-${item.id}`}
               >
-                <div className="w-5 h-5 text-lg flex items-center justify-center">{iconEmoji}</div>
+                <IconComponent className="w-5 h-5" />
                 <span>{item.label}</span>
               </div>
             </Link>
@@ -96,7 +97,7 @@ export function Sidebar() {
             <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
           </div>
           <button className="text-gray-400 hover:text-white" data-testid="user-settings">
-            <div className="w-4 h-4 text-lg">⚙️</div>
+            <Settings className="w-4 h-4" />
           </button>
         </div>
       </div>

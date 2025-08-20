@@ -63,12 +63,12 @@ export default function AboutUs() {
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white flex items-center space-x-2">
+              <h1 className="text-3xl font-bold text-white flex items-center space-x-2 geometric-text">
                 <span>About CyberSecure AI</span>
                 <Users className="w-8 h-8 text-blue-400" />
                 <Shield className="w-8 h-8 text-green-400" />
               </h1>
-              <p className="text-gray-400">Leading cybersecurity innovation for education and government sectors</p>
+              <p className="text-gray-400 cyber-font">Leading cybersecurity innovation for education and government sectors</p>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AboutUs() {
           <section className="mb-16">
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-white text-center">Our Mission</CardTitle>
+                <CardTitle className="text-2xl font-bold text-white text-center geometric-text">Our Mission</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-lg text-gray-300 mb-6 max-w-4xl mx-auto">
@@ -102,14 +102,14 @@ export default function AboutUs() {
 
           {/* Company Values */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Our Core Values</h2>
+            <h2 className="text-3xl font-bold text-white text-center mb-12 geometric-text">Our Core Values</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                     <Shield className="w-6 h-6 text-blue-400" />
                   </div>
-                  <CardTitle className="text-xl text-white">Security First</CardTitle>
+                  <CardTitle className="text-xl text-white geometric-text">Security First</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-400">

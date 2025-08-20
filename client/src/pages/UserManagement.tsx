@@ -99,12 +99,12 @@ export default function UserManagement() {
       <header className="bg-surface border-b border-surface-light p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold flex items-center space-x-2">
+            <h2 className="text-2xl font-bold flex items-center space-x-2 geometric-text">
               <span>User Management</span>
               <Users className="w-6 h-6 text-blue-400" />
               <Shield className="w-6 h-6 text-green-400" />
             </h2>
-            <p className="text-gray-400">Manage users, roles, and access permissions</p>
+            <p className="text-gray-400 cyber-font">Manage users, roles, and access permissions</p>
           </div>
           <Button className="bg-interactive hover:bg-orange-600" data-testid="add-user">
             <UserPlus className="w-4 h-4 mr-2" />
@@ -124,7 +124,7 @@ export default function UserManagement() {
                   <Users className="text-success" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold">{users?.length || 0}</h3>
+                  <h3 className="text-2xl font-bold tech-font">{users?.length || 0}</h3>
                   <p className="text-gray-400 text-sm">Total Users</p>
                 </div>
               </div>
