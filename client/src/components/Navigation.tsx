@@ -122,6 +122,7 @@ export function Navigation() {
                       <div className={`absolute top-full left-0 mt-1 ${
                         item.label === 'Resources' ? 'w-96' : 
                         item.label === 'Solutions' ? 'w-80' : 
+                        item.label === 'Platform' ? 'w-[900px]' :
                         item.label === 'Why CyberSecure AI' ? 'w-80' : 
                         'w-72'
                       } bg-slate-800/95 backdrop-blur-xl border-2 border-cyan-400/50 rounded-xl shadow-2xl cyber-glow-strong z-50 animate-in fade-in-0 zoom-in-95 duration-200`}>
@@ -167,6 +168,99 @@ export function Navigation() {
                                     </div>
                                   </Link>
                                 ))}
+                              </div>
+                            </div>
+                          </div>
+                        ) : item.label === 'Platform' ? (
+                          <div className="py-3">
+                            <div className="grid grid-cols-2 gap-x-8">
+                              {/* Left Column - Cloud Security & Network Infrastructure */}
+                              <div className="space-y-4">
+                                {/* Cloud Security & AI Analytics */}
+                                <div>
+                                  <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
+                                    ☁️ Cloud Security & AI Analytics
+                                  </div>
+                                  <Link href="/platform/automated-incident-response">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                      Automated Incident Response
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/threat-detection">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                      Threat Detection System
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/predictive-risk-analysis">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                      Predictive Risk Analysis
+                                    </div>
+                                  </Link>
+                                </div>
+
+                                {/* Network Infrastructure & Management */}
+                                <div>
+                                  <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/20 border-b border-green-500/30">
+                                    🌐 Network Infrastructure & Management
+                                  </div>
+                                  <Link href="/platform/firewall-management">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                      Firewall Management
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/network-monitoring">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                      Router & Switch Monitoring
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/zero-trust">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                      Zero-Trust Architecture
+                                    </div>
+                                  </Link>
+                                </div>
+                              </div>
+                              
+                              {/* Right Column - Endpoint Security & Compliance */}
+                              <div className="space-y-4">
+                                {/* Endpoint Security & Management */}
+                                <div>
+                                  <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
+                                    💻 Endpoint Security & Management
+                                  </div>
+                                  <Link href="/platform/monitoring-vulnerability">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                      24/7 Monitoring & Vulnerability Management
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/iam">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                      Identity & Access Management
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/system-administration">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                      System Administration
+                                    </div>
+                                  </Link>
+                                </div>
+
+                                {/* Compliance & Risk Management */}
+                                <div>
+                                  <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30">
+                                    📋 Compliance & Risk Management
+                                  </div>
+                                  <Link href="/platform/compliance-automation">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
+                                      Compliance Automation
+                                    </div>
+                                  </Link>
+                                  <Link href="/platform/security-training">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
+                                      Security Awareness Training
+                                    </div>
+                                  </Link>
+                                </div>
                               </div>
                             </div>
                           </div>
