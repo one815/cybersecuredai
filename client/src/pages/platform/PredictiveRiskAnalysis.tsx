@@ -16,12 +16,52 @@ import {
   Eye,
   Settings,
   Clock,
-  Bot
+  Bot,
+  Zap,
+  Wifi,
+  Monitor
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
+import { useState, useEffect } from "react";
 
 export default function PredictiveRiskAnalysis() {
+  const [currentRiskScore, setCurrentRiskScore] = useState(67);
+  const [predictionsGenerated, setPredictionsGenerated] = useState(12847);
+  const [accuracyRate, setAccuracyRate] = useState(91.2);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isLive, setIsLive] = useState(true);
+  const [riskTrends, setRiskTrends] = useState([
+    { time: "14:23", score: 68, alerts: 3 },
+    { time: "14:18", score: 67, alerts: 2 },
+    { time: "14:13", score: 69, alerts: 4 },
+    { time: "14:08", score: 66, alerts: 1 },
+    { time: "14:03", score: 70, alerts: 5 }
+  ]);
+
+  // Simulate live risk analysis updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+      if (Math.random() > 0.6) {
+        const newScore = Math.floor(Math.random() * 30 + 50); // 50-80 range
+        setCurrentRiskScore(newScore);
+        setPredictionsGenerated(prev => prev + Math.floor(Math.random() * 5) + 1);
+        setAccuracyRate(prev => Math.min(99, prev + (Math.random() - 0.5) * 0.5));
+        
+        // Add new risk trend data
+        const newTrend = {
+          time: new Date().toLocaleTimeString().slice(0, 5),
+          score: newScore,
+          alerts: Math.floor(Math.random() * 6)
+        };
+        setRiskTrends(prev => [newTrend, ...prev.slice(0, 9)]);
+      }
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const riskCategories = [
     {
       category: "Vulnerability Prediction",
@@ -97,371 +137,200 @@ export default function PredictiveRiskAnalysis() {
   return (
     <MarketingLayout>
       <div className="ai-dashboard-bg min-h-screen">
-        {/* Hero Section */}
-        <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-8 cyber-glow">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <div className="flex items-center space-x-3 mb-2">
-                  <h1 className="text-4xl font-bold text-white">Predictive Risk Analysis</h1>
-                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">AI-Powered</Badge>
+        {/* Tablet Dashboard Header */}
+        <header className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-md border-b border-green-500/30 p-6 cyber-glow">
+          <div className="container mx-auto max-w-7xl">
+            {/* Dashboard Title Bar */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-gray-300 text-lg">
-                  Advanced AI algorithms that analyze data to predict potential vulnerabilities before exploitation
-                </p>
+                <div>
+                  <h1 className="text-2xl font-bold text-white">Predictive Risk Analysis Dashboard</h1>
+                  <p className="text-gray-400 text-sm">AI-powered risk forecasting and threat prediction</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <div className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}></div>
+                  <span className="text-green-400 text-sm font-medium">LIVE</span>
+                </div>
+                <div className="text-gray-400 text-sm">{currentTime.toLocaleTimeString()}</div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              {analyticsMetrics.map((metric, index) => (
-                <div key={index} className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                  <div className="text-2xl font-bold text-white mb-1">{metric.value}</div>
-                  <div className="text-sm text-gray-400 mb-1">{metric.metric}</div>
-                  <div className="text-xs text-green-400">{metric.period}</div>
+            {/* Live Risk Metrics Dashboard */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-black/40 rounded-xl p-4 border border-red-500/30 cyber-glow">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-400 text-sm">Current Risk Score</span>
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
                 </div>
-              ))}
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Badge variant="outline" className="text-green-400 border-green-400/50">
-                Custom pricing available
-              </Badge>
-              <Badge variant="outline" className="text-cyan-400 border-cyan-400/50">
-                Predictive intelligence
-              </Badge>
-              <Badge variant="outline" className="text-purple-400 border-purple-400/50">
-                Proactive defense
-              </Badge>
+                <div className="text-3xl font-bold text-red-400 font-mono animate-pulse">{currentRiskScore}</div>
+                <div className="text-xs text-gray-500">Real-time analysis</div>
+              </div>
+              
+              <div className="bg-black/40 rounded-xl p-4 border border-green-500/30 cyber-glow">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-400 text-sm">Predictions Generated</span>
+                  <Brain className="w-4 h-4 text-green-400" />
+                </div>
+                <div className="text-3xl font-bold text-green-400 font-mono">{predictionsGenerated.toLocaleString()}</div>
+                <div className="text-xs text-gray-500">Last 30 days</div>
+              </div>
+              
+              <div className="bg-black/40 rounded-xl p-4 border border-cyan-500/30 cyber-glow">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-400 text-sm">Accuracy Rate</span>
+                  <Target className="w-4 h-4 text-cyan-400" />
+                </div>
+                <div className="text-3xl font-bold text-cyan-400 font-mono">{accuracyRate.toFixed(1)}%</div>
+                <div className="text-xs text-gray-500">AI model performance</div>
+              </div>
+              
+              <div className="bg-black/40 rounded-xl p-4 border border-purple-500/30 cyber-glow">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-gray-400 text-sm">Threat Prevention</span>
+                  <Shield className="w-4 h-4 text-purple-400" />
+                </div>
+                <div className="text-3xl font-bold text-purple-400 font-mono">68%</div>
+                <div className="text-xs text-gray-500">Risk reduction</div>
+              </div>
             </div>
           </div>
         </header>
 
-        <main className="container mx-auto max-w-6xl p-8 space-y-12">
-          {/* Risk Analysis Categories */}
-          <section>
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-              <Target className="w-8 h-8 mr-3 text-green-400" />
-              Risk Analysis Categories
-            </h2>
+        {/* Tablet Dashboard Interface */}
+        <main className="container mx-auto max-w-7xl p-6 space-y-6">
+          {/* Dashboard Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {riskCategories.map((category, index) => (
-                <Card key={index} className="bg-surface/50 border-surface-light">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className={`${category.color}`}>{category.icon}</div>
-                      <CardTitle className="text-white text-xl">{category.category}</CardTitle>
-                    </div>
-                    <p className="text-gray-400">{category.description}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-400">Accuracy Rate</span>
-                        <span className="text-sm font-semibold text-white">{category.accuracy}%</span>
-                      </div>
-                      <Progress value={category.accuracy} className="h-2" />
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-400">Prediction Window</span>
-                        <Badge variant="outline" className={`${category.color} border-current/50 text-xs`}>
-                          {category.timeframe}
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Real-time Risk Dashboard */}
-          <section>
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-              <BarChart3 className="w-8 h-8 mr-3 text-green-400" />
-              Real-time Risk Factors
-            </h2>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {riskFactors.map((risk, index) => (
-                <Card key={index} className="bg-surface/50 border-surface-light">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-white text-lg">{risk.factor}</CardTitle>
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="outline" className={`${
-                          risk.impact === 'high' ? 'text-red-400 border-red-400/50' : 
-                          risk.impact === 'medium' ? 'text-yellow-400 border-yellow-400/50' : 
-                          'text-green-400 border-green-400/50'
-                        }`}>
-                          {risk.impact}
-                        </Badge>
-                        <div className={`w-2 h-2 rounded-full ${
-                          risk.trend === 'increasing' ? 'bg-red-400' :
-                          risk.trend === 'decreasing' ? 'bg-green-400' :
-                          'bg-yellow-400'
-                        }`}></div>
+            {/* Live Risk Timeline */}
+            <div className="lg:col-span-2 bg-black/40 rounded-xl p-6 border border-green-500/30 cyber-glow">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-white flex items-center">
+                  <BarChart3 className="w-5 h-5 mr-2 text-green-400" />
+                  Risk Score Timeline
+                </h3>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-sm">Live Updates</span>
+                </div>
+              </div>
+              
+              <div className="space-y-3 max-h-80 overflow-y-auto">
+                {riskTrends.map((trend, index) => (
+                  <div key={index} className={`flex items-center justify-between p-3 rounded-lg border ${
+                    trend.score > 70 ? 'bg-red-900/20 border-red-500/30' :
+                    trend.score > 60 ? 'bg-orange-900/20 border-orange-500/30' :
+                    'bg-green-900/20 border-green-500/30'
+                  } ${index === 0 ? 'animate-pulse' : ''}`}>
+                    <div className="flex items-center space-x-4">
+                      <span className="text-gray-400 font-mono text-sm">{trend.time}</span>
+                      <div className={`text-lg font-bold font-mono ${
+                        trend.score > 70 ? 'text-red-400' :
+                        trend.score > 60 ? 'text-orange-400' :
+                        'text-green-400'
+                      }`}>
+                        {trend.score}
                       </div>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-gray-400">Risk Weight</span>
-                        <span className="text-sm font-semibold text-white">{risk.weight}%</span>
-                      </div>
-                      <Progress value={risk.weight} className="h-2" />
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-gray-500">Trend: {risk.trend}</span>
-                        <span className={`${
-                          risk.trend === 'increasing' ? 'text-red-400' :
-                          risk.trend === 'decreasing' ? 'text-green-400' :
-                          'text-yellow-400'
-                        }`}>
-                          {risk.trend === 'increasing' ? '↗' : risk.trend === 'decreasing' ? '↘' : '→'}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Predictive Analytics Visualization */}
-          <section className="mb-12">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Predictive Intelligence Dashboard
-            </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Risk Prediction Hologram */}
-              <div className="relative rounded-xl overflow-hidden border border-green-500/30">
-                <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/40 p-8 h-72 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
-                      <TrendingUp className="w-12 h-12 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Risk Prediction Matrix</h3>
-                    <p className="text-green-400 text-sm mb-4">3D holographic risk visualization with predictive modeling</p>
-                    <div className="space-y-2">
-                      <Badge className="bg-green-500/20 text-green-400 border border-green-500/50">91.2% Accuracy</Badge>
-                      <div className="text-xs text-gray-400">Next 30 days forecast</div>
+                    <div className="flex items-center space-x-2">
+                      <Badge className={`${
+                        trend.alerts > 3 ? 'bg-red-500' :
+                        trend.alerts > 1 ? 'bg-orange-500' :
+                        'bg-green-500'
+                      } text-white text-xs`}>
+                        {trend.alerts} alerts
+                      </Badge>
                     </div>
                   </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-green-500/10 to-transparent pointer-events-none"></div>
-              </div>
-
-              {/* Analytics Dashboard */}
-              <div className="relative rounded-xl overflow-hidden border border-blue-500/30">
-                <div className="bg-gradient-to-br from-blue-900/20 to-blue-700/40 p-8 h-72 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
-                      <BarChart3 className="w-12 h-12 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Live Analytics Engine</h3>
-                    <p className="text-blue-400 text-sm mb-4">Real-time risk assessment and vulnerability scoring</p>
-                    <div className="space-y-2">
-                      <Badge className="bg-blue-500/20 text-blue-400 border border-blue-500/50">Processing 50TB+ daily</Badge>
-                      <div className="text-xs text-gray-400">Multi-source data fusion</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent pointer-events-none"></div>
+                ))}
               </div>
             </div>
-          </section>
-
-          {/* Prediction Models */}
-          <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-              <Brain className="w-8 h-8 mr-3 text-green-400" />
-              AI Prediction Models
-            </h2>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {predictionModels.map((model, index) => (
-                <Card key={index} className="bg-surface/50 border-surface-light">
-                  <CardHeader>
-                    <CardTitle className="text-white text-lg">{model.name}</CardTitle>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-400">Accuracy</span>
-                      <Badge className="bg-green-500 text-white">{model.accuracy}</Badge>
+            {/* Risk Analysis Models */}
+            <div className="bg-black/40 rounded-xl p-6 border border-cyan-500/30 cyber-glow">
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+                <Brain className="w-5 h-5 mr-2 text-cyan-400" />
+                AI Models Status
+              </h3>
+              
+              <div className="space-y-4">
+                {predictionModels.map((model, index) => (
+                  <div key={index} className="p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-white text-sm font-medium">{model.name}</span>
+                      <Badge className="bg-cyan-500 text-white text-xs">{model.accuracy}</Badge>
                     </div>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div>
-                      <span className="text-xs text-gray-400 uppercase tracking-wider">Data Sources</span>
-                      <p className="text-sm text-cyan-400 mt-1">{model.dataset}</p>
+                    <p className="text-gray-400 text-xs mb-2">{model.prediction}</p>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-green-400 text-xs">Active</span>
                     </div>
-                    <div className="pt-2 border-t border-surface-light">
-                      <span className="text-xs text-gray-400 uppercase tracking-wider">Prediction Capability</span>
-                      <p className="text-sm text-gray-300 mt-1">{model.prediction}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            <div className="mt-8 p-6 bg-surface/30 rounded-lg border border-green-500/20">
-              <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
-                <Database className="w-5 h-5 mr-2 text-green-400" />
-                Advanced Analytics Engine
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                <div>
-                  <p className="text-gray-300 mb-2">
-                    <span className="font-semibold text-green-400">Machine Learning Pipeline:</span> Processes 50TB+ of security data daily from multiple sources including threat intelligence feeds, vulnerability databases, and organizational metrics.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-300">
-                    <span className="font-semibold text-green-400">Predictive Algorithms:</span> Ensemble methods combining gradient boosting, neural networks, and time series analysis for multi-dimensional risk forecasting.
-                  </p>
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
-          </section>
-
-          {/* Implementation Benefits */}
-          <section>
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-              <CheckCircle className="w-8 h-8 mr-3 text-green-400" />
-              Implementation Benefits
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Card className="bg-gradient-to-br from-green-900/20 to-green-700/20 border-green-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-lg flex items-center">
-                    <Clock className="w-5 h-5 mr-2 text-green-400" />
-                    Proactive Security
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="text-sm text-gray-300">Address vulnerabilities before exploitation</div>
-                  <div className="text-xs text-green-400">68% reduction in successful attacks</div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-cyan-900/20 to-cyan-700/20 border-cyan-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-lg flex items-center">
-                    <TrendingUp className="w-5 h-5 mr-2 text-cyan-400" />
-                    Resource Optimization
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="text-sm text-gray-300">Focus security efforts on highest-risk areas</div>
-                  <div className="text-xs text-cyan-400">45% reduction in security staff workload</div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-900/20 to-purple-700/20 border-purple-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-lg flex items-center">
-                    <Shield className="w-5 h-5 mr-2 text-purple-400" />
-                    Compliance Assurance
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="text-sm text-gray-300">Predict and prevent compliance violations</div>
-                  <div className="text-xs text-purple-400">100% audit success rate</div>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* Sector Applications */}
-          <section>
-            <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-              <Settings className="w-8 h-8 mr-3 text-green-400" />
-              Sector-Specific Applications
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="bg-gradient-to-br from-blue-900/20 to-blue-700/20 border-blue-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-xl flex items-center">
-                    <Badge className="bg-blue-500 text-white mr-3">Education</Badge>
-                    Educational Risk Modeling
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Student data breach risk assessment and prevention</span>
+          </div>
+          
+          {/* Risk Factors Dashboard */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {riskFactors.map((factor, index) => (
+              <div key={index} className="bg-black/40 rounded-xl p-4 border border-purple-500/30 cyber-glow">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-white text-sm font-medium">{factor.factor}</span>
+                  <div className={`flex items-center space-x-1 ${
+                    factor.trend === 'increasing' ? 'text-red-400' :
+                    factor.trend === 'decreasing' ? 'text-green-400' :
+                    'text-yellow-400'
+                  }`}>
+                    <TrendingUp className={`w-3 h-3 ${
+                      factor.trend === 'decreasing' ? 'rotate-180' : 
+                      factor.trend === 'stable' ? 'rotate-90' : ''
+                    }`} />
+                    <span className="text-xs">{factor.trend}</span>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">FERPA compliance violation prediction and mitigation</span>
+                </div>
+                
+                <div className="mb-2">
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-gray-400">Risk Weight</span>
+                    <span className="text-purple-400 font-mono">{factor.weight}%</span>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Campus device security risk forecasting</span>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full ${
+                        factor.weight > 70 ? 'bg-red-500' :
+                        factor.weight > 50 ? 'bg-orange-500' :
+                        'bg-green-500'
+                      }`} 
+                      style={{width: `${factor.weight}%`}}
+                    ></div>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Research data protection risk analysis</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-green-900/20 to-green-700/20 border-green-500/30">
-                <CardHeader>
-                  <CardTitle className="text-white text-xl flex items-center">
-                    <Badge className="bg-green-500 text-white mr-3">Government</Badge>
-                    Government Risk Intelligence
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Critical infrastructure vulnerability prediction</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Nation-state threat actor behavior forecasting</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">FISMA and FedRAMP compliance risk assessment</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span className="text-gray-300 text-sm">Interagency data sharing security analysis</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* Call to Action */}
-          <section className="text-center">
-            <div className="bg-gradient-to-r from-green-900/20 to-emerald-900/20 rounded-xl p-8 border border-green-500/20">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Transform Risk Management with Predictive AI
-              </h2>
-              <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
-                Stay ahead of threats with advanced predictive analytics that identify vulnerabilities before they become breaches.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/contact">
-                  <Button size="lg" className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600" data-testid="button-request-demo">
-                    Request Demo
-                  </Button>
-                </Link>
-                <Link href="/pricing">
-                  <Button variant="outline" size="lg" className="border-green-500/50 text-green-400 hover:bg-green-500/10" data-testid="button-view-pricing">
-                    View Pricing
-                  </Button>
-                </Link>
+                </div>
+                
+                <Badge className={`${
+                  factor.impact === 'high' ? 'bg-red-500' :
+                  factor.impact === 'medium' ? 'bg-orange-500' :
+                  'bg-green-500'
+                } text-white text-xs`}>
+                  {factor.impact} impact
+                </Badge>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
         </main>
+
+        {/* Call to Action */}
+        <div className="text-center py-8">
+          <Link href="/demo">
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3">
+              Learn More About Predictive Risk Analysis
+            </Button>
+          </Link>
+        </div>
       </div>
     </MarketingLayout>
   );
