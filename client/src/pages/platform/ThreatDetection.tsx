@@ -278,43 +278,172 @@ export default function ThreatDetection() {
             </div>
           </section>
 
-          {/* Live Dashboard Demo */}
+          {/* Live Threat Detection Dashboard Mockup */}
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-white mb-8 text-center">
               Real-Time Threat Detection Dashboard
             </h2>
-            <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
-              <img 
-                src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
-                alt="CyberSecure AI Live Threat Detection Dashboard" 
-                className="w-full h-96 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent"></div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="bg-surface/90 backdrop-blur-md rounded-lg p-6 border border-surface-light">
-                  <h3 className="text-xl font-bold text-white mb-3">Live Global Threat Intelligence</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <div className="text-red-400 font-semibold">Critical Threats</div>
-                      <div className="text-white">4 Active</div>
-                    </div>
-                    <div>
-                      <div className="text-orange-400 font-semibold">High Priority</div>
-                      <div className="text-white">12 Incidents</div>
-                    </div>
-                    <div>
-                      <div className="text-cyan-400 font-semibold">Response Time</div>
-                      <div className="text-white">4.2 min avg</div>
-                    </div>
-                    <div>
-                      <div className="text-green-400 font-semibold">Threat Sources</div>
-                      <div className="text-white">7 Countries</div>
-                    </div>
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl border border-purple-500/30 overflow-hidden">
+              {/* Dashboard Header */}
+              <div className="bg-gray-800/90 border-b border-gray-700 p-4 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                    <Eye className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-white font-semibold">Threat Detection System</h3>
+                  <Badge className="bg-green-500/20 text-green-400 text-xs">98.2% Accuracy</Badge>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-red-400 text-sm">4 Critical</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 text-sm">Live</span>
                   </div>
                 </div>
               </div>
-              <div className="absolute top-4 right-4">
-                <Badge className="bg-red-500/80 text-white border border-red-500/50">Live Monitoring</Badge>
+
+              {/* Dashboard Content */}
+              <div className="p-6 space-y-6">
+                {/* AI Detection Models Status */}
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Brain className="w-5 h-5 text-purple-400" />
+                        <span className="text-white font-medium">Neural Network</span>
+                      </div>
+                      <Badge className="bg-purple-500 text-white text-xs">Active</Badge>
+                    </div>
+                    <div className="text-purple-400 text-2xl font-bold">98.2%</div>
+                    <div className="text-gray-400 text-sm">Detection Accuracy</div>
+                  </div>
+                  
+                  <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-500/30">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Activity className="w-5 h-5 text-cyan-400" />
+                        <span className="text-white font-medium">Behavioral AI</span>
+                      </div>
+                      <Badge className="bg-cyan-500 text-white text-xs">Active</Badge>
+                    </div>
+                    <div className="text-cyan-400 text-2xl font-bold">94.7%</div>
+                    <div className="text-gray-400 text-sm">Anomaly Detection</div>
+                  </div>
+                  
+                  <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Target className="w-5 h-5 text-green-400" />
+                        <span className="text-white font-medium">Pattern Engine</span>
+                      </div>
+                      <Badge className="bg-green-500 text-white text-xs">Active</Badge>
+                    </div>
+                    <div className="text-green-400 text-2xl font-bold">96.1%</div>
+                    <div className="text-gray-400 text-sm">Signature Match</div>
+                  </div>
+                </div>
+
+                {/* Live Threat Feed */}
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-white font-medium mb-4 flex items-center">
+                      <AlertTriangle className="w-4 h-4 text-red-400 mr-2" />
+                      Live Threat Detection
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-red-900/20 rounded border-l-2 border-red-500">
+                        <div>
+                          <div className="text-white text-sm font-medium">Advanced Persistent Threat</div>
+                          <div className="text-red-400 text-xs">Source: 192.168.1.47</div>
+                        </div>
+                        <Badge className="bg-red-500 text-white text-xs">Critical</Badge>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-orange-900/20 rounded border-l-2 border-orange-500">
+                        <div>
+                          <div className="text-white text-sm font-medium">Suspicious Network Traffic</div>
+                          <div className="text-orange-400 text-xs">Source: External</div>
+                        </div>
+                        <Badge className="bg-orange-500 text-white text-xs">High</Badge>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-yellow-900/20 rounded border-l-2 border-yellow-500">
+                        <div>
+                          <div className="text-white text-sm font-medium">Malware Signature Match</div>
+                          <div className="text-yellow-400 text-xs">Source: Email Attachment</div>
+                        </div>
+                        <Badge className="bg-yellow-500 text-black text-xs">Medium</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-white font-medium mb-4 flex items-center">
+                      <BarChart3 className="w-4 h-4 text-blue-400 mr-2" />
+                      Detection Analytics
+                    </h4>
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-400">Malware Detection</span>
+                          <span className="text-white">847 today</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="bg-red-500 h-2 rounded-full" style={{width: '73%'}}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-400">Phishing Attempts</span>
+                          <span className="text-white">234 today</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="bg-orange-500 h-2 rounded-full" style={{width: '45%'}}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-400">Intrusion Attempts</span>
+                          <span className="text-white">89 today</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="bg-yellow-500 h-2 rounded-full" style={{width: '23%'}}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-400">Data Breaches</span>
+                          <span className="text-white">3 today</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-2">
+                          <div className="bg-purple-500 h-2 rounded-full" style={{width: '8%'}}></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* System Status */}
+                <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-white font-medium">AI System Status</h4>
+                    <div className="flex items-center space-x-4 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-green-400">CPU: 23%</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                        <span className="text-blue-400">Memory: 45%</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span className="text-purple-400">Processing: 12.4k/sec</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

@@ -268,20 +268,79 @@ export default function Platform() {
                 </div>
               </div>
 
-              {/* Actual Dashboard Mockup */}
-              <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
-                <img 
-                  src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
-                  alt="CyberSecure AI Threat Monitoring Dashboard" 
-                  className="w-full h-80 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent pointer-events-none"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-xl font-bold text-white mb-2">Live Threat Monitoring Dashboard</h3>
-                  <p className="text-purple-400 text-sm">Real-time global threat intelligence with interactive world map</p>
+              {/* Live Dashboard Mockup */}
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl border border-purple-500/30 overflow-hidden">
+                {/* Dashboard Header */}
+                <div className="bg-gray-800/90 border-b border-gray-700 p-4 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-white font-semibold">CyberSecure AI Dashboard</h3>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 text-sm">Live</span>
+                  </div>
                 </div>
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-purple-500/80 text-white border border-purple-500/50">Live Demo</Badge>
+
+                {/* Dashboard Content */}
+                <div className="p-6 space-y-6">
+                  {/* Top Metrics */}
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                      <div className="text-red-400 text-xs font-medium">Critical Threats</div>
+                      <div className="text-white text-xl font-bold">4</div>
+                    </div>
+                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                      <div className="text-orange-400 text-xs font-medium">Active Incidents</div>
+                      <div className="text-white text-xl font-bold">12</div>
+                    </div>
+                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                      <div className="text-cyan-400 text-xs font-medium">Response Time</div>
+                      <div className="text-white text-xl font-bold">4.2m</div>
+                    </div>
+                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
+                      <div className="text-green-400 text-xs font-medium">Systems Protected</div>
+                      <div className="text-white text-xl font-bold">12.8K</div>
+                    </div>
+                  </div>
+
+                  {/* Threat Map Visualization */}
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-white font-medium">Global Threat Map</h4>
+                      <Badge className="bg-red-500/20 text-red-400 text-xs">4 Active</Badge>
+                    </div>
+                    <div className="h-32 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg flex items-center justify-center border border-blue-500/20">
+                      <div className="text-center">
+                        <Network className="w-8 h-8 text-blue-400 mx-auto mb-2" />
+                        <div className="text-blue-400 text-sm">Interactive Threat Visualization</div>
+                        <div className="text-gray-400 text-xs">7 Countries • 15 Attack Vectors</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Recent Incidents */}
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-white font-medium mb-3">Recent Incidents</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between p-2 bg-red-900/20 rounded border-l-2 border-red-500">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                          <span className="text-white text-sm">Data Exfiltration Attempt</span>
+                        </div>
+                        <span className="text-gray-400 text-xs">2m ago</span>
+                      </div>
+                      <div className="flex items-center justify-between p-2 bg-orange-900/20 rounded border-l-2 border-orange-500">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                          <span className="text-white text-sm">Suspicious Login Activity</span>
+                        </div>
+                        <span className="text-gray-400 text-xs">5m ago</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
