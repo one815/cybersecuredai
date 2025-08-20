@@ -107,7 +107,7 @@ export function Navigation() {
               <div key={item.href} className="relative group">
                 {item.dropdown ? (
                   <div
-                    className="flex items-center space-x-1 text-sm font-medium transition-all duration-200 hover:text-cyan-400 cursor-pointer text-gray-300 px-3 py-2 rounded-lg hover:bg-cyan-500/10 relative group"
+                    className="flex items-center space-x-1 text-sm font-medium transition-all duration-200 hover:text-cyan-400 cursor-pointer text-gray-300 px-3 py-2 rounded-lg hover:bg-cyan-500/10 relative group cyber-font"
                     onMouseEnter={() => setOpenDropdown(item.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
@@ -115,7 +115,7 @@ export function Navigation() {
                       {item.label}
                       <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
                     </span>
-                    <div className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180 text-cyan-400' : ''}`}>🔽</div>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180 text-cyan-400' : ''}`} />
                     
                     {/* Dropdown Menu */}
                     {openDropdown === item.label && (
@@ -133,12 +133,12 @@ export function Navigation() {
                             <div className="grid grid-cols-2 gap-x-6">
                               {/* Left Column - Resource Center */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
+                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30 geometric-text">
                                   Resource Center
                                 </div>
                                 {item.dropdown.slice(1, 7).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -147,23 +147,23 @@ export function Navigation() {
                               
                               {/* Right Column - Knowledge Center & Features */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
+                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30 geometric-text">
                                   Knowledge Center
                                 </div>
                                 {item.dropdown.slice(8, 10).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
                                 ))}
                                 
-                                <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30 mt-2">
+                                <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30 mt-2 geometric-text">
                                   Features
                                 </div>
                                 {item.dropdown.slice(11).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -178,21 +178,21 @@ export function Navigation() {
                               <div className="space-y-4">
                                 {/* Cloud Security & AI Analytics */}
                                 <div>
-                                  <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
+                                  <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30 geometric-text">
                                     Cloud Security & AI Analytics
                                   </div>
                                   <Link href="/platform/automated-incident-response">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       Automated Incident Response
                                     </div>
                                   </Link>
                                   <Link href="/platform/threat-detection">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       Threat Detection System
                                     </div>
                                   </Link>
                                   <Link href="/platform/predictive-risk-analysis">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       Predictive Risk Analysis
                                     </div>
                                   </Link>
@@ -200,21 +200,21 @@ export function Navigation() {
 
                                 {/* Network Infrastructure & Management */}
                                 <div>
-                                  <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/20 border-b border-green-500/30">
+                                  <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/20 border-b border-green-500/30 geometric-text">
                                     Network Infrastructure & Management
                                   </div>
                                   <Link href="/platform/firewall-management">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400 cyber-font">
                                       Firewall Management
                                     </div>
                                   </Link>
                                   <Link href="/platform/network-monitoring">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400 cyber-font">
                                       Router & Switch Monitoring
                                     </div>
                                   </Link>
                                   <Link href="/platform/zero-trust">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400 cyber-font">
                                       Zero-Trust Architecture
                                     </div>
                                   </Link>
@@ -225,21 +225,21 @@ export function Navigation() {
                               <div className="space-y-4">
                                 {/* Endpoint Security & Management */}
                                 <div>
-                                  <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
+                                  <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30 geometric-text">
                                     Endpoint Security & Management
                                   </div>
                                   <Link href="/platform/monitoring-vulnerability">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400 cyber-font">
                                       24/7 Monitoring & Vulnerability Management
                                     </div>
                                   </Link>
                                   <Link href="/platform/iam">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400 cyber-font">
                                       Identity & Access Management
                                     </div>
                                   </Link>
                                   <Link href="/platform/system-administration">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400 cyber-font">
                                       System Administration
                                     </div>
                                   </Link>
@@ -247,16 +247,16 @@ export function Navigation() {
 
                                 {/* Compliance & Risk Management */}
                                 <div>
-                                  <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30">
+                                  <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30 geometric-text">
                                     Compliance & Risk Management
                                   </div>
                                   <Link href="/platform/compliance-automation">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400 cyber-font">
                                       Compliance Automation
                                     </div>
                                   </Link>
                                   <Link href="/platform/security-training">
-                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400 cyber-font">
                                       Security Awareness Training
                                     </div>
                                   </Link>
@@ -274,7 +274,7 @@ export function Navigation() {
                                 </div>
                                 {item.dropdown.slice(1, 5).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -288,7 +288,7 @@ export function Navigation() {
                                 </div>
                                 {item.dropdown.slice(6).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -317,7 +317,7 @@ export function Navigation() {
                                   </div>
                                 ) : (
                                   <Link href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -334,7 +334,7 @@ export function Navigation() {
                   </div>
                 ) : (
                   <Link href={item.href}>
-                    <span className={`text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer whitespace-nowrap ${
+                    <span className={`text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer whitespace-nowrap cyber-font ${
                       location === item.href ? "text-cyan-400" : "text-gray-300"
                     }`}>
                       {item.label}
@@ -372,12 +372,12 @@ export function Navigation() {
             {/* Enhanced CTA Buttons */}
             <div className="flex items-center space-x-3">
               <Link href="/client-login">
-                <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 micro-hover">
+                <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 micro-hover cyber-font">
                   Client Portal
                 </Button>
               </Link>
               <Link href="/security-scanner">
-                <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 micro-hover ripple-effect">
+                <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 micro-hover ripple-effect cyber-font">
                   Free Scan
                 </Button>
               </Link>
@@ -391,7 +391,7 @@ export function Navigation() {
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <div className="w-5 h-5 text-lg">✖️</div> : <div className="w-5 h-5 text-lg">☰</div>}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
         </div>
@@ -405,26 +405,26 @@ export function Navigation() {
                   {item.dropdown ? (
                     <div>
                       <button
-                        className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-300 hover:text-cyan-400"
+                        className="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-300 hover:text-cyan-400 cyber-font"
                         onClick={() => handleDropdownToggle(item.label)}
                       >
                         <span>{item.label}</span>
-                        <div className={`w-4 h-4 transition-transform ${
+                        <ChevronDown className={`w-4 h-4 transition-transform ${
                           openDropdown === item.label ? "rotate-180" : ""
-                        }`}>🔽</div>
+                        }`} />
                       </button>
                       {openDropdown === item.label && (
                         <div className="pl-4 space-y-1">
                           {item.dropdown.map((dropdownItem, index) => (
                             <div key={index}>
                               {dropdownItem.isHeader ? (
-                                <div className="px-3 py-1 text-xs font-semibold text-cyan-400 uppercase tracking-wider">
+                                <div className="px-3 py-1 text-xs font-semibold text-cyan-400 uppercase tracking-wider geometric-text">
                                   {dropdownItem.label}
                                 </div>
                               ) : (
                                 <Link href={dropdownItem.href}>
                                   <div 
-                                    className="block px-3 py-2 text-sm text-gray-400 hover:text-cyan-400 cursor-pointer"
+                                    className="block px-3 py-2 text-sm text-gray-400 hover:text-cyan-400 cursor-pointer cyber-font"
                                     onClick={() => setIsMobileMenuOpen(false)}
                                   >
                                     {dropdownItem.label}
@@ -439,7 +439,7 @@ export function Navigation() {
                   ) : (
                     <Link href={item.href}>
                       <div 
-                        className={`block px-3 py-2 text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer ${
+                        className={`block px-3 py-2 text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer cyber-font ${
                           location === item.href ? "text-cyan-400" : "text-gray-300"
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -453,12 +453,12 @@ export function Navigation() {
               
               <div className="flex flex-col space-y-2 px-3 pt-2">
                 <Link href="/dashboard">
-                  <Button variant="ghost" size="sm" className="w-full text-gray-300 hover:text-white">
+                  <Button variant="ghost" size="sm" className="w-full text-gray-300 hover:text-white cyber-font">
                     Login
                   </Button>
                 </Link>
                 <Link href="/security-scanner">
-                  <Button size="sm" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700">
+                  <Button size="sm" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 cyber-font">
                     Free Scan
                   </Button>
                 </Link>
