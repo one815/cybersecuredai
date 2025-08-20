@@ -162,40 +162,52 @@ export default function PredictiveRiskAnalysis() {
 
             {/* Live Risk Metrics Dashboard */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <div className="bg-black/40 rounded-xl p-4 border border-red-500/30 cyber-glow">
+              <div className="holographic-card p-4 border border-red-500/30 data-glow floating-3d">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Current Risk Score</span>
+                  <span className="text-gray-400 text-sm tech-font">Current Risk Score</span>
                   <AlertTriangle className="w-4 h-4 text-red-400" />
                 </div>
-                <div className="text-3xl font-bold text-red-400 font-mono animate-pulse">{currentRiskScore}</div>
+                <div className="text-3xl font-bold text-red-400 tech-font animate-pulse">{currentRiskScore}</div>
                 <div className="text-xs text-gray-500">Real-time analysis</div>
+                <div className="live-indicator mt-2">
+                  LIVE MONITORING
+                </div>
               </div>
               
-              <div className="bg-black/40 rounded-xl p-4 border border-green-500/30 cyber-glow">
+              <div className="holographic-card p-4 border border-green-500/30 data-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Predictions Generated</span>
+                  <span className="text-gray-400 text-sm tech-font">Predictions Generated</span>
                   <Brain className="w-4 h-4 text-green-400" />
                 </div>
-                <div className="text-3xl font-bold text-green-400 font-mono">{predictionsGenerated.toLocaleString()}</div>
+                <div className="text-3xl font-bold text-green-400 tech-font">{predictionsGenerated.toLocaleString()}</div>
                 <div className="text-xs text-gray-500">Last 30 days</div>
+                <div className="verification-badge mt-2">
+                  AI POWERED
+                </div>
               </div>
               
-              <div className="bg-black/40 rounded-xl p-4 border border-cyan-500/30 cyber-glow">
+              <div className="holographic-card p-4 border border-cyan-500/30 chart-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Accuracy Rate</span>
+                  <span className="text-gray-400 text-sm tech-font">Accuracy Rate</span>
                   <Target className="w-4 h-4 text-cyan-400" />
                 </div>
-                <div className="text-3xl font-bold text-cyan-400 font-mono">{accuracyRate.toFixed(1)}%</div>
+                <div className="text-3xl font-bold text-cyan-400 tech-font">{accuracyRate.toFixed(1)}%</div>
                 <div className="text-xs text-gray-500">AI model performance</div>
+                <div className="encryption-indicator mt-2">
+                  VERIFIED
+                </div>
               </div>
               
-              <div className="bg-black/40 rounded-xl p-4 border border-purple-500/30 cyber-glow">
+              <div className="holographic-card p-4 border border-purple-500/30 holographic-glow micro-hover">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400 text-sm">Threat Prevention</span>
+                  <span className="text-gray-400 text-sm tech-font">Threat Prevention</span>
                   <Shield className="w-4 h-4 text-purple-400" />
                 </div>
-                <div className="text-3xl font-bold text-purple-400 font-mono">68%</div>
+                <div className="text-3xl font-bold text-purple-400 tech-font">68%</div>
                 <div className="text-xs text-gray-500">Risk reduction</div>
+                <div className="mfa-badge mt-2">
+                  ACTIVE SHIELD
+                </div>
               </div>
             </div>
           </div>
@@ -207,15 +219,19 @@ export default function PredictiveRiskAnalysis() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Live Risk Timeline */}
-            <div className="lg:col-span-2 bg-black/40 rounded-xl p-6 border border-green-500/30 cyber-glow">
+            <div className="lg:col-span-2 holographic-card p-6 border border-green-500/30 chart-glow floating-3d">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-white flex items-center">
+                <h3 className="text-xl font-bold text-white flex items-center tech-font">
                   <BarChart3 className="w-5 h-5 mr-2 text-green-400" />
                   Risk Score Timeline
                 </h3>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-green-400 text-sm">Live Updates</span>
+                <div className="flex items-center space-x-3">
+                  <div className="live-indicator">
+                    LIVE UPDATES
+                  </div>
+                  <div className="security-protocol">
+                    TLS 1.3
+                  </div>
                 </div>
               </div>
               
