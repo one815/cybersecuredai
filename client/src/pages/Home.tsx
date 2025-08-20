@@ -1,24 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Shield, 
-  Brain, 
-  CheckCircle, 
-  Users, 
-  Lock, 
-  AlertTriangle,
-  TrendingUp,
-  Globe,
-  GraduationCap,
-  Flag,
-  Award,
-  Zap,
-  Eye,
-  ArrowRight,
-  Bot,
-  Activity
-} from "lucide-react";
+// Vector security icons from attached assets
+import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
@@ -51,13 +35,13 @@ export default function Home() {
               <Link href="/solutions">
                 <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg">
                   Explore Solutions
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <div className="ml-2 w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
                 </Button>
               </Link>
               <Link href="/security-scanner">
                 <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg">
                   Free Security Scan
-                  <Eye className="ml-2 w-5 h-5" />
+                  <div className="ml-2 w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 10%', filter: 'brightness(1.2) saturate(1.5)'}} />
                 </Button>
               </Link>
             </div>
@@ -117,7 +101,7 @@ export default function Home() {
                         <div className="bg-gray-800/80 px-6 py-4 border-b border-cyan-500/20">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                              <Shield className="w-8 h-8 text-cyan-400" />
+                              <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                               <div>
                                 <h3 className="text-xl font-bold text-white">CyberSecure AI SOC</h3>
                                 <p className="text-sm text-gray-400">Security Operations Center</p>
@@ -168,7 +152,7 @@ export default function Home() {
                               <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
                                   <div className="flex items-center gap-3">
-                                    <Globe className="w-6 h-6 text-red-400 drop-shadow-glow" />
+                                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2) drop-shadow-glow'}} />
                                     <h4 className="text-lg font-semibold text-white drop-shadow-glow">Live Threat Map</h4>
                                   </div>
                                   <div className="flex items-center gap-2">
@@ -187,7 +171,7 @@ export default function Home() {
                             {/* Recent Incidents */}
                             <div className="bg-gray-800/40 rounded-xl p-6 border border-purple-500/30">
                               <div className="flex items-center gap-3 mb-4">
-                                <AlertTriangle className="w-6 h-6 text-purple-400" />
+                                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 10%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                                 <h4 className="text-lg font-semibold text-white">Recent Incidents</h4>
                               </div>
                               
@@ -328,7 +312,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Brain className="w-6 h-6 text-cyan-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Automated Incident Response</CardTitle>
                 </CardHeader>
@@ -337,9 +321,9 @@ export default function Home() {
                     AI-powered system for detecting, analyzing, and responding to cybersecurity incidents in real-time.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Real-time detection and analysis</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated response protocols</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />5-minute MTTR</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Real-time detection and analysis</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated response protocols</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />5-minute MTTR</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -347,7 +331,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <AlertTriangle className="w-6 h-6 text-red-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 10%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Threat Detection System</CardTitle>
                 </CardHeader>
@@ -356,9 +340,9 @@ export default function Home() {
                     AI analysis for identifying and classifying security threats across all system components.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Advanced threat classification</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Behavioral anomaly detection</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Threat hunting automation</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Advanced threat classification</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Behavioral anomaly detection</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Threat hunting automation</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -366,7 +350,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <TrendingUp className="w-6 h-6 text-purple-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Predictive Risk Analysis</CardTitle>
                 </CardHeader>
@@ -375,9 +359,9 @@ export default function Home() {
                     AI algorithms that analyze data to predict potential vulnerabilities before exploitation.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Vulnerability prediction</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Risk scoring algorithms</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Proactive threat mitigation</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Vulnerability prediction</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Risk scoring algorithms</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Proactive threat mitigation</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -394,7 +378,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Shield className="w-6 h-6 text-orange-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Firewall Management</CardTitle>
                 </CardHeader>
@@ -403,9 +387,9 @@ export default function Home() {
                     Advanced firewall configuration and maintenance with real-time threat blocking.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Next-generation firewall management</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Intrusion prevention systems</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Application-layer filtering</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Next-generation firewall management</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Intrusion prevention systems</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Application-layer filtering</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -413,7 +397,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Globe className="w-6 h-6 text-green-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Router & Switch Monitoring</CardTitle>
                 </CardHeader>
@@ -422,9 +406,9 @@ export default function Home() {
                     Network infrastructure monitoring with performance optimization and security analytics.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Real-time performance monitoring</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Network traffic analysis</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Bandwidth optimization</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Real-time performance monitoring</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Network traffic analysis</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Bandwidth optimization</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -432,7 +416,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Lock className="w-6 h-6 text-blue-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Zero-Trust Architecture</CardTitle>
                 </CardHeader>
@@ -441,9 +425,9 @@ export default function Home() {
                     Zero-trust network implementation with enhanced security for private SSIDs (WPA2 or better).
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Zero-trust security model</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Network segmentation</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />VPN configuration management</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Zero-trust security model</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Network segmentation</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />VPN configuration management</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -460,7 +444,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Activity className="w-6 h-6 text-cyan-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 70%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">24/7 Monitoring & Vulnerability Management</CardTitle>
                 </CardHeader>
@@ -469,9 +453,9 @@ export default function Home() {
                     Continuous monitoring service using AI to detect vulnerabilities and performance issues.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />CPU, disk, memory monitoring</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Vulnerability scanning</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated remediation</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />CPU, disk, memory monitoring</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Vulnerability scanning</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated remediation</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -479,7 +463,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Users className="w-6 h-6 text-purple-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Identity & Access Management</CardTitle>
                 </CardHeader>
@@ -488,9 +472,9 @@ export default function Home() {
                     Comprehensive identity management with Active Directory and Exchange maintenance.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Active Directory management</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />User account provisioning</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Group policy implementation</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Active Directory management</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />User account provisioning</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Group policy implementation</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -498,7 +482,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Zap className="w-6 h-6 text-red-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">System Administration</CardTitle>
                 </CardHeader>
@@ -507,9 +491,9 @@ export default function Home() {
                     Management and maintenance of workstations (Windows 11 Pro or newer) for 25+ users.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />OS patch management</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Application updates</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />License and asset tracking</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />OS patch management</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Application updates</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />License and asset tracking</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -526,7 +510,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-green-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Compliance Automation</CardTitle>
                 </CardHeader>
@@ -535,9 +519,9 @@ export default function Home() {
                     Tools to automate meeting cybersecurity regulatory requirements including education and government-specific frameworks.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />FERPA, COPPA, CIPA for education</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />FedRAMP, FISMA, NIST 800-53</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated audit reports</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />FERPA, COPPA, CIPA for education</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />FedRAMP, FISMA, NIST 800-53</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated audit reports</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -545,7 +529,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <GraduationCap className="w-6 h-6 text-orange-400" />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-lg text-white">Security Awareness Training</CardTitle>
                 </CardHeader>
@@ -554,9 +538,9 @@ export default function Home() {
                     Interactive training modules for cybersecurity best practices customized for education and government personnel.
                   </p>
                   <ul className="space-y-1 text-xs text-gray-300">
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Sector-specific training modules</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Phishing simulation campaigns</li>
-                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Progress tracking and reporting</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Sector-specific training modules</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Phishing simulation campaigns</li>
+                    <li className="flex items-center"><div className="w-3 h-3 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Progress tracking and reporting</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -569,21 +553,21 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <AlertTriangle className="w-8 h-8 text-red-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 10%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">Ransomware Canaries</h4>
                 <p className="text-gray-400 text-sm">Lightweight tripwire files that detect ransomware activity before encryption begins, providing early warning for rapid response.</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Eye className="w-8 h-8 text-purple-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 10%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">Persistent Footholds</h4>
                 <p className="text-gray-400 text-sm">Identifies advanced malware that survives reboots, detecting sophisticated threat actors maintaining access to your environment.</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Globe className="w-8 h-8 text-green-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">External Vulnerability Scanning</h4>
                 <p className="text-gray-400 text-sm">Continuous perimeter security assessment with automated vulnerability discovery and prioritized remediation guidance.</p>
@@ -636,19 +620,19 @@ export default function Home() {
                 <h4 className="text-2xl font-bold text-white mb-4">Enterprise-Grade, Education-Focused</h4>
                 <ul className="space-y-3 text-gray-300">
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                     <span><strong className="text-white">Purpose-built for education:</strong> Custom-designed workflows for K-12 schools, universities, and government agencies</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                     <span><strong className="text-white">Lightweight deployment:</strong> Minimal system impact with powerful security coverage</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                     <span><strong className="text-white">Actionable intelligence:</strong> Priority-based alerts reduce noise and focus on real threats</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <div className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                     <span><strong className="text-white">Human-verified:</strong> 24/7 SOC analysts validate threats before escalation</span>
                   </li>
                 </ul>
@@ -700,7 +684,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <GraduationCap className="w-6 h-6 text-cyan-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <CardTitle className="text-xl text-white">Automated Incident Response</CardTitle>
               </CardHeader>
@@ -710,9 +694,9 @@ export default function Home() {
                   security incidents based on predefined playbooks.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Instant threat containment</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Automated investigation</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Smart remediation</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Instant threat containment</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated investigation</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Smart remediation</li>
                 </ul>
               </CardContent>
             </Card>
@@ -720,7 +704,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-green-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <CardTitle className="text-xl text-white">Compliance Automation</CardTitle>
               </CardHeader>
@@ -730,9 +714,9 @@ export default function Home() {
                   and NIST SP 800-53 requirements.
                 </p>
                 <ul className="space-y-2 text-sm text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Multi-framework support</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Automated reporting</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Audit trail management</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Multi-framework support</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated reporting</li>
+                  <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Audit trail management</li>
                 </ul>
               </CardContent>
             </Card>
@@ -756,7 +740,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <GraduationCap className="w-8 h-8 text-blue-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">K-12 Schools</h3>
                 <p className="text-gray-400 text-sm">
@@ -768,7 +752,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-purple-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">Higher Education</h3>
                 <p className="text-gray-400 text-sm">
@@ -780,7 +764,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Globe className="w-8 h-8 text-orange-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 40%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">Municipal Government</h3>
                 <p className="text-gray-400 text-sm">
@@ -792,7 +776,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Flag className="w-8 h-8 text-red-400" />
+                  <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 90%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">Federal Agencies</h3>
                 <p className="text-gray-400 text-sm">
@@ -820,7 +804,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Award className="w-6 h-6 text-cyan-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Sector-Specific Focus</h3>
@@ -833,7 +817,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Brain className="w-6 h-6 text-purple-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">AI-Powered Security</h3>
@@ -846,7 +830,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-green-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Comprehensive Compliance</h3>
@@ -861,7 +845,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-6 h-6 text-orange-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Scalable Solutions</h3>
@@ -874,7 +858,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Lock className="w-6 h-6 text-blue-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Integrated Approach</h3>
@@ -887,7 +871,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <AlertTriangle className="w-6 h-6 text-red-400" />
+                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 10%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">24/7 Support</h3>
@@ -916,7 +900,7 @@ export default function Home() {
             <Link href="/pricing">
               <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg">
                 View Pricing Plans
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <div className="ml-2 w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
               </Button>
             </Link>
             <Link href="/about">
