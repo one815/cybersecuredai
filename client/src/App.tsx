@@ -8,6 +8,8 @@ import { Layout } from "@/components/Layout";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
+
+// Platform/Dashboard Pages
 import Dashboard from "@/pages/Dashboard";
 import ThreatMonitoring from "@/pages/ThreatMonitoring";
 import ThreatAnalysis from "@/pages/ThreatAnalysis";
@@ -23,6 +25,16 @@ import SecurityIntegrations from "@/pages/SecurityIntegrations";
 import ITManagement from "@/pages/ITManagement";
 import SecurityTraining from "@/pages/SecurityTraining";
 import HelpDesk from "@/pages/HelpDesk";
+
+// Marketing Website Pages
+import Home from "@/pages/Home";
+import AboutUs from "@/pages/AboutUs";
+import Solutions from "@/pages/Solutions";
+import Pricing from "@/pages/Pricing";
+import SecurityScanner from "@/pages/SecurityScanner";
+import Careers from "@/pages/Careers";
+import Blogs from "@/pages/Blogs";
+import News from "@/pages/News";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -49,32 +61,101 @@ function Router() {
   }
 
   return (
-    <Layout>
-      <Switch>
-        <Route path="/" component={Dashboard} />
-        <Route path="/threats" component={ThreatMonitoring} />
-        <Route path="/threat-analysis" component={ThreatAnalysis} />
-        <Route path="/security-integrations" component={SecurityIntegrations} />
-        <Route path="/it-management" component={ITManagement} />
-        <Route path="/training" component={SecurityTraining} />
-        <Route path="/support" component={HelpDesk} />
-        <Route path="/authentication" component={Authentication} />
-        <Route path="/files" component={FileSharing} />
-        <Route path="/compliance" component={Compliance} />
-        <Route path="/users" component={UserManagement} />
-        <Route path="/reports" component={Reports} />
-        <Route path="/incidents" component={IncidentResponse} />
-        <Route path="/admin" component={AdminPanel} />
-        <Route path="/ai-config" component={AIConfiguration} />
-        <Route component={NotFound} />
-      </Switch>
+    <Switch>
+      {/* Marketing Website Routes (no Layout wrapper) */}
+      <Route path="/" component={Home} />
+      <Route path="/about" component={AboutUs} />
+      <Route path="/solutions" component={Solutions} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/security-scanner" component={SecurityScanner} />
+      <Route path="/careers" component={Careers} />
+      <Route path="/blog" component={Blogs} />
+      <Route path="/news" component={News} />
       
-      <OnboardingModal 
-        isOpen={showOnboarding}
-        onClose={() => setShowOnboarding(false)}
-        onComplete={handleOnboardingComplete}
-      />
-    </Layout>
+      {/* Platform/Dashboard Routes (with Layout wrapper) */}
+      <Route path="/dashboard">
+        <Layout>
+          <Dashboard />
+          <OnboardingModal 
+            isOpen={showOnboarding}
+            onClose={() => setShowOnboarding(false)}
+            onComplete={handleOnboardingComplete}
+          />
+        </Layout>
+      </Route>
+      <Route path="/threats">
+        <Layout>
+          <ThreatMonitoring />
+        </Layout>
+      </Route>
+      <Route path="/threat-analysis">
+        <Layout>
+          <ThreatAnalysis />
+        </Layout>
+      </Route>
+      <Route path="/security-integrations">
+        <Layout>
+          <SecurityIntegrations />
+        </Layout>
+      </Route>
+      <Route path="/it-management">
+        <Layout>
+          <ITManagement />
+        </Layout>
+      </Route>
+      <Route path="/training">
+        <Layout>
+          <SecurityTraining />
+        </Layout>
+      </Route>
+      <Route path="/support">
+        <Layout>
+          <HelpDesk />
+        </Layout>
+      </Route>
+      <Route path="/authentication">
+        <Layout>
+          <Authentication />
+        </Layout>
+      </Route>
+      <Route path="/files">
+        <Layout>
+          <FileSharing />
+        </Layout>
+      </Route>
+      <Route path="/compliance">
+        <Layout>
+          <Compliance />
+        </Layout>
+      </Route>
+      <Route path="/users">
+        <Layout>
+          <UserManagement />
+        </Layout>
+      </Route>
+      <Route path="/reports">
+        <Layout>
+          <Reports />
+        </Layout>
+      </Route>
+      <Route path="/incidents">
+        <Layout>
+          <IncidentResponse />
+        </Layout>
+      </Route>
+      <Route path="/admin">
+        <Layout>
+          <AdminPanel />
+        </Layout>
+      </Route>
+      <Route path="/ai-config">
+        <Layout>
+          <AIConfiguration />
+        </Layout>
+      </Route>
+      
+      <Route component={NotFound} />
+    </Switch>
   );
 }
 
