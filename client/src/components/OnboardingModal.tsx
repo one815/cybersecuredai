@@ -201,6 +201,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                       checked={policyAccepted} 
                       onCheckedChange={(checked) => setPolicyAccepted(checked === true)}
                       className="mt-1"
+                      data-testid="checkbox-policy-accepted"
                     />
                     <label className="text-gray-300 text-sm">I have read and accept the Security Policy</label>
                   </div>
@@ -210,6 +211,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                       checked={dataConsentGiven} 
                       onCheckedChange={(checked) => setDataConsentGiven(checked === true)}
                       className="mt-1"
+                      data-testid="checkbox-data-consent"
                     />
                     <label className="text-gray-300 text-sm">I consent to the processing of my data as described in the policy</label>
                   </div>
@@ -219,6 +221,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                       checked={notificationsEnabled} 
                       onCheckedChange={(checked) => setNotificationsEnabled(checked === true)}
                       className="mt-1"
+                      data-testid="checkbox-notifications"
                     />
                     <label className="text-gray-300 text-sm">I would like to receive security updates and notifications</label>
                   </div>
