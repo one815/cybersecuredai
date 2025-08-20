@@ -17,7 +17,8 @@ import {
   CheckCircle,
   Activity,
   AlertTriangle,
-  Settings
+  Settings,
+  BarChart3
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
@@ -244,8 +245,50 @@ export default function Platform() {
             ))}
           </div>
 
+          {/* Platform Visual Overview */}
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Advanced AI Security Platform in Action
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+              {/* Futuristic Holographic Interface */}
+              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
+                <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/40 p-8 h-80 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
+                      <Bot className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">AI Holographic Interface</h3>
+                    <p className="text-cyan-400 text-sm">Real-time threat visualization with 3D holographic projections</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50">Live Demo</Badge>
+                </div>
+              </div>
+
+              {/* Actual Dashboard Mockup */}
+              <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
+                <img 
+                  src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
+                  alt="CyberSecure AI Threat Monitoring Dashboard" 
+                  className="w-full h-80 object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent pointer-events-none"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-xl font-bold text-white mb-2">Live Threat Monitoring Dashboard</h3>
+                  <p className="text-purple-400 text-sm">Real-time global threat intelligence with interactive world map</p>
+                </div>
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-purple-500/80 text-white border border-purple-500/50">Live Demo</Badge>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Technical Architecture Overview */}
-          <section className="mt-16 bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
+          <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
               <Settings className="w-8 h-8 mr-3 text-cyan-400" />
               Technical Architecture

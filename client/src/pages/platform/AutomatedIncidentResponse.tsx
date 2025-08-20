@@ -194,6 +194,96 @@ export default function AutomatedIncidentResponse() {
             </div>
           </section>
 
+          {/* Visual Demonstration */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Automated Response in Action
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Holographic Threat Visualization */}
+              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
+                <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/40 p-8 h-64 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center animate-pulse">
+                      <AlertTriangle className="w-10 h-10 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Threat Detection Hologram</h3>
+                    <p className="text-cyan-400 text-sm">3D visualization of incoming threats and attack vectors</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-red-500/10 to-transparent pointer-events-none"></div>
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-red-500/20 text-red-400 border border-red-500/50">Real-time</Badge>
+                </div>
+              </div>
+
+              {/* Response Dashboard */}
+              <div className="relative rounded-xl overflow-hidden border border-green-500/30">
+                <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/40 p-8 h-64 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
+                      <Zap className="w-10 h-10 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Automated Response Center</h3>
+                    <p className="text-green-400 text-sm">Live incident response workflow and containment status</p>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-green-500/10 to-transparent pointer-events-none"></div>
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-green-500/20 text-green-400 border border-green-500/50">Automated</Badge>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Real Dashboard Integration */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Incident Response Command Center
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Real Dashboard View */}
+              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
+                <img 
+                  src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
+                  alt="CyberSecure AI Incident Response Dashboard" 
+                  className="w-full h-64 object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/80 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h3 className="text-lg font-bold text-white mb-2">Live Threat Intelligence</h3>
+                  <p className="text-cyan-400 text-sm">Real-time incident tracking with global threat map visualization</p>
+                </div>
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-cyan-500/80 text-white text-xs">12 Active</Badge>
+                </div>
+              </div>
+
+              {/* Response Metrics */}
+              <div className="bg-gradient-to-br from-surface/50 to-surface/30 rounded-xl p-6 border border-surface-light">
+                <h3 className="text-lg font-bold text-white mb-4">Automated Response Metrics</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Detection Speed</span>
+                    <span className="text-cyan-400 font-semibold">&lt; 1 second</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Response Time</span>
+                    <span className="text-green-400 font-semibold">4.2 minutes</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Containment Rate</span>
+                    <span className="text-purple-400 font-semibold">98.7%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">False Positives</span>
+                    <span className="text-orange-400 font-semibold">0.3%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Technical Architecture */}
           <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">

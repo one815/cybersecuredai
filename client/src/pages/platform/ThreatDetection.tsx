@@ -219,6 +219,106 @@ export default function ThreatDetection() {
             </div>
           </section>
 
+          {/* Live Threat Detection Visualization */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              AI Threat Detection in Real-Time
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Neural Network Visualization */}
+              <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
+                <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/40 p-6 h-64 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-purple-400 to-violet-500 rounded-full flex items-center justify-center">
+                      <Brain className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Neural Network</h3>
+                    <p className="text-purple-400 text-xs">Deep learning threat classification</p>
+                    <div className="mt-3">
+                      <Badge className="bg-purple-500 text-white text-xs">98.2% Accuracy</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Behavioral Analysis */}
+              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
+                <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/40 p-6 h-64 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
+                      <Activity className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Behavioral AI</h3>
+                    <p className="text-cyan-400 text-xs">User behavior anomaly detection</p>
+                    <div className="mt-3">
+                      <Badge className="bg-cyan-500 text-white text-xs">94.7% Accuracy</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Pattern Recognition */}
+              <div className="relative rounded-xl overflow-hidden border border-green-500/30">
+                <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/40 p-6 h-64 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                      <Target className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Pattern Engine</h3>
+                    <p className="text-green-400 text-xs">Attack signature recognition</p>
+                    <div className="mt-3">
+                      <Badge className="bg-green-500 text-white text-xs">96.1% Accuracy</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-green-500/10 to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+          </section>
+
+          {/* Live Dashboard Demo */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Real-Time Threat Detection Dashboard
+            </h2>
+            <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
+              <img 
+                src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
+                alt="CyberSecure AI Live Threat Detection Dashboard" 
+                className="w-full h-96 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent"></div>
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="bg-surface/90 backdrop-blur-md rounded-lg p-6 border border-surface-light">
+                  <h3 className="text-xl font-bold text-white mb-3">Live Global Threat Intelligence</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <div className="text-red-400 font-semibold">Critical Threats</div>
+                      <div className="text-white">4 Active</div>
+                    </div>
+                    <div>
+                      <div className="text-orange-400 font-semibold">High Priority</div>
+                      <div className="text-white">12 Incidents</div>
+                    </div>
+                    <div>
+                      <div className="text-cyan-400 font-semibold">Response Time</div>
+                      <div className="text-white">4.2 min avg</div>
+                    </div>
+                    <div>
+                      <div className="text-green-400 font-semibold">Threat Sources</div>
+                      <div className="text-white">7 Countries</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute top-4 right-4">
+                <Badge className="bg-red-500/80 text-white border border-red-500/50">Live Monitoring</Badge>
+              </div>
+            </div>
+          </section>
+
           {/* AI Models Architecture */}
           <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">

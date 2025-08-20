@@ -230,6 +230,50 @@ export default function PredictiveRiskAnalysis() {
             </div>
           </section>
 
+          {/* Predictive Analytics Visualization */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Predictive Intelligence Dashboard
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Risk Prediction Hologram */}
+              <div className="relative rounded-xl overflow-hidden border border-green-500/30">
+                <div className="bg-gradient-to-br from-green-900/20 to-emerald-900/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                      <TrendingUp className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Risk Prediction Matrix</h3>
+                    <p className="text-green-400 text-sm mb-4">3D holographic risk visualization with predictive modeling</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-green-500/20 text-green-400 border border-green-500/50">91.2% Accuracy</Badge>
+                      <div className="text-xs text-gray-400">Next 30 days forecast</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-green-500/10 to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Analytics Dashboard */}
+              <div className="relative rounded-xl overflow-hidden border border-blue-500/30">
+                <div className="bg-gradient-to-br from-blue-900/20 to-blue-700/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
+                      <BarChart3 className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Live Analytics Engine</h3>
+                    <p className="text-blue-400 text-sm mb-4">Real-time risk assessment and vulnerability scoring</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-blue-500/20 text-blue-400 border border-blue-500/50">Processing 50TB+ daily</Badge>
+                      <div className="text-xs text-gray-400">Multi-source data fusion</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+          </section>
+
           {/* Prediction Models */}
           <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">

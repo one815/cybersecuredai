@@ -218,6 +218,50 @@ export default function ComplianceAutomation() {
             </div>
           </section>
 
+          {/* Compliance Visualization Center */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Automated Compliance Control Center
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Compliance Hologram */}
+              <div className="relative rounded-xl overflow-hidden border border-orange-500/30">
+                <div className="bg-gradient-to-br from-orange-900/20 to-red-900/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                      <ClipboardCheck className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Compliance Matrix</h3>
+                    <p className="text-orange-400 text-sm mb-4">3D compliance framework visualization with real-time status</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-orange-500/20 text-orange-400 border border-orange-500/50">782 Controls</Badge>
+                      <div className="text-xs text-gray-400">FERPA • FISMA • FedRAMP • CIPA</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-orange-500/10 to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Audit Dashboard */}
+              <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
+                <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-purple-400 to-violet-500 rounded-full flex items-center justify-center">
+                      <FileText className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Audit Readiness Center</h3>
+                    <p className="text-purple-400 text-sm mb-4">Automated evidence collection and report generation</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-purple-500/20 text-purple-400 border border-purple-500/50">&lt; 24hrs reports</Badge>
+                      <div className="text-xs text-gray-400">Always audit-ready</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+          </section>
+
           {/* Audit Benefits Dashboard */}
           <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
