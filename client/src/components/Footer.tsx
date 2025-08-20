@@ -4,7 +4,7 @@ import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.png";
 import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
 import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";
 import nistCompliantImg from "@assets/NIST compliant_1755703344784.png";
-import soc2CompliantImg from "@assets/SOC 2 Type Compliance_1755703349137.jpg";
+import soc2CompliantImg from "@assets/SOC 2_1755704176279.png";
 
 export function Footer() {
   return (
