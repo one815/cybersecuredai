@@ -423,4 +423,26 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+
+  /* Enhanced Navigation Dropdown Styles */
+  .cyber-glow-strong {
+    box-shadow: 
+      0 0 30px rgba(34, 211, 238, 0.4),
+      0 0 60px rgba(34, 211, 238, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  @keyframes fade-in-0 {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes zoom-in-95 {
+    from { transform: scale(0.95); }
+    to { transform: scale(1); }
+  }
+
+  .animate-in {
+    animation: fade-in-0 0.2s ease-out, zoom-in-95 0.2s ease-out;
+  }
 }

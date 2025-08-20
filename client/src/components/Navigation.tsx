@@ -113,33 +113,41 @@ export function Navigation() {
               <div key={item.href} className="relative group">
                 {item.dropdown ? (
                   <div
-                    className="flex items-center space-x-1 text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer text-gray-300"
+                    className="flex items-center space-x-1 text-sm font-medium transition-all duration-200 hover:text-cyan-400 cursor-pointer text-gray-300 px-3 py-2 rounded-lg hover:bg-cyan-500/10 relative group"
                     onMouseEnter={() => setOpenDropdown(item.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
-                    <span>{item.label}</span>
-                    <ChevronDown className="w-4 h-4" />
+                    <span className="relative">
+                      {item.label}
+                      <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
+                    </span>
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180 text-cyan-400' : ''}`} />
                     
                     {/* Dropdown Menu */}
                     {openDropdown === item.label && (
-                      <div className="absolute top-full left-0 mt-2 w-64 bg-background/95 backdrop-blur-md border border-surface rounded-lg shadow-lg cyber-glow z-50">
-                        <div className="py-2">
+                      <div className="absolute top-full left-0 mt-1 w-72 bg-background/98 backdrop-blur-xl border-2 border-cyan-500/30 rounded-xl shadow-2xl cyber-glow-strong z-50 animate-in fade-in-0 zoom-in-95 duration-200">
+                        <div className="py-3">
                           {item.dropdown.map((dropdownItem, index) => (
                             <div key={index}>
                               {dropdownItem.isHeader ? (
-                                <div className="px-4 py-2 text-xs font-semibold text-cyan-400 uppercase tracking-wider border-t border-surface/50 mt-2 first:mt-0 first:border-t-0">
+                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider border-t border-cyan-500/20 mt-2 first:mt-0 first:border-t-0 bg-cyan-500/5">
                                   {dropdownItem.label}
                                 </div>
                               ) : (
                                 <Link href={dropdownItem.href}>
-                                  <div className="px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-surface/50 cursor-pointer transition-colors">
-                                    {dropdownItem.label}
+                                  <div className="px-5 py-3 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-cyan-400 hover:shadow-md">
+                                    <div className="flex items-center justify-between">
+                                      <span>{dropdownItem.label}</span>
+                                      <div className="w-1 h-1 bg-cyan-400/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    </div>
                                   </div>
                                 </Link>
                               )}
                             </div>
                           ))}
                         </div>
+                        {/* Dropdown Arrow */}
+                        <div className="absolute -top-2 left-6 w-4 h-4 bg-background/98 border-l-2 border-t-2 border-cyan-500/30 transform rotate-45"></div>
                       </div>
                     )}
                   </div>
