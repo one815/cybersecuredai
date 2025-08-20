@@ -9,7 +9,7 @@ export default function FileSharing() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: files, isLoading } = useQuery({
+  const { data: files = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/files"],
   });
 

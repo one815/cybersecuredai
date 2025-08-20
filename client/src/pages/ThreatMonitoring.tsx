@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle, Shield, Eye, Filter } from "lucide-react";
 
 export default function ThreatMonitoring() {
-  const { data: threats, isLoading } = useQuery({
+  const { data: threats = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/threats"],
   });
 

@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { ClipboardCheck, GraduationCap, Flag, Shield, AlertTriangle, CheckCircle } from "lucide-react";
 
 export default function Compliance() {
-  const { data: complianceReports, isLoading } = useQuery({
+  const { data: complianceReports = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/compliance"],
   });
 

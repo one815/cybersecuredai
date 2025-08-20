@@ -4,46 +4,48 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(210, 55%, 8%);
+  /* Midnight Blue Theme - Wireframe Compliant Colors */
+  --background: hsl(220, 51%, 7%); /* Midnight Blue */
   --foreground: hsl(0, 0%, 100%);
-  --card: hsl(207, 51%, 18%);
+  --card: hsl(220, 45%, 9%);
   --card-foreground: hsl(0, 0%, 100%);
-  --popover: hsl(207, 51%, 18%);
+  --popover: hsl(220, 45%, 9%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --primary: hsl(203, 79%, 23%);
-  --primary-foreground: hsl(42, 87%, 91%);
-  --secondary: hsl(42, 87%, 91%);
-  --secondary-foreground: hsl(203, 79%, 23%);
-  --muted: hsl(207, 23%, 25%);
+  --primary: hsl(220, 51%, 15%); /* Midnight Blue Primary */
+  --primary-foreground: hsl(47, 100%, 73%); /* Spring Green */
+  --secondary: hsl(47, 100%, 73%); /* Spring Green */
+  --secondary-foreground: hsl(220, 51%, 15%);
+  --muted: hsl(220, 35%, 12%);
   --muted-foreground: hsl(0, 0%, 70%);
-  --accent: hsl(207, 23%, 25%);
+  --accent: hsl(220, 35%, 12%);
   --accent-foreground: hsl(0, 0%, 100%);
-  --destructive: hsl(4, 89%, 58%);
+  --destructive: hsl(11, 92%, 56%); /* Red Orange */
   --destructive-foreground: hsl(0, 0%, 100%);
-  --border: hsl(207, 23%, 25%);
-  --input: hsl(207, 51%, 18%);
-  --ring: hsl(28, 84%, 67%);
-  --interactive: hsl(28, 84%, 67%);
-  --critical: hsl(4, 89%, 58%);
+  --border: hsl(220, 35%, 12%);
+  --input: hsl(220, 45%, 9%);
+  --ring: hsl(25, 95%, 58%); /* Neon Orange */
+  --interactive: hsl(25, 95%, 58%); /* Neon Orange */
+  --critical: hsl(11, 92%, 56%); /* Red Orange */
   --success: hsl(122, 39%, 49%);
-  --surface: hsl(207, 51%, 18%);
-  --surface-light: hsl(207, 23%, 25%);
-  --chart-1: hsl(203, 79%, 23%);
+  --warning: hsl(45, 91%, 58%); /* Dandelion */
+  --surface: hsl(220, 45%, 9%);
+  --surface-light: hsl(220, 35%, 12%);
+  --chart-1: hsl(220, 51%, 15%);
   --chart-2: hsl(122, 39%, 49%);
-  --chart-3: hsl(28, 84%, 67%);
-  --chart-4: hsl(4, 89%, 58%);
-  --chart-5: hsl(42, 87%, 91%);
-  --sidebar: hsl(207, 51%, 18%);
+  --chart-3: hsl(25, 95%, 58%);
+  --chart-4: hsl(11, 92%, 56%);
+  --chart-5: hsl(47, 100%, 73%);
+  --sidebar: hsl(220, 45%, 9%);
   --sidebar-foreground: hsl(0, 0%, 100%);
-  --sidebar-primary: hsl(203, 79%, 23%);
-  --sidebar-primary-foreground: hsl(42, 87%, 91%);
-  --sidebar-accent: hsl(207, 23%, 25%);
+  --sidebar-primary: hsl(220, 51%, 15%);
+  --sidebar-primary-foreground: hsl(47, 100%, 73%);
+  --sidebar-accent: hsl(220, 35%, 12%);
   --sidebar-accent-foreground: hsl(0, 0%, 100%);
-  --sidebar-border: hsl(207, 23%, 25%);
-  --sidebar-ring: hsl(28, 84%, 67%);
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --sidebar-border: hsl(220, 35%, 12%);
+  --sidebar-ring: hsl(25, 95%, 58%);
+  --font-sans: 'Work Sans', 'Inter', system-ui, sans-serif;
   --font-serif: Georgia, serif;
-  --font-mono: Menlo, monospace;
+  --font-mono: 'Monaco', 'Courier New', monospace;
   --radius: 0.75rem;
 }
 
@@ -76,12 +78,49 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Work Sans', 'Inter', system-ui, sans-serif;
+    background: linear-gradient(135deg, hsl(220, 51%, 7%) 0%, hsl(220, 45%, 9%) 100%);
+    background-attachment: fixed;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 25%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 25% 75%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+      repeating-conic-gradient(from 0deg at 50% 50%, transparent 0deg 60deg, rgba(59, 130, 246, 0.03) 60deg 120deg);
   }
 
   .cyber-grid {
-    background-image: radial-gradient(circle at 1px 1px, hsl(28, 84%, 67%, 0.15) 1px, transparent 0);
-    background-size: 40px 40px;
+    background-image: radial-gradient(circle at 1px 1px, hsl(25, 95%, 58%, 0.2) 1px, transparent 0);
+    background-size: 50px 50px;
+  }
+  
+  .digital-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.1;
+    background-image: 
+      linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 70%);
   }
 
   .glow-border {
@@ -122,6 +161,12 @@
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes circuit-flow {
+    0% { opacity: 0.3; transform: translateY(0) scale(1); }
+    50% { opacity: 0.8; transform: translateY(-50px) scale(1.1); }
+    100% { opacity: 0.3; transform: translateY(-100px) scale(0.9); }
   }
 
   .animate-pulse-glow {

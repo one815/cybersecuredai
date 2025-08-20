@@ -12,7 +12,7 @@ export default function Dashboard() {
     queryKey: ["/api/dashboard/stats"],
   });
 
-  const { data: complianceReports } = useQuery({
+  const { data: complianceReports = [] } = useQuery<any[]>({
     queryKey: ["/api/compliance"],
   });
 
