@@ -251,6 +251,50 @@ export default function SecurityTraining() {
             </div>
           </section>
 
+          {/* Interactive Training Experience */}
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Interactive Security Training Experience
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Training Simulation */}
+              <div className="relative rounded-xl overflow-hidden border border-purple-500/30">
+                <div className="bg-gradient-to-br from-purple-900/20 to-violet-900/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-purple-400 to-violet-500 rounded-full flex items-center justify-center">
+                      <GraduationCap className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Interactive Training Simulation</h3>
+                    <p className="text-purple-400 text-sm mb-4">Immersive phishing and social engineering scenarios</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-purple-500/20 text-purple-400 border border-purple-500/50">92.5% Completion</Badge>
+                      <div className="text-xs text-gray-400">Role-based learning paths</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent pointer-events-none"></div>
+              </div>
+
+              {/* Progress Analytics */}
+              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
+                <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/40 p-8 h-72 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
+                      <BarChart3 className="w-12 h-12 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Progress Analytics Dashboard</h3>
+                    <p className="text-cyan-400 text-sm mb-4">Real-time learning analytics and performance tracking</p>
+                    <div className="space-y-2">
+                      <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50">87% Retention</Badge>
+                      <div className="text-xs text-gray-400">6-month measurement</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
+              </div>
+            </div>
+          </section>
+
           {/* Gamification & Engagement */}
           <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
             <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
