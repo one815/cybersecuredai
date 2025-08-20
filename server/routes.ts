@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema } from "@shared/schema";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
@@ -166,6 +166,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating incident:", error);
       res.status(400).json({ message: "Invalid incident data" });
+    }
+  });
+
+  // Threat Notification routes
+  app.get("/api/threat-notifications", async (req, res) => {
+    try {
+      const { userId } = req.query;
+      const notifications = await storage.getThreatNotifications(userId as string);
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching threat notifications:", error);
+      res.status(500).json({ message: "Failed to fetch notifications" });
+    }
+  });
+
+  app.post("/api/threat-notifications", async (req, res) => {
+    try {
+      const notificationData = insertThreatNotificationSchema.parse(req.body);
+      const notification = await storage.createThreatNotification(notificationData);
+      res.status(201).json(notification);
+    } catch (error) {
+      console.error("Error creating threat notification:", error);
+      res.status(400).json({ message: "Invalid notification data" });
+    }
+  });
+
+  app.put("/api/threat-notifications/:id/read", async (req, res) => {
+    try {
+      const notification = await storage.markNotificationAsRead(req.params.id);
+      res.json(notification);
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.status(500).json({ message: "Failed to update notification" });
+    }
+  });
+
+  app.put("/api/threat-notifications/:id/acknowledge", async (req, res) => {
+    try {
+      const notification = await storage.acknowledgeNotification(req.params.id);
+      res.json(notification);
+    } catch (error) {
+      console.error("Error acknowledging notification:", error);
+      res.status(500).json({ message: "Failed to acknowledge notification" });
+    }
+  });
+
+  app.delete("/api/threat-notifications/:id", async (req, res) => {
+    try {
+      await storage.deleteNotification(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      res.status(500).json({ message: "Failed to delete notification" });
     }
   });
 
