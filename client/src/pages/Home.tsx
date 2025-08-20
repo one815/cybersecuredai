@@ -88,36 +88,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core Features */}
+      {/* Unified Platform Overview */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              AI-Powered Security Solutions
+              The CyberSecure AI Managed Security Platform
             </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Advanced cybersecurity platform combining artificial intelligence, automated response, 
-              and comprehensive compliance management for education and government sectors.
+            <p className="text-xl text-gray-400 max-w-4xl mx-auto">
+              Enterprise-grade cybersecurity platform built specifically for education and government sectors. 
+              24/7 AI-assisted Security Operations Center with comprehensive threat detection, incident response, 
+              and compliance management - all from a single unified dashboard.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Platform Core Services */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Brain className="w-6 h-6 text-cyan-400" />
+                  <Shield className="w-6 h-6 text-cyan-400" />
                 </div>
-                <CardTitle className="text-xl text-white">AI-Powered Threat Detection</CardTitle>
+                <CardTitle className="text-lg text-white">Managed EDR</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-400 mb-4">
-                  Real-time threat identification and classification using NIST Cybersecurity Framework 2.0 
-                  with machine learning algorithms.
+                <p className="text-gray-400 text-sm mb-3">
+                  Fully managed Endpoint Detection & Response with 24/7 SOC monitoring and 5-minute MTTR.
                 </p>
-                <ul className="space-y-2 text-sm text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Automated threat analysis</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />Predictive risk assessment</li>
-                  <li className="flex items-center"><CheckCircle className="w-4 h-4 text-green-400 mr-2" />24/7 monitoring</li>
+                <ul className="space-y-1 text-xs text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Continuous endpoint monitoring</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Malware persistence detection</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated threat containment</li>
                 </ul>
               </CardContent>
             </Card>
@@ -125,7 +126,199 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Zap className="w-6 h-6 text-purple-400" />
+                  <Users className="w-6 h-6 text-purple-400" />
+                </div>
+                <CardTitle className="text-lg text-white">Identity Protection</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 text-sm mb-3">
+                  Identity Threat Detection & Response for Microsoft 365, Google Workspace, and active directory environments.
+                </p>
+                <ul className="space-y-1 text-xs text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Session token monitoring</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Suspicious login detection</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Privilege escalation alerts</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <Brain className="w-6 h-6 text-green-400" />
+                </div>
+                <CardTitle className="text-lg text-white">AI-Powered SIEM</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 text-sm mb-3">
+                  Intelligent Security Information & Event Management that captures critical data while filtering noise.
+                </p>
+                <ul className="space-y-1 text-xs text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Priority-based alerting</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Forensic data analysis</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Threat hunting automation</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <GraduationCap className="w-6 h-6 text-orange-400" />
+                </div>
+                <CardTitle className="text-lg text-white">Security Awareness</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 text-sm mb-3">
+                  Comprehensive security training for faculty, staff, and students with phishing simulation and education.
+                </p>
+                <ul className="space-y-1 text-xs text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Phishing attack training</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Policy compliance tracking</li>
+                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Custom educational content</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Specialized Detection Features */}
+          <div className="bg-gradient-to-r from-surface/50 to-surface/30 rounded-2xl p-8 mb-16">
+            <h3 className="text-2xl font-bold text-white mb-6 text-center">Advanced Threat Detection Capabilities</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <AlertTriangle className="w-8 h-8 text-red-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">Ransomware Canaries</h4>
+                <p className="text-gray-400 text-sm">Lightweight tripwire files that detect ransomware activity before encryption begins, providing early warning for rapid response.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Eye className="w-8 h-8 text-purple-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">Persistent Footholds</h4>
+                <p className="text-gray-400 text-sm">Identifies advanced malware that survives reboots, detecting sophisticated threat actors maintaining access to your environment.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Globe className="w-8 h-8 text-green-400" />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">External Vulnerability Scanning</h4>
+                <p className="text-gray-400 text-sm">Continuous perimeter security assessment with automated vulnerability discovery and prioritized remediation guidance.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Platform Benefits */}
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-white mb-8">Why Choose CyberSecure AI?</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="p-6">
+                <div className="text-3xl font-bold text-cyan-400 mb-2">5 min</div>
+                <div className="text-white font-semibold mb-1">Mean Time to Response</div>
+                <div className="text-gray-400 text-sm">Industry-leading response times</div>
+              </div>
+              <div className="p-6">
+                <div className="text-3xl font-bold text-green-400 mb-2">24/7</div>
+                <div className="text-white font-semibold mb-1">SOC Monitoring</div>
+                <div className="text-gray-400 text-sm">Always-on security operations</div>
+              </div>
+              <div className="p-6">
+                <div className="text-3xl font-bold text-purple-400 mb-2">99.9%</div>
+                <div className="text-white font-semibold mb-1">Uptime Guarantee</div>
+                <div className="text-gray-400 text-sm">Reliable platform availability</div>
+              </div>
+              <div className="p-6">
+                <div className="text-3xl font-bold text-orange-400 mb-2">100%</div>
+                <div className="text-white font-semibold mb-1">Compliance Coverage</div>
+                <div className="text-gray-400 text-sm">FERPA, FISMA, CIPA ready</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Platform Integration */}
+      <section className="py-16 px-6 bg-surface/30">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">Unified Dashboard Experience</h3>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Single pane of glass for comprehensive security visibility across all your endpoints, 
+              identities, and infrastructure with real-time threat intelligence and incident management.
+            </p>
+          </div>
+          <div className="bg-gradient-to-br from-cyan-900/20 to-purple-900/20 rounded-2xl p-8 border border-cyan-500/20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div>
+                <h4 className="text-2xl font-bold text-white mb-4">Enterprise-Grade, Education-Focused</h4>
+                <ul className="space-y-3 text-gray-300">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong className="text-white">Purpose-built for education:</strong> Custom-designed workflows for K-12 schools, universities, and government agencies</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong className="text-white">Lightweight deployment:</strong> Minimal system impact with powerful security coverage</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong className="text-white">Actionable intelligence:</strong> Priority-based alerts reduce noise and focus on real threats</span>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span><strong className="text-white">Human-verified:</strong> 24/7 SOC analysts validate threats before escalation</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-surface/50 rounded-xl p-6 border border-cyan-500/30">
+                <h5 className="text-lg font-semibold text-white mb-4">Platform Integration</h5>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Microsoft 365</span>
+                    <Badge className="bg-green-500/20 text-green-400">Connected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Google Workspace</span>
+                    <Badge className="bg-green-500/20 text-green-400">Connected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Active Directory</span>
+                    <Badge className="bg-green-500/20 text-green-400">Connected</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Student Information Systems</span>
+                    <Badge className="bg-cyan-500/20 text-cyan-400">Available</Badge>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-300">Learning Management Systems</span>
+                    <Badge className="bg-cyan-500/20 text-cyan-400">Available</Badge>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Industry Focus */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Built for Education & Government
+            </h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Specialized cybersecurity solutions designed for the unique challenges and requirements 
+              of educational institutions and government agencies.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <GraduationCap className="w-6 h-6 text-cyan-400" />
                 </div>
                 <CardTitle className="text-xl text-white">Automated Incident Response</CardTitle>
               </CardHeader>
