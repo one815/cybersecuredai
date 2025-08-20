@@ -77,7 +77,7 @@ export class MemStorage implements IStorage {
       mfaMethod: "biometric",
       biometricEnabled: true,
       planType: "enterprise",
-      onboardingCompleted: true,
+      onboardingCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
