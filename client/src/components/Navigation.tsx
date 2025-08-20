@@ -45,7 +45,6 @@ export function Navigation() {
       dropdown: [
         { label: "Who We Serve", href: "/who-we-serve" },
         { label: "Case Studies", href: "/case-studies" },
-        { label: "Compare CyberSecure AI", href: "/compare", isHeader: true },
         { label: "vs. CrowdStrike", href: "/compare/crowdstrike" },
         { label: "vs. SentinelOne", href: "/compare/sentinelone" },
         { label: "vs. Microsoft Defender", href: "/compare/microsoft" },
@@ -209,32 +208,13 @@ export function Navigation() {
                           </div>
                         ) : item.label === 'Why CyberSecure AI' ? (
                           <div className="py-3">
-                            <div className="grid grid-cols-2 gap-x-6">
-                              {/* Left Column - Main Items */}
-                              <div>
-                                {item.dropdown.slice(0, 2).map((dropdownItem, index) => (
-                                  <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
-                                      {dropdownItem.label}
-                                    </div>
-                                  </Link>
-                                ))}
-                              </div>
-                              
-                              {/* Right Column - Comparisons */}
-                              <div>
-                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
-                                  Compare CyberSecure AI
+                            {item.dropdown.map((dropdownItem, index) => (
+                              <Link key={index} href={dropdownItem.href}>
+                                <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                  {dropdownItem.label}
                                 </div>
-                                {item.dropdown.slice(3).map((dropdownItem, index) => (
-                                  <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
-                                      {dropdownItem.label}
-                                    </div>
-                                  </Link>
-                                ))}
-                              </div>
-                            </div>
+                              </Link>
+                            ))}
                           </div>
                         ) : (
                           /* Single column layout for simpler menus */
@@ -277,11 +257,11 @@ export function Navigation() {
 
           {/* CTA Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white">
-                Login
-              </Button>
-            </Link>
+            <div className="text-xs text-gray-400">
+              <Link href="/dashboard">
+                <span className="hover:text-cyan-400 transition-colors cursor-pointer">Client Login</span>
+              </Link>
+            </div>
             <Link href="/security-scanner">
               <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700">
                 Free Scan
