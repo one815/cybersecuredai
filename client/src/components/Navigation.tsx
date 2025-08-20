@@ -82,14 +82,15 @@ export function Navigation() {
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-surface sticky top-0 z-50">
       <div className="container mx-auto max-w-6xl px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/">
-            <div className="flex items-center">
+          <Link href="/" className="flex-shrink-0 mr-8">
+            <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
                 src="/attached_assets/2_1755699581990.png" 
                 alt="CyberSecure AI" 
-                className="h-24 w-auto"
+                className="h-16 w-auto"
+                data-testid="logo-home-link"
               />
             </div>
           </Link>
