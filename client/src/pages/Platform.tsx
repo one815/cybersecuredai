@@ -1,8 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// Cinematic security imagery from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+import { 
+  Shield, 
+  Brain, 
+  Network, 
+  Users, 
+  Bot,
+  Zap,
+  Eye,
+  Lock,
+  Server,
+  ClipboardCheck,
+  GraduationCap,
+  ArrowRight,
+  CheckCircle,
+  Activity,
+  AlertTriangle,
+  Settings,
+  BarChart3
+} from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 

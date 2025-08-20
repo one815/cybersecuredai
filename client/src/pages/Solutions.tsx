@@ -2,8 +2,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// Cinematic security imagery from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+import { 
+  Brain, 
+  Shield, 
+  Zap, 
+  Users, 
+  Server, 
+  Lock,
+  CheckCircle,
+  AlertTriangle,
+  Database,
+  Network,
+  Eye,
+  Clock,
+  Award,
+  Bot,
+  GraduationCap,
+  Flag,
+  TrendingUp,
+  Activity,
+  FileText,
+  Target,
+  Fingerprint
+} from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
@@ -13,19 +34,19 @@ export default function Solutions() {
       title: "Automated Threat Detection System",
       description: "AI-powered threat detection using NIST Cybersecurity Framework 2.0 to automatically identify and classify security threats in real-time",
       features: ["Real-time threat analysis", "NIST CSF 2.0 compliance", "Automated classification", "Machine learning algorithms", "24/7 monitoring"],
-      icon: <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+      icon: <Brain className="w-8 h-8 text-blue-400" />
     },
     {
       title: "Predictive Risk Analysis Engine", 
       description: "AI-driven system that analyzes historical data, system configurations, and threat intelligence to predict potential vulnerabilities",
       features: ["Historical data analysis", "Configuration assessment", "Threat intelligence integration", "Vulnerability prediction", "Risk scoring"],
-      icon: <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+      icon: <Shield className="w-8 h-8 text-purple-400" />
     },
     {
       title: "Automated Incident Response System",
       description: "Intelligent response system that automatically contains, investigates, and remediates security incidents based on predefined playbooks",
       features: ["Automatic containment", "Incident investigation", "Smart remediation", "Custom playbooks", "Response automation"],
-      icon: <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+      icon: <Network className="w-8 h-8 text-orange-400" />
     }
   ];
 
