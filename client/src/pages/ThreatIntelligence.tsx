@@ -138,8 +138,10 @@ export default function ThreatIntelligence() {
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
-                  Threat Intelligence
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>Threat Intelligence</span>
+                  <Shield className="w-6 h-6 text-red-400" />
+                  <AlertTriangle className="w-6 h-6 text-orange-400" />
                 </h2>
                 <p className="text-gray-400 flex items-center space-x-2">
                   <span>Real-time global threat intelligence feeds and analysis</span>

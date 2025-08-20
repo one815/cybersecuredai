@@ -148,7 +148,12 @@ export default function Reports() {
       <header className="bg-surface border-b border-surface-light p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Reports & Analytics</h2>
+            <h2 className="text-2xl font-bold flex items-center space-x-2">
+              <span>Reports & Analytics</span>
+              <ChartBar className="w-6 h-6 text-blue-400" />
+              <FileText className="w-6 h-6 text-green-400" />
+              <TrendingUp className="w-6 h-6 text-purple-400" />
+            </h2>
             <p className="text-gray-400">Generate comprehensive security and compliance reports</p>
           </div>
           <div className="flex items-center space-x-4">

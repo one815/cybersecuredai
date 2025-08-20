@@ -210,8 +210,11 @@ export default function Compliance() {
                 <ClipboardCheck className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-                  Compliance Management
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>Compliance Management</span>
+                  <GraduationCap className="w-6 h-6 text-blue-400" />
+                  <Flag className="w-6 h-6 text-purple-400" />
+                  <Shield className="w-6 h-6 text-orange-400" />
                 </h2>
                 <p className="text-gray-400">Monitor regulatory compliance across education and government frameworks</p>
               </div>
@@ -310,7 +313,10 @@ export default function Compliance() {
           <TabsContent value="education" className="space-y-6">
             <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">Education Sector Compliance</CardTitle>
+                <CardTitle className="text-xl font-bold text-white flex items-center space-x-2">
+                  <span>Education Sector Compliance</span>
+                  <GraduationCap className="w-5 h-5 text-blue-400" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -383,7 +389,10 @@ export default function Compliance() {
           <TabsContent value="government" className="space-y-6">
             <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">Government Sector Compliance</CardTitle>
+                <CardTitle className="text-xl font-bold text-white flex items-center space-x-2">
+                  <span>Government Sector Compliance</span>
+                  <Flag className="w-5 h-5 text-purple-400" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -456,7 +465,10 @@ export default function Compliance() {
           <TabsContent value="federal" className="space-y-6">
             <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">Defense & Federal Compliance</CardTitle>
+                <CardTitle className="text-xl font-bold text-white flex items-center space-x-2">
+                  <span>Defense & Federal Compliance</span>
+                  <Shield className="w-5 h-5 text-orange-400" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -550,7 +562,10 @@ export default function Compliance() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
                 <CardHeader>
-                  <CardTitle className="text-lg font-bold text-white">Compliance Summary</CardTitle>
+                  <CardTitle className="text-lg font-bold text-white flex items-center space-x-2">
+                    <span>Compliance Summary</span>
+                    <ClipboardCheck className="w-5 h-5 text-green-400" />
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">

@@ -11,7 +11,12 @@ export default function Authentication() {
       <header className="bg-surface border-b border-surface-light p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Authentication & Access Control</h2>
+            <h2 className="text-2xl font-bold flex items-center space-x-2">
+              <span>Authentication & Access Control</span>
+              <Lock className="w-6 h-6 text-blue-400" />
+              <Shield className="w-6 h-6 text-green-400" />
+              <Key className="w-6 h-6 text-purple-400" />
+            </h2>
             <p className="text-gray-400">Manage multi-factor authentication and access policies</p>
           </div>
           <Button className="bg-interactive hover:bg-orange-600" data-testid="configure-mfa">

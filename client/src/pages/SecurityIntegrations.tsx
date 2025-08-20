@@ -60,8 +60,10 @@ export default function SecurityIntegrations() {
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                  Security Integrations
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>Security Integrations</span>
+                  <Shield className="w-6 h-6 text-purple-400" />
+                  <Lock className="w-6 h-6 text-blue-400" />
                 </h2>
                 <p className="text-gray-400">Enterprise security platform connections and configurations</p>
               </div>
@@ -109,7 +111,11 @@ export default function SecurityIntegrations() {
           <TabsContent value="iam" className="space-y-6">
             <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-white">Identity & Access Management Platforms</CardTitle>
+                <CardTitle className="text-xl font-bold text-white flex items-center space-x-2">
+                  <span>Identity & Access Management Platforms</span>
+                  <Users className="w-5 h-5 text-purple-400" />
+                  <Key className="w-5 h-5 text-blue-400" />
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -228,8 +228,11 @@ export default function SecurityTraining() {
                 <GraduationCap className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-                  Security Awareness Training
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span>Security Awareness Training</span>
+                  <GraduationCap className="w-6 h-6 text-blue-400" />
+                  <Shield className="w-6 h-6 text-purple-400" />
+                  <BookOpen className="w-6 h-6 text-green-400" />
                 </h2>
                 <p className="text-gray-400">Interactive cybersecurity education for education and government sectors</p>
               </div>

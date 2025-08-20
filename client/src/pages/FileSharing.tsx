@@ -192,7 +192,11 @@ export default function FileSharing() {
       <header className="bg-surface border-b border-surface-light p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h2 className="text-2xl font-bold">Secure File Sharing</h2>
+            <h2 className="text-2xl font-bold flex items-center space-x-2">
+              <span>Secure File Sharing</span>
+              <Shield className="w-6 h-6 text-green-400" />
+              <Lock className="w-6 h-6 text-blue-400" />
+            </h2>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
               <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
