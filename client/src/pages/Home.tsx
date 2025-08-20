@@ -316,121 +316,251 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Platform Core Services */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <AlertTriangle className="w-6 h-6 text-red-400" />
-                </div>
-                <CardTitle className="text-lg text-white">Real-Time Threat Monitoring</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  AI-powered threat detection with real-time security monitoring and automated incident response.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Live threat intelligence feeds</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />24/7 SOC monitoring</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />5-minute response time</li>
-                </ul>
-              </CardContent>
-            </Card>
+          {/* Comprehensive Platform Capabilities */}
 
-            <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Shield className="w-6 h-6 text-green-400" />
-                </div>
-                <CardTitle className="text-lg text-white">Compliance Management</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  Comprehensive regulatory compliance tracking for FERPA, FISMA, CIPA, FedRAMP, and NIST frameworks.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated compliance reporting</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Audit trail management</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Multi-framework support</li>
-                </ul>
-              </CardContent>
-            </Card>
+          {/* Cloud Security & AI Analytics */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-3">☁️ Cloud Security & AI Analytics</h3>
+              <p className="text-gray-400">AI-powered threat detection and cloud-based security management</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Brain className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Automated Incident Response</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    AI-powered system for detecting, analyzing, and responding to cybersecurity incidents in real-time.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Real-time detection and analysis</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated response protocols</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />5-minute MTTR</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-            <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Lock className="w-6 h-6 text-blue-400" />
-                </div>
-                <CardTitle className="text-lg text-white">Secure File Sharing</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  Enterprise-grade secure file storage and sharing with encryption, access controls, and audit logging.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />End-to-end encryption</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Role-based access control</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Document version control</li>
-                </ul>
-              </CardContent>
-            </Card>
+              <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <AlertTriangle className="w-6 h-6 text-red-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Threat Detection System</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    AI analysis for identifying and classifying security threats across all system components.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Advanced threat classification</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Behavioral anomaly detection</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Threat hunting automation</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-            <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Users className="w-6 h-6 text-purple-400" />
-                </div>
-                <CardTitle className="text-lg text-white">User Administration</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  Comprehensive user management with multi-factor authentication and role-based access control.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Multi-factor authentication</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Identity management</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Session monitoring</li>
-                </ul>
-              </CardContent>
-            </Card>
+              <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <TrendingUp className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Predictive Risk Analysis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    AI algorithms that analyze data to predict potential vulnerabilities before exploitation.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Vulnerability prediction</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Risk scoring algorithms</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Proactive threat mitigation</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
-            <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Brain className="w-6 h-6 text-cyan-400" />
-                </div>
-                <CardTitle className="text-lg text-white">AI-Powered Analytics</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  Advanced AI and machine learning for predictive threat analysis and behavioral anomaly detection.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Behavioral analysis</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Pattern recognition</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Predictive modeling</li>
-                </ul>
-              </CardContent>
-            </Card>
+          {/* Network Infrastructure & Management */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-3">🌐 Network Infrastructure & Management</h3>
+              <p className="text-gray-400">Comprehensive network security and zero-trust architecture</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6 text-orange-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Firewall Management</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Advanced firewall configuration and maintenance with real-time threat blocking.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Next-generation firewall management</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Intrusion prevention systems</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Application-layer filtering</li>
+                  </ul>
+                </CardContent>
+              </Card>
 
-            <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
-              <CardHeader>
-                <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Activity className="w-6 h-6 text-orange-400" />
-                </div>
-                <CardTitle className="text-lg text-white">Incident Response</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-400 text-sm mb-3">
-                  Automated incident detection, investigation, and response with comprehensive forensic capabilities.
-                </p>
-                <ul className="space-y-1 text-xs text-gray-300">
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated containment</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Forensic analysis</li>
-                  <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Incident documentation</li>
-                </ul>
-              </CardContent>
-            </Card>
+              <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Globe className="w-6 h-6 text-green-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Router & Switch Monitoring</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Network infrastructure monitoring with performance optimization and security analytics.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Real-time performance monitoring</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Network traffic analysis</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Bandwidth optimization</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Lock className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Zero-Trust Architecture</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Zero-trust network implementation with enhanced security for private SSIDs (WPA2 or better).
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Zero-trust security model</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Network segmentation</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />VPN configuration management</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Endpoint Security & Management */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-3">💻 Endpoint Security & Management</h3>
+              <p className="text-gray-400">Comprehensive workstation and device security management</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Activity className="w-6 h-6 text-cyan-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">24/7 Monitoring & Vulnerability Management</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Continuous monitoring service using AI to detect vulnerabilities and performance issues.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />CPU, disk, memory monitoring</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Vulnerability scanning</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated remediation</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Identity & Access Management</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Comprehensive identity management with Active Directory and Exchange maintenance.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Active Directory management</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />User account provisioning</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Group policy implementation</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Zap className="w-6 h-6 text-red-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">System Administration</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Management and maintenance of workstations (Windows 11 Pro or newer) for 25+ users.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />OS patch management</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Application updates</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />License and asset tracking</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Compliance & Risk Management */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold text-white mb-3">📋 Compliance & Risk Management</h3>
+              <p className="text-gray-400">Automated regulatory compliance and risk assessment</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <CheckCircle className="w-6 h-6 text-green-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Compliance Automation</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Tools to automate meeting cybersecurity regulatory requirements including education and government-specific frameworks.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />FERPA, COPPA, CIPA for education</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />FedRAMP, FISMA, NIST 800-53</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Automated audit reports</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <GraduationCap className="w-6 h-6 text-orange-400" />
+                  </div>
+                  <CardTitle className="text-lg text-white">Security Awareness Training</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-400 text-sm mb-3">
+                    Interactive training modules for cybersecurity best practices customized for education and government personnel.
+                  </p>
+                  <ul className="space-y-1 text-xs text-gray-300">
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Sector-specific training modules</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Phishing simulation campaigns</li>
+                    <li className="flex items-center"><CheckCircle className="w-3 h-3 text-green-400 mr-2" />Progress tracking and reporting</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
           {/* Specialized Detection Features */}
