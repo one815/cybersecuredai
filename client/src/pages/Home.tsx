@@ -75,9 +75,26 @@ export default function Home() {
           <div className="relative">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               
-              {/* Main Security Operations Dashboard */}
+              {/* Main Security Operations Dashboard - Desktop Mockup */}
               <div className="relative">
-                <div className="bg-gray-900 rounded-xl border border-cyan-500/30 p-6 shadow-2xl cyber-glow">
+                {/* Desktop Frame */}
+                <div className="bg-gray-800 rounded-2xl p-4 shadow-2xl">
+                  <div className="bg-black rounded-xl p-2">
+                    {/* Monitor Bezel */}
+                    <div className="bg-gray-900 rounded-lg p-8 relative">
+                      {/* Browser Chrome */}
+                      <div className="bg-gray-700 rounded-t-lg px-4 py-2 flex items-center gap-2 mb-1">
+                        <div className="flex gap-1.5">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        </div>
+                        <div className="flex-1 mx-4 bg-gray-600 rounded px-3 py-1">
+                          <span className="text-xs text-gray-300">cybersecure.ai/dashboard</span>
+                        </div>
+                      </div>
+                      {/* Dashboard Content */}
+                      <div className="bg-gray-900 rounded-b-lg border border-cyan-500/30 p-6 shadow-2xl cyber-glow">
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                       <Shield className="w-6 h-6 text-cyan-400" />
@@ -121,12 +138,31 @@ export default function Home() {
                       ))}
                     </div>
                   </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Threat Monitoring Interface */}
+              {/* Threat Monitoring Interface - MacBook Mockup */}
               <div className="relative">
-                <div className="bg-gray-900 rounded-xl border border-purple-500/30 p-6 shadow-2xl cyber-glow">
+                {/* MacBook Frame */}
+                <div className="bg-gray-700 rounded-2xl p-2 shadow-2xl">
+                  <div className="bg-black rounded-xl">
+                    {/* MacBook Screen */}
+                    <div className="bg-gray-900 rounded-lg p-6 relative">
+                      {/* Browser Chrome */}
+                      <div className="bg-gray-800 rounded-t-lg px-4 py-2 flex items-center gap-2 mb-1">
+                        <div className="flex gap-1.5">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        </div>
+                        <div className="flex-1 mx-4 bg-gray-700 rounded px-3 py-1">
+                          <span className="text-xs text-gray-300">cybersecure.ai/threats</span>
+                        </div>
+                      </div>
+                      {/* Dashboard Content */}
+                      <div className="bg-gray-900 rounded-b-lg border border-purple-500/30 p-6 shadow-2xl cyber-glow">
                   <div className="flex items-center gap-3 mb-6">
                     <AlertTriangle className="w-6 h-6 text-purple-400" />
                     <h3 className="text-lg font-semibold text-white">Threat Intelligence</h3>
@@ -176,6 +212,8 @@ export default function Home() {
                     </div>
                     <div className="w-full bg-gray-700 rounded-full h-2">
                       <div className="bg-green-400 h-2 rounded-full" style={{ width: '25%' }}></div>
+                    </div>
+                  </div>
                     </div>
                   </div>
                 </div>
