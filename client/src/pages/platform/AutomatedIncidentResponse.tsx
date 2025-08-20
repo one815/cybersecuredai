@@ -236,48 +236,164 @@ export default function AutomatedIncidentResponse() {
             </div>
           </section>
 
-          {/* Real Dashboard Integration */}
+          {/* Incident Response Command Center Dashboard */}
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-white mb-8 text-center">
               Incident Response Command Center
             </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Real Dashboard View */}
-              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
-                <img 
-                  src="/attached_assets/Threat Monitoring Dashboard_1755656113116.png" 
-                  alt="CyberSecure AI Incident Response Dashboard" 
-                  className="w-full h-64 object-cover object-top"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/80 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-lg font-bold text-white mb-2">Live Threat Intelligence</h3>
-                  <p className="text-cyan-400 text-sm">Real-time incident tracking with global threat map visualization</p>
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl border border-cyan-500/30 overflow-hidden">
+              {/* Dashboard Header */}
+              <div className="bg-gray-800/90 border-b border-gray-700 p-4 flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 bg-cyan-500 rounded-lg flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-white" />
+                  </div>
+                  <h3 className="text-white font-semibold">Automated Incident Response</h3>
+                  <Badge className="bg-green-500/20 text-green-400 text-xs">&lt; 1sec Response</Badge>
                 </div>
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-cyan-500/80 text-white text-xs">12 Active</Badge>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    <span className="text-red-400 text-sm">12 Active</span>
+                  </div>
+                  <Button size="sm" className="bg-cyan-500 hover:bg-cyan-600 text-white text-xs">Manual Override</Button>
                 </div>
               </div>
 
-              {/* Response Metrics */}
-              <div className="bg-gradient-to-br from-surface/50 to-surface/30 rounded-xl p-6 border border-surface-light">
-                <h3 className="text-lg font-bold text-white mb-4">Automated Response Metrics</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Detection Speed</span>
-                    <span className="text-cyan-400 font-semibold">&lt; 1 second</span>
+              {/* Dashboard Content */}
+              <div className="p-6 space-y-6">
+                {/* Active Incidents */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-white font-medium mb-4 flex items-center">
+                      <AlertTriangle className="w-4 h-4 text-red-400 mr-2" />
+                      Active Incidents
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="bg-red-900/20 rounded-lg p-3 border-l-2 border-red-500">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-white text-sm font-medium">Data Exfiltration Attempt</span>
+                          <Badge className="bg-red-500 text-white text-xs">Critical</Badge>
+                        </div>
+                        <div className="text-red-400 text-xs mb-2">Source: 192.168.1.45 → External</div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-400 text-xs">Auto-response: Active</span>
+                          <div className="flex items-center space-x-1">
+                            <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                            <span className="text-green-400 text-xs">Containing...</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-orange-900/20 rounded-lg p-3 border-l-2 border-orange-500">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-white text-sm font-medium">Ransomware Detection</span>
+                          <Badge className="bg-orange-500 text-white text-xs">High</Badge>
+                        </div>
+                        <div className="text-orange-400 text-xs mb-2">Source: Email Attachment → WS-042</div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-400 text-xs">Auto-response: Isolated</span>
+                          <div className="flex items-center space-x-1">
+                            <CheckCircle className="w-3 h-3 text-green-400" />
+                            <span className="text-green-400 text-xs">Contained</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Response Time</span>
-                    <span className="text-green-400 font-semibold">4.2 minutes</span>
+
+                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                    <h4 className="text-white font-medium mb-4 flex items-center">
+                      <Clock className="w-4 h-4 text-cyan-400 mr-2" />
+                      Response Timeline
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-green-400 rounded-full mt-2"></div>
+                        <div>
+                          <div className="text-white text-sm">Threat contained</div>
+                          <div className="text-gray-400 text-xs">2 minutes ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
+                        <div>
+                          <div className="text-white text-sm">Isolation protocol activated</div>
+                          <div className="text-gray-400 text-xs">3 minutes ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full mt-2"></div>
+                        <div>
+                          <div className="text-white text-sm">AI analysis completed</div>
+                          <div className="text-gray-400 text-xs">4 minutes ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-red-400 rounded-full mt-2"></div>
+                        <div>
+                          <div className="text-white text-sm">Threat detected</div>
+                          <div className="text-gray-400 text-xs">5 minutes ago</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">Containment Rate</span>
-                    <span className="text-purple-400 font-semibold">98.7%</span>
+                </div>
+
+                {/* Response Metrics */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-cyan-900/20 rounded-lg p-4 border border-cyan-500/30">
+                    <div className="text-cyan-400 text-2xl font-bold">&lt; 1s</div>
+                    <div className="text-white text-sm font-medium">Detection Speed</div>
+                    <div className="text-gray-400 text-xs">Average response time</div>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-300">False Positives</span>
-                    <span className="text-orange-400 font-semibold">0.3%</span>
+                  <div className="bg-green-900/20 rounded-lg p-4 border border-green-500/30">
+                    <div className="text-green-400 text-2xl font-bold">98.7%</div>
+                    <div className="text-white text-sm font-medium">Containment Rate</div>
+                    <div className="text-gray-400 text-xs">Successful isolations</div>
+                  </div>
+                  <div className="bg-purple-900/20 rounded-lg p-4 border border-purple-500/30">
+                    <div className="text-purple-400 text-2xl font-bold">847</div>
+                    <div className="text-white text-sm font-medium">Threats Blocked</div>
+                    <div className="text-gray-400 text-xs">Today</div>
+                  </div>
+                  <div className="bg-orange-900/20 rounded-lg p-4 border border-orange-500/30">
+                    <div className="text-orange-400 text-2xl font-bold">0.3%</div>
+                    <div className="text-white text-sm font-medium">False Positives</div>
+                    <div className="text-gray-400 text-xs">Error rate</div>
+                  </div>
+                </div>
+
+                {/* Automated Actions */}
+                <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
+                  <h4 className="text-white font-medium mb-4 flex items-center">
+                    <Bot className="w-4 h-4 text-purple-400 mr-2" />
+                    Automated Response Actions
+                  </h4>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Network Isolation</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Account Lockdown</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Process Termination</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Evidence Collection</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Alert Generation</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-white">Backup Restoration</span>
+                    </div>
                   </div>
                 </div>
               </div>
