@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity } from "lucide-react";
+import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -8,6 +8,7 @@ const navigationItems: NavigationItem[] = [
   { id: "threats", label: "Threat Monitoring", icon: "exclamation-triangle", path: "/threats" },
   { id: "threat-analysis", label: "Threat Analysis", icon: "activity", path: "/threat-analysis" },
   { id: "incidents", label: "Incident Response", icon: "alert-triangle", path: "/incidents" },
+  { id: "security-integrations", label: "Security Integrations", icon: "zap", path: "/security-integrations" },
   { id: "auth", label: "Authentication", icon: "lock", path: "/authentication" },
   { id: "files", label: "File Sharing", icon: "share", path: "/files" },
   { id: "compliance", label: "Compliance", icon: "clipboard-check", path: "/compliance" },
@@ -22,6 +23,7 @@ const iconMap = {
   "exclamation-triangle": TriangleAlert,
   activity: Activity,
   "alert-triangle": AlertTriangle,
+  zap: Zap,
   lock: Lock,
   share: Share,
   "clipboard-check": ClipboardCheck,

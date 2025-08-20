@@ -19,6 +19,7 @@ import Reports from "@/pages/Reports";
 import IncidentResponse from "@/pages/IncidentResponse";
 import AdminPanel from "@/pages/AdminPanel";
 import AIConfiguration from "@/pages/AIConfiguration";
+import SecurityIntegrations from "@/pages/SecurityIntegrations";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -50,6 +51,7 @@ function Router() {
         <Route path="/" component={Dashboard} />
         <Route path="/threats" component={ThreatMonitoring} />
         <Route path="/threat-analysis" component={ThreatAnalysis} />
+        <Route path="/security-integrations" component={SecurityIntegrations} />
         <Route path="/authentication" component={Authentication} />
         <Route path="/files" component={FileSharing} />
         <Route path="/compliance" component={Compliance} />
