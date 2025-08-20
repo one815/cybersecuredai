@@ -1,5 +1,4 @@
 import { Link, useLocation } from "wouter";
-import { Shield, Gauge, TriangleAlert, Lock, Share, ClipboardCheck, Users, ChartBar, Settings, AlertTriangle, UserCog, Brain, Activity, Zap, Wrench, HelpCircle, GraduationCap } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -22,21 +21,21 @@ const navigationItems: NavigationItem[] = [
 ];
 
 const iconMap = {
-  tachometer: Gauge,
-  "exclamation-triangle": TriangleAlert,
-  activity: Activity,
-  "alert-triangle": AlertTriangle,
-  zap: Zap,
-  wrench: Wrench,
-  lock: Lock,
-  share: Share,
-  "clipboard-check": ClipboardCheck,
-  "graduation-cap": GraduationCap,
-  "help-circle": HelpCircle,
-  users: Users,
-  "user-cog": UserCog,
-  brain: Brain,
-  "chart-bar": ChartBar,
+  tachometer: "📊",
+  "exclamation-triangle": "⚠️",
+  activity: "📈",
+  "alert-triangle": "🚨",
+  zap: "⚡",
+  wrench: "🔧",
+  lock: "🔒",
+  share: "📤",
+  "clipboard-check": "📋",
+  "graduation-cap": "🎓",
+  "help-circle": "❓",
+  users: "👥",
+  "user-cog": "⚙️",
+  brain: "🧠",
+  "chart-bar": "📊",
 };
 
 export function Sidebar() {
@@ -63,7 +62,7 @@ export function Sidebar() {
       {/* Navigation Menu */}
       <nav className="p-4 space-y-2">
         {navigationItems.map((item) => {
-          const IconComponent = iconMap[item.icon as keyof typeof iconMap];
+          const iconEmoji = iconMap[item.icon as keyof typeof iconMap];
           const isActive = location === item.path;
           
           return (
@@ -76,7 +75,7 @@ export function Sidebar() {
                 }`}
                 data-testid={`nav-${item.id}`}
               >
-                <IconComponent className="w-5 h-5" />
+                <div className="w-5 h-5 text-lg flex items-center justify-center">{iconEmoji}</div>
                 <span>{item.label}</span>
               </div>
             </Link>
@@ -97,7 +96,7 @@ export function Sidebar() {
             <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
           </div>
           <button className="text-gray-400 hover:text-white" data-testid="user-settings">
-            <Settings className="w-4 h-4" />
+            <div className="w-4 h-4 text-lg">⚙️</div>
           </button>
         </div>
       </div>

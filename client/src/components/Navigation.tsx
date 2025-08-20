@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Bot, Menu, X, ChevronDown, Shield, Lock, Wifi, User } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -115,7 +115,7 @@ export function Navigation() {
                       {item.label}
                       <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
                     </span>
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180 text-cyan-400' : ''}`} />
+                    <div className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180 text-cyan-400' : ''}`}>🔽</div>
                     
                     {/* Dropdown Menu */}
                     {openDropdown === item.label && (
@@ -391,7 +391,7 @@ export function Navigation() {
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {isMobileMenuOpen ? <div className="w-5 h-5 text-lg">✖️</div> : <div className="w-5 h-5 text-lg">☰</div>}
             </Button>
           </div>
         </div>
@@ -409,9 +409,9 @@ export function Navigation() {
                         onClick={() => handleDropdownToggle(item.label)}
                       >
                         <span>{item.label}</span>
-                        <ChevronDown className={`w-4 h-4 transition-transform ${
+                        <div className={`w-4 h-4 transition-transform ${
                           openDropdown === item.label ? "rotate-180" : ""
-                        }`} />
+                        }`}>🔽</div>
                       </button>
                       {openDropdown === item.label && (
                         <div className="pl-4 space-y-1">
