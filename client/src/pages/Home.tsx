@@ -71,240 +71,281 @@ export default function Home() {
             <p className="text-gray-400 max-w-2xl mx-auto">Real-time security monitoring and threat intelligence through our unified dashboard</p>
           </div>
           
-          {/* Dashboard Mockups */}
+          {/* Enhanced Desktop Dashboard Mockup */}
           <div className="relative">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div className="max-w-5xl mx-auto">
               
-              {/* Main Security Operations Dashboard - Desktop Mockup */}
+              {/* Professional Desktop Computer Mockup */}
               <div className="relative">
-                {/* Desktop Frame */}
-                <div className="bg-gray-800 rounded-2xl p-4 shadow-2xl">
-                  <div className="bg-black rounded-xl p-2">
-                    {/* Monitor Bezel */}
-                    <div className="bg-gray-900 rounded-lg p-8 relative">
+                {/* Monitor Stand */}
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-8 bg-gray-600 rounded-b-lg"></div>
+                </div>
+                <div className="flex justify-center mb-2">
+                  <div className="w-32 h-4 bg-gray-700 rounded-lg"></div>
+                </div>
+                
+                {/* Monitor Frame */}
+                <div className="bg-gray-800 rounded-3xl p-6 shadow-2xl">
+                  <div className="bg-black rounded-2xl p-1">
+                    {/* Screen Bezel */}
+                    <div className="bg-gray-900 rounded-xl p-4 relative overflow-hidden">
+                      
                       {/* Browser Chrome */}
-                      <div className="bg-gray-700 rounded-t-lg px-4 py-2 flex items-center gap-2 mb-1">
-                        <div className="flex gap-1.5">
+                      <div className="bg-gray-800 rounded-t-xl px-4 py-3 flex items-center gap-3 mb-2">
+                        <div className="flex gap-2">
                           <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                           <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                         </div>
-                        <div className="flex-1 mx-4 bg-gray-600 rounded px-3 py-1">
-                          <span className="text-xs text-gray-300">cybersecure.ai/dashboard</span>
+                        <div className="flex-1 mx-6 bg-gray-700 rounded-lg px-4 py-1">
+                          <span className="text-sm text-gray-300">https://cybersecure.ai/dashboard</span>
                         </div>
+                        <div className="w-6 h-6 bg-gray-600 rounded"></div>
                       </div>
-                      {/* Dashboard Content */}
-                      <div className="bg-gray-900 rounded-b-lg border border-cyan-500/30 p-6 shadow-2xl cyber-glow">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <Shield className="w-6 h-6 text-cyan-400" />
-                      <h3 className="text-lg font-semibold text-white">Security Operations Center</h3>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-sm text-green-400">Live</span>
-                    </div>
-                  </div>
-                  
-                  {/* Mock Statistics */}
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="bg-surface/50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-cyan-400">247</div>
-                      <div className="text-xs text-gray-400">Endpoints Protected</div>
-                    </div>
-                    <div className="bg-surface/50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-green-400">12</div>
-                      <div className="text-xs text-gray-400">Threats Blocked</div>
-                    </div>
-                    <div className="bg-surface/50 p-4 rounded-lg text-center">
-                      <div className="text-2xl font-bold text-orange-400">3</div>
-                      <div className="text-xs text-gray-400">Active Alerts</div>
-                    </div>
-                  </div>
-                  
-                  {/* Mock Chart */}
-                  <div className="bg-surface/30 p-4 rounded-lg">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm text-gray-400">Network Activity (24h)</span>
-                      <span className="text-xs text-green-400">↑ Normal</span>
-                    </div>
-                    <div className="flex items-end space-x-1 h-16">
-                      {[40, 60, 30, 80, 50, 90, 70, 45, 85, 65, 55, 75].map((height, index) => (
-                        <div
-                          key={index}
-                          className="bg-cyan-500 rounded-t flex-1"
-                          style={{ height: `${height}%` }}
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                      
+                      {/* Full Dashboard Interface */}
+                      <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-b-xl border border-cyan-500/20 overflow-hidden">
+                        
+                        {/* Dashboard Header */}
+                        <div className="bg-gray-800/80 px-6 py-4 border-b border-cyan-500/20">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <Shield className="w-8 h-8 text-cyan-400" />
+                              <div>
+                                <h3 className="text-xl font-bold text-white">CyberSecure AI SOC</h3>
+                                <p className="text-sm text-gray-400">Security Operations Center</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                              <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                <span className="text-sm text-green-400 font-medium">System Active</span>
+                              </div>
+                              <div className="text-sm text-gray-300">
+                                Live Dashboard
+                              </div>
+                            </div>
+                          </div>
+                        </div>
 
-              {/* Threat Monitoring Interface - MacBook Mockup */}
-              <div className="relative">
-                {/* MacBook Frame */}
-                <div className="bg-gray-700 rounded-2xl p-2 shadow-2xl">
-                  <div className="bg-black rounded-xl">
-                    {/* MacBook Screen */}
-                    <div className="bg-gray-900 rounded-lg p-6 relative">
-                      {/* Browser Chrome */}
-                      <div className="bg-gray-800 rounded-t-lg px-4 py-2 flex items-center gap-2 mb-1">
-                        <div className="flex gap-1.5">
-                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                        </div>
-                        <div className="flex-1 mx-4 bg-gray-700 rounded px-3 py-1">
-                          <span className="text-xs text-gray-300">cybersecure.ai/threats</span>
-                        </div>
-                      </div>
-                      {/* Dashboard Content */}
-                      <div className="bg-gray-900 rounded-b-lg border border-purple-500/30 p-6 shadow-2xl cyber-glow">
-                  <div className="flex items-center gap-3 mb-6">
-                    <AlertTriangle className="w-6 h-6 text-purple-400" />
-                    <h3 className="text-lg font-semibold text-white">Threat Intelligence</h3>
-                  </div>
-                  
-                  {/* Recent Threats List */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-red-900/20 rounded-lg border border-red-500/30">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                        <div>
-                          <div className="text-sm font-medium text-red-300">Phishing Attempt Blocked</div>
-                          <div className="text-xs text-gray-400">HR-LAPTOP-07</div>
-                        </div>
-                      </div>
-                      <div className="text-xs text-gray-500">2m ago</div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 bg-yellow-900/20 rounded-lg border border-yellow-500/30">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                        <div>
-                          <div className="text-sm font-medium text-yellow-300">Suspicious Login Detected</div>
-                          <div className="text-xs text-gray-400">admin@university.edu</div>
-                        </div>
-                      </div>
-                      <div className="text-xs text-gray-500">5m ago</div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-3 bg-blue-900/20 rounded-lg border border-blue-500/30">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                        <div>
-                          <div className="text-sm font-medium text-blue-300">System Update Required</div>
-                          <div className="text-xs text-gray-400">STUDENT-LAB-15</div>
-                        </div>
-                      </div>
-                      <div className="text-xs text-gray-500">12m ago</div>
-                    </div>
-                  </div>
-                  
-                  {/* Threat Level Gauge */}
-                  <div className="mt-6 p-4 bg-surface/30 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-400">Current Threat Level</span>
-                      <span className="text-sm font-medium text-green-400">LOW</span>
-                    </div>
-                    <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div className="bg-green-400 h-2 rounded-full" style={{ width: '25%' }}></div>
-                    </div>
-                  </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-            
-            {/* Additional Dashboard Panels */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-              
-              {/* Compliance Dashboard */}
-              <div className="bg-gray-900 rounded-xl border border-green-500/30 p-6 shadow-2xl cyber-glow">
-                <div className="flex items-center gap-3 mb-4">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <h4 className="text-base font-semibold text-white">Compliance Status</h4>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">FERPA</span>
-                    <span className="text-green-400 text-sm font-medium">✓ 100%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">FISMA</span>
-                    <span className="text-green-400 text-sm font-medium">✓ 98%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">CIPA</span>
-                    <span className="text-yellow-400 text-sm font-medium">⚠ 92%</span>
-                  </div>
-                </div>
-                
-                <div className="mt-4 p-3 bg-green-900/20 rounded-lg">
-                  <div className="text-xs text-green-400 font-medium">Next Audit: March 15, 2025</div>
-                </div>
-              </div>
+                        <div className="p-6 space-y-6">
+                          {/* Key Metrics Row */}
+                          <div className="grid grid-cols-4 gap-4">
+                            <div className="bg-gray-800/60 p-4 rounded-lg border border-cyan-500/30">
+                              <div className="text-2xl font-bold text-cyan-400">834</div>
+                              <div className="text-xs text-gray-400">Protected Endpoints</div>
+                            </div>
+                            <div className="bg-gray-800/60 p-4 rounded-lg border border-green-500/30">
+                              <div className="text-2xl font-bold text-green-400">24</div>
+                              <div className="text-xs text-gray-400">Threats Blocked Today</div>
+                            </div>
+                            <div className="bg-gray-800/60 p-4 rounded-lg border border-red-500/30">
+                              <div className="text-2xl font-bold text-red-400">2</div>
+                              <div className="text-xs text-gray-400">Critical Alerts</div>
+                            </div>
+                            <div className="bg-gray-800/60 p-4 rounded-lg border border-purple-500/30">
+                              <div className="text-2xl font-bold text-purple-400">98.7%</div>
+                              <div className="text-xs text-gray-400">System Health</div>
+                            </div>
+                          </div>
 
-              {/* Network Monitoring */}
-              <div className="bg-gray-900 rounded-xl border border-cyan-500/30 p-6 shadow-2xl cyber-glow">
-                <div className="flex items-center gap-3 mb-4">
-                  <Globe className="w-5 h-5 text-cyan-400" />
-                  <h4 className="text-base font-semibold text-white">Network Overview</h4>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">Active Devices</span>
-                    <span className="text-cyan-400 text-sm font-medium">834</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">Bandwidth Usage</span>
-                    <span className="text-cyan-400 text-sm font-medium">67%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-400">Blocked IPs</span>
-                    <span className="text-red-400 text-sm font-medium">23</span>
-                  </div>
-                </div>
-                
-                <div className="mt-4 p-3 bg-cyan-900/20 rounded-lg">
-                  <div className="text-xs text-cyan-400 font-medium">Peak Hours: 9AM - 3PM</div>
-                </div>
-              </div>
+                          {/* Main Dashboard Content */}
+                          <div className="grid grid-cols-3 gap-6">
+                            
+                            {/* Live Threat Map */}
+                            <div className="col-span-2 bg-gray-800/40 rounded-xl p-6 border border-red-500/30">
+                              <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                  <Globe className="w-6 h-6 text-red-400" />
+                                  <h4 className="text-lg font-semibold text-white">Live Threat Map</h4>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
+                                  <span className="text-sm text-red-400">Live Updates</span>
+                                </div>
+                              </div>
+                              
+                              {/* Animated World Map with Threats */}
+                              <div className="relative bg-gray-900 rounded-lg h-64 overflow-hidden">
+                                {/* Simplified World Map Background */}
+                                <div className="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-green-900/20"></div>
+                                
+                                {/* Animated Threat Indicators */}
+                                {[
+                                  { x: '15%', y: '25%', color: 'red', severity: 'Critical' },
+                                  { x: '45%', y: '35%', color: 'yellow', severity: 'Medium' },
+                                  { x: '65%', y: '20%', color: 'red', severity: 'High' },
+                                  { x: '75%', y: '45%', color: 'orange', severity: 'High' },
+                                  { x: '25%', y: '55%', color: 'yellow', severity: 'Low' },
+                                  { x: '85%', y: '30%', color: 'red', severity: 'Critical' }
+                                ].map((threat, index) => (
+                                  <div
+                                    key={index}
+                                    className={`absolute w-3 h-3 rounded-full animate-ping bg-${threat.color}-400`}
+                                    style={{ 
+                                      left: threat.x, 
+                                      top: threat.y,
+                                      animationDelay: `${index * 0.5}s`,
+                                      animationDuration: '2s'
+                                    }}
+                                  >
+                                    <div className={`absolute inset-0 w-3 h-3 rounded-full bg-${threat.color}-500 animate-pulse`}></div>
+                                  </div>
+                                ))}
 
-              {/* AI Insights */}
-              <div className="bg-gray-900 rounded-xl border border-purple-500/30 p-6 shadow-2xl cyber-glow">
-                <div className="flex items-center gap-3 mb-4">
-                  <Brain className="w-5 h-5 text-purple-400" />
-                  <h4 className="text-base font-semibold text-white">AI Insights</h4>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="p-3 bg-purple-900/20 rounded-lg">
-                    <div className="text-xs text-purple-300 font-medium mb-1">Recommendation</div>
-                    <div className="text-xs text-gray-400">Update firewall rules for subnet 192.168.1.0/24</div>
+                                {/* Animated Data Streams */}
+                                <div className="absolute top-4 left-4 right-4">
+                                  <div className="flex justify-between text-xs">
+                                    <div className="bg-red-900/80 px-2 py-1 rounded text-red-300 animate-bounce">
+                                      🔴 Malware Detected - Russia
+                                    </div>
+                                    <div className="bg-yellow-900/80 px-2 py-1 rounded text-yellow-300 animate-bounce" style={{animationDelay: '1s'}}>
+                                      🟡 Phishing - China  
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div className="absolute bottom-4 left-4 right-4">
+                                  <div className="flex justify-between text-xs">
+                                    <div className="bg-orange-900/80 px-2 py-1 rounded text-orange-300 animate-bounce" style={{animationDelay: '0.5s'}}>
+                                      🟠 DDoS Attack - Brazil
+                                    </div>
+                                    <div className="bg-red-900/80 px-2 py-1 rounded text-red-300 animate-bounce" style={{animationDelay: '1.5s'}}>
+                                      🔴 Ransomware - North Korea
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Animated Activity Lines */}
+                                <div className="absolute inset-0">
+                                  <svg className="w-full h-full opacity-30">
+                                    {[1, 2, 3, 4].map((line, index) => (
+                                      <line
+                                        key={index}
+                                        x1={`${20 + index * 20}%`}
+                                        y1="10%"
+                                        x2={`${60 + index * 10}%`}
+                                        y2="90%"
+                                        stroke="#ef4444"
+                                        strokeWidth="1"
+                                        className="animate-pulse"
+                                        style={{animationDelay: `${index * 0.3}s`}}
+                                      />
+                                    ))}
+                                  </svg>
+                                </div>
+                              </div>
+                              
+                              {/* Threat Statistics */}
+                              <div className="grid grid-cols-3 gap-3 mt-4">
+                                <div className="text-center p-2 bg-red-900/20 rounded">
+                                  <div className="text-lg font-bold text-red-400">47</div>
+                                  <div className="text-xs text-gray-400">Active Threats</div>
+                                </div>
+                                <div className="text-center p-2 bg-orange-900/20 rounded">
+                                  <div className="text-lg font-bold text-orange-400">156</div>
+                                  <div className="text-xs text-gray-400">Blocked Today</div>
+                                </div>
+                                <div className="text-center p-2 bg-green-900/20 rounded">
+                                  <div className="text-lg font-bold text-green-400">99.2%</div>
+                                  <div className="text-xs text-gray-400">Detection Rate</div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Recent Incidents */}
+                            <div className="bg-gray-800/40 rounded-xl p-6 border border-purple-500/30">
+                              <div className="flex items-center gap-3 mb-4">
+                                <AlertTriangle className="w-6 h-6 text-purple-400" />
+                                <h4 className="text-lg font-semibold text-white">Recent Incidents</h4>
+                              </div>
+                              
+                              <div className="space-y-3">
+                                <div className="p-3 bg-red-900/20 rounded border-l-4 border-red-400">
+                                  <div className="text-sm font-medium text-red-300">Phishing Email Blocked</div>
+                                  <div className="text-xs text-gray-400">finance@university.edu</div>
+                                  <div className="text-xs text-gray-500">3 min ago</div>
+                                </div>
+                                
+                                <div className="p-3 bg-yellow-900/20 rounded border-l-4 border-yellow-400">
+                                  <div className="text-sm font-medium text-yellow-300">Suspicious Login</div>
+                                  <div className="text-xs text-gray-400">admin@school.edu</div>
+                                  <div className="text-xs text-gray-500">8 min ago</div>
+                                </div>
+                                
+                                <div className="p-3 bg-orange-900/20 rounded border-l-4 border-orange-400">
+                                  <div className="text-sm font-medium text-orange-300">Malware Quarantined</div>
+                                  <div className="text-xs text-gray-400">STUDENT-PC-42</div>
+                                  <div className="text-xs text-gray-500">12 min ago</div>
+                                </div>
+
+                                <div className="p-3 bg-blue-900/20 rounded border-l-4 border-blue-400">
+                                  <div className="text-sm font-medium text-blue-300">System Update</div>
+                                  <div className="text-xs text-gray-400">Firewall Rules Updated</div>
+                                  <div className="text-xs text-gray-500">15 min ago</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Bottom Analytics Row */}
+                          <div className="grid grid-cols-2 gap-6">
+                            <div className="bg-gray-800/40 rounded-xl p-4 border border-cyan-500/30">
+                              <h5 className="text-sm font-semibold text-cyan-400 mb-3">Network Traffic (Live)</h5>
+                              <div className="flex items-end space-x-1 h-20">
+                                {[20, 45, 60, 35, 80, 55, 90, 70, 25, 85, 40, 95, 60, 75, 30, 65].map((height, index) => (
+                                  <div
+                                    key={index}
+                                    className="bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t flex-1 animate-pulse"
+                                    style={{ 
+                                      height: `${height}%`,
+                                      animationDelay: `${index * 0.1}s`,
+                                      animationDuration: '3s'
+                                    }}
+                                  ></div>
+                                ))}
+                              </div>
+                            </div>
+                            
+                            <div className="bg-gray-800/40 rounded-xl p-4 border border-green-500/30">
+                              <h5 className="text-sm font-semibold text-green-400 mb-3">AI Detection Engine</h5>
+                              <div className="space-y-2">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-xs text-gray-400">Behavioral Analysis</span>
+                                  <span className="text-xs text-green-400">Active</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-green-400 h-1 rounded-full animate-pulse" style={{ width: '94%' }}></div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-xs text-gray-400">Threat Intelligence</span>
+                                  <span className="text-xs text-green-400">Active</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-green-400 h-1 rounded-full animate-pulse" style={{ width: '98%', animationDelay: '0.5s' }}></div>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-xs text-gray-400">Pattern Recognition</span>
+                                  <span className="text-xs text-green-400">Active</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-green-400 h-1 rounded-full animate-pulse" style={{ width: '91%', animationDelay: '1s' }}></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-3 bg-blue-900/20 rounded-lg">
-                    <div className="text-xs text-blue-300 font-medium mb-1">Pattern Detected</div>
-                    <div className="text-xs text-gray-400">Unusual login attempts from IP 45.67.89.123</div>
-                  </div>
-                </div>
-                
-                <div className="mt-4 p-3 bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-lg">
-                  <div className="text-xs text-purple-400 font-medium">Threat Score: 7.2/10</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Key Stats */}
       <section className="py-16 px-6 bg-surface/30">
