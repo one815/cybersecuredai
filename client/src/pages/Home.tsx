@@ -31,11 +31,12 @@ export default function Home() {
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-6">
-              <img 
-                src="/attached_assets/2_1755691384143.png" 
-                alt="CyberSecure AI" 
-                className="h-20 w-auto"
-              />
+              <div className="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mr-4">
+                <Bot className="w-10 h-10 text-white" />
+              </div>
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                CyberSecure AI
+              </h1>
             </div>
             <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto">
               AI-Powered Cybersecurity Platform for Education & Government
