@@ -8,13 +8,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center">
-                <Bot className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                CyberSecure AI
-              </span>
+            <div className="flex items-center mb-4">
+              <img 
+                src="/attached_assets/CyberSecure AI_1755697221441.jpg" 
+                alt="CyberSecure AI" 
+                className="h-8 w-auto"
+              />
             </div>
             <p className="text-gray-400 mb-6 max-w-md">
               AI-powered cybersecurity platform designed specifically for education and government sectors. 
