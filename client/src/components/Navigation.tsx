@@ -87,7 +87,7 @@ export function Navigation() {
           <Link href="/">
             <div className="flex items-center">
               <img 
-                src="/attached_assets/CyberSecure AI_1755697221441.jpg" 
+                src="/attached_assets/2_1755699581990.png" 
                 alt="CyberSecure AI" 
                 className="h-8 w-auto"
               />
