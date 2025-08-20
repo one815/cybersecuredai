@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+// Cinematic security imagery from attached assets
+import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 
@@ -206,7 +206,7 @@ export default function Platform() {
                             className="w-full border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
                             data-testid={`button-learn-more-${service.name.toLowerCase().replace(/\s+/g, '-')}`}
                           >
-                            Learn More <div className="w-4 h-4 ml-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
+                            Learn More <div className="w-4 h-4 ml-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
                           </Button>
                         </Link>
                       </CardContent>

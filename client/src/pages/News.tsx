@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+// Cinematic security imagery from attached assets
+import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
 interface NewsItem {
@@ -212,7 +212,7 @@ export default function News() {
                       <p className="text-gray-400 mb-6 text-lg">{featuredNews.excerpt}</p>
                       <Button className="bg-red-600 hover:bg-red-700">
                         Read Full Story
-                        <div className="w-4 h-4 ml-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
+                        <div className="w-4 h-4 ml-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
                       </Button>
                     </CardContent>
                   </Card>
@@ -261,7 +261,7 @@ export default function News() {
                             ) : (
                               <>
                                 Read More
-                                <div className="w-3 h-3 ml-1 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
+                                <div className="w-3 h-3 ml-1 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
                               </>
                             )}
                           </Button>

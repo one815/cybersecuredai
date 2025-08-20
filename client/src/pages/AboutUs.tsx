@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+// Cinematic security imagery from attached assets
+import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
 export default function AboutUs() {
@@ -47,13 +47,13 @@ export default function AboutUs() {
         <div className="container mx-auto max-w-6xl">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+              <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white flex items-center space-x-2 geometric-text">
                 <span>About CyberSecure AI</span>
-                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
               </h1>
               <p className="text-gray-400 cyber-font">Leading cybersecurity innovation for education and government sectors</p>
             </div>
@@ -94,7 +94,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white geometric-text">Security First</CardTitle>
                 </CardHeader>
@@ -109,7 +109,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white">Innovation</CardTitle>
                 </CardHeader>
@@ -124,7 +124,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white">Service Excellence</CardTitle>
                 </CardHeader>
@@ -139,7 +139,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white">Compliance</CardTitle>
                 </CardHeader>
@@ -154,7 +154,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white">Sector Focus</CardTitle>
                 </CardHeader>
@@ -169,7 +169,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
                   <CardTitle className="text-xl text-white">Agility</CardTitle>
                 </CardHeader>
@@ -192,7 +192,7 @@ export default function AboutUs() {
                   <CardHeader>
                     <div className="flex items-center space-x-4">
                       <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 40%', filter: 'brightness(1.2) saturate(1.5)'}} />
+                        <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'brightness(1.2) saturate(1.5)'}} />
                       </div>
                       <div>
                         <CardTitle className="text-xl text-white">{member.name}</CardTitle>
@@ -244,7 +244,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                     <span>Sector-Specific Expertise</span>
                   </CardTitle>
                 </CardHeader>
@@ -255,9 +255,9 @@ export default function AboutUs() {
                     and operational constraints.
                   </p>
                   <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Deep understanding of FERPA, CIPA, FISMA</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Experience with government procurement</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Education-focused security training</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Deep understanding of FERPA, CIPA, FISMA</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Experience with government procurement</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Education-focused security training</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -265,7 +265,7 @@ export default function AboutUs() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
                     <span>Advanced AI Technology</span>
                   </CardTitle>
                 </CardHeader>
@@ -276,9 +276,9 @@ export default function AboutUs() {
                     incident response capabilities.
                   </p>
                   <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Real-time threat classification</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Predictive risk modeling</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated response playbooks</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Real-time threat classification</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Predictive risk modeling</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated response playbooks</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -296,9 +296,9 @@ export default function AboutUs() {
                     frameworks, ensuring organizations maintain compliance without manual oversight.
                   </p>
                   <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Multi-framework automation</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Continuous monitoring</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Audit-ready reporting</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Multi-framework automation</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Continuous monitoring</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Audit-ready reporting</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -316,9 +316,9 @@ export default function AboutUs() {
                     the needs of organizations of all sizes with flexible deployment and pricing options.
                   </p>
                   <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Cloud-native architecture</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Flexible user licensing</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Modular service offerings</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Cloud-native architecture</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Flexible user licensing</li>
+                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Modular service offerings</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -340,7 +340,7 @@ export default function AboutUs() {
                   </div>
                   <div>
                     <div className="w-16 h-16 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                      <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
                     </div>
                     <h3 className="text-lg font-bold text-white">FISMA</h3>
                     <p className="text-gray-400 text-sm">Compliant</p>
