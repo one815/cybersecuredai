@@ -13,15 +13,21 @@ export function Navigation() {
       label: "Platform",
       href: "/platform",
       dropdown: [
-        { label: "Managed Detection & Response", href: "/platform/mdr" },
-        { label: "Endpoint Security", href: "/platform/endpoint" },
-        { label: "Network Security", href: "/platform/network" },
-        { label: "Email Security", href: "/platform/email" },
+        { label: "☁️ Cloud Security & AI Analytics", href: "/platform#cloud-security", isHeader: true },
+        { label: "Automated Incident Response", href: "/platform/automated-incident-response" },
+        { label: "Threat Detection System", href: "/platform/threat-detection" },
+        { label: "Predictive Risk Analysis", href: "/platform/predictive-risk-analysis" },
+        { label: "🌐 Network Infrastructure & Management", href: "/platform#network-infrastructure", isHeader: true },
+        { label: "Firewall Management", href: "/platform/firewall-management" },
+        { label: "Router & Switch Monitoring", href: "/platform/network-monitoring" },
+        { label: "Zero-Trust Architecture", href: "/platform/zero-trust" },
+        { label: "💻 Endpoint Security & Management", href: "/platform#endpoint-security", isHeader: true },
+        { label: "24/7 Monitoring & Vulnerability Management", href: "/platform/monitoring-vulnerability" },
         { label: "Identity & Access Management", href: "/platform/iam" },
-        { label: "Vulnerability Management", href: "/platform/vulnerability" },
-        { label: "Compliance Management", href: "/platform/compliance" },
-        { label: "Incident Response", href: "/platform/incident-response" },
-        { label: "Security Playbook Simulator", href: "/security-playbook-simulator" }
+        { label: "System Administration", href: "/platform/system-administration" },
+        { label: "📋 Compliance & Risk Management", href: "/platform#compliance", isHeader: true },
+        { label: "Compliance Automation", href: "/platform/compliance-automation" },
+        { label: "Security Awareness Training", href: "/platform/security-training" }
       ]
     },
     {
