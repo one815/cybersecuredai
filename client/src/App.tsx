@@ -38,6 +38,15 @@ import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
 import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
 
+// Platform Pages
+import Platform from "@/pages/Platform";
+import AutomatedIncidentResponse from "@/pages/platform/AutomatedIncidentResponse";
+import ThreatDetection from "@/pages/platform/ThreatDetection";
+import PredictiveRiskAnalysis from "@/pages/platform/PredictiveRiskAnalysis";
+import ComplianceAutomation from "@/pages/platform/ComplianceAutomation";
+import PlatformSecurityTraining from "@/pages/platform/SecurityTraining";
+import MonitoringVulnerability from "@/pages/platform/MonitoringVulnerability";
+
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -75,6 +84,15 @@ function Router() {
       <Route path="/news" component={News} />
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
+      
+      {/* Platform Pages */}
+      <Route path="/platform" component={Platform} />
+      <Route path="/platform/automated-incident-response" component={AutomatedIncidentResponse} />
+      <Route path="/platform/threat-detection" component={ThreatDetection} />
+      <Route path="/platform/predictive-risk-analysis" component={PredictiveRiskAnalysis} />
+      <Route path="/platform/compliance-automation" component={ComplianceAutomation} />
+      <Route path="/platform/security-training" component={PlatformSecurityTraining} />
+      <Route path="/platform/monitoring-vulnerability" component={MonitoringVulnerability} />
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">
