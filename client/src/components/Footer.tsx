@@ -153,27 +153,32 @@ export function Footer() {
         {/* Compliance Badges */}
         <div className="border-t border-surface/50 mt-8 pt-8">
           <div className="flex flex-col lg:flex-row items-center justify-between">
-            <div className="flex flex-wrap items-center gap-4 mb-4 lg:mb-0">
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-green-400" />
-                <span className="text-xs text-gray-400">FERPA Compliant</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-blue-400" />
-                <span className="text-xs text-gray-400">FISMA Compliant</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-purple-400" />
-                <span className="text-xs text-gray-400">FedRAMP Authorized</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-orange-400" />
-                <span className="text-xs text-gray-400">NIST SP 800-53</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4 text-cyan-400" />
-                <span className="text-xs text-gray-400">SOC 2 Type II</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-6 mb-4 lg:mb-0">
+              <img 
+                src="/attached_assets/ferpa compliant_1755703343167.png" 
+                alt="FERPA Compliant" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
+              <img 
+                src="/attached_assets/fisme compliant_1755703347744.webp" 
+                alt="FISMA Compliant" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
+              <img 
+                src="/attached_assets/fedramp authorized_1755703346268.png" 
+                alt="FedRAMP Authorized" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
+              <img 
+                src="/attached_assets/NIST compliant_1755703344784.png" 
+                alt="NIST SP 800-53 Compliant" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
+              <img 
+                src="/attached_assets/SOC 2 Type Compliance_1755703349137.jpg" 
+                alt="SOC 2 Type II Compliant" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
             </div>
             <p className="text-xs text-gray-500">
               © 2024 CyberSecure AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link>
