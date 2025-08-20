@@ -130,7 +130,7 @@ export function Navigation() {
                         item.label === 'Solutions' ? 'w-80' : 
                         item.label === 'Why CyberSecure AI' ? 'w-80' : 
                         'w-72'
-                      } bg-background/98 backdrop-blur-xl border-2 border-cyan-500/30 rounded-xl shadow-2xl cyber-glow-strong z-50 animate-in fade-in-0 zoom-in-95 duration-200`}>
+                      } bg-slate-800/95 backdrop-blur-xl border-2 border-cyan-400/50 rounded-xl shadow-2xl cyber-glow-strong z-50 animate-in fade-in-0 zoom-in-95 duration-200`}>
                         
                         {/* Multi-column layout for larger menus */}
                         {item.label === 'Resources' ? (
@@ -138,12 +138,12 @@ export function Navigation() {
                             <div className="grid grid-cols-2 gap-x-6">
                               {/* Left Column - Resource Center */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/5">
+                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
                                   Resource Center
                                 </div>
                                 {item.dropdown.slice(1, 7).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -152,23 +152,23 @@ export function Navigation() {
                               
                               {/* Right Column - Knowledge Center & Features */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/5">
+                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
                                   Knowledge Center
                                 </div>
                                 {item.dropdown.slice(8, 10).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
                                 ))}
                                 
-                                <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/5 mt-2">
+                                <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30 mt-2">
                                   Features
                                 </div>
                                 {item.dropdown.slice(11).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-orange-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-orange-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -181,12 +181,12 @@ export function Navigation() {
                             <div className="grid grid-cols-2 gap-x-6">
                               {/* Left Column - By Topic */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/5">
+                                <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30">
                                   By Topic
                                 </div>
                                 {item.dropdown.slice(1, 5).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -195,12 +195,12 @@ export function Navigation() {
                               
                               {/* Right Column - By Industry */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/5">
+                                <div className="px-5 py-3 text-xs font-bold text-green-400 uppercase tracking-wider bg-green-500/20 border-b border-green-500/30">
                                   By Industry
                                 </div>
                                 {item.dropdown.slice(6).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-green-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-green-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-green-400 hover:bg-green-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-green-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -215,7 +215,7 @@ export function Navigation() {
                               <div>
                                 {item.dropdown.slice(0, 2).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-cyan-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -224,12 +224,12 @@ export function Navigation() {
                               
                               {/* Right Column - Comparisons */}
                               <div>
-                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/5">
+                                <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30">
                                   Compare CyberSecure AI
                                 </div>
                                 {item.dropdown.slice(3).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
-                                    <div className="px-5 py-2 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-purple-400">
+                                    <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400">
                                       {dropdownItem.label}
                                     </div>
                                   </Link>
@@ -243,16 +243,13 @@ export function Navigation() {
                             {item.dropdown.map((dropdownItem, index) => (
                               <div key={index}>
                                 {dropdownItem.isHeader ? (
-                                  <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider border-t border-cyan-500/20 mt-2 first:mt-0 first:border-t-0 bg-cyan-500/5">
+                                  <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider border-t border-cyan-500/20 mt-2 first:mt-0 first:border-t-0 bg-cyan-500/20">
                                     {dropdownItem.label}
                                   </div>
                                 ) : (
                                   <Link href={dropdownItem.href}>
-                                    <div className="px-5 py-3 text-sm text-gray-200 hover:text-white hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 cursor-pointer transition-all duration-200 border-l-2 border-transparent hover:border-cyan-400 hover:shadow-md">
-                                      <div className="flex items-center justify-between">
-                                        <span>{dropdownItem.label}</span>
-                                        <div className="w-1 h-1 bg-cyan-400/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                      </div>
+                                    <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400">
+                                      {dropdownItem.label}
                                     </div>
                                   </Link>
                                 )}
@@ -262,7 +259,7 @@ export function Navigation() {
                         )}
                         
                         {/* Dropdown Arrow */}
-                        <div className="absolute -top-2 left-6 w-4 h-4 bg-background/98 border-l-2 border-t-2 border-cyan-500/30 transform rotate-45"></div>
+                        <div className="absolute -top-2 left-6 w-4 h-4 bg-slate-800 border-l-2 border-t-2 border-cyan-400/50 transform rotate-45"></div>
                       </div>
                     )}
                   </div>
