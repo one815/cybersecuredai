@@ -49,6 +49,253 @@
   --radius: 0.75rem;
 }
 
+/* AI/Robot Futuristic Theme */
+.ai-dashboard-bg {
+  background: linear-gradient(135deg, #0f1419 0%, #1a202c 25%, #2d3748 50%, #1a202c 75%, #0f1419 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-dashboard-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(34, 197, 94, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05) 0%, transparent 50%);
+  background-size: 800px 800px;
+  animation: float 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.ai-dashboard-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(45deg, transparent 40%, rgba(59, 130, 246, 0.02) 50%, transparent 60%),
+    linear-gradient(-45deg, transparent 40%, rgba(34, 197, 94, 0.02) 50%, transparent 60%);
+  background-size: 200px 200px;
+  animation: slide 15s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(120deg); }
+  66% { transform: translate(-20px, 20px) rotate(240deg); }
+}
+
+@keyframes slide {
+  0% { transform: translateX(-200px); }
+  100% { transform: translateX(200px); }
+}
+
+.cyber-glow {
+  box-shadow: 
+    0 0 20px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.cyber-glow:hover {
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 0.2),
+    0 0 60px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.threat-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 30px rgba(239, 68, 68, 0.5);
+  }
+}
+
+.ai-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.neural-network-bg {
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 80% 50%, rgba(34, 197, 94, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 40% 20%, rgba(168, 85, 247, 0.1) 2px, transparent 2px),
+    radial-gradient(circle at 60% 80%, rgba(245, 158, 11, 0.1) 2px, transparent 2px);
+  background-size: 100px 100px;
+  animation: neural-pulse 4s ease-in-out infinite;
+}
+
+@keyframes neural-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.data-stream {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    rgba(34, 197, 94, 0.1),
+    rgba(168, 85, 247, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: data-flow 3s linear infinite;
+}
+
+@keyframes data-flow {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.hologram-effect {
+  background: linear-gradient(
+    45deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(34, 197, 94, 0.1) 25%,
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(245, 158, 11, 0.1) 75%,
+    rgba(59, 130, 246, 0.1) 100%
+  );
+  background-size: 400% 400%;
+  animation: hologram 6s ease infinite;
+}
+
+@keyframes hologram {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* AI Robot Elements */
+.robot-eye {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #00f5ff, #0080ff);
+  box-shadow: 
+    0 0 10px #00f5ff,
+    0 0 20px #00f5ff,
+    0 0 30px #00f5ff;
+  animation: robot-blink 3s ease-in-out infinite;
+}
+
+@keyframes robot-blink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.3; }
+}
+
+.circuit-lines {
+  background-image: 
+    linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px);
+  background-size: 40px 40px;
+  position: relative;
+}
+
+.circuit-lines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 40px 40px, rgba(59, 130, 246, 0.3) 2px, transparent 2px);
+  background-size: 40px 40px;
+  animation: circuit-pulse 2s ease-in-out infinite;
+}
+
+@keyframes circuit-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Enhanced Gradients for AI Theme */
+.ai-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.ai-gradient-secondary {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.ai-gradient-success {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.ai-gradient-warning {
+  background: linear-gradient(135deg, #f8ff00 0%, #3ad59f 100%);
+}
+
+.ai-gradient-danger {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+/* Futuristic Card Animations */
+.futuristic-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.futuristic-card:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(59, 130, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+}
+
+/* Matrix-like Background Effect */
+.matrix-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-bg::before {
+  content: '01010100101010001011010100100101010010101001';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 20px;
+  color: rgba(34, 197, 94, 0.1);
+  word-wrap: break-word;
+  animation: matrix-rain 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes matrix-rain {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
 .dark {
   --background: hsl(210, 55%, 8%);
   --foreground: hsl(0, 0%, 100%);

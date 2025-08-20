@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Shield, AlertTriangle, Server, ClipboardCheck, Eye, Search, Bell, Plus, FileText, Upload, Share, Wifi, Download } from "lucide-react";
+import { Shield, AlertTriangle, Server, ClipboardCheck, Eye, Search, Bell, Plus, FileText, Upload, Share, Wifi, Download, Lock, Users, Activity, RefreshCw, Database, Cpu, Brain, Zap, Bot, Globe, MonitorSpeaker, Check } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DashboardStats } from "@/types";
 
 export default function Dashboard() {
@@ -42,13 +44,26 @@ export default function Dashboard() {
   };
 
   return (
-    <div>
-      {/* Header */}
-      <header className="bg-surface border-b border-surface-light p-4">
+    <div className="ai-dashboard-bg min-h-screen">
+      {/* Enhanced Header with AI Theme */}
+      <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-4 cyber-glow">
         <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-2xl font-bold">Security Dashboard</h2>
-            <p className="text-gray-400">Real-time threat monitoring and system status</p>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
+                <Bot className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Security Dashboard</h2>
+                <p className="text-gray-400 flex items-center space-x-2">
+                  <span>Real-time AI threat monitoring and RPA security automation</span>
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span className="text-green-400 text-xs">AI Online</span>
+                  </div>
+                </p>
+              </div>
+            </div>
           </div>
           <div className="flex items-center space-x-4">
             {/* Search */}
@@ -81,49 +96,465 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="p-6">
-        {/* Security Overview Cards */}
+        {/* Enhanced Security Overview Cards with AI Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <DashboardCard
-            title="Current Threat Level"
-            value={stats?.threatLevel || "LOW"}
-            description="Current Threat Level"
-            icon={<Shield className="w-6 h-6" />}
-            status={getThreatLevelColor(stats?.threatLevel || "LOW") as any}
-            trend={{ value: "12% from yesterday", isPositive: true }}
-          />
+          <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-6 h-6 text-yellow-400" />
+                  <span className="text-sm text-gray-400">Threat Level</span>
+                </div>
+                <AlertTriangle className="w-5 h-5 text-yellow-400" />
+              </div>
+              <div className="mb-4">
+                <div className="text-3xl font-bold text-white mb-1">Medium</div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-xs text-gray-400">Safe</span>
+                  <span className="text-xs text-gray-400">Critical</span>
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-green-500 to-yellow-500 h-2 rounded-full" style={{width: '60%'}}></div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          <DashboardCard
-            title="Active Incidents"
-            value={stats?.activeIncidents || 0}
-            description="Active Incidents"
-            icon={<AlertTriangle className="w-6 h-6" />}
-            status="warning"
-            trend={{ value: "2 require attention", isPositive: false }}
-          />
+          <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <div className="w-6 h-6 text-red-400 relative">
+                    <Zap className="w-6 h-6" />
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  </div>
+                  <span className="text-sm text-gray-400">Active Threats</span>
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">7</div>
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Critical</span>
+                  <span className="text-red-400">2</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">High</span>
+                  <span className="text-orange-400">3</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Medium</span>
+                  <span className="text-yellow-400">2</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-          <DashboardCard
-            title="Protected Assets"
-            value={stats?.protectedAssets?.toLocaleString() || "1,247"}
-            description="Protected Assets"
-            icon={<Server className="w-6 h-6" />}
-            status="info"
-            trend={{ value: "100% coverage", isPositive: true }}
-          />
+          <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Shield className="w-6 h-6 text-green-400" />
+                  <span className="text-sm text-gray-400">System Security</span>
+                </div>
+                <Check className="w-5 h-5 text-green-400" />
+              </div>
+              <div className="text-3xl font-bold text-white mb-2">86%</div>
+              <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
+                <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: '86%'}}></div>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-gray-400">0%</span>
+                <span className="text-gray-400">100%</span>
+              </div>
+            </CardContent>
+          </Card>
 
-          <DashboardCard
-            title="Compliance Score"
-            value={`${stats?.complianceScore || 98}%`}
-            description="Compliance Score"
-            icon={<ClipboardCheck className="w-6 h-6" />}
-            status="success"
-            trend={{ value: "2.1% improvement", isPositive: true }}
-          />
+          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Brain className="w-6 h-6 text-cyan-400" />
+                  <span className="text-sm text-gray-400">Authentication</span>
+                </div>
+                <div className="text-cyan-400 text-sm">MFA Active</div>
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-400">✓ Biometric</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-400">✓ 2FA</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-400">✓ Password</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Threat Monitoring and Network Activity */}
+        {/* Enhanced Threat Activity Chart */}
+        <Card className="mb-8 bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xl font-bold text-white">Threat Activity</CardTitle>
+              <Tabs defaultValue="daily" className="w-48">
+                <TabsList className="bg-gray-800">
+                  <TabsTrigger value="daily">Daily</TabsTrigger>
+                  <TabsTrigger value="weekly">Weekly</TabsTrigger>
+                  <TabsTrigger value="monthly">Monthly</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64 bg-background/50 rounded-lg p-4 mb-4 relative overflow-hidden">
+              {/* Simulated Chart */}
+              <div className="absolute inset-0 p-4">
+                <div className="grid grid-cols-12 gap-1 h-full items-end">
+                  {[3, 2, 4, 1.5, 2.8, 3.5, 2.2, 4.1, 2.9, 3.8, 2.1, 3.6].map((height, index) => (
+                    <div key={index} className="relative">
+                      <div 
+                        className="bg-gradient-to-t from-red-600 to-red-400 rounded-t opacity-70" 
+                        style={{height: `${height * 20}%`}}
+                      ></div>
+                      <div 
+                        className="bg-gradient-to-t from-orange-600 to-orange-400 rounded-t opacity-70 mt-1" 
+                        style={{height: `${(height + 1) * 15}%`}}
+                      ></div>
+                      <div 
+                        className="bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t opacity-70 mt-1" 
+                        style={{height: `${(height + 2) * 25}%`}}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute bottom-4 left-4 text-xs text-gray-400">
+                  00:00
+                </div>
+                <div className="absolute bottom-4 right-4 text-xs text-gray-400">
+                  Now
+                </div>
+              </div>
+              {/* Legend */}
+              <div className="absolute top-4 right-4 space-y-1">
+                <div className="flex items-center space-x-2 text-xs">
+                  <div className="w-3 h-3 bg-red-500 rounded"></div>
+                  <span className="text-gray-400">Critical Threats</span>
+                </div>
+                <div className="flex items-center space-x-2 text-xs">
+                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                  <span className="text-gray-400">High Threats</span>
+                </div>
+                <div className="flex items-center space-x-2 text-xs">
+                  <div className="w-3 h-3 bg-cyan-500 rounded"></div>
+                  <span className="text-gray-400">Medium Threats</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Active Threats and Encryption Status */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Real-time Threats */}
-          <Card className="bg-surface glow-border">
+          {/* Active Threats List */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-xl font-bold text-white">Active Threats</CardTitle>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-red-500 text-white">Now</Badge>
+                  <Button variant="link" className="text-cyan-400">View all threats</Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="border border-red-500/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                      <span className="font-medium text-red-400">Critical</span>
+                    </div>
+                    <span className="text-xs text-gray-400">Now</span>
+                  </div>
+                  <div className="text-sm text-white font-medium mb-1">Ransomware Attempt Detected</div>
+                  <div className="text-xs text-gray-400">File encryption attempt blocked on server-03</div>
+                </div>
+                
+                <div className="border border-red-500/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                      <span className="font-medium text-red-400">Critical</span>
+                    </div>
+                    <span className="text-xs text-gray-400">10m ago</span>
+                  </div>
+                  <div className="text-sm text-white font-medium mb-1">Brute Force Attack</div>
+                  <div className="text-xs text-gray-400">Multiple failed login attempts from IP 192.168.1.45</div>
+                </div>
+                
+                <div className="border border-orange-500/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span className="font-medium text-orange-400">High</span>
+                    </div>
+                    <span className="text-xs text-gray-400">25m ago</span>
+                  </div>
+                  <div className="text-sm text-white font-medium mb-1">Suspicious Network Activity</div>
+                  <div className="text-xs text-gray-400">Unusual outbound traffic detected on port 445</div>
+                </div>
+                
+                <div className="border border-orange-500/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span className="font-medium text-orange-400">High</span>
+                    </div>
+                    <span className="text-xs text-gray-400">42m ago</span>
+                  </div>
+                  <div className="text-sm text-white font-medium mb-1">Unauthorized Access Attempt</div>
+                  <div className="text-xs text-gray-400">User tried to access restricted database from dev-workstation</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* Encryption Status */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
+            <CardHeader>
+              <CardTitle className="text-xl font-bold text-white">Encryption Status</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-background/50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-white font-medium">Database Encryption</span>
+                    <Check className="w-4 h-4 text-green-400" />
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">AES-256 Active</div>
+                  <Progress value={100} className="h-1" />
+                </div>
+                
+                <div className="bg-background/50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-white font-medium">File System Encryption</span>
+                    <Check className="w-4 h-4 text-green-400" />
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">BitLocker Active</div>
+                  <Progress value={100} className="h-1" />
+                </div>
+                
+                <div className="bg-background/50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-white font-medium">Network Encryption</span>
+                    <Check className="w-4 h-4 text-green-400" />
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">TLS 1.3 Active</div>
+                  <Progress value={100} className="h-1" />
+                </div>
+                
+                <div className="bg-background/50 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm text-white font-medium">Email Encryption</span>
+                    <AlertTriangle className="w-4 h-4 text-yellow-400" />
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">PGP Partial</div>
+                  <Progress value={65} className="h-1" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {/* Authentication & Access Control and System Security */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Authentication & Access Control */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+            <CardHeader>
+              <CardTitle className="text-xl font-bold text-white">Authentication & Access Control</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-white font-medium">Multi-Factor Authentication</span>
+                    <span className="text-green-400 text-sm">92% Compliance</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mb-2">40/50 users have MFA enabled</div>
+                  <Progress value={92} className="h-2" />
+                </div>
+                
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-white font-medium">Permission Boundaries</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <div className="bg-blue-900/30 rounded px-2 py-1 text-center">
+                      <div className="text-blue-400">Admin: 5</div>
+                    </div>
+                    <div className="bg-purple-900/30 rounded px-2 py-1 text-center">
+                      <div className="text-purple-400">Power: 12</div>
+                    </div>
+                    <div className="bg-gray-700 rounded px-2 py-1 text-center">
+                      <div className="text-gray-400">Basic: 33</div>
+                    </div>
+                  </div>
+                  <div className="mt-2 space-y-1 text-xs text-gray-400">
+                    <div className="flex justify-between">
+                      <span>Last permission review:</span>
+                      <span>3 days ago</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Unusual access attempts:</span>
+                      <span>4 in last 24h</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Privilege escalations:</span>
+                      <span>1 pending approval</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-white font-medium">Anti-Phishing Protection</span>
+                    <span className="text-green-400 text-sm">Active</span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-2xl font-bold text-blue-400">24</div>
+                      <div className="text-xs text-gray-400">Emails Blocked</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-green-400">7</div>
+                      <div className="text-xs text-gray-400">Links Sanitized</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-orange-400">2</div>
+                      <div className="text-xs text-gray-400">User Reports</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {/* System Security Status */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-xl font-bold text-white">System Security Status</CardTitle>
+                <Button className="bg-cyan-600 hover:bg-cyan-700 text-white text-xs" size="sm">
+                  Run Full Scan
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="grid grid-cols-6 gap-2 text-xs text-gray-400 border-b border-gray-700 pb-2">
+                  <span>SYSTEM</span>
+                  <span>LAST UPDATE</span>
+                  <span>FIREWALL</span>
+                  <span>ANTIVIRUS</span>
+                  <span>VULNERABILITIES</span>
+                  <span>STATUS</span>
+                </div>
+                
+                <div className="grid grid-cols-6 gap-2 text-xs items-center">
+                  <div className="flex items-center space-x-2">
+                    <Server className="w-4 h-4 text-blue-400" />
+                    <span className="text-white">Main Server</span>
+                  </div>
+                  <span className="text-gray-400">Today, 09:45 AM</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <span className="text-green-400">0 detected</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Secure</Badge>
+                </div>
+                
+                <div className="grid grid-cols-6 gap-2 text-xs items-center">
+                  <div className="flex items-center space-x-2">
+                    <Database className="w-4 h-4 text-blue-400" />
+                    <span className="text-white">Database Server</span>
+                  </div>
+                  <span className="text-gray-400">Today, 08:30 AM</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <span className="text-green-400">0 detected</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Secure</Badge>
+                </div>
+                
+                <div className="grid grid-cols-6 gap-2 text-xs items-center">
+                  <div className="flex items-center space-x-2">
+                    <Globe className="w-4 h-4 text-orange-400" />
+                    <span className="text-white">Network Gateway</span>
+                  </div>
+                  <span className="text-gray-400">3 days ago</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <Badge className="bg-orange-900/50 text-orange-400 border-orange-700 text-xs">Update Required</Badge>
+                  <span className="text-orange-400">2 medium</span>
+                  <Badge className="bg-orange-900/50 text-orange-400 border-orange-700 text-xs">At Risk</Badge>
+                </div>
+                
+                <div className="grid grid-cols-6 gap-2 text-xs items-center">
+                  <div className="flex items-center space-x-2">
+                    <Cpu className="w-4 h-4 text-blue-400" />
+                    <span className="text-white">Cloud Storage</span>
+                  </div>
+                  <span className="text-gray-400">Today, 10:15 AM</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
+                  <span className="text-green-400">0 detected</span>
+                  <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Secure</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Security Alerts */}
+        <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow mb-8">
+          <CardHeader>
+            <CardTitle className="text-xl font-bold text-white">Security Alerts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-700/50">
+                <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-red-400">Critical Security Update</div>
+                  <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
+                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2">Apply Now</Button>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
+                <AlertTriangle className="w-5 h-5 text-yellow-400 mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
+                  <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
+                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2">Send Reminder</Button>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3 p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
+                <Eye className="w-5 h-5 text-blue-400 mt-0.5" />
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-blue-400">Security Scan Complete</div>
+                  <div className="text-xs text-gray-300 mt-1">Weekly security scan completed. 2 medium vulnerabilities detected.</div>
+                  <Button size="sm" variant="outline" className="border-blue-600 text-blue-400 hover:bg-blue-900/50 mt-2">View Report</Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Original sections with enhanced styling */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Real-time AI Threat Detection */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl font-bold">Real-time Threat Detection</CardTitle>
@@ -171,8 +602,8 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Network Activity */}
-          <Card className="bg-surface glow-border">
+          {/* AI-Powered Network Activity */}
+          <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl font-bold">Network Activity</CardTitle>
@@ -217,8 +648,8 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* File Sharing Section */}
-        <Card className="bg-surface glow-border mb-8">
+        {/* AI-Secured File Sharing */}
+        <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow mb-8">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl font-bold">Secure File Sharing</CardTitle>
@@ -289,8 +720,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Compliance Overview */}
-        <Card className="bg-surface glow-border">
+        {/* AI Compliance Monitoring */}
+        <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl font-bold">Compliance Status</CardTitle>
