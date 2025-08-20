@@ -234,7 +234,7 @@ export function Navigation() {
                   </div>
                 ) : (
                   <Link href={item.href}>
-                    <span className={`text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer ${
+                    <span className={`text-sm font-medium transition-colors hover:text-cyan-400 cursor-pointer whitespace-nowrap ${
                       location === item.href ? "text-cyan-400" : "text-gray-300"
                     }`}>
                       {item.label}
