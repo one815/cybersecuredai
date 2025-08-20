@@ -55,13 +55,13 @@ export default function Dashboard() {
               </div>
               <div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">AI Security Dashboard</h2>
-                <p className="text-gray-400 flex items-center space-x-2">
+                <div className="text-gray-400 flex items-center space-x-2">
                   <span>Real-time AI threat monitoring and RPA security automation</span>
                   <div className="flex items-center space-x-1">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                     <span className="text-green-400 text-xs">AI Online</span>
                   </div>
-                </p>
+                </div>
               </div>
             </div>
           </div>
