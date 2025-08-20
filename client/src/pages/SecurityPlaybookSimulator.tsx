@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,7 +16,15 @@ import {
   Play,
   RotateCcw,
   Trophy,
-  Star
+  Star,
+  Monitor,
+  Wifi,
+  Server,
+  Users,
+  Eye,
+  Lock,
+  Activity,
+  Skull
 } from "lucide-react";
 
 interface PlaybookScenario {
@@ -44,6 +52,10 @@ interface PlaybookStep {
     points: number;
   }[];
   context?: string;
+  visual?: {
+    type: 'email' | 'network' | 'dashboard' | 'alert' | 'system';
+    content: any;
+  };
 }
 
 interface SimulationState {
@@ -72,6 +84,18 @@ const scenarios: PlaybookScenario[] = [
         description: "A faculty member reports receiving a suspicious email claiming to be from IT support asking for password verification.",
         question: "What should be your immediate first response?",
         context: "Email contains: 'Action Required: Verify your account credentials to prevent suspension. Click here to verify: http://suspicious-link.com'",
+        visual: {
+          type: 'email',
+          content: {
+            from: 'it-support@universi7y-portal.com',
+            to: 'faculty@university.edu',
+            subject: 'URGENT: Account Verification Required',
+            timestamp: '2 minutes ago',
+            body: 'Your university email account requires immediate verification to prevent suspension. Please click the link below to verify your credentials and maintain access to university systems.',
+            link: 'http://suspicious-link.com/verify-account',
+            suspicious: true
+          }
+        },
         options: [
           {
             id: "option-1",
@@ -108,6 +132,18 @@ const scenarios: PlaybookScenario[] = [
         title: "Threat Analysis",
         description: "Analysis reveals the email contains a link to a credential harvesting site. The domain was registered 2 days ago.",
         question: "What's your next priority action?",
+        visual: {
+          type: 'dashboard',
+          content: {
+            alerts: [
+              { type: 'warning', message: 'Suspicious domain detected: universi7y-portal.com', time: '1 min ago' },
+              { type: 'info', message: 'Domain registration: 2 days ago', time: '1 min ago' },
+              { type: 'critical', message: 'Credential harvesting site identified', time: 'Just now' }
+            ],
+            networkTraffic: { suspicious: 1, total: 847 },
+            threatsBlocked: 12
+          }
+        },
         options: [
           {
             id: "option-1",
@@ -144,6 +180,21 @@ const scenarios: PlaybookScenario[] = [
         title: "Containment",
         description: "Email logs show 47 users received the phishing email. 3 users have clicked the link in the last hour.",
         question: "How should you handle the users who clicked the malicious link?",
+        visual: {
+          type: 'network',
+          content: {
+            totalUsers: 47,
+            clickedUsers: 3,
+            compromisedSystems: ['HR-LAPTOP-001', 'FACULTY-DESK-07', 'STUDENT-LAB-23'],
+            networkMap: true,
+            timelineEvents: [
+              { time: '14:23', event: 'Phishing email sent to 47 users' },
+              { time: '14:31', event: 'First click detected' },
+              { time: '14:45', event: 'Second click detected' },
+              { time: '15:12', event: 'Third click detected - CURRENT' }
+            ]
+          }
+        },
         options: [
           {
             id: "option-1",
@@ -193,6 +244,17 @@ const scenarios: PlaybookScenario[] = [
         description: "Multiple users report that files are becoming inaccessible with .encrypted extensions. A ransom note appears demanding Bitcoin payment.",
         question: "What is your immediate priority in the first 5 minutes?",
         context: "Systems affected: Student Information System, HR Database, Email Server showing signs of encryption",
+        visual: {
+          type: 'alert',
+          content: {
+            criticalAlerts: 3,
+            encryptedFiles: 15847,
+            affectedSystems: ['SIS-SERVER-01', 'HR-DB-MAIN', 'MAIL-SRV-02'],
+            ransomNote: 'Your files have been encrypted. Pay 50 BTC to recover your data.',
+            encryptionProgress: 73,
+            networkStatus: 'COMPROMISED'
+          }
+        },
         options: [
           {
             id: "option-1",
@@ -411,6 +473,235 @@ export default function SecurityPlaybookSimulator() {
     if (percentage >= 75) return { rating: 'Good', color: 'text-blue-400', icon: Star };
     if (percentage >= 60) return { rating: 'Average', color: 'text-yellow-400', icon: CheckCircle };
     return { rating: 'Needs Improvement', color: 'text-red-400', icon: XCircle };
+  };
+
+  // Visual Components
+  const EmailVisual = ({ content }: { content: any }) => (
+    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 font-mono text-sm">
+      <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-700">
+        <Mail className="w-5 h-5 text-blue-400" />
+        <span className="text-xs text-gray-400">Outlook Web Access</span>
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-red-400 font-medium">From:</span>
+          <span className={`${content.suspicious ? 'text-red-300' : 'text-gray-300'}`}>
+            {content.from}
+            {content.suspicious && <AlertTriangle className="w-4 h-4 inline ml-1 text-red-400" />}
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 font-medium">To:</span>
+          <span className="text-gray-300">{content.to}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 font-medium">Subject:</span>
+          <span className="text-yellow-300 font-medium">{content.subject}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-gray-400 font-medium">Time:</span>
+          <span className="text-gray-300">{content.timestamp}</span>
+        </div>
+      </div>
+      <div className="mt-4 p-3 bg-gray-800 rounded border-l-4 border-red-500">
+        <p className="text-gray-300 mb-3">{content.body}</p>
+        <div className="p-2 bg-red-900/30 rounded border border-red-500/50">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 text-red-400" />
+            <span className="text-red-300 text-sm underline">{content.link}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DashboardVisual = ({ content }: { content: any }) => (
+    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Monitor className="w-5 h-5 text-cyan-400" />
+          <span className="text-white font-medium">Security Operations Center</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm">
+            <span className="text-gray-400">Network Traffic:</span>
+            <span className="text-cyan-400 ml-1">{content.networkTraffic.suspicious}/{content.networkTraffic.total}</span>
+          </div>
+          <div className="text-sm">
+            <span className="text-gray-400">Threats Blocked:</span>
+            <span className="text-green-400 ml-1">{content.threatsBlocked}</span>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        {content.alerts.map((alert: any, index: number) => (
+          <div key={index} className={`p-3 rounded flex items-center gap-3 ${
+            alert.type === 'critical' ? 'bg-red-900/30 border border-red-500/50' :
+            alert.type === 'warning' ? 'bg-yellow-900/30 border border-yellow-500/50' :
+            'bg-blue-900/30 border border-blue-500/50'
+          }`}>
+            {alert.type === 'critical' && <Skull className="w-4 h-4 text-red-400" />}
+            {alert.type === 'warning' && <AlertTriangle className="w-4 h-4 text-yellow-400" />}
+            {alert.type === 'info' && <Eye className="w-4 h-4 text-blue-400" />}
+            <div className="flex-1">
+              <span className="text-gray-300">{alert.message}</span>
+            </div>
+            <span className="text-xs text-gray-500">{alert.time}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const NetworkVisual = ({ content }: { content: any }) => (
+    <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Wifi className="w-5 h-5 text-cyan-400" />
+          <span className="text-white font-medium">Network Topology</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-sm">
+            <span className="text-gray-400">Total Users:</span>
+            <span className="text-cyan-400 ml-1">{content.totalUsers}</span>
+          </div>
+          <div className="text-sm">
+            <span className="text-gray-400">Compromised:</span>
+            <span className="text-red-400 ml-1">{content.clickedUsers}</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Simple Network Visualization */}
+      <div className="mb-6 p-4 bg-gray-800 rounded">
+        <div className="flex items-center justify-center">
+          <div className="flex items-center space-x-8">
+            {/* Router */}
+            <div className="flex flex-col items-center">
+              <div className="w-12 h-8 bg-gray-700 rounded flex items-center justify-center mb-2">
+                <Server className="w-6 h-6 text-cyan-400" />
+              </div>
+              <span className="text-xs text-gray-400">Router</span>
+            </div>
+            
+            {/* Compromised Systems */}
+            <div className="flex flex-col space-y-2">
+              {content.compromisedSystems.map((system: string, index: number) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <div className="w-8 h-6 bg-red-900 rounded flex items-center justify-center border border-red-500">
+                    <Monitor className="w-4 h-4 text-red-400" />
+                  </div>
+                  <span className="text-xs text-red-300">{system}</span>
+                  <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Timeline */}
+      <div className="space-y-2">
+        <h4 className="text-sm font-medium text-white mb-2">Attack Timeline</h4>
+        {content.timelineEvents.map((event: any, index: number) => (
+          <div key={index} className={`flex items-center gap-3 p-2 rounded ${
+            event.event.includes('CURRENT') ? 'bg-red-900/30 border border-red-500/50' : 'bg-gray-800'
+          }`}>
+            <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+            <span className="text-xs text-gray-400 font-mono">{event.time}</span>
+            <span className="text-sm text-gray-300">{event.event}</span>
+            {event.event.includes('CURRENT') && <Activity className="w-4 h-4 text-red-400 animate-pulse" />}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const AlertVisual = ({ content }: { content: any }) => (
+    <div className="bg-gray-900 rounded-lg p-4 border border-red-500/50">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="w-5 h-5 text-red-400 animate-pulse" />
+          <span className="text-red-300 font-medium">CRITICAL SECURITY ALERT</span>
+        </div>
+        <div className="text-sm text-red-400 font-mono">
+          STATUS: {content.networkStatus}
+        </div>
+      </div>
+
+      {/* Critical Stats */}
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        <div className="bg-red-900/30 p-3 rounded text-center border border-red-500/30">
+          <div className="text-2xl font-bold text-red-400">{content.criticalAlerts}</div>
+          <div className="text-xs text-gray-400">Critical Alerts</div>
+        </div>
+        <div className="bg-red-900/30 p-3 rounded text-center border border-red-500/30">
+          <div className="text-2xl font-bold text-red-400">{content.encryptedFiles.toLocaleString()}</div>
+          <div className="text-xs text-gray-400">Files Encrypted</div>
+        </div>
+        <div className="bg-red-900/30 p-3 rounded text-center border border-red-500/30">
+          <div className="text-2xl font-bold text-red-400">{content.encryptionProgress}%</div>
+          <div className="text-xs text-gray-400">Encryption Progress</div>
+        </div>
+      </div>
+
+      {/* Encryption Progress Bar */}
+      <div className="mb-4">
+        <div className="flex justify-between text-sm mb-1">
+          <span className="text-gray-400">Encryption Progress</span>
+          <span className="text-red-400">{content.encryptionProgress}%</span>
+        </div>
+        <div className="w-full bg-gray-700 rounded-full h-2">
+          <div 
+            className="bg-red-500 h-2 rounded-full animate-pulse" 
+            style={{ width: `${content.encryptionProgress}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Affected Systems */}
+      <div className="mb-4">
+        <h4 className="text-sm font-medium text-white mb-2">Affected Systems</h4>
+        <div className="space-y-1">
+          {content.affectedSystems.map((system: string, index: number) => (
+            <div key={index} className="flex items-center gap-2 p-2 bg-red-900/20 rounded">
+              <Lock className="w-4 h-4 text-red-400" />
+              <span className="text-red-300 text-sm font-mono">{system}</span>
+              <div className="ml-auto flex items-center gap-1">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                <span className="text-xs text-red-400">ENCRYPTED</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Ransom Note */}
+      <div className="p-3 bg-black rounded border border-red-500">
+        <div className="flex items-center gap-2 mb-2">
+          <Skull className="w-5 h-5 text-red-400" />
+          <span className="text-red-300 font-bold">RANSOM NOTE</span>
+        </div>
+        <p className="text-gray-300 text-sm font-mono">{content.ransomNote}</p>
+      </div>
+    </div>
+  );
+
+  const renderStepVisual = (visual: any) => {
+    if (!visual) return null;
+
+    switch (visual.type) {
+      case 'email':
+        return <EmailVisual content={visual.content} />;
+      case 'dashboard':
+        return <DashboardVisual content={visual.content} />;
+      case 'network':
+        return <NetworkVisual content={visual.content} />;
+      case 'alert':
+        return <AlertVisual content={visual.content} />;
+      default:
+        return null;
+    }
   };
 
   // Scenario Selection View
@@ -634,6 +925,21 @@ export default function SecurityPlaybookSimulator() {
           </div>
           <Progress value={progressPercentage} className="w-full" />
         </div>
+
+        {/* Visual Scenario Display */}
+        {currentStep.visual && (
+          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 mb-6">
+            <CardHeader>
+              <CardTitle className="text-lg text-white flex items-center gap-2">
+                <Monitor className="w-5 h-5" />
+                Live Incident View
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {renderStepVisual(currentStep.visual)}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Current Step */}
         <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30">
