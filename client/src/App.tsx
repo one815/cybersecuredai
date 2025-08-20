@@ -35,6 +35,7 @@ import SecurityScanner from "@/pages/SecurityScanner";
 import Careers from "@/pages/Careers";
 import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
+import { ClientLogin } from "@/pages/ClientLogin";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -71,6 +72,7 @@ function Router() {
       <Route path="/careers" component={Careers} />
       <Route path="/blog" component={Blogs} />
       <Route path="/news" component={News} />
+      <Route path="/client-login" component={ClientLogin} />
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">
