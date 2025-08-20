@@ -142,6 +142,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
 
               {/* Threat Monitoring Interface - MacBook Mockup */}
               <div className="relative">
@@ -218,6 +219,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
             </div>
             
             {/* Additional Dashboard Panels */}
