@@ -393,6 +393,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/compliance/health", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const healthData = complianceAutomationEngine.getComplianceHealth();
+      res.json(healthData);
+    } catch (error) {
+      console.error("Error fetching compliance health:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   app.get("/api/compliance/framework/:frameworkId", async (req, res) => {
     try {
       const { complianceAutomationEngine } = await import("./engines/compliance-automation");

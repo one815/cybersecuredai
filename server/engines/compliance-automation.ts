@@ -782,6 +782,109 @@ export class ComplianceAutomationEngine {
   getSystemConfigurations(): SystemConfiguration[] {
     return Array.from(this.systemConfigs.values());
   }
+
+  // Calculate overall compliance health across all frameworks
+  getComplianceHealth(): {
+    overallHealthScore: number;
+    frameworkScores: Array<{
+      frameworkId: string;
+      name: string;
+      score: number;
+      status: "excellent" | "good" | "fair" | "poor";
+      lastAssessed: Date | null;
+    }>;
+    criticalGaps: number;
+    totalFindings: number;
+    complianceDistribution: {
+      excellent: number; // 90-100%
+      good: number; // 70-89%
+      fair: number; // 50-69%
+      poor: number; // 0-49%
+    };
+  } {
+    const frameworkScores = [];
+    let totalScore = 0;
+    let assessedFrameworks = 0;
+    let totalCriticalGaps = 0;
+    let totalFindings = 0;
+
+    const complianceDistribution = {
+      excellent: 0,
+      good: 0,
+      fair: 0,
+      poor: 0
+    };
+
+    // Get latest assessment helper function
+    const getLatestAssessment = (frameworkId: string) => {
+      return Array.from(this.assessments.values())
+        .filter(a => a.frameworkId === frameworkId)
+        .sort((a, b) => b.startDate.getTime() - a.startDate.getTime())[0];
+    };
+
+    // Calculate scores for each framework
+    for (const framework of Array.from(this.frameworks.values())) {
+      const frameworkId = framework.id;
+      const latestAssessment = getLatestAssessment(frameworkId);
+      
+      let score = 0;
+      let status: "excellent" | "good" | "fair" | "poor" = "poor";
+      let lastAssessed: Date | null = null;
+
+      if (latestAssessment) {
+        score = latestAssessment.overallScore;
+        lastAssessed = latestAssessment.completionDate || latestAssessment.startDate;
+        
+        // Calculate critical gaps for this framework
+        const criticalGaps = latestAssessment.findings.filter(f => f.severity === "critical").length;
+        totalCriticalGaps += criticalGaps;
+        totalFindings += latestAssessment.findings.length;
+        
+        totalScore += score;
+        assessedFrameworks++;
+      } else {
+        // If no assessment, assume baseline compliance based on framework controls
+        const controlsCount = framework.controls.length;
+        score = Math.max(30, Math.min(60, controlsCount * 5)); // Baseline 30-60% depending on controls
+      }
+
+      // Determine status based on score
+      if (score >= 90) {
+        status = "excellent";
+        complianceDistribution.excellent++;
+      } else if (score >= 70) {
+        status = "good";
+        complianceDistribution.good++;
+      } else if (score >= 50) {
+        status = "fair";
+        complianceDistribution.fair++;
+      } else {
+        status = "poor";
+        complianceDistribution.poor++;
+      }
+
+      frameworkScores.push({
+        frameworkId,
+        name: framework.name,
+        score,
+        status,
+        lastAssessed
+      });
+    }
+
+    // Calculate overall health score
+    const overallHealthScore = this.frameworks.size > 0 
+      ? Math.round(totalScore / this.frameworks.size) 
+      : 0;
+
+    return {
+      overallHealthScore,
+      frameworkScores,
+      criticalGaps: totalCriticalGaps,
+      totalFindings,
+      complianceDistribution
+    };
+  }
 }
 
 export const complianceAutomationEngine = new ComplianceAutomationEngine();

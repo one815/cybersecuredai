@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
 import { 
@@ -36,7 +37,12 @@ export default function Dashboard() {
     queryKey: ["/api/compliance/frameworks"],
   });
   
-  const { data: threatStats } = useQuery({
+  const { data: threatStats } = useQuery<{
+    recentEventsCount: number;
+    suspiciousIPsCount: number;
+    activeSessionsCount: number;
+    trustedDevicesCount: number;
+  }>({
     queryKey: ["/api/threats/stats"],
   });
 
@@ -823,50 +829,8 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* AI Compliance Monitoring */}
-        <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl font-bold">Compliance Status</CardTitle>
-              <Button variant="link" className="text-interactive">View Full Report</Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {complianceReports?.map((report: any) => (
-                <div key={report.id} className="bg-background rounded-lg p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <Calendar className="w-4 h-4 text-blue-400" style={{filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.4))'}} />
-                      <span className="font-medium">{report.framework}</span>
-                    </div>
-                    <Badge 
-                      variant="outline" 
-                      className={`${
-                        report.status === "compliant" 
-                          ? "text-success border-success" 
-                          : "text-interactive border-interactive"
-                      }`}
-                    >
-                      {report.status === "compliant" ? "Compliant" : "In Progress"}
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-surface-light rounded-full h-2 mb-2">
-                    <div 
-                      className={`h-2 rounded-full ${
-                        report.status === "compliant" ? "bg-success" : "bg-interactive"
-                      }`} 
-                      style={{ width: `${report.score}%` }}
-                    ></div>
-                  </div>
-                  <p className="text-gray-400 text-xs">
-                    {report.score}% - {report.recommendations}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Compliance Health Progress Indicator */}
+        <ComplianceHealthIndicator />
       </main>
     </div>
   );
