@@ -516,7 +516,7 @@
 
   /* Marketing Website Font Override */
   .marketing-website {
-    font-family: 'Work Sans', 'Inter', system-ui, sans-serif;
+    font-family: 'Aerodome', 'Work Sans', 'Inter', system-ui, sans-serif;
   }
 
   .marketing-website * {
@@ -539,7 +539,7 @@
   .marketing-website nav,
   .marketing-website nav *,
   .marketing-website .cyber-font {
-    font-family: 'Work Sans', 'Inter', system-ui, sans-serif !important;
+    font-family: 'Aerodome', 'Work Sans', 'Inter', system-ui, sans-serif !important;
   }
 
   /* SaaS Platform Font Override */
