@@ -20,25 +20,153 @@ import {
   Download,
   RefreshCw,
   Calendar,
-  Target
+  Target,
+  Plus,
+  Settings,
+  Trash2,
+  Edit
 } from "lucide-react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { apiRequest } from "@/lib/queryClient";
+import { useAuth } from "@/hooks/useAuth";
 import jsPDF from 'jspdf';
+
+// Types for custom compliance
+interface CustomComplianceFramework {
+  id: string;
+  organizationId: string;
+  frameworkId: string;
+  name: string;
+  fullName: string;
+  description: string | null;
+  sector: string;
+  version: string;
+  isActive: boolean;
+  createdBy: string;
+  lastModifiedBy: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CustomComplianceControl {
+  id: string;
+  frameworkId: string;
+  controlId: string;
+  title: string;
+  description: string;
+  category: string;
+  priority: string;
+  implementation: string;
+  requiredEvidence: string[];
+  testMethods: string[];
+  complianceStatement: string | null;
+  implementationGuidance: string | null;
+  assessmentCriteria: string | null;
+  isActive: boolean;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const frameworkSchema = z.object({
+  frameworkId: z.string().min(1, "Framework ID is required").regex(/^[a-z0-9-]+$/, "Framework ID must be lowercase alphanumeric with hyphens"),
+  name: z.string().min(1, "Name is required"),
+  fullName: z.string().min(1, "Full name is required"),
+  description: z.string().optional(),
+  sector: z.string().default("custom"),
+  version: z.string().default("1.0"),
+});
+
+const controlSchema = z.object({
+  controlId: z.string().min(1, "Control ID is required"),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  category: z.string().default("custom"),
+  priority: z.string().default("medium"),
+  implementation: z.string().default("manual"),
+  complianceStatement: z.string().optional(),
+  implementationGuidance: z.string().optional(),
+  assessmentCriteria: z.string().optional(),
+});
 
 export default function Compliance() {
   const [selectedFramework, setSelectedFramework] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  
+  // Custom compliance state
+  const [selectedCustomFramework, setSelectedCustomFramework] = useState<CustomComplianceFramework | null>(null);
+  const [showFrameworkDialog, setShowFrameworkDialog] = useState(false);
+  const [showControlDialog, setShowControlDialog] = useState(false);
+
+  const organizationId = "admin-1"; // In real app, get from auth context
   const { data: complianceFrameworks = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/compliance/frameworks"],
   });
 
   const { data: complianceAssessments = [] } = useQuery<any[]>({
     queryKey: ["/api/compliance/assessments"],
+  });
+
+  // Custom compliance queries - only for Enterprise users
+  const { data: customFrameworks = [], isLoading: customFrameworksLoading } = useQuery({
+    queryKey: ['/api/compliance/custom/frameworks', organizationId],
+    queryFn: async () => {
+      const response = await apiRequest('GET', `/api/compliance/custom/frameworks/${organizationId}`);
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    },
+    enabled: user?.planType?.includes('enterprise')
+  });
+
+  const { data: customControls = [] } = useQuery({
+    queryKey: ['/api/compliance/custom/controls', selectedCustomFramework?.frameworkId],
+    queryFn: async () => {
+      const response = await apiRequest('GET', `/api/compliance/custom/controls/${selectedCustomFramework?.frameworkId}`);
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    },
+    enabled: !!selectedCustomFramework
+  });
+
+  // Custom compliance forms
+  const frameworkForm = useForm({
+    resolver: zodResolver(frameworkSchema),
+    defaultValues: {
+      frameworkId: "",
+      name: "",
+      fullName: "",
+      description: "",
+      sector: "custom",
+      version: "1.0",
+    }
+  });
+
+  const controlForm = useForm({
+    resolver: zodResolver(controlSchema),
+    defaultValues: {
+      controlId: "",
+      title: "",
+      description: "",
+      category: "custom",
+      priority: "medium",
+      implementation: "manual",
+      complianceStatement: "",
+      implementationGuidance: "",
+      assessmentCriteria: "",
+    }
   });
 
   // Run Assessment Mutation
@@ -73,6 +201,78 @@ export default function Compliance() {
         title: "Assessment Failed",
         description: "Failed to run compliance assessment. Please try again.",
         variant: "destructive"
+      });
+    }
+  });
+
+  // Custom compliance mutations
+  const createFrameworkMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/compliance/custom/frameworks', { 
+        ...data, 
+        organizationId, 
+        createdBy: organizationId 
+      });
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/compliance/custom/frameworks'] });
+      setShowFrameworkDialog(false);
+      frameworkForm.reset();
+      toast({
+        title: "Framework Created",
+        description: "Your custom compliance framework has been created successfully."
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Creation Failed",
+        description: error.message || "Failed to create framework",
+        variant: "destructive"
+      });
+    }
+  });
+
+  const createControlMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await apiRequest('POST', '/api/compliance/custom/controls', { 
+        ...data, 
+        frameworkId: selectedCustomFramework?.frameworkId,
+        createdBy: organizationId,
+        requiredEvidence: [],
+        testMethods: []
+      });
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/compliance/custom/controls'] });
+      setShowControlDialog(false);
+      controlForm.reset();
+      toast({
+        title: "Control Created",
+        description: "Your custom compliance control has been created successfully."
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Creation Failed",
+        description: error.message || "Failed to create control",
+        variant: "destructive"
+      });
+    }
+  });
+
+  const deleteFrameworkMutation = useMutation({
+    mutationFn: async (frameworkId: string) => {
+      const response = await apiRequest('DELETE', `/api/compliance/custom/framework/${frameworkId}`);
+      return await response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/compliance/custom/frameworks'] });
+      setSelectedCustomFramework(null);
+      toast({
+        title: "Framework Deleted",
+        description: "The custom compliance framework has been deleted."
       });
     }
   });
@@ -550,6 +750,15 @@ export default function Compliance() {
               <Target className="w-4 h-4 mr-2" />
               Executive Overview
             </TabsTrigger>
+            {user?.planType?.includes('enterprise') && (
+              <TabsTrigger value="custom" className="data-[state=active]:bg-cyan-600">
+                <FileText className="w-4 h-4 mr-2" />
+                Custom Frameworks
+                <Badge variant="outline" className="ml-2 text-xs bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                  Enterprise
+                </Badge>
+              </TabsTrigger>
+            )}
           </TabsList>
 
           {/* Education Sector Compliance */}
@@ -885,6 +1094,385 @@ export default function Compliance() {
               </Card>
             </div>
           </TabsContent>
+          {/* Custom Compliance Frameworks - Enterprise Only */}
+          {user?.planType?.includes('enterprise') && (
+            <TabsContent value="custom" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Custom Frameworks List */}
+                <div className="lg:col-span-1 space-y-4">
+                  <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                    <CardHeader>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <CardTitle className="text-cyan-300">Custom Frameworks</CardTitle>
+                          <div className="text-sm text-gray-400">
+                            {customFrameworks.length} framework{customFrameworks.length !== 1 ? 's' : ''}
+                          </div>
+                        </div>
+                        <Dialog open={showFrameworkDialog} onOpenChange={setShowFrameworkDialog}>
+                          <DialogTrigger asChild>
+                            <Button className="bg-cyan-600 hover:bg-cyan-700" size="sm" data-testid="button-create-framework">
+                              <Plus className="h-4 w-4 mr-2" />
+                              Create
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[600px]">
+                            <DialogHeader>
+                              <DialogTitle>Create Custom Compliance Framework</DialogTitle>
+                              <DialogDescription>
+                                Define a new compliance framework for your organization
+                              </DialogDescription>
+                            </DialogHeader>
+                            <Form {...frameworkForm}>
+                              <form onSubmit={frameworkForm.handleSubmit((data) => createFrameworkMutation.mutate(data))} className="space-y-4">
+                                <FormField
+                                  control={frameworkForm.control}
+                                  name="frameworkId"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Framework ID</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="e.g., acme-security-2024" {...field} data-testid="input-framework-id" />
+                                      </FormControl>
+                                      <FormDescription>
+                                        Unique identifier (lowercase, alphanumeric, hyphens only)
+                                      </FormDescription>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={frameworkForm.control}
+                                  name="name"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Name</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="ACME Security Framework" {...field} data-testid="input-framework-name" />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={frameworkForm.control}
+                                  name="fullName"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Full Name</FormLabel>
+                                      <FormControl>
+                                        <Input placeholder="ACME Corporation Security Framework" {...field} data-testid="input-framework-fullname" />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <FormField
+                                  control={frameworkForm.control}
+                                  name="description"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Description</FormLabel>
+                                      <FormControl>
+                                        <Textarea 
+                                          placeholder="Describe the purpose and scope..."
+                                          {...field} 
+                                          data-testid="input-framework-description"
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="flex justify-end space-x-2 pt-4">
+                                  <Button type="button" variant="outline" onClick={() => setShowFrameworkDialog(false)}>
+                                    Cancel
+                                  </Button>
+                                  <Button type="submit" disabled={createFrameworkMutation.isPending} data-testid="button-submit-framework">
+                                    {createFrameworkMutation.isPending ? "Creating..." : "Create Framework"}
+                                  </Button>
+                                </div>
+                              </form>
+                            </Form>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      {customFrameworksLoading ? (
+                        <div className="text-center py-4 text-gray-400">Loading frameworks...</div>
+                      ) : customFrameworks.length === 0 ? (
+                        <div className="text-center py-8">
+                          <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                          <p className="text-gray-400">No custom frameworks yet</p>
+                          <p className="text-sm text-gray-500">Create your first framework to get started</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {customFrameworks.map((framework: CustomComplianceFramework) => (
+                            <Card 
+                              key={framework.frameworkId}
+                              className={`cursor-pointer transition-colors border-surface-light hover:border-cyan-500/50 ${
+                                selectedCustomFramework?.frameworkId === framework.frameworkId ? 'ring-2 ring-cyan-500 border-cyan-500' : ''
+                              }`}
+                              onClick={() => setSelectedCustomFramework(framework)}
+                              data-testid={`card-framework-${framework.frameworkId}`}
+                            >
+                              <CardContent className="p-4">
+                                <div className="flex justify-between items-start">
+                                  <div className="flex-1">
+                                    <h3 className="font-semibold text-white">{framework.name}</h3>
+                                    <p className="text-sm text-gray-400">{framework.frameworkId}</p>
+                                    <Badge variant={framework.isActive ? "default" : "secondary"} className="mt-2">
+                                      {framework.isActive ? "Active" : "Inactive"}
+                                    </Badge>
+                                  </div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      deleteFrameworkMutation.mutate(framework.frameworkId);
+                                    }}
+                                    data-testid={`button-delete-framework-${framework.frameworkId}`}
+                                  >
+                                    <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-400" />
+                                  </Button>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Framework Details */}
+                <div className="lg:col-span-2">
+                  {selectedCustomFramework ? (
+                    <div className="space-y-6">
+                      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <CardTitle className="text-cyan-300">{selectedCustomFramework.name}</CardTitle>
+                              <div className="text-gray-400">{selectedCustomFramework.fullName}</div>
+                            </div>
+                            <Badge variant={selectedCustomFramework.isActive ? "default" : "secondary"}>
+                              {selectedCustomFramework.isActive ? "Active" : "Inactive"}
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          {selectedCustomFramework.description && (
+                            <p className="text-gray-300 mb-4">{selectedCustomFramework.description}</p>
+                          )}
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                              <span className="font-medium text-gray-300">Framework ID:</span>
+                              <span className="ml-2 font-mono text-cyan-300">{selectedCustomFramework.frameworkId}</span>
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-300">Version:</span>
+                              <span className="ml-2 text-gray-300">{selectedCustomFramework.version}</span>
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-300">Sector:</span>
+                              <span className="ml-2 capitalize text-gray-300">{selectedCustomFramework.sector}</span>
+                            </div>
+                            <div>
+                              <span className="font-medium text-gray-300">Created:</span>
+                              <span className="ml-2 text-gray-300">{new Date(selectedCustomFramework.createdAt).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                        <CardHeader>
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <CardTitle className="text-cyan-300">Controls</CardTitle>
+                              <div className="text-sm text-gray-400">
+                                {customControls.length} control{customControls.length !== 1 ? 's' : ''} defined
+                              </div>
+                            </div>
+                            <Dialog open={showControlDialog} onOpenChange={setShowControlDialog}>
+                              <DialogTrigger asChild>
+                                <Button variant="outline" size="sm" className="border-cyan-500 text-cyan-400" data-testid="button-add-control">
+                                  <Plus className="h-4 w-4 mr-2" />
+                                  Add Control
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[700px]">
+                                <DialogHeader>
+                                  <DialogTitle>Add Control to {selectedCustomFramework.name}</DialogTitle>
+                                  <DialogDescription>
+                                    Define a new compliance control for this framework
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <Form {...controlForm}>
+                                  <form onSubmit={controlForm.handleSubmit((data) => createControlMutation.mutate(data))} className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                      <FormField
+                                        control={controlForm.control}
+                                        name="controlId"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <FormLabel>Control ID</FormLabel>
+                                            <FormControl>
+                                              <Input placeholder="e.g., ACME-AC-001" {...field} data-testid="input-control-id" />
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                      <FormField
+                                        control={controlForm.control}
+                                        name="priority"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <FormLabel>Priority</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                              <FormControl>
+                                                <SelectTrigger data-testid="select-control-priority">
+                                                  <SelectValue placeholder="Select priority" />
+                                                </SelectTrigger>
+                                              </FormControl>
+                                              <SelectContent>
+                                                <SelectItem value="critical">Critical</SelectItem>
+                                                <SelectItem value="high">High</SelectItem>
+                                                <SelectItem value="medium">Medium</SelectItem>
+                                                <SelectItem value="low">Low</SelectItem>
+                                              </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                    </div>
+                                    <FormField
+                                      control={controlForm.control}
+                                      name="title"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Title</FormLabel>
+                                          <FormControl>
+                                            <Input placeholder="e.g., Access Control Management" {...field} data-testid="input-control-title" />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={controlForm.control}
+                                      name="description"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Description</FormLabel>
+                                          <FormControl>
+                                            <Textarea 
+                                              placeholder="Describe what this control requires..."
+                                              {...field} 
+                                              data-testid="input-control-description"
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={controlForm.control}
+                                      name="complianceStatement"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Compliance Statement (Optional)</FormLabel>
+                                          <FormControl>
+                                            <Textarea 
+                                              placeholder="What needs to be achieved for compliance..."
+                                              {...field}
+                                              data-testid="input-control-statement"
+                                            />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <div className="flex justify-end space-x-2 pt-4">
+                                      <Button type="button" variant="outline" onClick={() => setShowControlDialog(false)}>
+                                        Cancel
+                                      </Button>
+                                      <Button type="submit" disabled={createControlMutation.isPending} data-testid="button-submit-control">
+                                        {createControlMutation.isPending ? "Creating..." : "Add Control"}
+                                      </Button>
+                                    </div>
+                                  </form>
+                                </Form>
+                              </DialogContent>
+                            </Dialog>
+                          </div>
+                        </CardHeader>
+                        <CardContent>
+                          {customControls.length === 0 ? (
+                            <div className="text-center py-8">
+                              <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                              <p className="text-gray-400">No controls defined</p>
+                              <p className="text-sm text-gray-500">Add your first control to this framework</p>
+                            </div>
+                          ) : (
+                            <div className="space-y-4">
+                              {customControls.map((control: CustomComplianceControl) => (
+                                <Card key={control.id} className="bg-surface-light/50" data-testid={`card-control-${control.controlId}`}>
+                                  <CardContent className="p-4">
+                                    <div className="flex justify-between items-start">
+                                      <div className="flex-1">
+                                        <div className="flex items-center gap-2 mb-2">
+                                          <span className="font-mono text-sm bg-gray-700 text-cyan-300 px-2 py-1 rounded">{control.controlId}</span>
+                                          <Badge variant={
+                                            control.priority === 'critical' ? 'destructive' :
+                                            control.priority === 'high' ? 'default' :
+                                            control.priority === 'medium' ? 'secondary' : 'outline'
+                                          }>
+                                            {control.priority}
+                                          </Badge>
+                                        </div>
+                                        <h4 className="font-semibold text-white">{control.title}</h4>
+                                        <p className="text-sm text-gray-400 mt-1">{control.description}</p>
+                                        {control.complianceStatement && (
+                                          <div className="mt-3 p-3 bg-gray-700/50 rounded text-sm">
+                                            <span className="font-medium text-gray-300">Compliance Statement: </span>
+                                            <span className="text-gray-400">{control.complianceStatement}</span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </CardContent>
+                                </Card>
+                              ))}
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ) : (
+                    <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                      <CardContent className="pt-6">
+                        <div className="text-center py-12">
+                          <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold mb-2 text-gray-300">Select a Framework</h3>
+                          <p className="text-gray-400">
+                            Choose a custom compliance framework from the list to view its details and controls
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </div>
+            </TabsContent>
+          )}
+
         </Tabs>
       </main>
 
