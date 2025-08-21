@@ -24,7 +24,6 @@ import {
   FileText,
   Target,
   Fingerprint,
-  DollarSign,
   Building,
   Home,
   Cpu,
@@ -41,7 +40,6 @@ export default function Solutions() {
     {
       name: "Cyber-Cloud Essential",
       tier: "Essential",
-      priceRange: "$15,000 - $30,000",
       targetAudience: "Small K-12 schools, small municipal offices",
       category: "cloud_security",
       icon: <Shield className="w-12 h-12 text-blue-400" />,
@@ -64,7 +62,6 @@ export default function Solutions() {
     {
       name: "Cyber-Cloud Advanced",
       tier: "Advanced", 
-      priceRange: "$30,000 - $60,000",
       targetAudience: "Mid-sized school districts, colleges, city governments",
       category: "cloud_security",
       icon: <Brain className="w-12 h-12 text-purple-400" />,
@@ -88,7 +85,6 @@ export default function Solutions() {
     {
       name: "Cyber-Cloud Enterprise",
       tier: "Enterprise",
-      priceRange: "$60,000 - $150,000",
       targetAudience: "Large universities, state education departments, federal agencies",
       category: "cloud_security",
       icon: <Network className="w-12 h-12 text-cyan-400" />,
@@ -117,7 +113,6 @@ export default function Solutions() {
     {
       name: "K-12 Pilot Small",
       tier: "Small",
-      priceRange: "$5,000 - $10,000/month",
       targetAudience: "Small K-12 schools looking to evaluate AI-powered security",
       category: "k12_pilot",
       maxUsers: "15 admin users",
@@ -138,7 +133,6 @@ export default function Solutions() {
     {
       name: "K-12 Pilot Medium",
       tier: "Medium",
-      priceRange: "$8,000 - $15,000/month",
       targetAudience: "Medium K-12 schools looking to evaluate AI-powered security",
       category: "k12_pilot",
       maxUsers: "25 admin users",
@@ -159,7 +153,6 @@ export default function Solutions() {
     {
       name: "K-12 Pilot Large",
       tier: "Large",
-      priceRange: "$12,000 - $20,000/month",
       targetAudience: "Large K-12 schools looking to evaluate AI-powered security",
       category: "k12_pilot",
       maxUsers: "40 admin users",
@@ -184,7 +177,6 @@ export default function Solutions() {
     {
       name: "Higher Education Pilot Small",
       tier: "Small",
-      priceRange: "$12,000 - $18,000/month",
       targetAudience: "Small college/university departments with research data",
       category: "higher_ed_pilot",
       maxUsers: "30 users",
@@ -204,7 +196,6 @@ export default function Solutions() {
     {
       name: "Higher Education Pilot Medium",
       tier: "Medium",
-      priceRange: "$15,000 - $25,000/month",
       targetAudience: "Medium college/university departments with research data",
       category: "higher_ed_pilot",
       maxUsers: "50 users",
@@ -224,7 +215,6 @@ export default function Solutions() {
     {
       name: "Higher Education Pilot Large",
       tier: "Large",
-      priceRange: "$22,000 - $35,000/month",
       targetAudience: "Large college/university departments with research data",
       category: "higher_ed_pilot",
       maxUsers: "80 users",
@@ -248,7 +238,6 @@ export default function Solutions() {
     {
       name: "Hardware Essential",
       tier: "Essential",
-      priceRange: "$8,000 - $14,500",
       targetAudience: "Small educational institutions, small government offices",
       category: "hardware",
       icon: <Server className="w-12 h-12 text-gray-400" />,
@@ -263,7 +252,6 @@ export default function Solutions() {
     {
       name: "Hardware Advanced",
       tier: "Advanced",
-      priceRange: "$35,000 - $55,000",
       targetAudience: "Mid-sized institutions, city government facilities",
       category: "hardware",
       icon: <Lock className="w-12 h-12 text-yellow-400" />,
@@ -280,7 +268,6 @@ export default function Solutions() {
     {
       name: "Hardware Enterprise",
       tier: "Enterprise",
-      priceRange: "$90,000 - $155,000",
       targetAudience: "Large campuses, government complexes",
       category: "hardware",
       icon: <Fingerprint className="w-12 h-12 text-red-400" />,
@@ -311,10 +298,6 @@ export default function Solutions() {
         </div>
         <CardTitle className="text-2xl text-white geometric-text">{pkg.name}</CardTitle>
         <div className="space-y-2">
-          <div className="flex items-center text-green-400 font-bold text-xl">
-            <DollarSign className="w-5 h-5 mr-1" />
-            {pkg.priceRange}
-          </div>
           <p className="text-gray-400 text-sm">{pkg.targetAudience}</p>
         </div>
       </CardHeader>
@@ -541,7 +524,6 @@ export default function Solutions() {
                     <Link href="/pricing">
                       <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 px-12 py-4 text-lg">
                         Get Custom Quote
-                        <DollarSign className="ml-2 w-6 h-6" />
                       </Button>
                     </Link>
                     <Link href="/security-scanner">
