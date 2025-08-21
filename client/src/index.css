@@ -516,11 +516,30 @@
 
   /* Marketing Website Font Override */
   .marketing-website {
-    font-family: 'Inter', 'Rajdhani', system-ui, sans-serif;
+    font-family: 'Work Sans', 'Inter', system-ui, sans-serif;
   }
 
   .marketing-website * {
     font-family: inherit;
+  }
+
+  /* Marketing Website Text Size Overrides */
+  .marketing-website .text-xs { font-size: 0.875rem; }
+  .marketing-website .text-sm { font-size: 1rem; }
+  .marketing-website .text-base { font-size: 1.125rem; }
+  .marketing-website .text-lg { font-size: 1.25rem; }
+  .marketing-website .text-xl { font-size: 1.5rem; }
+  .marketing-website .text-2xl { font-size: 2rem; }
+  .marketing-website .text-3xl { font-size: 2.5rem; }
+  .marketing-website .text-4xl { font-size: 3.5rem; }
+  .marketing-website .text-5xl { font-size: 4rem; }
+  .marketing-website .text-6xl { font-size: 4.5rem; }
+
+  /* Navigation Font Overrides for Marketing Pages */
+  .marketing-website nav,
+  .marketing-website nav *,
+  .marketing-website .cyber-font {
+    font-family: 'Work Sans', 'Inter', system-ui, sans-serif !important;
   }
 
   /* SaaS Platform Font Override */
