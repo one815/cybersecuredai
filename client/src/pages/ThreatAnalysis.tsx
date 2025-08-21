@@ -3,8 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap, MapPin } from "lucide-react";
 import { ThreatMap } from "@/components/ThreatMap";
+import { useQuery } from "@tanstack/react-query";
 
 export default function ThreatAnalysis() {
+  const { data: threatStats } = useQuery({
+    queryKey: ["/api/threats/stats"],
+  });
+
+  const { data: threatPatterns = [] } = useQuery({
+    queryKey: ["/api/threats/patterns"],
+  });
   return (
     <div className="min-h-screen bg-background text-text">
       <div className="container mx-auto p-6 space-y-6">

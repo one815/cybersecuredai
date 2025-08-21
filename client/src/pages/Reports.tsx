@@ -31,7 +31,7 @@ export default function Reports() {
   });
 
   const { data: complianceReports = [] } = useQuery<any[]>({
-    queryKey: ["/api/compliance"],
+    queryKey: ["/api/compliance/frameworks"],
   });
 
   const { data: incidents = [] } = useQuery<any[]>({
