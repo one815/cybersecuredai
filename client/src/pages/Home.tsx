@@ -742,6 +742,46 @@ export default function Home() {
                 </ul>
               </CardContent>
             </Card>
+
+            <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6 text-purple-400" />
+                </div>
+                <CardTitle className="text-xl text-white">Identity & Access Management</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">
+                  Advanced user authentication and authorization system with multi-factor authentication 
+                  and role-based access control for secure resource management.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Multi-factor authentication</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Role-based permissions</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Single sign-on integration</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
+                  <Network className="w-6 h-6 text-orange-400" />
+                </div>
+                <CardTitle className="text-xl text-white">Advanced Threat Intelligence</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">
+                  Real-time threat intelligence feeds combined with AI-powered analysis to identify 
+                  and predict emerging cybersecurity threats before they impact your systems.
+                </p>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Global threat feeds</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Predictive analytics</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Zero-day protection</li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
