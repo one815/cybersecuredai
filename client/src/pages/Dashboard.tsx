@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
+import BadgeDisplay from "@/components/BadgeDisplay";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
 import { 
@@ -48,6 +49,23 @@ export default function Dashboard() {
 
   const { data: dataClassificationSummary } = useQuery({
     queryKey: ["/api/data-classification/summary"],
+  });
+
+  // Fetch user badges for the dashboard
+  const { data: userBadges } = useQuery<{
+    userId: string;
+    badges: any[];
+    totalBadges: number;
+    tierCounts: {
+      bronze: number;
+      silver: number;
+      gold: number;
+      platinum: number;
+      diamond: number;
+    };
+  }>({
+    queryKey: ["/api/badges/user/admin-1"], // Using admin-1 as demo user
+    staleTime: 30000, // Cache for 30 seconds
   });
 
   if (isLoading) {
@@ -175,6 +193,13 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="p-6">
         {/* Enhanced Security Overview Cards with AI Metrics */}
+        {/* Badge Achievement Section */}
+        {userBadges && userBadges.totalBadges > 0 && (
+          <div className="mb-8">
+            <BadgeDisplay userBadges={userBadges} limit={5} variant="card" />
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="holographic-card border border-blue-500/30 data-glow micro-hover floating-3d">
             <CardContent className="p-6">
