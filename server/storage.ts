@@ -8,6 +8,8 @@ import {
   threatNotifications,
   packages,
   userSubscriptions,
+  customComplianceFrameworks,
+  customComplianceControls,
   type User, 
   type InsertUser,
   type Threat,
@@ -23,7 +25,11 @@ import {
   type Package,
   type InsertPackage,
   type UserSubscription,
-  type InsertUserSubscription
+  type InsertUserSubscription,
+  type CustomComplianceFramework,
+  type InsertCustomComplianceFramework,
+  type CustomComplianceControl,
+  type InsertCustomComplianceControl
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -81,6 +87,20 @@ export interface IStorage {
   markNotificationAsRead(id: string): Promise<ThreatNotification>;
   acknowledgeNotification(id: string): Promise<ThreatNotification>;
   deleteNotification(id: string): Promise<void>;
+
+  // Custom Compliance Framework operations (Enterprise Feature)
+  getCustomComplianceFrameworks(organizationId: string): Promise<CustomComplianceFramework[]>;
+  getCustomComplianceFramework(frameworkId: string): Promise<CustomComplianceFramework | undefined>;
+  createCustomComplianceFramework(framework: InsertCustomComplianceFramework): Promise<CustomComplianceFramework>;
+  updateCustomComplianceFramework(frameworkId: string, updates: Partial<CustomComplianceFramework>): Promise<CustomComplianceFramework>;
+  deleteCustomComplianceFramework(frameworkId: string): Promise<void>;
+
+  // Custom Compliance Control operations (Enterprise Feature)  
+  getCustomComplianceControls(frameworkId: string): Promise<CustomComplianceControl[]>;
+  getCustomComplianceControl(id: string): Promise<CustomComplianceControl | undefined>;
+  createCustomComplianceControl(control: InsertCustomComplianceControl): Promise<CustomComplianceControl>;
+  updateCustomComplianceControl(id: string, updates: Partial<CustomComplianceControl>): Promise<CustomComplianceControl>;
+  deleteCustomComplianceControl(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -93,6 +113,8 @@ export class MemStorage implements IStorage {
   private threatNotifications: Map<string, ThreatNotification> = new Map();
   private packages: Map<string, Package> = new Map();
   private userSubscriptions: Map<string, UserSubscription> = new Map();
+  private customComplianceFrameworks: Map<string, CustomComplianceFramework> = new Map();
+  private customComplianceControls: Map<string, CustomComplianceControl> = new Map();
 
   constructor() {
     this.initializeData();
@@ -557,6 +579,103 @@ export class MemStorage implements IStorage {
 
   async deleteNotification(id: string): Promise<void> {
     this.threatNotifications.delete(id);
+  }
+
+  // Custom Compliance Framework operations (Enterprise Feature)
+  async getCustomComplianceFrameworks(organizationId: string): Promise<CustomComplianceFramework[]> {
+    return Array.from(this.customComplianceFrameworks.values())
+      .filter(framework => framework.organizationId === organizationId);
+  }
+
+  async getCustomComplianceFramework(frameworkId: string): Promise<CustomComplianceFramework | undefined> {
+    return this.customComplianceFrameworks.get(frameworkId);
+  }
+
+  async createCustomComplianceFramework(insertFramework: InsertCustomComplianceFramework): Promise<CustomComplianceFramework> {
+    const id = randomUUID();
+    const framework: CustomComplianceFramework = {
+      ...insertFramework,
+      id,
+      isActive: insertFramework.isActive ?? true,
+      version: insertFramework.version ?? "1.0",
+      sector: insertFramework.sector ?? "custom",
+      description: insertFramework.description ?? null,
+      lastModifiedBy: insertFramework.lastModifiedBy ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.customComplianceFrameworks.set(framework.frameworkId, framework);
+    return framework;
+  }
+
+  async updateCustomComplianceFramework(frameworkId: string, updates: Partial<CustomComplianceFramework>): Promise<CustomComplianceFramework> {
+    const framework = this.customComplianceFrameworks.get(frameworkId);
+    if (!framework) throw new Error("Custom compliance framework not found");
+
+    const updatedFramework = { 
+      ...framework, 
+      ...updates, 
+      updatedAt: new Date()
+    };
+    this.customComplianceFrameworks.set(frameworkId, updatedFramework);
+    return updatedFramework;
+  }
+
+  async deleteCustomComplianceFramework(frameworkId: string): Promise<void> {
+    // Also delete associated controls
+    const controls = Array.from(this.customComplianceControls.values())
+      .filter(control => control.frameworkId === frameworkId);
+    controls.forEach(control => this.customComplianceControls.delete(control.id));
+    
+    this.customComplianceFrameworks.delete(frameworkId);
+  }
+
+  // Custom Compliance Control operations (Enterprise Feature)
+  async getCustomComplianceControls(frameworkId: string): Promise<CustomComplianceControl[]> {
+    return Array.from(this.customComplianceControls.values())
+      .filter(control => control.frameworkId === frameworkId);
+  }
+
+  async getCustomComplianceControl(id: string): Promise<CustomComplianceControl | undefined> {
+    return this.customComplianceControls.get(id);
+  }
+
+  async createCustomComplianceControl(insertControl: InsertCustomComplianceControl): Promise<CustomComplianceControl> {
+    const id = randomUUID();
+    const control: CustomComplianceControl = {
+      ...insertControl,
+      id,
+      isActive: insertControl.isActive ?? true,
+      category: insertControl.category ?? "custom",
+      priority: insertControl.priority ?? "medium",
+      implementation: insertControl.implementation ?? "manual",
+      requiredEvidence: insertControl.requiredEvidence ?? [],
+      testMethods: insertControl.testMethods ?? [],
+      complianceStatement: insertControl.complianceStatement ?? null,
+      implementationGuidance: insertControl.implementationGuidance ?? null,
+      assessmentCriteria: insertControl.assessmentCriteria ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.customComplianceControls.set(id, control);
+    return control;
+  }
+
+  async updateCustomComplianceControl(id: string, updates: Partial<CustomComplianceControl>): Promise<CustomComplianceControl> {
+    const control = this.customComplianceControls.get(id);
+    if (!control) throw new Error("Custom compliance control not found");
+
+    const updatedControl = { 
+      ...control, 
+      ...updates, 
+      updatedAt: new Date()
+    };
+    this.customComplianceControls.set(id, updatedControl);
+    return updatedControl;
+  }
+
+  async deleteCustomComplianceControl(id: string): Promise<void> {
+    this.customComplianceControls.delete(id);
   }
 
   // Package operations

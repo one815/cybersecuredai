@@ -490,6 +490,130 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Custom Compliance Framework endpoints (Enterprise Feature)
+  app.get("/api/compliance/custom/frameworks/:organizationId", async (req, res) => {
+    try {
+      const { organizationId } = req.params;
+      
+      // Check if user has enterprise access
+      const accessLevel = await storage.getUserAccessLevel(organizationId);
+      if (accessLevel !== "enterprise") {
+        return res.status(403).json({ error: "Enterprise plan required for custom compliance frameworks" });
+      }
+      
+      const frameworks = await storage.getCustomComplianceFrameworks(organizationId);
+      res.json(frameworks);
+    } catch (error) {
+      console.error("Error fetching custom compliance frameworks:", error);
+      res.status(500).json({ error: "Failed to fetch custom compliance frameworks" });
+    }
+  });
+
+  app.get("/api/compliance/custom/framework/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const framework = await storage.getCustomComplianceFramework(frameworkId);
+      
+      if (!framework) {
+        return res.status(404).json({ error: "Custom compliance framework not found" });
+      }
+      
+      res.json(framework);
+    } catch (error) {
+      console.error("Error fetching custom compliance framework:", error);
+      res.status(500).json({ error: "Failed to fetch custom compliance framework" });
+    }
+  });
+
+  app.post("/api/compliance/custom/frameworks", async (req, res) => {
+    try {
+      const frameworkData = req.body;
+      
+      // Check if user has enterprise access
+      const accessLevel = await storage.getUserAccessLevel(frameworkData.organizationId);
+      if (accessLevel !== "enterprise") {
+        return res.status(403).json({ error: "Enterprise plan required for custom compliance frameworks" });
+      }
+      
+      const framework = await storage.createCustomComplianceFramework(frameworkData);
+      res.json(framework);
+    } catch (error) {
+      console.error("Error creating custom compliance framework:", error);
+      res.status(500).json({ error: "Failed to create custom compliance framework" });
+    }
+  });
+
+  app.put("/api/compliance/custom/framework/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const updates = req.body;
+      
+      const framework = await storage.updateCustomComplianceFramework(frameworkId, updates);
+      res.json(framework);
+    } catch (error) {
+      console.error("Error updating custom compliance framework:", error);
+      res.status(500).json({ error: "Failed to update custom compliance framework" });
+    }
+  });
+
+  app.delete("/api/compliance/custom/framework/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      await storage.deleteCustomComplianceFramework(frameworkId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting custom compliance framework:", error);
+      res.status(500).json({ error: "Failed to delete custom compliance framework" });
+    }
+  });
+
+  // Custom Compliance Control endpoints (Enterprise Feature)
+  app.get("/api/compliance/custom/controls/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const controls = await storage.getCustomComplianceControls(frameworkId);
+      res.json(controls);
+    } catch (error) {
+      console.error("Error fetching custom compliance controls:", error);
+      res.status(500).json({ error: "Failed to fetch custom compliance controls" });
+    }
+  });
+
+  app.post("/api/compliance/custom/controls", async (req, res) => {
+    try {
+      const controlData = req.body;
+      const control = await storage.createCustomComplianceControl(controlData);
+      res.json(control);
+    } catch (error) {
+      console.error("Error creating custom compliance control:", error);
+      res.status(500).json({ error: "Failed to create custom compliance control" });
+    }
+  });
+
+  app.put("/api/compliance/custom/control/:controlId", async (req, res) => {
+    try {
+      const { controlId } = req.params;
+      const updates = req.body;
+      
+      const control = await storage.updateCustomComplianceControl(controlId, updates);
+      res.json(control);
+    } catch (error) {
+      console.error("Error updating custom compliance control:", error);
+      res.status(500).json({ error: "Failed to update custom compliance control" });
+    }
+  });
+
+  app.delete("/api/compliance/custom/control/:controlId", async (req, res) => {
+    try {
+      const { controlId } = req.params;
+      await storage.deleteCustomComplianceControl(controlId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting custom compliance control:", error);
+      res.status(500).json({ error: "Failed to delete custom compliance control" });
+    }
+  });
+
   // Data Classification Engine Routes
   app.post("/api/data-classification/classify", async (req, res) => {
     try {
