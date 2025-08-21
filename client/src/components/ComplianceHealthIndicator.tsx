@@ -13,10 +13,16 @@ import {
 
 interface HealthData {
   overallHealthScore: number;
+  riskAdjustedHealthScore: number;
+  maturityScore: number;
+  trendScore: number;
   frameworkScores: Array<{
     frameworkId: string;
     name: string;
     score: number;
+    riskAdjustedScore: number;
+    maturityScore: number;
+    trendScore: number;
     status: "excellent" | "good" | "fair" | "poor";
     lastAssessed: Date | null;
   }>;
@@ -27,6 +33,11 @@ interface HealthData {
     good: number;
     fair: number;
     poor: number;
+  };
+  industryComparison?: {
+    averageIndustryScore: number;
+    performancePercentile: number;
+    bestPracticeGap: number;
   };
 }
 
@@ -79,7 +90,22 @@ export default function ComplianceHealthIndicator() {
   };
 
   const overallScore = healthData?.overallHealthScore || 0;
-  const healthStatus = getHealthStatus(overallScore);
+  const riskAdjustedScore = healthData?.riskAdjustedHealthScore || 0;
+  const maturityScore = healthData?.maturityScore || 0;
+  const trendScore = healthData?.trendScore || 0;
+  const healthStatus = getHealthStatus(riskAdjustedScore); // Use risk-adjusted score for status
+
+  const getTrendColor = (trend: number) => {
+    if (trend > 5) return "text-green-400";
+    if (trend < -5) return "text-red-400";
+    return "text-yellow-400";
+  };
+
+  const getTrendIcon = (trend: number) => {
+    if (trend > 5) return "↗";
+    if (trend < -5) return "↘";
+    return "→";
+  };
 
   return (
     <div className="space-y-6">
@@ -91,26 +117,78 @@ export default function ComplianceHealthIndicator() {
               <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-blue-400" />
               </div>
-              <span className="text-sm text-gray-400 tech-font">COMPLIANCE HEALTH</span>
+              <span className="text-sm text-gray-400 tech-font">ADVANCED COMPLIANCE METRICS</span>
             </div>
             <Badge className={healthStatus.color} data-testid="badge-health-status">
               {healthStatus.text}
             </Badge>
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Overall Score */}
-          <div className="text-center">
-            <div className={`text-4xl font-bold mb-2 geometric-text ${getHealthColor(overallScore)}`} data-testid="text-overall-score">
-              {overallScore}%
+        <CardContent className="space-y-6">
+          {/* Advanced Score Dashboard */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="text-center p-3 bg-background/50 rounded-lg">
+              <div className={`text-2xl font-bold mb-1 geometric-text ${getHealthColor(overallScore)}`} data-testid="text-overall-score">
+                {overallScore}%
+              </div>
+              <div className="text-xs text-gray-400">Base Score</div>
             </div>
-            <div className="text-xs text-gray-400 mb-4">Overall Compliance Score</div>
+            <div className="text-center p-3 bg-background/50 rounded-lg">
+              <div className={`text-2xl font-bold mb-1 geometric-text ${getHealthColor(riskAdjustedScore)}`} data-testid="text-risk-adjusted-score">
+                {riskAdjustedScore}%
+              </div>
+              <div className="text-xs text-gray-400">Risk-Adjusted</div>
+            </div>
+            <div className="text-center p-3 bg-background/50 rounded-lg">
+              <div className={`text-2xl font-bold mb-1 geometric-text ${getHealthColor(maturityScore)}`} data-testid="text-maturity-score">
+                {maturityScore}%
+              </div>
+              <div className="text-xs text-gray-400">Maturity Level</div>
+            </div>
+            <div className="text-center p-3 bg-background/50 rounded-lg">
+              <div className={`text-2xl font-bold mb-1 geometric-text ${getTrendColor(trendScore)}`} data-testid="text-trend-score">
+                {getTrendIcon(trendScore)} {trendScore > 0 ? '+' : ''}{trendScore}
+              </div>
+              <div className="text-xs text-gray-400">Trend Score</div>
+            </div>
+          </div>
+
+          {/* Primary Risk-Adjusted Score Display */}
+          <div className="text-center">
+            <div className="text-xs text-gray-400 mb-2">PRIMARY COMPLIANCE SCORE</div>
             <Progress 
-              value={overallScore} 
-              className="h-3 bg-gray-700" 
+              value={riskAdjustedScore} 
+              className="h-4 bg-gray-700 mb-2" 
               data-testid="progress-compliance-health"
             />
+            <div className="text-sm text-gray-300">
+              Risk-weighted assessment across all frameworks
+            </div>
           </div>
+
+          {/* Industry Comparison */}
+          {healthData?.industryComparison && (
+            <div className="grid grid-cols-3 gap-3 p-4 bg-purple-900/20 rounded-lg border border-purple-500/30">
+              <div className="text-center">
+                <div className="text-lg font-bold text-purple-400">
+                  {healthData.industryComparison.performancePercentile}th
+                </div>
+                <div className="text-xs text-gray-400">Percentile</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-blue-400">
+                  {healthData.industryComparison.averageIndustryScore}%
+                </div>
+                <div className="text-xs text-gray-400">Industry Avg</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-orange-400">
+                  {healthData.industryComparison.bestPracticeGap}
+                </div>
+                <div className="text-xs text-gray-400">Best Practice Gap</div>
+              </div>
+            </div>
+          )}
 
           {/* Health Distribution */}
           {healthData?.complianceDistribution && (
@@ -175,7 +253,7 @@ export default function ComplianceHealthIndicator() {
               >
                 <div className="flex items-center space-x-3">
                   {getStatusIcon(framework.status)}
-                  <div>
+                  <div className="flex-1">
                     <div className="text-sm text-white font-medium">{framework.name}</div>
                     <div className="flex items-center space-x-2 text-xs text-gray-400">
                       <Clock className="w-3 h-3" />
@@ -186,14 +264,36 @@ export default function ComplianceHealthIndicator() {
                         }
                       </span>
                     </div>
+                    {/* Advanced Metrics Row */}
+                    <div className="grid grid-cols-4 gap-2 mt-2 text-xs">
+                      <div className="text-center p-1 bg-gray-800/50 rounded">
+                        <div className={`font-bold ${getHealthColor(framework.score)}`}>{framework.score}%</div>
+                        <div className="text-gray-500 text-[10px]">Base</div>
+                      </div>
+                      <div className="text-center p-1 bg-gray-800/50 rounded">
+                        <div className={`font-bold ${getHealthColor(framework.riskAdjustedScore)}`}>{framework.riskAdjustedScore}%</div>
+                        <div className="text-gray-500 text-[10px]">Risk-Adj</div>
+                      </div>
+                      <div className="text-center p-1 bg-gray-800/50 rounded">
+                        <div className={`font-bold ${getHealthColor(framework.maturityScore)}`}>{framework.maturityScore}%</div>
+                        <div className="text-gray-500 text-[10px]">Maturity</div>
+                      </div>
+                      <div className="text-center p-1 bg-gray-800/50 rounded">
+                        <div className={`font-bold ${getTrendColor(framework.trendScore)}`}>
+                          {getTrendIcon(framework.trendScore)}{framework.trendScore > 0 ? '+' : ''}{framework.trendScore}
+                        </div>
+                        <div className="text-gray-500 text-[10px]">Trend</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-lg font-bold ${getHealthColor(framework.score)}`} data-testid={`score-${framework.frameworkId}`}>
-                    {framework.score}%
+                  <div className={`text-lg font-bold ${getHealthColor(framework.riskAdjustedScore)}`} data-testid={`score-${framework.frameworkId}`}>
+                    {framework.riskAdjustedScore}%
                   </div>
+                  <div className="text-xs text-gray-400 mb-1">Risk-Adjusted</div>
                   <Badge 
-                    className={getHealthStatus(framework.score).color} 
+                    className={getHealthStatus(framework.riskAdjustedScore).color} 
                     data-testid={`status-${framework.frameworkId}`}
                   >
                     {framework.status}
