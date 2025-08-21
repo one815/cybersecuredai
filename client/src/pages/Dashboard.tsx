@@ -46,79 +46,82 @@ export default function Dashboard() {
 
   return (
     <div className="ai-dashboard-bg min-h-screen">
-      {/* Enhanced Header with Holographic AI Theme */}
-      <header className="holographic-card backdrop-blur-md border-b border-surface-light p-4 chart-glow">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-2xl">
+      {/* Enhanced Header with Unified Layout */}
+      <header className="holographic-card backdrop-blur-md border-b border-surface-light p-6 chart-glow">
+        <div className="flex items-center justify-between max-w-full">
+          {/* Left Section - Main Title and Status */}
+          <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-2xl">
                 <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
               </div>
               <div>
-                <h2 className="text-3xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-3">
+                <h1 className="text-2xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
                   <span>AI SECURITY COMMAND CENTER</span>
-                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '90% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
-                </h2>
-                <div className="text-gray-400 flex items-center space-x-4 cyber-font">
+                  <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                </h1>
+                <div className="text-gray-400 text-sm cyber-font flex items-center space-x-3">
                   <span>Real-time AI threat monitoring and autonomous security automation</span>
-                  <div className="live-indicator">
+                  <div className="live-indicator text-xs">
                     AI NEURAL NETWORK ACTIVE
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Security Indicators Panel */}
-            <div className="flex items-center space-x-4">
-              <div className="encryption-indicator">
+            {/* Security Status Indicators */}
+            <div className="hidden xl:flex items-center space-x-3">
+              <div className="encryption-indicator text-xs">
                 QUANTUM ENCRYPTED
               </div>
-              <div className="verification-badge">
+              <div className="verification-badge text-xs">
                 BIOMETRIC VERIFIED
               </div>
-              <div className="security-protocol">
+              <div className="security-protocol text-xs">
                 ZERO-TRUST ACTIVE
               </div>
             </div>
           </div>
-          <div className="flex items-center space-x-6">
-            {/* Facial Recognition Auth */}
-            <div className="face-recognition scale-75"></div>
-            
-            {/* Multi-factor Authentication Panel */}
-            <div className="flex items-center space-x-2 p-3 holographic-card rounded-lg">
-              <div className="fingerprint-scanner scale-50"></div>
-              <div className="text-sm">
-                <div className="tech-font text-green-400">ADMIN AUTHENTICATED</div>
-                <div className="text-gray-400 text-xs">Security Level: MAX</div>
+
+          {/* Right Section - Auth, Search, and Actions */}
+          <div className="flex items-center space-x-4">
+            {/* Authentication Status */}
+            <div className="hidden lg:flex items-center space-x-3">
+              <div className="face-recognition scale-75"></div>
+              <div className="flex items-center space-x-2 p-2 holographic-card rounded-lg">
+                <div className="fingerprint-scanner scale-50"></div>
+                <div className="text-xs">
+                  <div className="tech-font text-green-400 font-semibold">ADMIN AUTHENTICATED</div>
+                  <div className="text-gray-400">Security Level: MAX</div>
+                </div>
               </div>
             </div>
             
-            {/* Enhanced Search */}
-            <div className="relative">
+            {/* Quick Search */}
+            <div className="relative hidden md:block">
               <Input
                 type="text"
                 placeholder="Search threats, users, files..."
-                className="bg-background border-surface-light pl-10 w-80 text-sm focus:border-interactive"
+                className="bg-background border-surface-light pl-10 w-56 text-sm focus:border-interactive"
                 data-testid="dashboard-search"
               />
               <div className="absolute left-3 top-3 w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 10%', filter: 'grayscale(1) brightness(0.7)'}} />
             </div>
             
-            {/* Notifications */}
-            <div className="relative">
-              <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-white" data-testid="notifications-button">
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-critical text-xs rounded-full flex items-center justify-center">3</span>
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-2">
+              <div className="relative">
+                <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-white" data-testid="notifications-button">
+                  <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-critical text-xs rounded-full flex items-center justify-center">3</span>
+                </Button>
+              </div>
+              
+              <Button className="bg-interactive hover:bg-orange-600 text-sm px-4 py-2" data-testid="new-incident-button">
+                <div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                <span className="hidden sm:inline">New Incident</span>
               </Button>
             </div>
-
-            {/* Quick Actions */}
-            <Button className="bg-interactive hover:bg-orange-600" data-testid="new-incident-button">
-              <div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
-              New Incident
-            </Button>
           </div>
         </div>
       </header>
