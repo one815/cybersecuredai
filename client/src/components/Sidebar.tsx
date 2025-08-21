@@ -47,12 +47,12 @@ export function Sidebar() {
   return (
     <div className="fixed left-0 top-0 h-full w-64 bg-surface border-r border-surface-light z-50">
       {/* Logo Section */}
-      <div className="p-6 border-b border-surface-light">
+      <div className="p-8 border-b border-surface-light">
         <div className="flex justify-center">
           <img 
             src="/attached_assets/2_1755803676829.png" 
             alt="CyberSecure AI Logo" 
-            className="h-12 w-auto object-contain"
+            className="h-16 w-auto object-contain"
           />
         </div>
       </div>
