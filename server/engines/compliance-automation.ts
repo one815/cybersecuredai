@@ -1281,7 +1281,8 @@ export class ComplianceAutomationEngine {
     const userBadgeCollection = this.userBadges.get(userId) || this.initializeUserBadges(userId);
     
     // Get all assessments for this user
-    const userAssessments = Array.from(this.assessments.values());
+    const userAssessments = Array.from(this.assessments.values())
+      .filter(a => a.organizationId === userId);
     
     for (const badgeDefinition of this.badgeDefinitions) {
       // Skip if user already has this badge
@@ -1322,6 +1323,11 @@ export class ComplianceAutomationEngine {
   ): boolean {
     const criteria = badgeDefinition.criteria;
     
+    // First assessment badge (Getting Started)
+    if (criteria.firstAssessment) {
+      return allAssessments.length === 1; // First assessment for this user
+    }
+    
     // Framework-specific badges
     if (criteria.framework && criteria.minScore) {
       return currentAssessment.frameworkId === criteria.framework && 
@@ -1339,6 +1345,41 @@ export class ComplianceAutomationEngine {
         a.riskAdjustedScore >= criteria.minScore!
       ).length;
       return qualifyingFrameworks >= criteria.minFrameworks;
+    }
+    
+    // Improvement badges
+    if (criteria.improvementPoints) {
+      // Find previous assessment for same framework
+      const previousAssessments = allAssessments
+        .filter(a => a.frameworkId === currentAssessment.frameworkId && a.id !== currentAssessment.id)
+        .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+      
+      if (previousAssessments.length > 0) {
+        const improvement = currentAssessment.riskAdjustedScore - previousAssessments[0].riskAdjustedScore;
+        return improvement >= criteria.improvementPoints;
+      }
+    }
+    
+    // Consistency badges
+    if (criteria.consistentScore && criteria.assessmentCount) {
+      const recentAssessments = allAssessments
+        .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+        .slice(0, criteria.assessmentCount);
+      
+      return recentAssessments.length >= criteria.assessmentCount &&
+             recentAssessments.every(a => a.riskAdjustedScore >= criteria.consistentScore!);
+    }
+    
+    // Turnaround badges (from low to high score)
+    if (criteria.fromScore !== undefined && criteria.toScore !== undefined) {
+      const previousAssessments = allAssessments
+        .filter(a => a.frameworkId === currentAssessment.frameworkId && a.id !== currentAssessment.id)
+        .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+      
+      if (previousAssessments.length > 0) {
+        const firstScore = previousAssessments[0].riskAdjustedScore;
+        return firstScore < criteria.fromScore && currentAssessment.riskAdjustedScore >= criteria.toScore;
+      }
     }
     
     // Specific frameworks list

@@ -44,11 +44,14 @@ export default function Compliance() {
   // Run Assessment Mutation
   const runAssessmentMutation = useMutation({
     mutationFn: async (frameworkId: string) => {
+      // Add realistic delay to make assessment feel more substantial
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
       const response = await fetch(`/api/compliance/assessment/${frameworkId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          organizationId: frameworkId === 'ferpa' || frameworkId === 'cipa' ? 'demo-edu-institution' : 'demo-federal-agency'
+          organizationId: 'admin-1' // Use consistent org ID for badge tracking
         })
       });
       if (!response.ok) throw new Error('Assessment failed');
@@ -57,12 +60,13 @@ export default function Compliance() {
     onSuccess: (data, frameworkId) => {
       toast({
         title: "Assessment Complete",
-        description: `${frameworkId.toUpperCase()} assessment completed successfully`,
+        description: `${frameworkId.toUpperCase()} assessment completed successfully${data.newBadges?.length > 0 ? ` - ${data.newBadges.length} badge(s) earned!` : ''}`,
       });
       // Invalidate queries to refresh data
       queryClient.invalidateQueries({ queryKey: ["/api/compliance/frameworks"] });
       queryClient.invalidateQueries({ queryKey: ["/api/compliance/health"] });
       queryClient.invalidateQueries({ queryKey: ["/api/compliance/assessments"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/badges/user/admin-1"] }); // Refresh badges
     },
     onError: (error) => {
       toast({
@@ -82,14 +86,28 @@ export default function Compliance() {
       const pageHeight = pdf.internal.pageSize.height;
       let currentY = 20;
       
+      // Add Noto Sans font (fallback to helvetica if not available)
+      try {
+        // Try to use a more modern font, fallback to helvetica
+        pdf.addFont('https://fonts.gstatic.com/s/notosans/v14/o-0IIpQlx3QUlC5A4PNr5TRASf6M7Q.woff2', 'NotoSans', 'normal');
+        pdf.addFont('https://fonts.gstatic.com/s/notosans/v14/o-0NIpQlx3QUlC5A4PNjXhFVZNyB.woff2', 'NotoSans', 'bold');
+      } catch (e) {
+        console.log('Using fallback fonts');
+      }
+      
       // Helper function to add text with word wrap
       const addText = (text: string, x: number, y: number, options: any = {}) => {
-        const { fontSize = 12, maxWidth = pageWidth - 40, isBold = false } = options;
+        const { fontSize = 12, maxWidth = pageWidth - 40, isBold = false, color = [0, 0, 0] } = options;
         pdf.setFontSize(fontSize);
-        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        pdf.setTextColor(color[0], color[1], color[2]);
+        try {
+          pdf.setFont('NotoSans', isBold ? 'bold' : 'normal');
+        } catch (e) {
+          pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        }
         const lines = pdf.splitTextToSize(text, maxWidth);
         pdf.text(lines, x, y);
-        return y + (lines.length * fontSize * 0.5);
+        return y + (lines.length * (fontSize * 0.6)) + 2;
       };
       
       // Helper function to check if we need a new page
@@ -100,73 +118,144 @@ export default function Compliance() {
         }
       };
 
-      // Header with logo area
-      pdf.setFillColor(30, 41, 59); // Dark blue background
-      pdf.rect(0, 0, pageWidth, 40, 'F');
+      // Header with modern design
+      pdf.setFillColor(15, 23, 42); // Darker navy background
+      pdf.rect(0, 0, pageWidth, 45, 'F');
       
-      // Title
+      // Add gradient effect simulation with multiple rectangles
+      for (let i = 0; i < 5; i++) {
+        pdf.setFillColor(15 + i * 3, 23 + i * 4, 42 + i * 5);
+        pdf.rect(0, 40 - i, pageWidth, 1, 'F');
+      }
+      
+      // Title with better typography
       pdf.setTextColor(255, 255, 255);
-      currentY = addText('CYBERSECURE AI', 20, 25, { fontSize: 24, isBold: true });
-      pdf.setTextColor(34, 211, 238); // Cyan
-      addText('COMPLIANCE ASSESSMENT REPORT', 20, 32, { fontSize: 14 });
+      currentY = addText('CYBERSECURE AI', 20, 22, { fontSize: 26, isBold: true, color: [255, 255, 255] });
+      pdf.setTextColor(34, 211, 238); // Cyan accent
+      addText('COMPLIANCE ASSESSMENT REPORT', 20, 35, { fontSize: 13, color: [34, 211, 238] });
+      
+      // Add current date on the right
+      const reportDate = new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', month: 'long', day: 'numeric' 
+      });
+      pdf.setTextColor(200, 200, 200);
+      pdf.setFontSize(11);
+      pdf.text(reportDate, pageWidth - 20, 35, { align: 'right' });
       
       // Reset colors and position
       pdf.setTextColor(0, 0, 0);
-      currentY = 55;
+      currentY = 60;
       
-      // Framework Information Section
-      checkNewPage(30);
-      currentY = addText('FRAMEWORK INFORMATION', 20, currentY, { fontSize: 16, isBold: true });
+      // Framework Information Section with better layout
+      checkNewPage(40);
+      currentY = addText('FRAMEWORK INFORMATION', 20, currentY, { fontSize: 18, isBold: true, color: [30, 41, 59] });
       pdf.setDrawColor(34, 211, 238);
-      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
-      currentY += 10;
+      pdf.setLineWidth(0.8);
+      pdf.line(20, currentY + 3, pageWidth - 20, currentY + 3);
+      currentY += 12;
       
-      currentY = addText(`Framework: ${framework.framework?.toUpperCase() || 'N/A'}`, 20, currentY, { fontSize: 12 });
-      currentY = addText(`Name: ${framework.name || 'N/A'}`, 20, currentY + 5, { fontSize: 12 });
-      currentY = addText(`Sector: ${framework.sector || 'N/A'}`, 20, currentY + 5, { fontSize: 12 });
-      currentY = addText(`Generated: ${new Date().toLocaleString()}`, 20, currentY + 5, { fontSize: 12 });
+      // Create two-column layout for framework info
+      const leftCol = 20;
+      const rightCol = pageWidth / 2 + 10;
+      
+      currentY = addText(`Framework:`, leftCol, currentY, { fontSize: 12, isBold: true });
+      addText(`${framework.framework?.toUpperCase() || 'N/A'}`, leftCol + 35, currentY - 2, { fontSize: 12, color: [34, 211, 238] });
+      
+      addText(`Name:`, rightCol, currentY, { fontSize: 12, isBold: true });
+      addText(`${framework.name || 'N/A'}`, rightCol + 25, currentY - 2, { fontSize: 12 });
+      
+      currentY += 8;
+      addText(`Sector:`, leftCol, currentY, { fontSize: 12, isBold: true });
+      addText(`${framework.sector || 'N/A'}`, leftCol + 25, currentY - 2, { fontSize: 12 });
+      
+      addText(`Report ID:`, rightCol, currentY, { fontSize: 12, isBold: true });
+      addText(`${framework.framework}-${new Date().getTime().toString().slice(-6)}`, rightCol + 35, currentY - 2, { fontSize: 10, color: [100, 100, 100] });
+      
       currentY += 15;
       
-      // Compliance Overview Section
-      checkNewPage(50);
-      currentY = addText('COMPLIANCE OVERVIEW', 20, currentY, { fontSize: 16, isBold: true });
-      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
-      currentY += 10;
+      // Compliance Overview Section with enhanced design
+      checkNewPage(60);
+      currentY = addText('COMPLIANCE OVERVIEW', 20, currentY, { fontSize: 18, isBold: true, color: [30, 41, 59] });
+      pdf.setDrawColor(34, 211, 238);
+      pdf.setLineWidth(0.8);
+      pdf.line(20, currentY + 3, pageWidth - 20, currentY + 3);
+      currentY += 15;
       
-      // Score visualization
+      // Score visualization with modern design
       const score = framework.score || 0;
-      const barWidth = 100;
-      const barHeight = 15;
+      const barWidth = 120;
+      const barHeight = 20;
       
-      // Background bar
-      pdf.setFillColor(229, 231, 235);
-      pdf.rect(20, currentY, barWidth, barHeight, 'F');
+      // Background bar with rounded corners effect
+      pdf.setFillColor(240, 242, 247);
+      pdf.roundedRect(20, currentY, barWidth, barHeight, 3, 3, 'F');
       
       // Progress bar with color based on score
       let barColor = [34, 197, 94]; // Green for good scores
-      if (score < 70) barColor = [239, 68, 68]; // Red for low scores
-      else if (score < 85) barColor = [251, 191, 36]; // Yellow for medium scores
+      let statusText = 'Excellent';
+      if (score < 70) {
+        barColor = [239, 68, 68]; // Red for low scores
+        statusText = 'Needs Improvement';
+      } else if (score < 85) {
+        barColor = [251, 191, 36]; // Yellow for medium scores  
+        statusText = 'Good';
+      }
       
-      pdf.setFillColor(barColor[0], barColor[1], barColor[2]);
-      pdf.rect(20, currentY, (barWidth * score) / 100, barHeight, 'F');
+      if (score > 0) {
+        pdf.setFillColor(barColor[0], barColor[1], barColor[2]);
+        pdf.roundedRect(20, currentY, Math.max(2, (barWidth * score) / 100), barHeight, 3, 3, 'F');
+      }
       
-      // Score text
-      pdf.setTextColor(0, 0, 0);
-      currentY = addText(`Overall Score: ${score}%`, 130, currentY + 10, { fontSize: 14, isBold: true });
-      currentY = addText(`Status: ${(framework.status || 'unknown').charAt(0).toUpperCase() + (framework.status || 'unknown').slice(1)}`, 20, currentY + 5, { fontSize: 12 });
+      // Score text with better positioning
+      currentY = addText(`${score}%`, 25, currentY + 13, { fontSize: 16, isBold: true, color: [255, 255, 255] });
+      currentY = addText(`Overall Compliance Score`, 150, currentY - 8, { fontSize: 14, isBold: true });
+      currentY = addText(`Status: ${statusText}`, 150, currentY + 3, { fontSize: 12, color: barColor });
       currentY += 15;
       
-      // Control Details Section
-      checkNewPage(40);
-      currentY = addText('CONTROL DETAILS', 20, currentY, { fontSize: 16, isBold: true });
-      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
-      currentY += 10;
-      
-      currentY = addText(`Total Controls: ${framework.controls || 0}`, 20, currentY, { fontSize: 12 });
-      currentY = addText(`Compliant Controls: ${framework.compliantControls || 0}`, 20, currentY + 5, { fontSize: 12 });
-      currentY = addText(`Non-Compliant Controls: ${(framework.controls || 0) - (framework.compliantControls || 0)}`, 20, currentY + 5, { fontSize: 12 });
-      currentY = addText(`Open Findings: ${framework.findings || 0}`, 20, currentY + 5, { fontSize: 12 });
+      // Control Details Section with visual metrics
+      checkNewPage(50);
+      currentY = addText('CONTROL DETAILS', 20, currentY, { fontSize: 18, isBold: true, color: [30, 41, 59] });
+      pdf.setDrawColor(34, 211, 238);
+      pdf.setLineWidth(0.8);
+      pdf.line(20, currentY + 3, pageWidth - 20, currentY + 3);
       currentY += 15;
+      
+      // Create metrics cards layout
+      const cardWidth = (pageWidth - 60) / 4;
+      const cardHeight = 35;
+      const startX = 20;
+      
+      const metrics = [
+        { label: 'Total Controls', value: framework.controls || 0, color: [100, 116, 139] },
+        { label: 'Compliant', value: framework.compliantControls || 0, color: [34, 197, 94] },
+        { label: 'Non-Compliant', value: (framework.controls || 0) - (framework.compliantControls || 0), color: [239, 68, 68] },
+        { label: 'Open Findings', value: framework.findings || 0, color: [251, 191, 36] }
+      ];
+      
+      metrics.forEach((metric, index) => {
+        const x = startX + (index * (cardWidth + 5));
+        
+        // Card background
+        pdf.setFillColor(248, 250, 252);
+        pdf.roundedRect(x, currentY, cardWidth, cardHeight, 2, 2, 'F');
+        
+        // Card border
+        pdf.setDrawColor(226, 232, 240);
+        pdf.setLineWidth(0.5);
+        pdf.roundedRect(x, currentY, cardWidth, cardHeight, 2, 2, 'S');
+        
+        // Metric value
+        addText(metric.value.toString(), x + cardWidth/2, currentY + 15, { 
+          fontSize: 20, isBold: true, color: metric.color 
+        });
+        
+        // Metric label
+        addText(metric.label, x + cardWidth/2, currentY + 28, { 
+          fontSize: 10, color: [100, 116, 139] 
+        });
+      });
+      
+      currentY += cardHeight + 15;
       
       // Audit Timeline Section
       checkNewPage(30);
@@ -189,13 +278,24 @@ export default function Compliance() {
         currentY += 10;
       }
       
-      // Footer
+      // Footer with enhanced design
       const totalPages = pdf.internal.pages.length - 1;
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
-        pdf.setTextColor(128, 128, 128);
-        pdf.setFontSize(10);
-        pdf.text(`Generated by CyberSecure AI Security Platform - Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+        
+        // Footer separator line
+        pdf.setDrawColor(226, 232, 240);
+        pdf.setLineWidth(0.5);
+        pdf.line(20, pageHeight - 25, pageWidth - 20, pageHeight - 25);
+        
+        // Footer text
+        pdf.setTextColor(100, 116, 139);
+        pdf.setFontSize(9);
+        pdf.text('Generated by CyberSecure AI Security Platform', 20, pageHeight - 15);
+        pdf.text(`Page ${i} of ${totalPages}`, pageWidth - 20, pageHeight - 15, { align: 'right' });
+        
+        // Add generation timestamp
+        pdf.text(`Report generated on ${new Date().toLocaleString()}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
       }
       
       // Save the PDF
