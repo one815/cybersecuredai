@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
+// Vector security icons from attached assets
+import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 
 export default function Platform() {
   const platformCategories = [
