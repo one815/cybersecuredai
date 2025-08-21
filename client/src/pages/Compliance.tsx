@@ -23,8 +23,11 @@ import {
   Target
 } from "lucide-react";
 import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Compliance() {
+  const [selectedFramework, setSelectedFramework] = useState<any>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { data: complianceFrameworks = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/compliance/frameworks"],
   });
@@ -347,7 +350,16 @@ export default function Compliance() {
                         </div>
                         
                         <div className="mt-4 flex space-x-2">
-                          <Button size="sm" variant="outline" className="flex-1">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedFramework(framework);
+                              setIsDetailsOpen(true);
+                            }}
+                            data-testid={`view-details-${framework.framework?.toLowerCase()}`}
+                          >
                             View Details
                           </Button>
                           <Button size="sm" variant="ghost" className="text-gray-400">
@@ -423,7 +435,16 @@ export default function Compliance() {
                         </div>
                         
                         <div className="mt-4 flex space-x-2">
-                          <Button size="sm" variant="outline" className="flex-1">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedFramework(framework);
+                              setIsDetailsOpen(true);
+                            }}
+                            data-testid={`view-details-${framework.framework?.toLowerCase()}`}
+                          >
                             View Details
                           </Button>
                           <Button size="sm" variant="ghost" className="text-gray-400">
@@ -499,7 +520,16 @@ export default function Compliance() {
                         </div>
                         
                         <div className="mt-4 flex space-x-2">
-                          <Button size="sm" variant="outline" className="flex-1">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="flex-1"
+                            onClick={() => {
+                              setSelectedFramework(framework);
+                              setIsDetailsOpen(true);
+                            }}
+                            data-testid={`view-details-${framework.framework?.toLowerCase()}`}
+                          >
                             View Details
                           </Button>
                           <Button size="sm" variant="ghost" className="text-gray-400">
@@ -594,6 +624,128 @@ export default function Compliance() {
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Framework Details Modal */}
+      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-background border border-blue-500/30">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-white flex items-center space-x-2">
+              <Shield className="w-6 h-6 text-blue-400" />
+              <span>{selectedFramework?.name || "Framework Details"}</span>
+              <Badge className={
+                selectedFramework?.status === 'compliant' ? 'bg-green-900/50 text-green-400 border-green-700' :
+                selectedFramework?.status === 'in_progress' ? 'bg-yellow-900/50 text-yellow-400 border-yellow-700' :
+                'bg-red-900/50 text-red-400 border-red-700'
+              }>
+                {selectedFramework?.status === 'compliant' ? 'Compliant' : 
+                 selectedFramework?.status === 'in_progress' ? 'In Progress' : 'Non-Compliant'}
+              </Badge>
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedFramework && (
+            <div className="space-y-6">
+              {/* Overview Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="bg-surface/50 border border-blue-500/20">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-white">Overview</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Framework:</span>
+                      <span className="text-white font-medium">{selectedFramework.framework}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Sector:</span>
+                      <span className="text-white">{selectedFramework.sector}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Compliance Score:</span>
+                      <span className={
+                        selectedFramework.score >= 90 ? 'text-green-400' : 
+                        selectedFramework.score >= 80 ? 'text-yellow-400' : 'text-red-400'
+                      }>
+                        {selectedFramework.score}%
+                      </span>
+                    </div>
+                    <Progress value={selectedFramework.score} className="h-3" />
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-surface/50 border border-green-500/20">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-lg text-white">Control Status</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Total Controls:</span>
+                      <span className="text-white font-medium">{selectedFramework.controls}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Compliant:</span>
+                      <span className="text-green-400">{selectedFramework.compliantControls}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Open Findings:</span>
+                      <span className={selectedFramework.findings > 0 ? 'text-red-400' : 'text-green-400'}>
+                        {selectedFramework.findings}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Audit Information */}
+              <Card className="bg-surface/50 border border-purple-500/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg text-white flex items-center space-x-2">
+                    <Calendar className="w-5 h-5 text-purple-400" />
+                    <span>Audit Schedule</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm text-gray-400 mb-1">Last Audit</div>
+                    <div className="text-white font-medium">{selectedFramework.lastAudit}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 mb-1">Next Review</div>
+                    <div className="text-cyan-400 font-medium">{selectedFramework.nextReview}</div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Description */}
+              <Card className="bg-surface/50 border border-gray-500/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg text-white">Description</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-300 leading-relaxed">
+                    {selectedFramework.description}
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end space-x-3 pt-4">
+                <Button variant="outline" onClick={() => setIsDetailsOpen(false)}>
+                  Close
+                </Button>
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download Report
+                </Button>
+                <Button className="bg-green-600 hover:bg-green-700">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Run Assessment
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
