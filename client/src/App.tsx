@@ -38,6 +38,16 @@ import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
 import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
 
+// Solutions Pages
+import RansomwareProtection from "@/pages/solutions/RansomwareProtection";
+import ZeroTrustSecurity from "@/pages/solutions/ZeroTrustSecurity";
+import CloudSecurity from "@/pages/solutions/CloudSecurity";
+import AIThreatDetection from "@/pages/solutions/AIThreatDetection";
+import K12Education from "@/pages/solutions/K12Education";
+import HigherEducation from "@/pages/solutions/HigherEducation";
+import MunicipalGovernment from "@/pages/solutions/MunicipalGovernment";
+import FederalAgencies from "@/pages/solutions/FederalAgencies";
+
 // Platform Pages
 import Platform from "@/pages/Platform";
 import AutomatedIncidentResponse from "@/pages/platform/AutomatedIncidentResponse";
@@ -89,6 +99,16 @@ function Router() {
       <Route path="/news" component={News} />
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
+      
+      {/* Solutions Pages */}
+      <Route path="/solutions/ransomware" component={RansomwareProtection} />
+      <Route path="/solutions/zero-trust" component={ZeroTrustSecurity} />
+      <Route path="/solutions/cloud" component={CloudSecurity} />
+      <Route path="/solutions/ai-threat-detection" component={AIThreatDetection} />
+      <Route path="/solutions/k12" component={K12Education} />
+      <Route path="/solutions/higher-ed" component={HigherEducation} />
+      <Route path="/solutions/municipal" component={MunicipalGovernment} />
+      <Route path="/solutions/federal" component={FederalAgencies} />
       
       {/* Platform Pages */}
       <Route path="/platform" component={Platform} />
