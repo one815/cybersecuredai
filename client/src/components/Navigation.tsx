@@ -456,9 +456,9 @@ export function Navigation() {
               ))}
               
               <div className="flex flex-col space-y-2 px-3 pt-2">
-                <Link href="/dashboard">
-                  <Button variant="ghost" size="sm" className="w-full text-gray-300 hover:text-white cyber-font">
-                    Login
+                <Link href="/client-login">
+                  <Button variant="outline" size="sm" className="w-full border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 cyber-font">
+                    Client Portal
                   </Button>
                 </Link>
                 <Link href="/security-scanner">
