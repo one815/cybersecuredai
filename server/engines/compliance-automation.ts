@@ -40,22 +40,52 @@ export interface ComplianceAssessment {
   completionDate?: Date;
   status: "planning" | "in_progress" | "review" | "complete" | "remediation";
   overallScore: number; // 0-100
+  riskAdjustedScore: number; // 0-100 weighted by risk factors
+  maturityScore: number; // 0-100 based on implementation maturity
+  trendScore: number; // -100 to 100 improvement/degradation trend
   controlResults: ControlAssessmentResult[];
   findings: ComplianceFinding[];
   recommendations: string[];
   nextAssessment?: Date;
+  industryBenchmark?: {
+    percentile: number;
+    averageScore: number;
+    bestPracticeGap: number;
+  };
+  riskMetrics: {
+    criticalRiskScore: number;
+    businessImpactScore: number;
+    likelihoodScore: number;
+    residualRiskScore: number;
+  };
 }
 
 export interface ControlAssessmentResult {
   controlId: string;
   status: "compliant" | "non_compliant" | "not_applicable" | "compensating" | "not_tested";
   score: number; // 0-100
+  riskWeightedScore: number; // 0-100 adjusted for risk and priority
+  maturityLevel: 0 | 1 | 2 | 3 | 4 | 5; // CMM-style maturity (0=none, 5=optimized)
+  effectivenessScore: number; // 0-100 how well implemented
+  automationLevel: number; // 0-100 percentage automated
   evidence: string[];
   gaps: string[];
   implementationStatus: "not_started" | "planned" | "in_progress" | "implemented" | "maintained";
   lastTested: Date;
   testMethod: string;
   assessorNotes: string;
+  riskFactors: {
+    businessCriticality: "low" | "medium" | "high" | "critical";
+    dataClassification: "public" | "internal" | "confidential" | "restricted";
+    threatExposure: "low" | "medium" | "high" | "critical";
+    regulatoryImpact: "minimal" | "moderate" | "significant" | "severe";
+  };
+  historicalTrend: {
+    previousScore: number;
+    scoreChange: number;
+    trendDirection: "improving" | "stable" | "declining";
+    consistencyRating: number; // 0-100
+  };
 }
 
 export interface ComplianceFinding {
@@ -515,6 +545,11 @@ export class ComplianceAutomationEngine {
     const totalControls = controlResults.filter(r => r.status !== "not_applicable").length;
     const overallScore = totalControls > 0 ? Math.round((compliantControls / totalControls) * 100) : 0;
 
+    // Calculate advanced scores
+    const { riskAdjustedScore, maturityScore, trendScore } = this.calculateAdvancedScores(controlResults, findings);
+    const riskMetrics = this.calculateRiskMetrics(controlResults, findings);
+    const industryBenchmark = this.calculateIndustryBenchmark(frameworkId, overallScore);
+
     const assessment: ComplianceAssessment = {
       id: assessmentId,
       frameworkId,
@@ -525,10 +560,15 @@ export class ComplianceAutomationEngine {
       completionDate: new Date(),
       status: findings.length > 0 ? "remediation" : "complete",
       overallScore,
+      riskAdjustedScore,
+      maturityScore,
+      trendScore,
       controlResults,
       findings,
       recommendations: this.generateRecommendations(findings),
-      nextAssessment: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000) // 90 days
+      nextAssessment: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days
+      industryBenchmark,
+      riskMetrics
     };
 
     this.assessments.set(assessmentId, assessment);
@@ -556,16 +596,30 @@ export class ComplianceAutomationEngine {
       }
     }
 
+    // Calculate advanced metrics for this control
+    const maturityLevel = this.calculateControlMaturity(control, score);
+    const riskFactors = this.assessControlRiskFactors(control);
+    const automationLevel = this.calculateAutomationLevel(control);
+    const effectivenessScore = this.calculateEffectivenessScore(score, evidence.length, gaps.length);
+    const historicalTrend = this.getControlHistoricalTrend(control.id);
+    const riskWeightedScore = this.calculateRiskWeightedScore(score, riskFactors, control.priority);
+
     return {
       controlId: control.id,
       status,
       score,
+      riskWeightedScore,
+      maturityLevel,
+      effectivenessScore,
+      automationLevel,
       evidence,
       gaps,
       implementationStatus: score > 80 ? "implemented" : score > 50 ? "in_progress" : "planned",
       lastTested: new Date(),
       testMethod: "automated_scan",
-      assessorNotes: `Automated assessment completed. Score: ${score}%, Evidence: ${evidence.length} items, Gaps: ${gaps.length} items`
+      assessorNotes: `Advanced assessment: Score ${score}%, Risk-weighted ${riskWeightedScore}%, Maturity Level ${maturityLevel}, Effectiveness ${effectivenessScore}%`,
+      riskFactors,
+      historicalTrend
     };
   }
 
@@ -706,6 +760,221 @@ export class ComplianceAutomationEngine {
     return recommendations.join(". ");
   }
 
+  // Advanced Scoring Methods
+  private calculateAdvancedScores(controlResults: ControlAssessmentResult[], findings: ComplianceFinding[]): {
+    riskAdjustedScore: number;
+    maturityScore: number;
+    trendScore: number;
+  } {
+    const totalControls = controlResults.length;
+    if (totalControls === 0) return { riskAdjustedScore: 0, maturityScore: 0, trendScore: 0 };
+
+    // Risk-adjusted score calculation
+    const totalRiskWeightedScore = controlResults.reduce((sum, result) => sum + result.riskWeightedScore, 0);
+    const riskAdjustedScore = Math.round(totalRiskWeightedScore / totalControls);
+
+    // Maturity score calculation (average of all control maturity levels normalized to 0-100)
+    const totalMaturityScore = controlResults.reduce((sum, result) => sum + (result.maturityLevel * 20), 0);
+    const maturityScore = Math.round(totalMaturityScore / totalControls);
+
+    // Trend score calculation (based on historical improvements/degradations)
+    const trendScores = controlResults.map(result => result.historicalTrend.scoreChange);
+    const avgTrendChange = trendScores.reduce((sum, change) => sum + change, 0) / trendScores.length;
+    const trendScore = Math.max(-100, Math.min(100, Math.round(avgTrendChange)));
+
+    return { riskAdjustedScore, maturityScore, trendScore };
+  }
+
+  private calculateRiskMetrics(controlResults: ControlAssessmentResult[], findings: ComplianceFinding[]): {
+    criticalRiskScore: number;
+    businessImpactScore: number;
+    likelihoodScore: number;
+    residualRiskScore: number;
+  } {
+    const criticalFindings = findings.filter(f => f.severity === "critical").length;
+    const highFindings = findings.filter(f => f.severity === "high").length;
+    
+    // Critical risk score based on critical and high findings
+    const criticalRiskScore = Math.max(0, 100 - (criticalFindings * 25 + highFindings * 10));
+
+    // Business impact based on control criticality
+    const criticalControls = controlResults.filter(r => r.riskFactors.businessCriticality === "critical").length;
+    const highControls = controlResults.filter(r => r.riskFactors.businessCriticality === "high").length;
+    const nonCompliantCritical = controlResults.filter(r => 
+      r.status === "non_compliant" && r.riskFactors.businessCriticality === "critical"
+    ).length;
+    const businessImpactScore = Math.max(0, 100 - (nonCompliantCritical * 30));
+
+    // Likelihood based on threat exposure
+    const highExposureControls = controlResults.filter(r => 
+      r.riskFactors.threatExposure === "high" || r.riskFactors.threatExposure === "critical"
+    ).length;
+    const nonCompliantHighExposure = controlResults.filter(r => 
+      r.status === "non_compliant" && (r.riskFactors.threatExposure === "high" || r.riskFactors.threatExposure === "critical")
+    ).length;
+    const likelihoodScore = Math.max(0, 100 - (nonCompliantHighExposure * 20));
+
+    // Residual risk combines all factors
+    const residualRiskScore = Math.round((criticalRiskScore + businessImpactScore + likelihoodScore) / 3);
+
+    return {
+      criticalRiskScore,
+      businessImpactScore, 
+      likelihoodScore,
+      residualRiskScore
+    };
+  }
+
+  private calculateIndustryBenchmark(frameworkId: string, score: number): {
+    percentile: number;
+    averageScore: number;
+    bestPracticeGap: number;
+  } {
+    // Industry benchmarks (simulated - in production this would come from real data)
+    const industryAverages: Record<string, number> = {
+      "ferpa": 78,
+      "fisma": 82,
+      "cipa": 71,
+      "fedramp": 85,
+      "nist-800-53": 88,
+      "cmmc": 79,
+      "nist-800-171": 83
+    };
+
+    const averageScore = industryAverages[frameworkId] || 75;
+    const bestPracticeScore = 95; // Industry best practice target
+    
+    // Calculate percentile based on score vs industry average
+    let percentile = 50;
+    if (score > averageScore) {
+      percentile = 50 + ((score - averageScore) / (100 - averageScore)) * 50;
+    } else {
+      percentile = (score / averageScore) * 50;
+    }
+
+    const bestPracticeGap = Math.max(0, bestPracticeScore - score);
+
+    return {
+      percentile: Math.round(percentile),
+      averageScore,
+      bestPracticeGap
+    };
+  }
+
+  private calculateControlMaturity(control: ComplianceControl, score: number): 0 | 1 | 2 | 3 | 4 | 5 {
+    // CMM-style maturity levels
+    if (score >= 95) return 5; // Optimized
+    if (score >= 85) return 4; // Managed
+    if (score >= 70) return 3; // Defined
+    if (score >= 50) return 2; // Repeatable
+    if (score >= 25) return 1; // Initial
+    return 0; // None
+  }
+
+  private assessControlRiskFactors(control: ComplianceControl): {
+    businessCriticality: "low" | "medium" | "high" | "critical";
+    dataClassification: "public" | "internal" | "confidential" | "restricted";
+    threatExposure: "low" | "medium" | "high" | "critical";
+    regulatoryImpact: "minimal" | "moderate" | "significant" | "severe";
+  } {
+    // Risk assessment based on control characteristics
+    let businessCriticality: "low" | "medium" | "high" | "critical" = "medium";
+    let dataClassification: "public" | "internal" | "confidential" | "restricted" = "internal";
+    let threatExposure: "low" | "medium" | "high" | "critical" = "medium";
+    let regulatoryImpact: "minimal" | "moderate" | "significant" | "severe" = "moderate";
+
+    // Adjust based on control priority and category
+    if (control.priority === "critical") {
+      businessCriticality = "critical";
+      regulatoryImpact = "severe";
+    } else if (control.priority === "high") {
+      businessCriticality = "high";
+      regulatoryImpact = "significant";
+    }
+
+    if (control.category === "access_control" || control.category === "data_protection") {
+      dataClassification = "confidential";
+      threatExposure = "high";
+    }
+
+    if (control.category === "network_security") {
+      threatExposure = "critical";
+    }
+
+    return {
+      businessCriticality,
+      dataClassification,
+      threatExposure,
+      regulatoryImpact
+    };
+  }
+
+  private calculateAutomationLevel(control: ComplianceControl): number {
+    switch (control.implementation) {
+      case "automated": return 90;
+      case "hybrid": return 60;
+      case "manual": return 20;
+      default: return 0;
+    }
+  }
+
+  private calculateEffectivenessScore(score: number, evidenceCount: number, gapCount: number): number {
+    let effectiveness = score;
+    
+    // Bonus for comprehensive evidence
+    if (evidenceCount >= 3) effectiveness += 5;
+    
+    // Penalty for gaps
+    effectiveness -= (gapCount * 3);
+    
+    return Math.max(0, Math.min(100, effectiveness));
+  }
+
+  private getControlHistoricalTrend(controlId: string): {
+    previousScore: number;
+    scoreChange: number;
+    trendDirection: "improving" | "stable" | "declining";
+    consistencyRating: number;
+  } {
+    // Simulated historical data - in production this would come from database
+    const previousScore = Math.floor(Math.random() * 100);
+    const currentScore = Math.floor(Math.random() * 100);
+    const scoreChange = currentScore - previousScore;
+    
+    let trendDirection: "improving" | "stable" | "declining" = "stable";
+    if (scoreChange > 5) trendDirection = "improving";
+    else if (scoreChange < -5) trendDirection = "declining";
+    
+    const consistencyRating = Math.floor(Math.random() * 40) + 60; // 60-100 range
+    
+    return {
+      previousScore,
+      scoreChange,
+      trendDirection,
+      consistencyRating
+    };
+  }
+
+  private calculateRiskWeightedScore(baseScore: number, riskFactors: any, priority: string): number {
+    let weightingFactor = 1.0;
+
+    // Adjust weighting based on risk factors
+    if (riskFactors.businessCriticality === "critical") weightingFactor *= 1.5;
+    else if (riskFactors.businessCriticality === "high") weightingFactor *= 1.3;
+
+    if (riskFactors.threatExposure === "critical") weightingFactor *= 1.4;
+    else if (riskFactors.threatExposure === "high") weightingFactor *= 1.2;
+
+    if (priority === "critical") weightingFactor *= 1.3;
+    else if (priority === "high") weightingFactor *= 1.1;
+
+    // Apply inverse weighting to score (higher risk = lower weighted score if non-compliant)
+    const riskAdjustment = baseScore < 80 ? (100 - baseScore) * (weightingFactor - 1) : 0;
+    const riskWeightedScore = Math.max(0, baseScore - riskAdjustment);
+
+    return Math.round(riskWeightedScore);
+  }
+
   private generateRecommendations(findings: ComplianceFinding[]): string[] {
     const recommendations: string[] = [];
     
@@ -783,13 +1052,19 @@ export class ComplianceAutomationEngine {
     return Array.from(this.systemConfigs.values());
   }
 
-  // Calculate overall compliance health across all frameworks
+  // Calculate overall compliance health across all frameworks with advanced metrics
   getComplianceHealth(): {
     overallHealthScore: number;
+    riskAdjustedHealthScore: number;
+    maturityScore: number;
+    trendScore: number;
     frameworkScores: Array<{
       frameworkId: string;
       name: string;
       score: number;
+      riskAdjustedScore: number;
+      maturityScore: number;
+      trendScore: number;
       status: "excellent" | "good" | "fair" | "poor";
       lastAssessed: Date | null;
     }>;
@@ -863,22 +1138,41 @@ export class ComplianceAutomationEngine {
         complianceDistribution.poor++;
       }
 
+      // Calculate advanced metrics for this framework
+      const riskAdjustedScore = latestAssessment?.riskAdjustedScore || score;
+      const maturityScore = latestAssessment?.maturityScore || Math.floor(score * 0.8); // Estimate maturity as 80% of score
+      const trendScore = latestAssessment?.trendScore || 0;
+
       frameworkScores.push({
         frameworkId,
         name: framework.name,
         score,
+        riskAdjustedScore,
+        maturityScore,
+        trendScore,
         status,
         lastAssessed
       });
     }
 
-    // Calculate overall health score
-    const overallHealthScore = this.frameworks.size > 0 
-      ? Math.round(totalScore / this.frameworks.size) 
+    // Calculate overall health score using risk-adjusted scores
+    const totalRiskScore = frameworkScores.reduce((sum, f) => sum + f.riskAdjustedScore, 0);
+    const overallHealthScore = frameworkScores.length > 0 ? Math.round(totalRiskScore / frameworkScores.length) : 0;
+    
+    // Calculate maturity and trend averages
+    const avgMaturityScore = frameworkScores.length > 0 
+      ? Math.round(frameworkScores.reduce((sum, f) => sum + f.maturityScore, 0) / frameworkScores.length) 
+      : 0;
+    
+    const avgTrendScore = frameworkScores.length > 0
+      ? Math.round(frameworkScores.reduce((sum, f) => sum + f.trendScore, 0) / frameworkScores.length)
       : 0;
 
     return {
       overallHealthScore,
+      riskAdjustedHealthScore: overallHealthScore,
+      maturityScore: avgMaturityScore,
+      trendScore: avgTrendScore,
       frameworkScores,
       criticalGaps: totalCriticalGaps,
       totalFindings,
