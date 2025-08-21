@@ -17,7 +17,13 @@ import {
   Eye,
   ArrowRight,
   Bot,
-  Activity
+  Activity,
+  Settings,
+  FileText,
+  Target,
+  Database,
+  Network,
+  HeadphonesIcon
 } from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -700,7 +706,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <div className="w-6 h-6 text-blue-400"50% 90% /> 'hue-rotate(180deg) saturate(1.5) brightness(1.2)">
+                  <Settings className="w-6 h-6 text-cyan-400" />
                 </div>
                 <CardTitle className="text-xl text-white">Automated Incident Response</CardTitle>
               </CardHeader>
@@ -720,7 +726,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <div className="w-6 h-6 text-blue-400"70% 10% /> 'hue-rotate(120deg) saturate(1.5) brightness(1.2)">
+                  <FileText className="w-6 h-6 text-green-400" />
                 </div>
                 <CardTitle className="text-xl text-white">Compliance Automation</CardTitle>
               </CardHeader>
@@ -833,7 +839,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="w-6 h-6 text-blue-400"50% 90% /> 'hue-rotate(280deg) saturate(1.5) brightness(1.2)">
+                  <Bot className="w-6 h-6 text-purple-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">AI-Powered Security</h3>
@@ -846,7 +852,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="w-6 h-6 text-blue-400"70% 10% /> 'hue-rotate(120deg) saturate(1.5) brightness(1.2)">
+                  <Shield className="w-6 h-6 text-green-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Comprehensive Compliance</h3>
@@ -861,7 +867,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="w-6 h-6 text-blue-400"30% 90% /> 'hue-rotate(20deg) saturate(1.5) brightness(1.2)">
+                  <TrendingUp className="w-6 h-6 text-orange-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Scalable Solutions</h3>
@@ -874,7 +880,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="w-6 h-6 text-blue-400"50% 10% /> 'hue-rotate(200deg) saturate(1.5) brightness(1.2)">
+                  <Network className="w-6 h-6 text-blue-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Integrated Approach</h3>
@@ -887,7 +893,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <div className="w-6 h-6 text-blue-400"10% 10% /> 'hue-rotate(0deg) saturate(1.5) brightness(1.2)">
+                  <HeadphonesIcon className="w-6 h-6 text-red-400" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">24/7 Support</h3>
@@ -916,7 +922,7 @@ export default function Home() {
             <Link href="/pricing">
               <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg">
                 View Pricing Plans
-                <div className="ml-2 w-5 h-5 text-blue-400"30% 90% /> 'brightness(1.2) saturate(1.5)">
+                <ArrowRight className="ml-2 w-5 h-5 text-white" />
               </Button>
             </Link>
             <Link href="/about">
