@@ -87,18 +87,23 @@ export default function Dashboard() {
           <div className="flex items-center space-x-4">
             {/* Authentication Status */}
             <div className="hidden lg:flex items-center space-x-3">
-              <div className="relative">
-                {/* Face Recognition Scanning Effects */}
-                <div className="absolute inset-0 rounded-full border-2 border-blue-400/60 animate-pulse"></div>
-                <div className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping"></div>
-                <div className="face-recognition scale-75 relative"></div>
-              </div>
-              <div className="relative">
-                {/* Scanning Animation Wrapper */}
+              <div className="relative flex items-center space-x-4 p-4 holographic-card rounded-lg bg-green-900/20 border border-green-400/30">
+                {/* Combined Scanning Effects */}
                 <div className="absolute inset-0 rounded-lg border-2 border-green-400/50 animate-pulse"></div>
                 <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-ping"></div>
-                <div className="relative flex items-center space-x-2 p-3 holographic-card rounded-lg bg-green-900/20 border border-green-400/30">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                
+                {/* Eye Scanner with Scanning Animation */}
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-full border-2 border-blue-400/60 animate-pulse"></div>
+                  <div className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping"></div>
+                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 50%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.5)'}} />
+                  </div>
+                </div>
+                
+                {/* Status Text */}
+                <div className="relative">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mb-1"></div>
                   <div className="text-xs">
                     <div className="tech-font text-green-400 font-semibold">ADMIN AUTHENTICATED</div>
                     <div className="text-gray-400">Security Level: MAX</div>
