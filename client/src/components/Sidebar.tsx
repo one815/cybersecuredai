@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 // Vector security icons from attached assets
 import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 // CyberSecure logo
-import cyberSecureLogo from "@assets/2_1755803676829.png";
+import cyberSecureLogo from "@assets/2_1755803929285.png";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
