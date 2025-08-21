@@ -6,6 +6,8 @@ import {
   incidents, 
   auditLogs,
   threatNotifications,
+  packages,
+  userSubscriptions,
   type User, 
   type InsertUser,
   type Threat,
@@ -17,7 +19,11 @@ import {
   type InsertIncident,
   type AuditLog,
   type ThreatNotification,
-  type InsertThreatNotification
+  type InsertThreatNotification,
+  type Package,
+  type InsertPackage,
+  type UserSubscription,
+  type InsertUserSubscription
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -28,6 +34,24 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<User>): Promise<User>;
   getUsers(): Promise<User[]>;
+  
+  // Package operations
+  getPackages(): Promise<Package[]>;
+  getPackage(id: string): Promise<Package | undefined>;
+  createPackage(pkg: InsertPackage): Promise<Package>;
+  updatePackage(id: string, updates: Partial<Package>): Promise<Package>;
+  getPackagesByCategory(category: string): Promise<Package[]>;
+  
+  // User Subscription operations
+  getUserSubscriptions(userId: string): Promise<UserSubscription[]>;
+  getUserSubscription(userId: string, packageId: string): Promise<UserSubscription | undefined>;
+  createUserSubscription(subscription: InsertUserSubscription): Promise<UserSubscription>;
+  updateUserSubscription(id: string, updates: Partial<UserSubscription>): Promise<UserSubscription>;
+  getUserActiveSubscriptions(userId: string): Promise<UserSubscription[]>;
+  
+  // Access Control operations
+  checkUserAccess(userId: string, feature: string): Promise<boolean>;
+  getUserAccessLevel(userId: string): Promise<string>;
   
   // Threat operations
   getThreats(): Promise<Threat[]>;
@@ -67,6 +91,8 @@ export class MemStorage implements IStorage {
   private incidents: Map<string, Incident> = new Map();
   private auditLogs: Map<string, AuditLog> = new Map();
   private threatNotifications: Map<string, ThreatNotification> = new Map();
+  private packages: Map<string, Package> = new Map();
+  private userSubscriptions: Map<string, UserSubscription> = new Map();
 
   constructor() {
     this.initializeData();
@@ -87,7 +113,7 @@ export class MemStorage implements IStorage {
       mfaEnabled: true,
       mfaMethod: "biometric",
       biometricEnabled: true,
-      planType: "enterprise",
+      planType: "cyber_cloud_enterprise",
       onboardingCompleted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -125,6 +151,201 @@ export class MemStorage implements IStorage {
       },
     ];
     complianceData.forEach(report => this.complianceReports.set(report.id, report));
+
+    // Initialize comprehensive CyberSecure packages
+    const packageData: Package[] = [
+      // Cloud Security Packages
+      {
+        id: "pkg-cloud-essential",
+        name: "Cyber-Cloud Essential",
+        category: "cloud_security",
+        tier: "essential",
+        targetAudience: "Small K-12 schools, small municipal offices",
+        priceRangeMin: 15000,
+        priceRangeMax: 30000,
+        billingCycle: "annual",
+        maxUsers: 50,
+        maxEndpoints: 500,
+        coverageAreaSqFt: null,
+        features: ["AI-powered threat detection", "Automated incident response", "FERPA/CIPA compliance", "24/7 monitoring", "Basic user management"],
+        components: ["CyberSecure AI Core Platform (limited users)", "Basic automated incident response", "Standard threat detection", "Essential compliance automation", "Cloud security monitoring"],
+        implementationPeriod: "3-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-cloud-advanced",
+        name: "Cyber-Cloud Advanced",
+        category: "cloud_security",
+        tier: "advanced",
+        targetAudience: "Mid-sized school districts, colleges, city governments",
+        priceRangeMin: 30000,
+        priceRangeMax: 60000,
+        billingCycle: "annual",
+        maxUsers: 200,
+        maxEndpoints: 1500,
+        coverageAreaSqFt: null,
+        features: ["Machine learning threat detection", "Predictive risk analysis", "Advanced incident response", "Multi-framework compliance", "Enhanced monitoring dashboard"],
+        components: ["CyberSecure AI Core Platform", "Advanced automated incident response", "AI-powered threat detection", "Predictive risk analysis", "Comprehensive compliance automation", "24/7 cloud security monitoring"],
+        implementationPeriod: "4-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-cloud-enterprise",
+        name: "Cyber-Cloud Enterprise",
+        category: "cloud_security",
+        tier: "enterprise",
+        targetAudience: "Large universities, state education departments, federal agencies",
+        priceRangeMin: 60000,
+        priceRangeMax: 150000,
+        billingCycle: "annual",
+        maxUsers: null,
+        maxEndpoints: null,
+        coverageAreaSqFt: null,
+        features: ["Unlimited user access", "Custom ML models", "Enterprise integrations", "Premium support", "Advanced analytics"],
+        components: ["CyberSecure AI Core Platform (unlimited users)", "Enterprise automated incident response", "Advanced threat detection with ML", "Custom predictive risk models", "Comprehensive compliance frameworks", "24/7 premium monitoring", "Custom integration framework"],
+        implementationPeriod: "6-month",
+        supportLevel: "premium",
+        isActive: true,
+        createdAt: new Date()
+      },
+      // K-12 Pilot Programs
+      {
+        id: "pkg-k12-small",
+        name: "K-12 Pilot Small",
+        category: "k12_pilot",
+        tier: "small",
+        targetAudience: "Small K-12 schools looking to evaluate AI-powered security",
+        priceRangeMin: 5000,
+        priceRangeMax: 10000,
+        billingCycle: "monthly",
+        maxUsers: 15,
+        maxEndpoints: 300,
+        coverageAreaSqFt: 5000,
+        features: ["CIPA-compliant filtering", "FERPA compliance", "Student data protection", "Basic threat detection", "Hardware included"],
+        components: ["CyberSecure AI Core Platform (15 admin users)", "Basic threat detection for up to 300 endpoints", "CIPA-compliant web filtering", "FERPA compliance framework", "Student data protection", "Secure network cabinet with basic hardware", "3-month implementation and support"],
+        implementationPeriod: "3-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-k12-medium",
+        name: "K-12 Pilot Medium",
+        category: "k12_pilot",
+        tier: "medium",
+        targetAudience: "Medium K-12 schools looking to evaluate AI-powered security",
+        priceRangeMin: 8000,
+        priceRangeMax: 15000,
+        billingCycle: "monthly",
+        maxUsers: 25,
+        maxEndpoints: 500,
+        coverageAreaSqFt: 15000,
+        features: ["CIPA-compliant filtering", "FERPA compliance", "Student data protection", "Basic threat detection", "Hardware included"],
+        components: ["CyberSecure AI Core Platform (25 admin users)", "Basic threat detection for up to 500 endpoints", "CIPA-compliant web filtering", "FERPA compliance framework", "Student data protection", "Secure network cabinet with basic hardware", "3-month implementation and support"],
+        implementationPeriod: "3-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-k12-large",
+        name: "K-12 Pilot Large",
+        category: "k12_pilot",
+        tier: "large",
+        targetAudience: "Large K-12 schools looking to evaluate AI-powered security",
+        priceRangeMin: 12000,
+        priceRangeMax: 20000,
+        billingCycle: "monthly",
+        maxUsers: 40,
+        maxEndpoints: 800,
+        coverageAreaSqFt: 30000,
+        features: ["CIPA-compliant filtering", "FERPA compliance", "Student data protection", "Basic threat detection", "Multiple hardware cabinets"],
+        components: ["CyberSecure AI Core Platform (40 admin users)", "Basic threat detection for up to 800 endpoints", "CIPA-compliant web filtering", "FERPA compliance framework", "Student data protection", "Multiple secure network cabinets with basic hardware", "3-month implementation and support"],
+        implementationPeriod: "3-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      // Hardware Security Packages
+      {
+        id: "pkg-hardware-essential",
+        name: "Hardware Essential",
+        category: "hardware",
+        tier: "essential",
+        targetAudience: "Small educational institutions, small government offices",
+        priceRangeMin: 8000,
+        priceRangeMax: 14500,
+        billingCycle: "one_time",
+        maxUsers: null,
+        maxEndpoints: null,
+        coverageAreaSqFt: null,
+        features: ["Structured cabling", "Basic network cabinet", "Access control infrastructure", "Professional installation"],
+        components: ["Cat6A Structured Cabling System", "Basic Network Cabinet with Lock", "Patch Panels and Cable Management", "Entry-level Access Control Infrastructure"],
+        implementationPeriod: "2-month",
+        supportLevel: "basic",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-hardware-advanced",
+        name: "Hardware Advanced",
+        category: "hardware",
+        tier: "advanced",
+        targetAudience: "Mid-sized institutions, city government facilities",
+        priceRangeMin: 35000,
+        priceRangeMax: 55000,
+        billingCycle: "one_time",
+        maxUsers: null,
+        maxEndpoints: null,
+        coverageAreaSqFt: null,
+        features: ["Shielded cabling system", "Electronic locks", "Security cameras", "Environmental monitoring"],
+        components: ["Cat6A Shielded Cabling System", "Fiber Optic Backbone", "Advanced Network Cabinets with Electronic Locks", "Security Camera Infrastructure", "Intermediate Access Control System", "Environmental Monitoring for Server Rooms"],
+        implementationPeriod: "4-month",
+        supportLevel: "standard",
+        isActive: true,
+        createdAt: new Date()
+      },
+      {
+        id: "pkg-hardware-enterprise",
+        name: "Hardware Enterprise",
+        category: "hardware",
+        tier: "enterprise",
+        targetAudience: "Large campuses, government complexes",
+        priceRangeMin: 90000,
+        priceRangeMax: 155000,
+        billingCycle: "one_time",
+        maxUsers: null,
+        maxEndpoints: null,
+        coverageAreaSqFt: null,
+        features: ["Campus-wide infrastructure", "Biometric access", "Comprehensive monitoring", "Tamper-evident solutions"],
+        components: ["Campus-wide Cat6A Shielded Cabling System", "Redundant Fiber Optic Backbone", "High-Security Network Cabinets with Biometric Access", "Comprehensive Security Camera Infrastructure", "Advanced Access Control System", "Complete Environmental Monitoring Solution", "Tamper-Evident Cabling Solutions", "Network Segmentation Infrastructure"],
+        implementationPeriod: "6-month",
+        supportLevel: "premium",
+        isActive: true,
+        createdAt: new Date()
+      }
+    ];
+    packageData.forEach(pkg => this.packages.set(pkg.id, pkg));
+
+    // Create admin user subscription to enterprise package
+    const adminSubscription: UserSubscription = {
+      id: "sub-admin-1",
+      userId: "admin-1",
+      packageId: "pkg-cloud-enterprise",
+      status: "active",
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1 year
+      autoRenew: true,
+      customFeatures: { "unlimited_users": true, "custom_integrations": true },
+      contractValue: 100000,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.userSubscriptions.set(adminSubscription.id, adminSubscription);
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -336,6 +557,175 @@ export class MemStorage implements IStorage {
 
   async deleteNotification(id: string): Promise<void> {
     this.threatNotifications.delete(id);
+  }
+
+  // Package operations
+  async getPackages(): Promise<Package[]> {
+    return Array.from(this.packages.values());
+  }
+
+  async getPackage(id: string): Promise<Package | undefined> {
+    return this.packages.get(id);
+  }
+
+  async createPackage(insertPackage: InsertPackage): Promise<Package> {
+    const id = randomUUID();
+    const pkg: Package = {
+      ...insertPackage,
+      id,
+      billingCycle: insertPackage.billingCycle ?? "annual",
+      supportLevel: insertPackage.supportLevel ?? "standard",
+      isActive: insertPackage.isActive ?? true,
+      createdAt: new Date(),
+      maxUsers: insertPackage.maxUsers ?? null,
+      maxEndpoints: insertPackage.maxEndpoints ?? null,
+      coverageAreaSqFt: insertPackage.coverageAreaSqFt ?? null,
+      implementationPeriod: insertPackage.implementationPeriod ?? null
+    };
+    this.packages.set(id, pkg);
+    return pkg;
+  }
+
+  async updatePackage(id: string, updates: Partial<Package>): Promise<Package> {
+    const pkg = this.packages.get(id);
+    if (!pkg) throw new Error("Package not found");
+    
+    const updatedPackage = { ...pkg, ...updates };
+    this.packages.set(id, updatedPackage);
+    return updatedPackage;
+  }
+
+  async getPackagesByCategory(category: string): Promise<Package[]> {
+    return Array.from(this.packages.values()).filter(pkg => pkg.category === category);
+  }
+
+  // User Subscription operations
+  async getUserSubscriptions(userId: string): Promise<UserSubscription[]> {
+    return Array.from(this.userSubscriptions.values()).filter(sub => sub.userId === userId);
+  }
+
+  async getUserSubscription(userId: string, packageId: string): Promise<UserSubscription | undefined> {
+    return Array.from(this.userSubscriptions.values())
+      .find(sub => sub.userId === userId && sub.packageId === packageId);
+  }
+
+  async createUserSubscription(insertSubscription: InsertUserSubscription): Promise<UserSubscription> {
+    const id = randomUUID();
+    const subscription: UserSubscription = {
+      ...insertSubscription,
+      id,
+      status: insertSubscription.status ?? "active",
+      autoRenew: insertSubscription.autoRenew ?? true,
+      customFeatures: insertSubscription.customFeatures ?? null,
+      contractValue: insertSubscription.contractValue ?? null,
+      endDate: insertSubscription.endDate ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.userSubscriptions.set(id, subscription);
+    return subscription;
+  }
+
+  async updateUserSubscription(id: string, updates: Partial<UserSubscription>): Promise<UserSubscription> {
+    const subscription = this.userSubscriptions.get(id);
+    if (!subscription) throw new Error("User subscription not found");
+    
+    const updatedSubscription = { ...subscription, ...updates, updatedAt: new Date() };
+    this.userSubscriptions.set(id, updatedSubscription);
+    return updatedSubscription;
+  }
+
+  async getUserActiveSubscriptions(userId: string): Promise<UserSubscription[]> {
+    return Array.from(this.userSubscriptions.values())
+      .filter(sub => sub.userId === userId && sub.status === "active");
+  }
+
+  // Access Control operations
+  async checkUserAccess(userId: string, feature: string): Promise<boolean> {
+    const user = await this.getUser(userId);
+    if (!user) return false;
+
+    // Admin users have full access
+    if (user.role === "admin") return true;
+
+    // Get user's active subscriptions
+    const activeSubscriptions = await this.getUserActiveSubscriptions(userId);
+    if (activeSubscriptions.length === 0) return false;
+
+    // Check access based on subscription package features
+    for (const subscription of activeSubscriptions) {
+      const pkg = await this.getPackage(subscription.packageId);
+      if (!pkg) continue;
+
+      // Define feature access matrix based on package tiers
+      const accessMatrix = this.getAccessMatrix(pkg.category, pkg.tier, feature);
+      if (accessMatrix) return true;
+    }
+
+    return false;
+  }
+
+  async getUserAccessLevel(userId: string): Promise<string> {
+    const user = await this.getUser(userId);
+    if (!user) return "none";
+
+    // Admin users have enterprise access
+    if (user.role === "admin") return "enterprise";
+
+    // Get highest tier from active subscriptions
+    const activeSubscriptions = await this.getUserActiveSubscriptions(userId);
+    if (activeSubscriptions.length === 0) return "standard";
+
+    let highestTier = "standard";
+    for (const subscription of activeSubscriptions) {
+      const pkg = await this.getPackage(subscription.packageId);
+      if (!pkg) continue;
+
+      // Determine access level based on package tier
+      if (pkg.tier === "enterprise" || pkg.category === "cloud_security") {
+        highestTier = "enterprise";
+      } else if (pkg.tier === "advanced" && highestTier !== "enterprise") {
+        highestTier = "advanced";
+      } else if (pkg.tier === "large" && !["enterprise", "advanced"].includes(highestTier)) {
+        highestTier = "advanced";
+      }
+    }
+
+    return highestTier;
+  }
+
+  private getAccessMatrix(category: string, tier: string, feature: string): boolean {
+    // Define comprehensive access matrix for different features
+    const accessRules: Record<string, Record<string, string[]>> = {
+      cloud_security: {
+        essential: ["basic_monitoring", "standard_compliance", "threat_detection"],
+        advanced: ["basic_monitoring", "standard_compliance", "threat_detection", "predictive_analysis", "advanced_incidents"],
+        enterprise: ["basic_monitoring", "standard_compliance", "threat_detection", "predictive_analysis", "advanced_incidents", "custom_integrations", "unlimited_users", "premium_support"]
+      },
+      k12_pilot: {
+        small: ["basic_monitoring", "ferpa_compliance", "cipa_filtering", "student_protection"],
+        medium: ["basic_monitoring", "ferpa_compliance", "cipa_filtering", "student_protection", "enhanced_filtering"],
+        large: ["basic_monitoring", "ferpa_compliance", "cipa_filtering", "student_protection", "enhanced_filtering", "multi_campus"]
+      },
+      higher_ed_pilot: {
+        small: ["basic_monitoring", "research_protection", "advanced_threats", "department_access"],
+        medium: ["basic_monitoring", "research_protection", "advanced_threats", "department_access", "enhanced_monitoring"],
+        large: ["basic_monitoring", "research_protection", "advanced_threats", "department_access", "enhanced_monitoring", "campus_wide"]
+      },
+      hardware: {
+        essential: ["basic_infrastructure", "access_control"],
+        advanced: ["basic_infrastructure", "access_control", "security_cameras", "environmental_monitoring"],
+        enterprise: ["basic_infrastructure", "access_control", "security_cameras", "environmental_monitoring", "biometric_access", "campus_wide_infrastructure"]
+      }
+    };
+
+    const categoryRules = accessRules[category];
+    if (!categoryRules) return false;
+
+    const tierFeatures = categoryRules[tier];
+    if (!tierFeatures) return false;
+
+    return tierFeatures.includes(feature);
   }
 
   private createSampleNotifications() {

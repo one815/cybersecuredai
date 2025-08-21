@@ -16,7 +16,7 @@ export const users = pgTable("users", {
   mfaEnabled: boolean("mfa_enabled").default(false),
   mfaMethod: varchar("mfa_method").default("none"), // none, totp, biometric, hardware
   biometricEnabled: boolean("biometric_enabled").default(false),
-  planType: varchar("plan_type").default("standard"), // standard, enterprise
+  planType: varchar("plan_type").default("standard"), // standard, enterprise, cyber_cloud_essential, cyber_cloud_advanced, cyber_cloud_enterprise, k12_pilot_small, k12_pilot_medium, k12_pilot_large, higher_ed_pilot_small, higher_ed_pilot_medium, higher_ed_pilot_large, hardware_essential, hardware_advanced, hardware_enterprise
   onboardingCompleted: boolean("onboarding_completed").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -120,9 +120,56 @@ export const insertIncidentSchema = createInsertSchema(incidents).omit({
   reportedAt: true,
 });
 
+// CyberSecure Package Definitions
+export const packages = pgTable("packages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  category: varchar("category").notNull(), // cloud_security, edu_pilot, hardware, integrated
+  tier: varchar("tier").notNull(), // essential, advanced, enterprise, small, medium, large
+  targetAudience: text("target_audience").notNull(),
+  priceRangeMin: integer("price_range_min").notNull(),
+  priceRangeMax: integer("price_range_max").notNull(),
+  billingCycle: varchar("billing_cycle").default("annual"), // monthly, annual, one_time
+  maxUsers: integer("max_users"),
+  maxEndpoints: integer("max_endpoints"),
+  coverageAreaSqFt: integer("coverage_area_sq_ft"),
+  features: jsonb("features").notNull(),
+  components: jsonb("components").notNull(),
+  implementationPeriod: varchar("implementation_period"), // e.g., "3-month", "4-month"
+  supportLevel: varchar("support_level").default("standard"), // basic, standard, premium
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User Package Subscriptions
+export const userSubscriptions = pgTable("user_subscriptions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  packageId: varchar("package_id").notNull().references(() => packages.id),
+  status: varchar("status").notNull().default("active"), // active, suspended, cancelled, trial
+  startDate: timestamp("start_date").defaultNow(),
+  endDate: timestamp("end_date"),
+  autoRenew: boolean("auto_renew").default(true),
+  customFeatures: jsonb("custom_features"), // For enterprise customizations
+  contractValue: integer("contract_value"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 export const insertThreatNotificationSchema = createInsertSchema(threatNotifications).omit({
   id: true,
   createdAt: true,
+});
+
+export const insertPackageSchema = createInsertSchema(packages).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertUserSubscriptionSchema = createInsertSchema(userSubscriptions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
 });
 
 export type User = typeof users.$inferSelect;
@@ -137,3 +184,7 @@ export type InsertIncident = z.infer<typeof insertIncidentSchema>;
 export type AuditLog = typeof auditLogs.$inferSelect;
 export type ThreatNotification = typeof threatNotifications.$inferSelect;
 export type InsertThreatNotification = z.infer<typeof insertThreatNotificationSchema>;
+export type Package = typeof packages.$inferSelect;
+export type InsertPackage = z.infer<typeof insertPackageSchema>;
+export type UserSubscription = typeof userSubscriptions.$inferSelect;
+export type InsertUserSubscription = z.infer<typeof insertUserSubscriptionSchema>;
