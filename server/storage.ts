@@ -614,6 +614,7 @@ export class MemStorage implements IStorage {
     const subscription: UserSubscription = {
       ...insertSubscription,
       id,
+      startDate: insertSubscription.startDate ?? new Date(),
       status: insertSubscription.status ?? "active",
       autoRenew: insertSubscription.autoRenew ?? true,
       customFeatures: insertSubscription.customFeatures ?? null,

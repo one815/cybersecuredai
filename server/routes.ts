@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
+import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
+import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
@@ -219,6 +221,163 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting notification:", error);
       res.status(500).json({ message: "Failed to delete notification" });
+    }
+  });
+
+  // Zero-Trust Security Engine Routes
+  app.post("/api/zero-trust/verify", async (req, res) => {
+    try {
+      const context: VerificationContext = {
+        userId: req.body.userId,
+        ipAddress: req.ip || req.connection.remoteAddress || "127.0.0.1",
+        userAgent: req.headers["user-agent"] || "unknown",
+        location: req.body.location,
+        device: req.body.device || {
+          id: "unknown",
+          type: "desktop",
+          os: "unknown", 
+          browser: "unknown",
+          fingerprint: zeroTrustEngine.generateFingerprint(req.headers["user-agent"] || "unknown")
+        },
+        requestedResource: req.body.resource || req.path,
+        requestType: req.body.requestType || "read",
+        timestamp: new Date()
+      };
+
+      const user = await storage.getUser(context.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const result = await zeroTrustEngine.verifyAccess(context, user);
+      
+      // Create audit log for verification attempt
+      await storage.createAuditLog({
+        userId: context.userId,
+        action: result.granted ? "access_granted" : "access_denied",
+        resource: context.requestedResource,
+        details: `Zero-trust verification: ${result.riskLevel} risk, ${result.verificationMethod} method`,
+        ipAddress: context.ipAddress,
+        userAgent: context.userAgent
+      });
+
+      res.json(result);
+    } catch (error) {
+      console.error("Error in zero-trust verification:", error);
+      res.status(500).json({ message: "Verification failed" });
+    }
+  });
+
+  app.get("/api/zero-trust/devices/:userId", async (req, res) => {
+    try {
+      const devices = await zeroTrustEngine.getTrustedDevices(req.params.userId);
+      res.json(devices);
+    } catch (error) {
+      console.error("Error fetching trusted devices:", error);
+      res.status(500).json({ message: "Failed to fetch devices" });
+    }
+  });
+
+  app.post("/api/zero-trust/devices", async (req, res) => {
+    try {
+      const device = await zeroTrustEngine.registerTrustedDevice(req.body.userId, req.body);
+      res.status(201).json(device);
+    } catch (error) {
+      console.error("Error registering device:", error);
+      res.status(500).json({ message: "Failed to register device" });
+    }
+  });
+
+  app.delete("/api/zero-trust/devices/:deviceId", async (req, res) => {
+    try {
+      const success = await zeroTrustEngine.revokeTrustedDevice(req.params.deviceId);
+      if (success) {
+        res.status(204).send();
+      } else {
+        res.status(404).json({ message: "Device not found" });
+      }
+    } catch (error) {
+      console.error("Error revoking device:", error);
+      res.status(500).json({ message: "Failed to revoke device" });
+    }
+  });
+
+  // Threat Detection Engine Routes
+  app.post("/api/threats/analyze", async (req, res) => {
+    try {
+      const events: NetworkEvent[] = req.body.events || [];
+      const detectionResults = await threatDetectionEngine.analyzeNetworkTraffic(events);
+      
+      // Create threat records for detected threats
+      for (const result of detectionResults) {
+        if (result.requiresImmediateAction) {
+          const threat = await storage.createThreat({
+            type: result.pattern.type,
+            severity: result.severity,
+            description: result.pattern.description,
+            source: result.metadata.sourceIP || "unknown",
+            metadata: result.metadata
+          });
+
+          // Create threat notification for critical threats
+          if (result.severity === "critical" || result.severity === "high") {
+            await storage.createThreatNotification({
+              threatId: threat.id,
+              userId: "admin-1", // In real app, notify relevant users
+              category: result.pattern.type,
+              title: `${result.pattern.name} Detected`,
+              message: result.pattern.description,
+              severity: result.severity,
+              metadata: { confidence: result.confidence }
+            });
+          }
+        }
+      }
+
+      res.json({
+        threatsDetected: detectionResults.length,
+        criticalThreats: detectionResults.filter(r => r.severity === "critical").length,
+        results: detectionResults
+      });
+    } catch (error) {
+      console.error("Error analyzing threats:", error);
+      res.status(500).json({ message: "Threat analysis failed" });
+    }
+  });
+
+  app.get("/api/threats/patterns", async (req, res) => {
+    try {
+      const patterns = threatDetectionEngine.getThreatPatterns();
+      res.json(patterns);
+    } catch (error) {
+      console.error("Error fetching threat patterns:", error);
+      res.status(500).json({ message: "Failed to fetch patterns" });
+    }
+  });
+
+  app.get("/api/threats/stats", async (req, res) => {
+    try {
+      const stats = {
+        recentEventsCount: threatDetectionEngine.getRecentThreatsCount(),
+        suspiciousIPsCount: threatDetectionEngine.getSuspiciousIPsCount(),
+        activeSessionsCount: zeroTrustEngine.getActiveSessionsCount(),
+        trustedDevicesCount: zeroTrustEngine.getTrustedDevicesCount()
+      };
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching threat stats:", error);
+      res.status(500).json({ message: "Failed to fetch stats" });
+    }
+  });
+
+  app.post("/api/threats/intelligence", async (req, res) => {
+    try {
+      const { suspiciousIPs } = req.body;
+      await threatDetectionEngine.updateThreatIntelligence(suspiciousIPs || []);
+      res.json({ message: "Threat intelligence updated" });
+    } catch (error) {
+      console.error("Error updating threat intelligence:", error);
+      res.status(500).json({ message: "Failed to update intelligence" });
     }
   });
 
