@@ -87,7 +87,12 @@ export default function Dashboard() {
           <div className="flex items-center space-x-4">
             {/* Authentication Status */}
             <div className="hidden lg:flex items-center space-x-3">
-              <div className="face-recognition scale-75"></div>
+              <div className="relative">
+                {/* Face Recognition Scanning Effects */}
+                <div className="absolute inset-0 rounded-full border-2 border-blue-400/60 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping"></div>
+                <div className="face-recognition scale-75 relative"></div>
+              </div>
               <div className="relative">
                 {/* Scanning Animation Wrapper */}
                 <div className="absolute inset-0 rounded-lg border-2 border-green-400/50 animate-pulse"></div>
