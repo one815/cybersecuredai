@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { 
   Shield,
   Lock,
@@ -9,62 +8,16 @@ import {
   AlertTriangle,
   CheckCircle,
   ArrowRight,
-  Settings,
-  Activity,
-  Eye,
-  Zap,
   Brain,
-  Clock,
-  FileX,
   HardDrive,
-  Network
+  Network,
+  Zap,
+  Target
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
-import { useState, useEffect } from "react";
 
 export default function RansomwareProtection() {
-  const [threatsBlocked, setThreatsBlocked] = useState(1847);
-  const [filesProtected, setFilesProtected] = useState(2.4);
-  const [systemsSecured, setSystemsSecured] = useState(156);
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [liveThreats, setLiveThreats] = useState([
-    { source: "External", type: "Ransomware.Ryuk", action: "BLOCKED", target: "File Server", method: "Behavioral Detection" },
-    { source: "Email", type: "Ransomware.Locky", action: "QUARANTINED", target: "Workstation", method: "ML Analysis" },
-    { source: "Web", type: "Ransomware.WannaCry", action: "BLOCKED", target: "Network Share", method: "Signature Match" },
-    { source: "USB", type: "Ransomware.BadRabbit", action: "ISOLATED", target: "Endpoint", method: "Zero-Day Detection" }
-  ]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-      if (Math.random() > 0.7) {
-        setThreatsBlocked(prev => prev + Math.floor(Math.random() * 8));
-        setFilesProtected(prev => parseFloat((prev + Math.random() * 0.1).toFixed(1)));
-        setSystemsSecured(Math.floor(Math.random() * 5) + 154);
-        
-        // Update live threats
-        const sources = ["External", "Email", "Web", "USB", "Network"];
-        const types = ["Ransomware.Ryuk", "Ransomware.Maze", "Ransomware.Sodinokibi", "Ransomware.DarkSide"];
-        const actions = ["BLOCKED", "QUARANTINED", "ISOLATED", "ANALYZED"];
-        const targets = ["File Server", "Workstation", "Network Share", "Database", "Backup System"];
-        const methods = ["Behavioral Detection", "ML Analysis", "Signature Match", "Zero-Day Detection"];
-        
-        const newThreat = {
-          source: sources[Math.floor(Math.random() * sources.length)],
-          type: types[Math.floor(Math.random() * types.length)],
-          action: actions[Math.floor(Math.random() * actions.length)],
-          target: targets[Math.floor(Math.random() * targets.length)],
-          method: methods[Math.floor(Math.random() * methods.length)]
-        };
-        
-        setLiveThreats(prev => [newThreat, ...prev.slice(0, 5)]);
-      }
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const protectionLayers = [
     {
       title: "Predictive Ransomware Detection",
@@ -100,215 +53,172 @@ export default function RansomwareProtection() {
   ];
 
   const ransomwareFamilies = [
-    { name: "Ryuk", detectionRate: 99.8, samples: 2847 },
-    { name: "Maze", detectionRate: 99.5, samples: 1923 },
-    { name: "Sodinokibi", detectionRate: 99.7, samples: 2156 },
-    { name: "DarkSide", detectionRate: 99.9, samples: 1634 }
+    { name: "Ryuk", detectionRate: 99.8, samples: "2,847 samples analyzed" },
+    { name: "Maze", detectionRate: 99.5, samples: "1,923 samples analyzed" },
+    { name: "Sodinokibi", detectionRate: 99.7, samples: "2,156 samples analyzed" },
+    { name: "DarkSide", detectionRate: 99.9, samples: "1,634 samples analyzed" }
   ];
-
-  const getActionColor = (action: string) => {
-    switch (action) {
-      case 'BLOCKED': return 'text-red-400 bg-red-500/20';
-      case 'QUARANTINED': return 'text-yellow-400 bg-yellow-500/20';
-      case 'ISOLATED': return 'text-orange-400 bg-orange-500/20';
-      case 'ANALYZED': return 'text-blue-400 bg-blue-500/20';
-      default: return 'text-gray-400 bg-gray-500/20';
-    }
-  };
 
   return (
     <MarketingLayout>
-      <div className="ai-dashboard-bg min-h-screen">
-        {/* Header */}
-        <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
-          <div className="container mx-auto max-w-7xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center cyber-glow">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-bold text-white geometric-text">Advanced Ransomware Protection</h1>
-                  <p className="text-xl text-gray-400">Multi-layered ransomware defense with AI-powered detection and automated response</p>
-                </div>
+      <div className="min-h-screen bg-gradient-to-br from-background via-surface/50 to-background">
+        {/* Hero Section */}
+        <section className="py-20 px-6 bg-gradient-to-br from-red-50/10 via-orange-50/10 to-background">
+          <div className="container mx-auto max-w-6xl text-center">
+            <div className="flex items-center justify-center mb-6">
+              <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl flex items-center justify-center">
+                <Shield className="w-10 h-10 text-white" />
               </div>
-              <div className="text-right">
-                <div className="text-sm text-gray-400">Live Protection</div>
-                <div className="flex items-center text-green-400 font-bold">
-                  <Activity className="w-4 h-4 mr-1" />
-                  {currentTime.toLocaleTimeString()}
-                </div>
-              </div>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 geometric-text">
+              Advanced Ransomware Protection
+            </h1>
+            <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto">
+              Multi-layered ransomware defense with AI-powered detection and automated response capabilities designed for educational institutions and government organizations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/security-scanner">
+                <Button size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 px-12 py-4 text-lg">
+                  Free Security Assessment
+                </Button>
+              </Link>
+              <Link href="/solutions">
+                <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-12 py-4 text-lg">
+                  View All Solutions
+                  <ArrowRight className="ml-2 w-6 h-6" />
+                </Button>
+              </Link>
             </div>
           </div>
-        </header>
+        </section>
 
-        <main className="p-6">
-          <div className="container mx-auto max-w-7xl space-y-8">
-            {/* Live Protection Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-white flex items-center">
-                    <FileX className="w-5 h-5 mr-2 text-red-400" />
-                    Threats Blocked
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-red-400">{threatsBlocked.toLocaleString()}</div>
-                  <p className="text-gray-400 text-sm">This month</p>
+        {/* Protection Statistics */}
+        <section className="py-16 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <CardContent className="p-6 text-center">
+                  <Target className="w-8 h-8 text-red-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-red-400 mb-2">99.8%</div>
+                  <div className="text-white font-semibold mb-1">Detection Rate</div>
+                  <div className="text-gray-400 text-sm">Including zero-days</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <CardContent className="p-6 text-center">
+                  <Zap className="w-8 h-8 text-orange-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-orange-400 mb-2">&lt; 30s</div>
+                  <div className="text-white font-semibold mb-1">Response Time</div>
+                  <div className="text-gray-400 text-sm">Automated containment</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-white flex items-center">
-                    <Database className="w-5 h-5 mr-2 text-green-400" />
-                    Files Protected
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-green-400">{filesProtected}M</div>
-                  <p className="text-gray-400 text-sm">Continuously monitored</p>
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <CardContent className="p-6 text-center">
+                  <Database className="w-8 h-8 text-green-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-green-400 mb-2">2.4M</div>
+                  <div className="text-white font-semibold mb-1">Files Protected</div>
+                  <div className="text-gray-400 text-sm">Continuously monitored</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-white flex items-center">
-                    <Lock className="w-5 h-5 mr-2 text-blue-400" />
-                    Systems Secured
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-blue-400">{systemsSecured}</div>
-                  <p className="text-gray-400 text-sm">Endpoints protected</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-white flex items-center">
-                    <CheckCircle className="w-5 h-5 mr-2 text-purple-400" />
-                    Success Rate
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-purple-400">99.8%</div>
-                  <p className="text-gray-400 text-sm">Detection accuracy</p>
+              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <CardContent className="p-6 text-center">
+                  <Lock className="w-8 h-8 text-blue-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-blue-400 mb-2">87%</div>
+                  <div className="text-white font-semibold mb-1">Cost Reduction</div>
+                  <div className="text-gray-400 text-sm">Vs manual recovery</div>
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </section>
 
-            {/* Live Threat Detection */}
-            <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center">
-                  <Eye className="w-6 h-6 mr-3 text-red-400" />
-                  Real-Time Ransomware Detection
-                  <Badge className="ml-3 bg-red-500/20 text-red-400">LIVE</Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {liveThreats.map((threat, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 bg-background/30 rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <Badge className={getActionColor(threat.action)}>
-                          {threat.action}
-                        </Badge>
-                        <div>
-                          <div className="text-white font-semibold">{threat.type}</div>
-                          <div className="text-gray-400 text-sm">{threat.source} → {threat.target}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <Badge className="bg-blue-500/20 text-blue-400">
-                          {threat.method}
-                        </Badge>
-                        <Clock className="w-4 h-4 text-gray-400" />
-                      </div>
+        {/* Ransomware Family Detection */}
+        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-4xl font-bold text-white text-center mb-12">Ransomware Family Detection Rates</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {ransomwareFamilies.map((family, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                  <CardContent className="p-6 text-center">
+                    <h4 className="text-white font-semibold mb-4 text-xl">{family.name}</h4>
+                    <div className="text-4xl font-bold text-orange-400 mb-3">{family.detectionRate}%</div>
+                    <div className="text-gray-300 text-sm mb-4">{family.samples}</div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div 
+                        className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all"
+                        style={{ width: `${family.detectionRate}%` }}
+                      ></div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
 
-            {/* Ransomware Family Detection */}
-            <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center">
-                  <Brain className="w-6 h-6 mr-3 text-orange-400" />
-                  Ransomware Family Detection Rates
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {ransomwareFamilies.map((family, index) => (
-                    <div key={index} className="p-4 bg-background/30 rounded-lg text-center">
-                      <h4 className="text-white font-semibold mb-2">{family.name}</h4>
-                      <div className="text-3xl font-bold text-orange-400 mb-2">{family.detectionRate}%</div>
-                      <div className="text-gray-400 text-sm mb-3">{family.samples} samples analyzed</div>
-                      <Progress value={family.detectionRate} />
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Industry Impact Statistics */}
-            <Card className="bg-surface/80 backdrop-blur-md border border-yellow-500/30 cyber-glow">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white flex items-center">
-                  <AlertTriangle className="w-6 h-6 mr-3 text-yellow-400" />
-                  Industry Ransomware Impact & Protection
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-                  {industryStats.map((stat, index) => (
-                    <div key={index} className="p-4 bg-background/30 rounded-lg">
-                      <h4 className="text-white font-semibold mb-3">{stat.sector}</h4>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Attack Increase:</span>
-                          <span className="text-red-400">{stat.attacks}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Recovery Time:</span>
-                          <span className="text-yellow-400">{stat.recovery}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-gray-400">Our Protection:</span>
-                          <span className="text-green-400">{stat.protection}</span>
-                        </div>
-                        <Progress value={parseFloat(stat.protection)} className="mt-2" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Protection Layers */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {protectionLayers.map((layer, index) => (
-                <Card key={index} className="bg-surface/80 backdrop-blur-md border border-surface-light cyber-glow">
+        {/* Industry Impact Statistics */}
+        <section className="py-16 px-6">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-4xl font-bold text-white text-center mb-12">Industry Ransomware Impact & Protection</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+              {industryStats.map((stat, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
                   <CardHeader>
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
-                        {layer.icon}
-                      </div>
-                      <CardTitle className="text-xl text-white">{layer.title}</CardTitle>
-                    </div>
-                    <p className="text-gray-400">{layer.description}</p>
+                    <CardTitle className="text-white text-lg">{stat.sector}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-2">
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Attack Increase:</span>
+                        <span className="text-red-400 font-semibold">{stat.attacks}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Recovery Time:</span>
+                        <span className="text-yellow-400 font-semibold">{stat.recovery}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-400">Our Protection:</span>
+                        <span className="text-green-400 font-semibold">{stat.protection}</span>
+                      </div>
+                      <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                        <div 
+                          className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all"
+                          style={{ width: stat.protection }}
+                        ></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Protection Layers */}
+        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-4xl font-bold text-white text-center mb-12">Multi-Layered Protection Architecture</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {protectionLayers.map((layer, index) => (
+                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                        {layer.icon}
+                      </div>
+                      <CardTitle className="text-2xl text-white">{layer.title}</CardTitle>
+                    </div>
+                    <p className="text-gray-300 text-lg">{layer.description}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-3">
                       {layer.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-gray-300">
-                          <CheckCircle className="w-4 h-4 text-green-400 mr-2 flex-shrink-0" />
-                          {feature}
+                        <li key={idx} className="flex items-center text-gray-200">
+                          <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0" />
+                          <span className="text-lg">{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -316,60 +226,31 @@ export default function RansomwareProtection() {
                 </Card>
               ))}
             </div>
-
-            {/* Protection Benefits */}
-            <Card className="bg-gradient-to-r from-red-900/50 to-orange-900/50 border border-red-500/30 cyber-glow">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold text-white mb-8 text-center">Ransomware Protection Benefits</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-red-400 mb-2">99.8%</div>
-                    <div className="text-white font-semibold mb-1">Detection Rate</div>
-                    <div className="text-gray-400 text-sm">including zero-days</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-orange-400 mb-2">&lt; 30s</div>
-                    <div className="text-white font-semibold mb-1">Response Time</div>
-                    <div className="text-gray-400 text-sm">automated containment</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-yellow-400 mb-2">87%</div>
-                    <div className="text-white font-semibold mb-1">Cost Reduction</div>
-                    <div className="text-gray-400 text-sm">vs manual recovery</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-green-400 mb-2">24/7</div>
-                    <div className="text-white font-semibold mb-1">Monitoring</div>
-                    <div className="text-gray-400 text-sm">continuous protection</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Call to Action */}
-            <Card className="bg-gradient-to-r from-red-900/50 to-orange-900/50 border border-red-500/30 cyber-glow">
-              <CardContent className="p-12 text-center">
-                <h2 className="text-4xl font-bold text-white mb-6">Protect Against Ransomware Attacks</h2>
-                <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                  Deploy comprehensive ransomware protection with AI-powered detection, automated response, and rapid recovery capabilities designed for educational institutions and government organizations.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/solutions">
-                    <Button size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 px-12 py-4 text-lg">
-                      Explore All Solutions
-                    </Button>
-                  </Link>
-                  <Link href="/security-scanner">
-                    <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-12 py-4 text-lg">
-                      Free Security Assessment
-                      <ArrowRight className="ml-2 w-6 h-6" />
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
           </div>
-        </main>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-20 px-6 bg-gradient-to-r from-red-900/20 to-orange-900/20">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-5xl font-bold text-white mb-8">Protect Against Ransomware Attacks</h2>
+            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
+              Deploy comprehensive ransomware protection with AI-powered detection, automated response, and rapid recovery capabilities designed for educational institutions and government organizations.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/solutions">
+                <Button size="lg" className="bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 px-12 py-4 text-lg">
+                  Explore All Solutions
+                </Button>
+              </Link>
+              <Link href="/security-scanner">
+                <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-12 py-4 text-lg">
+                  Free Security Assessment
+                  <ArrowRight className="ml-2 w-6 h-6" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
     </MarketingLayout>
   );
