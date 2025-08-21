@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Aerodome:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nata+Sans:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -517,7 +517,7 @@
 
   /* Marketing Website Font Override */
   .marketing-website {
-    font-family: 'Aerodome', 'Work Sans', 'Inter', system-ui, sans-serif;
+    font-family: 'Nata Sans', 'Work Sans', 'Inter', system-ui, sans-serif;
   }
 
   .marketing-website * {
@@ -540,7 +540,7 @@
   .marketing-website nav,
   .marketing-website nav *,
   .marketing-website .cyber-font {
-    font-family: 'Aerodome', 'Work Sans', 'Inter', system-ui, sans-serif !important;
+    font-family: 'Nata Sans', 'Work Sans', 'Inter', system-ui, sans-serif !important;
   }
 
   /* SaaS Platform Font Override */
