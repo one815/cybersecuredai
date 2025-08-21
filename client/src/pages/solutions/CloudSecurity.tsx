@@ -66,29 +66,29 @@ export default function CloudSecurity() {
 
   return (
     <MarketingLayout>
-      <div className="min-h-screen bg-gradient-to-br from-background via-surface/50 to-background">
+      <div className="solutions-light-bg min-h-screen">
         {/* Hero Section */}
-        <section className="py-20 px-6 bg-gradient-to-br from-blue-50/10 via-cyan-50/10 to-background">
+        <section className="py-20 px-6 solutions-light-hero">
           <div className="container mx-auto max-w-6xl text-center">
             <div className="flex items-center justify-center mb-6">
               <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center">
                 <Cloud className="w-10 h-10 text-white" />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 geometric-text">
+            <h1 className="text-5xl md:text-6xl font-bold solutions-light-text mb-6 geometric-text">
               Cloud Security Solutions
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            <p className="text-xl solutions-light-muted mb-8 max-w-4xl mx-auto">
               Comprehensive multi-cloud security with AI-powered protection, advanced data encryption, and seamless compliance management for modern organizations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/security-scanner">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-12 py-4 text-lg">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-12 py-4 text-lg text-white">
                   Cloud Security Assessment
                 </Button>
               </Link>
               <Link href="/solutions">
-                <Button size="lg" variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/10 px-12 py-4 text-lg">
+                <Button size="lg" variant="outline" className="border-blue-500 text-blue-600 hover:bg-blue-50 px-12 py-4 text-lg">
                   View All Solutions
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>
@@ -101,39 +101,39 @@ export default function CloudSecurity() {
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Server className="w-8 h-8 text-blue-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-blue-400 mb-2">85%</div>
-                  <div className="text-white font-semibold mb-1">Cost Reduction</div>
-                  <div className="text-gray-400 text-sm">Vs on-premises security</div>
+                  <Server className="w-8 h-8 text-blue-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-blue-500 mb-2">85%</div>
+                  <div className="solutions-light-text font-semibold mb-1">Cost Reduction</div>
+                  <div className="solutions-light-muted text-sm">Vs on-premises security</div>
                 </CardContent>
               </Card>
               
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Lock className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-cyan-400 mb-2">99.9%</div>
-                  <div className="text-white font-semibold mb-1">Data Protection</div>
-                  <div className="text-gray-400 text-sm">Encryption coverage</div>
+                  <Lock className="w-8 h-8 text-cyan-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-cyan-500 mb-2">99.9%</div>
+                  <div className="solutions-light-text font-semibold mb-1">Data Protection</div>
+                  <div className="solutions-light-muted text-sm">Encryption coverage</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Eye className="w-8 h-8 text-green-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-green-400 mb-2">74%</div>
-                  <div className="text-white font-semibold mb-1">Faster Detection</div>
-                  <div className="text-gray-400 text-sm">Threat response time</div>
+                  <Eye className="w-8 h-8 text-green-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-green-500 mb-2">74%</div>
+                  <div className="solutions-light-text font-semibold mb-1">Faster Detection</div>
+                  <div className="solutions-light-muted text-sm">Threat response time</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Shield className="w-8 h-8 text-purple-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-purple-400 mb-2">95%</div>
-                  <div className="text-white font-semibold mb-1">Compliance Rate</div>
-                  <div className="text-gray-400 text-sm">Regulatory standards</div>
+                  <Shield className="w-8 h-8 text-purple-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-purple-500 mb-2">95%</div>
+                  <div className="solutions-light-text font-semibold mb-1">Compliance Rate</div>
+                  <div className="solutions-light-muted text-sm">Regulatory standards</div>
                 </CardContent>
               </Card>
             </div>
@@ -141,30 +141,30 @@ export default function CloudSecurity() {
         </section>
 
         {/* Cloud Provider Security Status */}
-        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+        <section className="py-16 px-6 solutions-light-section">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">Multi-Cloud Security Overview</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">Multi-Cloud Security Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {cloudProviders.map((provider, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
-                    <CardTitle className="text-white text-lg">{provider.name}</CardTitle>
+                    <CardTitle className="solutions-light-text text-lg">{provider.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Workloads:</span>
-                        <span className="text-white font-semibold">{provider.workloads}</span>
+                        <span className="solutions-light-muted">Workloads:</span>
+                        <span className="solutions-light-text font-semibold">{provider.workloads}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Security Score:</span>
-                        <span className="text-green-400 font-semibold">{provider.security_score}%</span>
+                        <span className="solutions-light-muted">Security Score:</span>
+                        <span className="text-green-500 font-semibold">{provider.security_score}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Compliance:</span>
-                        <span className="text-blue-400 font-semibold">{provider.compliance}</span>
+                        <span className="solutions-light-muted">Compliance:</span>
+                        <span className="text-blue-500 font-semibold">{provider.compliance}</span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
                         <div 
                           className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all"
                           style={{ width: `${provider.security_score}%` }}
@@ -181,28 +181,28 @@ export default function CloudSecurity() {
         {/* Data Protection Dashboard */}
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">Cloud Data Protection Status</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">Cloud Data Protection Status</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {dataProtectionMetrics.map((data, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
-                    <CardTitle className="text-white text-lg">{data.type}</CardTitle>
+                    <CardTitle className="solutions-light-text text-lg">{data.type}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Volume:</span>
-                        <span className="text-white font-semibold">{data.volume}</span>
+                        <span className="solutions-light-muted">Volume:</span>
+                        <span className="solutions-light-text font-semibold">{data.volume}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Encrypted:</span>
-                        <span className="text-green-400 font-semibold">{data.encryption}</span>
+                        <span className="solutions-light-muted">Encrypted:</span>
+                        <span className="text-green-500 font-semibold">{data.encryption}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Classification:</span>
-                        <span className="text-purple-400 font-semibold">{data.classification}</span>
+                        <span className="solutions-light-muted">Classification:</span>
+                        <span className="text-purple-500 font-semibold">{data.classification}</span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
                         <div className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full w-full"></div>
                       </div>
                     </div>
@@ -214,25 +214,25 @@ export default function CloudSecurity() {
         </section>
 
         {/* Cloud Security Pillars */}
-        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+        <section className="py-16 px-6 solutions-light-section">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">Cloud Security Architecture</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">Cloud Security Architecture</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {cloudSecurityPillars.map((pillar, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
                     <div className="flex items-center space-x-4 mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-white">
                         {pillar.icon}
                       </div>
-                      <CardTitle className="text-2xl text-white">{pillar.title}</CardTitle>
+                      <CardTitle className="text-2xl solutions-light-text">{pillar.title}</CardTitle>
                     </div>
-                    <p className="text-gray-300 text-lg mb-4">{pillar.description}</p>
+                    <p className="solutions-light-muted text-lg mb-4">{pillar.description}</p>
                     <div className="grid grid-cols-2 gap-4 mb-4">
                       {Object.entries(pillar.coverage).map(([key, value]) => (
-                        <div key={key} className="text-center p-2 bg-black/20 rounded">
-                          <div className="text-sm font-bold text-blue-400">{value}%</div>
-                          <div className="text-xs text-gray-400 capitalize">{key}</div>
+                        <div key={key} className="text-center p-2 bg-gray-50 rounded">
+                          <div className="text-sm font-bold text-blue-500">{value}%</div>
+                          <div className="text-xs solutions-light-muted capitalize">{key}</div>
                         </div>
                       ))}
                     </div>
@@ -240,8 +240,8 @@ export default function CloudSecurity() {
                   <CardContent>
                     <ul className="space-y-3">
                       {pillar.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center text-gray-200">
-                          <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0" />
+                        <li key={idx} className="flex items-center solutions-light-text">
+                          <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
                           <span className="text-lg">{feature}</span>
                         </li>
                       ))}
@@ -254,20 +254,20 @@ export default function CloudSecurity() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 px-6 bg-gradient-to-r from-blue-900/20 to-cyan-900/20">
+        <section className="py-20 px-6 bg-gradient-to-r from-blue-50 to-cyan-50">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-5xl font-bold text-white mb-8">Secure Your Cloud Infrastructure</h2>
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
+            <h2 className="text-5xl font-bold solutions-light-text mb-8">Secure Your Cloud Infrastructure</h2>
+            <p className="text-xl solutions-light-muted mb-10 max-w-3xl mx-auto">
               Deploy comprehensive multi-cloud security with advanced data protection, AI-powered threat detection, and seamless compliance management for educational institutions and government organizations.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/solutions">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-12 py-4 text-lg">
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 px-12 py-4 text-lg text-white">
                   Explore All Solutions
                 </Button>
               </Link>
               <Link href="/security-scanner">
-                <Button size="lg" variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/10 px-12 py-4 text-lg">
+                <Button size="lg" variant="outline" className="border-blue-500 text-blue-600 hover:bg-blue-50 px-12 py-4 text-lg">
                   Cloud Security Assessment
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>
