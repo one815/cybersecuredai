@@ -1,6 +1,8 @@
 import { Link, useLocation } from "wouter";
 // Vector security icons from attached assets
 import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+// CyberSecure logo
+import cyberSecureLogo from "@assets/2_1755803676829.png";
 import { useAuth } from "@/hooks/useAuth";
 import type { NavigationItem } from "@/types";
 
@@ -47,12 +49,13 @@ export function Sidebar() {
   return (
     <div className="fixed left-0 top-0 h-full w-64 bg-surface border-r border-surface-light z-50">
       {/* Logo Section */}
-      <div className="p-8 border-b border-surface-light">
-        <div className="flex justify-center">
+      <div className="p-8 border-b border-surface-light bg-gray-800/20">
+        <div className="flex justify-center items-center">
           <img 
-            src="/attached_assets/2_1755803676829.png" 
+            src={cyberSecureLogo} 
             alt="CyberSecure AI Logo" 
-            className="h-16 w-auto object-contain"
+            className="h-20 w-auto object-contain max-w-full"
+            style={{ filter: 'brightness(1.1) contrast(1.1)' }}
           />
         </div>
       </div>
