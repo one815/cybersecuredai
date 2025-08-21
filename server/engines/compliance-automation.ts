@@ -213,6 +213,126 @@ export class ComplianceAutomationEngine {
       }
     ];
 
+    // FedRAMP Framework
+    const fedrampControls: ComplianceControl[] = [
+      {
+        id: "fedramp-ac-1",
+        frameworkId: "fedramp",
+        controlId: "AC-1",
+        title: "Access Control Policy and Procedures",
+        description: "Develop, document, and disseminate access control policy and procedures",
+        category: "access_control",
+        priority: "critical",
+        implementation: "manual",
+        requiredEvidence: ["access control policy", "procedures documentation", "review records"],
+        testMethods: ["policy review", "procedure testing", "documentation audit"],
+        mappings: []
+      },
+      {
+        id: "fedramp-au-1",
+        frameworkId: "fedramp",
+        controlId: "AU-1",
+        title: "Audit and Accountability Policy",
+        description: "Establish comprehensive audit and accountability policies and procedures",
+        category: "audit",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["audit policy", "accountability procedures", "logging standards"],
+        testMethods: ["policy validation", "audit testing", "log review"],
+        mappings: []
+      }
+    ];
+
+    // NIST 800-53 Framework
+    const nist80053Controls: ComplianceControl[] = [
+      {
+        id: "nist-800-53-ac-2",
+        frameworkId: "nist-800-53",
+        controlId: "AC-2",
+        title: "Account Management",
+        description: "Manage information system accounts including establishment, activation, modification, review, and removal",
+        category: "access_control",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["account procedures", "access reviews", "account lifecycle logs"],
+        testMethods: ["account audit", "access review", "process testing"],
+        mappings: [{ frameworkId: "fisma", controlId: "AC-2", relationship: "equivalent" }]
+      },
+      {
+        id: "nist-800-53-si-4",
+        frameworkId: "nist-800-53",
+        controlId: "SI-4",
+        title: "Information System Monitoring",
+        description: "Monitor information systems to detect attacks and indicators of potential attacks",
+        category: "network_security",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["monitoring tools", "alert configurations", "incident logs"],
+        testMethods: ["monitoring testing", "alert validation", "detection analysis"],
+        mappings: []
+      }
+    ];
+
+    // CMMC Framework
+    const cmmcControls: ComplianceControl[] = [
+      {
+        id: "cmmc-ac-l2-001",
+        frameworkId: "cmmc",
+        controlId: "AC.L2-3.1.1",
+        title: "Access Control Policy",
+        description: "Establish and maintain access control policies and procedures",
+        category: "access_control",
+        priority: "critical",
+        implementation: "manual",
+        requiredEvidence: ["access control policies", "procedure documentation", "training records"],
+        testMethods: ["policy review", "procedure validation", "training assessment"],
+        mappings: []
+      },
+      {
+        id: "cmmc-sc-l2-001",
+        frameworkId: "cmmc",
+        controlId: "SC.L2-3.13.1",
+        title: "Boundary Protection",
+        description: "Monitor, control, and protect organizational communications at external boundaries",
+        category: "network_security",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["firewall configurations", "boundary monitoring", "traffic logs"],
+        testMethods: ["boundary testing", "configuration review", "traffic analysis"],
+        mappings: []
+      }
+    ];
+
+    // NIST 800-171 Framework
+    const nist800171Controls: ComplianceControl[] = [
+      {
+        id: "nist-800-171-3-1-1",
+        frameworkId: "nist-800-171",
+        controlId: "3.1.1",
+        title: "Access Control for CUI",
+        description: "Limit information system access to authorized users, processes, and devices",
+        category: "access_control",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["access control lists", "user authorizations", "device registrations"],
+        testMethods: ["access testing", "authorization review", "device audit"],
+        mappings: []
+      },
+      {
+        id: "nist-800-171-3-3-1",
+        frameworkId: "nist-800-171",
+        controlId: "3.3.1",
+        title: "Audit Event Logging",
+        description: "Create and retain system audit logs and records to enable security incident monitoring",
+        category: "audit",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["audit configurations", "log retention policies", "monitoring systems"],
+        testMethods: ["audit testing", "log validation", "retention verification"],
+        mappings: []
+      }
+    ];
+
     const frameworks: ComplianceFramework[] = [
       {
         id: "ferpa",
@@ -239,6 +359,42 @@ export class ComplianceAutomationEngine {
         sector: "education", 
         version: "2024",
         controls: cipaControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "fedramp",
+        name: "FedRAMP",
+        fullName: "Federal Risk and Authorization Management Program",
+        sector: "federal",
+        version: "High Baseline Rev 5",
+        controls: fedrampControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "nist-800-53",
+        name: "NIST 800-53",
+        fullName: "Security and Privacy Controls for Federal Information Systems",
+        sector: "federal",
+        version: "Rev 5",
+        controls: nist80053Controls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "cmmc",
+        name: "CMMC",
+        fullName: "Cybersecurity Maturity Model Certification",
+        sector: "government",
+        version: "2.0",
+        controls: cmmcControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "nist-800-171",
+        name: "NIST 800-171",
+        fullName: "Protecting Controlled Unclassified Information",
+        sector: "government",
+        version: "Rev 2",
+        controls: nist800171Controls,
         lastUpdated: new Date()
       }
     ];
