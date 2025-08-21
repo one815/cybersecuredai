@@ -33,7 +33,15 @@ export default function Dashboard() {
   });
 
   const { data: complianceReports = [] } = useQuery<any[]>({
-    queryKey: ["/api/compliance"],
+    queryKey: ["/api/compliance/frameworks"],
+  });
+  
+  const { data: threatStats } = useQuery({
+    queryKey: ["/api/threats/stats"],
+  });
+
+  const { data: dataClassificationSummary } = useQuery({
+    queryKey: ["/api/data-classification/summary"],
   });
 
   if (isLoading) {
@@ -172,7 +180,9 @@ export default function Dashboard() {
                 <TrendingUp className="w-5 h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
               </div>
               <div className="mb-4">
-                <div className="text-3xl font-bold text-white mb-1 geometric-text">MEDIUM</div>
+                <div className="text-3xl font-bold text-white mb-1 geometric-text">
+                  {stats?.threatLevel || "LOW"}
+                </div>
                 <div className="flex justify-between mb-2">
                   <span className="text-xs text-gray-400">Safe</span>
                   <span className="text-xs text-gray-400">Critical</span>
@@ -201,19 +211,21 @@ export default function Dashboard() {
                   LIVE
                 </div>
               </div>
-              <div className="text-3xl font-bold text-white mb-2 geometric-text">07</div>
+              <div className="text-3xl font-bold text-white mb-2 geometric-text">
+                {threatStats ? threatStats.recentEventsCount + threatStats.suspiciousIPsCount : "07"}
+              </div>
               <div className="space-y-1 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-gray-400 cyber-font">Critical</span>
-                  <span className="text-red-400 font-bold">2</span>
+                  <span className="text-gray-400 cyber-font">Suspicious IPs</span>
+                  <span className="text-red-400 font-bold">{threatStats?.suspiciousIPsCount || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400 cyber-font">High</span>
-                  <span className="text-orange-400 font-bold">3</span>
+                  <span className="text-gray-400 cyber-font">Recent Events</span>
+                  <span className="text-orange-400 font-bold">{threatStats?.recentEventsCount || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400 cyber-font">Medium</span>
-                  <span className="text-yellow-400 font-bold">2</span>
+                  <span className="text-gray-400 cyber-font">Zero-Trust Sessions</span>
+                  <span className="text-yellow-400 font-bold">{threatStats?.activeSessionsCount || 0}</span>
                 </div>
               </div>
             </CardContent>
@@ -228,9 +240,16 @@ export default function Dashboard() {
                 </div>
                 <CheckCircle className="w-5 h-5 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
               </div>
-              <div className="text-3xl font-bold text-white mb-2 geometric-text">86%</div>
+              <div className="text-3xl font-bold text-white mb-2 geometric-text">
+                {complianceReports.length > 0 ? 
+                  Math.round(complianceReports.reduce((sum: any, framework: any) => 
+                    sum + (framework.controls?.length || 0), 0) / complianceReports.length * 10) + "%" : "86%"}
+              </div>
               <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
-                <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full chart-glow" style={{width: '86%'}}></div>
+                <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full chart-glow" 
+                     style={{width: complianceReports.length > 0 ? 
+                       Math.round(complianceReports.reduce((sum: any, framework: any) => 
+                         sum + (framework.controls?.length || 0), 0) / complianceReports.length * 10) + "%" : '86%'}}></div>
               </div>
               <div className="flex justify-between text-xs mb-2">
                 <span className="text-gray-400">0%</span>
