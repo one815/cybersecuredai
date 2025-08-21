@@ -46,6 +46,11 @@ import PredictiveRiskAnalysis from "@/pages/platform/PredictiveRiskAnalysis";
 import ComplianceAutomation from "@/pages/platform/ComplianceAutomation";
 import PlatformSecurityTraining from "@/pages/platform/SecurityTraining";
 import MonitoringVulnerability from "@/pages/platform/MonitoringVulnerability";
+import FirewallManagement from "@/pages/platform/FirewallManagement";
+import NetworkMonitoring from "@/pages/platform/NetworkMonitoring";
+import ZeroTrustArchitecture from "@/pages/platform/ZeroTrustArchitecture";
+import IdentityAccessManagement from "@/pages/platform/IdentityAccessManagement";
+import SystemAdministration from "@/pages/platform/SystemAdministration";
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -93,6 +98,11 @@ function Router() {
       <Route path="/platform/compliance-automation" component={ComplianceAutomation} />
       <Route path="/platform/security-training" component={PlatformSecurityTraining} />
       <Route path="/platform/monitoring-vulnerability" component={MonitoringVulnerability} />
+      <Route path="/platform/firewall-management" component={FirewallManagement} />
+      <Route path="/platform/network-monitoring" component={NetworkMonitoring} />
+      <Route path="/platform/zero-trust" component={ZeroTrustArchitecture} />
+      <Route path="/platform/iam" component={IdentityAccessManagement} />
+      <Route path="/platform/system-administration" component={SystemAdministration} />
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">
