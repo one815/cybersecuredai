@@ -26,6 +26,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import jsPDF from 'jspdf';
 
 export default function Compliance() {
   const [selectedFramework, setSelectedFramework] = useState<any>(null);
@@ -72,77 +73,145 @@ export default function Compliance() {
     }
   });
 
-  // Download Report Function
+  // Download PDF Report Function
   const downloadReport = async (framework: any) => {
     try {
-      const reportData = {
-        framework: framework.framework,
-        name: framework.name,
-        sector: framework.sector,
-        score: framework.score,
-        status: framework.status,
-        controls: framework.controls,
-        compliantControls: framework.compliantControls,
-        findings: framework.findings,
-        lastAudit: framework.lastAudit,
-        nextReview: framework.nextReview,
-        description: framework.description,
-        generatedAt: new Date().toISOString()
+      // Create new PDF document
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.width;
+      const pageHeight = pdf.internal.pageSize.height;
+      let currentY = 20;
+      
+      // Helper function to add text with word wrap
+      const addText = (text: string, x: number, y: number, options: any = {}) => {
+        const { fontSize = 12, maxWidth = pageWidth - 40, isBold = false } = options;
+        pdf.setFontSize(fontSize);
+        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
+        const lines = pdf.splitTextToSize(text, maxWidth);
+        pdf.text(lines, x, y);
+        return y + (lines.length * fontSize * 0.5);
+      };
+      
+      // Helper function to check if we need a new page
+      const checkNewPage = (requiredHeight: number) => {
+        if (currentY + requiredHeight > pageHeight - 20) {
+          pdf.addPage();
+          currentY = 20;
+        }
       };
 
-      // Create downloadable content
-      const reportContent = `
-CYBERSECURE AI - COMPLIANCE REPORT
-===================================
+      // Header with logo area
+      pdf.setFillColor(30, 41, 59); // Dark blue background
+      pdf.rect(0, 0, pageWidth, 40, 'F');
+      
+      // Title
+      pdf.setTextColor(255, 255, 255);
+      currentY = addText('CYBERSECURE AI', 20, 25, { fontSize: 24, isBold: true });
+      pdf.setTextColor(34, 211, 238); // Cyan
+      addText('COMPLIANCE ASSESSMENT REPORT', 20, 32, { fontSize: 14 });
+      
+      // Reset colors and position
+      pdf.setTextColor(0, 0, 0);
+      currentY = 55;
+      
+      // Framework Information Section
+      checkNewPage(30);
+      currentY = addText('FRAMEWORK INFORMATION', 20, currentY, { fontSize: 16, isBold: true });
+      pdf.setDrawColor(34, 211, 238);
+      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
+      currentY += 10;
+      
+      currentY = addText(`Framework: ${framework.framework?.toUpperCase() || 'N/A'}`, 20, currentY, { fontSize: 12 });
+      currentY = addText(`Name: ${framework.name || 'N/A'}`, 20, currentY + 5, { fontSize: 12 });
+      currentY = addText(`Sector: ${framework.sector || 'N/A'}`, 20, currentY + 5, { fontSize: 12 });
+      currentY = addText(`Generated: ${new Date().toLocaleString()}`, 20, currentY + 5, { fontSize: 12 });
+      currentY += 15;
+      
+      // Compliance Overview Section
+      checkNewPage(50);
+      currentY = addText('COMPLIANCE OVERVIEW', 20, currentY, { fontSize: 16, isBold: true });
+      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
+      currentY += 10;
+      
+      // Score visualization
+      const score = framework.score || 0;
+      const barWidth = 100;
+      const barHeight = 15;
+      
+      // Background bar
+      pdf.setFillColor(229, 231, 235);
+      pdf.rect(20, currentY, barWidth, barHeight, 'F');
+      
+      // Progress bar with color based on score
+      let barColor = [34, 197, 94]; // Green for good scores
+      if (score < 70) barColor = [239, 68, 68]; // Red for low scores
+      else if (score < 85) barColor = [251, 191, 36]; // Yellow for medium scores
+      
+      pdf.setFillColor(barColor[0], barColor[1], barColor[2]);
+      pdf.rect(20, currentY, (barWidth * score) / 100, barHeight, 'F');
+      
+      // Score text
+      pdf.setTextColor(0, 0, 0);
+      currentY = addText(`Overall Score: ${score}%`, 130, currentY + 10, { fontSize: 14, isBold: true });
+      currentY = addText(`Status: ${(framework.status || 'unknown').charAt(0).toUpperCase() + (framework.status || 'unknown').slice(1)}`, 20, currentY + 5, { fontSize: 12 });
+      currentY += 15;
+      
+      // Control Details Section
+      checkNewPage(40);
+      currentY = addText('CONTROL DETAILS', 20, currentY, { fontSize: 16, isBold: true });
+      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
+      currentY += 10;
+      
+      currentY = addText(`Total Controls: ${framework.controls || 0}`, 20, currentY, { fontSize: 12 });
+      currentY = addText(`Compliant Controls: ${framework.compliantControls || 0}`, 20, currentY + 5, { fontSize: 12 });
+      currentY = addText(`Non-Compliant Controls: ${(framework.controls || 0) - (framework.compliantControls || 0)}`, 20, currentY + 5, { fontSize: 12 });
+      currentY = addText(`Open Findings: ${framework.findings || 0}`, 20, currentY + 5, { fontSize: 12 });
+      currentY += 15;
+      
+      // Audit Timeline Section
+      checkNewPage(30);
+      currentY = addText('AUDIT TIMELINE', 20, currentY, { fontSize: 16, isBold: true });
+      pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
+      currentY += 10;
+      
+      currentY = addText(`Last Audit: ${framework.lastAudit || 'Not Available'}`, 20, currentY, { fontSize: 12 });
+      currentY = addText(`Next Review: ${framework.nextReview || 'Not Scheduled'}`, 20, currentY + 5, { fontSize: 12 });
+      currentY += 15;
+      
+      // Description Section
+      if (framework.description) {
+        checkNewPage(40);
+        currentY = addText('FRAMEWORK DESCRIPTION', 20, currentY, { fontSize: 16, isBold: true });
+        pdf.line(20, currentY + 2, pageWidth - 20, currentY + 2);
+        currentY += 10;
+        
+        currentY = addText(framework.description, 20, currentY, { fontSize: 11, maxWidth: pageWidth - 40 });
+        currentY += 10;
+      }
+      
+      // Footer
+      const totalPages = pdf.internal.pages.length - 1;
+      for (let i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.setTextColor(128, 128, 128);
+        pdf.setFontSize(10);
+        pdf.text(`Generated by CyberSecure AI Security Platform - Page ${i} of ${totalPages}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+      }
+      
+      // Save the PDF
+      const fileName = `${framework.framework || 'compliance'}-report-${new Date().toISOString().split('T')[0]}.pdf`;
+      pdf.save(fileName);
 
-Framework: ${reportData.framework}
-Full Name: ${reportData.name}
-Sector: ${reportData.sector}
-Generated: ${new Date(reportData.generatedAt).toLocaleString()}
-
-COMPLIANCE OVERVIEW
--------------------
-Overall Score: ${reportData.score}%
-Status: ${reportData.status.charAt(0).toUpperCase() + reportData.status.slice(1)}
-
-CONTROL DETAILS
----------------
-Total Controls: ${reportData.controls}
-Compliant Controls: ${reportData.compliantControls}
-Open Findings: ${reportData.findings}
-
-AUDIT TIMELINE
---------------
-Last Audit: ${reportData.lastAudit}
-Next Review: ${reportData.nextReview}
-
-DESCRIPTION
------------
-${reportData.description}
-
----
-This report was generated by CyberSecure AI Security Platform
-      `.trim();
-
-      // Create and download file
-      const blob = new Blob([reportContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${framework.framework}-compliance-report-${new Date().toISOString().split('T')[0]}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
 
       toast({
-        title: "Report Downloaded",
-        description: `${framework.framework} compliance report has been downloaded`,
+        title: "PDF Report Downloaded",
+        description: `${framework.framework?.toUpperCase()} compliance report has been saved as PDF`,
       });
     } catch (error) {
+      console.error('PDF generation error:', error);
       toast({
-        title: "Download Failed",
-        description: "Failed to generate compliance report. Please try again.",
+        title: "PDF Generation Failed",
+        description: "Failed to generate PDF compliance report. Please try again.",
         variant: "destructive"
       });
     }
