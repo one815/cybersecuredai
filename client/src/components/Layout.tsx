@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen cyber-grid bg-background text-foreground">
+    <div className="min-h-screen cyber-grid bg-background text-foreground saas-platform">
       <Sidebar />
       <div className="ml-64">
         {children}
