@@ -141,6 +141,44 @@ export const packages = pgTable("packages", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Custom Compliance Frameworks (Enterprise Feature)
+export const customComplianceFrameworks = pgTable("custom_compliance_frameworks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  organizationId: varchar("organization_id").notNull(),
+  frameworkId: varchar("framework_id").notNull().unique(), // unique identifier like "acme-security-2024"
+  name: varchar("name").notNull(),
+  fullName: text("full_name").notNull(),
+  description: text("description"),
+  sector: varchar("sector").notNull().default("custom"), // custom, industry_specific, regulatory
+  version: varchar("version").notNull().default("1.0"),
+  isActive: boolean("is_active").default(true),
+  createdBy: varchar("created_by").notNull().references(() => users.id),
+  lastModifiedBy: varchar("last_modified_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Custom Compliance Controls (Enterprise Feature)
+export const customComplianceControls = pgTable("custom_compliance_controls", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  frameworkId: varchar("framework_id").notNull().references(() => customComplianceFrameworks.frameworkId),
+  controlId: varchar("control_id").notNull(), // e.g., "ACME-AC-001"
+  title: varchar("title").notNull(),
+  description: text("description").notNull(),
+  category: varchar("category").notNull().default("custom"), // access_control, audit, data_protection, network_security, incident_response, risk_management, custom
+  priority: varchar("priority").notNull().default("medium"), // critical, high, medium, low
+  implementation: varchar("implementation").notNull().default("manual"), // manual, automated, hybrid
+  requiredEvidence: jsonb("required_evidence").default('[]'), // Array of evidence requirements
+  testMethods: jsonb("test_methods").default('[]'), // Array of test methods
+  complianceStatement: text("compliance_statement"), // What needs to be achieved
+  implementationGuidance: text("implementation_guidance"), // How to implement
+  assessmentCriteria: text("assessment_criteria"), // How to assess compliance
+  isActive: boolean("is_active").default(true),
+  createdBy: varchar("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // User Package Subscriptions
 export const userSubscriptions = pgTable("user_subscriptions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -172,6 +210,18 @@ export const insertUserSubscriptionSchema = createInsertSchema(userSubscriptions
   updatedAt: true,
 });
 
+export const insertCustomComplianceFrameworkSchema = createInsertSchema(customComplianceFrameworks).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCustomComplianceControlSchema = createInsertSchema(customComplianceControls).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type Threat = typeof threats.$inferSelect;
@@ -188,3 +238,7 @@ export type Package = typeof packages.$inferSelect;
 export type InsertPackage = z.infer<typeof insertPackageSchema>;
 export type UserSubscription = typeof userSubscriptions.$inferSelect;
 export type InsertUserSubscription = z.infer<typeof insertUserSubscriptionSchema>;
+export type CustomComplianceFramework = typeof customComplianceFrameworks.$inferSelect;
+export type InsertCustomComplianceFramework = z.infer<typeof insertCustomComplianceFrameworkSchema>;
+export type CustomComplianceControl = typeof customComplianceControls.$inferSelect;
+export type InsertCustomComplianceControl = z.infer<typeof insertCustomComplianceControlSchema>;

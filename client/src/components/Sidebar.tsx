@@ -13,6 +13,7 @@ import {
   Lock, 
   Share2, 
   ClipboardCheck, 
+  FileText,
   GraduationCap, 
   HelpCircle, 
   Users, 
@@ -32,6 +33,7 @@ const navigationItems = [
   { id: "auth", label: "Authentication", icon: Lock, path: "/authentication" },
   { id: "files", label: "File Sharing", icon: Share2, path: "/files" },
   { id: "compliance", label: "Compliance", icon: ClipboardCheck, path: "/compliance" },
+  { id: "custom-compliance", label: "Custom Compliance", icon: FileText, path: "/custom-compliance", enterpriseOnly: true },
   { id: "training", label: "Security Training", icon: GraduationCap, path: "/training" },
   { id: "support", label: "Help Desk", icon: HelpCircle, path: "/support" },
   { id: "users", label: "User Management", icon: Users, path: "/users" },
@@ -61,7 +63,12 @@ export function Sidebar() {
 
       {/* Navigation Menu */}
       <nav className="p-4 space-y-2">
-        {navigationItems.map((item) => {
+        {navigationItems.filter((item) => {
+          // Show all items for non-enterprise features
+          if (!item.enterpriseOnly) return true;
+          // Only show enterprise features for enterprise users
+          return user?.planType?.includes('enterprise');
+        }).map((item) => {
           const isActive = location === item.path;
           const IconComponent = item.icon;
           
@@ -86,6 +93,11 @@ export function Sidebar() {
                   }}
                 />
                 <span className="transition-all duration-300">{item.label}</span>
+                {item.enterpriseOnly && (
+                  <span className="ml-auto text-xs bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded-full border border-cyan-500/30">
+                    Enterprise
+                  </span>
+                )}
               </div>
             </Link>
           );
