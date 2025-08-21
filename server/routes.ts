@@ -381,6 +381,145 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Compliance Automation Engine Routes
+  app.get("/api/compliance/frameworks", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const frameworks = complianceAutomationEngine.getFrameworks();
+      res.json(frameworks);
+    } catch (error) {
+      console.error("Error fetching compliance frameworks:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/compliance/framework/:frameworkId", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const framework = complianceAutomationEngine.getFramework(req.params.frameworkId);
+      if (!framework) {
+        return res.status(404).json({ error: "Framework not found" });
+      }
+      res.json(framework);
+    } catch (error) {
+      console.error("Error fetching compliance framework:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/compliance/assessment/:frameworkId", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const { frameworkId } = req.params;
+      const organizationId = req.body.organizationId || "default-org";
+      
+      console.log(`Starting automated compliance assessment for ${frameworkId}...`);
+      const assessment = await complianceAutomationEngine.performAutomatedAssessment(frameworkId, organizationId);
+      
+      res.json(assessment);
+    } catch (error) {
+      console.error("Error performing compliance assessment:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/compliance/assessments", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const assessments = complianceAutomationEngine.getAssessments();
+      res.json(assessments);
+    } catch (error) {
+      console.error("Error fetching compliance assessments:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/compliance/gap-analysis/:frameworkId", async (req, res) => {
+    try {
+      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const gapAnalysis = await complianceAutomationEngine.getComplianceGapAnalysis(req.params.frameworkId);
+      res.json(gapAnalysis);
+    } catch (error) {
+      console.error("Error fetching compliance gap analysis:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  // Data Classification Engine Routes
+  app.post("/api/data-classification/classify", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const { fileId, fileName, content, metadata = {} } = req.body;
+      
+      if (!fileId || !fileName || !content) {
+        return res.status(400).json({ error: "Missing required fields: fileId, fileName, content" });
+      }
+      
+      console.log(`Classifying content for file: ${fileName}`);
+      const result = await dataClassificationEngine.classifyContent(fileId, fileName, content, metadata);
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error classifying content:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/data-classification/rules", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const rules = dataClassificationEngine.getClassificationRules();
+      res.json(rules);
+    } catch (error) {
+      console.error("Error fetching classification rules:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/data-classification/inventory", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const inventory = dataClassificationEngine.getDataInventory();
+      res.json(inventory);
+    } catch (error) {
+      console.error("Error fetching data inventory:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/data-classification/inventory/:classification", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const inventory = await dataClassificationEngine.getInventoryByClassification(req.params.classification);
+      res.json(inventory);
+    } catch (error) {
+      console.error("Error fetching classified inventory:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/data-classification/summary", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const summary = await dataClassificationEngine.getComplianceSummary();
+      res.json(summary);
+    } catch (error) {
+      console.error("Error fetching classification summary:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/data-classification/history/:fileId", async (req, res) => {
+    try {
+      const { dataClassificationEngine } = await import("./engines/data-classification");
+      const history = dataClassificationEngine.getClassificationHistory(req.params.fileId);
+      res.json(history);
+    } catch (error) {
+      console.error("Error fetching classification history:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
   // Mock authentication endpoint for demo
   app.get("/api/auth/user", async (req, res) => {
     try {
