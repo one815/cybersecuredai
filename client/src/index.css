@@ -46,6 +46,18 @@
   --sidebar-accent-foreground: hsl(0, 0%, 100%);
   --sidebar-border: hsl(220, 35%, 12%);
   --sidebar-ring: hsl(25, 95%, 58%);
+
+  /* Light Mode Solutions Colors */
+  --solutions-background: hsl(0, 0%, 98%); /* Almost white */
+  --solutions-foreground: hsl(220, 15%, 25%); /* Dark slate */
+  --solutions-card: hsl(0, 0%, 100%); /* Pure white */
+  --solutions-card-foreground: hsl(220, 15%, 25%); /* Dark slate */
+  --solutions-muted: hsl(220, 15%, 92%); /* Light gray */
+  --solutions-muted-foreground: hsl(220, 10%, 60%); /* Medium gray */
+  --solutions-border: hsl(220, 15%, 88%); /* Light border */
+  --solutions-accent: hsl(220, 15%, 95%); /* Very light accent */
+  --solutions-accent-foreground: hsl(220, 15%, 25%); /* Dark text */
+
   --font-sans: 'Nata Sans', 'Inter', system-ui, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: 'Monaco', 'Courier New', monospace;
@@ -910,6 +922,42 @@
     inset: -1px;
     background: linear-gradient(45deg, rgba(59, 130, 246, 0.5), rgba(34, 197, 94, 0.5), rgba(168, 85, 247, 0.5));
     border-radius: inherit;
+
+  /* ===== LIGHT MODE SOLUTIONS STYLES ===== */
+  .solutions-light-bg {
+    background: var(--solutions-background);
+    color: var(--solutions-foreground);
+  }
+
+  .solutions-light-card {
+    background: var(--solutions-card);
+    color: var(--solutions-card-foreground);
+    border: 1px solid var(--solutions-border);
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.05),
+      0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .solutions-light-hero {
+    background: linear-gradient(135deg, 
+      var(--solutions-background) 0%, 
+      var(--solutions-muted) 50%, 
+      var(--solutions-background) 100%);
+  }
+
+  .solutions-light-section {
+    background: linear-gradient(180deg, 
+      var(--solutions-muted) 0%, 
+      var(--solutions-background) 100%);
+  }
+
+  .solutions-light-text {
+    color: var(--solutions-foreground);
+  }
+
+  .solutions-light-muted {
+    color: var(--solutions-muted-foreground);
+  }
     animation: border-flow 3s linear infinite;
     z-index: -1;
   }

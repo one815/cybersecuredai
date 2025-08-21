@@ -66,29 +66,29 @@ export default function AIThreatDetection() {
 
   return (
     <MarketingLayout>
-      <div className="min-h-screen bg-gradient-to-br from-background via-surface/50 to-background">
+      <div className="solutions-light-bg min-h-screen">
         {/* Hero Section */}
-        <section className="py-20 px-6 bg-gradient-to-br from-cyan-50/10 via-purple-50/10 to-background">
+        <section className="py-20 px-6 solutions-light-hero">
           <div className="container mx-auto max-w-6xl text-center">
             <div className="flex items-center justify-center mb-6">
               <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl flex items-center justify-center">
                 <Brain className="w-10 h-10 text-white" />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 geometric-text">
+            <h1 className="text-5xl md:text-6xl font-bold solutions-light-text mb-6 geometric-text">
               AI-Powered Threat Detection
             </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            <p className="text-xl solutions-light-muted mb-8 max-w-4xl mx-auto">
               Advanced machine learning and artificial intelligence for next-generation cybersecurity with unprecedented threat detection and response capabilities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/security-scanner">
-                <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700 px-12 py-4 text-lg">
+                <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700 px-12 py-4 text-lg text-white">
                   AI Capability Assessment
                 </Button>
               </Link>
               <Link href="/solutions">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-12 py-4 text-lg">
+                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-600 hover:bg-cyan-50 px-12 py-4 text-lg">
                   View All Solutions
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>
@@ -101,39 +101,39 @@ export default function AIThreatDetection() {
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Target className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-cyan-400 mb-2">98.7%</div>
-                  <div className="text-white font-semibold mb-1">Detection Accuracy</div>
-                  <div className="text-gray-400 text-sm">Including zero-days</div>
+                  <Target className="w-8 h-8 text-cyan-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-cyan-500 mb-2">98.7%</div>
+                  <div className="solutions-light-text font-semibold mb-1">Detection Accuracy</div>
+                  <div className="solutions-light-muted text-sm">Including zero-days</div>
                 </CardContent>
               </Card>
               
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Zap className="w-8 h-8 text-purple-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-purple-400 mb-2">89%</div>
-                  <div className="text-white font-semibold mb-1">False Positive Reduction</div>
-                  <div className="text-gray-400 text-sm">Vs traditional methods</div>
+                  <Zap className="w-8 h-8 text-purple-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-purple-500 mb-2">89%</div>
+                  <div className="solutions-light-text font-semibold mb-1">False Positive Reduction</div>
+                  <div className="solutions-light-muted text-sm">Vs traditional methods</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Settings className="w-8 h-8 text-green-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-green-400 mb-2">24/7</div>
-                  <div className="text-white font-semibold mb-1">Continuous Learning</div>
-                  <div className="text-gray-400 text-sm">Adaptive improvement</div>
+                  <Settings className="w-8 h-8 text-green-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-green-500 mb-2">24/7</div>
+                  <div className="solutions-light-text font-semibold mb-1">Continuous Learning</div>
+                  <div className="solutions-light-muted text-sm">Adaptive improvement</div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 backdrop-blur-sm border border-white/20">
+              <Card className="solutions-light-card">
                 <CardContent className="p-6 text-center">
-                  <Brain className="w-8 h-8 text-orange-400 mx-auto mb-4" />
-                  <div className="text-3xl font-bold text-orange-400 mb-2">&lt; 100ms</div>
-                  <div className="text-white font-semibold mb-1">Response Time</div>
-                  <div className="text-gray-400 text-sm">Real-time detection</div>
+                  <Brain className="w-8 h-8 text-orange-500 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-orange-500 mb-2">&lt; 100ms</div>
+                  <div className="solutions-light-text font-semibold mb-1">Response Time</div>
+                  <div className="solutions-light-muted text-sm">Real-time detection</div>
                 </CardContent>
               </Card>
             </div>
@@ -141,30 +141,30 @@ export default function AIThreatDetection() {
         </section>
 
         {/* Threat Category Performance */}
-        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+        <section className="py-16 px-6 solutions-light-section">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">AI Threat Category Performance</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">AI Threat Category Performance</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {threatCategories.map((category, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
-                    <CardTitle className="text-white text-lg">{category.category}</CardTitle>
+                    <CardTitle className="solutions-light-text text-lg">{category.category}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Detected:</span>
-                        <span className="text-white font-semibold">{category.detected}</span>
+                        <span className="solutions-light-muted">Detected:</span>
+                        <span className="solutions-light-text font-semibold">{category.detected}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">AI Accuracy:</span>
-                        <span className="text-purple-400 font-semibold">{category.accuracy}%</span>
+                        <span className="solutions-light-muted">AI Accuracy:</span>
+                        <span className="text-purple-500 font-semibold">{category.accuracy}%</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Prevention Rate:</span>
-                        <span className="text-green-400 font-semibold">{category.prevented}%</span>
+                        <span className="solutions-light-muted">Prevention Rate:</span>
+                        <span className="text-green-500 font-semibold">{category.prevented}%</span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
                         <div 
                           className="bg-gradient-to-r from-cyan-500 to-purple-500 h-2 rounded-full transition-all"
                           style={{ width: `${category.accuracy}%` }}
@@ -181,23 +181,23 @@ export default function AIThreatDetection() {
         {/* AI Models */}
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">Advanced AI Security Models</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">Advanced AI Security Models</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {aiModels.map((model, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
                     <div className="flex items-center space-x-4 mb-4">
-                      <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl flex items-center justify-center text-white">
                         {model.icon}
                       </div>
-                      <CardTitle className="text-2xl text-white">{model.name}</CardTitle>
+                      <CardTitle className="text-2xl solutions-light-text">{model.name}</CardTitle>
                     </div>
-                    <p className="text-gray-300 text-lg mb-4">{model.description}</p>
+                    <p className="solutions-light-muted text-lg mb-4">{model.description}</p>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {Object.entries(model.performance).map(([key, value]) => (
-                        <div key={key} className="text-center p-2 bg-black/20 rounded">
-                          <div className="text-sm font-bold text-cyan-400">{value}</div>
-                          <div className="text-xs text-gray-400 capitalize">{key}</div>
+                        <div key={key} className="text-center p-2 bg-gray-50 rounded">
+                          <div className="text-sm font-bold text-cyan-500">{value}</div>
+                          <div className="text-xs solutions-light-muted capitalize">{key}</div>
                         </div>
                       ))}
                     </div>
@@ -205,8 +205,8 @@ export default function AIThreatDetection() {
                   <CardContent>
                     <ul className="space-y-3">
                       {model.capabilities.map((capability, idx) => (
-                        <li key={idx} className="flex items-center text-gray-200">
-                          <CheckCircle className="w-5 h-5 text-green-400 mr-3 flex-shrink-0" />
+                        <li key={idx} className="flex items-center solutions-light-text">
+                          <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
                           <span className="text-lg">{capability}</span>
                         </li>
                       ))}
@@ -219,27 +219,27 @@ export default function AIThreatDetection() {
         </section>
 
         {/* Industry Applications */}
-        <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
+        <section className="py-16 px-6 solutions-light-section">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">AI Applications by Industry</h2>
+            <h2 className="text-4xl font-bold solutions-light-text text-center mb-12">AI Applications by Industry</h2>
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {industryApplications.map((app, index) => (
-                <Card key={index} className="bg-white/10 backdrop-blur-sm border border-white/20">
+                <Card key={index} className="solutions-light-card">
                   <CardHeader>
-                    <CardTitle className="text-white text-lg">{app.sector}</CardTitle>
+                    <CardTitle className="solutions-light-text text-lg">{app.sector}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="text-sm text-gray-300 mb-3">{app.use_case}</div>
+                      <div className="text-sm solutions-light-muted mb-3">{app.use_case}</div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">AI Accuracy:</span>
-                        <span className="text-green-400 font-semibold">{app.accuracy}%</span>
+                        <span className="solutions-light-muted">AI Accuracy:</span>
+                        <span className="text-green-500 font-semibold">{app.accuracy}%</span>
                       </div>
                       <div className="text-sm">
-                        <span className="text-gray-400">Deployment:</span>
-                        <div className="text-blue-400 font-semibold mt-1">{app.deployment}</div>
+                        <span className="solutions-light-muted">Deployment:</span>
+                        <div className="text-blue-500 font-semibold mt-1">{app.deployment}</div>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
                         <div 
                           className="bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full transition-all"
                           style={{ width: `${app.accuracy}%` }}
@@ -254,20 +254,20 @@ export default function AIThreatDetection() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 px-6 bg-gradient-to-r from-cyan-900/20 to-purple-900/20">
+        <section className="py-20 px-6 bg-gradient-to-r from-cyan-50 to-purple-50">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-5xl font-bold text-white mb-8">Deploy Next-Generation AI Security</h2>
-            <p className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto">
+            <h2 className="text-5xl font-bold solutions-light-text mb-8">Deploy Next-Generation AI Security</h2>
+            <p className="text-xl solutions-light-muted mb-10 max-w-3xl mx-auto">
               Harness the power of advanced artificial intelligence and machine learning for unprecedented threat detection and response capabilities tailored for educational institutions and government organizations.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/solutions">
-                <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700 px-12 py-4 text-lg">
+                <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-700 hover:to-purple-700 px-12 py-4 text-lg text-white">
                   Explore All Solutions
                 </Button>
               </Link>
               <Link href="/security-scanner">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-12 py-4 text-lg">
+                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-600 hover:bg-cyan-50 px-12 py-4 text-lg">
                   AI Capability Assessment
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>
