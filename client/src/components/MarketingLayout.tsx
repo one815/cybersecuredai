@@ -8,7 +8,7 @@ interface MarketingLayoutProps {
 
 export function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
-    <div className="min-h-screen ai-dashboard-bg">
+    <div className="min-h-screen ai-dashboard-bg marketing-website">
       <Navigation />
       <main>
         {children}
