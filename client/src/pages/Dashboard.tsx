@@ -4,11 +4,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-// Vector security icons from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { DashboardStats } from "@/types";
+// Modern 3D/Futuristic Icons
+import { 
+  Shield, 
+  Eye, 
+  Search, 
+  Bell, 
+  AlertTriangle, 
+  Activity, 
+  Lock, 
+  Zap, 
+  TrendingUp,
+  CheckCircle,
+  ExternalLink,
+  Users,
+  Settings,
+  BarChart,
+  Calendar,
+  FileText
+} from "lucide-react";
 
 export default function Dashboard() {
   const { data: stats, isLoading } = useQuery<DashboardStats>({
@@ -53,12 +70,12 @@ export default function Dashboard() {
           <div className="flex items-center space-x-8">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-2xl">
-                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+                <Shield className="w-6 h-6" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'}} />
               </div>
               <div>
                 <h1 className="text-2xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
                   <span>AI SECURITY COMMAND CENTER</span>
-                  <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                  <Activity className="w-5 h-5 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.5))'}} />
                 </h1>
                 <div className="text-gray-400 text-sm cyber-font flex items-center space-x-3">
                   <span>Real-time AI threat monitoring and autonomous security automation</span>
@@ -97,7 +114,7 @@ export default function Dashboard() {
                   <div className="absolute inset-0 rounded-full border-2 border-blue-400/60 animate-pulse"></div>
                   <div className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping"></div>
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                    <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 50%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.5)'}} />
+                    <Eye className="w-8 h-8 text-white" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.4))'}} />
                   </div>
                 </div>
                 
@@ -120,20 +137,20 @@ export default function Dashboard() {
                 className="bg-background border-surface-light pl-10 w-56 text-sm focus:border-interactive"
                 data-testid="dashboard-search"
               />
-              <div className="absolute left-3 top-3 w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 10%', filter: 'grayscale(1) brightness(0.7)'}} />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
             </div>
             
             {/* Action Buttons */}
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <Button variant="ghost" size="icon" className="relative text-gray-400 hover:text-white" data-testid="notifications-button">
-                  <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-critical text-xs rounded-full flex items-center justify-center">3</span>
+                  <Bell className="w-5 h-5" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.3))'}} />
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-critical text-xs rounded-full flex items-center justify-center animate-pulse">3</span>
                 </Button>
               </div>
               
               <Button className="bg-interactive hover:bg-orange-600 text-sm px-4 py-2" data-testid="new-incident-button">
-                <div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                <AlertTriangle className="w-4 h-4 mr-2" style={{filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))'}} />
                 <span className="hidden sm:inline">New Incident</span>
               </Button>
             </div>
@@ -149,10 +166,10 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(50deg) saturate(1.5) brightness(1.2)'}} />
+                  <Shield className="w-6 h-6 text-yellow-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
                   <span className="text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 90%', filter: 'hue-rotate(50deg) saturate(1.5) brightness(1.2)'}} />
+                <TrendingUp className="w-5 h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
               </div>
               <div className="mb-4">
                 <div className="text-3xl font-bold text-white mb-1 geometric-text">MEDIUM</div>
@@ -174,8 +191,8 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 text-red-400 relative text-lg">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                  <div className="relative">
+                    <AlertTriangle className="w-6 h-6 text-red-400" style={{filter: 'drop-shadow(0 0 6px rgba(248, 113, 113, 0.5))'}} />
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   </div>
                   <span className="text-sm text-gray-400 tech-font">ACTIVE THREATS</span>
@@ -206,10 +223,10 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '90% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                  <Lock className="w-6 h-6 text-green-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 197, 94, 0.5))'}} />
                   <span className="text-sm text-gray-400 tech-font">SYSTEM SECURITY</span>
                 </div>
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                <CheckCircle className="w-5 h-5 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
               </div>
               <div className="text-3xl font-bold text-white mb-2 geometric-text">86%</div>
               <div className="w-full bg-gray-700 rounded-full h-2 mb-2">
@@ -229,7 +246,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+                  <Eye className="w-6 h-6 text-cyan-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
                   <span className="text-sm text-gray-400 tech-font">AUTHENTICATION</span>
                 </div>
                 <div className="mfa-badge">
@@ -251,7 +268,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
                     <span className="text-sm text-gray-400">Password</span>
                   </div>
                 </div>
@@ -398,7 +415,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Database Encryption</span>
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">AES-256 Active</div>
                   <Progress value={100} className="h-1" />
@@ -407,7 +424,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">File System Encryption</span>
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">BitLocker Active</div>
                   <Progress value={100} className="h-1" />
@@ -416,7 +433,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Network Encryption</span>
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
+                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">TLS 1.3 Active</div>
                   <Progress value={100} className="h-1" />
@@ -425,7 +442,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Email Encryption</span>
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 90%', filter: 'hue-rotate(50deg) saturate(1.5) brightness(1.2)'}} />
+                    <AlertTriangle className="w-4 h-4 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">PGP Partial</div>
                   <Progress value={65} className="h-1" />
@@ -531,7 +548,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                    <Users className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                     <span className="text-white">Main Server</span>
                   </div>
                   <span className="text-gray-400">Today, 09:45 AM</span>
@@ -543,7 +560,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                    <BarChart className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                     <span className="text-white">Database Server</span>
                   </div>
                   <span className="text-gray-400">Today, 08:30 AM</span>
@@ -555,7 +572,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 70%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                    <Zap className="w-4 h-4 text-orange-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 146, 60, 0.4))'}} />
                     <span className="text-white">Network Gateway</span>
                   </div>
                   <span className="text-gray-400">3 days ago</span>
@@ -567,7 +584,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                    <Activity className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                     <span className="text-white">Cloud Storage</span>
                   </div>
                   <span className="text-gray-400">Today, 10:15 AM</span>
@@ -589,7 +606,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-4">
               <div className="flex items-start space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-700/50">
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center mt-0.5" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 90%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
+                <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.4))'}} />
                 <div className="flex-1">
                   <div className="text-sm font-medium text-red-400">Critical Security Update</div>
                   <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
@@ -598,7 +615,7 @@ export default function Dashboard() {
               </div>
               
               <div className="flex items-start space-x-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center mt-0.5" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 90%', filter: 'hue-rotate(50deg) saturate(1.5) brightness(1.2)'}} />
+                <Shield className="w-5 h-5 text-yellow-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
                 <div className="flex-1">
                   <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
                   <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
@@ -607,7 +624,7 @@ export default function Dashboard() {
               </div>
               
               <div className="flex items-start space-x-3 p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center mt-0.5" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                <TrendingUp className="w-5 h-5 text-cyan-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                 <div className="flex-1">
                   <div className="text-sm font-medium text-blue-400">Security Scan Complete</div>
                   <div className="text-xs text-gray-300 mt-1">Weekly security scan completed. 2 medium vulnerabilities detected.</div>
@@ -626,7 +643,7 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl font-bold">Real-time Threat Detection</CardTitle>
                 <Button variant="ghost" size="icon" className="text-interactive hover:text-orange-400">
-                  <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                  <Eye className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                 </Button>
               </div>
             </CardHeader>
@@ -721,7 +738,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl font-bold">Secure File Sharing</CardTitle>
               <Button className="bg-interactive hover:bg-orange-600" data-testid="share-file-button">
-                <div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                <FileText className="w-4 h-4 mr-2 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                 Share New File
               </Button>
             </div>
@@ -732,7 +749,7 @@ export default function Dashboard() {
               <div className="bg-background rounded-lg p-6 border-2 border-dashed border-surface-light hover:border-interactive transition-colors">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-interactive/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 90%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
+                    <FileText className="w-6 h-6 text-orange-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.5))'}} />
                   </div>
                   <h4 className="font-medium mb-2">Drag and drop files or click to browse</h4>
                   <p className="text-gray-400 text-sm mb-4">All files are automatically encrypted with AES-256</p>
@@ -749,7 +766,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between p-3 bg-background rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-critical/20 rounded-lg flex items-center justify-center">
-                        <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '90% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
+                        <AlertTriangle className="w-4 h-4 text-red-400" style={{filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.4))'}} />
                       </div>
                       <div>
                         <p className="font-medium text-sm">Q2_Financial_Report.pdf</p>
@@ -759,7 +776,7 @@ export default function Dashboard() {
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-success border-success">AES-256</Badge>
                       <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                        <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+                        <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                       </Button>
                     </div>
                   </div>
@@ -767,7 +784,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between p-3 bg-background rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                        <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '90% 40%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+                        <CheckCircle className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
                       </div>
                       <div>
                         <p className="font-medium text-sm">Security_Protocol_v2.docx</p>
@@ -777,7 +794,7 @@ export default function Dashboard() {
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-interactive border-interactive">Protected</Badge>
                       <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                        <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
+                        <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                       </Button>
                     </div>
                   </div>
@@ -801,7 +818,7 @@ export default function Dashboard() {
                 <div key={report.id} className="bg-background rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '90% 40%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+                      <Calendar className="w-4 h-4 text-blue-400" style={{filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.4))'}} />
                       <span className="font-medium">{report.framework}</span>
                     </div>
                     <Badge 
