@@ -88,11 +88,16 @@ export default function Dashboard() {
             {/* Authentication Status */}
             <div className="hidden lg:flex items-center space-x-3">
               <div className="face-recognition scale-75"></div>
-              <div className="flex items-center space-x-2 p-2 holographic-card rounded-lg">
-                <div className="fingerprint-scanner scale-50"></div>
-                <div className="text-xs">
-                  <div className="tech-font text-green-400 font-semibold">ADMIN AUTHENTICATED</div>
-                  <div className="text-gray-400">Security Level: MAX</div>
+              <div className="relative">
+                {/* Scanning Animation Wrapper */}
+                <div className="absolute inset-0 rounded-lg border-2 border-green-400/50 animate-pulse"></div>
+                <div className="absolute inset-0 rounded-lg border border-cyan-400/30 animate-ping"></div>
+                <div className="relative flex items-center space-x-2 p-3 holographic-card rounded-lg bg-green-900/20 border border-green-400/30">
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                  <div className="text-xs">
+                    <div className="tech-font text-green-400 font-semibold">ADMIN AUTHENTICATED</div>
+                    <div className="text-gray-400">Security Level: MAX</div>
+                  </div>
                 </div>
               </div>
             </div>
