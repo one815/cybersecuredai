@@ -37,6 +37,7 @@ import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
 import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
+import WhyCyberSecureAI from "@/pages/WhyCyberSecureAI";
 
 // Solutions Pages
 import RansomwareProtection from "@/pages/solutions/RansomwareProtection";
@@ -99,6 +100,7 @@ function Router() {
       <Route path="/news" component={News} />
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
+      <Route path="/why-cybersecure-ai" component={WhyCyberSecureAI} />
       
       {/* Solutions Pages */}
       <Route path="/solutions/ransomware" component={RansomwareProtection} />
