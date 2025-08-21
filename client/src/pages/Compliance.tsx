@@ -86,25 +86,12 @@ export default function Compliance() {
       const pageHeight = pdf.internal.pageSize.height;
       let currentY = 20;
       
-      // Add Noto Sans font (fallback to helvetica if not available)
-      try {
-        // Try to use a more modern font, fallback to helvetica
-        pdf.addFont('https://fonts.gstatic.com/s/notosans/v14/o-0IIpQlx3QUlC5A4PNr5TRASf6M7Q.woff2', 'NotoSans', 'normal');
-        pdf.addFont('https://fonts.gstatic.com/s/notosans/v14/o-0NIpQlx3QUlC5A4PNjXhFVZNyB.woff2', 'NotoSans', 'bold');
-      } catch (e) {
-        console.log('Using fallback fonts');
-      }
-      
-      // Helper function to add text with word wrap
+      // Helper function to add text with word wrap using helvetica font
       const addText = (text: string, x: number, y: number, options: any = {}) => {
         const { fontSize = 12, maxWidth = pageWidth - 40, isBold = false, color = [0, 0, 0] } = options;
         pdf.setFontSize(fontSize);
         pdf.setTextColor(color[0], color[1], color[2]);
-        try {
-          pdf.setFont('NotoSans', isBold ? 'bold' : 'normal');
-        } catch (e) {
-          pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
-        }
+        pdf.setFont('helvetica', isBold ? 'bold' : 'normal');
         const lines = pdf.splitTextToSize(text, maxWidth);
         pdf.text(lines, x, y);
         return y + (lines.length * (fontSize * 0.6)) + 2;
@@ -154,22 +141,11 @@ export default function Compliance() {
       pdf.line(20, currentY + 3, pageWidth - 20, currentY + 3);
       currentY += 12;
       
-      // Create two-column layout for framework info
-      const leftCol = 20;
-      const rightCol = pageWidth / 2 + 10;
-      
-      currentY = addText(`Framework:`, leftCol, currentY, { fontSize: 12, isBold: true });
-      addText(`${framework.framework?.toUpperCase() || 'N/A'}`, leftCol + 35, currentY - 2, { fontSize: 12, color: [34, 211, 238] });
-      
-      addText(`Name:`, rightCol, currentY, { fontSize: 12, isBold: true });
-      addText(`${framework.name || 'N/A'}`, rightCol + 25, currentY - 2, { fontSize: 12 });
-      
-      currentY += 8;
-      addText(`Sector:`, leftCol, currentY, { fontSize: 12, isBold: true });
-      addText(`${framework.sector || 'N/A'}`, leftCol + 25, currentY - 2, { fontSize: 12 });
-      
-      addText(`Report ID:`, rightCol, currentY, { fontSize: 12, isBold: true });
-      addText(`${framework.framework}-${new Date().getTime().toString().slice(-6)}`, rightCol + 35, currentY - 2, { fontSize: 10, color: [100, 100, 100] });
+      // Create framework information layout
+      currentY = addText(`Framework: ${framework.framework?.toUpperCase() || 'N/A'}`, 20, currentY, { fontSize: 13, isBold: true, color: [34, 211, 238] });
+      currentY = addText(`Name: ${framework.name || 'N/A'}`, 20, currentY + 3, { fontSize: 12 });
+      currentY = addText(`Sector: ${framework.sector || 'N/A'}`, 20, currentY + 3, { fontSize: 12 });
+      currentY = addText(`Report ID: ${framework.framework}-${new Date().getTime().toString().slice(-6)}`, 20, currentY + 3, { fontSize: 10, color: [100, 100, 100] });
       
       currentY += 15;
       
@@ -206,9 +182,13 @@ export default function Compliance() {
         pdf.roundedRect(20, currentY, Math.max(2, (barWidth * score) / 100), barHeight, 3, 3, 'F');
       }
       
-      // Score text with better positioning
-      currentY = addText(`${score}%`, 25, currentY + 13, { fontSize: 16, isBold: true, color: [255, 255, 255] });
-      currentY = addText(`Overall Compliance Score`, 150, currentY - 8, { fontSize: 14, isBold: true });
+      // Score text with proper positioning
+      pdf.setTextColor(255, 255, 255);
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`${score}%`, 25, currentY + 13);
+      
+      currentY = addText(`Overall Compliance Score`, 150, currentY, { fontSize: 14, isBold: true });
       currentY = addText(`Status: ${statusText}`, 150, currentY + 3, { fontSize: 12, color: barColor });
       currentY += 15;
       
@@ -244,15 +224,17 @@ export default function Compliance() {
         pdf.setLineWidth(0.5);
         pdf.roundedRect(x, currentY, cardWidth, cardHeight, 2, 2, 'S');
         
-        // Metric value
-        addText(metric.value.toString(), x + cardWidth/2, currentY + 15, { 
-          fontSize: 20, isBold: true, color: metric.color 
-        });
+        // Metric value - centered
+        pdf.setTextColor(metric.color[0], metric.color[1], metric.color[2]);
+        pdf.setFontSize(20);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(metric.value.toString(), x + cardWidth/2, currentY + 15, { align: 'center' });
         
-        // Metric label
-        addText(metric.label, x + cardWidth/2, currentY + 28, { 
-          fontSize: 10, color: [100, 116, 139] 
-        });
+        // Metric label - centered
+        pdf.setTextColor(100, 116, 139);
+        pdf.setFontSize(10);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(metric.label, x + cardWidth/2, currentY + 28, { align: 'center' });
       });
       
       currentY += cardHeight + 15;
