@@ -1,46 +1,45 @@
 import { Link, useLocation } from "wouter";
-// Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
 // CyberSecure logo
 import cyberSecureLogo from "@assets/2_1755803929285.png";
 import { useAuth } from "@/hooks/useAuth";
-import type { NavigationItem } from "@/types";
+// Modern 3D/Futuristic Icons
+import { 
+  LayoutDashboard, 
+  Shield, 
+  Activity, 
+  AlertTriangle, 
+  Zap, 
+  Wrench, 
+  Lock, 
+  Share2, 
+  ClipboardCheck, 
+  GraduationCap, 
+  HelpCircle, 
+  Users, 
+  Settings, 
+  Brain, 
+  BarChart3,
+  LogOut
+} from "lucide-react";
 
-const navigationItems: NavigationItem[] = [
-  { id: "dashboard", label: "Dashboard", icon: "tachometer", path: "/" },
-  { id: "threats", label: "Threat Monitoring", icon: "exclamation-triangle", path: "/threats" },
-  { id: "threat-analysis", label: "Threat Analysis", icon: "activity", path: "/threat-analysis" },
-  { id: "incidents", label: "Incident Response", icon: "alert-triangle", path: "/incidents" },
-  { id: "security-integrations", label: "Security Integrations", icon: "zap", path: "/security-integrations" },
-  { id: "it-management", label: "IT Management", icon: "wrench", path: "/it-management" },
-  { id: "auth", label: "Authentication", icon: "lock", path: "/authentication" },
-  { id: "files", label: "File Sharing", icon: "share", path: "/files" },
-  { id: "compliance", label: "Compliance", icon: "clipboard-check", path: "/compliance" },
-  { id: "training", label: "Security Training", icon: "graduation-cap", path: "/training" },
-  { id: "support", label: "Help Desk", icon: "help-circle", path: "/support" },
-  { id: "users", label: "User Management", icon: "users", path: "/users" },
-  { id: "admin", label: "Admin Panel", icon: "user-cog", path: "/admin" },
-  { id: "ai-config", label: "AI Configuration", icon: "brain", path: "/ai-config" },
-  { id: "reports", label: "Reports", icon: "chart-bar", path: "/reports" },
+const navigationItems = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/" },
+  { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
+  { id: "threat-analysis", label: "Threat Analysis", icon: Activity, path: "/threat-analysis" },
+  { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
+  { id: "security-integrations", label: "Security Integrations", icon: Zap, path: "/security-integrations" },
+  { id: "it-management", label: "IT Management", icon: Wrench, path: "/it-management" },
+  { id: "auth", label: "Authentication", icon: Lock, path: "/authentication" },
+  { id: "files", label: "File Sharing", icon: Share2, path: "/files" },
+  { id: "compliance", label: "Compliance", icon: ClipboardCheck, path: "/compliance" },
+  { id: "training", label: "Security Training", icon: GraduationCap, path: "/training" },
+  { id: "support", label: "Help Desk", icon: HelpCircle, path: "/support" },
+  { id: "users", label: "User Management", icon: Users, path: "/users" },
+  { id: "admin", label: "Admin Panel", icon: Settings, path: "/admin" },
+  { id: "ai-config", label: "AI Configuration", icon: Brain, path: "/ai-config" },
+  { id: "reports", label: "Reports", icon: BarChart3, path: "/reports" },
 ];
 
-const iconMap = {
-  tachometer: { position: '30% 40%', color: 'hue-rotate(200deg)' },
-  "exclamation-triangle": { position: '10% 90%', color: 'hue-rotate(50deg)' },
-  activity: { position: '50% 70%', color: 'hue-rotate(120deg)' },
-  "alert-triangle": { position: '10% 90%', color: 'hue-rotate(0deg)' },
-  zap: { position: '50% 70%', color: 'hue-rotate(200deg)' },
-  wrench: { position: '70% 90%', color: 'hue-rotate(20deg)' },
-  lock: { position: '90% 10%', color: 'hue-rotate(120deg)' },
-  share: { position: '30% 40%', color: 'hue-rotate(180deg)' },
-  "clipboard-check": { position: '90% 40%', color: 'hue-rotate(120deg)' },
-  "graduation-cap": { position: '50% 90%', color: 'hue-rotate(280deg)' },
-  "help-circle": { position: '30% 40%', color: 'hue-rotate(200deg)' },
-  users: { position: '50% 40%', color: 'hue-rotate(200deg)' },
-  "user-cog": { position: '30% 40%', color: 'hue-rotate(280deg)' },
-  brain: { position: '50% 90%', color: 'hue-rotate(180deg)' },
-  "chart-bar": { position: '30% 90%', color: 'hue-rotate(200deg)' },
-};
 
 export function Sidebar() {
   const [location] = useLocation();
@@ -63,28 +62,30 @@ export function Sidebar() {
       {/* Navigation Menu */}
       <nav className="p-4 space-y-2">
         {navigationItems.map((item) => {
-          const iconConfig = iconMap[item.icon as keyof typeof iconMap];
           const isActive = location === item.path;
+          const IconComponent = item.icon;
           
           return (
             <Link key={item.id} href={item.path}>
               <div 
-                className={`flex items-center space-x-3 p-3 rounded-lg font-medium transition-colors cursor-pointer ${
+                className={`flex items-center space-x-3 p-3 rounded-lg font-medium transition-all duration-300 cursor-pointer transform hover:scale-105 ${
                   isActive 
-                    ? "bg-primary text-secondary" 
-                    : "hover:bg-surface-light text-gray-300 hover:text-white"
+                    ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-300 shadow-lg shadow-cyan-500/20" 
+                    : "hover:bg-gradient-to-r hover:from-gray-700/30 hover:to-gray-600/30 text-gray-300 hover:text-white hover:border hover:border-gray-500/30"
                 }`}
                 data-testid={`nav-${item.id}`}
               >
-                <div 
-                  className="w-5 h-5 bg-contain bg-no-repeat bg-center" 
+                <IconComponent 
+                  className={`w-5 h-5 transition-all duration-300 ${
+                    isActive 
+                      ? "text-cyan-300 drop-shadow-sm filter" 
+                      : "text-gray-400 group-hover:text-white"
+                  }`}
                   style={{
-                    backgroundImage: `url(${securityIconsPath})`, 
-                    backgroundPosition: iconConfig?.position || '50% 50%', 
-                    filter: `${iconConfig?.color || 'hue-rotate(180deg)'} saturate(1.5) brightness(1.2)`
-                  }} 
+                    filter: isActive ? 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.4))' : 'none'
+                  }}
                 />
-                <span>{item.label}</span>
+                <span className="transition-all duration-300">{item.label}</span>
               </div>
             </Link>
           );
@@ -93,25 +94,16 @@ export function Sidebar() {
 
       {/* User Profile */}
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-surface-light">
-        <div className="flex items-center space-x-3">
-          <img 
-            src={user?.profileImageUrl || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"} 
-            alt="User profile" 
-            className="w-10 h-10 rounded-full object-cover" 
-          />
-          <div className="flex-1">
-            <p className="text-sm font-medium">{user?.firstName} {user?.lastName}</p>
-            <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
+        <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30 hover:border-gray-500/50 transition-all duration-300">
+          <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg">
+            {user?.email?.charAt(0).toUpperCase() || 'A'}
           </div>
-          <button className="text-gray-400 hover:text-white" data-testid="user-settings">
-            <div 
-              className="w-4 h-4 bg-contain bg-no-repeat bg-center" 
-              style={{
-                backgroundImage: `url(${securityIconsPath})`, 
-                backgroundPosition: '70% 90%', 
-                filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'
-              }} 
-            />
+          <div className="flex-1">
+            <p className="text-sm font-medium text-white">Admin User</p>
+            <p className="text-xs text-gray-400">{user?.email || 'admin@cybersecure.ai'}</p>
+          </div>
+          <button className="text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110 group" data-testid="user-settings">
+            <LogOut className="w-4 h-4 transition-all duration-300 group-hover:drop-shadow-sm" style={{filter: 'drop-shadow(0 0 4px rgba(239, 68, 68, 0.3))'}} />
           </button>
         </div>
       </div>
