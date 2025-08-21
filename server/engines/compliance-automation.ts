@@ -115,11 +115,95 @@ export interface SystemConfiguration {
   complianceSettings: Record<string, any>;
 }
 
+export interface BadgeDefinition {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  tier: "bronze" | "silver" | "gold" | "platinum" | "diamond";
+  criteria: BadgeCriteria;
+}
+
+export interface BadgeCriteria {
+  framework?: string;
+  frameworks?: string[];
+  minScore?: number;
+  multiFramework?: boolean;
+  anyFramework?: boolean;
+  allFrameworks?: boolean;
+  minFrameworks?: number;
+  improvementPoints?: number;
+  consistentScore?: number;
+  assessmentCount?: number;
+  fromScore?: number;
+  toScore?: number;
+  criticalReduction?: number;
+  automationLevel?: number;
+  firstAssessment?: boolean;
+}
+
+export interface UserBadge {
+  badgeId: string;
+  name: string;
+  description: string;
+  icon: string;
+  tier: "bronze" | "silver" | "gold" | "platinum" | "diamond";
+  earnedDate: Date;
+  frameworkId?: string;
+  achievementScore?: number;
+}
+
+export interface UserBadgeCollection {
+  userId: string;
+  badges: UserBadge[];
+  totalBadges: number;
+  tierCounts: {
+    bronze: number;
+    silver: number;
+    gold: number;
+    platinum: number;
+    diamond: number;
+  };
+}
+
 export class ComplianceAutomationEngine {
   private frameworks: Map<string, ComplianceFramework> = new Map();
   private assessments: Map<string, ComplianceAssessment> = new Map();
   private systemConfigs: Map<string, SystemConfiguration> = new Map();
   private controlMappings: Map<string, ControlMapping[]> = new Map();
+  private userBadges: Map<string, UserBadgeCollection> = new Map(); // userId -> badges
+
+  // Badge Definitions
+  private badgeDefinitions: BadgeDefinition[] = [
+    // Framework Mastery Badges
+    { id: "ferpa-champion", name: "FERPA Champion", description: "Achieved 90%+ compliance in FERPA", icon: "graduation-cap", tier: "gold", criteria: { framework: "ferpa", minScore: 90 } },
+    { id: "fisma-master", name: "FISMA Master", description: "Achieved 90%+ compliance in FISMA", icon: "shield-check", tier: "gold", criteria: { framework: "fisma", minScore: 90 } },
+    { id: "nist-expert", name: "NIST Expert", description: "Achieved 90%+ compliance in NIST 800-53", icon: "award", tier: "gold", criteria: { framework: "nist-800-53", minScore: 90 } },
+    { id: "cmmc-warrior", name: "CMMC Warrior", description: "Achieved 90%+ compliance in CMMC", icon: "sword", tier: "gold", criteria: { framework: "cmmc", minScore: 90 } },
+    { id: "cipa-guardian", name: "CIPA Guardian", description: "Achieved 90%+ compliance in CIPA", icon: "shield", tier: "gold", criteria: { framework: "cipa", minScore: 90 } },
+    { id: "fedramp-pro", name: "FedRAMP Pro", description: "Achieved 90%+ compliance in FedRAMP", icon: "cloud", tier: "gold", criteria: { framework: "fedramp", minScore: 90 } },
+    
+    // Score Achievement Badges
+    { id: "excellence-seeker", name: "Excellence Seeker", description: "Achieved 80%+ across 3+ frameworks", icon: "target", tier: "silver", criteria: { multiFramework: true, minScore: 80, minFrameworks: 3 } },
+    { id: "compliance-guru", name: "Compliance Guru", description: "Achieved 95%+ in any framework", icon: "crown", tier: "platinum", criteria: { anyFramework: true, minScore: 95 } },
+    { id: "perfect-score", name: "Perfect Score", description: "Achieved 100% compliance in any framework", icon: "star", tier: "diamond", criteria: { anyFramework: true, minScore: 100 } },
+    
+    // Improvement Badges
+    { id: "rapid-improver", name: "Rapid Improver", description: "Improved by 30+ points in one assessment", icon: "trending-up", tier: "bronze", criteria: { improvementPoints: 30 } },
+    { id: "consistency-king", name: "Consistency King", description: "Maintained 80%+ score across 5 assessments", icon: "repeat", tier: "silver", criteria: { consistentScore: 80, assessmentCount: 5 } },
+    { id: "turnaround-artist", name: "Turnaround Artist", description: "Improved from <50% to 80%+", icon: "refresh-cw", tier: "gold", criteria: { fromScore: 50, toScore: 80 } },
+    
+    // Special Achievement Badges
+    { id: "risk-reducer", name: "Risk Reducer", description: "Reduced critical findings by 50%+", icon: "shield", tier: "gold", criteria: { criticalReduction: 50 } },
+    { id: "automation-master", name: "Automation Master", description: "Achieved 90%+ automation across all controls", icon: "zap", tier: "platinum", criteria: { automationLevel: 90 } },
+    { id: "first-timer", name: "Getting Started", description: "Completed your first compliance assessment", icon: "play-circle", tier: "bronze", criteria: { firstAssessment: true } },
+    
+    // Cross-Framework Badges
+    { id: "education-specialist", name: "Education Specialist", description: "90%+ in FERPA and CIPA", icon: "book", tier: "silver", criteria: { frameworks: ["ferpa", "cipa"], minScore: 90 } },
+    { id: "government-pro", name: "Government Pro", description: "90%+ in FISMA and FedRAMP", icon: "building", tier: "silver", criteria: { frameworks: ["fisma", "fedramp"], minScore: 90 } },
+    { id: "defense-expert", name: "Defense Expert", description: "90%+ in CMMC and NIST 800-171", icon: "shield-alert", tier: "silver", criteria: { frameworks: ["cmmc", "nist-800-171"], minScore: 90 } },
+    { id: "compliance-overlord", name: "Compliance Overlord", description: "90%+ across ALL frameworks", icon: "trophy", tier: "diamond", criteria: { allFrameworks: true, minScore: 90 } }
+  ];
 
   constructor() {
     this.initializeFrameworks();
@@ -572,6 +656,13 @@ export class ComplianceAutomationEngine {
     };
 
     this.assessments.set(assessmentId, assessment);
+
+    // Evaluate and award badges for this assessment
+    const newBadges = this.evaluateBadges(organizationId, assessment);
+    
+    // Add badges to assessment result for client notification
+    (assessment as any).newBadges = newBadges;
+
     return assessment;
   }
 
@@ -1176,13 +1267,181 @@ export class ComplianceAutomationEngine {
       frameworkScores,
       criticalGaps: totalCriticalGaps,
       totalFindings,
-      complianceDistribution,
-      industryComparison: {
-        averageIndustryScore: 75, // Industry baseline
-        performancePercentile: Math.min(95, Math.max(5, Math.round(overallHealthScore * 1.2))), // Performance percentile based on score
-        bestPracticeGap: Math.max(0, 100 - overallHealthScore) // Gap to best practice (100%)
+      complianceDistribution
+    };
+  }
+
+  // Badge System Methods
+  
+  /**
+   * Evaluate and award badges after an assessment completion
+   */
+  private evaluateBadges(userId: string, assessment: ComplianceAssessment): UserBadge[] {
+    const newBadges: UserBadge[] = [];
+    const userBadgeCollection = this.userBadges.get(userId) || this.initializeUserBadges(userId);
+    
+    // Get all assessments for this user
+    const userAssessments = Array.from(this.assessments.values());
+    
+    for (const badgeDefinition of this.badgeDefinitions) {
+      // Skip if user already has this badge
+      if (userBadgeCollection.badges.some(badge => badge.badgeId === badgeDefinition.id)) {
+        continue;
+      }
+      
+      if (this.checkBadgeCriteria(badgeDefinition, assessment, userAssessments)) {
+        const userBadge: UserBadge = {
+          badgeId: badgeDefinition.id,
+          name: badgeDefinition.name,
+          description: badgeDefinition.description,
+          icon: badgeDefinition.icon,
+          tier: badgeDefinition.tier,
+          earnedDate: new Date(),
+          frameworkId: assessment.frameworkId,
+          achievementScore: assessment.riskAdjustedScore
+        };
+        
+        newBadges.push(userBadge);
+        userBadgeCollection.badges.push(userBadge);
+        userBadgeCollection.totalBadges++;
+        userBadgeCollection.tierCounts[badgeDefinition.tier]++;
+      }
+    }
+    
+    this.userBadges.set(userId, userBadgeCollection);
+    return newBadges;
+  }
+
+  /**
+   * Check if assessment meets badge criteria
+   */
+  private checkBadgeCriteria(
+    badgeDefinition: BadgeDefinition, 
+    currentAssessment: ComplianceAssessment, 
+    allAssessments: ComplianceAssessment[]
+  ): boolean {
+    const criteria = badgeDefinition.criteria;
+    
+    // Framework-specific badges
+    if (criteria.framework && criteria.minScore) {
+      return currentAssessment.frameworkId === criteria.framework && 
+             currentAssessment.riskAdjustedScore >= criteria.minScore;
+    }
+    
+    // Any framework achievement
+    if (criteria.anyFramework && criteria.minScore) {
+      return currentAssessment.riskAdjustedScore >= criteria.minScore;
+    }
+    
+    // Multi-framework badges
+    if (criteria.multiFramework && criteria.minScore !== undefined && criteria.minFrameworks) {
+      const qualifyingFrameworks = allAssessments.filter(a => 
+        a.riskAdjustedScore >= criteria.minScore!
+      ).length;
+      return qualifyingFrameworks >= criteria.minFrameworks;
+    }
+    
+    // Specific frameworks list
+    if (criteria.frameworks && criteria.minScore !== undefined) {
+      const requiredFrameworks = criteria.frameworks;
+      const qualifyingFrameworks = allAssessments.filter(a => 
+        requiredFrameworks.includes(a.frameworkId) && a.riskAdjustedScore >= criteria.minScore!
+      );
+      return qualifyingFrameworks.length === requiredFrameworks.length;
+    }
+    
+    // All frameworks
+    if (criteria.allFrameworks && criteria.minScore !== undefined) {
+      const frameworkIds = Array.from(this.frameworks.keys());
+      const qualifyingFrameworks = allAssessments.filter(a => 
+        a.riskAdjustedScore >= criteria.minScore!
+      ).map(a => a.frameworkId);
+      return frameworkIds.every(id => qualifyingFrameworks.includes(id));
+    }
+    
+    // First assessment
+    if (criteria.firstAssessment) {
+      return allAssessments.length === 1;
+    }
+    
+    // Improvement tracking
+    if (criteria.improvementPoints) {
+      const previousAssessments = allAssessments
+        .filter(a => a.frameworkId === currentAssessment.frameworkId)
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+      
+      if (previousAssessments.length < 2) return false;
+      
+      const previous = previousAssessments[previousAssessments.length - 2];
+      const improvement = currentAssessment.riskAdjustedScore - previous.riskAdjustedScore;
+      return improvement >= criteria.improvementPoints;
+    }
+    
+    // Turnaround achievement
+    if (criteria.fromScore && criteria.toScore) {
+      const previousAssessments = allAssessments
+        .filter(a => a.frameworkId === currentAssessment.frameworkId)
+        .sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+      
+      if (previousAssessments.length < 2) return false;
+      
+      const firstScore = previousAssessments[0].riskAdjustedScore;
+      const currentScore = currentAssessment.riskAdjustedScore;
+      return firstScore < criteria.fromScore && currentScore >= criteria.toScore;
+    }
+    
+    // Automation level
+    if (criteria.automationLevel) {
+      const avgAutomation = currentAssessment.controlResults.reduce((sum, result) => 
+        sum + result.automationLevel, 0) / currentAssessment.controlResults.length;
+      return avgAutomation >= criteria.automationLevel;
+    }
+    
+    return false;
+  }
+
+  /**
+   * Initialize badge collection for a new user
+   */
+  private initializeUserBadges(userId: string): UserBadgeCollection {
+    const badgeCollection: UserBadgeCollection = {
+      userId,
+      badges: [],
+      totalBadges: 0,
+      tierCounts: {
+        bronze: 0,
+        silver: 0,
+        gold: 0,
+        platinum: 0,
+        diamond: 0
       }
     };
+    this.userBadges.set(userId, badgeCollection);
+    return badgeCollection;
+  }
+
+  /**
+   * Get user's earned badges
+   */
+  getUserBadges(userId: string): UserBadgeCollection {
+    return this.userBadges.get(userId) || this.initializeUserBadges(userId);
+  }
+
+  /**
+   * Get all available badge definitions
+   */
+  getBadgeDefinitions(): BadgeDefinition[] {
+    return [...this.badgeDefinitions];
+  }
+
+  /**
+   * Get badges earned in the most recent assessment
+   */
+  getRecentBadges(userId: string, assessmentId: string): UserBadge[] {
+    const assessment = this.assessments.get(assessmentId);
+    if (!assessment) return [];
+    
+    return this.evaluateBadges(userId, assessment);
   }
 }
 

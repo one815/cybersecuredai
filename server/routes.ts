@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
 import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
 import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
+import { complianceAutomationEngine } from "./engines/compliance-automation";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
@@ -135,6 +136,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting file:", error);
       res.status(500).json({ message: "Failed to delete file" });
+    }
+  });
+
+  // Badge routes
+  app.get("/api/badges/definitions", (req, res) => {
+    try {
+      const badgeDefinitions = complianceAutomationEngine.getBadgeDefinitions();
+      res.json(badgeDefinitions);
+    } catch (error) {
+      console.error("Error fetching badge definitions:", error);
+      res.status(500).json({ message: "Failed to fetch badge definitions" });
+    }
+  });
+
+  app.get("/api/badges/user/:userId", (req, res) => {
+    try {
+      const { userId } = req.params;
+      const userBadges = complianceAutomationEngine.getUserBadges(userId);
+      res.json(userBadges);
+    } catch (error) {
+      console.error("Error fetching user badges:", error);
+      res.status(500).json({ message: "Failed to fetch user badges" });
+    }
+  });
+
+  app.get("/api/badges/recent/:userId/:assessmentId", (req, res) => {
+    try {
+      const { userId, assessmentId } = req.params;
+      const recentBadges = complianceAutomationEngine.getRecentBadges(userId, assessmentId);
+      res.json(recentBadges);
+    } catch (error) {
+      console.error("Error fetching recent badges:", error);
+      res.status(500).json({ message: "Failed to fetch recent badges" });
     }
   });
 
