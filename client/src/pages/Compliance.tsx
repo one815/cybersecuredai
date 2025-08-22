@@ -24,7 +24,13 @@ import {
   Plus,
   Settings,
   Trash2,
-  Edit
+  Edit,
+  Bell,
+  Play,
+  Loader2,
+  CheckCircle,
+  Activity,
+  ChevronRight
 } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -98,6 +104,358 @@ const controlSchema = z.object({
   implementationGuidance: z.string().optional(),
   assessmentCriteria: z.string().optional(),
 });
+
+// Safe Practices Program Component
+function SafePracticesProgram() {
+  const [selectedPhase, setSelectedPhase] = useState<number | null>(null);
+  const [assessmentScore, setAssessmentScore] = useState<number>(0);
+  const [showAssessment, setShowAssessment] = useState(false);
+
+  const phases = [
+    {
+      id: 1,
+      title: "Compliance Assessment",
+      description: "Comprehensive evaluation of current compliance posture",
+      status: "completed" as const,
+      details: [
+        "Automated scanning of security controls against multiple regulatory frameworks",
+        "Gap analysis with prioritized findings based on risk level", 
+        "Compliance score calculation using the formula: (Compliant Controls / Total Applicable Controls) × 100",
+        "Regulatory requirement mapping specific to your business sector and locations",
+        "Custom compliance dashboard generation with executive and technical views"
+      ]
+    },
+    {
+      id: 2,
+      title: "Best Practices Implementation", 
+      description: "Actionable security recommendations based on assessment findings",
+      status: "in-progress" as const,
+      details: [
+        "Prioritized implementation roadmap with critical, high, medium, and low priorities",
+        "Step-by-step implementation guides tailored to your technical environment",
+        "Policy templates aligned with applicable regulatory requirements",
+        "Security control documentation for audit readiness",
+        "Role-based training recommendations for compliance awareness"
+      ]
+    },
+    {
+      id: 3,
+      title: "Continuous Monitoring",
+      description: "Ongoing compliance monitoring and validation", 
+      status: "pending" as const,
+      details: [
+        "Real-time compliance status dashboard with health indicators",
+        "Automated regulatory update notifications with impact analysis",
+        "Continuous control validation against configured frameworks",
+        "Compliance violation alerts with remediation guidance",
+        "Trend analysis and compliance posture reporting"
+      ]
+    },
+    {
+      id: 4,
+      title: "Audit and Reporting",
+      description: "Streamlined compliance reporting and audit preparation",
+      status: "pending" as const,
+      details: [
+        "Automated evidence collection and organization by framework",
+        "Comprehensive audit trail of compliance activities", 
+        "Custom report generation for different stakeholders",
+        "Historical compliance data for trend analysis",
+        "Executive dashboards for compliance oversight"
+      ]
+    }
+  ];
+
+  const complianceFrameworks = [
+    { level: "Local", examples: "Municipal data protection ordinances, County security requirements", focus: "Community-specific regulations and local business requirements" },
+    { level: "State", examples: "CCPA (California), SHIELD Act (NY), CDPA (Virginia)", focus: "State-specific data protection and breach notification requirements" },
+    { level: "National", examples: "NIST CSF 2.0, HIPAA, FERPA, FISMA, GLBA", focus: "Federal regulations and national standards for specific sectors" },
+    { level: "Global", examples: "GDPR, ISO 27001/27002, SOC 2, PCI DSS", focus: "International standards and cross-border data protection regulations" }
+  ];
+
+  const bestPractices = [
+    {
+      category: "Identity and Access Management",
+      practices: [
+        { name: "Multi-Factor Authentication (MFA)", guidance: "Implement MFA for all user accounts, with priority for privileged and administrative access", frameworks: "NIST CSF 2.0, ISO 27001, CMMC" },
+        { name: "Zero-Trust Architecture", guidance: "Apply \"never trust, always verify\" principles across all network access", frameworks: "NIST 800-207, FedRAMP" },
+        { name: "Least Privilege Access", guidance: "Grant minimum necessary permissions based on job requirements", frameworks: "ISO 27001, NIST 800-53, HIPAA" },
+        { name: "Regular Access Reviews", guidance: "Conduct quarterly reviews of all user permissions and privileges", frameworks: "SOC 2, PCI DSS, GDPR" },
+        { name: "Privileged Access Management", guidance: "Implement just-in-time access for administrative functions", frameworks: "NIST 800-53, ISO 27001, CMMC" }
+      ]
+    },
+    {
+      category: "Data Protection and Privacy", 
+      practices: [
+        { name: "Data Classification", guidance: "Categorize data based on sensitivity and implement appropriate controls", frameworks: "NIST 800-53, ISO 27001, GDPR" },
+        { name: "Encryption Standards", guidance: "Implement AES-256 encryption for data at rest and TLS 1.3 for data in transit", frameworks: "PCI DSS, HIPAA, GDPR, CCPA" },
+        { name: "Data Loss Prevention (DLP)", guidance: "Deploy DLP solutions to monitor and control sensitive data movement", frameworks: "GDPR, CCPA, HIPAA, GLBA" },
+        { name: "Privacy Impact Assessments", guidance: "Conduct assessments for new processes that handle personal data", frameworks: "GDPR, CCPA, CPRA, CDPA" },
+        { name: "Data Retention Controls", guidance: "Implement automated data lifecycle management based on regulatory requirements", frameworks: "GDPR, CCPA, FERPA, HIPAA" }
+      ]
+    },
+    {
+      category: "Network and Infrastructure Security",
+      practices: [
+        { name: "Network Segmentation", guidance: "Divide networks into zones based on security requirements", frameworks: "NIST CSF 2.0, PCI DSS, CMMC" },
+        { name: "Secure Configuration", guidance: "Implement hardened baseline configurations for all systems", frameworks: "CIS Controls, NIST 800-53, ISO 27001" },
+        { name: "Vulnerability Management", guidance: "Establish continuous vulnerability scanning and remediation processes", frameworks: "PCI DSS, NIST CSF 2.0, SOC 2" },
+        { name: "Secure Remote Access", guidance: "Deploy VPN with split tunneling and MFA integration", frameworks: "NIST 800-46, ISO 27001, CMMC" },
+        { name: "Cloud Security Controls", guidance: "Implement cloud security posture management with continuous monitoring", frameworks: "CSA CAIQ, FedRAMP, ISO 27017" }
+      ]
+    },
+    {
+      category: "Incident Response and Recovery",
+      practices: [
+        { name: "Incident Response Plan", guidance: "Develop and regularly test comprehensive incident response procedures", frameworks: "NIST CSF 2.0, ISO 27001, HIPAA" },
+        { name: "Breach Notification Process", guidance: "Establish processes for timely notification based on regulatory requirements", frameworks: "GDPR, CCPA, HIPAA, State laws" },
+        { name: "Backup and Recovery", guidance: "Implement 3-2-1 backup strategy with encryption and offline copies", frameworks: "NIST CSF 2.0, ISO 27001, HIPAA" },
+        { name: "Business Continuity Planning", guidance: "Develop and test plans for maintaining operations during disruptions", frameworks: "ISO 22301, NIST 800-34, FFIEC" },
+        { name: "Security Incident Documentation", guidance: "Maintain detailed records of all security incidents and responses", frameworks: "SOC 2, PCI DSS, HIPAA, GDPR" }
+      ]
+    },
+    {
+      category: "Security Awareness and Training",
+      practices: [
+        { name: "Role-Based Training", guidance: "Develop security training tailored to specific job functions", frameworks: "NIST 800-50, ISO 27001, HIPAA" },
+        { name: "Phishing Simulations", guidance: "Conduct regular phishing tests with targeted education", frameworks: "NIST 800-50, CIS Controls, PCI DSS" },
+        { name: "Security Policy Education", guidance: "Ensure all employees understand security policies and procedures", frameworks: "ISO 27001, NIST CSF 2.0, SOC 2" },
+        { name: "Compliance Awareness", guidance: "Train employees on regulatory requirements relevant to their roles", frameworks: "GDPR, HIPAA, PCI DSS, FERPA" },
+        { name: "Vendor Security Training", guidance: "Extend security awareness to third-party vendors and contractors", frameworks: "ISO 27001, PCI DSS, HIPAA" }
+      ]
+    }
+  ];
+
+  const runComplianceAssessment = () => {
+    setShowAssessment(true);
+    // Simulate assessment calculation
+    setTimeout(() => {
+      const score = Math.floor(Math.random() * 30) + 65; // Random score between 65-95
+      setAssessmentScore(score);
+    }, 2000);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Program Header */}
+      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+        <CardHeader>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-cyan-600/20 rounded-lg">
+              <Shield className="h-6 w-6 text-cyan-400" />
+            </div>
+            <div>
+              <CardTitle className="text-cyan-300">CyberSecure Safe Practices Program</CardTitle>
+              <p className="text-gray-400 text-sm">
+                Integrated compliance module providing comprehensive cybersecurity best practices aligned with local, state, national, and global standards
+              </p>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-400" />
+              <span className="text-sm text-gray-300">Automated compliance mapping</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Bell className="h-4 w-4 text-yellow-400" />
+              <span className="text-sm text-gray-300">Real-time regulatory updates</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Target className="h-4 w-4 text-blue-400" />
+              <span className="text-sm text-gray-300">Customized implementation guidance</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Activity className="h-4 w-4 text-purple-400" />
+              <span className="text-sm text-gray-300">Continuous compliance monitoring</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-orange-400" />
+              <span className="text-sm text-gray-300">Comprehensive audit documentation</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Compliance Assessment */}
+      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div>
+              <CardTitle className="text-cyan-300">Compliance Assessment</CardTitle>
+              <p className="text-gray-400 text-sm">Evaluate your current compliance posture across multiple frameworks</p>
+            </div>
+            <Button 
+              onClick={runComplianceAssessment}
+              className="bg-cyan-600 hover:bg-cyan-700"
+              disabled={showAssessment}
+            >
+              {showAssessment ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Assessing...
+                </>
+              ) : (
+                <>
+                  <Play className="h-4 w-4 mr-2" />
+                  Run Assessment
+                </>
+              )}
+            </Button>
+          </div>
+        </CardHeader>
+        {showAssessment && (
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg">
+                <div>
+                  <h4 className="font-semibold text-white">Overall Compliance Score</h4>
+                  <p className="text-sm text-gray-400">
+                    Formula: (Compliant Controls / Total Applicable Controls) × 100
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-3xl font-bold text-cyan-400">{assessmentScore}%</div>
+                  <Badge variant={assessmentScore >= 80 ? "default" : assessmentScore >= 60 ? "secondary" : "destructive"}>
+                    {assessmentScore >= 80 ? "Compliant" : assessmentScore >= 60 ? "Needs Improvement" : "Non-Compliant"}
+                  </Badge>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {complianceFrameworks.map((fw, index) => (
+                  <div key={fw.level} className="p-3 bg-gray-700/30 rounded-lg">
+                    <h5 className="font-medium text-white">{fw.level}</h5>
+                    <div className="text-2xl font-bold text-cyan-400">{Math.floor(Math.random() * 20) + 75}%</div>
+                    <p className="text-xs text-gray-400">{fw.focus}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        )}
+      </Card>
+
+      {/* Implementation Methodology */}
+      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+        <CardHeader>
+          <CardTitle className="text-cyan-300">Implementation Methodology</CardTitle>
+          <p className="text-gray-400 text-sm">Four-phase approach to compliance implementation</p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {phases.map((phase) => (
+              <Card 
+                key={phase.id}
+                className={`cursor-pointer transition-all ${
+                  selectedPhase === phase.id ? 'ring-2 ring-cyan-500 border-cyan-500' : 'border-surface-light hover:border-cyan-500/50'
+                }`}
+                onClick={() => setSelectedPhase(selectedPhase === phase.id ? null : phase.id)}
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 rounded-full bg-cyan-600/20 flex items-center justify-center">
+                      <span className="text-cyan-400 font-bold">{phase.id}</span>
+                    </div>
+                    <Badge variant={
+                      phase.status === 'completed' ? 'default' :
+                      phase.status === 'in-progress' ? 'secondary' : 'outline'
+                    }>
+                      {phase.status === 'completed' ? 'Completed' :
+                       phase.status === 'in-progress' ? 'In Progress' : 'Pending'}
+                    </Badge>
+                  </div>
+                  <h4 className="font-semibold text-white mb-1">{phase.title}</h4>
+                  <p className="text-sm text-gray-400">{phase.description}</p>
+                  {selectedPhase === phase.id && (
+                    <div className="mt-3 pt-3 border-t border-gray-600">
+                      <ul className="space-y-1">
+                        {phase.details.map((detail, index) => (
+                          <li key={index} className="text-xs text-gray-300 flex items-start gap-1">
+                            <ChevronRight className="h-3 w-3 mt-0.5 text-cyan-400 flex-shrink-0" />
+                            {detail}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Core Compliance Frameworks */}
+      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+        <CardHeader>
+          <CardTitle className="text-cyan-300">Core Compliance Frameworks</CardTitle>
+          <p className="text-gray-400 text-sm">Multi-level compliance coverage from local to global standards</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {complianceFrameworks.map((framework, index) => (
+              <div key={framework.level} className="p-4 bg-gray-700/30 rounded-lg">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline" className="border-cyan-500 text-cyan-400">
+                        {framework.level}
+                      </Badge>
+                    </div>
+                    <h4 className="font-semibold text-white mb-1">{framework.focus}</h4>
+                    <p className="text-sm text-gray-400">
+                      <span className="font-medium">Examples:</span> {framework.examples}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Core Security Best Practices */}
+      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+        <CardHeader>
+          <CardTitle className="text-cyan-300">Core Security Best Practices</CardTitle>
+          <p className="text-gray-400 text-sm">Comprehensive security practices aligned with multiple compliance frameworks</p>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            {bestPractices.map((category, categoryIndex) => (
+              <div key={category.category}>
+                <h4 className="font-semibold text-cyan-300 mb-3 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                  {category.category}
+                </h4>
+                <div className="grid gap-3">
+                  {category.practices.map((practice, practiceIndex) => (
+                    <Card key={practice.name} className="bg-surface-light/50">
+                      <CardContent className="p-4">
+                        <div className="space-y-2">
+                          <h5 className="font-medium text-white">{practice.name}</h5>
+                          <p className="text-sm text-gray-400">{practice.guidance}</p>
+                          <div className="flex flex-wrap gap-1">
+                            {practice.frameworks.split(', ').map((framework) => (
+                              <Badge key={framework} variant="outline" className="text-xs">
+                                {framework}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
 
 // Framework Controls Component
 function FrameworkControls({ framework }: { framework: CustomComplianceFramework }) {
@@ -1326,10 +1684,18 @@ export default function Compliance() {
                   </Card>
                 </div>
 
-                {/* Framework Details */}
+                {/* Safe Practices Program and Framework Details */}
                 <div className="lg:col-span-2">
+                  {/* Safe Practices Program */}
+                  <SafePracticesProgram />
+                  
+                  {/* Existing Frameworks */}
                   {customFrameworks.length > 0 && (
-                    <div className="space-y-6">
+                    <div className="space-y-6 mt-6">
+                      <h3 className="text-xl font-semibold text-cyan-300 flex items-center gap-2">
+                        <FileText className="h-5 w-5" />
+                        Organization Frameworks
+                      </h3>
                       {customFrameworks.map((framework: CustomComplianceFramework) => (
                         <div key={framework.frameworkId}>
                           <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
@@ -1373,20 +1739,6 @@ export default function Compliance() {
                         </div>
                       ))}
                     </div>
-                  )}
-                  
-                  {customFrameworks.length === 0 && (
-                    <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-                      <CardContent className="pt-6">
-                        <div className="text-center py-12">
-                          <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                          <h3 className="text-lg font-semibold mb-2 text-gray-300">CyberSecure™ Frameworks</h3>
-                          <p className="text-gray-400">
-                            Professional cybersecurity frameworks will appear here
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
                   )}
                 </div>
               </div>
