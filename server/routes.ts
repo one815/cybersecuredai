@@ -48,6 +48,9 @@ behavioralEngine.on('anomalyDetected', (anomaly) => {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Initialize Cypher AI Assistant
+  const { CypherAI } = await import('./engines/cypher-ai');
+  const cypherAI = new CypherAI(mlThreatEngine, behavioralEngine);
   // User routes
   app.get("/api/users", async (req, res) => {
     try {
@@ -990,6 +993,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error getting AI analytics:", error);
       res.status(500).json({ message: "Failed to get AI analytics" });
+    }
+  });
+
+  // Cypher AI Assistant API routes
+  app.post("/api/cypher/chat", async (req, res) => {
+    try {
+      const message = req.body;
+      const response = await cypherAI.processMessage(message);
+      res.json(response);
+    } catch (error) {
+      console.error("Cypher chat error:", error);
+      res.status(500).json({ message: "Failed to process Cypher message" });
+    }
+  });
+
+  app.get("/api/cypher/insights/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      // Get user from storage to determine role
+      const user = await storage.getUser(userId);
+      const userRole = user?.role || 'user';
+      
+      const insights = cypherAI.getProactiveInsights(userRole, {
+        threatStats: mlThreatEngine.getThreatStatistics(),
+        behavioralStats: behavioralEngine.getAnalytics()
+      });
+      
+      res.json({
+        userId,
+        userRole,
+        insights,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting Cypher insights:", error);
+      res.status(500).json({ message: "Failed to get insights" });
+    }
+  });
+
+  app.get("/api/cypher/conversation/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const history = cypherAI.getConversationHistory(userId);
+      res.json({ userId, history, count: history.length });
+    } catch (error) {
+      console.error("Error getting conversation history:", error);
+      res.status(500).json({ message: "Failed to get conversation history" });
     }
   });
 
