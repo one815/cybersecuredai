@@ -1,7 +1,4 @@
 import { randomBytes, createHash } from "crypto";
-import * as pdf from 'pdf-parse';
-import * as mammoth from 'mammoth';
-import * as XLSX from 'xlsx';
 
 export interface ClassificationRule {
   id: string;
@@ -257,21 +254,40 @@ export class DataClassificationEngine {
     try {
       switch (mimeType) {
         case 'application/pdf':
-          const pdfData = await pdf.default(buffer);
-          return pdfData.text || fileName;
+          try {
+            const pdf = await import('pdf-parse');
+            const pdfParser = pdf.default || pdf;
+            const pdfData = await pdfParser(buffer);
+            return pdfData.text || fileName;
+          } catch (pdfError) {
+            console.error('PDF parsing error:', pdfError);
+            return fileName;
+          }
           
         case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-          const docxResult = await mammoth.extractRawText({ buffer });
-          return docxResult.value || fileName;
+          try {
+            const mammoth = await import('mammoth');
+            const docxResult = await mammoth.extractRawText({ buffer });
+            return docxResult.value || fileName;
+          } catch (docxError) {
+            console.error('DOCX parsing error:', docxError);
+            return fileName;
+          }
           
         case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-          const workbook = XLSX.read(buffer, { type: 'buffer' });
-          let xlsxText = '';
-          workbook.SheetNames.forEach(sheetName => {
-            const sheet = workbook.Sheets[sheetName];
-            xlsxText += XLSX.utils.sheet_to_txt(sheet) + '\n';
-          });
-          return xlsxText || fileName;
+          try {
+            const XLSX = await import('xlsx');
+            const workbook = XLSX.read(buffer, { type: 'buffer' });
+            let xlsxText = '';
+            workbook.SheetNames.forEach(sheetName => {
+              const sheet = workbook.Sheets[sheetName];
+              xlsxText += XLSX.utils.sheet_to_txt(sheet) + '\n';
+            });
+            return xlsxText || fileName;
+          } catch (xlsxError) {
+            console.error('XLSX parsing error:', xlsxError);
+            return fileName;
+          }
           
         case 'text/plain':
         case 'text/csv':
@@ -751,4 +767,43 @@ export class DataClassificationEngine {
   }
 }
 
-export const dataClassificationEngine = new DataClassificationEngine();
+// Lazy initialization to avoid module loading issues
+let _dataClassificationEngine: DataClassificationEngine | null = null;
+
+export const dataClassificationEngine = {
+  get instance(): DataClassificationEngine {
+    if (!_dataClassificationEngine) {
+      _dataClassificationEngine = new DataClassificationEngine();
+    }
+    return _dataClassificationEngine;
+  },
+  
+  // Direct access methods for convenience
+  async classifyContent(fileId: string, fileName: string, content: string, metadata: Record<string, any> = {}) {
+    return this.instance.classifyContent(fileId, fileName, content, metadata);
+  },
+  
+  async extractContentFromFile(buffer: Buffer, fileName: string, mimeType: string) {
+    return this.instance.extractContentFromFile(buffer, fileName, mimeType);
+  },
+  
+  getClassificationRules() {
+    return this.instance.getClassificationRules();
+  },
+  
+  getDataInventory() {
+    return this.instance.getDataInventory();
+  },
+  
+  async getInventoryByClassification(classification: string) {
+    return this.instance.getInventoryByClassification(classification);
+  },
+  
+  async getComplianceSummary() {
+    return this.instance.getComplianceSummary();
+  },
+  
+  getClassificationHistory(fileId: string) {
+    return this.instance.getClassificationHistory(fileId);
+  }
+};
