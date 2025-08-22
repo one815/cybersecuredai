@@ -56,6 +56,15 @@ export default function FileSharing() {
     queryKey: ["/api/users"],
   });
 
+  // Data classification integration
+  const { data: dataInventory = [] } = useQuery<any[]>({
+    queryKey: ["/api/data-classification/inventory"],
+  });
+
+  const { data: classificationSummary = {} } = useQuery<any>({
+    queryKey: ["/api/data-classification/summary"],
+  });
+
   const deleteFileMutation = useMutation({
     mutationFn: async (fileId: string) => {
       const response = await fetch(`/api/files/${fileId}`, {
@@ -80,46 +89,40 @@ export default function FileSharing() {
     },
   });
 
-  // Mock data matching the design
-  const mockSecureFiles = [
-    {
-      id: "file-1",
-      name: "Q2_Financial_Report.pdf",
-      size: "2.4 MB",
-      uploadedAt: "today",
-      securityStatus: "AES-256 Encrypted",
-      sharedWith: [
-        { id: "user-1", name: "Alex Morgan", avatar: "/api/placeholder/32/32", count: "+2" }
-      ],
-      expiration: "6 days left",
-      type: "pdf"
-    },
-    {
-      id: "file-2", 
-      name: "Product_Mockups_Final.png",
-      size: "8.7 MB",
-      uploadedAt: "yesterday",
-      securityStatus: "AES-256 Encrypted",
-      sharedWith: [
-        { id: "user-2", name: "Sarah Johnson", avatar: "/api/placeholder/32/32" }
-      ],
-      expiration: "13 days left",
-      type: "image"
-    },
-    {
-      id: "file-3",
-      name: "Security_Protocol_v2.docx", 
-      size: "1.2 MB",
-      uploadedAt: "3 days ago",
-      securityStatus: "Password Protected",
-      sharedWith: [
-        { id: "user-3", name: "Mark Williams", avatar: "/api/placeholder/32/32" },
-        { id: "user-4", name: "Emma Davis", avatar: "/api/placeholder/32/32" }
-      ],
-      expiration: "2 days left",
-      type: "document"
+  // Combine real files with classification data
+  const secureFiles = files.map(file => {
+    const classificationData = dataInventory.find(item => item.fileId === file.id) || {};
+    return {
+      ...file,
+      classification: classificationData.classification || "Unclassified",
+      sensitivityLevel: classificationData.sensitivityLevel || "Low",
+      complianceStatus: classificationData.complianceFlags || [],
+      riskLevel: classificationData.riskLevel || "Low",
+      lastClassified: classificationData.lastUpdated || file.uploadedAt,
+      sharedWith: [], // This would come from sharing data
+      expiration: "7 days left", // This would be calculated from access expiration
+      securityStatus: file.encryptionStatus === "encrypted" ? "AES-256 Encrypted" : "Not Encrypted"
+    };
+  });
+
+  const getClassificationColor = (classification: string) => {
+    switch (classification.toLowerCase()) {
+      case 'public': return 'bg-green-500/20 text-green-400 border-green-500/30';
+      case 'internal': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
+      case 'confidential': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
+      case 'restricted': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
-  ];
+  };
+
+  const getSensitivityIcon = (level: string) => {
+    switch (level.toLowerCase()) {
+      case 'high': return '🔴';
+      case 'medium': return '🟡';
+      case 'low': return '🟢';
+      default: return '⚪';
+    }
+  };
 
   const mockSharedWithMe = [
     {
@@ -308,18 +311,48 @@ export default function FileSharing() {
             </div>
           </div>
 
+          {/* Data Classification Summary */}
+          <Card className="bg-surface border border-purple-500/30 cyber-glow mb-6">
+            <CardHeader>
+              <CardTitle className="text-purple-400 flex items-center space-x-2">
+                <Shield className="w-5 h-5" />
+                <span>Data Classification Summary</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-400">{classificationSummary.classifications?.Public || 0}</div>
+                  <div className="text-sm text-gray-400">Public</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">{classificationSummary.classifications?.Internal || 0}</div>
+                  <div className="text-sm text-gray-400">Internal</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-400">{classificationSummary.classifications?.Confidential || 0}</div>
+                  <div className="text-sm text-gray-400">Confidential</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-400">{classificationSummary.classifications?.Restricted || 0}</div>
+                  <div className="text-sm text-gray-400">Restricted</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Recent Secure Files */}
           <Card className="bg-surface border-surface-light cyber-glow mb-6">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Recent Secure Files</CardTitle>
+                <CardTitle>Classified Secure Files</CardTitle>
                 <div className="flex items-center space-x-2">
                   <Button variant="outline" size="sm">
                     <Filter className="w-4 h-4 mr-2" />
-                    Filter
+                    Filter by Classification
                   </Button>
                   <Button variant="outline" size="sm">
-                    Sort
+                    Sort by Risk
                   </Button>
                 </div>
               </div>
@@ -329,14 +362,14 @@ export default function FileSharing() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>File Name</TableHead>
+                    <TableHead>Data Classification</TableHead>
                     <TableHead>Security Status</TableHead>
-                    <TableHead>Shared With</TableHead>
-                    <TableHead>Expiration</TableHead>
+                    <TableHead>Risk Level</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockSecureFiles.map((file) => (
+                  {secureFiles.slice(0, 10).map((file) => (
                     <TableRow 
                       key={file.id} 
                       className="cursor-pointer hover:bg-surface-light/50"
@@ -347,41 +380,54 @@ export default function FileSharing() {
                           {getFileIcon(file.type)}
                           <div>
                             <p className="font-medium text-white">{file.name}</p>
-                            <p className="text-sm text-gray-400">{file.size} • Uploaded {file.uploadedAt}</p>
+                            <p className="text-sm text-gray-400">
+                              {formatFileSize(file.size)} • {new Date(file.uploadedAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <Badge className={getClassificationColor(file.classification)}>
+                            {file.classification}
+                          </Badge>
+                          <div className="flex items-center space-x-1">
+                            <span className="text-xs">{getSensitivityIcon(file.sensitivityLevel)}</span>
+                            <span className="text-xs text-gray-400">{file.sensitivityLevel} Sensitivity</span>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>
                         <Badge className={file.securityStatus.includes('AES') ? 'bg-green-500/20 text-green-400' : 'bg-orange-500/20 text-orange-400'}>
-                          {file.securityStatus.includes('AES') ? 'AES-256 Encrypted' : 'Password Protected'}
+                          {file.securityStatus}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={
+                          file.riskLevel === 'High' ? 'destructive' :
+                          file.riskLevel === 'Medium' ? 'secondary' : 'outline'
+                        }>
+                          {file.riskLevel}
                         </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-1">
-                          {file.sharedWith.map((user, index) => (
-                            <Avatar key={index} className="w-6 h-6">
-                              <AvatarImage src={user.avatar} />
-                              <AvatarFallback className="text-xs">{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                            </Avatar>
-                          ))}
-                          {file.sharedWith[0]?.count && (
-                            <span className="text-sm text-gray-400">{file.sharedWith[0].count}</span>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm text-gray-400">{file.expiration}</span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center space-x-1">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" title="Share">
                             <Share className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" title="Reclassify">
                             <Edit3 className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm">
-                            <MoreHorizontal className="w-4 h-4" />
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            title="Delete"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteFileMutation.mutate(file.id);
+                            }}
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -389,6 +435,13 @@ export default function FileSharing() {
                   ))}
                 </TableBody>
               </Table>
+              {secureFiles.length === 0 && (
+                <div className="text-center py-8">
+                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-400">No classified files yet</p>
+                  <p className="text-sm text-gray-500">Upload files to see automatic classification</p>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -449,24 +502,44 @@ export default function FileSharing() {
             </CardContent>
           </Card>
 
-          {/* Security Status */}
+          {/* Security & Classification Status */}
           <Card className="bg-background/50 border-surface-light mb-6">
             <CardHeader>
-              <CardTitle className="text-sm">Security Status</CardTitle>
+              <CardTitle className="text-sm">Security & Classification Status</CardTitle>
             </CardHeader>
             <CardContent className="p-4 pt-0">
               <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-400">Data Classification</span>
+                  <Badge className={getClassificationColor(selectedFileData.classification || 'Unclassified')}>
+                    {selectedFileData.classification || 'Unclassified'}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-400">Sensitivity Level</span>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-sm">{getSensitivityIcon(selectedFileData.sensitivityLevel || 'Low')}</span>
+                    <Badge variant="outline">{selectedFileData.sensitivityLevel || 'Low'}</Badge>
+                  </div>
+                </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-400">Encryption</span>
                   <Badge className="bg-green-500/20 text-green-400">AES-256</Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">Access Control</span>
-                  <Badge className="bg-blue-500/20 text-blue-400">Enabled</Badge>
+                  <span className="text-sm text-gray-400">Risk Level</span>
+                  <Badge variant={
+                    selectedFileData.riskLevel === 'High' ? 'destructive' :
+                    selectedFileData.riskLevel === 'Medium' ? 'secondary' : 'outline'
+                  }>
+                    {selectedFileData.riskLevel || 'Low'}
+                  </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">Password Protection</span>
-                  <Badge className="bg-gray-500/20 text-gray-400">Disabled</Badge>
+                  <span className="text-sm text-gray-400">Compliance Status</span>
+                  <Badge className="bg-blue-500/20 text-blue-400">
+                    {selectedFileData.complianceStatus?.length > 0 ? 'Flagged' : 'Compliant'}
+                  </Badge>
                 </div>
               </div>
             </CardContent>
