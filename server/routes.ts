@@ -153,7 +153,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // File upload endpoint with multipart support
+  // File upload endpoint with multipart support and enhanced content analysis
   app.post("/api/files/upload", upload.single('file'), async (req, res) => {
     try {
       if (!req.file) {
@@ -176,6 +176,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const savedFile = await storage.createFile(fileData);
+      
+      // Extract actual file content for classification
+      try {
+        const { dataClassificationEngine } = await import("./engines/data-classification");
+        const extractedContent = await dataClassificationEngine.extractContentFromFile(file.buffer, file.originalname, file.mimetype);
+        
+        // Automatically classify the extracted content
+        console.log(`Classifying content for file: ${file.originalname}`);
+        await dataClassificationEngine.classifyContent(savedFile.id, file.originalname, extractedContent, {
+          fileSize: file.size,
+          mimeType: file.mimetype,
+          uploadedBy: 'admin-1'
+        });
+      } catch (classificationError) {
+        console.error("Error during file content classification:", classificationError);
+        // Continue even if classification fails
+      }
       
       // Return the file record
       res.status(201).json(savedFile);
