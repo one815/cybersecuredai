@@ -177,6 +177,11 @@ function Router() {
           <FileSharing />
         </Layout>
       </Route>
+      <Route path="/file-sharing">
+        <Layout>
+          <FileSharing />
+        </Layout>
+      </Route>
       <Route path="/compliance">
         <Layout>
           <Compliance />
