@@ -172,15 +172,19 @@ export default function FileSharing() {
     
     // Map sensitivity to risk level more intelligently
     const getRiskLevel = (sensitivity: string, classification: string, fileName: string = "", dataTypes: string[] = []) => {
+      console.log(`Risk calculation for ${fileName}:`, { sensitivity, classification, dataTypes });
+      
       // High risk for restricted classification or sensitive data types
-      if (classification === "restricted" || dataTypes.some(type => 
-        ["ssn", "credit_card", "api_key", "aws_key", "private_key"].includes(type.toLowerCase())
+      if (classification === "restricted" || sensitivity === "restricted" || 
+          dataTypes.some(type => 
+        ["ssn", "credit_card", "api_key", "aws_key", "private_key", "pii", "sensitive"].includes(type.toLowerCase())
       )) {
         return "High";
       }
       
       // Medium risk for confidential or files with moderate sensitivity
-      if (classification === "confidential" || dataTypes.some(type => 
+      if (classification === "confidential" || sensitivity === "confidential" ||
+          dataTypes.some(type => 
         ["email", "phone", "financial", "legal"].includes(type.toLowerCase())
       )) {
         return "Medium";
