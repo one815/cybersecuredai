@@ -505,7 +505,13 @@ export default function FileSharing() {
                 {getFileIcon('pdf')}
                 <div>
                   <p className="font-medium text-white">{selectedFileData.name}</p>
-                  <p className="text-sm text-gray-400">{selectedFileData.size} • Uploaded {selectedFileData.uploadedAt}</p>
+                  <p className="text-sm text-gray-400">
+                    {formatFileSize(selectedFileData.size)} • Uploaded {
+                      selectedFileData.uploadedAt ? 
+                      new Date(selectedFileData.uploadedAt).toLocaleDateString() : 
+                      'Unknown'
+                    }
+                  </p>
                 </div>
               </div>
             </CardContent>
