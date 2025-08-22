@@ -201,6 +201,8 @@ export class DataClassificationEngine {
       ["iban", /\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b/g],
       ["swift_code", /\b[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?\b/g],
       ["bitcoin_address", /\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b/g],
+      ["banking_keywords", /\b(?:savings account|checking account|prepaid account|account balance|account credit|transfer|deposit|withdrawal|netspend|chase|bank of america|wells fargo|citibank|banking|financial|account number)\b/gi],
+      ["financial_amount", /\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g],
       
       // Enhanced Academic Patterns
       ["student_id", /\b(student|id)[:\s-]*\d{6,10}\b/gi],
@@ -440,11 +442,11 @@ export class DataClassificationEngine {
     // Enhance classification based on detected patterns
     if (detectedPatterns.length > 0) {
       const highRiskPatterns = detectedPatterns.filter(p => 
-        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'api_key', 'aws_access_key', 'aws_secret_key', 'private_key', 'confidential_marking', 'security_clearance', 'export_control', 'sanctions'].includes(p.pattern)
+        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'api_key', 'aws_access_key', 'aws_secret_key', 'private_key', 'confidential_marking', 'security_clearance', 'export_control', 'sanctions', 'bank_account', 'routing_number'].includes(p.pattern)
       );
       
       const mediumRiskPatterns = detectedPatterns.filter(p => 
-        ['email', 'phone', 'phone_international', 'student_id', 'financial_results', 'merger_acquisition', 'hr_sensitive', 'legal_case', 'court_document'].includes(p.pattern)
+        ['email', 'phone', 'phone_international', 'student_id', 'financial_results', 'merger_acquisition', 'hr_sensitive', 'legal_case', 'court_document', 'banking_keywords', 'financial_amount'].includes(p.pattern)
       );
       
       if (highRiskPatterns.length > 0) {
