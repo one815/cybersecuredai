@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,6 +47,9 @@ export default function FileSharing() {
   const [linkAccess, setLinkAccess] = useState(false);
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPermission, setNewUserPermission] = useState("Can view");
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { data: files = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/files"],
@@ -65,6 +68,78 @@ export default function FileSharing() {
     queryKey: ["/api/data-classification/summary"],
   });
 
+  const uploadFileMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('encryptionStatus', encryptionLevel.includes('AES') ? 'encrypted' : 'unencrypted');
+      formData.append('accessLevel', 'private');
+      
+      const response = await fetch('/api/files/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) throw new Error('Failed to upload file');
+      return response.json();
+    },
+    onSuccess: (data, file) => {
+      setUploadProgress(prev => ({ ...prev, [file.name]: 100 }));
+      queryClient.invalidateQueries({ queryKey: ["/api/files"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/summary"] });
+      
+      // Classify the uploaded file
+      classifyFileMutation.mutate({
+        fileId: data.id,
+        fileName: file.name,
+        content: file.name // In a real app, this would be file content
+      });
+      
+      toast({
+        title: "File uploaded successfully",
+        description: `${file.name} has been encrypted and secured.`,
+      });
+      
+      // Clear progress after a delay
+      setTimeout(() => {
+        setUploadProgress(prev => {
+          const newProgress = { ...prev };
+          delete newProgress[file.name];
+          return newProgress;
+        });
+      }, 2000);
+    },
+    onError: (error, file) => {
+      setUploadProgress(prev => {
+        const newProgress = { ...prev };
+        delete newProgress[file.name];
+        return newProgress;
+      });
+      toast({
+        title: "Upload failed",
+        description: `Failed to upload ${file.name}. Please try again.`,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const classifyFileMutation = useMutation({
+    mutationFn: async ({ fileId, fileName, content }: { fileId: string, fileName: string, content: string }) => {
+      const response = await fetch('/api/data-classification/classify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileId, fileName, content })
+      });
+      if (!response.ok) throw new Error('Failed to classify file');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/summary"] });
+    }
+  });
+
   const deleteFileMutation = useMutation({
     mutationFn: async (fileId: string) => {
       const response = await fetch(`/api/files/${fileId}`, {
@@ -75,6 +150,8 @@ export default function FileSharing() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/files"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/summary"] });
       toast({
         title: "File deleted",
         description: "File has been securely deleted from the system.",
@@ -187,6 +264,66 @@ export default function FileSharing() {
     }
   };
 
+  const handleFileSelect = useCallback((files: FileList) => {
+    Array.from(files).forEach(file => {
+      // Validate file size (100MB limit)
+      if (file.size > 100 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: `${file.name} exceeds the 100MB limit.`,
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      // Validate file type
+      const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'image/jpeg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        toast({
+          title: "Invalid file type",
+          description: `${file.name} is not a supported file type.`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Start upload
+      setUploadProgress(prev => ({ ...prev, [file.name]: 0 }));
+      uploadFileMutation.mutate(file);
+    });
+  }, [uploadFileMutation, toast]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFileSelect(files);
+    }
+  }, [handleFileSelect]);
+
+  const handleClick = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      handleFileSelect(files);
+    }
+  }, [handleFileSelect]);
+
   if (isLoading) {
     return (
       <div className="p-6">
@@ -248,13 +385,53 @@ export default function FileSharing() {
                   <p className="text-sm text-gray-400">Drag and drop files or click to browse. All files are automatically encrypted.</p>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-background/50 rounded-lg p-8 border-2 border-dashed border-cyan-500/50 hover:border-cyan-400 transition-colors cursor-pointer">
+                  <div 
+                    className={`bg-background/50 rounded-lg p-8 border-2 border-dashed transition-colors cursor-pointer ${
+                      isDragOver 
+                        ? 'border-cyan-400 bg-cyan-500/10' 
+                        : 'border-cyan-500/50 hover:border-cyan-400'
+                    }`}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={handleClick}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      multiple
+                      accept=".pdf,.docx,.xlsx,.jpg,.png"
+                      onChange={handleFileInputChange}
+                      className="hidden"
+                    />
                     <div className="text-center">
                       <div className="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Upload className="w-8 h-8 text-cyan-400" />
+                        <Upload className={`w-8 h-8 text-cyan-400 ${uploadFileMutation.isPending ? 'animate-pulse' : ''}`} />
                       </div>
-                      <h4 className="font-medium mb-2 text-white">Drag files here or browse</h4>
+                      <h4 className="font-medium mb-2 text-white">
+                        {isDragOver ? 'Drop files here' : 'Drag files here or click to browse'}
+                      </h4>
                       <p className="text-gray-400 text-sm mb-4">Supported formats: PDF, DOCX, XLSX, JPG, PNG (Max 100MB)</p>
+                      
+                      {/* Upload Progress */}
+                      {Object.keys(uploadProgress).length > 0 && (
+                        <div className="mt-4 space-y-2">
+                          {Object.entries(uploadProgress).map(([fileName, progress]) => (
+                            <div key={fileName} className="text-left">
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-white truncate">{fileName}</span>
+                                <span className="text-cyan-400">{progress}%</span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
+                                <div 
+                                  className="bg-cyan-400 h-2 rounded-full transition-all duration-300"
+                                  style={{ width: `${progress}%` }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </CardContent>
