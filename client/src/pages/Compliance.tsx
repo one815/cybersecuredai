@@ -99,6 +99,73 @@ const controlSchema = z.object({
   assessmentCriteria: z.string().optional(),
 });
 
+// Framework Controls Component
+function FrameworkControls({ framework }: { framework: CustomComplianceFramework }) {
+  const { data: controls = [] } = useQuery({
+    queryKey: ['/api/compliance/custom/controls', framework.frameworkId],
+    queryFn: async () => {
+      const response = await apiRequest('GET', `/api/compliance/custom/controls/${framework.frameworkId}`);
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    },
+  });
+
+  return (
+    <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle className="text-cyan-300">Controls</CardTitle>
+            <div className="text-sm text-gray-400">
+              {controls.length} control{controls.length !== 1 ? 's' : ''} defined
+            </div>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {controls.length === 0 ? (
+          <div className="text-center py-8">
+            <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-400">No controls defined</p>
+            <p className="text-sm text-gray-500">Controls are managed by CyberSecure administrators</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {controls.map((control: CustomComplianceControl) => (
+              <Card key={control.id} className="bg-surface-light/50" data-testid={`card-control-${control.controlId}`}>
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-mono text-sm bg-gray-700 text-cyan-300 px-2 py-1 rounded">{control.controlId}</span>
+                        <Badge variant={
+                          control.priority === 'critical' ? 'destructive' :
+                          control.priority === 'high' ? 'default' :
+                          control.priority === 'medium' ? 'secondary' : 'outline'
+                        }>
+                          {control.priority}
+                        </Badge>
+                      </div>
+                      <h4 className="font-semibold text-white">{control.title}</h4>
+                      <p className="text-sm text-gray-400 mt-1">{control.description}</p>
+                      {control.complianceStatement && (
+                        <div className="mt-3 p-3 bg-gray-700/50 rounded text-sm">
+                          <span className="font-medium text-gray-300">Compliance Statement: </span>
+                          <span className="text-gray-400">{control.complianceStatement}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function Compliance() {
   const [selectedFramework, setSelectedFramework] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -1105,7 +1172,7 @@ export default function Compliance() {
                     <CardHeader>
                       <div className="flex justify-between items-center">
                         <div>
-                          <CardTitle className="text-cyan-300">CyberSecure™ Frameworks</CardTitle>
+                          <CardTitle className="text-cyan-300">CyberSecure™</CardTitle>
                           <div className="text-sm text-gray-400">
                             {customFrameworks.length} framework{customFrameworks.length !== 1 ? 's' : ''}
                           </div>
@@ -1224,10 +1291,7 @@ export default function Compliance() {
                           {customFrameworks.map((framework: CustomComplianceFramework) => (
                             <Card 
                               key={framework.frameworkId}
-                              className={`cursor-pointer transition-colors border-surface-light hover:border-cyan-500/50 ${
-                                selectedCustomFramework?.frameworkId === framework.frameworkId ? 'ring-2 ring-cyan-500 border-cyan-500' : ''
-                              }`}
-                              onClick={() => setSelectedCustomFramework(framework)}
+                              className="border-surface-light"
                               data-testid={`card-framework-${framework.frameworkId}`}
                             >
                               <CardContent className="p-4">
@@ -1264,230 +1328,61 @@ export default function Compliance() {
 
                 {/* Framework Details */}
                 <div className="lg:col-span-2">
-                  {selectedCustomFramework ? (
+                  {customFrameworks.length > 0 && (
                     <div className="space-y-6">
-                      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-                        <CardHeader>
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <CardTitle className="text-cyan-300">{selectedCustomFramework.name}</CardTitle>
-                              <div className="text-gray-400">{selectedCustomFramework.fullName}</div>
-                            </div>
-                            <Badge variant={selectedCustomFramework.isActive ? "default" : "secondary"}>
-                              {selectedCustomFramework.isActive ? "Active" : "Inactive"}
-                            </Badge>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          {selectedCustomFramework.description && (
-                            <p className="text-gray-300 mb-4">{selectedCustomFramework.description}</p>
-                          )}
-                          <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                              <span className="font-medium text-gray-300">Framework ID:</span>
-                              <span className="ml-2 font-mono text-cyan-300">{selectedCustomFramework.frameworkId}</span>
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-300">Version:</span>
-                              <span className="ml-2 text-gray-300">{selectedCustomFramework.version}</span>
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-300">Sector:</span>
-                              <span className="ml-2 capitalize text-gray-300">{selectedCustomFramework.sector}</span>
-                            </div>
-                            <div>
-                              <span className="font-medium text-gray-300">Created:</span>
-                              <span className="ml-2 text-gray-300">{new Date(selectedCustomFramework.createdAt).toLocaleDateString()}</span>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-
-                      <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-                        <CardHeader>
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <CardTitle className="text-cyan-300">Controls</CardTitle>
-                              <div className="text-sm text-gray-400">
-                                {customControls.length} control{customControls.length !== 1 ? 's' : ''} defined
+                      {customFrameworks.map((framework: CustomComplianceFramework) => (
+                        <div key={framework.frameworkId}>
+                          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
+                            <CardHeader>
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <CardTitle className="text-cyan-300">{framework.name}</CardTitle>
+                                  <div className="text-gray-400">{framework.fullName}</div>
+                                </div>
+                                <Badge variant={framework.isActive ? "default" : "secondary"}>
+                                  {framework.isActive ? "Active" : "Inactive"}
+                                </Badge>
                               </div>
-                            </div>
-                            {isCyberSecureAdmin && (
-                              <Dialog open={showControlDialog} onOpenChange={setShowControlDialog}>
-                                <DialogTrigger asChild>
-                                  <Button variant="outline" size="sm" className="border-cyan-500 text-cyan-400" data-testid="button-add-control">
-                                    <Plus className="h-4 w-4 mr-2" />
-                                    Add Control
-                                  </Button>
-                                </DialogTrigger>
-                              <DialogContent className="sm:max-w-[700px]">
-                                <DialogHeader>
-                                  <DialogTitle>Add Control to {selectedCustomFramework.name}</DialogTitle>
-                                  <DialogDescription>
-                                    Define a new compliance control for this framework
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <Form {...controlForm}>
-                                  <form onSubmit={controlForm.handleSubmit((data) => createControlMutation.mutate(data))} className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                      <FormField
-                                        control={controlForm.control}
-                                        name="controlId"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel>Control ID</FormLabel>
-                                            <FormControl>
-                                              <Input placeholder="e.g., ACME-AC-001" {...field} data-testid="input-control-id" />
-                                            </FormControl>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                      <FormField
-                                        control={controlForm.control}
-                                        name="priority"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel>Priority</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                              <FormControl>
-                                                <SelectTrigger data-testid="select-control-priority">
-                                                  <SelectValue placeholder="Select priority" />
-                                                </SelectTrigger>
-                                              </FormControl>
-                                              <SelectContent>
-                                                <SelectItem value="critical">Critical</SelectItem>
-                                                <SelectItem value="high">High</SelectItem>
-                                                <SelectItem value="medium">Medium</SelectItem>
-                                                <SelectItem value="low">Low</SelectItem>
-                                              </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                          </FormItem>
-                                        )}
-                                      />
-                                    </div>
-                                    <FormField
-                                      control={controlForm.control}
-                                      name="title"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel>Title</FormLabel>
-                                          <FormControl>
-                                            <Input placeholder="e.g., Access Control Management" {...field} data-testid="input-control-title" />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <FormField
-                                      control={controlForm.control}
-                                      name="description"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel>Description</FormLabel>
-                                          <FormControl>
-                                            <Textarea 
-                                              placeholder="Describe what this control requires..."
-                                              {...field} 
-                                              data-testid="input-control-description"
-                                            />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <FormField
-                                      control={controlForm.control}
-                                      name="complianceStatement"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel>Compliance Statement (Optional)</FormLabel>
-                                          <FormControl>
-                                            <Textarea 
-                                              placeholder="What needs to be achieved for compliance..."
-                                              {...field}
-                                              data-testid="input-control-statement"
-                                            />
-                                          </FormControl>
-                                          <FormMessage />
-                                        </FormItem>
-                                      )}
-                                    />
-                                    <div className="flex justify-end space-x-2 pt-4">
-                                      <Button type="button" variant="outline" onClick={() => setShowControlDialog(false)}>
-                                        Cancel
-                                      </Button>
-                                      <Button type="submit" disabled={createControlMutation.isPending} data-testid="button-submit-control">
-                                        {createControlMutation.isPending ? "Creating..." : "Add Control"}
-                                      </Button>
-                                    </div>
-                                  </form>
-                                </Form>
-                              </DialogContent>
-                            </Dialog>
-                            )}
-                            {!isCyberSecureAdmin && (
-                              <div className="text-xs text-gray-500 bg-gray-700/30 px-3 py-1 rounded">
-                                Admin Only
-                              </div>
-                            )}
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          {customControls.length === 0 ? (
-                            <div className="text-center py-8">
-                              <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                              <p className="text-gray-400">No controls defined</p>
-                              {isCyberSecureAdmin ? (
-                                <p className="text-sm text-gray-500">Add your first control to this framework</p>
-                              ) : (
-                                <p className="text-sm text-gray-500">Controls are managed by CyberSecure administrators</p>
+                            </CardHeader>
+                            <CardContent>
+                              {framework.description && (
+                                <p className="text-gray-300 mb-4">{framework.description}</p>
                               )}
-                            </div>
-                          ) : (
-                            <div className="space-y-4">
-                              {customControls.map((control: CustomComplianceControl) => (
-                                <Card key={control.id} className="bg-surface-light/50" data-testid={`card-control-${control.controlId}`}>
-                                  <CardContent className="p-4">
-                                    <div className="flex justify-between items-start">
-                                      <div className="flex-1">
-                                        <div className="flex items-center gap-2 mb-2">
-                                          <span className="font-mono text-sm bg-gray-700 text-cyan-300 px-2 py-1 rounded">{control.controlId}</span>
-                                          <Badge variant={
-                                            control.priority === 'critical' ? 'destructive' :
-                                            control.priority === 'high' ? 'default' :
-                                            control.priority === 'medium' ? 'secondary' : 'outline'
-                                          }>
-                                            {control.priority}
-                                          </Badge>
-                                        </div>
-                                        <h4 className="font-semibold text-white">{control.title}</h4>
-                                        <p className="text-sm text-gray-400 mt-1">{control.description}</p>
-                                        {control.complianceStatement && (
-                                          <div className="mt-3 p-3 bg-gray-700/50 rounded text-sm">
-                                            <span className="font-medium text-gray-300">Compliance Statement: </span>
-                                            <span className="text-gray-400">{control.complianceStatement}</span>
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              ))}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
+                              <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                  <span className="font-medium text-gray-300">Framework ID:</span>
+                                  <span className="ml-2 font-mono text-cyan-300">{framework.frameworkId}</span>
+                                </div>
+                                <div>
+                                  <span className="font-medium text-gray-300">Version:</span>
+                                  <span className="ml-2 text-gray-300">{framework.version}</span>
+                                </div>
+                                <div>
+                                  <span className="font-medium text-gray-300">Sector:</span>
+                                  <span className="ml-2 capitalize text-gray-300">{framework.sector}</span>
+                                </div>
+                                <div>
+                                  <span className="font-medium text-gray-300">Created:</span>
+                                  <span className="ml-2 text-gray-300">{new Date(framework.createdAt).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+
+                          <FrameworkControls framework={framework} />
+                        </div>
+                      ))}
                     </div>
-                  ) : (
+                  )}
+                  
+                  {customFrameworks.length === 0 && (
                     <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                       <CardContent className="pt-6">
                         <div className="text-center py-12">
                           <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                          <h3 className="text-lg font-semibold mb-2 text-gray-300">Select a Framework</h3>
+                          <h3 className="text-lg font-semibold mb-2 text-gray-300">CyberSecure™ Frameworks</h3>
                           <p className="text-gray-400">
-                            Choose a CyberSecure™ compliance framework from the list to view its details and controls
+                            Professional cybersecurity frameworks will appear here
                           </p>
                         </div>
                       </CardContent>
