@@ -516,7 +516,7 @@ export default function FileSharing() {
                     <Label className="text-sm text-gray-400">Password protection</Label>
                     <Checkbox 
                       checked={passwordProtection} 
-                      onCheckedChange={setPasswordProtection}
+                      onCheckedChange={(checked) => setPasswordProtection(checked === true)}
                     />
                   </div>
 
@@ -524,7 +524,7 @@ export default function FileSharing() {
                     <Label className="text-sm text-gray-400">Prevent downloads</Label>
                     <Checkbox 
                       checked={preventDownloads} 
-                      onCheckedChange={setPreventDownloads}
+                      onCheckedChange={(checked) => setPreventDownloads(checked === true)}
                     />
                   </div>
                 </CardContent>
