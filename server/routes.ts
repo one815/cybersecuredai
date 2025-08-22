@@ -768,10 +768,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Mock authentication endpoint for demo
+  // Authentication endpoints
+  app.post("/api/auth/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      
+      // Find user by email
+      const users = await storage.getUsers();
+      const user = users.find(u => u.email === email);
+      
+      if (!user || !user.isActive) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+      
+      // In a real app, you'd verify the password hash here
+      // For now, we'll accept any password for demo purposes
+      console.log(`User ${email} logged in successfully`);
+      
+      // Update last login
+      await storage.updateUser(user.id, { lastLogin: new Date() });
+      
+      // Return user info (excluding password)
+      res.json({ user, token: "demo-token-" + user.id });
+    } catch (error) {
+      console.error("Login error:", error);
+      res.status(500).json({ message: "Login failed" });
+    }
+  });
+
   app.get("/api/auth/user", async (req, res) => {
     try {
-      // Return the admin user for demo purposes
+      // Check for user email in localStorage (sent via header)
+      const userEmail = req.headers['x-user-email'] as string;
+      
+      if (userEmail) {
+        const users = await storage.getUsers();
+        const user = users.find(u => u.email === userEmail);
+        if (user) {
+          return res.json(user);
+        }
+      }
+      
+      // Fallback to admin user for demo
       const user = await storage.getUser("admin-1");
       res.json(user);
     } catch (error) {

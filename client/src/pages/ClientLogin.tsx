@@ -34,14 +34,33 @@ export function ClientLogin() {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
-      // Here you would typically make an API call to authenticate
       console.log("Login attempt:", data);
-      // For demo purposes, redirect to dashboard after a delay
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 1000);
+      
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.message || "Login failed");
+        return;
+      }
+      
+      const { user, token } = await response.json();
+      
+      // Store user info for the session
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userEmail", user.email);
+      
+      // Redirect to dashboard
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Login error:", error);
+      alert("Network error - please try again");
     } finally {
       setIsLoading(false);
     }
