@@ -1,10 +1,34 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import multer from "multer";
 import { storage } from "./storage";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
 import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
 import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
 import { complianceAutomationEngine } from "./engines/compliance-automation";
+
+// Configure multer for file uploads
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 100 * 1024 * 1024, // 100MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = [
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'image/jpeg',
+      'image/png'
+    ];
+    
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+    }
+  }
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // User routes
@@ -126,6 +150,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating file:", error);
       res.status(400).json({ message: "Invalid file data" });
+    }
+  });
+
+  // File upload endpoint with multipart support
+  app.post("/api/files/upload", upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      const file = req.file;
+      const { encryptionStatus = 'encrypted', accessLevel = 'private' } = req.body;
+
+      // Create file record in database
+      const fileData = insertFileSchema.parse({
+        name: file.originalname,
+        size: file.size,
+        type: file.mimetype,
+        uploadedBy: 'admin-1', // In a real app, this would come from authentication
+        encryptionStatus,
+        accessLevel,
+        path: `/uploads/${file.originalname}`, // In a real app, this would be a unique path
+        checksum: Buffer.from(file.buffer).toString('base64').slice(0, 32), // Simple checksum
+      });
+
+      const savedFile = await storage.createFile(fileData);
+      
+      // Return the file record
+      res.status(201).json(savedFile);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      if (error instanceof multer.MulterError) {
+        if (error.code === 'LIMIT_FILE_SIZE') {
+          return res.status(400).json({ message: "File too large (max 100MB)" });
+        }
+        return res.status(400).json({ message: `Upload error: ${error.message}` });
+      }
+      res.status(500).json({ message: "Failed to upload file" });
     }
   });
 
