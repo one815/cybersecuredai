@@ -265,7 +265,8 @@ export class DataClassificationEngine {
               
               This document contains confidential security protocols and system access credentials.
               
-              API Key: AKIA1234567890ABCDEF (aws_access_key pattern)
+              API Key: AKIA1234567890ABCDEF
+              AWS Secret: wJalrXUtnFEMI/K7MDENG/bPxRfiCYzEXAMPLEKEY
               Database Connection: postgresql://user:password123@db.company.com:5432/prod_db
               
               Employee Information:
@@ -282,6 +283,17 @@ export class DataClassificationEngine {
               
               Legal Case Reference: Case No: 2024-CV-12345
               Merger and Acquisition data for Q4 2024
+              `;
+            } else if (fileName.toLowerCase().includes('pdf')) {
+              // Add some medium-risk content for other PDFs
+              simulatedContent += `
+              Business Document
+              
+              Contact Information:
+              Email: contact@company.com
+              Phone: (555) 123-4567
+              
+              This document may contain sensitive business information.
               `;
             }
             

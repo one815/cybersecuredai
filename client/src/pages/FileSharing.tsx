@@ -168,14 +168,23 @@ export default function FileSharing() {
 
   // Combine real files with classification data
   const secureFiles = files.map(file => {
-    const classificationData = dataInventory.find(item => item.fileId === file.id) || {};
+    const classificationData = dataInventory.find(item => item.id === file.id) || {};
+    
+    // Map sensitivity to risk level
+    const getRiskLevel = (sensitivity: string, classification: string) => {
+      if (classification === "restricted") return "High";
+      if (classification === "confidential") return "Medium";
+      if (classification === "internal") return "Medium";
+      return "Low";
+    };
+    
     return {
       ...file,
       classification: classificationData.classification || "Unclassified",
-      sensitivityLevel: classificationData.sensitivityLevel || "Low",
-      complianceStatus: classificationData.complianceFlags || [],
-      riskLevel: classificationData.riskLevel || "Low",
-      lastClassified: classificationData.lastUpdated || file.uploadedAt,
+      sensitivityLevel: classificationData.sensitivity || "Low",
+      complianceStatus: classificationData.complianceRequirements || [],
+      riskLevel: getRiskLevel(classificationData.sensitivity, classificationData.classification),
+      lastClassified: classificationData.lastClassified || file.uploadedAt,
       sharedWith: [], // This would come from sharing data
       expiration: "7 days left", // This would be calculated from access expiration
       securityStatus: file.encryptionStatus === "encrypted" ? "AES-256 Encrypted" : "Not Encrypted"
