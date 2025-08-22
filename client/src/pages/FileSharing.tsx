@@ -151,7 +151,16 @@ export default function FileSharing() {
     }
   ];
 
-  const selectedFileData = selectedFile || mockSecureFiles[0];
+  const selectedFileData = selectedFile || secureFiles[0] || {
+    name: "No files available",
+    size: 0,
+    classification: "Unclassified",
+    sensitivityLevel: "Low",
+    riskLevel: "Low",
+    complianceStatus: [],
+    uploadedAt: new Date(),
+    securityStatus: "Not Encrypted"
+  };
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes";
