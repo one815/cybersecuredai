@@ -243,7 +243,11 @@ export class DataClassificationEngine {
       // International Compliance Patterns
       ["gdpr_personal_data", /\b(personal\s+data|data\s+subject|lawful\s+basis|consent)\b/gi],
       ["export_control", /\b(itar|ear|export\s+control|dual\s+use|technology\s+transfer)\b/gi],
-      ["sanctions", /\b(ofac|sanctions|embarg|blocked\s+person)\b/gi]
+      ["sanctions", /\b(ofac|sanctions|embarg|blocked\s+person)\b/gi],
+      
+      // Enhanced SSN and Identity Document Detection
+      ["ssn_document_filename", /\b(social\s*security|ssn|identity|drivers?\s*license|passport|id\s*card)\b/gi],
+      ["government_id", /\b(government\s*id|federal\s*id|state\s*id|identification\s*card)\b/gi]
     ]);
 
     patterns.forEach((regex, key) => {
@@ -415,6 +419,33 @@ export class DataClassificationEngine {
       }
     }
 
+    // Special filename analysis for high-risk documents
+    const filenameAnalysis = fileName.toLowerCase();
+    if (filenameAnalysis.includes('social security') || 
+        filenameAnalysis.includes('ssn') || 
+        filenameAnalysis.includes('social_security')) {
+      detectedPatterns.push({
+        pattern: 'ssn_document_filename',
+        patternType: 'pii',
+        location: fileName,
+        confidence: 95,
+        sample: 'Social Security document detected by filename'
+      });
+    }
+    
+    if (filenameAnalysis.includes('driver') && filenameAnalysis.includes('license') ||
+        filenameAnalysis.includes('passport') ||
+        filenameAnalysis.includes('id card') ||
+        filenameAnalysis.includes('government id')) {
+      detectedPatterns.push({
+        pattern: 'government_id',
+        patternType: 'pii',
+        location: fileName,
+        confidence: 90,
+        sample: 'Government ID document detected by filename'
+      });
+    }
+
     // Rule evaluation phase
     const sortedRules = Array.from(this.classificationRules.values())
       .sort((a, b) => b.priority - a.priority);
@@ -442,7 +473,7 @@ export class DataClassificationEngine {
     // Enhance classification based on detected patterns
     if (detectedPatterns.length > 0) {
       const highRiskPatterns = detectedPatterns.filter(p => 
-        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'api_key', 'aws_access_key', 'aws_secret_key', 'private_key', 'confidential_marking', 'security_clearance', 'export_control', 'sanctions', 'bank_account', 'routing_number'].includes(p.pattern)
+        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'api_key', 'aws_access_key', 'aws_secret_key', 'private_key', 'confidential_marking', 'security_clearance', 'export_control', 'sanctions', 'bank_account', 'routing_number', 'ssn_document_filename', 'government_id'].includes(p.pattern)
       );
       
       const mediumRiskPatterns = detectedPatterns.filter(p => 
