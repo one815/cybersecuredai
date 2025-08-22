@@ -112,6 +112,7 @@ export default function Compliance() {
   const [showControlDialog, setShowControlDialog] = useState(false);
 
   const organizationId = "admin-1"; // In real app, get from auth context
+  const isCyberSecureAdmin = user?.email?.includes('cybersecure.ai') && user?.id === 'admin-1';
   const { data: complianceFrameworks = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/compliance/frameworks"],
   });
@@ -753,7 +754,7 @@ export default function Compliance() {
             {user?.planType?.includes('enterprise') && (
               <TabsTrigger value="custom" className="data-[state=active]:bg-cyan-600">
                 <FileText className="w-4 h-4 mr-2" />
-                Custom Frameworks
+                CyberSecure™
                 <Badge variant="outline" className="ml-2 text-xs bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
                   Enterprise
                 </Badge>
@@ -1104,18 +1105,19 @@ export default function Compliance() {
                     <CardHeader>
                       <div className="flex justify-between items-center">
                         <div>
-                          <CardTitle className="text-cyan-300">Custom Frameworks</CardTitle>
+                          <CardTitle className="text-cyan-300">CyberSecure™ Frameworks</CardTitle>
                           <div className="text-sm text-gray-400">
                             {customFrameworks.length} framework{customFrameworks.length !== 1 ? 's' : ''}
                           </div>
                         </div>
-                        <Dialog open={showFrameworkDialog} onOpenChange={setShowFrameworkDialog}>
-                          <DialogTrigger asChild>
-                            <Button className="bg-cyan-600 hover:bg-cyan-700" size="sm" data-testid="button-create-framework">
-                              <Plus className="h-4 w-4 mr-2" />
-                              Create
-                            </Button>
-                          </DialogTrigger>
+                        {isCyberSecureAdmin && (
+                          <Dialog open={showFrameworkDialog} onOpenChange={setShowFrameworkDialog}>
+                            <DialogTrigger asChild>
+                              <Button className="bg-cyan-600 hover:bg-cyan-700" size="sm" data-testid="button-create-framework">
+                                <Plus className="h-4 w-4 mr-2" />
+                                Create
+                              </Button>
+                            </DialogTrigger>
                           <DialogContent className="sm:max-w-[600px]">
                             <DialogHeader>
                               <DialogTitle>Create Custom Compliance Framework</DialogTitle>
@@ -1196,6 +1198,12 @@ export default function Compliance() {
                             </Form>
                           </DialogContent>
                         </Dialog>
+                        )}
+                        {!isCyberSecureAdmin && (
+                          <div className="text-xs text-gray-500 bg-gray-700/30 px-3 py-1 rounded">
+                            Admin Only
+                          </div>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -1204,8 +1212,12 @@ export default function Compliance() {
                       ) : customFrameworks.length === 0 ? (
                         <div className="text-center py-8">
                           <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                          <p className="text-gray-400">No custom frameworks yet</p>
-                          <p className="text-sm text-gray-500">Create your first framework to get started</p>
+                          <p className="text-gray-400">No CyberSecure™ frameworks yet</p>
+                          {isCyberSecureAdmin ? (
+                            <p className="text-sm text-gray-500">Create your first framework to get started</p>
+                          ) : (
+                            <p className="text-sm text-gray-500">Contact CyberSecure support for framework creation</p>
+                          )}
                         </div>
                       ) : (
                         <div className="space-y-2">
@@ -1227,17 +1239,19 @@ export default function Compliance() {
                                       {framework.isActive ? "Active" : "Inactive"}
                                     </Badge>
                                   </div>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      deleteFrameworkMutation.mutate(framework.frameworkId);
-                                    }}
-                                    data-testid={`button-delete-framework-${framework.frameworkId}`}
-                                  >
-                                    <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-400" />
-                                  </Button>
+                                  {isCyberSecureAdmin && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        deleteFrameworkMutation.mutate(framework.frameworkId);
+                                      }}
+                                      data-testid={`button-delete-framework-${framework.frameworkId}`}
+                                    >
+                                      <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-400" />
+                                    </Button>
+                                  )}
                                 </div>
                               </CardContent>
                             </Card>
@@ -1298,13 +1312,14 @@ export default function Compliance() {
                                 {customControls.length} control{customControls.length !== 1 ? 's' : ''} defined
                               </div>
                             </div>
-                            <Dialog open={showControlDialog} onOpenChange={setShowControlDialog}>
-                              <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="border-cyan-500 text-cyan-400" data-testid="button-add-control">
-                                  <Plus className="h-4 w-4 mr-2" />
-                                  Add Control
-                                </Button>
-                              </DialogTrigger>
+                            {isCyberSecureAdmin && (
+                              <Dialog open={showControlDialog} onOpenChange={setShowControlDialog}>
+                                <DialogTrigger asChild>
+                                  <Button variant="outline" size="sm" className="border-cyan-500 text-cyan-400" data-testid="button-add-control">
+                                    <Plus className="h-4 w-4 mr-2" />
+                                    Add Control
+                                  </Button>
+                                </DialogTrigger>
                               <DialogContent className="sm:max-w-[700px]">
                                 <DialogHeader>
                                   <DialogTitle>Add Control to {selectedCustomFramework.name}</DialogTitle>
@@ -1411,6 +1426,12 @@ export default function Compliance() {
                                 </Form>
                               </DialogContent>
                             </Dialog>
+                            )}
+                            {!isCyberSecureAdmin && (
+                              <div className="text-xs text-gray-500 bg-gray-700/30 px-3 py-1 rounded">
+                                Admin Only
+                              </div>
+                            )}
                           </div>
                         </CardHeader>
                         <CardContent>
@@ -1418,7 +1439,11 @@ export default function Compliance() {
                             <div className="text-center py-8">
                               <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                               <p className="text-gray-400">No controls defined</p>
-                              <p className="text-sm text-gray-500">Add your first control to this framework</p>
+                              {isCyberSecureAdmin ? (
+                                <p className="text-sm text-gray-500">Add your first control to this framework</p>
+                              ) : (
+                                <p className="text-sm text-gray-500">Controls are managed by CyberSecure administrators</p>
+                              )}
                             </div>
                           ) : (
                             <div className="space-y-4">
@@ -1462,7 +1487,7 @@ export default function Compliance() {
                           <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                           <h3 className="text-lg font-semibold mb-2 text-gray-300">Select a Framework</h3>
                           <p className="text-gray-400">
-                            Choose a custom compliance framework from the list to view its details and controls
+                            Choose a CyberSecure™ compliance framework from the list to view its details and controls
                           </p>
                         </div>
                       </CardContent>
