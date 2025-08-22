@@ -1,4 +1,7 @@
 import { randomBytes, createHash } from "crypto";
+import * as pdf from 'pdf-parse';
+import * as mammoth from 'mammoth';
+import * as XLSX from 'xlsx';
 
 export interface ClassificationRule {
   id: string;
@@ -39,7 +42,7 @@ export interface ClassificationResult {
 
 export interface DetectedPattern {
   pattern: string;
-  patternType: "pii" | "phi" | "financial" | "academic" | "technical" | "sensitive";
+  patternType: "pii" | "phi" | "financial" | "academic" | "technical" | "sensitive" | "legal" | "corporate" | "security";
   location: string; // File path or content location
   confidence: number;
   sample?: string; // Redacted sample of detected content
@@ -183,34 +186,111 @@ export class DataClassificationEngine {
 
   private initializeSensitivePatterns() {
     const patterns = new Map([
-      // PII Patterns
+      // Enhanced PII Patterns
       ["ssn", /\b\d{3}-\d{2}-\d{4}\b/g],
+      ["ssn_no_dash", /\b\d{9}\b/g],
       ["phone", /\b\d{3}[.-]?\d{3}[.-]?\d{4}\b/g],
+      ["phone_international", /\+\d{1,3}[\s.-]?\d{3,14}/g],
       ["email", /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g],
       ["drivers_license", /\b[A-Z]\d{7,8}\b/g],
+      ["passport", /\b[A-Z]{1,2}\d{6,9}\b/g],
+      ["home_address", /\b\d+\s+[A-Za-z\s]+\s+(Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Circle|Cir|Court|Ct)\b/gi],
       
-      // Financial Patterns
-      ["credit_card", /\b(?:\d{4}[- ]?){3}\d{4}\b/g],
-      ["bank_account", /\b\d{9,12}\b/g],
+      // Enhanced Financial Patterns
+      ["credit_card", /\b(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|3[0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})\b/g],
+      ["credit_card_spaces", /\b(?:\d{4}[\s-]?){3}\d{4}\b/g],
+      ["bank_account", /\b\d{9,17}\b/g],
       ["routing_number", /\b\d{9}\b/g],
+      ["iban", /\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b/g],
+      ["swift_code", /\b[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?\b/g],
+      ["bitcoin_address", /\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b/g],
       
-      // Academic Patterns
+      // Enhanced Academic Patterns
       ["student_id", /\b(student|id)[:\s-]*\d{6,10}\b/gi],
-      ["grade_pattern", /\b(grade|gpa)[:\s-]*[A-F][\+\-]?|\d\.\d{1,2}\b/gi],
+      ["grade_pattern", /\b(grade|gpa)[:\s-]*([A-F][\+\-]?|\d\.\d{1,2})\b/gi],
+      ["transcript_data", /\b(transcript|academic\s+record|course\s+grade|semester\s+gpa)\b/gi],
+      ["ferpa_keywords", /\b(educational\s+record|student\s+privacy|directory\s+information|consent\s+required)\b/gi],
       
-      // System Security Patterns
+      // Enhanced System Security Patterns
       ["api_key", /\b[Aa][Pp][Ii][_-]?[Kk][Ee][Yy][:\s-]*[A-Za-z0-9]{20,}\b/g],
+      ["aws_access_key", /\bAKIA[0-9A-Z]{16}\b/g],
+      ["aws_secret_key", /\b[A-Za-z0-9/+=]{40}\b/g],
+      ["github_token", /\bghp_[A-Za-z0-9]{36}\b/g],
+      ["private_key", /-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----/g],
       ["password_hash", /\$2[aby]?\$\d{1,2}\$[A-Za-z0-9\./]{53}/g],
       ["jwt_token", /eyJ[A-Za-z0-9_-]+\.eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g],
+      ["database_connection", /\b(mongodb|mysql|postgresql|oracle):\/\/[^\s]+/gi],
+      ["password_field", /\b(password|passwd|pwd)[:\s=][^\s]{6,}/gi],
       
-      // Medical (PHI) Patterns  
-      ["mrn", /\b(mrn|medical record)[:\s-]*\d{6,10}\b/gi],
-      ["dob", /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4}\b/g]
+      // Enhanced Medical (PHI) Patterns  
+      ["mrn", /\b(mrn|medical\s+record)[:\s-]*\d{6,10}\b/gi],
+      ["dob", /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4}\b/g],
+      ["npi", /\b\d{10}\b/g],
+      ["health_plan_id", /\b(member|policy|group)[:\s#-]*\d{6,12}\b/gi],
+      ["diagnosis_code", /\b[A-Z]\d{2}(\.\d{1,2})?\b/g],
+      
+      // High-Risk Legal & Compliance Patterns
+      ["legal_case", /\b(case\s+no|docket\s+no|civil\s+action)[:\s#-]*\d{2,4}-\d+/gi],
+      ["court_document", /\b(subpoena|deposition|motion\s+to|complaint|summons)\b/gi],
+      ["confidential_marking", /\b(confidential|proprietary|trade\s+secret|attorney[-\s]client\s+privilege)\b/gi],
+      ["security_clearance", /\b(top\s+secret|secret|confidential|classified|clearance\s+level)\b/gi],
+      
+      // Corporate Sensitive Patterns
+      ["merger_acquisition", /\b(merger|acquisition|due\s+diligence|material\s+non[-\s]public)\b/gi],
+      ["financial_results", /\b(earnings|revenue|profit|quarterly\s+results|insider\s+information)\b/gi],
+      ["hr_sensitive", /\b(salary|compensation|disciplinary\s+action|termination|performance\s+review)\b/gi],
+      ["layoff_restructure", /\b(layoff|downsizing|restructur|workforce\s+reduction)\b/gi],
+      
+      // International Compliance Patterns
+      ["gdpr_personal_data", /\b(personal\s+data|data\s+subject|lawful\s+basis|consent)\b/gi],
+      ["export_control", /\b(itar|ear|export\s+control|dual\s+use|technology\s+transfer)\b/gi],
+      ["sanctions", /\b(ofac|sanctions|embarg|blocked\s+person)\b/gi]
     ]);
 
     patterns.forEach((regex, key) => {
       this.sensitivePatterns.set(key, regex);
     });
+  }
+
+  // Document content extraction utility
+  async extractContentFromFile(buffer: Buffer, fileName: string, mimeType: string): Promise<string> {
+    try {
+      switch (mimeType) {
+        case 'application/pdf':
+          const pdfData = await pdf.default(buffer);
+          return pdfData.text || fileName;
+          
+        case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+          const docxResult = await mammoth.extractRawText({ buffer });
+          return docxResult.value || fileName;
+          
+        case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+          const workbook = XLSX.read(buffer, { type: 'buffer' });
+          let xlsxText = '';
+          workbook.SheetNames.forEach(sheetName => {
+            const sheet = workbook.Sheets[sheetName];
+            xlsxText += XLSX.utils.sheet_to_txt(sheet) + '\n';
+          });
+          return xlsxText || fileName;
+          
+        case 'text/plain':
+        case 'text/csv':
+          return buffer.toString('utf-8');
+          
+        case 'image/jpeg':
+        case 'image/png':
+        case 'image/gif':
+          // For images, return filename and basic metadata analysis
+          return `Image file: ${fileName}`;
+          
+        default:
+          // For unsupported types, analyze filename and return it
+          return fileName;
+      }
+    } catch (error) {
+      console.error(`Error extracting content from ${fileName}:`, error);
+      return fileName; // Fallback to filename analysis
+    }
   }
 
   async classifyContent(fileId: string, fileName: string, content: string, metadata: Record<string, any> = {}): Promise<ClassificationResult> {
@@ -364,28 +444,98 @@ export class DataClassificationEngine {
     return false;
   }
 
-  private getPatternType(patternName: string): "pii" | "phi" | "financial" | "academic" | "technical" | "sensitive" {
-    if (["ssn", "phone", "email", "drivers_license"].includes(patternName)) return "pii";
-    if (["credit_card", "bank_account", "routing_number"].includes(patternName)) return "financial";
-    if (["student_id", "grade_pattern"].includes(patternName)) return "academic";
-    if (["api_key", "password_hash", "jwt_token"].includes(patternName)) return "technical";
-    if (["mrn", "dob"].includes(patternName)) return "phi";
+  private getPatternType(patternName: string): "pii" | "phi" | "financial" | "academic" | "technical" | "sensitive" | "legal" | "corporate" | "security" {
+    // PII patterns
+    if (["ssn", "ssn_no_dash", "phone", "phone_international", "email", "drivers_license", "passport", "home_address", "dob", "gdpr_personal_data"].includes(patternName)) return "pii";
+    
+    // Financial patterns
+    if (["credit_card", "credit_card_spaces", "bank_account", "routing_number", "iban", "swift_code", "bitcoin_address"].includes(patternName)) return "financial";
+    
+    // Academic patterns
+    if (["student_id", "grade_pattern", "transcript_data", "ferpa_keywords"].includes(patternName)) return "academic";
+    
+    // Security/Technical patterns
+    if (["api_key", "aws_access_key", "aws_secret_key", "github_token", "private_key", "password_hash", "jwt_token", "database_connection", "password_field", "security_clearance", "export_control"].includes(patternName)) return "security";
+    
+    // Medical/PHI patterns
+    if (["mrn", "npi", "health_plan_id", "diagnosis_code"].includes(patternName)) return "phi";
+    
+    // Legal patterns
+    if (["legal_case", "court_document", "confidential_marking", "sanctions"].includes(patternName)) return "legal";
+    
+    // Corporate patterns
+    if (["merger_acquisition", "financial_results", "hr_sensitive", "layoff_restructure"].includes(patternName)) return "corporate";
+    
     return "sensitive";
   }
 
   private calculatePatternConfidence(patternName: string, matchCount: number): number {
     const baseConfidence = {
-      "ssn": 95,
-      "credit_card": 90,
-      "api_key": 85,
+      // High-risk PII patterns
+      "ssn": 98,
+      "ssn_no_dash": 95,
+      "passport": 95,
+      "drivers_license": 90,
+      
+      // High-risk Financial patterns
+      "credit_card": 95,
+      "credit_card_spaces": 92,
+      "bank_account": 88,
+      "iban": 95,
+      "swift_code": 90,
+      "bitcoin_address": 92,
+      
+      // High-risk Security patterns
+      "aws_access_key": 98,
+      "aws_secret_key": 98,
+      "github_token": 95,
+      "private_key": 99,
+      "password_hash": 90,
+      "jwt_token": 88,
+      "database_connection": 85,
+      "password_field": 80,
+      
+      // High-risk Medical patterns
+      "mrn": 85,
+      "npi": 90,
+      "health_plan_id": 85,
+      "diagnosis_code": 80,
+      
+      // High-risk Legal/Compliance patterns
+      "legal_case": 88,
+      "court_document": 90,
+      "confidential_marking": 95,
+      "security_clearance": 98,
+      
+      // High-risk Corporate patterns
+      "merger_acquisition": 92,
+      "financial_results": 88,
+      "hr_sensitive": 85,
+      "layoff_restructure": 90,
+      
+      // International compliance
+      "export_control": 95,
+      "sanctions": 98,
+      
+      // Medium-risk patterns
       "email": 70,
       "phone": 75,
+      "phone_international": 78,
+      "home_address": 75,
       "student_id": 80,
-      "grade_pattern": 60
+      "grade_pattern": 75,
+      "transcript_data": 85,
+      "ferpa_keywords": 88,
+      "dob": 75,
+      "gdpr_personal_data": 80,
+      
+      // General patterns
+      "api_key": 85
     }[patternName] || 50;
 
     // Increase confidence with more matches, but cap it
-    return Math.min(100, baseConfidence + Math.min(matchCount * 5, 20));
+    const matchBonus = Math.min(matchCount * 3, 15);
+    return Math.min(100, baseConfidence + matchBonus);
   }
 
   private calculateRuleConfidence(rule: ClassificationRule, matchCount: number): number {
