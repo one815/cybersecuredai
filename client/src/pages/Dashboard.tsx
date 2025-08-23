@@ -104,29 +104,31 @@ export default function Dashboard() {
   return (
     <div className="ai-dashboard-bg min-h-screen">
       {/* Enhanced Header with Unified Layout */}
-      <header className="holographic-card backdrop-blur-md border-b border-surface-light p-6 chart-glow">
-        <div className="flex items-center justify-between max-w-full">
+      <header className="holographic-card backdrop-blur-md border-b border-surface-light p-4 sm:p-6 chart-glow">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between max-w-full space-y-4 lg:space-y-0">
           {/* Left Section - Main Title and Status */}
-          <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-2xl">
-                <Shield className="w-6 h-6" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'}} />
+          <div className="flex items-center space-x-3 sm:space-x-8">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center floating-3d text-white text-xl sm:text-2xl">
+                <Shield className="w-5 h-5 sm:w-6 sm:h-6" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'}} />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
-                  <span>AI SECURITY COMMAND CENTER</span>
-                  <Activity className="w-5 h-5 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.5))'}} />
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold geometric-text bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent flex items-center space-x-2">
+                  <span className="truncate">AI SECURITY CENTER</span>
+                  <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 flex-shrink-0" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.5))'}} />
                 </h1>
-                <div className="text-gray-400 text-sm cyber-font flex items-center space-x-3">
-                  <span>Real-time AI threat monitoring and autonomous security automation</span>
-                  <div className="live-indicator text-xs">
-                    AI NEURAL NETWORK ACTIVE
+                <div className="text-gray-400 text-xs sm:text-sm cyber-font">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3">
+                    <span className="truncate">Real-time AI threat monitoring</span>
+                    <div className="live-indicator text-xs mt-1 sm:mt-0">
+                      AI ACTIVE
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Security Status Indicators */}
+            {/* Security Status Indicators - Hidden on mobile and small screens */}
             <div className="hidden xl:flex items-center space-x-3">
               <div className="encryption-indicator text-xs">
                 QUANTUM ENCRYPTED
@@ -141,7 +143,7 @@ export default function Dashboard() {
           </div>
 
           {/* Right Section - Auth, Search, and Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full lg:w-auto">
             {/* Authentication Status */}
             <div className="hidden lg:flex items-center space-x-3">
               <div className="relative flex items-center space-x-4 p-4 holographic-card rounded-lg bg-green-900/20 border border-green-400/30">
@@ -199,7 +201,7 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="p-4 sm:p-6">
+      <main className="p-3 sm:p-4 lg:p-6">
         {/* Enhanced Security Overview Cards with AI Metrics */}
         {/* Badge Achievement Section */}
         {userBadges && userBadges.totalBadges > 0 && (
@@ -224,7 +226,7 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                   <div className="text-center">
                     <div className="text-2xl lg:text-3xl font-bold text-cyan-400 mb-2">{(aiAnalytics as any)?.threatDetection?.mlModelAccuracy || 0}%</div>
                     <div className="text-sm text-gray-400">ML Accuracy</div>
@@ -305,15 +307,15 @@ export default function Dashboard() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
           <Card className="holographic-card border border-blue-500/30 data-glow micro-hover floating-3d">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="flex items-center space-x-2">
-                  <Shield className="w-6 h-6 text-yellow-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
-                  <span className="text-sm text-gray-400 tech-font">THREAT LEVEL</span>
+                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
+                  <span className="text-xs sm:text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
-                <TrendingUp className="w-5 h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
               </div>
               <div className="mb-4">
                 <div className="text-3xl font-bold text-white mb-1 geometric-text">
@@ -398,7 +400,7 @@ export default function Dashboard() {
           </Card>
 
           <Card className="holographic-card border border-cyan-500/30 chart-glow micro-hover">
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
                   <Eye className="w-6 h-6 text-cyan-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
@@ -433,11 +435,11 @@ export default function Dashboard() {
         </div>
 
         {/* Enhanced Threat Activity Chart */}
-        <Card className="mb-8 bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-xl font-bold text-white geometric-text">Threat Activity</CardTitle>
-              <Tabs defaultValue="daily" className="w-48">
+        <Card className="mb-6 sm:mb-8 bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
+          <CardHeader className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+              <CardTitle className="text-lg sm:text-xl font-bold text-white geometric-text">Threat Activity</CardTitle>
+              <Tabs defaultValue="daily" className="w-full sm:w-48">
                 <TabsList className="bg-gray-800">
                   <TabsTrigger value="daily">Daily</TabsTrigger>
                   <TabsTrigger value="weekly">Weekly</TabsTrigger>
@@ -495,21 +497,21 @@ export default function Dashboard() {
         </Card>
 
         {/* Active Threats and Encryption Status */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Active Threats List */}
           <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xl font-bold text-white">Active Threats</CardTitle>
+            <CardHeader className="p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+                <CardTitle className="text-lg sm:text-xl font-bold text-white">Active Threats</CardTitle>
                 <div className="flex items-center space-x-2">
-                  <Badge className="bg-red-500 text-white">Now</Badge>
-                  <Button variant="link" className="text-cyan-400">View all threats</Button>
+                  <Badge className="bg-red-500 text-white text-xs">Now</Badge>
+                  <Button variant="link" className="text-cyan-400 text-xs sm:text-sm p-0 h-auto">View all</Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="border border-red-500/30 rounded-lg p-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="border border-red-500/30 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center space-x-2">
                       <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -562,12 +564,12 @@ export default function Dashboard() {
           
           {/* Encryption Status */}
           <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold text-white">Encryption Status</CardTitle>
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-lg sm:text-xl font-bold text-white">Encryption Status</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-background/50 rounded-lg p-4">
+            <CardContent className="p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Database Encryption</span>
                     <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
@@ -576,7 +578,7 @@ export default function Dashboard() {
                   <Progress value={100} className="h-1" />
                 </div>
                 
-                <div className="bg-background/50 rounded-lg p-4">
+                <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">File System Encryption</span>
                     <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
@@ -585,7 +587,7 @@ export default function Dashboard() {
                   <Progress value={100} className="h-1" />
                 </div>
                 
-                <div className="bg-background/50 rounded-lg p-4">
+                <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Network Encryption</span>
                     <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
@@ -594,7 +596,7 @@ export default function Dashboard() {
                   <Progress value={100} className="h-1" />
                 </div>
                 
-                <div className="bg-background/50 rounded-lg p-4">
+                <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Email Encryption</span>
                     <AlertTriangle className="w-4 h-4 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />

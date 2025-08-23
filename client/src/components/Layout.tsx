@@ -14,7 +14,7 @@ export function Layout({ children }: LayoutProps) {
     <div className="min-h-screen cyber-grid bg-background text-foreground saas-platform">
       <Sidebar />
       <div className="lg:ml-64 pt-16 lg:pt-0 transition-all duration-300">
-        <div className="p-4 lg:p-6">
+        <div className="p-3 sm:p-4 lg:p-6">
           {children}
         </div>
       </div>
