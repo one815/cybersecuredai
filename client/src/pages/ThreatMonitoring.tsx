@@ -734,56 +734,56 @@ export default function ThreatMonitoring() {
               <ThreatMap height="400px" />
               
               {/* Real-time Processing Stats */}
-              <div className="mt-4 grid grid-cols-3 gap-4">
-                <div className="p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
-                  <div className="flex items-center justify-between mb-2">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="p-4 sm:p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
+                  <div className="flex items-center justify-between mb-3 sm:mb-2">
                     <span className="text-sm font-medium text-blue-300">Data Normalization</span>
                     <Badge className="bg-blue-500 text-white text-xs">Active</Badge>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3 sm:space-y-2">
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">IOCs Processed:</span>
-                      <span className="text-white">227,384</span>
+                      <span className="text-white font-medium">227,384</span>
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">Duplicates Removed:</span>
-                      <span className="text-white">45,672</span>
+                      <span className="text-white font-medium">45,672</span>
                     </div>
                     <Progress value={85} className="h-1" />
                   </div>
                 </div>
                 
-                <div className="p-3 bg-green-900/20 rounded-lg border border-green-700/50">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="p-4 sm:p-3 bg-green-900/20 rounded-lg border border-green-700/50">
+                  <div className="flex items-center justify-between mb-3 sm:mb-2">
                     <span className="text-sm font-medium text-green-300">Geolocation Engine</span>
                     <Badge className="bg-green-500 text-white text-xs">Online</Badge>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3 sm:space-y-2">
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">IPs Geolocated:</span>
-                      <span className="text-white">156,892</span>
+                      <span className="text-white font-medium">156,892</span>
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">Accuracy Rate:</span>
-                      <span className="text-white">94.2%</span>
+                      <span className="text-white font-medium">94.2%</span>
                     </div>
                     <Progress value={94} className="h-1" />
                   </div>
                 </div>
                 
-                <div className="p-3 bg-purple-900/20 rounded-lg border border-purple-700/50">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="p-4 sm:p-3 bg-purple-900/20 rounded-lg border border-purple-700/50">
+                  <div className="flex items-center justify-between mb-3 sm:mb-2">
                     <span className="text-sm font-medium text-purple-300">Stream Processing</span>
                     <Badge className="bg-purple-500 text-white text-xs">Real-time</Badge>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-3 sm:space-y-2">
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">Events/Second:</span>
-                      <span className="text-white">2,847</span>
+                      <span className="text-white font-medium">2,847</span>
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-gray-400">Queue Depth:</span>
-                      <span className="text-white">127</span>
+                      <span className="text-white font-medium">127</span>
                     </div>
                     <Progress value={78} className="h-1" />
                   </div>
