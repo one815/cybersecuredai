@@ -36,6 +36,10 @@ const upload = multer({
 const mlThreatEngine = new MLThreatDetectionEngine();
 const behavioralEngine = new BehavioralAnalysisEngine();
 
+// Initialize gamification engine
+const { GamificationEngine } = await import("./engines/gamification-engine");
+const gamificationEngine = new GamificationEngine();
+
 // Set up real-time threat monitoring
 mlThreatEngine.on('threatDetected', (threat) => {
   console.log(`🚨 THREAT DETECTED: ${threat.level} - ${threat.riskScore} risk score`);
@@ -51,6 +55,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize Cypher AI Assistant
   const { CypherAI } = await import('./engines/cypher-ai');
   const cypherAI = new CypherAI(mlThreatEngine, behavioralEngine);
+
+  // Set up gamification event handlers
+  gamificationEngine.on('badgeEarned', (badgeEvent) => {
+    console.log(`🏆 BADGE EARNED: ${badgeEvent.userId} earned "${badgeEvent.badgeName}" (${badgeEvent.tier}) - ${badgeEvent.pointsValue} points`);
+    // In production, this would trigger notifications and UI updates
+  });
   // User routes
   app.get("/api/users", async (req, res) => {
     try {
@@ -1076,6 +1086,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating onboarding status:", error);
       res.status(500).json({ message: "Failed to update onboarding status" });
+    }
+  });
+
+  // Badge System API routes
+  app.get("/api/badges/definitions", async (req, res) => {
+    try {
+      const definitions = gamificationEngine.getAllBadgeDefinitions();
+      res.json(definitions);
+    } catch (error) {
+      console.error("Error fetching badge definitions:", error);
+      res.status(500).json({ message: "Failed to fetch badge definitions" });
+    }
+  });
+
+  app.get("/api/badges/user/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const userBadges = gamificationEngine.getUserBadges(userId);
+      res.json(userBadges);
+    } catch (error) {
+      console.error("Error fetching user badges:", error);
+      res.status(500).json({ message: "Failed to fetch user badges" });
+    }
+  });
+
+  app.get("/api/badges/progress/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const progress = gamificationEngine.getUserBadgeProgress(userId);
+      res.json(progress);
+    } catch (error) {
+      console.error("Error fetching badge progress:", error);
+      res.status(500).json({ message: "Failed to fetch badge progress" });
+    }
+  });
+
+  app.get("/api/badges/stats", async (req, res) => {
+    try {
+      const stats = gamificationEngine.getGamificationStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching gamification stats:", error);
+      res.status(500).json({ message: "Failed to fetch gamification stats" });
+    }
+  });
+
+  app.post("/api/badges/simulate-assessment", async (req, res) => {
+    try {
+      const { userId, frameworkId, score, previousScore } = req.body;
+      
+      if (!userId || !frameworkId || score === undefined) {
+        return res.status(400).json({ message: "Missing required fields: userId, frameworkId, score" });
+      }
+
+      const awardedBadges = await gamificationEngine.simulateAssessment(userId, frameworkId, score, previousScore);
+      
+      res.json({
+        userId,
+        frameworkId,
+        score,
+        previousScore,
+        awardedBadges,
+        newBadgeCount: awardedBadges.length,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error simulating assessment:", error);
+      res.status(500).json({ message: "Failed to simulate assessment" });
+    }
+  });
+
+  // Enhanced compliance route to integrate with badge system
+  app.post("/api/compliance/assessment", async (req, res) => {
+    try {
+      const { userId, frameworkId, score, previousScore } = req.body;
+      
+      if (!userId || !frameworkId || score === undefined) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Process compliance assessment
+      const complianceResult = complianceAutomationEngine.processFrameworkAssessment(frameworkId, score);
+      
+      // Process gamification badges
+      const awardedBadges = await gamificationEngine.simulateAssessment(userId, frameworkId, score, previousScore);
+      
+      res.json({
+        complianceResult,
+        gamification: {
+          awardedBadges,
+          newBadgeCount: awardedBadges.length
+        },
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error processing compliance assessment:", error);
+      res.status(500).json({ message: "Failed to process compliance assessment" });
     }
   });
 

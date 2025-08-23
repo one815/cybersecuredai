@@ -16,6 +16,7 @@ import ThreatAnalysis from "@/pages/ThreatAnalysis";
 import Authentication from "@/pages/Authentication";
 import FileSharing from "@/pages/FileSharing";
 import Compliance from "@/pages/Compliance";
+import Achievements from "@/pages/Achievements";
 import UserManagement from "@/pages/UserManagement";
 import Reports from "@/pages/Reports";
 import IncidentResponse from "@/pages/IncidentResponse";
@@ -186,6 +187,11 @@ function Router() {
       <Route path="/compliance">
         <Layout>
           <Compliance />
+        </Layout>
+      </Route>
+      <Route path="/achievements">
+        <Layout>
+          <Achievements />
         </Layout>
       </Route>
       <Route path="/users">

@@ -244,3 +244,90 @@ export type CustomComplianceFramework = typeof customComplianceFrameworks.$infer
 export type InsertCustomComplianceFramework = z.infer<typeof insertCustomComplianceFrameworkSchema>;
 export type CustomComplianceControl = typeof customComplianceControls.$inferSelect;
 export type InsertCustomComplianceControl = z.infer<typeof insertCustomComplianceControlSchema>;
+
+// Achievement Badges System
+export const achievementBadges = pgTable("achievement_badges", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  badgeId: varchar("badge_id").notNull().unique(), // e.g., "ferpa_bronze", "nist_gold"
+  name: varchar("name").notNull(),
+  description: text("description").notNull(),
+  icon: varchar("icon").notNull().default("award"),
+  tier: varchar("tier").notNull(), // bronze, silver, gold, platinum, diamond
+  category: varchar("category").notNull(), // framework_completion, multi_framework, improvement, streak
+  frameworkId: varchar("framework_id"), // Associated framework (null for multi-framework badges)
+  criteria: jsonb("criteria").notNull(), // Badge earning criteria
+  pointsValue: integer("points_value").notNull().default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User Badge Collections
+export const userBadges = pgTable("user_badges", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  badgeId: varchar("badge_id").notNull().references(() => achievementBadges.badgeId),
+  earnedDate: timestamp("earned_date").defaultNow(),
+  achievementScore: integer("achievement_score"), // Score when badge was earned
+  frameworkId: varchar("framework_id"), // Framework associated when earned
+  metadata: jsonb("metadata"), // Additional data about the achievement
+});
+
+// User Achievement Stats
+export const userAchievementStats = pgTable("user_achievement_stats", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id).unique(),
+  totalBadges: integer("total_badges").default(0),
+  totalPoints: integer("total_points").default(0),
+  bronzeBadges: integer("bronze_badges").default(0),
+  silverBadges: integer("silver_badges").default(0),
+  goldBadges: integer("gold_badges").default(0),
+  platinumBadges: integer("platinum_badges").default(0),
+  diamondBadges: integer("diamond_badges").default(0),
+  currentStreak: integer("current_streak").default(0), // Days with compliance activity
+  longestStreak: integer("longest_streak").default(0),
+  lastActivity: timestamp("last_activity"),
+  level: integer("level").default(1), // Gamification level based on points
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Compliance Milestones
+export const complianceMilestones = pgTable("compliance_milestones", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  frameworkId: varchar("framework_id").notNull(),
+  milestoneType: varchar("milestone_type").notNull(), // first_assessment, score_improvement, perfect_score, framework_complete
+  previousScore: integer("previous_score"),
+  currentScore: integer("current_score").notNull(),
+  improvementPoints: integer("improvement_points").default(0),
+  achievedAt: timestamp("achieved_at").defaultNow(),
+  badgesAwarded: jsonb("badges_awarded"), // Array of badge IDs awarded for this milestone
+});
+
+export const insertAchievementBadgeSchema = createInsertSchema(achievementBadges).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertUserBadgeSchema = createInsertSchema(userBadges).omit({
+  id: true,
+  earnedDate: true,
+});
+
+export const insertUserAchievementStatsSchema = createInsertSchema(userAchievementStats).omit({
+  id: true,
+  updatedAt: true,
+});
+
+export const insertComplianceMilestoneSchema = createInsertSchema(complianceMilestones).omit({
+  id: true,
+  achievedAt: true,
+});
+
+export type AchievementBadge = typeof achievementBadges.$inferSelect;
+export type InsertAchievementBadge = z.infer<typeof insertAchievementBadgeSchema>;
+export type UserBadge = typeof userBadges.$inferSelect;
+export type InsertUserBadge = z.infer<typeof insertUserBadgeSchema>;
+export type UserAchievementStats = typeof userAchievementStats.$inferSelect;
+export type InsertUserAchievementStats = z.infer<typeof insertUserAchievementStatsSchema>;
+export type ComplianceMilestone = typeof complianceMilestones.$inferSelect;
+export type InsertComplianceMilestone = z.infer<typeof insertComplianceMilestoneSchema>;
