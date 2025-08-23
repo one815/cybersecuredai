@@ -199,7 +199,7 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="p-6">
+      <main className="p-4 sm:p-6">
         {/* Enhanced Security Overview Cards with AI Metrics */}
         {/* Badge Achievement Section */}
         {userBadges && userBadges.totalBadges > 0 && (

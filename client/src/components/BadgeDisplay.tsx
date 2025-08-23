@@ -208,12 +208,12 @@ export default function BadgeDisplay({
         {/* Tier Progress */}
         {showProgress && (
           <div className="mb-6">
-            <div className="grid grid-cols-5 gap-3 text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 text-center">
               {Object.entries(userBadges.tierCounts).map(([tier, count]) => {
                 const colors = tierColors[tier as keyof typeof tierColors];
                 return (
-                  <div key={tier} className={`p-2 rounded-lg ${colors.bg} border`}>
-                    <div className={`text-lg font-bold ${colors.text}`}>{count}</div>
+                  <div key={tier} className={`p-1 sm:p-2 rounded-lg ${colors.bg} border`}>
+                    <div className={`text-sm sm:text-lg font-bold ${colors.text}`}>{count}</div>
                     <div className="text-xs text-gray-400 capitalize">{tier}</div>
                   </div>
                 );
@@ -233,16 +233,16 @@ export default function BadgeDisplay({
               return (
                 <div
                   key={badge.badgeId}
-                  className={`flex items-center space-x-4 p-3 rounded-lg ${colors.bg} border transition-all hover:scale-[1.02]`}
+                  className={`flex items-center space-x-2 sm:space-x-4 p-2 sm:p-3 rounded-lg ${colors.bg} border transition-all hover:scale-[1.02]`}
                   data-testid={`badge-item-${badge.badgeId}`}
                 >
-                  <div className={`bg-gradient-to-br ${colors.gradient} rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0`}>
+                  <div className={`bg-gradient-to-br ${colors.gradient} rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center flex-shrink-0`}>
                     <BadgeIcon iconName={badge.icon} tier={badge.tier} />
                   </div>
-                  <div className="flex-1">
-                    <h3 className={`font-semibold ${colors.text}`}>{badge.name}</h3>
-                    <p className="text-sm text-gray-400">{badge.description}</p>
-                    <div className="flex items-center space-x-2 mt-1">
+                  <div className="flex-1 min-w-0">
+                    <h3 className={`font-semibold ${colors.text} text-sm sm:text-base truncate`}>{badge.name}</h3>
+                    <p className="text-xs sm:text-sm text-gray-400 line-clamp-1 sm:line-clamp-none">{badge.description}</p>
+                    <div className="flex items-center space-x-1 sm:space-x-2 mt-1">
                       <Badge className={`text-xs ${colors.bg} ${colors.text} border-none`}>
                         {badge.tier.toUpperCase()}
                       </Badge>
@@ -253,9 +253,9 @@ export default function BadgeDisplay({
                       )}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     {badge.achievementScore && (
-                      <div className={`text-sm font-bold ${colors.text}`}>
+                      <div className={`text-xs sm:text-sm font-bold ${colors.text}`}>
                         {badge.achievementScore}%
                       </div>
                     )}

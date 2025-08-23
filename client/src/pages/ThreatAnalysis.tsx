@@ -26,7 +26,7 @@ export default function ThreatAnalysis() {
   });
   return (
     <div className="min-h-screen bg-background text-text">
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="container mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* Header */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div>
