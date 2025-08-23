@@ -783,7 +783,14 @@ export default function Dashboard() {
                 <Button 
                   className="bg-cyan-600 hover:bg-cyan-700 text-white text-xs" 
                   size="sm"
-                  onClick={() => toast({ title: "Security Scan", description: "Full system security scan initiated successfully." })}
+                  onClick={async () => {
+                    try {
+                      await fetch('/api/security/run-scan', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                      toast({ title: "Security Scan Started", description: "Full system security scan has been initiated." });
+                    } catch (error) {
+                      toast({ title: "Scan Failed", description: "Failed to start security scan. Please try again.", variant: "destructive" });
+                    }
+                  }}
                 >
                   Run Full Scan
                 </Button>
@@ -864,7 +871,14 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="text-sm font-medium text-red-400">Critical Security Update</div>
                   <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2" onClick={() => toast({ title: "Security Update", description: "Critical security update applied successfully." })}>Apply Now</Button>
+                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2" onClick={async () => {
+                    try {
+                      await fetch('/api/security/apply-update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ updateId: 'CVE-2023-32456' }) });
+                      toast({ title: "Security Update Applied", description: "Critical security update has been successfully applied." });
+                    } catch (error) {
+                      toast({ title: "Update Failed", description: "Failed to apply security update. Please try again.", variant: "destructive" });
+                    }
+                  }}>Apply Now</Button>
                 </div>
               </div>
               
@@ -873,7 +887,14 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
                   <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
-                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2" onClick={() => toast({ title: "MFA Reminder", description: "Multi-factor authentication reminders sent to users." })}>Send Reminder</Button>
+                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2" onClick={async () => {
+                    try {
+                      await fetch('/api/users/send-mfa-reminder', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                      toast({ title: "MFA Reminders Sent", description: "Multi-factor authentication reminders sent to all users." });
+                    } catch (error) {
+                      toast({ title: "Failed to Send", description: "Failed to send MFA reminders. Please try again.", variant: "destructive" });
+                    }
+                  }}>Send Reminder</Button>
                 </div>
               </div>
               
