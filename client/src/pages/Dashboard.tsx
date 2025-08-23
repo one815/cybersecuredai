@@ -295,7 +295,7 @@ export default function Dashboard() {
         )}
 
         {/* Badge Achievement Section */}
-        {userBadges && typeof userBadges === 'object' && 'totalBadges' in userBadges && (userBadges as any).totalBadges > 0 && (
+        {userBadges && typeof userBadges === 'object' && 'totalBadges' in userBadges && (userBadges as { totalBadges: number }).totalBadges > 0 && (
           <div className="mb-8">
             <BadgeDisplay 
               userBadges={userBadges as any} 
