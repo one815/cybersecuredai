@@ -101,7 +101,6 @@ function Router() {
       <Route path="/about" component={AboutUs} />
       <Route path="/solutions" component={Solutions} />
       <Route path="/pricing" component={Pricing} />
-      <Route path="/security-scanner" component={SecurityScanner} />
       <Route path="/careers" component={Careers} />
       <Route path="/blog" component={Blogs} />
       <Route path="/news" component={News} />
@@ -126,7 +125,6 @@ function Router() {
       <Route path="/platform/predictive-risk-analysis" component={PredictiveRiskAnalysis} />
       <Route path="/platform/compliance-automation" component={ComplianceAutomation} />
       <Route path="/platform/security-training" component={PlatformSecurityTraining} />
-      <Route path="/platform/monitoring-vulnerability" component={MonitoringVulnerability} />
       <Route path="/platform/firewall-management" component={FirewallManagement} />
       <Route path="/platform/network-monitoring" component={NetworkMonitoring} />
       <Route path="/platform/zero-trust" component={ZeroTrustArchitecture} />
@@ -237,6 +235,16 @@ function Router() {
       <Route path="/ai-config">
         <Layout>
           <AIConfiguration />
+        </Layout>
+      </Route>
+      <Route path="/vulnerability-monitoring">
+        <Layout>
+          <MonitoringVulnerability />
+        </Layout>
+      </Route>
+      <Route path="/security-scanner">
+        <Layout>
+          <SecurityScanner />
         </Layout>
       </Route>
       
