@@ -204,7 +204,12 @@ export default function Dashboard() {
         {/* Badge Achievement Section */}
         {userBadges && userBadges.totalBadges > 0 && (
           <div className="mb-8">
-            <BadgeDisplay userBadges={userBadges} limit={5} variant="card" />
+            <BadgeDisplay 
+              userBadges={userBadges} 
+              showProgress={true} 
+              limit={3}
+              variant="compact"
+            />
           </div>
         )}
 

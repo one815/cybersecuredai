@@ -137,6 +137,8 @@ export class MemStorage implements IStorage {
       biometricEnabled: true,
       planType: "cyber_cloud_enterprise",
       onboardingCompleted: false,
+      securityPolicyAccepted: false,
+      dataPolicyAccepted: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
