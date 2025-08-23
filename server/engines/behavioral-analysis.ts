@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { AdvancedBehavioralAnalytics, UserBehaviorVector, BehavioralCluster, AnomalyScore, PredictiveRiskAssessment } from './advanced-behavioral-analytics';
 
 export interface UserActivity {
   userId: string;
@@ -68,10 +69,13 @@ export class BehavioralAnalysisEngine extends EventEmitter {
   private activityHistory: Map<string, UserActivity[]> = new Map();
   private behavioralPatterns: BehavioralPattern[] = [];
   private anomalyAlerts: AnomalyAlert[] = [];
+  private advancedAnalytics: AdvancedBehavioralAnalytics;
   
   constructor() {
     super();
+    this.advancedAnalytics = new AdvancedBehavioralAnalytics();
     this.initializeBehavioralPatterns();
+    this.initializeAdvancedAnalytics();
   }
 
   private initializeBehavioralPatterns(): void {
@@ -112,6 +116,29 @@ export class BehavioralAnalysisEngine extends EventEmitter {
         riskWeight: 0.1
       }
     ];
+  }
+
+  private initializeAdvancedAnalytics(): void {
+    console.log('🧠 Initializing Advanced Behavioral Analytics Engine...');
+    
+    // Set up advanced analytics event handlers
+    this.advancedAnalytics.on('behaviorProcessed', (data) => {
+      this.emit('behaviorAnalyzed', data);
+    });
+    
+    // Start behavioral clustering
+    this.startBehavioralClustering();
+  }
+
+  private startBehavioralClustering(): void {
+    // Perform clustering analysis every 30 minutes
+    setInterval(() => {
+      const clusters = this.advancedAnalytics.performBehavioralClustering(5);
+      if (clusters.length > 0) {
+        console.log(`📊 BEHAVIORAL CLUSTERING: Identified ${clusters.length} user behavior clusters`);
+        this.emit('behaviorClustersUpdated', clusters);
+      }
+    }, 1800000); // 30 minutes
   }
 
   /**
