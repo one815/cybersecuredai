@@ -256,6 +256,12 @@ function Router() {
           <SecurityScanner />
         </Layout>
       </Route>
+      <Route path="/pricing">
+        <Pricing />
+      </Route>
+      <Route path="/solutions">
+        <Solutions />
+      </Route>
       
       <Route component={NotFound} />
     </Switch>
