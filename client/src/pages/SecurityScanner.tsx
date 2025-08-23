@@ -167,26 +167,35 @@ export default function SecurityScanner() {
       {/* Header */}
       <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
         <div className="container mx-auto max-w-6xl">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
-              <Bot className="w-6 h-6 text-white" />
-            </div>
-            <div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+                <Bot className="w-6 h-6 text-white" />
+              </div>
+              <div>
               <h1 className="text-3xl font-bold text-white flex items-center space-x-2">
-                <span>Security Scanner</span>
+                <span>Enterprise Security Scanner</span>
                 <Shield className="w-8 h-8 text-orange-400" />
-                <Eye className="w-8 h-8 text-blue-400" />
+                <Crown className="w-8 h-8 text-yellow-400" />
               </h1>
               <p className="text-gray-400">
-                Comprehensive infrastructure security assessment for your organization
+                Advanced cybersecurity assessment with comprehensive threat analysis and compliance reporting
                 {user && (
                   <span className="ml-2 inline-flex items-center">
                     <Crown className="w-4 h-4 mr-1 text-yellow-400" />
-                    <span className="text-yellow-400 font-medium">{getTierDisplayName(user.planType)}</span>
+                    <span className="text-yellow-400 font-medium">{getTierDisplayName(user.planType || "standard")}</span>
                   </span>
                 )}
               </p>
             </div>
+            </div>
+            <Button 
+              variant="outline" 
+              className="border-green-500 text-green-400 hover:bg-green-500/10"
+              onClick={() => window.location.href = '/basic-security-scan'}
+            >
+              Try Free Scanner
+            </Button>
           </div>
         </div>
       </header>
@@ -333,7 +342,7 @@ export default function SecurityScanner() {
                   ))}
                 </TabsList>
 
-                {Object.entries(scanResults.scanResults.categories).map(([categoryKey, results]: [string, any[]]) => (
+                {Object.entries(scanResults.scanResults.categories).map(([categoryKey, results]) => (
                   <TabsContent key={categoryKey} value={categoryKey}>
                     <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                       <CardHeader>
