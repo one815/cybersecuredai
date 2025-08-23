@@ -130,6 +130,11 @@ function Router() {
       <Route path="/platform/zero-trust" component={ZeroTrustArchitecture} />
       <Route path="/platform/iam" component={IdentityAccessManagement} />
       <Route path="/platform/system-administration" component={SystemAdministration} />
+      <Route path="/platform/monitoring-vulnerability">
+        <Layout>
+          <MonitoringVulnerability />
+        </Layout>
+      </Route>
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">

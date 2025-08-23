@@ -1819,7 +1819,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       
-      const nistApiUrl = `https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate=${thirtyDaysAgo.toISOString().split('T')[0]}T00:00:000 UTC-00:00&pubEndDate=${new Date().toISOString().split('T')[0]}T00:00:000 UTC-00:00`;
+      const nistApiUrl = `https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate=${thirtyDaysAgo.toISOString().split('T')[0]}T00:00:000%20UTC-00:00&pubEndDate=${new Date().toISOString().split('T')[0]}T00:00:000%20UTC-00:00`;
       
       const response = await fetch(nistApiUrl, {
         headers: {
