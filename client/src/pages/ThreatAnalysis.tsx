@@ -291,7 +291,7 @@ export default function ThreatAnalysis() {
               </div>
             </CardHeader>
             <CardContent>
-              <ThreatMap height="320px" />
+              <ThreatMap height="300px" />
               <div className="mt-4 p-3 bg-orange-900/20 rounded-lg border border-orange-700/50">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
