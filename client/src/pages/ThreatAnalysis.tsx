@@ -28,68 +28,70 @@ export default function ThreatAnalysis() {
     <div className="min-h-screen bg-background text-text">
       <div className="container mx-auto p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-white">Threat Analysis Visualization</h1>
-            <p className="text-gray-300 mt-2">Advanced threat intelligence and predictive analytics</p>
+            <h1 className="text-2xl lg:text-3xl font-bold text-white">Threat Analysis Visualization</h1>
+            <p className="text-sm lg:text-base text-gray-300 mt-2">Advanced threat intelligence and predictive analytics</p>
           </div>
-          <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm" data-testid="button-export">
-              <Database className="w-4 h-4 mr-2" />
-              Export Data
+          <div className="flex items-center space-x-2 lg:space-x-3">
+            <Button variant="outline" size="sm" data-testid="button-export" className="text-xs lg:text-sm">
+              <Database className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
+              <span className="hidden sm:inline">Export Data</span>
+              <span className="sm:hidden">Export</span>
             </Button>
-            <Button variant="outline" size="sm" data-testid="button-configure">
-              <Activity className="w-4 h-4 mr-2" />
-              Configure
+            <Button variant="outline" size="sm" data-testid="button-configure" className="text-xs lg:text-sm">
+              <Activity className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
+              <span className="hidden sm:inline">Configure</span>
+              <span className="sm:hidden">Config</span>
             </Button>
           </div>
         </div>
 
         {/* AI Models Status Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
           <Card className="bg-surface border-cyan-500/30" data-testid="card-ml-models">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Brain className="w-8 h-8 text-cyan-400" />
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400" />
                 <div>
-                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.mlEnginesActive || 0}</div>
-                  <div className="text-sm text-gray-400">ML Models Active</div>
+                  <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.systemMetrics?.mlEnginesActive || 0}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">ML Models Active</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-surface border-green-500/30" data-testid="card-detection-rate">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Target className="w-8 h-8 text-green-400" />
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
                 <div>
-                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.threatDetectionRate || 0}%</div>
-                  <div className="text-sm text-gray-400">Detection Rate</div>
+                  <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.systemMetrics?.threatDetectionRate || 0}%</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Detection Rate</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-surface border-orange-500/30" data-testid="card-processing-latency">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Zap className="w-8 h-8 text-orange-400" />
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-orange-400" />
                 <div>
-                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.processingLatency || 0}ms</div>
-                  <div className="text-sm text-gray-400">Processing Time</div>
+                  <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.systemMetrics?.processingLatency || 0}ms</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Processing Time</div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="bg-surface border-purple-500/30" data-testid="card-threats-analyzed">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Activity className="w-8 h-8 text-purple-400" />
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <Activity className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400" />
                 <div>
-                  <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.totalThreats || 0}</div>
-                  <div className="text-sm text-gray-400">Threats Analyzed</div>
+                  <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.threatDetection?.totalThreats || 0}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Threats Analyzed</div>
                 </div>
               </div>
             </CardContent>
@@ -110,7 +112,7 @@ export default function ThreatAnalysis() {
                   Active
                 </Badge>
                 <Badge variant="outline" className="bg-cyan-900/50 text-cyan-400 border-cyan-700">
-                  Accuracy: {aiAnalytics?.threatDetection?.mlModelAccuracy || 0}%
+                  Accuracy: {(aiAnalytics as any)?.threatDetection?.mlModelAccuracy || 0}%
                 </Badge>
               </div>
             </CardHeader>
@@ -119,19 +121,19 @@ export default function ThreatAnalysis() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <div className="text-sm text-gray-400">Total Threats</div>
-                    <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.totalThreats || 0}</div>
+                    <div className="text-2xl font-bold text-white">{(aiAnalytics as any)?.threatDetection?.totalThreats || 0}</div>
                   </div>
                   <div>
                     <div className="text-sm text-gray-400">Average Risk Score</div>
-                    <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.averageRiskScore || 'N/A'}</div>
+                    <div className="text-2xl font-bold text-white">{(aiAnalytics as any)?.threatDetection?.averageRiskScore || 'N/A'}</div>
                   </div>
                 </div>
                 
                 <div className="space-y-2">
                   <div className="text-sm text-gray-400">Threat Distribution</div>
-                  {aiAnalytics?.threatDetection?.threatDistribution && (
+                  {(aiAnalytics as any)?.threatDetection?.threatDistribution && (
                     <div className="space-y-2">
-                      {Object.entries(aiAnalytics.threatDetection.threatDistribution).map(([level, count]) => (
+                      {Object.entries((aiAnalytics as any).threatDetection.threatDistribution).map(([level, count]) => (
                         <div key={level} className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
                             <div className={`w-3 h-3 rounded-full ${
@@ -164,7 +166,7 @@ export default function ThreatAnalysis() {
                   Monitoring
                 </Badge>
                 <Badge variant="outline" className="bg-purple-900/50 text-purple-400 border-purple-700">
-                  {aiAnalytics?.behavioralAnalysis?.totalUsers || 0} Users Tracked
+                  {(aiAnalytics as any)?.behavioralAnalysis?.totalUsers || 0} Users Tracked
                 </Badge>
               </div>
             </CardHeader>
@@ -173,17 +175,17 @@ export default function ThreatAnalysis() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <div className="text-sm text-gray-400">High Risk Users</div>
-                    <div className="text-2xl font-bold text-white">{aiAnalytics?.behavioralAnalysis?.highRiskUsers || 0}</div>
+                    <div className="text-2xl font-bold text-white">{(aiAnalytics as any)?.behavioralAnalysis?.highRiskUsers || 0}</div>
                   </div>
                   <div>
                     <div className="text-sm text-gray-400">Avg Risk Score</div>
-                    <div className="text-2xl font-bold text-white">{aiAnalytics?.behavioralAnalysis?.averageRiskScore || 0}</div>
+                    <div className="text-2xl font-bold text-white">{(aiAnalytics as any)?.behavioralAnalysis?.averageRiskScore || 0}</div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-sm text-gray-400">Top Risk Factors</div>
-                  {aiAnalytics?.behavioralAnalysis?.topRiskyUsers?.slice(0, 3).map((user: any, index: number) => (
+                  {(aiAnalytics as any)?.behavioralAnalysis?.topRiskyUsers?.slice(0, 3).map((user: any, index: number) => (
                     <div key={user.userId} className="flex items-center justify-between p-2 bg-gray-800/50 rounded">
                       <div className="text-sm text-gray-300">User {user.userId.slice(-4)}</div>
                       <div className="flex items-center space-x-2">
