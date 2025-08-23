@@ -219,23 +219,23 @@ export default function Dashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400 mb-2">{aiAnalytics.threatDetection?.mlModelAccuracy || 0}%</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-cyan-400 mb-2">{(aiAnalytics as any)?.threatDetection?.mlModelAccuracy || 0}%</div>
                     <div className="text-sm text-gray-400">ML Accuracy</div>
                     <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style={{width: `${aiAnalytics.threatDetection?.mlModelAccuracy || 0}%`}}></div>
+                      <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" style={{width: `${(aiAnalytics as any)?.threatDetection?.mlModelAccuracy || 0}%`}}></div>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-green-400 mb-2">{aiAnalytics.systemMetrics?.threatDetectionRate || 0}%</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-green-400 mb-2">{(aiAnalytics as any)?.systemMetrics?.threatDetectionRate || 0}%</div>
                     <div className="text-sm text-gray-400">Detection Rate</div>
                     <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                      <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: `${aiAnalytics.systemMetrics?.threatDetectionRate || 0}%`}}></div>
+                      <div className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full" style={{width: `${(aiAnalytics as any)?.systemMetrics?.threatDetectionRate || 0}%`}}></div>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-orange-400 mb-2">{aiAnalytics.systemMetrics?.processingLatency || 0}ms</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-orange-400 mb-2">{(aiAnalytics as any)?.systemMetrics?.processingLatency || 0}ms</div>
                     <div className="text-sm text-gray-400">Processing Time</div>
                     <div className="flex items-center justify-center mt-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse mr-2"></div>
@@ -243,20 +243,20 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-purple-400 mb-2">{aiAnalytics.behavioralAnalysis?.totalUsers || 0}</div>
+                    <div className="text-2xl lg:text-3xl font-bold text-purple-400 mb-2">{(aiAnalytics as any)?.behavioralAnalysis?.totalUsers || 0}</div>
                     <div className="text-sm text-gray-400">Users Monitored</div>
                     <div className="text-xs text-gray-400 mt-2">
-                      Risk Score: {aiAnalytics.behavioralAnalysis?.averageRiskScore || 0}
+                      Risk Score: {(aiAnalytics as any)?.behavioralAnalysis?.averageRiskScore || 0}
                     </div>
                   </div>
                 </div>
                 
-                <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <div className="bg-gray-800/50 rounded-lg p-4">
                     <div className="text-sm text-gray-400 mb-2">Threat Distribution</div>
-                    {aiAnalytics.threatDetection?.threatDistribution && (
+                    {(aiAnalytics as any)?.threatDetection?.threatDistribution && (
                       <div className="space-y-1">
-                        {Object.entries(aiAnalytics.threatDetection.threatDistribution).map(([level, count]) => (
+                        {Object.entries((aiAnalytics as any).threatDetection.threatDistribution).map(([level, count]) => (
                           <div key={level} className="flex items-center justify-between text-xs">
                             <div className="flex items-center space-x-2">
                               <div className={`w-2 h-2 rounded-full ${
@@ -281,16 +281,16 @@ export default function Dashboard() {
                         <span className="text-gray-300">ML Engines</span>
                         <div className="flex items-center space-x-1">
                           <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                          <span className="text-green-400">{aiAnalytics.systemMetrics?.mlEnginesActive || 0} Active</span>
+                          <span className="text-green-400">{(aiAnalytics as any)?.systemMetrics?.mlEnginesActive || 0} Active</span>
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-gray-300">False Positive Rate</span>
-                        <span className="text-yellow-400">{aiAnalytics.systemMetrics?.falsePositiveRate || 0}%</span>
+                        <span className="text-yellow-400">{(aiAnalytics as any)?.systemMetrics?.falsePositiveRate || 0}%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-gray-300">Data Points</span>
-                        <span className="text-cyan-400">{aiAnalytics.systemMetrics?.dataPointsProcessed || 0}</span>
+                        <span className="text-cyan-400">{(aiAnalytics as any)?.systemMetrics?.dataPointsProcessed || 0}</span>
                       </div>
                     </div>
                   </div>

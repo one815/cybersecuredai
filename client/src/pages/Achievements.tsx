@@ -154,52 +154,52 @@ export default function Achievements() {
   return (
     <div className="p-6 space-y-6" data-testid="page-achievements">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
           <div className="w-10 h-10 bg-gradient-to-r from-yellow-500/20 to-purple-500/20 rounded-lg flex items-center justify-center">
             <Trophy className="w-6 h-6 text-yellow-400" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">Achievement Center</h1>
-            <p className="text-gray-400">Track your compliance milestones and earn badges</p>
+            <h1 className="text-xl sm:text-2xl font-bold text-white">Achievement Center</h1>
+            <p className="text-sm sm:text-base text-gray-400">Track your compliance milestones and earn badges</p>
           </div>
         </div>
-        <Badge className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 text-yellow-400 border-yellow-500/30">
+        <Badge className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 text-yellow-400 border-yellow-500/30 text-sm">
           Level {(userBadges as any)?.level || 1}
         </Badge>
       </div>
 
       {/* Achievement Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <Card className="holographic-card border border-yellow-500/30">
-          <CardContent className="p-4 text-center">
-            <Trophy className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{(userBadges as any)?.totalBadges || 0}</div>
-            <div className="text-sm text-gray-400">Total Badges</div>
+          <CardContent className="p-3 sm:p-4 text-center">
+            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mx-auto mb-2" />
+            <div className="text-lg sm:text-2xl font-bold text-white">{(userBadges as any)?.totalBadges || 0}</div>
+            <div className="text-xs sm:text-sm text-gray-400">Total Badges</div>
           </CardContent>
         </Card>
 
         <Card className="holographic-card border border-cyan-500/30">
-          <CardContent className="p-4 text-center">
-            <Star className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{(userBadges as any)?.totalPoints || 0}</div>
-            <div className="text-sm text-gray-400">Achievement Points</div>
+          <CardContent className="p-3 sm:p-4 text-center">
+            <Star className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400 mx-auto mb-2" />
+            <div className="text-lg sm:text-2xl font-bold text-white">{(userBadges as any)?.totalPoints || 0}</div>
+            <div className="text-xs sm:text-sm text-gray-400">Achievement Points</div>
           </CardContent>
         </Card>
 
         <Card className="holographic-card border border-purple-500/30">
-          <CardContent className="p-4 text-center">
-            <Crown className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{(userBadges as any)?.level || 1}</div>
-            <div className="text-sm text-gray-400">Achievement Level</div>
+          <CardContent className="p-3 sm:p-4 text-center">
+            <Crown className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400 mx-auto mb-2" />
+            <div className="text-lg sm:text-2xl font-bold text-white">{(userBadges as any)?.level || 1}</div>
+            <div className="text-xs sm:text-sm text-gray-400">Achievement Level</div>
           </CardContent>
         </Card>
 
         <Card className="holographic-card border border-green-500/30">
-          <CardContent className="p-4 text-center">
-            <TrendingUp className="w-8 h-8 text-green-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{(badgeProgress as any)?.filter?.((p: BadgeProgress) => p.currentProgress > 0)?.length || 0}</div>
-            <div className="text-sm text-gray-400">In Progress</div>
+          <CardContent className="p-3 sm:p-4 text-center">
+            <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-green-400 mx-auto mb-2" />
+            <div className="text-lg sm:text-2xl font-bold text-white">{(badgeProgress as any)?.filter?.((p: BadgeProgress) => p.currentProgress > 0)?.length || 0}</div>
+            <div className="text-xs sm:text-sm text-gray-400">In Progress</div>
           </CardContent>
         </Card>
       </div>
@@ -239,11 +239,13 @@ export default function Achievements() {
             </CardHeader>
             <CardContent>
               {userBadges && (
-                <BadgeDisplay 
-                  userBadges={userBadges as any} 
-                  showProgress={true} 
-                  variant="grid"
-                />
+                <div key="badge-display">
+                  <BadgeDisplay 
+                    userBadges={userBadges as any} 
+                    showProgress={true} 
+                    variant="grid"
+                  />
+                </div>
               )}
             </CardContent>
           </Card>
