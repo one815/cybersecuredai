@@ -152,7 +152,7 @@ export default function Achievements() {
   }
 
   return (
-    <div className="p-6 space-y-6" data-testid="page-achievements">
+    <div className="space-y-4 sm:space-y-6" data-testid="page-achievements">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
@@ -205,26 +205,27 @@ export default function Achievements() {
       </div>
 
       <Tabs defaultValue="earned" className="space-y-6">
-        <TabsList className="bg-surface border border-surface-light">
-          <TabsTrigger value="earned" className="data-[state=active]:bg-yellow-600">
-            <Trophy className="w-4 h-4 mr-2" />
-            Earned Badges
+        <TabsList className="bg-surface border border-surface-light flex-wrap h-auto gap-1 p-1">
+          <TabsTrigger value="earned" className="data-[state=active]:bg-yellow-600 text-xs sm:text-sm flex-1 min-w-0">
+            <Trophy className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate">Earned</span>
           </TabsTrigger>
-          <TabsTrigger value="available" className="data-[state=active]:bg-blue-600">
-            <Target className="w-4 h-4 mr-2" />
-            Available Badges
+          <TabsTrigger value="available" className="data-[state=active]:bg-blue-600 text-xs sm:text-sm flex-1 min-w-0">
+            <Target className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate">Available</span>
           </TabsTrigger>
-          <TabsTrigger value="progress" className="data-[state=active]:bg-green-600">
-            <BarChart className="w-4 h-4 mr-2" />
-            Progress Tracking
+          <TabsTrigger value="progress" className="data-[state=active]:bg-green-600 text-xs sm:text-sm flex-1 min-w-0">
+            <BarChart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate">Progress</span>
           </TabsTrigger>
-          <TabsTrigger value="leaderboard" className="data-[state=active]:bg-purple-600">
-            <Users className="w-4 h-4 mr-2" />
-            Leaderboard
+          <TabsTrigger value="leaderboard" className="data-[state=active]:bg-purple-600 text-xs sm:text-sm flex-1 min-w-0">
+            <Users className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate sm:hidden">Leaders</span>
+            <span className="truncate hidden sm:inline">Leaderboard</span>
           </TabsTrigger>
-          <TabsTrigger value="simulator" className="data-[state=active]:bg-orange-600">
-            <Sparkles className="w-4 h-4 mr-2" />
-            Badge Simulator
+          <TabsTrigger value="simulator" className="data-[state=active]:bg-orange-600 text-xs sm:text-sm flex-1 min-w-0">
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 flex-shrink-0" />
+            <span className="truncate">Simulator</span>
           </TabsTrigger>
         </TabsList>
 
@@ -253,7 +254,7 @@ export default function Achievements() {
 
         {/* Available Badges */}
         <TabsContent value="available" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {(badgeDefinitions as any)?.map((badge: BadgeDefinition) => {
               const isEarned = (userBadges as any)?.badges?.some((b: any) => b.badgeId === badge.badgeId);
               const colors = tierColors[badge.tier];
