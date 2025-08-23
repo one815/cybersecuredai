@@ -37,7 +37,10 @@ import {
   QrCode,
   Fingerprint,
   CreditCard,
-  Key
+  Key,
+  Target,
+  Bot,
+  Monitor
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -316,6 +319,109 @@ export default function Dashboard() {
             />
           </div>
         )}
+
+        {/* Vulnerability Management Section */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <Target className="w-7 h-7 mr-3 text-orange-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.5))'}} />
+            Vulnerability Management
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* 24/7 Monitoring & Vulnerability Management */}
+            <Card 
+              className="holographic-card border border-orange-500/30 hover:border-orange-400/50 transition-all duration-300 cursor-pointer group"
+              onClick={() => window.location.href = '/platform/monitoring-vulnerability'}
+              data-testid="vulnerability-monitoring-card"
+            >
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Monitor className="w-6 h-6 text-white" style={{filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.3))'}} />
+                    </div>
+                    <div>
+                      <CardTitle className="text-white text-lg group-hover:text-orange-300 transition-colors">
+                        24/7 Monitoring & Vulnerability Management
+                      </CardTitle>
+                      <p className="text-gray-400 text-sm mt-1">Around-the-clock vulnerability detection and remediation</p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-orange-400 transition-colors" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="bg-surface/30 rounded-lg p-3 text-center">
+                      <div className="text-orange-400 font-bold text-lg">12,847</div>
+                      <div className="text-gray-400 text-xs">Endpoints Monitored</div>
+                    </div>
+                    <div className="bg-surface/30 rounded-lg p-3 text-center">
+                      <div className="text-orange-400 font-bold text-lg">98.4%</div>
+                      <div className="text-gray-400 text-xs">Vulnerability Coverage</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-400">Real-time monitoring active</span>
+                    </div>
+                    <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/50">
+                      24/7 Active
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Security Scanner */}
+            <Card 
+              className="holographic-card border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 cursor-pointer group"
+              onClick={() => window.location.href = '/security-scanner'}
+              data-testid="security-scanner-card"
+            >
+              <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <Bot className="w-6 h-6 text-white" style={{filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.3))'}} />
+                    </div>
+                    <div>
+                      <CardTitle className="text-white text-lg group-hover:text-blue-300 transition-colors">
+                        Security Scanner
+                      </CardTitle>
+                      <p className="text-gray-400 text-sm mt-1">Free infrastructure security assessment tool</p>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-5 h-5 text-gray-500 group-hover:text-blue-400 transition-colors" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="bg-surface/30 rounded-lg p-3 text-center">
+                      <div className="text-blue-400 font-bold text-lg">5</div>
+                      <div className="text-gray-400 text-xs">Security Categories</div>
+                    </div>
+                    <div className="bg-surface/30 rounded-lg p-3 text-center">
+                      <div className="text-blue-400 font-bold text-lg">100/100</div>
+                      <div className="text-gray-400 text-xs">Assessment Score</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                      <span className="text-blue-400">Ready to scan domains</span>
+                    </div>
+                    <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/50">
+                      Free Tool
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* AI Analytics Status Section */}
         {aiAnalytics && (
