@@ -25,11 +25,37 @@ import {
   Network,
   HeadphonesIcon
 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
+import { useAuth } from "@/hooks/useAuth";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { user, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!isLoading && user) {
+      setLocation('/dashboard');
+    }
+  }, [user, isLoading, setLocation]);
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-interactive"></div>
+      </div>
+    );
+  }
+
+  // Don't render marketing page if user is authenticated (will redirect)
+  if (user) {
+    return null;
+  }
+
   return (
     <MarketingLayout>
       <div className="ai-dashboard-bg min-h-screen">
