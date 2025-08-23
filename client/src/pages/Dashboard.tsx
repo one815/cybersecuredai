@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { DashboardCard } from "@/components/DashboardCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,7 @@ import {
 export default function Dashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   
   // State for tracking resolved security alerts
   const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(new Set());
@@ -330,7 +332,7 @@ export default function Dashboard() {
             {/* 24/7 Monitoring & Vulnerability Management */}
             <Card 
               className="holographic-card border border-orange-500/30 hover:border-orange-400/50 transition-all duration-300 cursor-pointer group"
-              onClick={() => window.location.href = '/platform/monitoring-vulnerability'}
+              onClick={() => setLocation('/platform/monitoring-vulnerability')}
               data-testid="vulnerability-monitoring-card"
             >
               <CardHeader className="pb-4">
@@ -377,7 +379,7 @@ export default function Dashboard() {
             {/* Security Scanner */}
             <Card 
               className="holographic-card border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 cursor-pointer group"
-              onClick={() => window.location.href = '/security-scanner'}
+              onClick={() => setLocation('/security-scanner')}
               data-testid="security-scanner-card"
             >
               <CardHeader className="pb-4">
