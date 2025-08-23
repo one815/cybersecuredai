@@ -532,14 +532,14 @@ export default function ITManagement() {
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Port Usage</div>
                               <div className="text-sm text-white">
-                                {device.ports.used}/{device.ports.total} ports
+                                {device.ports?.used || 0}/{device.ports?.total || 0} ports
                               </div>
-                              <Progress value={(device.ports.used / device.ports.total) * 100} className="h-1 mt-1" />
+                              <Progress value={((device.ports?.used || 0) / (device.ports?.total || 1)) * 100} className="h-1 mt-1" />
                             </div>
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Traffic</div>
-                              <div className="text-sm text-cyan-400">↓ {device.traffic.in}</div>
-                              <div className="text-sm text-orange-400">↑ {device.traffic.out}</div>
+                              <div className="text-sm text-cyan-400">↓ {device.traffic?.in || '0 MB/s'}</div>
+                              <div className="text-sm text-orange-400">↑ {device.traffic?.out || '0 MB/s'}</div>
                             </div>
                           </div>
                         )}
@@ -548,11 +548,11 @@ export default function ITManagement() {
                           <div className="grid grid-cols-2 gap-4 mb-4">
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Threats Blocked</div>
-                              <div className="text-sm text-red-400">{device.threats.blocked.toLocaleString()}</div>
+                              <div className="text-sm text-red-400">{device.threats?.blocked?.toLocaleString() || '0'}</div>
                             </div>
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Bandwidth Usage</div>
-                              <div className="text-sm text-white">{device.bandwidth.used} of {device.bandwidth.total}</div>
+                              <div className="text-sm text-white">{device.bandwidth?.used || '0'} of {device.bandwidth?.total || '0'}</div>
                             </div>
                           </div>
                         )}
@@ -562,14 +562,14 @@ export default function ITManagement() {
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Connected Clients</div>
                               <div className="text-sm text-white">
-                                {device.clients.connected}/{device.clients.max}
+                                {device.clients?.connected || 0}/{device.clients?.max || 0}
                               </div>
-                              <Progress value={(device.clients.connected / device.clients.max) * 100} className="h-1 mt-1" />
+                              <Progress value={((device.clients?.connected || 0) / (device.clients?.max || 1)) * 100} className="h-1 mt-1" />
                             </div>
                             <div>
                               <div className="text-xs text-gray-400 mb-2">Signal Quality</div>
-                              <div className="text-sm text-green-400">{device.signal.quality}</div>
-                              <div className="text-xs text-gray-400">{device.signal.strength}</div>
+                              <div className="text-sm text-green-400">{device.signal?.quality || 0}</div>
+                              <div className="text-xs text-gray-400">{device.signal?.strength || 0}</div>
                             </div>
                           </div>
                         )}
