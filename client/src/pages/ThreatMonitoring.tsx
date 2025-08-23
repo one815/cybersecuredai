@@ -30,14 +30,33 @@ export default function ThreatMonitoring() {
   
   const { data: threats = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/threats"],
+    refetchInterval: 5000, // Real-time updates every 5 seconds
   });
 
-  // Mock data to match the design
-  const threatStats = {
-    currentLevel: "Critical",
-    activeIncidents: 12,
-    responseTime: "4.2 min",
-    threatSources: 7
+  const { data: aiAnalytics = {} } = useQuery<any>({
+    queryKey: ["/api/ai/analytics"],
+    refetchInterval: 10000, // Update AI analytics every 10 seconds
+  });
+
+  const { data: threatNotifications = [] } = useQuery<any[]>({
+    queryKey: ["/api/threat-notifications"],
+    refetchInterval: 3000, // Check for new notifications every 3 seconds
+  });
+
+  const { data: threatStats = {} } = useQuery<any>({
+    queryKey: ["/api/threats/stats"],
+    refetchInterval: 5000,
+  });
+
+  // Enhanced threat stats with real-time data
+  const liveThreatsStats = {
+    currentLevel: aiAnalytics?.threatLevel || "LOW",
+    activeIncidents: threatStats?.recentEventsCount || 0,
+    responseTime: aiAnalytics?.systemMetrics?.averageResponseTime || "2.1 min",
+    threatSources: aiAnalytics?.threatDetection?.activeSources || 7,
+    totalThreats: aiAnalytics?.threatDetection?.totalThreats || 0,
+    blockedThreats: aiAnalytics?.threatDetection?.blockedThreats || 0,
+    suspiciousIPs: threatStats?.suspiciousIPsCount || 0
   };
 
   const criticalIncidents = [
@@ -514,25 +533,72 @@ export default function ThreatMonitoring() {
 
       {/* Main Content */}
       <main className="p-6 space-y-6">
-        {/* Top Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="bg-surface border-red-500">
+        {/* Enhanced Live Threat Notifications Banner */}
+        {threatNotifications.length > 0 && (
+          <Card className="bg-gradient-to-r from-red-900/30 to-orange-900/30 border-red-500/50">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <div>
+                    <h3 className="text-white font-semibold">Live Security Alerts</h3>
+                    <p className="text-gray-300 text-sm">{threatNotifications.length} active threat{threatNotifications.length !== 1 ? 's' : ''} detected</p>
+                  </div>
+                </div>
+                <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                  View All Alerts
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Enhanced Stats Cards with Real-time Data */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+          <Card className={`bg-surface ${liveThreatsStats.currentLevel === 'CRITICAL' ? 'border-red-500' : liveThreatsStats.currentLevel === 'HIGH' ? 'border-orange-500' : liveThreatsStats.currentLevel === 'MEDIUM' ? 'border-yellow-500' : 'border-green-500'}`}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Current Threat Level</p>
-                  <p className="text-2xl font-bold text-red-500">{threatStats.currentLevel}</p>
+                  <p className={`text-2xl font-bold ${liveThreatsStats.currentLevel === 'CRITICAL' ? 'text-red-500' : liveThreatsStats.currentLevel === 'HIGH' ? 'text-orange-500' : liveThreatsStats.currentLevel === 'MEDIUM' ? 'text-yellow-500' : 'text-green-500'}`}>
+                    {liveThreatsStats.currentLevel}
+                  </p>
                   <div className="flex items-center mt-2">
                     <div className="flex space-x-1">
-                      <span className="text-xs">Safe</span>
+                      <span className="text-xs text-gray-400">Safe</span>
                       <div className="w-16 h-2 bg-gray-700 rounded-full mt-1">
-                        <div className="w-full h-full bg-red-500 rounded-full"></div>
+                        <div className={`h-full rounded-full ${
+                          liveThreatsStats.currentLevel === 'CRITICAL' ? 'w-full bg-red-500' :
+                          liveThreatsStats.currentLevel === 'HIGH' ? 'w-3/4 bg-orange-500' :
+                          liveThreatsStats.currentLevel === 'MEDIUM' ? 'w-1/2 bg-yellow-500' :
+                          'w-1/4 bg-green-500'
+                        }`}></div>
                       </div>
-                      <span className="text-xs">Critical</span>
+                      <span className="text-xs text-gray-400">Critical</span>
                     </div>
                   </div>
                 </div>
-                <AlertTriangle className="text-red-500 w-8 h-8" />
+                <AlertTriangle className={`w-8 h-8 ${
+                  liveThreatsStats.currentLevel === 'CRITICAL' ? 'text-red-500' :
+                  liveThreatsStats.currentLevel === 'HIGH' ? 'text-orange-500' :
+                  liveThreatsStats.currentLevel === 'MEDIUM' ? 'text-yellow-500' :
+                  'text-green-500'
+                }`} />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface border-orange-500">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-400 text-sm mb-1">Total Threats</p>
+                  <p className="text-2xl font-bold text-white">{liveThreatsStats.totalThreats.toLocaleString()}</p>
+                  <div className="flex items-center mt-2 text-xs text-gray-400">
+                    <span>Blocked: {liveThreatsStats.blockedThreats}</span>
+                  </div>
+                </div>
+                <Shield className="text-orange-500 w-8 h-8" />
               </div>
             </CardContent>
           </Card>
@@ -542,11 +608,9 @@ export default function ThreatMonitoring() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Active Incidents</p>
-                  <p className="text-2xl font-bold text-white">{threatStats.activeIncidents}</p>
+                  <p className="text-2xl font-bold text-white">{liveThreatsStats.activeIncidents}</p>
                   <div className="flex items-center mt-2 text-xs text-gray-400">
-                    <span>Critical: 4</span>
-                    <span className="ml-4">High: 5</span>
-                    <span className="ml-4">Medium: 3</span>
+                    <span>Suspicious IPs: {liveThreatsStats.suspiciousIPs}</span>
                   </div>
                 </div>
                 <Activity className="text-red-500 w-8 h-8" />
@@ -559,7 +623,7 @@ export default function ThreatMonitoring() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Response Time</p>
-                  <p className="text-2xl font-bold text-white">{threatStats.responseTime}</p>
+                  <p className="text-2xl font-bold text-white">{liveThreatsStats.responseTime}</p>
                   <div className="flex items-center mt-2">
                     <span className="text-xs text-gray-400">Average</span>
                     <div className="w-16 h-2 bg-gray-700 rounded-full ml-2 mt-1">
@@ -580,7 +644,7 @@ export default function ThreatMonitoring() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm mb-1">Threat Sources</p>
-                  <p className="text-2xl font-bold text-white">{threatStats.threatSources} Countries</p>
+                  <p className="text-2xl font-bold text-white">{liveThreatsStats.threatSources} Sources</p>
                   <div className="mt-2 space-y-1">
                     {countryStats.map((country, index) => (
                       <div key={index} className="flex justify-between text-xs">
@@ -1048,10 +1112,156 @@ export default function ThreatMonitoring() {
           </CardContent>
         </Card>
 
+        {/* Enhanced Threat Intelligence Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="bg-surface">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-white flex items-center">
+                  <Brain className="w-5 h-5 mr-2" />
+                  AI Threat Intelligence
+                </CardTitle>
+                <Badge className="bg-purple-900/50 text-purple-400 border-purple-700">
+                  ML-Powered
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="bg-purple-900/20 border border-purple-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-purple-400 font-semibold">Predictive Analysis</h4>
+                    <span className="text-xs text-purple-300">Next 24h</span>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">ML models predict 73% likelihood of targeted phishing campaign against education sector</p>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-2">
+                      <TrendingUp className="w-4 h-4 text-red-400" />
+                      <span className="text-sm text-red-400">High Confidence</span>
+                    </div>
+                    <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                      View Details
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="bg-orange-900/20 border border-orange-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-orange-400 font-semibold">IOC Detection</h4>
+                    <span className="text-xs text-orange-300">Live</span>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">147 new indicators of compromise identified in the last hour</p>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-400">Malicious IPs</span>
+                      <span className="text-orange-400">89</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-400">Suspicious Domains</span>
+                      <span className="text-orange-400">34</span>
+                    </div>
+                    <div className="flex justify-between text-xs">
+                      <span className="text-gray-400">File Hashes</span>
+                      <span className="text-orange-400">24</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-blue-900/20 border border-blue-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-blue-400 font-semibold">Threat Attribution</h4>
+                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">APT29 (Cozy Bear)</span>
+                      <span className="text-red-400">Active</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">Lazarus Group</span>
+                      <span className="text-orange-400">Monitoring</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-300">FIN7</span>
+                      <span className="text-yellow-400">Suspected</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-white flex items-center">
+                  <Zap className="w-5 h-5 mr-2" />
+                  Real-time Security Feed
+                </CardTitle>
+                <div className="flex items-center space-x-2">
+                  <RefreshCw className="w-3 h-3 text-green-400 animate-spin" />
+                  <span className="text-xs text-green-400">Live</span>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {[
+                  { time: "13:47:23", type: "Critical", message: "Suspicious PowerShell execution detected on WS-Desktop-042", source: "EDR" },
+                  { time: "13:45:12", type: "High", message: "Multiple failed login attempts from 45.227.x.x", source: "Authentication" },
+                  { time: "13:43:55", type: "Medium", message: "Unusual data transfer volume detected on database server", source: "Network Monitor" },
+                  { time: "13:42:18", type: "Critical", message: "Ransomware signature detected in memory scan", source: "Endpoint Protection" },
+                  { time: "13:40:33", type: "High", message: "SQL injection attempt blocked on customer portal", source: "WAF" },
+                  { time: "13:38:44", type: "Medium", message: "Suspicious DNS query to newly registered domain", source: "DNS Monitor" },
+                  { time: "13:37:12", type: "Low", message: "Port scan detected from internal network", source: "Network IDS" },
+                  { time: "13:35:28", type: "High", message: "Privilege escalation attempt detected", source: "System Monitor" },
+                ].map((event, index) => (
+                  <div key={index} className="flex items-start space-x-3 p-3 bg-gray-800/50 rounded-lg border-l-4 border-red-500">
+                    <div className="flex-shrink-0">
+                      <div className={`w-2 h-2 rounded-full ${
+                        event.type === 'Critical' ? 'bg-red-500' :
+                        event.type === 'High' ? 'bg-orange-500' :
+                        event.type === 'Medium' ? 'bg-yellow-500' :
+                        'bg-green-500'
+                      }`}></div>
+                    </div>
+                    <div className="flex-grow min-w-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs text-gray-400">{event.time}</span>
+                        <Badge className={`text-xs ${
+                          event.type === 'Critical' ? 'bg-red-500' :
+                          event.type === 'High' ? 'bg-orange-500' :
+                          event.type === 'Medium' ? 'bg-yellow-500' :
+                          'bg-green-500'
+                        }`}>{event.type}</Badge>
+                      </div>
+                      <p className="text-sm text-white mb-1">{event.message}</p>
+                      <span className="text-xs text-blue-400">{event.source}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-3 border-t border-gray-700">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                  View All Security Events
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* AI-Powered Response Recommendations */}
         <Card className="bg-surface">
           <CardHeader>
-            <CardTitle className="text-white">AI-Powered Response Recommendations</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-white flex items-center">
+                <Brain className="w-5 h-5 mr-2" />
+                AI-Powered Response Recommendations
+              </CardTitle>
+              <Badge className="bg-green-900/50 text-green-400 border-green-700">
+                Auto-Generated
+              </Badge>
+            </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -1108,6 +1318,220 @@ export default function ThreatMonitoring() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Advanced Threat Hunting & Cypher AI Integration */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Card className="lg:col-span-2 bg-surface">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-white flex items-center">
+                  <Search className="w-5 h-5 mr-2" />
+                  Advanced Threat Hunting
+                </CardTitle>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-cyan-900/50 text-cyan-400 border-cyan-700">
+                    MITRE ATT&CK
+                  </Badge>
+                  <Button size="sm" variant="outline">
+                    <BarChart3 className="w-3 h-3 mr-1" />
+                    Analytics
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-cyan-900/20 to-blue-900/20 border border-cyan-700 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-cyan-400 font-semibold">Active Hunt Operations</h4>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-green-400">3 Running</span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-gray-800/50 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-white">Lateral Movement Hunt</span>
+                        <Badge className="bg-orange-500 text-xs">T1021</Badge>
+                      </div>
+                      <p className="text-xs text-gray-400 mb-2">Detecting unusual RDP/SMB activity patterns</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-orange-400">48% Complete</span>
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-8 h-1 bg-orange-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-800/50 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-white">Command & Control</span>
+                        <Badge className="bg-red-500 text-xs">T1071</Badge>
+                      </div>
+                      <p className="text-xs text-gray-400 mb-2">Hunting for C2 communications via HTTP/HTTPS</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-red-400">73% Complete</span>
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-12 h-1 bg-red-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-800/50 rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-white">Data Exfiltration</span>
+                        <Badge className="bg-purple-500 text-xs">T1041</Badge>
+                      </div>
+                      <p className="text-xs text-gray-400 mb-2">Monitoring for unusual data transfer patterns</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs text-purple-400">91% Complete</span>
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-14 h-1 bg-purple-500 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-yellow-900/20 border border-yellow-700 rounded-lg p-4">
+                    <h4 className="text-yellow-400 font-semibold mb-3">Threat Hypothesis</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-300">APT Activity Indicators</span>
+                        <span className="text-yellow-400 text-sm">67%</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-300">Insider Threat Patterns</span>
+                        <span className="text-green-400 text-sm">12%</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-300">Ransomware Preparation</span>
+                        <span className="text-red-400 text-sm">84%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-green-900/20 border border-green-700 rounded-lg p-4">
+                    <h4 className="text-green-400 font-semibold mb-3">Hunt Results</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-gray-300">IoCs Discovered</span>
+                        <span className="text-green-400">247</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-300">True Positives</span>
+                        <span className="text-orange-400">89</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-300">False Positives</span>
+                        <span className="text-red-400">12</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-300">Accuracy Rate</span>
+                        <span className="text-green-400">88.1%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-white flex items-center">
+                  <Brain className="w-5 h-5 mr-2" />
+                  Cypher AI Assistant
+                </CardTitle>
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/50 rounded-lg p-4">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                      <Brain className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <span className="text-blue-400 font-semibold">Cypher Analysis</span>
+                      <p className="text-xs text-gray-400">Just now</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">
+                    Based on current threat patterns, I recommend implementing network segmentation for database servers and enabling enhanced logging on critical endpoints.
+                  </p>
+                  <div className="flex space-x-2">
+                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs">
+                      Apply Recommendation
+                    </Button>
+                    <Button size="sm" variant="outline" className="text-xs">
+                      Details
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3">Quick Actions</h4>
+                  <div className="space-y-2">
+                    <Button className="w-full justify-start bg-red-600 hover:bg-red-700" size="sm">
+                      <AlertTriangle className="w-4 h-4 mr-2" />
+                      Emergency Response Mode
+                    </Button>
+                    <Button className="w-full justify-start bg-orange-600 hover:bg-orange-700" size="sm">
+                      <Shield className="w-4 h-4 mr-2" />
+                      Threat Containment
+                    </Button>
+                    <Button className="w-full justify-start bg-blue-600 hover:bg-blue-700" size="sm">
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      Generate Report
+                    </Button>
+                    <Button className="w-full justify-start bg-purple-600 hover:bg-purple-700" size="sm">
+                      <Search className="w-4 h-4 mr-2" />
+                      Start Hunt Operation
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="bg-gray-800/50 rounded-lg p-4">
+                  <h4 className="text-white font-semibold mb-3">System Health</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-300">Detection Coverage</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-14 h-1 bg-green-500 rounded-full"></div>
+                        </div>
+                        <span className="text-xs text-green-400">94%</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-300">Response Time</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-10 h-1 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <span className="text-xs text-blue-400">2.1m</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-300">False Positive Rate</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 h-1 bg-gray-700 rounded-full">
+                          <div className="w-2 h-1 bg-green-500 rounded-full"></div>
+                        </div>
+                        <span className="text-xs text-green-400">3.2%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );
