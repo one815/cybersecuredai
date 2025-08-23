@@ -672,14 +672,15 @@ export default function ThreatMonitoring() {
               </div>
               
               {/* Advanced Filtering Controls */}
-              <div className="mt-4 flex items-center justify-between">
-                <div className="flex items-center space-x-4">
+              <div className="mt-4 space-y-3 lg:space-y-0">
+                {/* Filter Controls - Mobile Friendly Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:flex lg:items-center lg:space-x-4">
                   <div className="flex items-center space-x-2">
                     <Filter className="w-4 h-4 text-gray-400" />
                     <select 
                       value={threatTypeFilter} 
                       onChange={(e) => setThreatTypeFilter(e.target.value)}
-                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1"
+                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1 min-w-0 flex-1"
                     >
                       <option value="all">All Threat Types</option>
                       <option value="malware">Malware</option>
@@ -694,7 +695,7 @@ export default function ThreatMonitoring() {
                     <select 
                       value={severityFilter} 
                       onChange={(e) => setSeverityFilter(e.target.value)}
-                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1"
+                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1 min-w-0 flex-1"
                     >
                       <option value="all">All Severities</option>
                       <option value="critical">Critical</option>
@@ -708,7 +709,7 @@ export default function ThreatMonitoring() {
                     <select 
                       value={timeFilter} 
                       onChange={(e) => setTimeFilter(e.target.value)}
-                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1"
+                      className="bg-gray-800 border border-gray-600 text-white text-xs rounded px-2 py-1 min-w-0 flex-1"
                     >
                       <option value="1h">Last Hour</option>
                       <option value="24h">Last 24 Hours</option>
@@ -717,7 +718,9 @@ export default function ThreatMonitoring() {
                     </select>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 text-xs text-gray-400">
+                
+                {/* Performance Stats - Separate Row on Mobile */}
+                <div className="flex items-center justify-center lg:justify-end space-x-4 text-xs text-gray-400">
                   <div className="flex items-center space-x-1">
                     <Cpu className="w-3 h-3" />
                     <span>Cache: 98.7% hit rate</span>
