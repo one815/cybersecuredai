@@ -54,6 +54,37 @@ interface ScanResults {
 }
 
 export default function SecurityScanner() {
+  const { user } = useAuth();
+
+  // Admin-only access check
+  if (!user || !['admin', 'cyber_admin', 'internal_admin'].includes(user.role)) {
+    return (
+      <Layout>
+        <div className="ai-dashboard-bg min-h-screen flex items-center justify-center">
+          <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 max-w-md">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl text-white flex items-center justify-center">
+                <Shield className="w-6 h-6 mr-3 text-red-400" />
+                Access Restricted
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <p className="text-gray-400 mb-4">
+                This enterprise security assessment tool is restricted to authorized CyberSecure administrators only.
+              </p>
+              <Button 
+                onClick={() => window.location.href = '/basic-security-scan'}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                Use Basic Scanner Instead
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </Layout>
+    );
+  }
+
   const [scanConfig, setScanConfig] = useState({
     domain: "",
     subdomains: "",
@@ -71,7 +102,6 @@ export default function SecurityScanner() {
   const [scanResults, setScanResults] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
   const [activeTab, setActiveTab] = useState("configuration");
-  const { user } = useAuth();
   const { toast } = useToast();
 
   const scanMutation = useMutation({
