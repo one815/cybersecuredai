@@ -845,11 +845,17 @@ export default function Dashboard() {
                     <Zap className="w-4 h-4 text-orange-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 146, 60, 0.4))'}} />
                     <span className="text-white">Network Gateway</span>
                   </div>
-                  <span className="text-gray-400">3 days ago</span>
+                  <span className="text-gray-400">{resolvedAlerts.has('critical-update') ? 'Today, 12:55 PM' : '3 days ago'}</span>
                   <Badge className="bg-green-900/50 text-green-400 border-green-700 text-xs">Active</Badge>
-                  <Badge className="bg-orange-900/50 text-orange-400 border-orange-700 text-xs">Update Required</Badge>
-                  <span className="text-orange-400">2 medium</span>
-                  <Badge className="bg-orange-900/50 text-orange-400 border-orange-700 text-xs">At Risk</Badge>
+                  <Badge className={resolvedAlerts.has('critical-update') ? "bg-green-900/50 text-green-400 border-green-700 text-xs" : "bg-orange-900/50 text-orange-400 border-orange-700 text-xs"}>
+                    {resolvedAlerts.has('critical-update') ? 'Updated' : 'Update Required'}
+                  </Badge>
+                  <span className={resolvedAlerts.has('critical-update') ? "text-green-400" : "text-orange-400"}>
+                    {resolvedAlerts.has('critical-update') ? '0 detected' : '2 medium'}
+                  </span>
+                  <Badge className={resolvedAlerts.has('critical-update') ? "bg-green-900/50 text-green-400 border-green-700 text-xs" : "bg-orange-900/50 text-orange-400 border-orange-700 text-xs"}>
+                    {resolvedAlerts.has('critical-update') ? 'Secure' : 'At Risk'}
+                  </Badge>
                 </div>
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
