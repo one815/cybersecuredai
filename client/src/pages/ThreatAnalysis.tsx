@@ -1,17 +1,28 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap, MapPin } from "lucide-react";
+import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Target, Users, Eye } from "lucide-react";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ThreatAnalysis() {
-  const { data: threatStats } = useQuery({
-    queryKey: ["/api/threats/stats"],
+  const { data: aiAnalytics } = useQuery({
+    queryKey: ["/api/ai/analytics"],
+    refetchInterval: 30000, // Refresh every 30 seconds for real-time data
   });
 
   const { data: threatPatterns = [] } = useQuery({
     queryKey: ["/api/threats/patterns"],
+  });
+
+  const { data: behavioralAnalysis } = useQuery({
+    queryKey: ["/api/ai/behavioral-analysis"],
+    refetchInterval: 30000,
+  });
+
+  const { data: threatAnalysisData } = useQuery({
+    queryKey: ["/api/ai/threat-analysis"],
+    refetchInterval: 30000,
   });
   return (
     <div className="min-h-screen bg-background text-text">
@@ -32,6 +43,163 @@ export default function ThreatAnalysis() {
               Configure
             </Button>
           </div>
+        </div>
+
+        {/* AI Models Status Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+          <Card className="bg-surface border-cyan-500/30" data-testid="card-ml-models">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <Brain className="w-8 h-8 text-cyan-400" />
+                <div>
+                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.mlEnginesActive || 0}</div>
+                  <div className="text-sm text-gray-400">ML Models Active</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface border-green-500/30" data-testid="card-detection-rate">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <Target className="w-8 h-8 text-green-400" />
+                <div>
+                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.threatDetectionRate || 0}%</div>
+                  <div className="text-sm text-gray-400">Detection Rate</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface border-orange-500/30" data-testid="card-processing-latency">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <Zap className="w-8 h-8 text-orange-400" />
+                <div>
+                  <div className="text-2xl font-bold text-white">{aiAnalytics?.systemMetrics?.processingLatency || 0}ms</div>
+                  <div className="text-sm text-gray-400">Processing Time</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface border-purple-500/30" data-testid="card-threats-analyzed">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-3">
+                <Activity className="w-8 h-8 text-purple-400" />
+                <div>
+                  <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.totalThreats || 0}</div>
+                  <div className="text-sm text-gray-400">Threats Analyzed</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* ML Threat Detection Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <Card className="bg-surface border-cyan-500/30" data-testid="card-ml-threat-detection">
+            <CardHeader>
+              <CardTitle className="text-white text-lg flex items-center">
+                <Brain className="w-5 h-5 mr-2 text-cyan-400" />
+                ML Threat Detection Engine
+              </CardTitle>
+              <div className="flex items-center space-x-2">
+                <Badge variant="outline" className="bg-green-900/50 text-green-400 border-green-700">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                  Active
+                </Badge>
+                <Badge variant="outline" className="bg-cyan-900/50 text-cyan-400 border-cyan-700">
+                  Accuracy: {aiAnalytics?.threatDetection?.mlModelAccuracy || 0}%
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm text-gray-400">Total Threats</div>
+                    <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.totalThreats || 0}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400">Average Risk Score</div>
+                    <div className="text-2xl font-bold text-white">{aiAnalytics?.threatDetection?.averageRiskScore || 'N/A'}</div>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="text-sm text-gray-400">Threat Distribution</div>
+                  {aiAnalytics?.threatDetection?.threatDistribution && (
+                    <div className="space-y-2">
+                      {Object.entries(aiAnalytics.threatDetection.threatDistribution).map(([level, count]) => (
+                        <div key={level} className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <div className={`w-3 h-3 rounded-full ${
+                              level === 'CRITICAL' ? 'bg-red-500' :
+                              level === 'HIGH' ? 'bg-orange-500' :
+                              level === 'MEDIUM' ? 'bg-yellow-500' :
+                              'bg-green-500'
+                            }`}></div>
+                            <span className="text-gray-300 text-sm">{level}</span>
+                          </div>
+                          <span className="text-white font-medium">{count as number}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-surface border-purple-500/30" data-testid="card-behavioral-analysis">
+            <CardHeader>
+              <CardTitle className="text-white text-lg flex items-center">
+                <Users className="w-5 h-5 mr-2 text-purple-400" />
+                Behavioral Analysis Engine
+              </CardTitle>
+              <div className="flex items-center space-x-2">
+                <Badge variant="outline" className="bg-green-900/50 text-green-400 border-green-700">
+                  <div className="w-2 h-2 bg-green-400 rounded-full mr-1 animate-pulse"></div>
+                  Monitoring
+                </Badge>
+                <Badge variant="outline" className="bg-purple-900/50 text-purple-400 border-purple-700">
+                  {aiAnalytics?.behavioralAnalysis?.totalUsers || 0} Users Tracked
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm text-gray-400">High Risk Users</div>
+                    <div className="text-2xl font-bold text-white">{aiAnalytics?.behavioralAnalysis?.highRiskUsers || 0}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400">Avg Risk Score</div>
+                    <div className="text-2xl font-bold text-white">{aiAnalytics?.behavioralAnalysis?.averageRiskScore || 0}</div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="text-sm text-gray-400">Top Risk Factors</div>
+                  {aiAnalytics?.behavioralAnalysis?.topRiskyUsers?.slice(0, 3).map((user: any, index: number) => (
+                    <div key={user.userId} className="flex items-center justify-between p-2 bg-gray-800/50 rounded">
+                      <div className="text-sm text-gray-300">User {user.userId.slice(-4)}</div>
+                      <div className="flex items-center space-x-2">
+                        <div className={`w-2 h-2 rounded-full ${
+                          user.riskScore > 75 ? 'bg-red-500' :
+                          user.riskScore > 50 ? 'bg-orange-500' :
+                          'bg-yellow-500'
+                        }`}></div>
+                        <span className="text-white text-sm">{user.riskScore}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Main Analytics Grid */}
