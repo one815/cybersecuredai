@@ -76,7 +76,8 @@ function Router() {
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
-    // In a real app, this would update the user's onboarding status via API
+    // Refresh user data to get updated onboarding status
+    window.location.reload();
   };
 
   if (isLoading) {
