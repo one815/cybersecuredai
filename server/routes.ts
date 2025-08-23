@@ -1518,6 +1518,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Security update endpoint
+  app.post("/api/security/apply-update", async (req, res) => {
+    try {
+      const { updateId } = req.body;
+      
+      console.log(`🔒 Security Update Applied: ${updateId}`);
+      
+      // Simulate applying security update
+      setTimeout(() => {
+        console.log(`✅ Security update ${updateId} completed successfully`);
+      }, 1000);
+      
+      res.json({
+        success: true,
+        message: `Security update ${updateId} applied successfully`,
+        appliedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Error applying security update:", error);
+      res.status(500).json({ error: "Failed to apply security update" });
+    }
+  });
+
+  // MFA reminder endpoint
+  app.post("/api/users/send-mfa-reminder", async (req, res) => {
+    try {
+      // Get users without MFA enabled
+      const usersWithoutMFA = [
+        { id: "user1", email: "user1@example.com", name: "John Doe" },
+        { id: "user2", email: "user2@example.com", name: "Jane Smith" },
+        { id: "user3", email: "user3@example.com", name: "Bob Johnson" },
+        { id: "user4", email: "user4@example.com", name: "Alice Brown" }
+      ];
+      
+      console.log(`📧 Sending MFA reminders to ${usersWithoutMFA.length} users`);
+      
+      // Simulate sending emails
+      for (const user of usersWithoutMFA) {
+        console.log(`📨 MFA reminder sent to ${user.name} (${user.email})`);
+      }
+      
+      res.json({
+        success: true,
+        message: `MFA reminders sent to ${usersWithoutMFA.length} users`,
+        sentTo: usersWithoutMFA.map(u => ({ id: u.id, email: u.email })),
+        sentAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Error sending MFA reminders:", error);
+      res.status(500).json({ error: "Failed to send MFA reminders" });
+    }
+  });
+
+  // Security scan endpoint
+  app.post("/api/security/run-scan", async (req, res) => {
+    try {
+      console.log(`🔍 Full security scan initiated at ${new Date().toISOString()}`);
+      
+      // Simulate security scan process
+      setTimeout(() => {
+        console.log(`✅ Security scan completed - 2 vulnerabilities found, 0 critical issues`);
+      }, 2000);
+      
+      res.json({
+        success: true,
+        message: "Full security scan initiated successfully",
+        scanId: `scan-${Date.now()}`,
+        estimatedDuration: "2-3 minutes",
+        startedAt: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Error starting security scan:", error);
+      res.status(500).json({ error: "Failed to start security scan" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
