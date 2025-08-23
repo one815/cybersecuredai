@@ -5,6 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Shield, 
   Search, 
@@ -22,9 +26,12 @@ import {
   Bot,
   Loader2,
   Download,
-  FileText
+  FileText,
+  Crown,
+  Zap,
+  Star
 } from "lucide-react";
-import { MarketingLayout } from "@/components/MarketingLayout";
+import { Layout } from "@/components/Layout";
 
 interface ScanResult {
   check: string;
@@ -48,136 +55,68 @@ interface ScanResults {
 
 export default function SecurityScanner() {
   const [domain, setDomain] = useState("");
-  const [isScanning, setIsScanning] = useState(false);
-  const [scanResults, setScanResults] = useState<ScanResults | null>(null);
+  const [scanResults, setScanResults] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const scanMutation = useMutation({
+    mutationFn: async (domain: string) => {
+      return await apiRequest('/api/security-scan', 'POST', { domain });
+    },
+    onSuccess: (data) => {
+      setScanResults(data);
+      setScanProgress(100);
+      toast({
+        title: "Security Scan Complete",
+        description: `Found ${data.scanResults.totalIssues} potential security issues`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Scan Failed",
+        description: "Unable to complete security scan. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleScan = async () => {
     if (!domain) return;
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to use the security scanner",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    setIsScanning(true);
     setScanProgress(0);
     setScanResults(null);
 
-    // Simulate progressive scanning
-    const progressIntervals = [20, 40, 60, 80, 90, 100];
-    let currentStep = 0;
-
+    // Progressive scan simulation
     const progressInterval = setInterval(() => {
-      if (currentStep < progressIntervals.length) {
-        setScanProgress(progressIntervals[currentStep]);
-        currentStep++;
-      }
-    }, 800);
-
-    // Simulate scan results after 5 seconds
-    setTimeout(() => {
-      clearInterval(progressInterval);
-      setIsScanning(false);
-      setScanProgress(100);
-      
-      // Mock results based on the scanner document
-      setScanResults({
-        domain: domain,
-        overall_score: Math.floor(Math.random() * 40) + 60, // 60-100 score
-        categories: {
-          email_security: [
-            {
-              check: "SPF Record",
-              status: Math.random() > 0.3 ? 'pass' : 'fail',
-              description: "Sender Policy Framework configuration",
-              details: "Prevents email spoofing from unauthorized servers",
-              recommendation: "Configure SPF record with appropriate restrictions"
-            },
-            {
-              check: "DKIM Implementation", 
-              status: Math.random() > 0.4 ? 'pass' : 'warning',
-              description: "DomainKeys Identified Mail signatures",
-              details: "Ensures email authenticity and prevents tampering",
-              recommendation: "Enable DKIM signing for all outbound emails"
-            },
-            {
-              check: "DMARC Policy",
-              status: Math.random() > 0.5 ? 'pass' : 'fail',
-              description: "Domain-based Message Authentication policy",
-              details: "Provides instructions on handling authentication failures",
-              recommendation: "Implement DMARC policy with quarantine/reject"
-            }
-          ],
-          web_infrastructure: [
-            {
-              check: "SSL/TLS Certificate",
-              status: Math.random() > 0.2 ? 'pass' : 'fail',
-              description: "SSL certificate validity and configuration",
-              details: "Secures communications and prevents MitM attacks",
-              recommendation: "Update to latest TLS version with strong ciphers"
-            },
-            {
-              check: "Security Headers",
-              status: Math.random() > 0.6 ? 'pass' : 'warning',
-              description: "HTTP security headers implementation",
-              details: "Protects against common web vulnerabilities",
-              recommendation: "Implement CSP, HSTS, and X-Frame-Options headers"
-            },
-            {
-              check: "Open Ports",
-              status: Math.random() > 0.4 ? 'pass' : 'warning',
-              description: "Unnecessary exposed network ports",
-              details: "Reduces attack surface and potential entry points",
-              recommendation: "Close unnecessary ports and services"
-            }
-          ],
-          cloud_services: [
-            {
-              check: "Cloud Storage Exposure",
-              status: Math.random() > 0.7 ? 'pass' : 'fail',
-              description: "Publicly accessible cloud storage buckets",
-              details: "Prevents data leakage from misconfigured storage",
-              recommendation: "Review and secure cloud storage permissions"
-            },
-            {
-              check: "API Security",
-              status: Math.random() > 0.5 ? 'pass' : 'warning', 
-              description: "API authentication and rate limiting",
-              details: "Prevents unauthorized access or API abuse",
-              recommendation: "Implement proper API authentication and rate limits"
-            }
-          ],
-          social_engineering: [
-            {
-              check: "Employee Information Exposure",
-              status: Math.random() > 0.3 ? 'warning' : 'fail',
-              description: "Excessive personal information in public directories",
-              details: "Could be used for targeted social engineering attacks",
-              recommendation: "Limit public employee information disclosure"
-            },
-            {
-              check: "Password Policy Indicators",
-              status: Math.random() > 0.4 ? 'pass' : 'warning',
-              description: "Password strength requirements assessment",
-              details: "Indicates overall security maturity and prevents brute force",
-              recommendation: "Enforce strong password policies and MFA"
-            }
-          ],
-          business_systems: [
-            {
-              check: "Authentication Methods",
-              status: Math.random() > 0.5 ? 'pass' : 'warning',
-              description: "Multi-factor authentication implementation",
-              details: "Strong authentication reduces breach risk",
-              recommendation: "Implement MFA across all business systems"
-            },
-            {
-              check: "Third-Party Integrations",
-              status: Math.random() > 0.6 ? 'pass' : 'warning',
-              description: "Security of connected third-party services",
-              details: "Prevents unauthorized access through connected systems",
-              recommendation: "Audit and secure all third-party integrations"
-            }
-          ]
+      setScanProgress(prev => {
+        if (prev >= 90) {
+          clearInterval(progressInterval);
+          return prev;
         }
+        return prev + 10;
       });
-    }, 5000);
+    }, 500);
+
+    scanMutation.mutate(domain);
+  };
+
+  const getTierDisplayName = (tier: string) => {
+    switch (tier) {
+      case "standard": return "Free";
+      case "enterprise": return "Enterprise";
+      case "cyber_cloud_advanced": return "Cyber Cloud Advanced";
+      case "cyber_cloud_enterprise": return "Cyber Cloud Enterprise";
+      default: return tier;
+    }
   };
 
   const getStatusIcon = (status: string) => {
@@ -222,7 +161,7 @@ export default function SecurityScanner() {
   };
 
   return (
-    <MarketingLayout>
+    <Layout>
       <div className="ai-dashboard-bg min-h-screen">
       {/* Header */}
       <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
@@ -237,7 +176,15 @@ export default function SecurityScanner() {
                 <Shield className="w-8 h-8 text-orange-400" />
                 <Eye className="w-8 h-8 text-blue-400" />
               </h1>
-              <p className="text-gray-400">Free infrastructure security assessment for your organization</p>
+              <p className="text-gray-400">
+                Comprehensive infrastructure security assessment for your organization
+                {user && (
+                  <span className="ml-2 inline-flex items-center">
+                    <Crown className="w-4 h-4 mr-1 text-yellow-400" />
+                    <span className="text-yellow-400 font-medium">{getTierDisplayName(user.planType)}</span>
+                  </span>
+                )}
+              </p>
             </div>
           </div>
         </div>
@@ -264,15 +211,15 @@ export default function SecurityScanner() {
                         value={domain}
                         onChange={(e) => setDomain(e.target.value)}
                         className="bg-surface border-gray-600 text-white"
-                        disabled={isScanning}
+                        disabled={scanMutation.isPending}
                       />
                     </div>
                     <Button 
                       onClick={handleScan} 
-                      disabled={!domain || isScanning}
+                      disabled={!domain || scanMutation.isPending}
                       className="bg-orange-600 hover:bg-orange-700 px-8"
                     >
-                      {isScanning ? (
+                      {scanMutation.isPending ? (
                         <>
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                           Scanning...
@@ -286,7 +233,7 @@ export default function SecurityScanner() {
                     </Button>
                   </div>
 
-                  {isScanning && (
+                  {scanMutation.isPending && (
                     <div className="space-y-4">
                       <Progress value={scanProgress} className="w-full" />
                       <div className="text-center text-sm text-gray-400">
@@ -296,6 +243,25 @@ export default function SecurityScanner() {
                         {scanProgress >= 60 && scanProgress < 80 && "Evaluating cloud services..."}
                         {scanProgress >= 80 && scanProgress < 100 && "Assessing social engineering risks..."}
                         {scanProgress === 100 && "Scan complete!"}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Tier Information */}
+                  {user && user.planType === "standard" && (
+                    <div className="mt-6 bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border border-yellow-500/30 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <Star className="w-6 h-6 text-yellow-400" />
+                          <div>
+                            <h3 className="font-bold text-yellow-400">Free Tier - Limited Scanning</h3>
+                            <p className="text-sm text-gray-300">Basic domain and SSL checks only</p>
+                          </div>
+                        </div>
+                        <Button size="sm" className="bg-yellow-600 hover:bg-yellow-700">
+                          <Zap className="w-4 h-4 mr-2" />
+                          Upgrade for Full Scan
+                        </Button>
                       </div>
                     </div>
                   )}
@@ -313,12 +279,34 @@ export default function SecurityScanner() {
                   <CardTitle className="text-2xl text-white">
                     Security Assessment Results for {scanResults.domain}
                   </CardTitle>
+                  <div className="flex justify-center items-center mt-2 space-x-4">
+                    <Badge className="bg-blue-600 text-white">
+                      {getTierDisplayName(scanResults.userTier)} Scan
+                    </Badge>
+                    {scanResults.totalIssues > 0 && (
+                      <Badge variant="outline" className="border-red-500 text-red-400">
+                        {scanResults.totalIssues} Issues Found
+                      </Badge>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="text-center">
-                  <div className={`text-6xl font-bold mb-4 ${getScoreColor(scanResults.overall_score)}`}>
-                    {scanResults.overall_score}/100
+                  <div className={`text-6xl font-bold mb-4 ${getScoreColor(scanResults.scanResults.overall_score)}`}>
+                    {scanResults.scanResults.overall_score}/100
                   </div>
                   <p className="text-gray-400 mb-6">Overall Security Score</p>
+                  
+                  {scanResults.upgradeRequired && (
+                    <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border border-yellow-500/30 rounded-lg p-4 mb-6">
+                      <p className="text-yellow-400 font-medium mb-2">
+                        🔒 Comprehensive scanning requires a paid subscription
+                      </p>
+                      <p className="text-sm text-gray-300">
+                        Upgrade to access advanced security assessments, compliance checks, and detailed remediation guidance
+                      </p>
+                    </div>
+                  )}
+                  
                   <div className="flex justify-center gap-4">
                     <Button className="bg-cyan-600 hover:bg-cyan-700">
                       <Download className="w-4 h-4 mr-2" />
@@ -344,46 +332,74 @@ export default function SecurityScanner() {
                   ))}
                 </TabsList>
 
-                {Object.entries(scanResults.categories).map(([categoryKey, results]) => (
+                {Object.entries(scanResults.scanResults.categories).map(([categoryKey, results]: [string, any[]]) => (
                   <TabsContent key={categoryKey} value={categoryKey}>
                     <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                       <CardHeader>
-                        <CardTitle className="flex items-center text-xl text-white">
-                          <span className="mr-3 text-blue-400">
-                            {categoryIcons[categoryKey as keyof typeof categoryIcons]}
-                          </span>
-                          {categoryNames[categoryKey as keyof typeof categoryNames]} Assessment
+                        <CardTitle className="flex items-center justify-between text-xl text-white">
+                          <div className="flex items-center">
+                            <span className="mr-3 text-blue-400">
+                              {categoryIcons[categoryKey as keyof typeof categoryIcons]}
+                            </span>
+                            {categoryNames[categoryKey as keyof typeof categoryNames]} Assessment
+                          </div>
+                          <Badge variant="outline" className="border-blue-500 text-blue-400">
+                            {results.length} checks
+                          </Badge>
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-4">
-                          {results.map((result, index) => (
-                            <Card key={index} className="bg-background/50 border border-gray-700">
-                              <CardContent className="p-4">
-                                <div className="flex items-start justify-between mb-3">
-                                  <div className="flex items-center space-x-3">
-                                    {getStatusIcon(result.status)}
-                                    <div>
-                                      <h4 className="font-bold text-white">{result.check}</h4>
-                                      <p className="text-sm text-gray-400">{result.description}</p>
+                        {results.length === 0 ? (
+                          <div className="text-center py-8">
+                            <Lock className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+                            <h3 className="text-lg font-medium text-gray-400 mb-2">
+                              Advanced Checks Require Upgrade
+                            </h3>
+                            <p className="text-sm text-gray-500 mb-4">
+                              {categoryNames[categoryKey as keyof typeof categoryNames]} assessments are available in paid plans
+                            </p>
+                            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+                              <Star className="w-4 h-4 mr-2" />
+                              Upgrade Now
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {results.map((result, index) => (
+                              <Card key={index} className="bg-background/50 border border-gray-700">
+                                <CardContent className="p-4">
+                                  <div className="flex items-start justify-between mb-3">
+                                    <div className="flex items-center space-x-3">
+                                      {getStatusIcon(result.status)}
+                                      <div>
+                                        <h4 className="font-bold text-white">{result.check}</h4>
+                                        <p className="text-sm text-gray-400">{result.description}</p>
+                                      </div>
                                     </div>
+                                    <Badge className={`${getStatusColor(result.status)} border`} variant="outline">
+                                      {result.status.toUpperCase()}
+                                    </Badge>
                                   </div>
-                                  <Badge className={`${getStatusColor(result.status)} border`} variant="outline">
-                                    {result.status.toUpperCase()}
-                                  </Badge>
-                                </div>
-                                <p className="text-sm text-gray-300 mb-2">{result.details}</p>
-                                {result.recommendation && (
-                                  <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-3 mt-3">
-                                    <p className="text-sm text-blue-300">
-                                      <strong>Recommendation:</strong> {result.recommendation}
-                                    </p>
-                                  </div>
-                                )}
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
+                                  <p className="text-sm text-gray-300 mb-2">{result.details}</p>
+                                  {result.recommendation && (
+                                    <div className="bg-blue-900/30 border border-blue-500/30 rounded-lg p-3 mt-3">
+                                      <p className="text-sm text-blue-300">
+                                        <strong>Recommendation:</strong> {result.recommendation}
+                                      </p>
+                                    </div>
+                                  )}
+                                  {result.technical_details && scanResults.userTier !== "standard" && (
+                                    <div className="bg-gray-900/30 border border-gray-600/30 rounded-lg p-3 mt-2">
+                                      <p className="text-xs text-gray-400 font-mono">
+                                        <strong>Technical:</strong> {result.technical_details}
+                                      </p>
+                                    </div>
+                                  )}
+                                </CardContent>
+                              </Card>
+                            ))}
+                          </div>
+                        )}
                       </CardContent>
                     </Card>
                   </TabsContent>
@@ -439,6 +455,6 @@ export default function SecurityScanner() {
         </div>
       </main>
       </div>
-    </MarketingLayout>
+    </Layout>
   );
 }
