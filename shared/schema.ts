@@ -14,9 +14,13 @@ export const users = pgTable("users", {
   isActive: boolean("is_active").default(true),
   lastLogin: timestamp("last_login"),
   mfaEnabled: boolean("mfa_enabled").default(false),
-  mfaMethod: varchar("mfa_method").default("none"), // none, totp, biometric, hardware, digital_key
+  mfaMethod: varchar("mfa_method").default("none"), // none, totp, biometric, hardware_key, digital_key
   biometricEnabled: boolean("biometric_enabled").default(false),
   digitalKeyEnabled: boolean("digital_key_enabled").default(false),
+  totpEnabled: boolean("totp_enabled").default(false),
+  hardwareKeyEnabled: boolean("hardware_key_enabled").default(false),
+  totpSecret: varchar("totp_secret"), // Encrypted TOTP secret
+  totpBackupCodes: jsonb("totp_backup_codes"), // Array of backup codes
   planType: varchar("plan_type").default("standard"), // standard, enterprise, cyber_cloud_essential, cyber_cloud_advanced, cyber_cloud_enterprise, k12_pilot_small, k12_pilot_medium, k12_pilot_large, higher_ed_pilot_small, higher_ed_pilot_medium, higher_ed_pilot_large, hardware_essential, hardware_advanced, hardware_enterprise
   onboardingCompleted: boolean("onboarding_completed").default(false),
   securityPolicyAccepted: boolean("security_policy_accepted").default(false),
