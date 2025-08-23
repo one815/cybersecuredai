@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
+import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
 import { 
@@ -960,6 +961,11 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Cypher AI Assistant Dashboard Widget */}
+        <div className="mb-8">
+          <CypherDashboardWidget enabled={true} compact={false} />
+        </div>
 
         {/* Compliance Health Progress Indicator */}
         <ComplianceHealthIndicator />
