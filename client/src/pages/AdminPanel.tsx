@@ -73,6 +73,31 @@ export default function AdminPanel() {
     queryKey: ["/api/admin/audit"],
   });
 
+  // Add Cypher settings query
+  const { data: cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true } } = useQuery<any>({
+    queryKey: ["/api/cypher/settings"],
+  });
+
+  // Update Cypher settings mutation
+  const updateCypherMutation = useMutation({
+    mutationFn: async (settings: any) => {
+      const response = await fetch("/api/cypher/settings", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+      if (!response.ok) throw new Error("Failed to update Cypher settings");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/cypher/settings"] });
+      toast({
+        title: "Cypher Settings Updated",
+        description: "AI assistant settings have been updated successfully.",
+      });
+    },
+  });
+
   const createUserMutation = useMutation({
     mutationFn: async (userData: any) => {
       const response = await fetch("/api/users", {
@@ -174,6 +199,30 @@ export default function AdminPanel() {
     },
     {
       id: "6",
+      category: "AI Assistant",
+      name: "Cypher AI Enabled",
+      value: true,
+      description: "Enable Cypher AI assistant across the platform",
+      type: "boolean"
+    },
+    {
+      id: "7",
+      category: "AI Assistant",
+      name: "Daily Reports",
+      value: true,
+      description: "Enable Cypher daily security reports",
+      type: "boolean"
+    },
+    {
+      id: "8",
+      category: "AI Assistant",
+      name: "Issue Alerts",
+      value: true,
+      description: "Enable Cypher real-time issue alerts",
+      type: "boolean"
+    },
+    {
+      id: "9",
       category: "Integration",
       name: "API Rate Limit",
       value: 1000,
@@ -443,9 +492,28 @@ export default function AdminPanel() {
                           <div className="ml-4">
                             {setting.type === "boolean" && (
                               <Switch
-                                checked={setting.value as boolean}
+                                checked={
+                                  setting.category === "AI Assistant" 
+                                    ? setting.name === "Cypher AI Enabled" 
+                                      ? cypherSettings.enabled
+                                      : setting.name === "Daily Reports"
+                                      ? cypherSettings.dailyReports
+                                      : setting.name === "Issue Alerts"
+                                      ? cypherSettings.issueAlerts
+                                      : setting.value as boolean
+                                    : setting.value as boolean
+                                }
                                 onCheckedChange={(checked) => {
-                                  // Handle setting update
+                                  if (setting.category === "AI Assistant") {
+                                    if (setting.name === "Cypher AI Enabled") {
+                                      updateCypherMutation.mutate({ enabled: checked });
+                                    } else if (setting.name === "Daily Reports") {
+                                      updateCypherMutation.mutate({ dailyReports: checked });
+                                    } else if (setting.name === "Issue Alerts") {
+                                      updateCypherMutation.mutate({ issueAlerts: checked });
+                                    }
+                                  }
+                                  // Handle other setting updates here
                                 }}
                                 data-testid={`setting-${setting.id}`}
                               />

@@ -59,6 +59,12 @@ export interface IStorage {
   checkUserAccess(userId: string, feature: string): Promise<boolean>;
   getUserAccessLevel(userId: string): Promise<string>;
   
+  // Cypher AI operations
+  getCypherSettings(): Promise<{ enabled: boolean; dailyReports: boolean; issueAlerts: boolean }>;
+  updateCypherSettings(settings: { enabled?: boolean; dailyReports?: boolean; issueAlerts?: boolean }): Promise<void>;
+  getCypherReports(limit?: number): Promise<any[]>;
+  createCypherReport(report: any): Promise<any>;
+  
   // Threat operations
   getThreats(): Promise<Threat[]>;
   createThreat(threat: InsertThreat): Promise<Threat>;
@@ -115,6 +121,8 @@ export class MemStorage implements IStorage {
   private userSubscriptions: Map<string, UserSubscription> = new Map();
   private customComplianceFrameworks: Map<string, CustomComplianceFramework> = new Map();
   private customComplianceControls: Map<string, CustomComplianceControl> = new Map();
+  private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
+  private cypherReports: Map<string, any> = new Map();
 
   constructor() {
     this.initializeData();
@@ -944,6 +952,62 @@ export class MemStorage implements IStorage {
     sampleNotifications.forEach(notification => {
       this.threatNotifications.set(notification.id, notification as ThreatNotification);
     });
+    
+    // Initialize sample Cypher reports
+    this.initializeCypherReports();
+  }
+
+  private initializeCypherReports() {
+    const sampleReports = [
+      {
+        id: "cypher-daily-1",
+        type: "daily",
+        title: "Daily Security Summary",
+        message: "System health is optimal. Processed 2,847 security events with 0 critical threats. All compliance frameworks are green. System uptime: 99.94%.",
+        severity: "low",
+        timestamp: new Date().toISOString(),
+        data: { eventsProcessed: 2847, criticalThreats: 0, uptime: "99.94%" }
+      },
+      {
+        id: "cypher-issue-1",
+        type: "issue",
+        title: "Suspicious Network Activity",
+        message: "Detected unusual outbound traffic patterns from 3 workstations. Recommended immediate network analysis and user verification.",
+        severity: "medium",
+        timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+        data: { affectedWorkstations: 3, trafficVolume: "2.4GB" }
+      }
+    ];
+    
+    sampleReports.forEach(report => {
+      this.cypherReports.set(report.id, report);
+    });
+  }
+
+  // Cypher AI operations
+  async getCypherSettings(): Promise<{ enabled: boolean; dailyReports: boolean; issueAlerts: boolean }> {
+    return this.cypherSettings;
+  }
+
+  async updateCypherSettings(settings: { enabled?: boolean; dailyReports?: boolean; issueAlerts?: boolean }): Promise<void> {
+    this.cypherSettings = { ...this.cypherSettings, ...settings };
+  }
+
+  async getCypherReports(limit = 10): Promise<any[]> {
+    const reports = Array.from(this.cypherReports.values());
+    return reports
+      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .slice(0, limit);
+  }
+
+  async createCypherReport(report: any): Promise<any> {
+    const newReport = {
+      ...report,
+      id: report.id || randomUUID(),
+      timestamp: report.timestamp || new Date().toISOString()
+    };
+    this.cypherReports.set(newReport.id, newReport);
+    return newReport;
   }
 }
 

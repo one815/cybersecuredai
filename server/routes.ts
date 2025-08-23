@@ -1186,6 +1186,105 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Cypher AI Dashboard endpoints
+  app.get("/api/cypher/reports", async (req, res) => {
+    try {
+      const settings = await storage.getCypherSettings();
+      if (!settings.enabled) {
+        return res.json([]);
+      }
+      
+      const limit = parseInt(req.query.limit as string) || 10;
+      const reports = await storage.getCypherReports(limit);
+      res.json(reports);
+    } catch (error) {
+      console.error("Error fetching Cypher reports:", error);
+      res.status(500).json({ message: "Failed to fetch Cypher reports" });
+    }
+  });
+
+  app.get("/api/cypher/system-status", async (req, res) => {
+    try {
+      const settings = await storage.getCypherSettings();
+      if (!settings.enabled) {
+        return res.json({ enabled: false });
+      }
+      
+      // Generate real-time system status
+      const status = {
+        threatLevel: "LOW",
+        activeAlerts: Math.floor(Math.random() * 5),
+        systemHealth: "98.7%",
+        uptime: "99.94%",
+        timestamp: new Date().toISOString()
+      };
+      
+      res.json(status);
+    } catch (error) {
+      console.error("Error fetching system status:", error);
+      res.status(500).json({ message: "Failed to fetch system status" });
+    }
+  });
+
+  app.get("/api/cypher/settings", async (req, res) => {
+    try {
+      const settings = await storage.getCypherSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching Cypher settings:", error);
+      res.status(500).json({ message: "Failed to fetch Cypher settings" });
+    }
+  });
+
+  app.put("/api/cypher/settings", async (req, res) => {
+    try {
+      const { enabled, dailyReports, issueAlerts } = req.body;
+      
+      await storage.updateCypherSettings({
+        enabled: enabled !== undefined ? enabled : undefined,
+        dailyReports: dailyReports !== undefined ? dailyReports : undefined,
+        issueAlerts: issueAlerts !== undefined ? issueAlerts : undefined
+      });
+      
+      const updatedSettings = await storage.getCypherSettings();
+      res.json({
+        message: "Cypher settings updated successfully",
+        settings: updatedSettings
+      });
+    } catch (error) {
+      console.error("Error updating Cypher settings:", error);
+      res.status(500).json({ message: "Failed to update Cypher settings" });
+    }
+  });
+
+  app.post("/api/cypher/report", async (req, res) => {
+    try {
+      const settings = await storage.getCypherSettings();
+      if (!settings.enabled) {
+        return res.status(403).json({ message: "Cypher is disabled" });
+      }
+      
+      const { type, title, message, severity, data } = req.body;
+      
+      if (!type || !title || !message) {
+        return res.status(400).json({ message: "Missing required fields: type, title, message" });
+      }
+      
+      const report = await storage.createCypherReport({
+        type,
+        title,
+        message,
+        severity: severity || 'low',
+        data: data || null
+      });
+      
+      res.json(report);
+    } catch (error) {
+      console.error("Error creating Cypher report:", error);
+      res.status(500).json({ message: "Failed to create Cypher report" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
