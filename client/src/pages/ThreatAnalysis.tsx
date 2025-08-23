@@ -307,10 +307,10 @@ export default function ThreatAnalysis() {
           </Card>
         </div>
 
-        {/* Advanced Analytics Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Advanced Analytics Row - Mobile Vertical Layout */}
+        <div className="flex flex-col space-y-4 sm:space-y-6 lg:grid lg:grid-cols-3 lg:gap-6 lg:space-y-0">
           {/* Threat Correlation Matrix */}
-          <Card className="bg-surface border-gray-700" data-testid="card-correlation-matrix">
+          <Card className="bg-surface border-gray-700 w-full" data-testid="card-correlation-matrix">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
                 <Zap className="w-5 h-5 mr-2" />
@@ -344,7 +344,7 @@ export default function ThreatAnalysis() {
           </Card>
 
           {/* Predictive Threat Forecasting */}
-          <Card className="bg-surface border-gray-700" data-testid="card-threat-forecast">
+          <Card className="bg-surface border-gray-700 w-full" data-testid="card-threat-forecast">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
                 <TrendingUp className="w-5 h-5 mr-2" />
@@ -387,7 +387,7 @@ export default function ThreatAnalysis() {
           </Card>
 
           {/* Attack Pattern Analysis */}
-          <Card className="bg-surface border-gray-700" data-testid="card-attack-patterns">
+          <Card className="bg-surface border-gray-700 w-full" data-testid="card-attack-patterns">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
                 <Activity className="w-5 h-5 mr-2" />
