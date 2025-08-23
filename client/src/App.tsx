@@ -26,6 +26,9 @@ import SecurityIntegrations from "@/pages/SecurityIntegrations";
 import ITManagement from "@/pages/ITManagement";
 import SecurityTraining from "@/pages/SecurityTraining";
 import HelpDesk from "@/pages/HelpDesk";
+import SecurityOverview from "@/pages/SecurityOverview";
+import SecurityDashboard from "@/pages/SecurityDashboard";
+import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
 
 // Marketing Website Pages
 import Home from "@/pages/Home";
@@ -149,6 +152,21 @@ function Router() {
       <Route path="/threat-analysis">
         <Layout>
           <ThreatAnalysis />
+        </Layout>
+      </Route>
+      <Route path="/security-overview">
+        <Layout>
+          <SecurityOverview />
+        </Layout>
+      </Route>
+      <Route path="/security-dashboard">
+        <Layout>
+          <SecurityDashboard />
+        </Layout>
+      </Route>
+      <Route path="/threat-intelligence">
+        <Layout>
+          <ThreatIntelligenceDashboard />
         </Layout>
       </Route>
       <Route path="/security-integrations">
