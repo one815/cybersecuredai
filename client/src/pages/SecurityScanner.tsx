@@ -54,15 +54,29 @@ interface ScanResults {
 }
 
 export default function SecurityScanner() {
-  const [domain, setDomain] = useState("");
+  const [scanConfig, setScanConfig] = useState({
+    domain: "",
+    subdomains: "",
+    ipRanges: "",
+    emailDomains: "",
+    cloudServices: "",
+    applications: "",
+    scanType: "comprehensive",
+    includeSubdomains: true,
+    deepScan: true,
+    socialEngineering: true,
+    cloudAnalysis: true,
+    businessSystems: true
+  });
   const [scanResults, setScanResults] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
+  const [activeTab, setActiveTab] = useState("configuration");
   const { user } = useAuth();
   const { toast } = useToast();
 
   const scanMutation = useMutation({
-    mutationFn: async (domain: string) => {
-      const response = await apiRequest('POST', '/api/security-scan', { domain });
+    mutationFn: async (config: any) => {
+      const response = await apiRequest('POST', '/api/security-scan', config);
       return await response.json();
     },
     onSuccess: (data) => {
@@ -83,11 +97,18 @@ export default function SecurityScanner() {
   });
 
   const handleScan = async () => {
-    if (!domain) return;
+    if (!scanConfig.domain) {
+      toast({
+        title: "Domain Required",
+        description: "Please enter a domain to scan",
+        variant: "destructive",
+      });
+      return;
+    }
     if (!user) {
       toast({
         title: "Authentication Required",
-        description: "Please log in to use the security scanner",
+        description: "Please log in to use the enterprise security scanner",
         variant: "destructive",
       });
       return;
@@ -95,19 +116,20 @@ export default function SecurityScanner() {
 
     setScanProgress(0);
     setScanResults(null);
+    setActiveTab("scanning");
 
-    // Progressive scan simulation
+    // Progressive scan simulation for comprehensive scan
     const progressInterval = setInterval(() => {
       setScanProgress(prev => {
         if (prev >= 90) {
           clearInterval(progressInterval);
           return prev;
         }
-        return prev + 10;
+        return prev + 5; // Slower progress for comprehensive scan
       });
-    }, 500);
+    }, 800);
 
-    scanMutation.mutate(domain);
+    scanMutation.mutate(scanConfig);
   };
 
   const getTierDisplayName = (tier: string) => {
@@ -200,33 +222,42 @@ export default function SecurityScanner() {
         </div>
       </header>
 
-      <main className="p-6">
-        <div className="container mx-auto max-w-6xl">
-          {/* Scanner Input */}
-          <section className="mb-12">
-            <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
-              <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-white">Quick Infrastructure Security Assessment</CardTitle>
-                <p className="text-gray-400 mt-2">
-                  Get a rapid assessment of your organization's security posture by scanning 
-                  publicly available information about your digital infrastructure.
-                </p>
-              </CardHeader>
+        <main className="container mx-auto px-4 py-12">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="bg-surface border border-surface-light grid grid-cols-4 max-w-2xl mx-auto">
+              <TabsTrigger value="configuration">Configuration</TabsTrigger>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="scanning" disabled={!scanMutation.isPending && !scanResults}>Scanning</TabsTrigger>
+              <TabsTrigger value="results" disabled={!scanResults}>Results</TabsTrigger>
+            </TabsList>
+
+            {/* Configuration Tab */}
+            <TabsContent value="configuration" className="space-y-6">
+              <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
+                <CardHeader>
+                  <CardTitle className="text-2xl text-white flex items-center">
+                    <Shield className="w-6 h-6 mr-3 text-orange-400" />
+                    Enterprise Security Assessment Configuration
+                  </CardTitle>
+                  <p className="text-gray-400">
+                    Configure comprehensive security scanning parameters for your organization's digital infrastructure
+                  </p>
+                </CardHeader>
               <CardContent>
                 <div className="max-w-2xl mx-auto">
                   <div className="flex gap-4 mb-6">
                     <div className="flex-1">
                       <Input
                         placeholder="Enter your domain (e.g., example.edu, city.gov)"
-                        value={domain}
-                        onChange={(e) => setDomain(e.target.value)}
+                        value={scanConfig.domain}
+                        onChange={(e) => setScanConfig(prev => ({ ...prev, domain: e.target.value }))}
                         className="bg-surface border-gray-600 text-white"
                         disabled={scanMutation.isPending}
                       />
                     </div>
                     <Button 
                       onClick={handleScan} 
-                      disabled={!domain || scanMutation.isPending}
+                      disabled={!scanConfig.domain || scanMutation.isPending}
                       className="bg-orange-600 hover:bg-orange-700 px-8"
                     >
                       {scanMutation.isPending ? (
