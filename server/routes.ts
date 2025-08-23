@@ -168,25 +168,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // TOTP authentication setup endpoint
   app.put("/api/users/:userId/totp", async (req, res) => {
     try {
+      const speakeasy = await import('speakeasy');
       const { userId } = req.params;
       const { enabled, secret, verificationCode } = req.body;
 
-      // In a real implementation, you would:
-      // 1. Verify the TOTP code using the secret
-      // 2. Generate backup codes
-      // 3. Store the encrypted secret
-      
-      // For demo purposes, accept any 6-digit code
-      if (enabled && verificationCode && verificationCode.length === 6) {
-        const updatedUser = await storage.updateUser(userId, {
-          totpEnabled: enabled,
-          mfaMethod: enabled ? "totp" : "none",
-          totpSecret: secret, // In production, this should be encrypted
+      if (enabled && verificationCode && secret) {
+        // Verify the TOTP code using the secret
+        const verified = speakeasy.default.totp.verify({
+          secret: secret,
+          encoding: 'base32',
+          token: verificationCode,
+          window: 2 // Allow some time drift
         });
 
-        res.json(updatedUser);
+        if (verified) {
+          // Generate backup codes for account recovery
+          const backupCodes = Array.from({ length: 10 }, () => 
+            Math.random().toString(36).substring(2, 10).toUpperCase()
+          );
+
+          const updatedUser = await storage.updateUser(userId, {
+            totpEnabled: enabled,
+            mfaEnabled: enabled,
+            mfaMethod: enabled ? "totp" : "none",
+            totpSecret: secret, // In production, this should be encrypted
+            totpBackupCodes: backupCodes
+          });
+
+          res.json({
+            user: updatedUser,
+            backupCodes: backupCodes
+          });
+        } else {
+          res.status(400).json({ message: "Invalid verification code" });
+        }
+      } else if (!enabled) {
+        // Disable TOTP
+        const updatedUser = await storage.updateUser(userId, {
+          totpEnabled: false,
+          mfaEnabled: false,
+          mfaMethod: "none",
+          totpSecret: null,
+          totpBackupCodes: null
+        });
+
+        res.json({ user: updatedUser });
       } else {
-        res.status(400).json({ message: "Invalid verification code" });
+        res.status(400).json({ message: "Missing required parameters" });
       }
     } catch (error) {
       console.error("Error updating TOTP authentication:", error);
@@ -197,22 +225,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // TOTP setup initialization endpoint
   app.post("/api/auth/totp/setup", async (req, res) => {
     try {
-      // In a real implementation, you would:
-      // 1. Generate a secure random secret
-      // 2. Create a QR code URL with the secret
-      // 3. Return both for the user to scan
+      const speakeasy = await import('speakeasy');
+      const QRCode = await import('qrcode');
       
-      // For demo purposes, return a mock secret and QR code URL
-      const secret = "DEMO_SECRET_123456789012345";
-      const qrCodeUrl = "data:image/svg+xml;base64," + Buffer.from(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-          <rect width="200" height="200" fill="white"/>
-          <text x="100" y="100" text-anchor="middle" font-family="Arial" font-size="14" fill="black">QR Code Demo</text>
-          <text x="100" y="120" text-anchor="middle" font-family="Arial" font-size="10" fill="gray">Scan with authenticator</text>
-        </svg>
-      `).toString('base64');
+      // Generate a secure random secret
+      const secret = speakeasy.default.generateSecret({
+        name: 'CyberSecure AI',
+        issuer: 'CyberSecure AI',
+        length: 32
+      });
+      
+      // Generate QR code as data URL
+      const qrCodeUrl = await QRCode.default.toDataURL(secret.otpauth_url);
 
-      res.json({ secret, qrCodeUrl });
+      res.json({ 
+        secret: secret.base32, 
+        qrCodeUrl,
+        manualEntryKey: secret.base32
+      });
     } catch (error) {
       console.error("Error setting up TOTP:", error);
       res.status(500).json({ message: "Failed to setup TOTP authentication" });
