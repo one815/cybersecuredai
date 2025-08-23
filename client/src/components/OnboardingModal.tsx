@@ -142,29 +142,17 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
       const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
       setBiometricSupported(available);
       
-      if (!available) {
-        // For demo purposes, we'll simulate successful setup on unsupported devices
-        // In production, this would properly check device capabilities
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setBiometricVerified(true);
-        toast({
-          title: "Biometric Setup Complete",
-          description: "Biometric authentication simulation completed successfully.",
-        });
-        return;
-      }
-
-      // Create a simple credential for demonstration
+      // Always try to create a credential first to actually prompt the user
       const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
         challenge: crypto.getRandomValues(new Uint8Array(32)),
         rp: {
           name: "CyberSecure AI",
-          id: "localhost", // Use localhost for development
+          id: window.location.hostname.includes('localhost') ? 'localhost' : window.location.hostname,
         },
         user: {
           id: crypto.getRandomValues(new Uint8Array(16)),
           name: user?.email || "user@cybersecure.ai",
-          displayName: user?.email || "CyberSecure User",
+          displayName: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : user?.email || "CyberSecure User",
         },
         pubKeyCredParams: [
           {alg: -7, type: "public-key"},
@@ -172,13 +160,14 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         ],
         authenticatorSelection: {
           authenticatorAttachment: "platform",
-          userVerification: "preferred", // Changed from "required" for better compatibility
+          userVerification: "required", // Require user verification to actually prompt
           requireResidentKey: false
         },
-        timeout: 30000, // Reduced timeout
-        attestation: "none" // Changed from "direct" for better compatibility
+        timeout: 60000, // Give more time for user interaction
+        attestation: "none"
       };
 
+      // This will prompt the user for biometric authentication
       const credential = await navigator.credentials.create({
         publicKey: publicKeyCredentialCreationOptions
       });
@@ -187,47 +176,53 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         setBiometricVerified(true);
         toast({
           title: "Biometric Setup Complete",
-          description: "Your biometric authentication has been successfully configured.",
+          description: "Your biometric authentication has been successfully configured!",
         });
       }
     } catch (error: any) {
       console.error("Biometric setup failed:", error);
       
-      // Handle specific error cases with more detailed feedback
+      // Handle specific error cases
       let title = "Biometric Setup Failed";
       let description = "";
+      let shouldTreatAsSuccess = false;
       
       if (error.message === "WEBAUTHN_NOT_SUPPORTED") {
-        description = "Your browser doesn't support biometric authentication. Please use Chrome, Firefox, or Safari.";
+        description = "Your browser doesn't support biometric authentication. Please use a modern browser.";
       } else if (error.name === "NotAllowedError") {
-        description = "Biometric permission was denied. Please allow the request and try again.";
+        description = "Biometric setup was cancelled or permission denied. Please try again and allow the request.";
       } else if (error.name === "SecurityError") {
-        description = "Security error occurred. Please ensure you're using a secure connection.";
+        description = "Security error: Please ensure you're using a secure connection (HTTPS).";
       } else if (error.name === "NotSupportedError") {
-        description = "Biometric authentication is not supported on this device.";
+        title = "Biometric Not Available";
+        description = "This device doesn't support biometric authentication. You can continue with TOTP or hardware key instead.";
+        shouldTreatAsSuccess = true; // Allow user to continue with other methods
       } else if (error.name === "InvalidStateError") {
-        description = "A biometric credential already exists. Setup completed successfully.";
-        // Treat this as success since credential already exists
+        // Credential already exists - this is actually success
         setBiometricVerified(true);
         title = "Biometric Setup Complete";
         description = "Biometric authentication is already configured on this device.";
-      } else if (error.name === "UnknownError") {
-        description = "Device biometric authentication is not available or configured.";
+        shouldTreatAsSuccess = true;
+      } else if (error.name === "UnknownError" || error.name === "ConstraintError") {
+        title = "Device Not Configured";
+        description = "No biometric authentication is set up on this device. Please set up fingerprint, Face ID, or Windows Hello in your device settings first.";
+      } else if (error.name === "AbortError") {
+        description = "Biometric setup timed out. Please try again.";
       } else {
-        description = "Unable to setup biometric authentication. You can continue with other MFA methods.";
+        description = "Biometric setup failed. You can continue with TOTP or hardware key authentication instead.";
       }
       
-      // For devices without biometric support, treat as successful completion
-      if (error.name === "NotSupportedError" || error.name === "UnknownError") {
+      // Only treat as success for specific cases
+      if (shouldTreatAsSuccess && error.name !== "InvalidStateError") {
         setBiometricVerified(true);
         title = "Setup Complete";
-        description = "Biometric authentication configuration completed (simulated for this device).";
+        description = "Biometric authentication is not available on this device, but you can proceed with other MFA methods.";
       }
       
       toast({
         title,
         description,
-        variant: error.name === "InvalidStateError" || title === "Setup Complete" ? "default" : "destructive",
+        variant: shouldTreatAsSuccess ? "default" : "destructive",
       });
     } finally {
       setBiometricVerifying(false);
@@ -732,7 +727,8 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                         <div className="p-4 bg-blue-900/30 rounded-lg border border-blue-700/50">
                           <div className="text-center space-y-2">
                             <p className="text-blue-300 text-sm font-medium">Ready to Setup Biometric Authentication</p>
-                            <p className="text-gray-400 text-xs">This will use your device's fingerprint, Face ID, or Windows Hello</p>
+                            <p className="text-gray-400 text-xs">Click the button below and follow your device's biometric authentication prompt</p>
+                            <p className="text-gray-500 text-xs">Supports: Fingerprint • Face ID • Windows Hello • Touch ID</p>
                           </div>
                         </div>
                       )}
