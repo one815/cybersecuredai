@@ -1,5 +1,6 @@
 import { randomBytes } from "crypto";
 import { Threat, InsertThreat } from "@shared/schema";
+import { MISPThreatIntelligence, type ThreatIntelligenceData } from './misp-threat-intelligence';
 
 export interface ThreatPattern {
   id: string;
@@ -52,10 +53,49 @@ export class ThreatDetectionEngine {
   private baselineMetrics: Map<string, number[]> = new Map(); // Store historical data for anomaly detection
   private suspiciousIPs: Set<string> = new Set();
   private allowedIPs: Set<string> = new Set();
+  private mispThreatIntel!: MISPThreatIntelligence;
 
   constructor() {
     this.initializeThreatPatterns();
     this.initializeNetworkBaseline();
+    this.initializeMISPIntegration();
+  }
+
+  private initializeMISPIntegration() {
+    // Initialize MISP with environment variables or default config
+    const mispConfig = {
+      url: process.env.MISP_URL || 'https://misp.local',
+      apiKey: process.env.MISP_API_KEY || '',
+      verifyCert: process.env.MISP_VERIFY_CERT !== 'false',
+      timeout: 30000
+    };
+
+    this.mispThreatIntel = new MISPThreatIntelligence(mispConfig);
+
+    // Listen for threat intelligence updates
+    this.mispThreatIntel.on('dataUpdated', (data: ThreatIntelligenceData) => {
+      this.updateThreatIntelligence(data);
+    });
+
+    this.mispThreatIntel.on('error', (error) => {
+      console.error('❌ MISP Threat Intelligence Error:', error);
+    });
+  }
+
+  private updateThreatIntelligence(data: ThreatIntelligenceData) {
+    // Update suspicious IPs from MISP data
+    this.suspiciousIPs.clear();
+    data.iocs.ips.forEach(ip => this.suspiciousIPs.add(ip));
+
+    // Update IP reputation cache with MISP data
+    data.iocs.ips.forEach(ip => {
+      this.ipReputationCache.set(ip, {
+        score: 85, // High risk score for MISP IOCs
+        lastChecked: new Date()
+      });
+    });
+
+    console.log(`🔄 Updated threat intelligence: ${data.iocs.ips.length} malicious IPs, ${data.iocs.domains.length} domains, ${data.threatActors.length} threat actors`);
   }
 
   private initializeThreatPatterns() {
@@ -567,7 +607,38 @@ export class ThreatDetectionEngine {
     return this.suspiciousIPs.size;
   }
 
-  async updateThreatIntelligence(suspiciousIPs: string[]): Promise<void> {
+  /**
+   * Get MISP threat intelligence data
+   */
+  public getMISPThreatIntelligence(): ThreatIntelligenceData {
+    return this.mispThreatIntel.getThreatIntelligence();
+  }
+
+  /**
+   * Get IP reputation from MISP
+   */
+  public async getMISPIPReputation(ip: string): Promise<{ score: number; tags: string[]; sightings: number }> {
+    return await this.mispThreatIntel.getIPReputation(ip);
+  }
+
+  /**
+   * Get domain reputation from MISP
+   */
+  public async getMISPDomainReputation(domain: string): Promise<{ score: number; tags: string[]; category: string }> {
+    return await this.mispThreatIntel.getDomainReputation(domain);
+  }
+
+  /**
+   * Check if MISP threat intelligence is initialized
+   */
+  public isMISPInitialized(): boolean {
+    return this.mispThreatIntel.isInitialized();
+  }
+
+  /**
+   * Update threat intelligence from external sources
+   */
+  async updateExternalThreatIntelligence(suspiciousIPs: string[]): Promise<void> {
     suspiciousIPs.forEach(ip => this.suspiciousIPs.add(ip));
   }
 }
