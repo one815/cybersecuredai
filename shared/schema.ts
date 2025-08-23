@@ -18,6 +18,8 @@ export const users = pgTable("users", {
   biometricEnabled: boolean("biometric_enabled").default(false),
   planType: varchar("plan_type").default("standard"), // standard, enterprise, cyber_cloud_essential, cyber_cloud_advanced, cyber_cloud_enterprise, k12_pilot_small, k12_pilot_medium, k12_pilot_large, higher_ed_pilot_small, higher_ed_pilot_medium, higher_ed_pilot_large, hardware_essential, hardware_advanced, hardware_enterprise
   onboardingCompleted: boolean("onboarding_completed").default(false),
+  securityPolicyAccepted: boolean("security_policy_accepted").default(false),
+  dataPolicyAccepted: boolean("data_policy_accepted").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

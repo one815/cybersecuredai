@@ -395,6 +395,8 @@ export class MemStorage implements IStorage {
       biometricEnabled: insertUser.biometricEnabled ?? false,
       planType: insertUser.planType ?? "standard",
       onboardingCompleted: insertUser.onboardingCompleted ?? false,
+      securityPolicyAccepted: insertUser.securityPolicyAccepted ?? false,
+      dataPolicyAccepted: insertUser.dataPolicyAccepted ?? false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

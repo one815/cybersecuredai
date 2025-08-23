@@ -5,6 +5,10 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Shield, Rocket, Lock, Users, Check, Eye, ArrowRight, ArrowLeft, Fingerprint, Smartphone, KeyRound, HelpCircle } from "lucide-react";
+import { SecurityPolicy } from "@/components/SecurityPolicy";
+import { DataPolicy } from "@/components/DataPolicy";
+import { useAuth } from "@/hooks/useAuth";
+import { apiRequest } from "@/lib/queryClient";
 import type { OnboardingStep } from "@/types";
 
 interface OnboardingModalProps {
@@ -57,6 +61,12 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
   const [selectedMfaMethod, setSelectedMfaMethod] = useState<string>("");
   const [yubiKeyVerified, setYubiKeyVerified] = useState(false);
   const [yubiKeyVerifying, setYubiKeyVerifying] = useState(false);
+  const [showSecurityPolicy, setShowSecurityPolicy] = useState(false);
+  const [showDataPolicy, setShowDataPolicy] = useState(false);
+  const [securityPolicyAccepted, setSecurityPolicyAccepted] = useState(false);
+  const [dataPolicyAccepted, setDataPolicyAccepted] = useState(false);
+  const [isCompletingOnboarding, setIsCompletingOnboarding] = useState(false);
+  const { user } = useAuth();
 
   // YubiKey verification using WebAuthn/FIDO2
   const handleYubiKeyVerification = async () => {
@@ -110,13 +120,10 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
       setYubiKeyVerifying(false);
     }
   };
-  const [policyAccepted, setPolicyAccepted] = useState(false);
-  const [dataConsentGiven, setDataConsentGiven] = useState(false);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
   const progress = (currentStep / steps.length) * 100;
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < steps.length) {
       // Mark current step as completed
       setSteps(prev => prev.map(step => 
@@ -124,9 +131,37 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
       ));
       setCurrentStep(prev => prev + 1);
     } else {
-      // All steps completed
+      // All steps completed - save to database
+      await completeOnboarding();
+    }
+  };
+
+  const completeOnboarding = async () => {
+    if (!user?.id) return;
+    
+    try {
+      setIsCompletingOnboarding(true);
+      
+      await apiRequest(`/api/users/${user.id}/onboarding`, {
+        method: 'PUT',
+        body: {
+          completed: true,
+          securityPolicyAccepted,
+          dataPolicyAccepted,
+          mfaSetup: {
+            enabled: selectedMfaMethod !== "",
+            method: selectedMfaMethod || "none"
+          }
+        }
+      });
+      
       onComplete();
       onClose();
+    } catch (error) {
+      console.error("Failed to complete onboarding:", error);
+      // Handle error gracefully
+    } finally {
+      setIsCompletingOnboarding(false);
     }
   };
 
@@ -208,6 +243,35 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         );
       
       case 2:
+        if (showSecurityPolicy) {
+          return (
+            <SecurityPolicy
+              onAccept={() => {
+                setSecurityPolicyAccepted(true);
+                setShowSecurityPolicy(false);
+                setShowDataPolicy(true);
+              }}
+              onDecline={() => {
+                setShowSecurityPolicy(false);
+              }}
+            />
+          );
+        }
+        
+        if (showDataPolicy) {
+          return (
+            <DataPolicy
+              onAccept={() => {
+                setDataPolicyAccepted(true);
+                setShowDataPolicy(false);
+              }}
+              onDecline={() => {
+                setShowDataPolicy(false);
+              }}
+            />
+          );
+        }
+        
         return (
           <div className="max-w-2xl mx-auto">
             <div className="flex items-center justify-between mb-6">
@@ -216,8 +280,8 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                   <Shield className="text-red-400 w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">Security Policy Agreement</h2>
-                  <p className="text-gray-300 text-sm">Please review and accept our security policies to continue onboarding.</p>
+                  <h2 className="text-xl font-bold text-white">Policy Acceptance</h2>
+                  <p className="text-gray-300 text-sm">Review and accept our security and data policies to continue.</p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
@@ -225,79 +289,84 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                 <span className="px-2 py-1 text-xs font-medium text-white bg-primary rounded-md">Private</span>
               </div>
             </div>
-            
-            <div className="text-center mb-6">
-              <p className="text-gray-400 text-sm mb-4">UPDATED JUN 2024</p>
+
+            <div className="space-y-4 mb-8">
+              <Card className={`cursor-pointer border-2 transition-all ${
+                securityPolicyAccepted 
+                  ? 'border-green-500 bg-green-900/30' 
+                  : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
+              }`} onClick={() => setShowSecurityPolicy(true)}>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <Shield className="text-blue-400 w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">Security Policy</h3>
+                        <p className="text-gray-300 text-sm">Data protection, encryption, access controls, and security responsibilities</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      {securityPolicyAccepted ? (
+                        <div className="flex items-center space-x-2">
+                          <Check className="w-5 h-5 text-green-400" />
+                          <span className="text-green-400 text-sm">Accepted</span>
+                        </div>
+                      ) : (
+                        <ArrowRight className="w-5 h-5 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className={`cursor-pointer border-2 transition-all ${
+                dataPolicyAccepted 
+                  ? 'border-green-500 bg-green-900/30' 
+                  : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
+              }`} onClick={() => setShowDataPolicy(true)}>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Eye className="text-purple-400 w-6 h-6" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-white mb-1">Data Policy</h3>
+                        <p className="text-gray-300 text-sm">Information collection, usage, sharing, and your privacy rights</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      {dataPolicyAccepted ? (
+                        <div className="flex items-center space-x-2">
+                          <Check className="w-5 h-5 text-green-400" />
+                          <span className="text-green-400 text-sm">Accepted</span>
+                        </div>
+                      ) : (
+                        <ArrowRight className="w-5 h-5 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            <Card className="bg-blue-900/20 border-blue-700/50 mb-6">
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-3 mb-4">
-                  <Check className="text-green-400 w-5 h-5 mt-1 flex-shrink-0" />
-                  <h3 className="font-semibold text-white">CyberSecure AI Security Policy</h3>
-                </div>
-                <p className="text-gray-300 text-sm mb-4">Your privacy and data security are our top priorities. This policy details the protective measures, data handling, and user responsibilities on the CyberSecure AI Dashboard.</p>
-                
-                <div className="space-y-4 mb-6">
-                  <div>
-                    <h4 className="font-medium text-blue-300 mb-2">1. Data Protection</h4>
-                    <p className="text-gray-300 text-sm">All data is encrypted using AES-256, both in transit and at rest. Personal information is anonymized and strictly access-controlled.</p>
+            {securityPolicyAccepted && dataPolicyAccepted && (
+              <Card className="bg-green-900/20 border-green-700/50">
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
+                      <Check className="text-green-400 w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="font-medium text-green-300">Policies Accepted</span>
+                      <p className="text-gray-400 text-xs">You can now proceed to the next step of the onboarding process.</p>
+                    </div>
                   </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-blue-300 mb-2">2. Authentication Protocols</h4>
-                    <p className="text-gray-300 text-sm">Multi-factor authentication is mandatory for all users. This includes password, biometric, and TOTP as per your setup preferences.</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-3">
-                    <Checkbox 
-                      checked={policyAccepted} 
-                      onCheckedChange={(checked) => setPolicyAccepted(checked === true)}
-                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
-                      data-testid="checkbox-policy-accepted"
-                    />
-                    <label className="text-gray-300 text-sm">I have read and accept the Security Policy</label>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <Checkbox 
-                      checked={dataConsentGiven} 
-                      onCheckedChange={(checked) => setDataConsentGiven(checked === true)}
-                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
-                      data-testid="checkbox-data-consent"
-                    />
-                    <label className="text-gray-300 text-sm">I consent to the processing of my data as described in the policy</label>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3">
-                    <Checkbox 
-                      checked={notificationsEnabled} 
-                      onCheckedChange={(checked) => setNotificationsEnabled(checked === true)}
-                      className="mt-1 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 border-gray-400"
-                      data-testid="checkbox-notifications"
-                    />
-                    <label className="text-gray-300 text-sm">I would like to receive security updates and notifications</label>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-green-900/20 border-green-700/50">
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <Check className="text-green-400 w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-medium text-green-300">AES-256 Encryption Active</span>
-                    <p className="text-gray-400 text-xs">All policy responses are securely transmitted and stored.</p>
-                  </div>
-                  <span className="px-2 py-1 text-xs font-medium text-green-400 bg-green-500/20 rounded-md ml-auto">REAL-TIME SECURED</span>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            )}
           </div>
         );
       
@@ -597,12 +666,13 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             onClick={handleNext}
             className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md"
             disabled={
-              (currentStep === 2 && (!policyAccepted || !dataConsentGiven)) || 
-              (currentStep === 3 && (!selectedMfaMethod || (selectedMfaMethod === 'hardware' && !yubiKeyVerified)))
+              (currentStep === 2 && (!securityPolicyAccepted || !dataPolicyAccepted)) || 
+              (currentStep === 3 && (!selectedMfaMethod || (selectedMfaMethod === 'hardware' && !yubiKeyVerified))) ||
+              (currentStep === 4 && isCompletingOnboarding)
             }
             data-testid="onboarding-next"
           >
-            {currentStep === 1 ? "Get Started" : currentStep === steps.length ? "Go to Dashboard" : "Continue"}
+            {currentStep === 1 ? "Get Started" : currentStep === steps.length ? (isCompletingOnboarding ? "Completing..." : "Go to Dashboard") : "Continue"}
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </div>

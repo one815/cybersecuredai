@@ -1043,6 +1043,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Onboarding completion API
+  app.put("/api/users/:userId/onboarding", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const { completed, securityPolicyAccepted, dataPolicyAccepted, mfaSetup } = req.body;
+      
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const updatedUser = await storage.updateUser(userId, {
+        onboardingCompleted: completed,
+        securityPolicyAccepted: securityPolicyAccepted || false,
+        dataPolicyAccepted: dataPolicyAccepted || false,
+        mfaEnabled: mfaSetup?.enabled || false,
+        mfaMethod: mfaSetup?.method || user.mfaMethod,
+        updatedAt: new Date()
+      });
+
+      res.json({
+        message: "Onboarding status updated successfully",
+        user: {
+          id: updatedUser.id,
+          onboardingCompleted: updatedUser.onboardingCompleted,
+          securityPolicyAccepted: updatedUser.securityPolicyAccepted,
+          dataPolicyAccepted: updatedUser.dataPolicyAccepted,
+          mfaEnabled: updatedUser.mfaEnabled
+        }
+      });
+    } catch (error) {
+      console.error("Error updating onboarding status:", error);
+      res.status(500).json({ message: "Failed to update onboarding status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
