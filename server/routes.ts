@@ -106,6 +106,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Digital Key setup endpoint
+  app.put("/api/users/:userId/digital-key", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { enabled } = req.body;
+
+      // Update user's digital key status
+      const updatedUser = await storage.updateUser(userId, {
+        digitalKeyEnabled: enabled,
+        mfaMethod: enabled ? "digital_key" : "none"
+      });
+
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating digital key:", error);
+      res.status(500).json({ message: "Failed to update digital key settings" });
+    }
+  });
+
   // Dashboard stats
   app.get("/api/dashboard/stats", async (req, res) => {
     try {

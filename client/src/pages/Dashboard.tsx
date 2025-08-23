@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/useAuth";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
@@ -28,10 +29,13 @@ import {
   BarChart,
   Calendar,
   FileText,
-  Brain
+  Brain,
+  AlertCircle,
+  KeyRound
 } from "lucide-react";
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
   });
@@ -203,12 +207,41 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="p-3 sm:p-4 lg:p-6">
-        {/* Enhanced Security Overview Cards with AI Metrics */}
+        {/* Post-Onboarding Tasks */}
+        {user?.onboardingCompleted && !user?.digitalKeyEnabled && (
+          <div className="mb-8">
+            <Card className="bg-gradient-to-r from-orange-900/30 to-yellow-900/30 border-orange-500/50">
+              <CardHeader>
+                <CardTitle className="text-white text-lg flex items-center">
+                  <AlertCircle className="w-5 h-5 mr-3 text-orange-400" />
+                  Complete Your Security Setup
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="font-medium text-white mb-1">Set up Digital Key Authentication</h4>
+                    <p className="text-gray-300 text-sm">Add an extra layer of security with hardware key authentication.</p>
+                  </div>
+                  <Button 
+                    onClick={() => window.location.href = '/authentication'}
+                    className="bg-orange-600 hover:bg-orange-700 text-white"
+                    data-testid="setup-digital-key-task"
+                  >
+                    <KeyRound className="w-4 h-4 mr-2" />
+                    Setup Now
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Badge Achievement Section */}
-        {userBadges && userBadges.totalBadges > 0 && (
+        {userBadges && typeof userBadges === 'object' && 'totalBadges' in userBadges && (userBadges as any).totalBadges > 0 && (
           <div className="mb-8">
             <BadgeDisplay 
-              userBadges={userBadges} 
+              userBadges={userBadges as any} 
               showProgress={true} 
               limit={3}
               variant="compact"

@@ -70,10 +70,12 @@ function Router() {
 
   useEffect(() => {
     // Show onboarding if user exists but hasn't completed onboarding
-    if (user && !user.onboardingCompleted) {
+    if (user && !user.onboardingCompleted && !isLoading) {
       setShowOnboarding(true);
+    } else {
+      setShowOnboarding(false);
     }
-  }, [user]);
+  }, [user, isLoading]);
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
