@@ -210,7 +210,13 @@ export default function BasicSecurityScan() {
                           Enterprise scanner includes email security, cloud services, social engineering assessments, and 25+ advanced checks
                         </p>
                       </div>
-                      <Button size="sm" className="bg-orange-600 hover:bg-orange-700 whitespace-nowrap">
+                      <Button 
+                        size="sm" 
+                        className="bg-orange-600 hover:bg-orange-700 whitespace-nowrap"
+                        onClick={() => {
+                          window.location.href = '/pricing';
+                        }}
+                      >
                         <Star className="w-4 h-4 mr-2" />
                         Upgrade Now
                       </Button>
@@ -308,7 +314,12 @@ export default function BasicSecurityScan() {
                     <p className="text-gray-300 mb-4">
                       Get comprehensive security analysis including email security, cloud services, social engineering vulnerabilities, and 25+ advanced security checks.
                     </p>
-                    <Button className="bg-orange-600 hover:bg-orange-700">
+                    <Button 
+                      className="bg-orange-600 hover:bg-orange-700"
+                      onClick={() => {
+                        window.location.href = '/security-scanner';
+                      }}
+                    >
                       <Crown className="w-4 h-4 mr-2" />
                       Upgrade to Enterprise Scanner
                     </Button>

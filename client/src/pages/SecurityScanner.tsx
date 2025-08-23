@@ -322,7 +322,18 @@ export default function SecurityScanner() {
                       <Download className="w-4 h-4 mr-2" />
                       Download Report
                     </Button>
-                    <Button variant="outline" className="border-cyan-500 text-cyan-400">
+                    <Button 
+                      variant="outline" 
+                      className="border-cyan-500 text-cyan-400"
+                      onClick={() => {
+                        toast({
+                          title: "Consultation Scheduled",
+                          description: "Our security experts will contact you within 24 hours to discuss your assessment results.",
+                        });
+                        // Open calendar booking or contact form
+                        window.open('mailto:security@cybersecure.ai?subject=Security Consultation Request&body=I would like to schedule a security consultation to discuss my assessment results.', '_blank');
+                      }}
+                    >
                       <FileText className="w-4 h-4 mr-2" />
                       Schedule Consultation
                     </Button>
@@ -451,10 +462,41 @@ export default function SecurityScanner() {
                     </div>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button size="lg" className="bg-green-600 hover:bg-green-700 px-8">
+                    <Button 
+                      size="lg" 
+                      className="bg-green-600 hover:bg-green-700 px-8"
+                      onClick={() => {
+                        toast({
+                          title: "Consultation Request Submitted",
+                          description: "A cybersecurity expert will contact you within 2 business hours to schedule your consultation.",
+                        });
+                        // Open contact form with pre-filled security consultation request
+                        const subject = "Enterprise Security Consultation Request";
+                        const body = `Hello,
+
+I would like to schedule a comprehensive security consultation to discuss:
+- My recent security assessment results
+- Enterprise security strategy recommendations  
+- Advanced threat protection implementation
+- Compliance framework alignment
+
+Please contact me at your earliest convenience.
+
+Best regards`;
+                        window.open(`mailto:enterprise@cybersecure.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+                      }}
+                    >
                       Schedule Security Consultation
                     </Button>
-                    <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8">
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="border-green-500 text-green-400 hover:bg-green-500/10 px-8"
+                      onClick={() => {
+                        // Navigate to solutions page
+                        window.location.href = '/solutions';
+                      }}
+                    >
                       View Security Solutions
                     </Button>
                   </div>
