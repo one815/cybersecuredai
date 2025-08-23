@@ -1275,6 +1275,125 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // MISP Threat Intelligence API routes
+  app.get("/api/misp/threat-intelligence", async (req, res) => {
+    try {
+      const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
+      res.json({
+        ...threatIntel,
+        mispInitialized: threatDetectionEngine.isMISPInitialized(),
+        source: 'MISP'
+      });
+    } catch (error) {
+      console.error("Error fetching MISP threat intelligence:", error);
+      res.status(500).json({ message: "Failed to fetch threat intelligence" });
+    }
+  });
+
+  app.get("/api/misp/ip-reputation/:ip", async (req, res) => {
+    try {
+      const ip = req.params.ip;
+      const reputation = await threatDetectionEngine.getMISPIPReputation(ip);
+      res.json({
+        ip,
+        reputation,
+        timestamp: new Date(),
+        source: 'MISP'
+      });
+    } catch (error) {
+      console.error("Error fetching IP reputation:", error);
+      res.status(500).json({ message: "Failed to fetch IP reputation" });
+    }
+  });
+
+  app.get("/api/misp/domain-reputation/:domain", async (req, res) => {
+    try {
+      const domain = req.params.domain;
+      const reputation = await threatDetectionEngine.getMISPDomainReputation(domain);
+      res.json({
+        domain,
+        reputation,
+        timestamp: new Date(),
+        source: 'MISP'
+      });
+    } catch (error) {
+      console.error("Error fetching domain reputation:", error);
+      res.status(500).json({ message: "Failed to fetch domain reputation" });
+    }
+  });
+
+  app.get("/api/misp/threat-actors", async (req, res) => {
+    try {
+      const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
+      res.json({
+        threatActors: threatIntel.threatActors,
+        count: threatIntel.threatActors.length,
+        lastUpdate: threatIntel.lastUpdate,
+        source: 'MISP'
+      });
+    } catch (error) {
+      console.error("Error fetching threat actors:", error);
+      res.status(500).json({ message: "Failed to fetch threat actors" });
+    }
+  });
+
+  app.get("/api/misp/iocs", async (req, res) => {
+    try {
+      const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
+      const { type } = req.query;
+      
+      let iocs = threatIntel.iocs;
+      if (type) {
+        // Filter by IOC type if specified
+        iocs = {
+          ips: type === 'ip' ? iocs.ips : [],
+          domains: type === 'domain' ? iocs.domains : [],
+          urls: type === 'url' ? iocs.urls : [],
+          hashes: type === 'hash' ? iocs.hashes : [],
+          emails: type === 'email' ? iocs.emails : []
+        };
+      }
+
+      res.json({
+        iocs,
+        summary: {
+          totalIPs: threatIntel.iocs.ips.length,
+          totalDomains: threatIntel.iocs.domains.length,
+          totalUrls: threatIntel.iocs.urls.length,
+          totalHashes: threatIntel.iocs.hashes.length,
+          totalEmails: threatIntel.iocs.emails.length
+        },
+        lastUpdate: threatIntel.lastUpdate,
+        source: 'MISP'
+      });
+    } catch (error) {
+      console.error("Error fetching IOCs:", error);
+      res.status(500).json({ message: "Failed to fetch IOCs" });
+    }
+  });
+
+  app.get("/api/misp/status", async (req, res) => {
+    try {
+      const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
+      res.json({
+        initialized: threatDetectionEngine.isMISPInitialized(),
+        lastUpdate: threatIntel.lastUpdate,
+        dataFreshness: Date.now() - threatIntel.lastUpdate.getTime(),
+        summary: {
+          iocs: Object.values(threatIntel.iocs).reduce((sum, arr) => sum + arr.length, 0),
+          threatActors: threatIntel.threatActors.length,
+          campaigns: threatIntel.campaigns.length,
+          vulnerabilities: threatIntel.vulnerabilities.length
+        },
+        source: 'MISP',
+        apiKeyConfigured: !!process.env.MISP_API_KEY
+      });
+    } catch (error) {
+      console.error("Error fetching MISP status:", error);
+      res.status(500).json({ message: "Failed to fetch MISP status" });
+    }
+  });
+
   app.post("/api/badges/simulate-assessment", async (req, res) => {
     try {
       const { userId, frameworkId, score, previousScore } = req.body;
