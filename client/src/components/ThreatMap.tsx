@@ -129,34 +129,36 @@ export function ThreatMap({ height = "400px", width = "100%" }: ThreatMapProps) 
       <div className="bg-surface border border-surface-light rounded-lg overflow-hidden">
         {/* Stats Header - Mobile-Optimized Layout */}
         <div className="p-3 sm:p-4 border-b border-surface-light bg-surface/50">
-          {/* Mobile: Vertical Stack, Tablet+: Horizontal Grid */}
-          <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* Mobile: All Vertical Stack, Tablet+: Horizontal Grid */}
+          <div className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
             {/* Total Threats - Featured on Mobile */}
             <div className="text-center p-3 sm:p-0 bg-gray-800/30 sm:bg-transparent rounded-lg sm:rounded-none">
               <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-white">{stats.total}</div>
               <div className="text-sm sm:text-xs text-gray-400 uppercase font-semibold sm:font-normal">Total Threats</div>
             </div>
             
-            {/* Risk Levels - Horizontal on Mobile */}
-            <div className="grid grid-cols-3 gap-2 sm:contents">
-              <div className="text-center p-2 sm:p-0 bg-red-900/20 sm:bg-transparent rounded-lg sm:rounded-none border sm:border-0 border-red-500/30">
-                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-red-400">{stats.high}</div>
-                <div className="text-xs text-gray-400 uppercase">High</div>
-              </div>
-              <div className="text-center p-2 sm:p-0 bg-amber-900/20 sm:bg-transparent rounded-lg sm:rounded-none border sm:border-0 border-amber-500/30">
-                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-amber-400">{stats.medium}</div>
-                <div className="text-xs text-gray-400 uppercase">Medium</div>
-              </div>
-              <div className="text-center p-2 sm:p-0 bg-blue-900/20 sm:bg-transparent rounded-lg sm:rounded-none border sm:border-0 border-blue-500/30">
-                <div className="text-lg sm:text-xl lg:text-2xl font-bold text-blue-400">{stats.low}</div>
-                <div className="text-xs text-gray-400 uppercase">Low</div>
-              </div>
+            {/* High Risk - Vertical on Mobile */}
+            <div className="text-center p-3 sm:p-0 bg-red-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-red-500/30 sm:border-0">
+              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-red-400">{stats.high}</div>
+              <div className="text-sm sm:text-xs text-gray-400 uppercase">High Risk</div>
+            </div>
+            
+            {/* Medium Risk - Vertical on Mobile */}
+            <div className="text-center p-3 sm:p-0 bg-amber-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-amber-500/30 sm:border-0">
+              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-amber-400">{stats.medium}</div>
+              <div className="text-sm sm:text-xs text-gray-400 uppercase">Medium Risk</div>
+            </div>
+            
+            {/* Low Risk - Vertical on Mobile */}
+            <div className="text-center p-3 sm:p-0 bg-blue-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-blue-500/30 sm:border-0">
+              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-blue-400">{stats.low}</div>
+              <div className="text-sm sm:text-xs text-gray-400 uppercase">Low Risk</div>
             </div>
           </div>
         </div>
 
         {/* Map Container */}
-        <div style={{ height: `calc(${height} - 120px)` }} className="sm:h-[calc(100%-80px)]" >
+        <div className="h-[calc(100%-200px)] sm:h-[calc(100%-80px)]" style={{ minHeight: `calc(${height} - 200px)` }}>
           <MapContainer
             center={mapCenter}
             zoom={2}
