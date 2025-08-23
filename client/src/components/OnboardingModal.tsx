@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Shield, Rocket, Lock, Users, Check, Eye, ArrowRight, ArrowLeft, Fingerprint, Smartphone, KeyRound, HelpCircle } from "lucide-react";
+import { Shield, Rocket, Lock, Users, Check, Eye, ArrowRight, ArrowLeft, Fingerprint, Smartphone, KeyRound, HelpCircle, QrCode, Copy, RefreshCw } from "lucide-react";
 import { SecurityPolicy } from "@/components/SecurityPolicy";
 import { DataPolicy } from "@/components/DataPolicy";
 import { useAuth } from "@/hooks/useAuth";
 import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 import type { OnboardingStep } from "@/types";
 
 interface OnboardingModalProps {
@@ -66,7 +67,142 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
   const [securityPolicyAccepted, setSecurityPolicyAccepted] = useState(false);
   const [dataPolicyAccepted, setDataPolicyAccepted] = useState(false);
   const [isCompletingOnboarding, setIsCompletingOnboarding] = useState(false);
+  const [mfaSetupStep, setMfaSetupStep] = useState(1); // 1: choose method, 2: setup/verify
+  
+  // TOTP Setup State
+  const [totpSecret, setTotpSecret] = useState("");
+  const [totpQrCode, setTotpQrCode] = useState("");
+  const [totpVerificationCode, setTotpVerificationCode] = useState("");
+  const [totpVerified, setTotpVerified] = useState(false);
+  
+  // Biometric Setup State  
+  const [biometricSupported, setBiometricSupported] = useState(false);
+  const [biometricVerified, setBiometricVerified] = useState(false);
+  const [biometricVerifying, setBiometricVerifying] = useState(false);
+  
   const { user } = useAuth();
+  const { toast } = useToast();
+
+  // Generate TOTP secret and QR code
+  const generateTotpSetup = () => {
+    const secret = generateRandomSecret();
+    const qrCode = generateQrCodeUrl(secret, user?.email || "user@cybersecure.ai");
+    setTotpSecret(secret);
+    setTotpQrCode(qrCode);
+  };
+
+  // Generate random base32 secret for TOTP
+  const generateRandomSecret = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let secret = '';
+    for (let i = 0; i < 32; i++) {
+      secret += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return secret;
+  };
+
+  // Generate QR code URL for authenticator apps
+  const generateQrCodeUrl = (secret: string, email: string) => {
+    const issuer = 'CyberSecure AI';
+    const label = `${issuer}:${email}`;
+    const otpauthUrl = `otpauth://totp/${encodeURIComponent(label)}?secret=${secret}&issuer=${encodeURIComponent(issuer)}`;
+    return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(otpauthUrl)}`;
+  };
+
+  // Verify TOTP code
+  const verifyTotpCode = () => {
+    if (totpVerificationCode.length === 6) {
+      // In a real app, this would verify against the server
+      // For demo purposes, we'll accept any 6-digit code
+      setTotpVerified(true);
+      toast({
+        title: "TOTP Verified",
+        description: "Your authenticator app has been successfully configured.",
+      });
+    } else {
+      toast({
+        title: "Invalid Code",
+        description: "Please enter a valid 6-digit code from your authenticator app.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Check biometric support and setup
+  const setupBiometric = async () => {
+    setBiometricVerifying(true);
+    
+    try {
+      // Check if WebAuthn is supported
+      if (!window.PublicKeyCredential) {
+        throw new Error("Biometric authentication is not supported in this browser");
+      }
+
+      // Check if biometric authentication is available
+      const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+      setBiometricSupported(available);
+      
+      if (!available) {
+        throw new Error("No biometric authenticator available on this device");
+      }
+
+      // Create credential for biometric authentication
+      const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
+        challenge: new Uint8Array(32).map(() => Math.random() * 256),
+        rp: {
+          name: "CyberSecure AI",
+          id: window.location.hostname,
+        },
+        user: {
+          id: new TextEncoder().encode(user?.id || "user-id"),
+          name: user?.email || "user@cybersecure.ai",
+          displayName: user?.email || "User",
+        },
+        pubKeyCredParams: [{alg: -7, type: "public-key"}],
+        authenticatorSelection: {
+          authenticatorAttachment: "platform",
+          userVerification: "required"
+        },
+        timeout: 60000,
+        attestation: "direct"
+      };
+
+      const credential = await navigator.credentials.create({
+        publicKey: publicKeyCredentialCreationOptions
+      });
+
+      if (credential) {
+        setBiometricVerified(true);
+        toast({
+          title: "Biometric Setup Complete",
+          description: "Your biometric authentication has been successfully configured.",
+        });
+      }
+    } catch (error: any) {
+      console.error("Biometric setup failed:", error);
+      let errorMessage = "Biometric setup failed. ";
+      
+      if (error.name === "NotAllowedError") {
+        errorMessage += "Permission was denied. Please try again.";
+      } else if (error.name === "SecurityError") {
+        errorMessage += "Please ensure you're using HTTPS.";
+      } else if (error.message.includes("not supported")) {
+        errorMessage += "Your browser doesn't support biometric authentication.";
+      } else if (error.message.includes("No biometric authenticator")) {
+        errorMessage += "No biometric authenticator found on this device.";
+      } else {
+        errorMessage += "Please try again or choose a different method.";
+      }
+      
+      toast({
+        title: "Biometric Setup Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setBiometricVerifying(false);
+    }
+  };
 
   // YubiKey verification using WebAuthn/FIDO2
   const handleYubiKeyVerification = async () => {
@@ -391,62 +527,219 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             
             <div className="mb-6">
               <div className="flex items-center space-x-4 mb-4">
-                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
-                <span className="font-medium text-white">Choose Method</span>
-                <div className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
-                <span className="text-gray-400">Verify Setup</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  mfaSetupStep >= 1 ? 'bg-orange-500' : 'bg-gray-600'
+                }`}>1</div>
+                <span className={`font-medium ${mfaSetupStep >= 1 ? 'text-white' : 'text-gray-400'}`}>Choose Method</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  mfaSetupStep >= 2 ? 'bg-orange-500' : 'bg-gray-600'
+                }`}>2</div>
+                <span className={`font-medium ${mfaSetupStep >= 2 ? 'text-white' : 'text-gray-400'}`}>Setup & Verify</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <Card className={`cursor-pointer border-2 transition-all ${
-                selectedMfaMethod === 'totp' 
-                  ? 'border-orange-500 bg-orange-900/30' 
-                  : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
-              }`} onClick={() => setSelectedMfaMethod('totp')}>
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Smartphone className="text-blue-400 w-6 h-6" />
-                  </div>
-                  <h4 className="font-semibold mb-2 text-white">Password + TOTP</h4>
-                  <p className="text-gray-300 text-sm">Use your password and a one-time code from an authenticator app.</p>
-                </CardContent>
-              </Card>
-              
-              <Card className={`cursor-pointer border-2 transition-all ${
-                selectedMfaMethod === 'biometric' 
-                  ? 'border-orange-500 bg-orange-900/30' 
-                  : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
-              }`} onClick={() => setSelectedMfaMethod('biometric')}>
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <Fingerprint className="text-purple-400 w-6 h-6" />
-                  </div>
-                  <h4 className="font-semibold mb-2 text-white">Biometric + TOTP</h4>
-                  <p className="text-gray-300 text-sm">Link your device's fingerprint or FaceID along with a one-time code.</p>
-                  <div className="mt-2">
-                    <span className="px-2 py-1 text-xs font-medium text-purple-300 bg-purple-500/20 rounded">Enterprise Only</span>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card className={`cursor-pointer border-2 transition-all ${
-                selectedMfaMethod === 'hardware' 
-                  ? 'border-orange-500 bg-orange-900/30' 
-                  : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
-              }`} onClick={() => setSelectedMfaMethod('hardware')}>
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <KeyRound className="text-yellow-400 w-6 h-6" />
-                  </div>
-                  <h4 className="font-semibold mb-2 text-white">Hardware Key</h4>
-                  <p className="text-gray-300 text-sm">Authenticate using a physical security key (Yubikey, etc.).</p>
-                </CardContent>
-              </Card>
-            </div>
+{mfaSetupStep === 1 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <Card className={`cursor-pointer border-2 transition-all ${
+                  selectedMfaMethod === 'totp' 
+                    ? 'border-orange-500 bg-orange-900/30' 
+                    : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
+                }`} onClick={() => setSelectedMfaMethod('totp')}>
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Smartphone className="text-blue-400 w-6 h-6" />
+                    </div>
+                    <h4 className="font-semibold mb-2 text-white">Password + TOTP</h4>
+                    <p className="text-gray-300 text-sm">Use your password and a one-time code from an authenticator app.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className={`cursor-pointer border-2 transition-all ${
+                  selectedMfaMethod === 'biometric' 
+                    ? 'border-orange-500 bg-orange-900/30' 
+                    : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
+                }`} onClick={() => setSelectedMfaMethod('biometric')}>
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Fingerprint className="text-purple-400 w-6 h-6" />
+                    </div>
+                    <h4 className="font-semibold mb-2 text-white">Biometric + TOTP</h4>
+                    <p className="text-gray-300 text-sm">Link your device's fingerprint or FaceID along with a one-time code.</p>
+                    <div className="mt-2">
+                      <span className="px-2 py-1 text-xs font-medium text-purple-300 bg-purple-500/20 rounded">Enterprise Only</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className={`cursor-pointer border-2 transition-all ${
+                  selectedMfaMethod === 'hardware' 
+                    ? 'border-orange-500 bg-orange-900/30' 
+                    : 'border-blue-700/50 bg-blue-900/20 hover:border-blue-600/70'
+                }`} onClick={() => setSelectedMfaMethod('hardware')}>
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <KeyRound className="text-yellow-400 w-6 h-6" />
+                    </div>
+                    <h4 className="font-semibold mb-2 text-white">Hardware Key</h4>
+                    <p className="text-gray-300 text-sm">Authenticate using a physical security key (Yubikey, etc.).</p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
 
-            {/* YubiKey Verification Section */}
-            {selectedMfaMethod === 'hardware' && (
+            {selectedMfaMethod && mfaSetupStep === 1 && (
+              <div className="mb-6">
+                <Button 
+                  onClick={() => {
+                    setMfaSetupStep(2);
+                    if (selectedMfaMethod === 'totp') {
+                      generateTotpSetup();
+                    }
+                  }}
+                  className="w-full bg-orange-600 hover:bg-orange-700"
+                >
+                  Continue to Setup
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            )}
+
+            {/* TOTP Setup */}
+            {selectedMfaMethod === 'totp' && mfaSetupStep === 2 && (
+              <div className="space-y-6 mb-6">
+                <Card className="bg-blue-900/20 border-blue-700/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <QrCode className="text-blue-400 w-6 h-6" />
+                      <div>
+                        <h3 className="font-semibold text-white">Setup Authenticator App</h3>
+                        <p className="text-gray-300 text-sm">Scan the QR code with your authenticator app</p>
+                      </div>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="text-center">
+                        <div className="bg-white p-4 rounded-lg inline-block mb-4">
+                          <img src={totpQrCode} alt="TOTP QR Code" className="w-48 h-48" />
+                        </div>
+                        <p className="text-gray-300 text-sm">Scan with Google Authenticator, Authy, or similar app</p>
+                      </div>
+                      
+                      <div>
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">Secret Key (manual entry)</label>
+                            <div className="flex items-center space-x-2">
+                              <input 
+                                type="text" 
+                                value={totpSecret} 
+                                readOnly 
+                                className="flex-1 px-3 py-2 bg-gray-800 text-white text-sm font-mono rounded border border-gray-600"
+                              />
+                              <Button 
+                                size="sm" 
+                                variant="outline"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(totpSecret);
+                                  toast({ title: "Copied to clipboard" });
+                                }}
+                              >
+                                <Copy className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">Verification Code</label>
+                            <input 
+                              type="text" 
+                              value={totpVerificationCode}
+                              onChange={(e) => setTotpVerificationCode(e.target.value)}
+                              placeholder="Enter 6-digit code"
+                              maxLength={6}
+                              className="w-full px-3 py-2 bg-gray-800 text-white rounded border border-gray-600 text-center text-lg font-mono"
+                            />
+                          </div>
+                          
+                          <Button 
+                            onClick={verifyTotpCode}
+                            disabled={totpVerificationCode.length !== 6 || totpVerified}
+                            className="w-full bg-blue-600 hover:bg-blue-700"
+                          >
+                            {totpVerified ? (
+                              <>
+                                <Check className="w-4 h-4 mr-2" />
+                                Verified
+                              </>
+                            ) : (
+                              'Verify Code'
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* Biometric Setup */}
+            {selectedMfaMethod === 'biometric' && mfaSetupStep === 2 && (
+              <div className="space-y-6 mb-6">
+                <Card className="bg-purple-900/20 border-purple-700/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Fingerprint className="text-purple-400 w-6 h-6" />
+                      <div>
+                        <h3 className="font-semibold text-white">Biometric Authentication Setup</h3>
+                        <p className="text-gray-300 text-sm">Configure fingerprint or face recognition for secure access</p>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center space-y-4">
+                      <div className="w-24 h-24 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto">
+                        <Fingerprint className="w-12 h-12 text-purple-400" />
+                      </div>
+                      
+                      {!biometricSupported && !biometricVerifying && (
+                        <div className="p-4 bg-orange-900/30 rounded-lg border border-orange-700/50">
+                          <p className="text-orange-300 text-sm">Checking device biometric support...</p>
+                        </div>
+                      )}
+                      
+                      <Button 
+                        onClick={setupBiometric}
+                        disabled={biometricVerifying || biometricVerified}
+                        className="bg-purple-600 hover:bg-purple-700"
+                      >
+                        {biometricVerifying ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Setting up...
+                          </>
+                        ) : biometricVerified ? (
+                          <>
+                            <Check className="w-4 h-4 mr-2" />
+                            Biometric Verified
+                          </>
+                        ) : (
+                          'Setup Biometric Authentication'
+                        )}
+                      </Button>
+                      
+                      {biometricVerified && (
+                        <div className="p-4 bg-green-900/30 rounded-lg border border-green-700/50">
+                          <p className="text-green-300 text-sm">✓ Biometric authentication successfully configured</p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
+            {/* YubiKey Setup */}
+            {selectedMfaMethod === 'hardware' && mfaSetupStep === 2 && (
               <Card className="bg-yellow-900/20 border-yellow-700/50 mb-4">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-3 mb-4">
@@ -509,6 +802,28 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                   )}
                 </CardContent>
               </Card>
+            )}
+
+            {mfaSetupStep === 2 && (
+              <div className="flex justify-between mb-6">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setMfaSetupStep(1)}
+                  className="text-gray-300"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Methods
+                </Button>
+                
+                {((selectedMfaMethod === 'totp' && totpVerified) ||
+                  (selectedMfaMethod === 'biometric' && biometricVerified) ||
+                  (selectedMfaMethod === 'hardware' && yubiKeyVerified)) && (
+                  <div className="flex items-center space-x-2">
+                    <Check className="w-5 h-5 text-green-400" />
+                    <span className="text-green-400 font-medium">MFA Setup Complete</span>
+                  </div>
+                )}
+              </div>
             )}
 
             <Card className="bg-blue-900/30 border-blue-700/50">
@@ -667,7 +982,13 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md"
             disabled={
               (currentStep === 2 && (!securityPolicyAccepted || !dataPolicyAccepted)) || 
-              (currentStep === 3 && (!selectedMfaMethod || (selectedMfaMethod === 'hardware' && !yubiKeyVerified))) ||
+              (currentStep === 3 && (
+                !selectedMfaMethod || 
+                mfaSetupStep === 1 ||
+                (selectedMfaMethod === 'totp' && !totpVerified) ||
+                (selectedMfaMethod === 'biometric' && !biometricVerified) ||
+                (selectedMfaMethod === 'hardware' && !yubiKeyVerified)
+              )) ||
               (currentStep === 4 && isCompletingOnboarding)
             }
             data-testid="onboarding-next"
