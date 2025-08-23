@@ -332,7 +332,7 @@ export default function Dashboard() {
             {/* 24/7 Monitoring & Vulnerability Management */}
             <Card 
               className="holographic-card border border-orange-500/30 hover:border-orange-400/50 transition-all duration-300 cursor-pointer group"
-              onClick={() => setLocation('/platform/monitoring-vulnerability')}
+              onClick={() => setLocation('/vulnerability-monitoring')}
               data-testid="vulnerability-monitoring-card"
             >
               <CardHeader className="pb-4">
