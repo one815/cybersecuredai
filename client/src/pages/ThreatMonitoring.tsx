@@ -639,34 +639,34 @@ export default function ThreatMonitoring() {
                     <span className="text-xs text-green-400">Processing</span>
                   </div>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
-                  <div className={`p-2 rounded border ${dataSourcesActive.alienvault ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
-                    <div className="flex items-center space-x-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                  <div className={`p-3 sm:p-2 rounded border ${dataSourcesActive.alienvault ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
+                    <div className="flex items-center space-x-2 mb-1">
                       <div className={`w-2 h-2 rounded-full ${dataSourcesActive.alienvault ? 'bg-green-400' : 'bg-gray-500'}`}></div>
-                      <span className="text-xs font-medium text-white">AlienVault OTX</span>
+                      <span className="text-xs font-medium text-white leading-tight">AlienVault OTX</span>
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">47.2k IOCs/hr</div>
+                    <div className="text-xs text-gray-400">47.2k IOCs/hr</div>
                   </div>
-                  <div className={`p-2 rounded border ${dataSourcesActive.xforce ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
-                    <div className="flex items-center space-x-2">
+                  <div className={`p-3 sm:p-2 rounded border ${dataSourcesActive.xforce ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
+                    <div className="flex items-center space-x-2 mb-1">
                       <div className={`w-2 h-2 rounded-full ${dataSourcesActive.xforce ? 'bg-green-400' : 'bg-gray-500'}`}></div>
-                      <span className="text-xs font-medium text-white">IBM X-Force</span>
+                      <span className="text-xs font-medium text-white leading-tight">IBM X-Force</span>
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">23.8k IOCs/hr</div>
+                    <div className="text-xs text-gray-400">23.8k IOCs/hr</div>
                   </div>
-                  <div className={`p-2 rounded border ${dataSourcesActive.virustotal ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
-                    <div className="flex items-center space-x-2">
+                  <div className={`p-3 sm:p-2 rounded border ${dataSourcesActive.virustotal ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
+                    <div className="flex items-center space-x-2 mb-1">
                       <div className={`w-2 h-2 rounded-full ${dataSourcesActive.virustotal ? 'bg-green-400' : 'bg-gray-500'}`}></div>
-                      <span className="text-xs font-medium text-white">VirusTotal</span>
+                      <span className="text-xs font-medium text-white leading-tight">VirusTotal</span>
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">156k IOCs/hr</div>
+                    <div className="text-xs text-gray-400">156k IOCs/hr</div>
                   </div>
-                  <div className={`p-2 rounded border ${dataSourcesActive.custom ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
-                    <div className="flex items-center space-x-2">
+                  <div className={`p-3 sm:p-2 rounded border ${dataSourcesActive.custom ? 'bg-green-900/30 border-green-700' : 'bg-gray-800 border-gray-600'}`}>
+                    <div className="flex items-center space-x-2 mb-1">
                       <div className={`w-2 h-2 rounded-full ${dataSourcesActive.custom ? 'bg-green-400' : 'bg-gray-500'}`}></div>
-                      <span className="text-xs font-medium text-white">Custom Feeds</span>
+                      <span className="text-xs font-medium text-white leading-tight">Custom Feeds</span>
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">Offline</div>
+                    <div className="text-xs text-gray-400">Offline</div>
                   </div>
                 </div>
               </div>
