@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
@@ -40,6 +41,7 @@ import {
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { toast } = useToast();
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
   });
@@ -778,7 +780,11 @@ export default function Dashboard() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl font-bold text-white">System Security Status</CardTitle>
-                <Button className="bg-cyan-600 hover:bg-cyan-700 text-white text-xs" size="sm">
+                <Button 
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white text-xs" 
+                  size="sm"
+                  onClick={() => toast({ title: "Security Scan", description: "Full system security scan initiated successfully." })}
+                >
                   Run Full Scan
                 </Button>
               </div>
@@ -858,7 +864,7 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="text-sm font-medium text-red-400">Critical Security Update</div>
                   <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2">Apply Now</Button>
+                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2" onClick={() => toast({ title: "Security Update", description: "Critical security update applied successfully." })}>Apply Now</Button>
                 </div>
               </div>
               
@@ -867,7 +873,7 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
                   <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
-                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2">Send Reminder</Button>
+                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2" onClick={() => toast({ title: "MFA Reminder", description: "Multi-factor authentication reminders sent to users." })}>Send Reminder</Button>
                 </div>
               </div>
               
@@ -876,7 +882,7 @@ export default function Dashboard() {
                 <div className="flex-1">
                   <div className="text-sm font-medium text-blue-400">Security Scan Complete</div>
                   <div className="text-xs text-gray-300 mt-1">Weekly security scan completed. 2 medium vulnerabilities detected.</div>
-                  <Button size="sm" variant="outline" className="border-blue-600 text-blue-400 hover:bg-blue-900/50 mt-2">View Report</Button>
+                  <Button size="sm" variant="outline" className="border-blue-600 text-blue-400 hover:bg-blue-900/50 mt-2" onClick={() => window.location.href = '/reports'}>View Report</Button>
                 </div>
               </div>
             </div>
