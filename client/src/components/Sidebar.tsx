@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 const navigationItems = [
-  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/" },
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
   { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
   { id: "threat-analysis", label: "Threat Analysis", icon: Activity, path: "/threat-analysis" },
   { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
