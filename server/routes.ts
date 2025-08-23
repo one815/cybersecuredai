@@ -78,7 +78,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      res.json(user);
+      // Don't expose sensitive fields like TOTP secret
+      const { totpSecret, totpBackupCodes, ...safeUser } = user;
+      res.json(safeUser);
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
@@ -122,6 +124,98 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating digital key:", error);
       res.status(500).json({ message: "Failed to update digital key settings" });
+    }
+  });
+
+  // Hardware Key setup endpoint
+  app.put("/api/users/:userId/hardware-key", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { enabled } = req.body;
+
+      // Update user's hardware key status
+      const updatedUser = await storage.updateUser(userId, {
+        hardwareKeyEnabled: enabled,
+        mfaMethod: enabled ? "hardware_key" : "none"
+      });
+
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating hardware key:", error);
+      res.status(500).json({ message: "Failed to update hardware key settings" });
+    }
+  });
+
+  // Biometric authentication setup endpoint
+  app.put("/api/users/:userId/biometric", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { enabled } = req.body;
+
+      // Update user's biometric authentication status
+      const updatedUser = await storage.updateUser(userId, {
+        biometricEnabled: enabled,
+        mfaMethod: enabled ? "biometric" : "none"
+      });
+
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating biometric authentication:", error);
+      res.status(500).json({ message: "Failed to update biometric authentication settings" });
+    }
+  });
+
+  // TOTP authentication setup endpoint
+  app.put("/api/users/:userId/totp", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { enabled, secret, verificationCode } = req.body;
+
+      // In a real implementation, you would:
+      // 1. Verify the TOTP code using the secret
+      // 2. Generate backup codes
+      // 3. Store the encrypted secret
+      
+      // For demo purposes, accept any 6-digit code
+      if (enabled && verificationCode && verificationCode.length === 6) {
+        const updatedUser = await storage.updateUser(userId, {
+          totpEnabled: enabled,
+          mfaMethod: enabled ? "totp" : "none",
+          totpSecret: secret, // In production, this should be encrypted
+        });
+
+        res.json(updatedUser);
+      } else {
+        res.status(400).json({ message: "Invalid verification code" });
+      }
+    } catch (error) {
+      console.error("Error updating TOTP authentication:", error);
+      res.status(500).json({ message: "Failed to update TOTP authentication settings" });
+    }
+  });
+
+  // TOTP setup initialization endpoint
+  app.post("/api/auth/totp/setup", async (req, res) => {
+    try {
+      // In a real implementation, you would:
+      // 1. Generate a secure random secret
+      // 2. Create a QR code URL with the secret
+      // 3. Return both for the user to scan
+      
+      // For demo purposes, return a mock secret and QR code URL
+      const secret = "DEMO_SECRET_123456789012345";
+      const qrCodeUrl = "data:image/svg+xml;base64," + Buffer.from(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+          <rect width="200" height="200" fill="white"/>
+          <text x="100" y="100" text-anchor="middle" font-family="Arial" font-size="14" fill="black">QR Code Demo</text>
+          <text x="100" y="120" text-anchor="middle" font-family="Arial" font-size="10" fill="gray">Scan with authenticator</text>
+        </svg>
+      `).toString('base64');
+
+      res.json({ secret, qrCodeUrl });
+    } catch (error) {
+      console.error("Error setting up TOTP:", error);
+      res.status(500).json({ message: "Failed to setup TOTP authentication" });
     }
   });
 

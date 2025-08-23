@@ -31,7 +31,11 @@ import {
   FileText,
   Brain,
   AlertCircle,
-  KeyRound
+  KeyRound,
+  QrCode,
+  Fingerprint,
+  CreditCard,
+  Key
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -208,7 +212,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="p-3 sm:p-4 lg:p-6">
         {/* Post-Onboarding Tasks */}
-        {user?.onboardingCompleted && !user?.digitalKeyEnabled && (
+        {user?.onboardingCompleted && (!user?.digitalKeyEnabled || !user?.totpEnabled || !user?.biometricEnabled || !user?.hardwareKeyEnabled) && (
           <div className="mb-8">
             <Card className="bg-gradient-to-r from-orange-900/30 to-yellow-900/30 border-orange-500/50">
               <CardHeader>
@@ -217,21 +221,74 @@ export default function Dashboard() {
                   Complete Your Security Setup
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium text-white mb-1">Set up Digital Key Authentication</h4>
-                    <p className="text-gray-300 text-sm">Add an extra layer of security with hardware key authentication.</p>
+              <CardContent className="space-y-4">
+                {!user?.totpEnabled && (
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-white mb-1">Set up TOTP Authentication</h4>
+                      <p className="text-gray-300 text-sm">Use Google Authenticator or similar apps for secure access codes.</p>
+                    </div>
+                    <Button 
+                      onClick={() => window.location.href = '/authentication'}
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                      data-testid="setup-totp-task"
+                    >
+                      <QrCode className="w-4 h-4 mr-2" />
+                      Setup TOTP
+                    </Button>
                   </div>
-                  <Button 
-                    onClick={() => window.location.href = '/authentication'}
-                    className="bg-orange-600 hover:bg-orange-700 text-white"
-                    data-testid="setup-digital-key-task"
-                  >
-                    <KeyRound className="w-4 h-4 mr-2" />
-                    Setup Now
-                  </Button>
-                </div>
+                )}
+                
+                {!user?.biometricEnabled && (
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-white mb-1">Set up Biometric Authentication</h4>
+                      <p className="text-gray-300 text-sm">Use fingerprint, face recognition, or device biometrics.</p>
+                    </div>
+                    <Button 
+                      onClick={() => window.location.href = '/authentication'}
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                      data-testid="setup-biometric-task"
+                    >
+                      <Fingerprint className="w-4 h-4 mr-2" />
+                      Setup Biometric
+                    </Button>
+                  </div>
+                )}
+                
+                {!user?.hardwareKeyEnabled && (
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-white mb-1">Set up Hardware Key Authentication</h4>
+                      <p className="text-gray-300 text-sm">Use physical security keys like YubiKey or Titan keys.</p>
+                    </div>
+                    <Button 
+                      onClick={() => window.location.href = '/authentication'}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      data-testid="setup-hardware-key-task"
+                    >
+                      <Key className="w-4 h-4 mr-2" />
+                      Setup Hardware Key
+                    </Button>
+                  </div>
+                )}
+                
+                {!user?.digitalKeyEnabled && (
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium text-white mb-1">Set up Digital Key Authentication</h4>
+                      <p className="text-gray-300 text-sm">Use smart cards or digital certificates for authentication.</p>
+                    </div>
+                    <Button 
+                      onClick={() => window.location.href = '/authentication'}
+                      className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                      data-testid="setup-digital-key-task"
+                    >
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Setup Digital Key
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
