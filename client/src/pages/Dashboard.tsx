@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
@@ -42,6 +43,14 @@ import {
 export default function Dashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
+  
+  // State for tracking resolved security alerts
+  const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(new Set());
+  
+  // Function to mark alert as resolved
+  const resolveAlert = (alertId: string) => {
+    setResolvedAlerts(prev => new Set([...prev, alertId]));
+  };
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
   });
@@ -866,38 +875,47 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-start space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-700/50">
-                <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.4))'}} />
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-red-400">Critical Security Update</div>
-                  <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2" onClick={async () => {
-                    try {
-                      await fetch('/api/security/apply-update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ updateId: 'CVE-2023-32456' }) });
-                      toast({ title: "Security Update Applied", description: "Critical security update has been successfully applied." });
-                    } catch (error) {
-                      toast({ title: "Update Failed", description: "Failed to apply security update. Please try again.", variant: "destructive" });
-                    }
-                  }}>Apply Now</Button>
+              {/* Critical Security Update Alert */}
+              {!resolvedAlerts.has('critical-update') && (
+                <div className="flex items-start space-x-3 p-3 bg-red-900/20 rounded-lg border border-red-700/50">
+                  <AlertTriangle className="w-5 h-5 text-red-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.4))'}} />
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-red-400">Critical Security Update</div>
+                    <div className="text-xs text-gray-300 mt-1">Network Gateway requires immediate security patch for CVE-2023-32456</div>
+                    <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white mt-2" onClick={async () => {
+                      try {
+                        await fetch('/api/security/apply-update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ updateId: 'CVE-2023-32456' }) });
+                        toast({ title: "Security Update Applied", description: "Critical security update has been successfully applied." });
+                        resolveAlert('critical-update');
+                      } catch (error) {
+                        toast({ title: "Update Failed", description: "Failed to apply security update. Please try again.", variant: "destructive" });
+                      }
+                    }}>Apply Now</Button>
+                  </div>
                 </div>
-              </div>
+              )}
               
-              <div className="flex items-start space-x-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
-                <Shield className="w-5 h-5 text-yellow-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
-                  <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
-                  <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2" onClick={async () => {
-                    try {
-                      await fetch('/api/users/send-mfa-reminder', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-                      toast({ title: "MFA Reminders Sent", description: "Multi-factor authentication reminders sent to all users." });
-                    } catch (error) {
-                      toast({ title: "Failed to Send", description: "Failed to send MFA reminders. Please try again.", variant: "destructive" });
-                    }
-                  }}>Send Reminder</Button>
+              {/* MFA Not Configured Alert */}
+              {!resolvedAlerts.has('mfa-not-configured') && (
+                <div className="flex items-start space-x-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
+                  <Shield className="w-5 h-5 text-yellow-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
+                    <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
+                    <Button size="sm" variant="outline" className="border-yellow-600 text-yellow-400 hover:bg-yellow-900/50 mt-2" onClick={async () => {
+                      try {
+                        await fetch('/api/users/send-mfa-reminder', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                        toast({ title: "MFA Reminders Sent", description: "Multi-factor authentication reminders sent to all users." });
+                        resolveAlert('mfa-not-configured');
+                      } catch (error) {
+                        toast({ title: "Failed to Send", description: "Failed to send MFA reminders. Please try again.", variant: "destructive" });
+                      }
+                    }}>Send Reminder</Button>
+                  </div>
                 </div>
-              </div>
+              )}
               
+              {/* Security Scan Complete Alert - This one stays as informational */}
               <div className="flex items-start space-x-3 p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
                 <TrendingUp className="w-5 h-5 text-cyan-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                 <div className="flex-1">
@@ -906,6 +924,17 @@ export default function Dashboard() {
                   <Button size="sm" variant="outline" className="border-blue-600 text-blue-400 hover:bg-blue-900/50 mt-2" onClick={() => window.location.href = '/reports'}>View Report</Button>
                 </div>
               </div>
+              
+              {/* Show success message when all critical alerts are resolved */}
+              {resolvedAlerts.has('critical-update') && resolvedAlerts.has('mfa-not-configured') && (
+                <div className="flex items-start space-x-3 p-3 bg-green-900/20 rounded-lg border border-green-700/50">
+                  <CheckCircle className="w-5 h-5 text-green-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-green-400">All Critical Issues Resolved</div>
+                    <div className="text-xs text-gray-300 mt-1">Your security posture has been improved. All critical alerts have been addressed.</div>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
