@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { 
   ChartBar, 
   Download, 
@@ -18,6 +20,8 @@ import {
 } from "lucide-react";
 
 export default function Reports() {
+  const { toast } = useToast();
+  
   const { data: dashboardStats = {} } = useQuery<any>({
     queryKey: ["/api/dashboard/stats"],
   });
@@ -69,6 +73,63 @@ export default function Reports() {
   };
 
   const reportMetrics = generateReportMetrics();
+
+  // Report generation mutation
+  const generateReportMutation = useMutation({
+    mutationFn: async (reportType: string) => {
+      return await apiRequest(`/api/reports/generate/${reportType}`, 'POST');
+    },
+    onSuccess: (data, reportType) => {
+      toast({
+        title: "Report Generated",
+        description: `${reportType} report has been generated successfully.`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/reports"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Report Generation Failed",
+        description: "Failed to generate report. Please try again.",
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Download report function
+  const downloadReport = async (reportId: string) => {
+    try {
+      const response = await fetch(`/api/reports/download/${reportId}`);
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${reportId}-report.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        toast({
+          title: "Download Started",
+          description: "Report download has started."
+        });
+      } else {
+        throw new Error('Download failed');
+      }
+    } catch (error) {
+      toast({
+        title: "Download Failed", 
+        description: "Failed to download report. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  // Handle report generation button click
+  const handleGenerateReport = (reportType?: string) => {
+    const type = reportType || 'comprehensive';
+    generateReportMutation.mutate(type);
+  };
 
   const reportCategories = [
     {
@@ -161,9 +222,14 @@ export default function Reports() {
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
-            <Button className="bg-interactive hover:bg-orange-600" data-testid="generate-report">
+            <Button 
+              className="bg-interactive hover:bg-orange-600" 
+              data-testid="generate-report"
+              onClick={() => handleGenerateReport()}
+              disabled={generateReportMutation.isPending}
+            >
               <FileText className="w-4 h-4 mr-2" />
-              Generate Report
+              {generateReportMutation.isPending ? 'Generating...' : 'Generate Report'}
             </Button>
           </div>
         </div>
@@ -263,10 +329,21 @@ export default function Reports() {
                       {category.lastGenerated}
                     </div>
                     <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" data-testid={`view-${category.id}`}>
-                        View Report
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        data-testid={`view-${category.id}`}
+                        onClick={() => handleGenerateReport(category.id)}
+                        disabled={generateReportMutation.isPending}
+                      >
+                        {generateReportMutation.isPending ? 'Generating...' : 'View Report'}
                       </Button>
-                      <Button variant="ghost" size="sm" data-testid={`download-${category.id}`}>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        data-testid={`download-${category.id}`}
+                        onClick={() => downloadReport(category.id)}
+                      >
                         <Download className="w-4 h-4" />
                       </Button>
                     </div>
@@ -364,7 +441,12 @@ export default function Reports() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button variant="outline" className="justify-start h-auto p-4 border-surface-light" data-testid="schedule-reports">
+              <Button 
+                variant="outline" 
+                className="justify-start h-auto p-4 border-surface-light" 
+                data-testid="schedule-reports"
+                onClick={() => toast({ title: "Feature Coming Soon", description: "Report scheduling will be available in the next update." })}
+              >
                 <div className="flex items-center space-x-3">
                   <Calendar className="w-5 h-5 text-interactive" />
                   <div className="text-left">
@@ -374,7 +456,12 @@ export default function Reports() {
                 </div>
               </Button>
 
-              <Button variant="outline" className="justify-start h-auto p-4 border-surface-light" data-testid="export-data">
+              <Button 
+                variant="outline" 
+                className="justify-start h-auto p-4 border-surface-light" 
+                data-testid="export-data"
+                onClick={() => downloadReport('data-export')}
+              >
                 <div className="flex items-center space-x-3">
                   <Download className="w-5 h-5 text-interactive" />
                   <div className="text-left">
@@ -384,7 +471,13 @@ export default function Reports() {
                 </div>
               </Button>
 
-              <Button variant="outline" className="justify-start h-auto p-4 border-surface-light" data-testid="custom-report">
+              <Button 
+                variant="outline" 
+                className="justify-start h-auto p-4 border-surface-light" 
+                data-testid="custom-report"
+                onClick={() => handleGenerateReport('custom')}
+                disabled={generateReportMutation.isPending}
+              >
                 <div className="flex items-center space-x-3">
                   <ChartBar className="w-5 h-5 text-interactive" />
                   <div className="text-left">

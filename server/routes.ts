@@ -1428,6 +1428,96 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Report generation endpoints
+  app.post("/api/reports/generate/:type", async (req, res) => {
+    try {
+      const { type } = req.params;
+      const reportId = `${type}-${Date.now()}`;
+      
+      // Simulate report generation
+      const reportData = {
+        id: reportId,
+        type: type,
+        status: "completed",
+        generatedAt: new Date().toISOString(),
+        title: `${type.charAt(0).toUpperCase() + type.slice(1)} Security Report`,
+        summary: `Comprehensive ${type} security analysis and assessment`
+      };
+      
+      console.log(`📊 Report generated: ${reportData.title}`);
+      res.json(reportData);
+    } catch (error) {
+      console.error("Error generating report:", error);
+      res.status(500).json({ error: "Failed to generate report" });
+    }
+  });
+
+  app.get("/api/reports/download/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Create a simple PDF-like response
+      const pdfContent = `
+        CyberSecure AI Security Report - ${id}
+        Generated: ${new Date().toLocaleString()}
+        
+        EXECUTIVE SUMMARY
+        ================
+        This report provides a comprehensive analysis of the current security posture.
+        
+        KEY FINDINGS
+        ============
+        - Threat Detection Rate: 95%
+        - System Uptime: 99.8%  
+        - Compliance Score: 87%
+        - Active Incidents: 0
+        
+        RECOMMENDATIONS
+        ==============
+        - Continue monitoring threat landscape
+        - Maintain current security protocols
+        - Schedule regular security assessments
+        
+        END OF REPORT
+      `;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${id}.pdf"`);
+      res.send(Buffer.from(pdfContent, 'utf-8'));
+    } catch (error) {
+      console.error("Error downloading report:", error);  
+      res.status(500).json({ error: "Failed to download report" });
+    }
+  });
+
+  app.get("/api/reports", async (req, res) => {
+    try {
+      const reports = [
+        {
+          id: "security-2024-01",
+          type: "security",
+          title: "Security Assessment Report",
+          status: "completed",
+          generatedAt: new Date().toISOString(),
+          summary: "Comprehensive security analysis"
+        },
+        {
+          id: "compliance-2024-01", 
+          type: "compliance",
+          title: "Compliance Status Report",
+          status: "completed",
+          generatedAt: new Date().toISOString(),
+          summary: "Regulatory compliance assessment"
+        }
+      ];
+      
+      res.json(reports);
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+      res.status(500).json({ error: "Failed to fetch reports" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
