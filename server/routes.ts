@@ -1783,6 +1783,127 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // NIST Vulnerability Database API
+  app.get("/api/vulnerabilities/nist", async (req, res) => {
+    try {
+      // In production, this would fetch from NIST NVD API
+      // https://services.nvd.nist.gov/rest/json/cves/2.0/
+      const nistData = {
+        totalVulnerabilities: 247891,
+        recentVulnerabilities: 1247,
+        criticalSeverity: 89,
+        highSeverity: 423,
+        mediumSeverity: 567,
+        lowSeverity: 168,
+        lastUpdated: new Date().toISOString(),
+        recentCVEs: [
+          {
+            id: "CVE-2024-0001",
+            description: "Buffer overflow vulnerability in network driver",
+            severity: "CRITICAL",
+            score: 9.8,
+            publishedDate: "2024-01-15T10:30:00Z",
+            affectedProducts: ["Windows Server 2019", "Windows 10"]
+          },
+          {
+            id: "CVE-2024-0002", 
+            description: "Authentication bypass in web application framework",
+            severity: "HIGH",
+            score: 8.1,
+            publishedDate: "2024-01-14T14:22:00Z",
+            affectedProducts: ["Apache Tomcat", "JBoss EAP"]
+          }
+        ]
+      };
+      
+      res.json(nistData);
+    } catch (error) {
+      console.error("Error fetching NIST data:", error);
+      res.status(500).json({ error: "Failed to fetch NIST vulnerability data" });
+    }
+  });
+
+  // CVE Details API
+  app.get("/api/vulnerabilities/cve", async (req, res) => {
+    try {
+      const cveData = {
+        totalCVEs: 189347,
+        newThisMonth: 892,
+        criticalCount: 156,
+        exploitableCount: 78,
+        lastSync: new Date().toISOString(),
+        topCVEs: [
+          {
+            cveId: "CVE-2024-0123",
+            description: "Remote code execution in common library",
+            cvssScore: 9.9,
+            severity: "CRITICAL",
+            exploitAvailable: true,
+            affectedSystems: 1247,
+            publishDate: "2024-01-16T08:15:00Z"
+          },
+          {
+            cveId: "CVE-2024-0124",
+            description: "SQL injection vulnerability in database connector",
+            cvssScore: 8.4,
+            severity: "HIGH", 
+            exploitAvailable: false,
+            affectedSystems: 834,
+            publishDate: "2024-01-15T16:45:00Z"
+          }
+        ]
+      };
+      
+      res.json(cveData);
+    } catch (error) {
+      console.error("Error fetching CVE data:", error);
+      res.status(500).json({ error: "Failed to fetch CVE data" });
+    }
+  });
+
+  // CISA Known Exploited Vulnerabilities API
+  app.get("/api/vulnerabilities/cisa-kev", async (req, res) => {
+    try {
+      // In production, this would fetch from CISA KEV catalog
+      // https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json
+      const cisaKevData = {
+        totalKnownExploited: 1047,
+        newThisWeek: 12,
+        emergencyDirectives: 3,
+        lastUpdated: new Date().toISOString(),
+        urgentVulnerabilities: [
+          {
+            cveId: "CVE-2024-0001",
+            vendorProject: "Microsoft",
+            product: "Windows",
+            vulnerabilityName: "Windows Kernel Elevation of Privilege Vulnerability",
+            dateAdded: "2024-01-16",
+            shortDescription: "Microsoft Windows contains an unspecified vulnerability that allows for privilege escalation.",
+            requiredAction: "Apply updates per vendor instructions.",
+            dueDate: "2024-01-30",
+            knownRansomwareCampaignUse: "Known"
+          },
+          {
+            cveId: "CVE-2024-0002",
+            vendorProject: "Apache",
+            product: "HTTP Server", 
+            vulnerabilityName: "Apache HTTP Server Request Smuggling Vulnerability",
+            dateAdded: "2024-01-15",
+            shortDescription: "Apache HTTP Server contains a request smuggling vulnerability.",
+            requiredAction: "Apply updates per vendor instructions.",
+            dueDate: "2024-01-29",
+            knownRansomwareCampaignUse: "Unknown"
+          }
+        ]
+      };
+      
+      res.json(cisaKevData);
+    } catch (error) {
+      console.error("Error fetching CISA KEV data:", error);
+      res.status(500).json({ error: "Failed to fetch CISA KEV data" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
