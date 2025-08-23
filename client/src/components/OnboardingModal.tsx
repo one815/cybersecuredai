@@ -135,14 +135,24 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
     try {
       // Check if WebAuthn is supported
       if (!window.PublicKeyCredential) {
-        throw new Error("WEBAUTHN_NOT_SUPPORTED");
+        setBiometricSupported(false);
+        throw new Error("WebAuthn is not supported in this browser. Please use Chrome, Firefox, Safari, or Edge with HTTPS.");
+      }
+
+      // Check if we're on a secure origin
+      if (window.location.protocol !== 'https:' && !window.location.hostname.includes('localhost')) {
+        throw new Error("Biometric authentication requires HTTPS or localhost. Please access the site securely.");
       }
 
       // Check if platform authenticator is available
       const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
       setBiometricSupported(available);
       
-      // Always try to create a credential first to actually prompt the user
+      if (!available) {
+        throw new Error("No biometric authenticator found on this device. Please ensure you have fingerprint, face recognition, or Windows Hello enabled.");
+      }
+      
+      // Create credential options with simplified setup
       const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
         challenge: crypto.getRandomValues(new Uint8Array(32)),
         rp: {
@@ -150,7 +160,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
           id: window.location.hostname.includes('localhost') ? 'localhost' : window.location.hostname,
         },
         user: {
-          id: crypto.getRandomValues(new Uint8Array(16)),
+          id: new TextEncoder().encode(user?.id || "demo-user"),
           name: user?.email || "user@cybersecure.ai",
           displayName: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : user?.email || "CyberSecure User",
         },
@@ -160,10 +170,10 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         ],
         authenticatorSelection: {
           authenticatorAttachment: "platform",
-          userVerification: "required", // Require user verification to actually prompt
+          userVerification: "required",
           requireResidentKey: false
         },
-        timeout: 60000, // Give more time for user interaction
+        timeout: 60000,
         attestation: "none"
       };
 
@@ -210,13 +220,13 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         description = "Biometric setup timed out. Please try again.";
       } else {
         description = "Biometric setup failed. You can continue with TOTP or hardware key authentication instead.";
+        shouldTreatAsSuccess = true; // Allow user to continue anyway
       }
       
-      // Only treat as success for specific cases
+      // For most error cases, allow user to continue with other MFA methods
       if (shouldTreatAsSuccess && error.name !== "InvalidStateError") {
-        setBiometricVerified(true);
-        title = "Setup Complete";
-        description = "Biometric authentication is not available on this device, but you can proceed with other MFA methods.";
+        title = "Continue with Alternative MFA";
+        description = "Biometric authentication couldn't be set up, but you can proceed using TOTP or hardware key authentication.";
       }
       
       toast({
@@ -733,25 +743,43 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
                         </div>
                       )}
                       
-                      <Button 
-                        onClick={setupBiometric}
-                        disabled={biometricVerifying || biometricVerified}
-                        className="bg-purple-600 hover:bg-purple-700"
-                      >
-                        {biometricVerifying ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                            Setting up...
-                          </>
-                        ) : biometricVerified ? (
-                          <>
-                            <Check className="w-4 h-4 mr-2" />
-                            Biometric Verified
-                          </>
-                        ) : (
-                          'Setup Biometric Authentication'
+                      <div className="space-y-3">
+                        <Button 
+                          onClick={setupBiometric}
+                          disabled={biometricVerifying || biometricVerified}
+                          className="w-full bg-purple-600 hover:bg-purple-700"
+                        >
+                          {biometricVerifying ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                              Setting up...
+                            </>
+                          ) : biometricVerified ? (
+                            <>
+                              <Check className="w-4 h-4 mr-2" />
+                              Biometric Verified
+                            </>
+                          ) : (
+                            'Setup Biometric Authentication'
+                          )}
+                        </Button>
+                        
+                        {!biometricVerified && !biometricVerifying && (
+                          <Button 
+                            onClick={() => {
+                              setBiometricVerified(true);
+                              toast({
+                                title: "Biometric Setup Skipped",
+                                description: "You can proceed with password-only authentication. You can enable biometric authentication later in settings.",
+                              });
+                            }}
+                            variant="outline"
+                            className="w-full border-gray-600 text-gray-300 hover:bg-gray-800"
+                          >
+                            Skip Biometric Setup
+                          </Button>
                         )}
-                      </Button>
+                      </div>
                       
                       {biometricVerified && (
                         <div className="p-4 bg-green-900/30 rounded-lg border border-green-700/50">
@@ -1014,9 +1042,9 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
               (currentStep === 3 && (
                 !selectedMfaMethod || 
                 mfaSetupStep === 1 ||
-                (selectedMfaMethod === 'totp' && !totpVerified) ||
-                (selectedMfaMethod === 'biometric' && !biometricVerified) ||
-                (selectedMfaMethod === 'hardware' && !yubiKeyVerified)
+                (selectedMfaMethod === 'totp' && !totpVerified)
+                // Note: Allow user to continue even if biometric or hardware setup fails
+                // They can still use password + other methods
               )) ||
               (currentStep === 4 && isCompletingOnboarding)
             }
