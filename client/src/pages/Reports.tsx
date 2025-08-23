@@ -87,7 +87,12 @@ export default function Reports() {
       
       // Add the generated report to our list
       if (data.report) {
-        setGeneratedReports(prev => [data.report, ...prev.slice(0, 4)]); // Keep last 5 reports
+        console.log('Adding report to state:', data.report);
+        setGeneratedReports(prev => {
+          const newReports = [data.report, ...prev.slice(0, 4)]; // Keep last 5 reports
+          console.log('Updated reports state:', newReports);
+          return newReports;
+        });
       }
       
       toast({
@@ -320,7 +325,7 @@ export default function Reports() {
         </Card>
 
         {/* Recent Downloads */}
-        {generatedReports.length > 0 && (
+        {true && (
           <Card className="border-green-500/20 bg-green-500/5 mb-6">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-lg text-green-700 dark:text-green-400">
@@ -330,7 +335,9 @@ export default function Reports() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {generatedReports.map((report, index) => (
+                {generatedReports.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No reports generated yet. Generate a report to see downloads here.</p>
+                ) : generatedReports.map((report, index) => (
                   <div key={report.id} className="flex items-center justify-between p-3 bg-background rounded-lg border">
                     <div className="flex items-center gap-3">
                       <FileText className="w-4 h-4 text-blue-500" />
