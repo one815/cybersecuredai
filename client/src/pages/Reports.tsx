@@ -77,19 +77,23 @@ export default function Reports() {
   // Report generation mutation
   const generateReportMutation = useMutation({
     mutationFn: async (reportType: string) => {
-      return await apiRequest(`/api/reports/generate/${reportType}`, 'POST');
+      const response = await apiRequest('POST', `/api/reports/generate/${reportType}`);
+      return await response.json();
     },
     onSuccess: (data, reportType) => {
+      console.log('Report generation success:', data);
+      const reportTitle = data.report?.title || `${reportType} report`;
       toast({
-        title: "Report Generated",
-        description: `${reportType} report has been generated successfully.`,
+        title: "Report Generated Successfully",
+        description: `${reportTitle} has been created and is ready for download.`,
       });
       queryClient.invalidateQueries({ queryKey: ["/api/reports"] });
     },
     onError: (error) => {
+      console.error('Report generation error:', error);
       toast({
         title: "Report Generation Failed",
-        description: "Failed to generate report. Please try again.",
+        description: error.message || "Failed to generate report. Please try again.",
         variant: "destructive"
       });
     }
