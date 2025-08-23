@@ -1432,23 +1432,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/reports/generate/:type", async (req, res) => {
     try {
       const { type } = req.params;
+      console.log(`📊 Generating ${type} report...`);
+      
+      // Simulate report generation delay (500ms for better UX)
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       const reportId = `${type}-${Date.now()}`;
       
-      // Simulate report generation
       const reportData = {
         id: reportId,
         type: type,
         status: "completed",
         generatedAt: new Date().toISOString(),
         title: `${type.charAt(0).toUpperCase() + type.slice(1)} Security Report`,
-        summary: `Comprehensive ${type} security analysis and assessment`
+        summary: `Comprehensive ${type} security analysis and assessment`,
+        downloadUrl: `/api/reports/download/${reportId}`
       };
       
-      console.log(`📊 Report generated: ${reportData.title}`);
-      res.json(reportData);
+      console.log(`✅ ${type} report generated successfully: ${reportId}`);
+      res.json({
+        success: true,
+        message: `${type} report generated successfully`,
+        report: reportData
+      });
     } catch (error) {
       console.error("Error generating report:", error);
-      res.status(500).json({ error: "Failed to generate report" });
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to generate report" 
+      });
     }
   });
 
