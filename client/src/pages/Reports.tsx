@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -83,9 +84,23 @@ export default function Reports() {
     onSuccess: (data, reportType) => {
       console.log('Report generation success:', data);
       const reportTitle = data.report?.title || `${reportType} report`;
+      
+      // Add the generated report to our list
+      if (data.report) {
+        setGeneratedReports(prev => [data.report, ...prev.slice(0, 4)]); // Keep last 5 reports
+      }
+      
       toast({
         title: "Report Generated Successfully",
         description: `${reportTitle} has been created and is ready for download.`,
+        action: (
+          <button 
+            onClick={() => downloadReport(data.report?.id)}
+            className="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded text-sm"
+          >
+            Download Now
+          </button>
+        ),
       });
       queryClient.invalidateQueries({ queryKey: ["/api/reports"] });
     },
@@ -128,6 +143,15 @@ export default function Reports() {
       });
     }
   };
+
+  // State to track generated reports
+  const [generatedReports, setGeneratedReports] = useState<Array<{
+    id: string;
+    title: string;
+    type: string;
+    generatedAt: string;
+    downloadUrl: string;
+  }>>([]);
 
   // Handle report generation button click
   const handleGenerateReport = (reportType?: string) => {
