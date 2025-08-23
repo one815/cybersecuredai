@@ -8,6 +8,7 @@ import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detec
 import { complianceAutomationEngine } from "./engines/compliance-automation";
 import { MLThreatDetectionEngine } from "./engines/ml-threat-detection";
 import { BehavioralAnalysisEngine } from "./engines/behavioral-analysis";
+import { otxService } from "./otxService";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -1391,6 +1392,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching MISP status:", error);
       res.status(500).json({ message: "Failed to fetch MISP status" });
+    }
+  });
+
+  // AlienVault OTX Threat Intelligence API routes
+  app.get("/api/otx/threat-intelligence", async (req, res) => {
+    try {
+      const threatData = await otxService.getThreatIntelligence();
+      res.json({
+        ...threatData,
+        apiKeyConfigured: !!process.env.ALIENVAULT_OTX_API_KEY,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching OTX threat intelligence:", error);
+      res.status(500).json({ message: "Failed to fetch OTX threat intelligence" });
+    }
+  });
+
+  app.get("/api/otx/pulses", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 20;
+      const pulses = await otxService.getRecentPulses(limit);
+      res.json({
+        pulses,
+        count: pulses.length,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching OTX pulses:", error);
+      res.status(500).json({ message: "Failed to fetch OTX pulses" });
+    }
+  });
+
+  app.get("/api/otx/indicators/search", async (req, res) => {
+    try {
+      const { q: query, type } = req.query;
+      if (!query) {
+        return res.status(400).json({ message: "Query parameter required" });
+      }
+      const indicators = await otxService.searchIndicators(query as string, type as string);
+      res.json({
+        indicators,
+        count: indicators.length,
+        query,
+        type,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error searching OTX indicators:", error);
+      res.status(500).json({ message: "Failed to search indicators" });
+    }
+  });
+
+  app.get("/api/otx/indicator/:type/:indicator", async (req, res) => {
+    try {
+      const { type, indicator } = req.params;
+      const details = await otxService.getIndicatorDetails(indicator, type);
+      res.json({
+        indicator,
+        type,
+        details,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching OTX indicator details:", error);
+      res.status(500).json({ message: "Failed to fetch indicator details" });
+    }
+  });
+
+  app.post("/api/otx/check-ioc", async (req, res) => {
+    try {
+      const { indicator, type } = req.body;
+      if (!indicator || !type) {
+        return res.status(400).json({ message: "Indicator and type required" });
+      }
+      const iocResult = await otxService.checkIOC(indicator, type);
+      res.json({
+        indicator,
+        type,
+        ...iocResult,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error checking IOC:", error);
+      res.status(500).json({ message: "Failed to check IOC" });
+    }
+  });
+
+  app.get("/api/otx/malware-families", async (req, res) => {
+    try {
+      const malwareFamilies = await otxService.getMalwareFamilies();
+      res.json({
+        malwareFamilies,
+        count: malwareFamilies.length,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching OTX malware families:", error);
+      res.status(500).json({ message: "Failed to fetch malware families" });
+    }
+  });
+
+  app.get("/api/otx/status", async (req, res) => {
+    try {
+      const threatData = await otxService.getThreatIntelligence();
+      res.json({
+        apiKeyConfigured: !!process.env.ALIENVAULT_OTX_API_KEY,
+        totalPulses: threatData.pulses.length,
+        totalIndicators: threatData.indicators.length,
+        malwareFamilies: threatData.malwareFamilies.length,
+        countries: threatData.countries.length,
+        industries: threatData.industries.length,
+        totalThreats: threatData.totalThreats,
+        source: 'AlienVault OTX',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching OTX status:", error);
+      res.status(500).json({ message: "Failed to fetch OTX status" });
     }
   });
 
