@@ -278,16 +278,13 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
     try {
       setIsCompletingOnboarding(true);
       
-      await apiRequest(`/api/users/${user.id}/onboarding`, {
-        method: 'PUT',
-        body: {
-          completed: true,
-          securityPolicyAccepted,
-          dataPolicyAccepted,
-          mfaSetup: {
-            enabled: selectedMfaMethod !== "",
-            method: selectedMfaMethod || "none"
-          }
+      await apiRequest('PUT', `/api/users/${user.id}/onboarding`, {
+        completed: true,
+        securityPolicyAccepted,
+        dataPolicyAccepted,
+        mfaSetup: {
+          enabled: selectedMfaMethod !== "",
+          method: selectedMfaMethod || "none"
         }
       });
       
