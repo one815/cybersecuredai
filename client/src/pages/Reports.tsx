@@ -319,6 +319,44 @@ export default function Reports() {
           </CardContent>
         </Card>
 
+        {/* Recent Downloads */}
+        {generatedReports.length > 0 && (
+          <Card className="border-green-500/20 bg-green-500/5 mb-6">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg text-green-700 dark:text-green-400">
+                <Download className="w-5 h-5" />
+                Recent Downloads
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {generatedReports.map((report, index) => (
+                  <div key={report.id} className="flex items-center justify-between p-3 bg-background rounded-lg border">
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-4 h-4 text-blue-500" />
+                      <div>
+                        <p className="font-medium text-sm">{report.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Generated: {new Date(report.generatedAt).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => downloadReport(report.id)}
+                      size="sm"
+                      className="bg-green-600 hover:bg-green-700 text-white"
+                      data-testid={`download-recent-${report.id}`}
+                    >
+                      <Download className="w-4 h-4 mr-1" />
+                      Download PDF
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Report Categories */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {reportCategories.map((category) => (
