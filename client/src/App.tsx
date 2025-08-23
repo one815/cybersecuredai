@@ -36,6 +36,7 @@ import AboutUs from "@/pages/AboutUs";
 import Solutions from "@/pages/Solutions";
 import Pricing from "@/pages/Pricing";
 import SecurityScanner from "@/pages/SecurityScanner";
+import BasicSecurityScan from "@/pages/BasicSecurityScan";
 import Careers from "@/pages/Careers";
 import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
@@ -246,6 +247,9 @@ function Router() {
         <Layout>
           <MonitoringVulnerability />
         </Layout>
+      </Route>
+      <Route path="/basic-security-scan">
+        <BasicSecurityScan />
       </Route>
       <Route path="/security-scanner">
         <Layout>
