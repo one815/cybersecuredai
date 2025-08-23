@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Shield, Rocket, Lock, Users, Check, Eye, ArrowRight, ArrowLeft, Fingerprint, Smartphone, KeyRound, HelpCircle, QrCode, Copy, RefreshCw } from "lucide-react";
+import { Shield, Rocket, Lock, Users, Check, Eye, ArrowRight, ArrowLeft, Fingerprint, Smartphone, KeyRound, HelpCircle, QrCode, Copy, RefreshCw, Zap } from "lucide-react";
 import { SecurityPolicy } from "@/components/SecurityPolicy";
 import { DataPolicy } from "@/components/DataPolicy";
 import { useAuth } from "@/hooks/useAuth";
@@ -65,6 +65,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
   const [securityPolicyAccepted, setSecurityPolicyAccepted] = useState(false);
   const [dataPolicyAccepted, setDataPolicyAccepted] = useState(false);
   const [isCompletingOnboarding, setIsCompletingOnboarding] = useState(false);
+  const [showQuickSetup, setShowQuickSetup] = useState(false);
   
   const { user } = useAuth();
   const { toast } = useToast();
@@ -84,13 +85,22 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
     }
   };
 
-  const completeOnboarding = async () => {
+  const completeOnboarding = async (isQuickSetup = false) => {
     if (!user?.id) return;
     
     try {
       setIsCompletingOnboarding(true);
       
-      await apiRequest('PUT', `/api/users/${user.id}/onboarding`, {
+      // For quick setup, use default values
+      const setupData = isQuickSetup ? {
+        completed: true,
+        securityPolicyAccepted: true,
+        dataPolicyAccepted: true,
+        mfaSetup: {
+          enabled: true,
+          method: "password-totp" // Default to Password + TOTP for quick setup
+        }
+      } : {
         completed: true,
         securityPolicyAccepted,
         dataPolicyAccepted,
@@ -98,16 +108,34 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
           enabled: selectedMfaMethod !== "",
           method: selectedMfaMethod || "none"
         }
-      });
+      };
+      
+      await apiRequest('PUT', `/api/users/${user.id}/onboarding`, setupData);
+      
+      if (isQuickSetup) {
+        toast({
+          title: "Quick Setup Complete!",
+          description: "Your account is now secured with Password + TOTP authentication. You can customize settings later in your profile.",
+          duration: 4000,
+        });
+      }
       
       onComplete();
       onClose();
     } catch (error) {
       console.error("Failed to complete onboarding:", error);
-      // Handle error gracefully
+      toast({
+        title: "Setup Error",
+        description: "Failed to complete onboarding. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsCompletingOnboarding(false);
     }
+  };
+
+  const handleQuickSetup = async () => {
+    await completeOnboarding(true);
   };
 
   const handleBack = () => {
@@ -180,9 +208,21 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
               </CardContent>
             </Card>
             
-            <div className="flex items-center text-sm text-gray-400 mb-4">
-              <HelpCircle className="w-4 h-4 mr-2" />
-              <span>Need help?</span>
+            <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
+              <div className="flex items-center">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                <span>Need help?</span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleQuickSetup}
+                disabled={isCompletingOnboarding}
+                className="flex items-center space-x-2 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+              >
+                <Zap className="w-4 h-4" />
+                <span>Quick Setup</span>
+              </Button>
             </div>
           </div>
         );
@@ -480,15 +520,29 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
 
         {/* Navigation */}
         <div className="flex justify-between items-center pt-6 border-t border-border">
-          <Button
-            variant="outline"
-            onClick={handleBack}
-            disabled={currentStep === 1 || isCompletingOnboarding}
-            className="flex items-center space-x-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back</span>
-          </Button>
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              disabled={currentStep === 1 || isCompletingOnboarding}
+              className="flex items-center space-x-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back</span>
+            </Button>
+            
+            {currentStep > 1 && currentStep < steps.length && (
+              <Button
+                variant="ghost"
+                onClick={handleQuickSetup}
+                disabled={isCompletingOnboarding}
+                className="flex items-center space-x-2 text-primary hover:text-primary/80"
+              >
+                <Zap className="w-4 h-4" />
+                <span>Quick Setup</span>
+              </Button>
+            )}
+          </div>
           
           <Button
             onClick={handleNext}
