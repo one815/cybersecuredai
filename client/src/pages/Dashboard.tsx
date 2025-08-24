@@ -687,7 +687,14 @@ export default function Dashboard() {
                 <CardTitle className="text-lg sm:text-xl font-bold text-white">Active Threats</CardTitle>
                 <div className="flex items-center space-x-2">
                   <Badge className="bg-red-500 text-white text-xs">Now</Badge>
-                  <Button variant="link" className="text-cyan-400 text-xs sm:text-sm p-0 h-auto">View all</Button>
+                  <Button 
+                    variant="link" 
+                    className="text-cyan-400 text-xs sm:text-sm p-0 h-auto"
+                    onClick={() => window.location.href = '/threats'}
+                    data-testid="button-view-all-threats"
+                  >
+                    View all
+                  </Button>
                 </div>
               </div>
             </CardHeader>
@@ -1056,7 +1063,13 @@ export default function Dashboard() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-xl font-bold">Real-time Threat Detection</CardTitle>
-                <Button variant="ghost" size="icon" className="text-interactive hover:text-orange-400">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-interactive hover:text-orange-400"
+                  onClick={() => window.location.href = '/threat-detection'}
+                  data-testid="button-view-threat-detection"
+                >
                   <Eye className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
                 </Button>
               </div>
@@ -1095,7 +1108,14 @@ export default function Dashboard() {
                 <span className="text-sm text-gray-400">
                   AI Detection Rate: <span className="text-success font-medium">98.7%</span>
                 </span>
-                <Button variant="link" className="text-interactive text-sm">View All Threats</Button>
+                <Button 
+                  variant="link" 
+                  className="text-interactive text-sm"
+                  onClick={() => window.location.href = '/threats'}
+                  data-testid="button-view-all-threats-2"
+                >
+                  View All Threats
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -1107,7 +1127,15 @@ export default function Dashboard() {
                 <CardTitle className="text-xl font-bold">Network Activity</CardTitle>
                 <div className="flex space-x-2">
                   <Badge variant="default" className="bg-interactive text-white">Live</Badge>
-                  <Badge variant="outline" className="bg-surface-light text-gray-400">24h</Badge>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="bg-surface-light text-gray-400 hover:text-white h-6 px-2 text-xs"
+                    onClick={() => window.location.href = '/network-activity'}
+                    data-testid="button-network-24h"
+                  >
+                    View 24h
+                  </Button>
                 </div>
               </div>
             </CardHeader>

@@ -1238,6 +1238,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Security Scan API endpoints
+  app.post("/api/security/run-scan", async (req, res) => {
+    try {
+      const scanId = `scan-${Date.now()}`;
+      const statusUrl = `/api/security/scan-status/${scanId}`;
+      
+      // Simulate scan initiation
+      res.json({
+        success: true,
+        scanId,
+        statusUrl,
+        estimatedDuration: "2-3 minutes"
+      });
+      
+      // Store scan result for later retrieval
+      setTimeout(() => {
+        if (!global.scanResults) {
+          global.scanResults = {};
+        }
+        global.scanResults[scanId] = {
+          status: 'completed',
+          summary: {
+            total: 7,
+            critical: 0,
+            high: 3,
+            medium: 2,
+            low: 2
+          },
+          vulnerabilities: [
+            { type: 'Outdated SSL Certificate', severity: 'high', component: 'Web Server' },
+            { type: 'Weak Password Policy', severity: 'medium', component: 'User Management' },
+            { type: 'Unpatched Software', severity: 'high', component: 'Database Server' }
+          ]
+        };
+      }, 4000);
+    } catch (error) {
+      console.error("Error starting security scan:", error);
+      res.status(500).json({ error: "Failed to start security scan" });
+    }
+  });
+
+  app.get("/api/security/scan-status/:scanId", async (req, res) => {
+    try {
+      const scanId = req.params.scanId;
+      const result = global.scanResults?.[scanId];
+      
+      if (!result) {
+        return res.json({ status: 'running', progress: 75 });
+      }
+      
+      res.json(result);
+    } catch (error) {
+      console.error("Error getting scan status:", error);
+      res.status(500).json({ error: "Failed to get scan status" });
+    }
+  });
+
   // Cypher AI Assistant API routes
   app.post("/api/cypher/chat", async (req, res) => {
     try {
