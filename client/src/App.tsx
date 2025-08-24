@@ -31,6 +31,7 @@ import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
 import MISPLiveDashboard from "@/pages/MISPLiveDashboard";
 import MISPBenefits from "@/pages/MISPBenefits";
+import VulnerabilityTrendDashboard from "@/pages/VulnerabilityTrendDashboard";
 
 // Marketing Website Pages
 import Home from "@/pages/Home";
@@ -179,6 +180,11 @@ function Router() {
       <Route path="/misp-live">
         <Layout>
           <MISPLiveDashboard />
+        </Layout>
+      </Route>
+      <Route path="/vulnerability-trends">
+        <Layout>
+          <VulnerabilityTrendDashboard />
         </Layout>
       </Route>
       <Route path="/security-integrations">

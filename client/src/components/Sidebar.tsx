@@ -27,7 +27,9 @@ import {
   ChevronRight,
   Crown,
   StarIcon,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  Target
 } from "lucide-react";
 import { useState } from "react";
 
@@ -73,6 +75,8 @@ const navigationCategories: NavigationCategory[] = [
     items: [
       { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
       { id: "threat-analysis", label: "Advanced Analytics", icon: Activity, path: "/threat-analysis", requiredTier: 'advanced', isPremium: true },
+      { id: "threat-intelligence", label: "Threat Intelligence", icon: Target, path: "/threat-intelligence" },
+      { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
       { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
       { id: "security-integrations", label: "Security Integrations", icon: Zap, path: "/security-integrations", requiredTier: 'enterprise', isPremium: true },
     ]

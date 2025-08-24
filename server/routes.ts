@@ -9,6 +9,7 @@ import { complianceAutomationEngine } from "./engines/compliance-automation";
 import { MLThreatDetectionEngine } from "./engines/ml-threat-detection";
 import { BehavioralAnalysisEngine } from "./engines/behavioral-analysis";
 import { otxService } from "./otxService";
+import { vulnerabilityPrediction } from "./engines/vulnerability-prediction";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -2669,6 +2670,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
       results
     };
   }
+
+  // Vulnerability Prediction API Routes
+  app.get("/api/vulnerability/predictions", async (req, res) => {
+    try {
+      const predictions = await vulnerabilityPrediction.generatePredictions();
+      res.json(predictions);
+    } catch (error) {
+      console.error("Error generating vulnerability predictions:", error);
+      res.status(500).json({ message: "Failed to generate predictions" });
+    }
+  });
+
+  app.get("/api/vulnerability/trends", async (req, res) => {
+    try {
+      const trends = vulnerabilityPrediction.getHistoricalTrends();
+      res.json(trends);
+    } catch (error) {
+      console.error("Error fetching vulnerability trends:", error);
+      res.status(500).json({ message: "Failed to fetch trends" });
+    }
+  });
+
+  app.get("/api/vulnerability/models", async (req, res) => {
+    try {
+      const models = vulnerabilityPrediction.getPredictionModels();
+      res.json(models);
+    } catch (error) {
+      console.error("Error fetching prediction models:", error);
+      res.status(500).json({ message: "Failed to fetch models" });
+    }
+  });
+
+  app.get("/api/vulnerability/status", async (req, res) => {
+    try {
+      const status = vulnerabilityPrediction.getStatus();
+      res.json(status);
+    } catch (error) {
+      console.error("Error fetching vulnerability prediction status:", error);
+      res.status(500).json({ message: "Failed to fetch status" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
