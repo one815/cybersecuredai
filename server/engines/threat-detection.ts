@@ -67,7 +67,18 @@ export class ThreatDetectionEngine {
       url: process.env.MISP_URL || 'https://misp.local',
       apiKey: process.env.MISP_API_KEY || '',
       verifyCert: process.env.MISP_VERIFY_CERT !== 'false',
-      timeout: 30000
+      timeout: 30000,
+      useOfficialFeeds: true, // Enable official feeds by default
+      enabledFeeds: [
+        "ELLIO: IP Feed (Community version)",
+        "CIRCL OSINT Feed", 
+        "The Botvrij.eu Data",
+        "blockrules of rules.emergingthreats.net",
+        "Tor exit nodes",
+        "Phishing.Database - New domains of today",
+        "Phishing.Database - New IPs of today",
+        "Phishing.Database - New URLs of today"
+      ]
     };
 
     this.mispThreatIntel = new MISPThreatIntelligence(mispConfig);
@@ -633,6 +644,20 @@ export class ThreatDetectionEngine {
    */
   public isMISPInitialized(): boolean {
     return this.mispThreatIntel.isInitialized();
+  }
+
+  /**
+   * Get MISP official feeds configuration
+   */
+  public getMISPOfficialFeeds() {
+    return this.mispThreatIntel.getOfficialFeeds();
+  }
+
+  /**
+   * Update MISP feed configuration
+   */
+  public updateMISPFeedConfiguration(feedName: string, enabled: boolean) {
+    return this.mispThreatIntel.updateFeedConfiguration(feedName, enabled);
   }
 
   /**

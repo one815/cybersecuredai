@@ -16,6 +16,24 @@ export interface MISPConfig {
   apiKey: string;
   verifyCert?: boolean;
   timeout?: number;
+  enabledFeeds?: string[];
+  useOfficialFeeds?: boolean;
+}
+
+export interface MISPFeedConfig {
+  name: string;
+  provider: string;
+  url: string;
+  enabled: boolean;
+  distribution: string;
+  source_format: string;
+  fixed_event: boolean;
+  delta_merge: boolean;
+  publish: boolean;
+  override_ids: boolean;
+  input_source: string;
+  settings: any;
+  tags?: any[];
 }
 
 export interface MISPAttribute {
@@ -191,6 +209,7 @@ export class MISPThreatIntelligence extends EventEmitter {
   private lastFetch: Date = new Date(0);
   private fetchInterval: number = 300000; // 5 minutes
   private initialized: boolean = false;
+  private officialFeeds: MISPFeedConfig[] = [];
 
   constructor(config: MISPConfig) {
     super();
@@ -209,6 +228,7 @@ export class MISPThreatIntelligence extends EventEmitter {
     };
 
     console.log('🔗 Initializing MISP Threat Intelligence Engine...');
+    this.loadOfficialFeeds();
     this.initializeDataFetching();
   }
 
@@ -238,8 +258,20 @@ export class MISPThreatIntelligence extends EventEmitter {
 
   public async fetchThreatIntelligence(): Promise<ThreatIntelligenceData> {
     if (!this.config.apiKey) {
-      console.warn('⚠️ MISP API key not configured, using simulated data');
-      return this.generateSimulatedData();
+      console.warn('⚠️ MISP API key not configured');
+      
+      if (this.config.useOfficialFeeds) {
+        console.log('📡 Using official MISP feeds as fallback...');
+        try {
+          return await this.fetchFromOfficialFeeds();
+        } catch (error) {
+          console.error('❌ Failed to fetch from official feeds:', error);
+          return this.generateSimulatedData();
+        }
+      } else {
+        console.log('🔄 Using simulated data');
+        return this.generateSimulatedData();
+      }
     }
 
     try {
@@ -593,5 +625,316 @@ export class MISPThreatIntelligence extends EventEmitter {
 
   public getLastUpdate(): Date {
     return this.lastFetch;
+  }
+
+  /**
+   * Load official MISP feed configurations from the latest defaults
+   * Based on: https://github.com/MISP/MISP/blob/2.4/app/files/feed-metadata/defaults.json
+   */
+  private loadOfficialFeeds(): void {
+    this.officialFeeds = [
+      {
+        name: "ELLIO: IP Feed (Community version)",
+        provider: "ellio.tech",
+        url: "https://cdn.ellio.tech/community-feed",
+        enabled: true,
+        distribution: "0",
+        source_format: "freetext",
+        fixed_event: true,
+        delta_merge: true,
+        publish: true,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "," }, common: { excluderegex: "" } },
+        tags: [{ name: 'osint:source-type="block-or-filter-list"', colour: "#004f89" }]
+      },
+      {
+        name: "CIRCL OSINT Feed",
+        provider: "CIRCL",
+        url: "https://www.circl.lu/doc/misp/feed-osint",
+        enabled: true,
+        distribution: "3",
+        source_format: "misp",
+        fixed_event: false,
+        delta_merge: false,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "" }, common: { excluderegex: "" } }
+      },
+      {
+        name: "The Botvrij.eu Data",
+        provider: "Botvrij.eu",
+        url: "https://www.botvrij.eu/data/feed-osint",
+        enabled: true,
+        distribution: "3",
+        source_format: "misp",
+        fixed_event: false,
+        delta_merge: false,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "" }, common: { excluderegex: "" } }
+      },
+      {
+        name: "blockrules of rules.emergingthreats.net",
+        provider: "rules.emergingthreats.net",
+        url: "https://rules.emergingthreats.net/blockrules/compromised-ips.txt",
+        enabled: true,
+        distribution: "0",
+        source_format: "csv",
+        fixed_event: true,
+        delta_merge: true,
+        publish: false,
+        override_ids: true,
+        input_source: "network",
+        settings: { csv: { value: "1" } },
+        tags: [{ name: 'osint:source-type="block-or-filter-list"', colour: "#004f89" }]
+      },
+      {
+        name: "Tor exit nodes",
+        provider: "TOR Node List from dan.me.uk",
+        url: "https://www.dan.me.uk/torlist/?exit",
+        enabled: true,
+        distribution: "0",
+        source_format: "csv",
+        fixed_event: true,
+        delta_merge: true,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "1" } },
+        tags: [{ name: 'osint:source-type="block-or-filter-list"', colour: "#004f89" }]
+      },
+      {
+        name: "Phishing.Database - New domains of today",
+        provider: "Phishing.Database",
+        url: "https://phish.co.za/latest/phishing-domains-NEW-today.txt",
+        enabled: true,
+        distribution: "3",
+        source_format: "csv",
+        fixed_event: true,
+        delta_merge: true,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "" }, common: { excluderegex: "" } }
+      },
+      {
+        name: "Phishing.Database - New IPs of today",
+        provider: "Phishing.Database",
+        url: "https://phish.co.za/latest/phishing-IPs-NEW-today.txt",
+        enabled: true,
+        distribution: "3",
+        source_format: "csv",
+        fixed_event: true,
+        delta_merge: true,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "" }, common: { excluderegex: "" } }
+      },
+      {
+        name: "Phishing.Database - New URLs of today",
+        provider: "Phishing.Database", 
+        url: "https://phish.co.za/latest/phishing-links-NEW-today.txt",
+        enabled: true,
+        distribution: "3",
+        source_format: "csv",
+        fixed_event: true,
+        delta_merge: true,
+        publish: false,
+        override_ids: false,
+        input_source: "network",
+        settings: { csv: { value: "", delimiter: "" }, common: { excluderegex: "" } }
+      }
+    ];
+
+    console.log(`📋 Loaded ${this.officialFeeds.length} official MISP feed configurations`);
+  }
+
+  /**
+   * Fetch threat intelligence from official MISP feeds if API is not available
+   */
+  public async fetchFromOfficialFeeds(): Promise<ThreatIntelligenceData> {
+    console.log('📡 Fetching threat intelligence from official MISP feeds...');
+    
+    const aggregatedData: ThreatIntelligenceData = {
+      iocs: { ips: [], domains: [], urls: [], hashes: [], emails: [] },
+      threatActors: [],
+      campaigns: [],
+      vulnerabilities: [],
+      lastUpdate: new Date()
+    };
+
+    const enabledFeeds = this.officialFeeds.filter(feed => 
+      feed.enabled && (!this.config.enabledFeeds || this.config.enabledFeeds.includes(feed.name))
+    );
+
+    console.log(`🔄 Processing ${enabledFeeds.length} enabled feeds...`);
+
+    for (const feed of enabledFeeds) {
+      try {
+        console.log(`📥 Fetching data from ${feed.name} (${feed.provider})`);
+        const feedData = await this.fetchFeedData(feed);
+        this.mergeFeedData(aggregatedData, feedData, feed);
+      } catch (error) {
+        console.warn(`⚠️ Failed to fetch data from feed ${feed.name}:`, error);
+      }
+    }
+
+    console.log(`✅ Successfully aggregated threat intelligence from feeds: ${aggregatedData.iocs.ips.length} IPs, ${aggregatedData.iocs.domains.length} domains`);
+    return aggregatedData;
+  }
+
+  private async fetchFeedData(feed: MISPFeedConfig): Promise<any> {
+    const response = await fetch(feed.url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'text/plain,application/json',
+        'User-Agent': 'MISP-ThreatIntelligence/1.0'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Feed request failed: ${response.status} ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type') || '';
+    
+    if (feed.source_format === 'misp' || contentType.includes('application/json')) {
+      return await response.json();
+    } else {
+      // Handle CSV and freetext formats
+      const text = await response.text();
+      return this.parseFeedText(text, feed);
+    }
+  }
+
+  private parseFeedText(text: string, feed: MISPFeedConfig): any {
+    const lines = text.split('\n').filter(line => line.trim() && !line.startsWith('#'));
+    const indicators: string[] = [];
+
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed) {
+        // Extract indicators based on feed type
+        if (feed.name.includes('IP') || feed.name.includes('compromised-ips')) {
+          // IP indicators
+          const ipMatch = trimmed.match(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/);
+          if (ipMatch) indicators.push(ipMatch[0]);
+        } else if (feed.name.includes('domain') || feed.name.includes('phishing-domains')) {
+          // Domain indicators
+          if (this.isValidDomain(trimmed)) indicators.push(trimmed);
+        } else if (feed.name.includes('URL') || feed.name.includes('links')) {
+          // URL indicators
+          if (this.isValidURL(trimmed)) indicators.push(trimmed);
+        } else {
+          // Generic indicator
+          indicators.push(trimmed);
+        }
+      }
+    });
+
+    return { indicators, metadata: { feed: feed.name, provider: feed.provider } };
+  }
+
+  private mergeFeedData(aggregated: ThreatIntelligenceData, feedData: any, feed: MISPFeedConfig): void {
+    if (feedData.indicators) {
+      feedData.indicators.forEach((indicator: string) => {
+        if (this.isValidIP(indicator)) {
+          if (!aggregated.iocs.ips.includes(indicator)) {
+            aggregated.iocs.ips.push(indicator);
+          }
+        } else if (this.isValidDomain(indicator)) {
+          if (!aggregated.iocs.domains.includes(indicator)) {
+            aggregated.iocs.domains.push(indicator);
+          }
+        } else if (this.isValidURL(indicator)) {
+          if (!aggregated.iocs.urls.includes(indicator)) {
+            aggregated.iocs.urls.push(indicator);
+          }
+        }
+      });
+    }
+
+    // Handle MISP format feed data
+    if (feedData.Event || feedData.response) {
+      const events = feedData.Event ? [feedData.Event] : (feedData.response || []);
+      events.forEach((event: any) => {
+        if (event.Attribute) {
+          event.Attribute.forEach((attr: any) => {
+            this.processAttributeFromFeed(aggregated, attr);
+          });
+        }
+      });
+    }
+  }
+
+  private processAttributeFromFeed(aggregated: ThreatIntelligenceData, attr: any): void {
+    switch (attr.type) {
+      case 'ip-src':
+      case 'ip-dst':
+        if (!aggregated.iocs.ips.includes(attr.value)) {
+          aggregated.iocs.ips.push(attr.value);
+        }
+        break;
+      case 'domain':
+      case 'hostname':
+        if (!aggregated.iocs.domains.includes(attr.value)) {
+          aggregated.iocs.domains.push(attr.value);
+        }
+        break;
+      case 'url':
+      case 'uri':
+        if (!aggregated.iocs.urls.includes(attr.value)) {
+          aggregated.iocs.urls.push(attr.value);
+        }
+        break;
+      case 'email':
+      case 'email-src':
+      case 'email-dst':
+        if (!aggregated.iocs.emails.includes(attr.value)) {
+          aggregated.iocs.emails.push(attr.value);
+        }
+        break;
+    }
+  }
+
+  private isValidIP(value: string): boolean {
+    const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return ipRegex.test(value);
+  }
+
+  private isValidDomain(value: string): boolean {
+    const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/;
+    return domainRegex.test(value) && !this.isValidIP(value);
+  }
+
+  private isValidURL(value: string): boolean {
+    try {
+      new URL(value);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Get available official feeds
+   */
+  public getOfficialFeeds(): MISPFeedConfig[] {
+    return this.officialFeeds;
+  }
+
+  /**
+   * Update configuration for specific feeds
+   */
+  public updateFeedConfiguration(feedName: string, enabled: boolean): void {
+    const feed = this.officialFeeds.find(f => f.name === feedName);
+    if (feed) {
+      feed.enabled = enabled;
+      console.log(`🔄 Updated feed ${feedName}: ${enabled ? 'enabled' : 'disabled'}`);
+    }
   }
 }
