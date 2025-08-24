@@ -237,6 +237,16 @@ function Router() {
           <UserManagement />
         </Layout>
       </Route>
+      <Route path="/user-management">
+        <Layout>
+          <UserManagement />
+        </Layout>
+      </Route>
+      <Route path="/threat-detection">
+        <Layout>
+          <ThreatAnalysis />
+        </Layout>
+      </Route>
       <Route path="/reports">
         <Layout>
           <Reports />

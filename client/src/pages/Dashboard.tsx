@@ -1067,7 +1067,7 @@ export default function Dashboard() {
                   variant="ghost" 
                   size="icon" 
                   className="text-interactive hover:text-orange-400"
-                  onClick={() => window.location.href = '/threat-detection'}
+                  onClick={() => setLocation('/threat-detection')}
                   data-testid="button-view-threat-detection"
                 >
                   <Eye className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
@@ -1131,7 +1131,7 @@ export default function Dashboard() {
                     variant="outline" 
                     size="sm"
                     className="bg-surface-light text-gray-400 hover:text-white h-6 px-2 text-xs"
-                    onClick={() => window.location.href = '/network-activity'}
+                    onClick={() => setLocation('/threats')}
                     data-testid="button-network-24h"
                   >
                     View 24h
