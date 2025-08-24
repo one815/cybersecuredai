@@ -13,13 +13,11 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   Upload, 
-  FileText, 
   Share, 
   Trash2, 
   Download, 
   Lock, 
   Shield, 
-  Settings,
   Filter,
   Search,
   ChevronDown,
@@ -28,12 +26,12 @@ import {
   Link,
   Copy,
   MoreHorizontal,
-  Users,
   Calendar,
   Bell,
   X,
   Plus
 } from "lucide-react";
+import { CustomFileTextIcon, CustomSettingsIcon, CustomUserIcon } from "@/components/CustomIcons";
 import { useToast } from "@/hooks/use-toast";
 
 export default function FileSharing() {
@@ -298,10 +296,10 @@ export default function FileSharing() {
   };
 
   const getFileIcon = (type: string) => {
-    if (type === "pdf") return <FileText className="w-5 h-5 text-red-400" />;
-    if (type === "image") return <FileText className="w-5 h-5 text-blue-400" />;
-    if (type === "document") return <FileText className="w-5 h-5 text-blue-400" />;
-    return <FileText className="w-5 h-5 text-gray-400" />;
+    if (type === "pdf") return <CustomFileTextIcon size={20} className="text-red-400" />;
+    if (type === "image") return <CustomFileTextIcon size={20} className="text-blue-400" />;
+    if (type === "document") return <CustomFileTextIcon size={20} className="text-blue-400" />;
+    return <CustomFileTextIcon size={20} className="text-gray-400" />;
   };
 
   const addUser = () => {
@@ -416,7 +414,7 @@ export default function FileSharing() {
               <Bell className="w-4 h-4" />
             </Button>
             <Button className="bg-interactive hover:bg-orange-600" data-testid="settings">
-              <Settings className="w-4 h-4" />
+              <CustomSettingsIcon size={16} />
             </Button>
           </div>
         </div>

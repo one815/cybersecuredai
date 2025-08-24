@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Activity, Database, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Target, Users, Eye } from "lucide-react";
+import { AlertTriangle, Activity, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Eye } from "lucide-react";
+import { CustomDatabaseIcon, CustomTargetIcon, CustomUserIcon } from "@/components/CustomIcons";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useQuery } from "@tanstack/react-query";
 
@@ -35,7 +36,7 @@ export default function ThreatAnalysis() {
           </div>
           <div className="flex items-center space-x-2 lg:space-x-3">
             <Button variant="outline" size="sm" data-testid="button-export" className="text-xs lg:text-sm">
-              <Database className="w-3 h-3 lg:w-4 lg:h-4 mr-1 lg:mr-2" />
+              <CustomDatabaseIcon size={16} className="mr-1 lg:mr-2" />
               <span className="hidden sm:inline">Export Data</span>
               <span className="sm:hidden">Export</span>
             </Button>
@@ -64,7 +65,7 @@ export default function ThreatAnalysis() {
           <Card className="bg-surface border-green-500/30" data-testid="card-detection-rate">
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2 sm:space-x-3">
-                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-green-400" />
+                <CustomTargetIcon size={32} className="text-green-400" />
                 <div>
                   <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.systemMetrics?.threatDetectionRate || 0}%</div>
                   <div className="text-xs sm:text-sm text-gray-400">Detection Rate</div>
@@ -157,7 +158,7 @@ export default function ThreatAnalysis() {
           <Card className="bg-surface border-purple-500/30" data-testid="card-behavioral-analysis">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
-                <Users className="w-5 h-5 mr-2 text-purple-400" />
+                <CustomUserIcon size={20} className="mr-2 text-purple-400" />
                 Behavioral Analysis Engine
               </CardTitle>
               <div className="flex items-center space-x-2">
@@ -464,7 +465,7 @@ export default function ThreatAnalysis() {
                   Real-time Mode
                 </Button>
                 <Button variant="outline" size="sm" data-testid="button-export-analytics">
-                  <Database className="w-4 h-4 mr-2" />
+                  <CustomDatabaseIcon size={16} className="mr-2" />
                   Export Analytics
                 </Button>
               </div>
