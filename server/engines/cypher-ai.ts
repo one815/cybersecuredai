@@ -173,105 +173,45 @@ export class CypherAI extends EventEmitter {
     const threatStats = this.mlThreatEngine?.getThreatStatistics();
     const behavioralStats = this.behavioralEngine?.getAnalytics();
     
-    let responseText = `🌅 **Daily Security Recommendations - ${today}**\n\n`;
+    const criticalThreats = threatStats ? (threatStats.threatsByLevel.CRITICAL || 0) + (threatStats.threatsByLevel.HIGH || 0) : 0;
+    const hour = new Date().getHours();
     
-    // Security Posture Assessment
-    responseText += "## 🛡️ **Security Posture Assessment**\n";
-    if (threatStats) {
-      const criticalThreats = (threatStats.threatsByLevel.CRITICAL || 0) + (threatStats.threatsByLevel.HIGH || 0);
-      if (criticalThreats > 0) {
-        responseText += `⚠️ **Priority Action**: ${criticalThreats} high/critical threats require immediate attention\n`;
-        responseText += `• Review threat dashboard and escalate critical incidents\n`;
-        responseText += `• Verify incident response procedures are activated\n`;
-      } else {
-        responseText += `✅ **Good**: No critical threats detected in the last 24 hours\n`;
-        responseText += `• Continue monitoring for emerging threats\n`;
-      }
-    }
-    
-    // User Behavior & Access Management
-    responseText += "\n## 👥 **User Behavior & Access Management**\n";
-    if (behavioralStats) {
-      if (behavioralStats.highRiskUsers > 0) {
-        responseText += `⚠️ **Review Required**: ${behavioralStats.highRiskUsers} users showing high-risk behavior\n`;
-        responseText += `• Conduct user access review for flagged accounts\n`;
-        responseText += `• Consider additional MFA requirements for high-risk users\n`;
-      } else {
-        responseText += `✅ **Normal**: All users within acceptable risk parameters\n`;
-      }
-      responseText += `• Recommend quarterly access rights review\n`;
-      responseText += `• Ensure all new users complete security training\n`;
-    }
-    
-    // Vulnerability Management
-    responseText += "\n## 🔍 **Vulnerability Management**\n";
-    responseText += `• Check for new CVEs from NIST and CISA feeds\n`;
-    responseText += `• Review patch deployment schedule for critical systems\n`;
-    responseText += `• Scan externally facing services for new vulnerabilities\n`;
-    responseText += `• Update vulnerability database and risk assessments\n`;
-    
-    // Compliance & Governance
-    responseText += "\n## 📋 **Compliance & Governance**\n";
-    responseText += `• Review FERPA data handling procedures\n`;
-    responseText += `• Verify FISMA compliance documentation is current\n`;
-    responseText += `• Check CIPA filtering effectiveness and logs\n`;
-    responseText += `• Update security policies based on regulatory changes\n`;
-    
-    // Infrastructure & Monitoring
-    responseText += "\n## 🖥️ **Infrastructure & Monitoring**\n";
-    responseText += `• Review system performance and capacity metrics\n`;
-    responseText += `• Check backup integrity and disaster recovery readiness\n`;
-    responseText += `• Verify security monitoring tools are functioning properly\n`;
-    responseText += `• Update firewall rules and network segmentation policies\n`;
-    
-    // Threat Intelligence & Analysis
-    responseText += "\n## 🎯 **Threat Intelligence & Analysis**\n";
-    responseText += `• Review AlienVault OTX feeds for new threat indicators\n`;
-    responseText += `• Analyze attack patterns from the last 24 hours\n`;
-    responseText += `• Update threat hunting rules based on latest intelligence\n`;
-    responseText += `• Share relevant threat information with security team\n`;
-    
-    // Training & Awareness
-    responseText += "\n## 🎓 **Security Training & Awareness**\n";
-    const dayOfWeek = new Date().getDay();
-    if (dayOfWeek === 1) { // Monday
-      responseText += `• **Monday Focus**: Email security and phishing awareness\n`;
-      responseText += `• Send weekly security tip to all users\n`;
-    } else if (dayOfWeek === 3) { // Wednesday
-      responseText += `• **Mid-week Check**: Review security incident reports\n`;
-      responseText += `• Update security awareness materials\n`;
-    } else if (dayOfWeek === 5) { // Friday
-      responseText += `• **Week Wrap-up**: Prepare weekend security coverage\n`;
-      responseText += `• Review week's security metrics and improvements\n`;
+    // Concise daily summary
+    let summary = "";
+    if (criticalThreats > 0) {
+      summary = `🚨 ${criticalThreats} critical threats detected. System secure - no immediate issues. `;
     } else {
-      responseText += `• Continue ongoing security awareness initiatives\n`;
-      responseText += `• Review user security training completion rates\n`;
+      summary = `✅ System secure - no critical threats. `;
     }
     
-    // Priority Actions for Today
-    responseText += "\n## ⚡ **Today's Priority Actions**\n";
-    const priorityActions = this.generatePriorityActions(threatStats, behavioralStats, userProfile);
-    priorityActions.forEach(action => {
-      responseText += `• ${action}\n`;
-    });
+    // Time-based focus
+    if (hour < 12) {
+      summary += "Morning focus: Review overnight alerts and verify system health.";
+    } else if (hour < 17) {
+      summary += "Afternoon focus: Monitor user activity and review compliance status.";
+    } else {
+      summary += "Evening focus: Generate reports and prepare tomorrow's activities.";
+    }
     
     return {
       id: `cypher-daily-${Date.now()}`,
-      message: responseText,
+      message: summary,
       timestamp: new Date(),
       type: 'daily_recommendations',
       confidence: 0.95,
       actions: [
-        { label: "View Detailed Security Dashboard", action: "open_security_dashboard" },
-        { label: "Generate Comprehensive Report", action: "generate_daily_report" },
-        { label: "Schedule Security Review Meeting", action: "schedule_security_meeting" },
-        { label: "Export Recommendations", action: "export_recommendations" }
+        { label: "Run Security Scan", action: "run_security_scan" },
+        { label: "Check Threat Dashboard", action: "open_threat_dashboard" },
+        { label: "Review User Activity", action: "review_user_activity" },
+        { label: "Update Security Policies", action: "update_policies" },
+        { label: "Generate Daily Report", action: "generate_report" },
+        { label: "Backup Critical Systems", action: "backup_systems" }
       ],
       followUpSuggestions: [
-        "Show me critical vulnerabilities that need patching",
-        "What are the current compliance gaps?", 
-        "How can I improve our security training program?",
-        "What's our current threat landscape assessment?"
+        "Show critical vulnerabilities",
+        "Check compliance status", 
+        "Review security training",
+        "Analyze threat patterns"
       ]
     };
   }

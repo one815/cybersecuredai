@@ -49,12 +49,19 @@ export default function Dashboard() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   
-  // State for tracking resolved security alerts
-  const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(new Set());
+  // State for tracking resolved security alerts (persisted)
+  const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem('resolvedAlerts');
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
   
-  // Function to mark alert as resolved
+  // Function to mark alert as resolved with persistence
   const resolveAlert = (alertId: string) => {
-    setResolvedAlerts(prev => new Set([...Array.from(prev), alertId]));
+    setResolvedAlerts(prev => {
+      const newSet = new Set([...Array.from(prev), alertId]);
+      localStorage.setItem('resolvedAlerts', JSON.stringify([...newSet]));
+      return newSet;
+    });
   };
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
@@ -666,6 +673,62 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent>
+            {/* Threat Activity Data */}
+            <div className="space-y-4 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-surface/30 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-red-400">3</div>
+                  <div className="text-xs text-gray-400">Blocked IPs</div>
+                </div>
+                <div className="bg-surface/30 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-orange-400">12</div>
+                  <div className="text-xs text-gray-400">Failed Logins</div>
+                </div>
+                <div className="bg-surface/30 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-yellow-400">7</div>
+                  <div className="text-xs text-gray-400">Policy Updates</div>
+                </div>
+                <div className="bg-surface/30 rounded-lg p-4 text-center">
+                  <div className="text-2xl font-bold text-green-400">45</div>
+                  <div className="text-xs text-gray-400">Clean Sessions</div>
+                </div>
+              </div>
+              
+              {/* Recent Events Timeline */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-white mb-3">Recent Security Events</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-3 bg-red-900/20 rounded-lg border border-red-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                      <span className="text-sm text-gray-300">Suspicious IP 192.168.1.100 blocked</span>
+                    </div>
+                    <span className="text-xs text-gray-400">2 min ago</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-orange-900/20 rounded-lg border border-orange-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                      <span className="text-sm text-gray-300">Multiple failed login attempts detected</span>
+                    </div>
+                    <span className="text-xs text-gray-400">15 min ago</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                      <span className="text-sm text-gray-300">Security policy updated successfully</span>
+                    </div>
+                    <span className="text-xs text-gray-400">1 hr ago</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-green-900/20 rounded-lg border border-green-700/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                      <span className="text-sm text-gray-300">System backup completed</span>
+                    </div>
+                    <span className="text-xs text-gray-400">2 hr ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="h-64 bg-background/50 rounded-lg p-4 mb-4 relative overflow-hidden">
               {/* Simulated Chart */}
               <div className="absolute inset-0 p-4">
@@ -1265,70 +1328,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Daily Security Recommendations from Cypher AI */}
-        {dailyRecommendations && (
-          <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow mb-8">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xl font-bold text-white flex items-center space-x-2">
-                  <Bot className="w-5 h-5 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
-                  <span>Daily Security Recommendations</span>
-                </CardTitle>
-                <Badge className="bg-cyan-900/50 text-cyan-400 border-cyan-700">
-                  {new Date().toLocaleDateString()}
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="prose prose-sm max-w-none text-gray-300">
-                {/* Parse markdown-like content and render it as structured HTML */}
-                <div 
-                  className="recommendations-content space-y-4"
-                  dangerouslySetInnerHTML={{
-                    __html: (dailyRecommendations as any)?.message || "Loading daily recommendations..."
-                      .replace(/## (.*)/g, '<h3 class="text-lg font-semibold text-white mb-2 flex items-center"><span class="w-1 h-4 bg-cyan-400 mr-2 rounded"></span>$1</h3>')
-                      .replace(/• (.*)/g, '<div class="flex items-start space-x-2 mb-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0"></span><span class="text-sm">$1</span></div>')
-                      .replace(/⚠️ \*\*(.*?)\*\*/g, '<div class="flex items-center space-x-2 text-orange-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/✅ \*\*(.*?)\*\*/g, '<div class="flex items-center space-x-2 text-green-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/🚨 (.*)/g, '<div class="flex items-center space-x-2 text-red-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/📊 (.*)/g, '<div class="flex items-center space-x-2 text-purple-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg><span>$1</span></div>')
-                      .replace(/👤 (.*)/g, '<div class="flex items-center space-x-2 text-blue-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/🌅 (.*)/g, '<div class="flex items-center space-x-2 text-yellow-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/🔍 (.*)/g, '<div class="flex items-center space-x-2 text-indigo-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/📋 (.*)/g, '<div class="flex items-center space-x-2 text-emerald-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6 7a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-3 3a1 1 0 100 2h3a1 1 0 100-2h-3zm-4-3a1 1 0 011-1h.01a1 1 0 110 2H7a1 1 0 01-1-1zm.01 3a1 1 0 100 2h.01a1 1 0 100-2H7.01z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/📅 (.*)/g, '<div class="flex items-center space-x-2 text-pink-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
-                      .replace(/\n/g, '<br>')
-                  }}
-                />
-              </div>
-              {(dailyRecommendations as any)?.actions && (dailyRecommendations as any)?.actions.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {((dailyRecommendations as any)?.actions || []).map((action: any, index: number) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      size="sm"
-                      className="border-cyan-600 text-cyan-400 hover:bg-cyan-900/50"
-                      onClick={() => {
-                        if (action.action === "open_security_dashboard") {
-                          setLocation("/threats");
-                        } else if (action.action === "generate_daily_report") {
-                          toast({ title: "Report Generation", description: "Daily security report will be generated and sent to your email." });
-                        } else if (action.action === "schedule_security_meeting") {
-                          toast({ title: "Meeting Scheduled", description: "Security review meeting has been scheduled for tomorrow at 10 AM." });
-                        } else if (action.action === "export_recommendations") {
-                          toast({ title: "Export Complete", description: "Daily recommendations have been exported to PDF." });
-                        }
-                      }}
-                    >
-                      {action.label}
-                    </Button>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
 
         {/* Cypher AI Assistant Dashboard Widget */}
         <div className="mb-8">
