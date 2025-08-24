@@ -7,12 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search, TrendingUp, BarChart3, Zap, Settings, RefreshCw, Download, Layers, Cpu, Cloud, Brain } from "lucide-react";
-import { ThreatMap } from "@/components/ThreatMap";
 
 // Extend window interface for Google Maps
 declare global {
   interface Window {
-    google: typeof google;
+    google: any;
   }
 }
 
@@ -228,10 +227,10 @@ export default function ThreatMonitoring() {
     }
   ];
 
-  // Google Maps component
-  const ThreatMap = ({ locations }: { locations: typeof threatLocations }) => {
+  // Google Maps component  
+  const GoogleThreatMap = ({ locations }: { locations: typeof threatLocations }) => {
     const mapRef = useRef<HTMLDivElement>(null);
-    const [map, setMap] = useState<google.maps.Map | null>(null);
+    const [map, setMap] = useState<any>(null);
 
     const initMap = useCallback(() => {
       if (!mapRef.current || !window.google) return;
@@ -331,7 +330,7 @@ export default function ThreatMonitoring() {
         disableDefaultUI: true,
         zoomControl: true,
         zoomControlOptions: {
-          position: google.maps.ControlPosition.TOP_RIGHT
+          position: window.google.maps.ControlPosition.TOP_RIGHT
         }
       });
 
@@ -405,13 +404,12 @@ export default function ThreatMonitoring() {
         );
       case Status.FAILURE:
         return (
-          <div className="w-full h-80 bg-gray-900 rounded-lg flex items-center justify-center">
-            <div className="text-red-400">Error loading map. Using fallback visualization.</div>
+          <div className="w-full h-80 bg-gray-900 rounded-lg overflow-hidden">
             <FallbackMap locations={threatLocations} />
           </div>
         );
       case Status.SUCCESS:
-        return <ThreatMap locations={threatLocations} />;
+        return <GoogleThreatMap locations={threatLocations} />;
       default:
         return (
           <div className="w-full h-80 bg-gray-900 rounded-lg flex items-center justify-center">
@@ -798,7 +796,7 @@ export default function ThreatMonitoring() {
             </CardHeader>
             <CardContent>
               {/* Enhanced Threat Map */}
-              <ThreatMap height="400px" />
+              <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""} render={renderMap} libraries={["places"]} />
               
               {/* Real-time Processing Stats */}
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
