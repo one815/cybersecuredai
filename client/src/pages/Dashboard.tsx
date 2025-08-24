@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "wouter";
 import { DashboardCard } from "@/components/DashboardCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,13 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
+import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
 import { 
@@ -49,12 +50,18 @@ export default function Dashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+  const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // State for tracking resolved security alerts (persisted)
   const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(() => {
     const saved = localStorage.getItem('resolvedAlerts');
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
+
+  // State for dashboard file management
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
   
   // Function to mark alert as resolved with persistence
   const resolveAlert = (alertId: string) => {
@@ -72,6 +79,90 @@ export default function Dashboard() {
     queryKey: ["/api/compliance/frameworks"],
   });
   
+  // File upload mutation
+  const uploadFileMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('encryptionStatus', 'encrypted');
+      formData.append('accessExpiration', '7');
+      formData.append('passwordProtection', 'false');
+
+      const response = await fetch('/api/files/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Upload failed');
+      }
+
+      return response.json();
+    },
+    onSuccess: (data, file) => {
+      toast({
+        title: "File uploaded successfully",
+        description: `${file.name} has been secured and classified`,
+      });
+      
+      // Add file to local state with classification info
+      setUploadedFiles(prev => [...prev, {
+        id: data.file.id,
+        name: file.name,
+        size: file.size,
+        type: data.file.type,
+        uploadedAt: new Date().toISOString(),
+        classification: 'Processing...',
+        encrypted: true
+      }]);
+
+      // Refresh files query
+      queryClient.invalidateQueries({ queryKey: ["/api/files"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Upload failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Drag and drop handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    files.forEach(file => {
+      uploadFileMutation.mutate(file);
+    });
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    files.forEach(file => {
+      uploadFileMutation.mutate(file);
+    });
+  };
+
+  // Query for uploaded files
+  const { data: recentFiles = [] } = useQuery({
+    queryKey: ["/api/files"],
+    refetchInterval: 2000, // Refresh every 2 seconds to get classification updates
+  });
+
   const { data: threatStats } = useQuery<{
     recentEventsCount: number;
     suspiciousIPsCount: number;
@@ -1193,80 +1284,161 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* File Upload Section */}
               <div 
-                className="bg-background rounded-lg p-6 border-2 border-dashed border-surface-light hover:border-interactive transition-colors cursor-pointer"
-                onClick={() => setLocation('/file-sharing')}
+                className={`bg-background rounded-lg p-6 border-2 border-dashed transition-colors cursor-pointer ${
+                  isDragging 
+                    ? 'border-interactive bg-interactive/5' 
+                    : 'border-surface-light hover:border-interactive'
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
               >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={handleFileSelect}
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png,.gif"
+                />
                 <div className="text-center">
                   <div className="w-16 h-16 bg-interactive/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <FileText className="w-6 h-6 text-orange-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.5))'}} />
                   </div>
-                  <h4 className="font-medium mb-2">Drag and drop files or click to browse</h4>
-                  <p className="text-gray-400 text-sm mb-4">All files are automatically encrypted with AES-256</p>
+                  <h4 className="font-medium mb-2">
+                    {isDragging ? 'Drop files here' : 'Drag and drop files or click to browse'}
+                  </h4>
+                  <p className="text-gray-400 text-sm mb-4">
+                    All files are automatically encrypted with AES-256 and classified for sensitive data
+                  </p>
                   <Button 
                     variant="outline" 
                     className="bg-surface hover:bg-surface-light" 
                     onClick={(e) => {
                       e.stopPropagation();
-                      setLocation('/file-sharing');
+                      fileInputRef.current?.click();
                     }}
                     data-testid="browse-files-button"
+                    disabled={uploadFileMutation.isPending}
                   >
-                    Browse Files
+                    {uploadFileMutation.isPending ? 'Uploading...' : 'Browse Files'}
                   </Button>
                 </div>
               </div>
 
               {/* Recent Files */}
               <div>
-                <h4 className="font-medium mb-4">Recent Secure Files</h4>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-background rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-critical/20 rounded-lg flex items-center justify-center">
-                        <AlertTriangle className="w-4 h-4 text-red-400" style={{filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.4))'}} />
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="font-medium">Recent Secure Files</h4>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => setLocation('/file-sharing')}
+                    className="text-xs text-cyan-400 hover:text-cyan-300"
+                  >
+                    View All
+                  </Button>
+                </div>
+                <div className="space-y-3 max-h-80 overflow-y-auto">
+                  {/* Recently uploaded files */}
+                  {uploadedFiles.slice(0, 2).map((file, index) => (
+                    <div key={file.id || index} className="flex items-center justify-between p-3 bg-background rounded-lg border border-blue-500/20">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                          <FileText className="w-4 h-4 text-blue-400" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-sm">{file.name}</p>
+                          <p className="text-gray-400 text-xs">
+                            {(file.size / 1024 / 1024).toFixed(1)} MB • Just uploaded
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-sm">Q2_Financial_Report.pdf</p>
-                        <p className="text-gray-400 text-xs">2.4 MB • Uploaded today</p>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="outline" className="text-blue-400 border-blue-400 text-xs">
+                          {file.classification || 'Classifying...'}
+                        </Badge>
+                        <Badge variant="outline" className="text-success border-success text-xs">
+                          AES-256
+                        </Badge>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-success border-success">AES-256</Badge>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="text-gray-400 hover:text-white"
-                        onClick={() => setLocation('/file-sharing')}
-                        data-testid="open-file-sharing-1"
-                      >
-                        <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
-                      </Button>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-background rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
-                        <CheckCircle className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                  ))}
+
+                  {/* Files from API */}
+                  {recentFiles.slice(0, 3 - uploadedFiles.length).map((file: any, index: number) => {
+                    const getClassificationColor = (classification: string) => {
+                      switch (classification?.toLowerCase()) {
+                        case 'confidential':
+                        case 'restricted':
+                          return 'text-red-400 border-red-400';
+                        case 'internal':
+                          return 'text-yellow-400 border-yellow-400';
+                        case 'public':
+                          return 'text-green-400 border-green-400';
+                        default:
+                          return 'text-blue-400 border-blue-400';
+                      }
+                    };
+
+                    const getIcon = (classification: string) => {
+                      switch (classification?.toLowerCase()) {
+                        case 'confidential':
+                        case 'restricted':
+                          return <AlertTriangle className="w-4 h-4 text-red-400" />;
+                        case 'internal':
+                          return <Lock className="w-4 h-4 text-yellow-400" />;
+                        case 'public':
+                          return <CheckCircle className="w-4 h-4 text-green-400" />;
+                        default:
+                          return <FileText className="w-4 h-4 text-blue-400" />;
+                      }
+                    };
+
+                    return (
+                      <div key={file.id || index} className="flex items-center justify-between p-3 bg-background rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                            {getIcon(file.classification)}
+                          </div>
+                          <div>
+                            <p className="font-medium text-sm">{file.name}</p>
+                            <p className="text-gray-400 text-xs">
+                              {file.size ? `${(file.size / 1024 / 1024).toFixed(1)} MB • ` : ''}
+                              {file.uploadedAt ? new Date(file.uploadedAt).toLocaleDateString() : 'Recently uploaded'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline" className={`text-xs ${getClassificationColor(file.classification)}`}>
+                            {file.classification || 'Public'}
+                          </Badge>
+                          <Badge variant="outline" className="text-success border-success text-xs">
+                            Encrypted
+                          </Badge>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="text-gray-400 hover:text-white"
+                            onClick={() => setLocation('/file-sharing')}
+                            data-testid={`open-file-sharing-${index}`}
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Button>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-sm">Security_Protocol_v2.docx</p>
-                        <p className="text-gray-400 text-xs">1.2 MB • Uploaded 3 days ago</p>
-                      </div>
+                    );
+                  })}
+
+                  {/* Show message if no files */}
+                  {uploadedFiles.length === 0 && recentFiles.length === 0 && (
+                    <div className="text-center py-6 text-gray-500">
+                      <FileText className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No files uploaded yet</p>
+                      <p className="text-xs">Upload a file to see automatic classification</p>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="outline" className="text-interactive border-interactive">Protected</Badge>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="text-gray-400 hover:text-white"
-                        onClick={() => setLocation('/file-sharing')}
-                        data-testid="open-file-sharing-2"
-                      >
-                        <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
-                      </Button>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -247,7 +247,10 @@ export class DataClassificationEngine {
       
       // Enhanced SSN and Identity Document Detection
       ["ssn_document_filename", /\b(social\s*security|ssn|identity|drivers?\s*license|passport|id\s*card)\b/gi],
-      ["government_id", /\b(government\s*id|federal\s*id|state\s*id|identification\s*card)\b/gi]
+      ["government_id", /\b(government\s*id|federal\s*id|state\s*id|identification\s*card)\b/gi],
+      ["drivers_license_content", /\b(driver.{0,2}s?\s*licen[sc]e|dl\s*no|license\s*no|real\s*id)\b/gi],
+      ["social_security_card", /\b(social\s*security\s*(card|administration)|ssn\s*card)\b/gi],
+      ["identity_document_indicators", /\b(date\s*of\s*birth|dob|full\s*name|address)\b/gi]
     ]);
 
     patterns.forEach((regex, key) => {
@@ -361,11 +364,23 @@ export class DataClassificationEngine {
             
             if (fileName.toLowerCase().includes('social') || fileName.toLowerCase().includes('ssn') || fileName.toLowerCase().includes('security')) {
               simulatedContent += `
-              Simulated SSN Document Content:
+              SOCIAL SECURITY CARD - IMPORTANT DOCUMENT
               Name: John Doe
-              SSN: 123-45-6789
+              Social Security Number: 123-45-6789
               Date of Birth: 01/01/1990
               SOCIAL SECURITY ADMINISTRATION
+              This card belongs to: John Doe
+              `;
+            } else if (fileName.toLowerCase().includes('license') || fileName.toLowerCase().includes('driver') || fileName.toLowerCase().includes('dl') || fileName.toLowerCase().includes('id')) {
+              simulatedContent += `
+              DRIVER LICENSE
+              State of California
+              License No: D1234567
+              Name: John Doe
+              Address: 123 Main Street, Anytown, CA 90210
+              Date of Birth: 01/01/1990
+              SSN: 123-45-6789
+              REAL ID COMPLIANT
               `;
             } else if (fileName.toLowerCase().includes('bank') || fileName.toLowerCase().includes('account') || fileName.toLowerCase().includes('financial')) {
               simulatedContent += `
