@@ -1197,6 +1197,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Daily security recommendations endpoint
+  app.get("/api/cypher/daily-recommendations/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+      const recommendations = await cypherAI.generateDailyRecommendations(userId);
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error generating daily recommendations:", error);
+      res.status(500).json({ message: "Failed to generate daily recommendations" });
+    }
+  });
+
   // Onboarding completion API
   app.put("/api/users/:userId/onboarding", async (req, res) => {
     try {
