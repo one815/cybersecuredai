@@ -183,9 +183,9 @@ export class DataClassificationEngine {
 
   private initializeSensitivePatterns() {
     const patterns = new Map([
-      // Enhanced PII Patterns
-      ["ssn", /\b\d{3}-\d{2}-\d{4}\b/g],
-      ["ssn_no_dash", /\b\d{9}\b/g],
+      // Enhanced PII Patterns with higher sensitivity
+      ["ssn", /\b\d{3}[-\s]?\d{2}[-\s]?\d{4}\b/g],
+      ["ssn_no_dash", /\b(?:SSN|Social\s*Security)[\s:]*\d{9}\b/gi],
       ["phone", /\b\d{3}[.-]?\d{3}[.-]?\d{4}\b/g],
       ["phone_international", /\+\d{1,3}[\s.-]?\d{3,14}/g],
       ["email", /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g],
@@ -201,7 +201,7 @@ export class DataClassificationEngine {
       ["iban", /\b[A-Z]{2}\d{2}[A-Z0-9]{4}\d{7}([A-Z0-9]?){0,16}\b/g],
       ["swift_code", /\b[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?\b/g],
       ["bitcoin_address", /\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\b/g],
-      ["banking_keywords", /\b(?:savings account|checking account|prepaid account|account balance|account credit|transfer|deposit|withdrawal|netspend|chase|bank of america|wells fargo|citibank|banking|financial|account number)\b/gi],
+      ["banking_keywords", /\b(?:savings account|checking account|prepaid account|account balance|account credit|transfer|deposit|withdrawal|netspend|chase|bank of america|wells fargo|citibank|banking|financial|account number|business checking|routing number)\b/gi],
       ["financial_amount", /\$\d{1,3}(?:,\d{3})*(?:\.\d{2})?/g],
       
       // Enhanced Academic Patterns
@@ -485,38 +485,66 @@ export class DataClassificationEngine {
       }
     }
 
-    // Enhance classification based on detected patterns
+    // Enhanced content-based classification prioritizing actual detected content
     if (detectedPatterns.length > 0) {
-      const highRiskPatterns = detectedPatterns.filter(p => 
-        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'api_key', 'aws_access_key', 'aws_secret_key', 'private_key', 'confidential_marking', 'security_clearance', 'export_control', 'sanctions', 'bank_account', 'routing_number', 'ssn_document_filename', 'government_id'].includes(p.pattern)
+      // Top Secret patterns (highest security)
+      const topSecretPatterns = detectedPatterns.filter(p => 
+        ['private_key', 'aws_secret_key', 'api_key', 'security_clearance', 'classified', 'jwt_token', 'password_hash'].includes(p.pattern)
+      );
+
+      // Restricted patterns (high-risk PII and financial data)
+      const restrictedPatterns = detectedPatterns.filter(p => 
+        ['ssn', 'ssn_no_dash', 'credit_card', 'credit_card_spaces', 'bank_account', 'routing_number', 
+         'drivers_license', 'passport', 'government_id', 'ssn_document_filename', 'drivers_license_content', 
+         'social_security_card', 'banking_keywords', 'financial_amount', 'swift_code', 'iban', 'bitcoin_address'].includes(p.pattern)
       );
       
-      const mediumRiskPatterns = detectedPatterns.filter(p => 
-        ['email', 'phone', 'phone_international', 'student_id', 'financial_results', 'merger_acquisition', 'hr_sensitive', 'legal_case', 'court_document', 'banking_keywords', 'financial_amount'].includes(p.pattern)
+      // Confidential patterns (sensitive but not restricted)
+      const confidentialPatterns = detectedPatterns.filter(p => 
+        ['email', 'phone', 'phone_international', 'home_address', 'student_id', 'mrn', 'health_plan_id',
+         'financial_results', 'merger_acquisition', 'hr_sensitive', 'legal_case', 'court_document', 
+         'confidential_marking', 'ferpa_keywords', 'identity_document_indicators'].includes(p.pattern)
+      );
+
+      // Check content-based patterns first (higher priority than filename)
+      const contentBasedPatterns = detectedPatterns.filter(p => 
+        !p.pattern.includes('filename') && !p.pattern.includes('document')
       );
       
-      if (highRiskPatterns.length > 0) {
-        if (this.getClassificationLevel("restricted") > this.getClassificationLevel(highestClassification)) {
+      if (topSecretPatterns.length > 0) {
+        highestClassification = "top_secret";
+        confidenceLevel = Math.max(confidenceLevel, 95);
+      } else if (restrictedPatterns.length > 0) {
+        // Prioritize content-based restricted patterns
+        const contentRestrictedPatterns = restrictedPatterns.filter(p => contentBasedPatterns.includes(p));
+        if (contentRestrictedPatterns.length > 0 || restrictedPatterns.length >= 2) {
           highestClassification = "restricted";
-        }
-        confidenceLevel = Math.max(confidenceLevel, 90);
-      } else if (mediumRiskPatterns.length > 0) {
-        if (this.getClassificationLevel("confidential") > this.getClassificationLevel(highestClassification)) {
+          confidenceLevel = Math.max(confidenceLevel, 90);
+        } else {
           highestClassification = "confidential";
+          confidenceLevel = Math.max(confidenceLevel, 85);
         }
+      } else if (confidentialPatterns.length > 0) {
+        highestClassification = "confidential";
         confidenceLevel = Math.max(confidenceLevel, 75);
       } else {
-        if (this.getClassificationLevel("internal") > this.getClassificationLevel(highestClassification)) {
-          highestClassification = "internal";
-        }
+        highestClassification = "internal";
         confidenceLevel = Math.max(confidenceLevel, 60);
       }
+
+      console.log(`Classification decision for ${fileName}:`, {
+        totalPatterns: detectedPatterns.length,
+        topSecret: topSecretPatterns.length,
+        restricted: restrictedPatterns.length,
+        confidential: confidentialPatterns.length,
+        contentBased: contentBasedPatterns.length,
+        finalClassification: highestClassification,
+        confidence: confidenceLevel
+      });
     } else {
-      // Default to internal classification for basic files
-      if (highestClassification === "public") {
-        highestClassification = "internal";
-        confidenceLevel = Math.max(confidenceLevel, 50);
-      }
+      // No sensitive patterns detected
+      highestClassification = "public";
+      confidenceLevel = Math.max(confidenceLevel, 30);
     }
 
     // Compliance analysis
