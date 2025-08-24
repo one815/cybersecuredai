@@ -224,14 +224,14 @@ export default function ThreatFeedsDisplay() {
       </div>
 
       {/* Tabbed Feed Content */}
-      <Tabs defaultValue="daily" className="w-full">
+      <Tabs defaultValue="last24h" className="w-full">
         <TabsList className="bg-gray-800 mb-4">
-          <TabsTrigger value="daily">Last 24 Hours</TabsTrigger>
-          <TabsTrigger value="weekly">Past Week</TabsTrigger>
-          <TabsTrigger value="monthly">Past Month</TabsTrigger>
+          <TabsTrigger value="last24h">Last 24 Hours</TabsTrigger>
+          <TabsTrigger value="pastweek">Past Week</TabsTrigger>
+          <TabsTrigger value="pastmonth">Past Month</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="daily" className="space-y-4">
+        <TabsContent value="last24h" className="space-y-4">
           <div className="flex items-center space-x-2 mb-4">
             <Clock className="w-4 h-4 text-blue-400" />
             <span className="text-sm text-gray-300">Real-time threat intelligence from the last 24 hours</span>
@@ -239,7 +239,7 @@ export default function ThreatFeedsDisplay() {
           {renderFeedList(getDailyFeeds())}
         </TabsContent>
         
-        <TabsContent value="weekly" className="space-y-4">
+        <TabsContent value="pastweek" className="space-y-4">
           <div className="flex items-center space-x-2 mb-4">
             <TrendingUp className="w-4 h-4 text-orange-400" />
             <span className="text-sm text-gray-300">Weekly threat patterns and campaign analysis</span>
@@ -247,7 +247,7 @@ export default function ThreatFeedsDisplay() {
           {renderFeedList(getWeeklyFeeds())}
         </TabsContent>
         
-        <TabsContent value="monthly" className="space-y-4">
+        <TabsContent value="pastmonth" className="space-y-4">
           <div className="flex items-center space-x-2 mb-4">
             <Globe className="w-4 h-4 text-purple-400" />
             <span className="text-sm text-gray-300">Monthly strategic threat intelligence</span>
