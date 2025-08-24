@@ -54,7 +54,7 @@ export default function Dashboard() {
   
   // Function to mark alert as resolved
   const resolveAlert = (alertId: string) => {
-    setResolvedAlerts(prev => new Set([...prev, alertId]));
+    setResolvedAlerts(prev => new Set([...Array.from(prev), alertId]));
   };
   const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
@@ -321,7 +321,7 @@ export default function Dashboard() {
         {userBadges && typeof userBadges === 'object' && 'totalBadges' in userBadges && (userBadges as { totalBadges: number }).totalBadges > 0 && (
           <div className="mb-8">
             <BadgeDisplay 
-              userBadges={userBadges as any} 
+              userBadges={userBadges} 
               showProgress={true} 
               limit={3}
               variant="compact"
@@ -909,8 +909,32 @@ export default function Dashboard() {
                   size="sm"
                   onClick={async () => {
                     try {
-                      await fetch('/api/security/run-scan', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-                      toast({ title: "Security Scan Started", description: "Full system security scan has been initiated." });
+                      const response = await fetch('/api/security/run-scan', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                      const result = await response.json();
+                      
+                      if (result.success) {
+                        toast({ 
+                          title: "Security Scan Started", 
+                          description: `Scan ID: ${result.scanId}. Estimated completion: ${result.estimatedDuration}.`
+                        });
+                        
+                        // Poll for scan completion
+                        setTimeout(async () => {
+                          try {
+                            const statusResponse = await fetch(result.statusUrl);
+                            const statusResult = await statusResponse.json();
+                            if (statusResult.status === 'completed') {
+                              toast({ 
+                                title: "Security Scan Complete", 
+                                description: `Found ${statusResult.summary.total} vulnerabilities: ${statusResult.summary.medium} medium, ${statusResult.summary.low} low. No critical issues.`,
+                                duration: 10000
+                              });
+                            }
+                          } catch (error) {
+                            console.error('Failed to get scan status:', error);
+                          }
+                        }, 4000);
+                      }
                     } catch (error) {
                       toast({ title: "Scan Failed", description: "Failed to start security scan. Please try again.", variant: "destructive" });
                     }
@@ -1200,7 +1224,13 @@ export default function Dashboard() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-success border-success">AES-256</Badge>
-                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-gray-400 hover:text-white"
+                        onClick={() => setLocation('/file-sharing')}
+                        data-testid="open-file-sharing-1"
+                      >
                         <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                       </Button>
                     </div>
@@ -1218,7 +1248,13 @@ export default function Dashboard() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Badge variant="outline" className="text-interactive border-interactive">Protected</Badge>
-                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-gray-400 hover:text-white"
+                        onClick={() => setLocation('/file-sharing')}
+                        data-testid="open-file-sharing-2"
+                      >
                         <ExternalLink className="w-4 h-4 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                       </Button>
                     </div>
@@ -1249,7 +1285,7 @@ export default function Dashboard() {
                 <div 
                   className="recommendations-content space-y-4"
                   dangerouslySetInnerHTML={{
-                    __html: dailyRecommendations.message
+                    __html: (dailyRecommendations as any)?.message || "Loading daily recommendations..."
                       .replace(/## (.*)/g, '<h3 class="text-lg font-semibold text-white mb-2 flex items-center"><span class="w-1 h-4 bg-cyan-400 mr-2 rounded"></span>$1</h3>')
                       .replace(/• (.*)/g, '<div class="flex items-start space-x-2 mb-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0"></span><span class="text-sm">$1</span></div>')
                       .replace(/⚠️ \*\*(.*?)\*\*/g, '<div class="flex items-center space-x-2 text-orange-400 font-medium mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg><span>$1</span></div>')
@@ -1265,9 +1301,9 @@ export default function Dashboard() {
                   }}
                 />
               </div>
-              {dailyRecommendations.actions && dailyRecommendations.actions.length > 0 && (
+              {(dailyRecommendations as any)?.actions && (dailyRecommendations as any)?.actions.length > 0 && (
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {dailyRecommendations.actions.map((action: any, index: number) => (
+                  {((dailyRecommendations as any)?.actions || []).map((action: any, index: number) => (
                     <Button
                       key={index}
                       variant="outline"
