@@ -13,6 +13,7 @@ import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/Dashboard";
 import ThreatMonitoring from "@/pages/ThreatMonitoring";
 import ThreatAnalysis from "@/pages/ThreatAnalysis";
+import ThreatDetection from "@/pages/ThreatDetection";
 import Authentication from "@/pages/Authentication";
 import FileSharing from "@/pages/FileSharing";
 import Compliance from "@/pages/Compliance";
@@ -60,7 +61,7 @@ import FederalAgencies from "@/pages/solutions/FederalAgencies";
 // Platform Pages
 import Platform from "@/pages/Platform";
 import AutomatedIncidentResponse from "@/pages/platform/AutomatedIncidentResponse";
-import ThreatDetection from "@/pages/platform/ThreatDetection";
+import PlatformThreatDetection from "@/pages/platform/ThreatDetection";
 import PredictiveRiskAnalysis from "@/pages/platform/PredictiveRiskAnalysis";
 import ComplianceAutomation from "@/pages/platform/ComplianceAutomation";
 import PlatformSecurityTraining from "@/pages/platform/SecurityTraining";
@@ -126,7 +127,7 @@ function Router() {
       {/* Platform Pages */}
       <Route path="/platform" component={Platform} />
       <Route path="/platform/automated-incident-response" component={AutomatedIncidentResponse} />
-      <Route path="/platform/threat-detection" component={ThreatDetection} />
+      <Route path="/platform/threat-detection" component={PlatformThreatDetection} />
       <Route path="/platform/predictive-risk-analysis" component={PredictiveRiskAnalysis} />
       <Route path="/platform/compliance-automation" component={ComplianceAutomation} />
       <Route path="/platform/security-training" component={PlatformSecurityTraining} />
@@ -244,7 +245,7 @@ function Router() {
       </Route>
       <Route path="/threat-detection">
         <Layout>
-          <ThreatAnalysis />
+          <ThreatDetection />
         </Layout>
       </Route>
       <Route path="/reports">

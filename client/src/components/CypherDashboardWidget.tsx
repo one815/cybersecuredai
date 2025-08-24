@@ -39,6 +39,7 @@ interface CypherDashboardWidgetProps {
 export default function CypherDashboardWidget({ enabled = true, compact = false }: CypherDashboardWidgetProps) {
   const [isMinimized, setIsMinimized] = useState(compact);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { toast } = useToast();
 
   // Update time every minute
   useEffect(() => {
