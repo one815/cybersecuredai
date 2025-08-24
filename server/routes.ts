@@ -1399,11 +1399,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
           vulnerabilities: threatIntel.vulnerabilities.length
         },
         source: 'MISP',
-        apiKeyConfigured: !!process.env.MISP_API_KEY
+        apiKeyConfigured: !!process.env.MISP_API_KEY,
+        officialFeedsEnabled: true
       });
     } catch (error) {
       console.error("Error fetching MISP status:", error);
       res.status(500).json({ message: "Failed to fetch MISP status" });
+    }
+  });
+
+  // MISP Official Feeds Management
+  app.get("/api/misp/feeds", async (req, res) => {
+    try {
+      const feeds = threatDetectionEngine.getMISPOfficialFeeds();
+      res.json({
+        feeds,
+        count: feeds.length,
+        source: 'MISP Official Feeds',
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching MISP feeds:", error);
+      res.status(500).json({ message: "Failed to fetch MISP feeds" });
+    }
+  });
+
+  app.put("/api/misp/feeds/:feedName/toggle", async (req, res) => {
+    try {
+      const feedName = decodeURIComponent(req.params.feedName);
+      const { enabled } = req.body;
+      
+      if (typeof enabled !== 'boolean') {
+        return res.status(400).json({ message: "Enabled must be a boolean value" });
+      }
+
+      threatDetectionEngine.updateMISPFeedConfiguration(feedName, enabled);
+      
+      res.json({
+        message: `Feed ${feedName} ${enabled ? 'enabled' : 'disabled'} successfully`,
+        feedName,
+        enabled,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error updating MISP feed configuration:", error);
+      res.status(500).json({ message: "Failed to update feed configuration" });
     }
   });
 
