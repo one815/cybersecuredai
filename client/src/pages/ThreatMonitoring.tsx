@@ -796,7 +796,13 @@ export default function ThreatMonitoring() {
             </CardHeader>
             <CardContent>
               {/* Enhanced Threat Map */}
-              <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY || ""} render={renderMap} libraries={["places"]} />
+              {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? (
+                <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} render={renderMap} libraries={["places"]} />
+              ) : (
+                <div className="w-full h-80 bg-gray-900 rounded-lg overflow-hidden">
+                  <FallbackMap locations={threatLocations} />
+                </div>
+              )}
               
               {/* Real-time Processing Stats */}
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
