@@ -1151,6 +1151,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // File upload endpoint for secure file sharing
+  app.post("/api/files/upload", upload.single('file'), async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const file = req.file;
+      const { encryptionStatus, accessExpiration, passwordProtection } = req.body;
+      
+      const fileRecord = {
+        id: `file-${Date.now()}`,
+        name: file.originalname,
+        size: file.size,
+        type: file.mimetype,
+        uploadedAt: new Date().toISOString(),
+        encryptionStatus: encryptionStatus || 'unencrypted',
+        accessExpiration: parseInt(accessExpiration) || 7,
+        passwordProtected: passwordProtection === 'true',
+        path: file.path,
+        classification: 'Public', // Default classification
+        owner: 'admin-1', // Mock user
+        sharedWith: []
+      };
+
+      // Store file record in memory (in production, use database)
+      if (!global.fileRecords) {
+        global.fileRecords = [];
+      }
+      global.fileRecords.push(fileRecord);
+
+      res.json({
+        success: true,
+        fileId: fileRecord.id,
+        message: "File uploaded successfully",
+        file: fileRecord
+      });
+    } catch (error) {
+      console.error("File upload error:", error);
+      res.status(500).json({ error: "File upload failed" });
+    }
+  });
+
+  // Get files list
+  app.get("/api/files", async (req, res) => {
+    try {
+      const files = global.fileRecords || [];
+      res.json(files);
+    } catch (error) {
+      console.error("Error fetching files:", error);
+      res.status(500).json({ error: "Failed to fetch files" });
+    }
+  });
+
+  // Share file with another user
+  app.post("/api/files/:fileId/share", async (req, res) => {
+    try {
+      const { fileId } = req.params;
+      const { email, permission } = req.body;
+      
+      if (!global.fileRecords) {
+        return res.status(404).json({ error: "File not found" });
+      }
+      
+      const fileIndex = global.fileRecords.findIndex((f: any) => f.id === fileId);
+      if (fileIndex === -1) {
+        return res.status(404).json({ error: "File not found" });
+      }
+      
+      // Add user to shared list
+      global.fileRecords[fileIndex].sharedWith.push({
+        email,
+        permission,
+        sharedAt: new Date().toISOString()
+      });
+      
+      res.json({
+        success: true,
+        message: `File shared with ${email}`,
+        file: global.fileRecords[fileIndex]
+      });
+    } catch (error) {
+      console.error("File sharing error:", error);
+      res.status(500).json({ error: "Failed to share file" });
+    }
+  });
+
   // Cypher AI Assistant API routes
   app.post("/api/cypher/chat", async (req, res) => {
     try {

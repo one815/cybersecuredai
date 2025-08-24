@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
+import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
 import { 
@@ -658,11 +659,11 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Enhanced Threat Activity Chart */}
+        {/* Dynamic Threat Intelligence Feeds */}
         <Card className="mb-6 sm:mb-8 bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
           <CardHeader className="p-4 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
-              <CardTitle className="text-lg sm:text-xl font-bold text-white geometric-text">Threat Activity</CardTitle>
+              <CardTitle className="text-lg sm:text-xl font-bold text-white geometric-text">Threat Intelligence Feeds</CardTitle>
               <Tabs defaultValue="daily" className="w-full sm:w-48">
                 <TabsList className="bg-gray-800">
                   <TabsTrigger value="daily">Daily</TabsTrigger>
@@ -673,106 +674,7 @@ export default function Dashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            {/* Threat Activity Data */}
-            <div className="space-y-4 mb-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-surface/30 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-red-400">3</div>
-                  <div className="text-xs text-gray-400">Blocked IPs</div>
-                </div>
-                <div className="bg-surface/30 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-orange-400">12</div>
-                  <div className="text-xs text-gray-400">Failed Logins</div>
-                </div>
-                <div className="bg-surface/30 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-400">7</div>
-                  <div className="text-xs text-gray-400">Policy Updates</div>
-                </div>
-                <div className="bg-surface/30 rounded-lg p-4 text-center">
-                  <div className="text-2xl font-bold text-green-400">45</div>
-                  <div className="text-xs text-gray-400">Clean Sessions</div>
-                </div>
-              </div>
-              
-              {/* Recent Events Timeline */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-white mb-3">Recent Security Events</h4>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between p-3 bg-red-900/20 rounded-lg border border-red-700/50">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                      <span className="text-sm text-gray-300">Suspicious IP 192.168.1.100 blocked</span>
-                    </div>
-                    <span className="text-xs text-gray-400">2 min ago</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-orange-900/20 rounded-lg border border-orange-700/50">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                      <span className="text-sm text-gray-300">Multiple failed login attempts detected</span>
-                    </div>
-                    <span className="text-xs text-gray-400">15 min ago</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-blue-900/20 rounded-lg border border-blue-700/50">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                      <span className="text-sm text-gray-300">Security policy updated successfully</span>
-                    </div>
-                    <span className="text-xs text-gray-400">1 hr ago</span>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-green-900/20 rounded-lg border border-green-700/50">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-sm text-gray-300">System backup completed</span>
-                    </div>
-                    <span className="text-xs text-gray-400">2 hr ago</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="h-64 bg-background/50 rounded-lg p-4 mb-4 relative overflow-hidden">
-              {/* Simulated Chart */}
-              <div className="absolute inset-0 p-4">
-                <div className="grid grid-cols-12 gap-1 h-full items-end">
-                  {[3, 2, 4, 1.5, 2.8, 3.5, 2.2, 4.1, 2.9, 3.8, 2.1, 3.6].map((height, index) => (
-                    <div key={index} className="relative">
-                      <div 
-                        className="bg-gradient-to-t from-red-600 to-red-400 rounded-t opacity-70" 
-                        style={{height: `${height * 20}%`}}
-                      ></div>
-                      <div 
-                        className="bg-gradient-to-t from-orange-600 to-orange-400 rounded-t opacity-70 mt-1" 
-                        style={{height: `${(height + 1) * 15}%`}}
-                      ></div>
-                      <div 
-                        className="bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t opacity-70 mt-1" 
-                        style={{height: `${(height + 2) * 25}%`}}
-                      ></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="absolute bottom-4 left-4 text-xs text-gray-400">
-                  00:00
-                </div>
-                <div className="absolute bottom-4 right-4 text-xs text-gray-400">
-                  Now
-                </div>
-              </div>
-              {/* Legend */}
-              <div className="absolute top-4 right-4 space-y-1">
-                <div className="flex items-center space-x-2 text-xs">
-                  <div className="w-3 h-3 bg-red-500 rounded"></div>
-                  <span className="text-gray-400">Critical Threats</span>
-                </div>
-                <div className="flex items-center space-x-2 text-xs">
-                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                  <span className="text-gray-400">High Threats</span>
-                </div>
-                <div className="flex items-center space-x-2 text-xs">
-                  <div className="w-3 h-3 bg-cyan-500 rounded"></div>
-                  <span className="text-gray-400">Medium Threats</span>
-                </div>
-              </div>
-            </div>
+            <ThreatFeedsDisplay />
           </CardContent>
         </Card>
 
