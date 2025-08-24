@@ -2,6 +2,14 @@ import { Link, useLocation } from "wouter";
 // CyberSecure logo
 import cyberSecureLogo from "@assets/2_1755803929285.png";
 import { useAuth } from "@/hooks/useAuth";
+// Custom cybersecurity icons
+import { 
+  CustomClipboardCheckIcon, 
+  CustomSettingsIcon, 
+  CustomUserIcon, 
+  CustomTargetIcon,
+  CustomHeadphonesIcon
+} from "@/components/CustomIcons";
 // Modern 3D/Futuristic Icons
 import { 
   LayoutDashboard, 
@@ -12,12 +20,8 @@ import {
   Wrench, 
   Lock, 
   Share2, 
-  ClipboardCheck, 
   Trophy,
   GraduationCap, 
-  HelpCircle, 
-  Users, 
-  Settings, 
   Brain, 
   BarChart3,
   LogOut,
@@ -28,8 +32,7 @@ import {
   Crown,
   StarIcon,
   Sparkles,
-  TrendingUp,
-  Target
+  TrendingUp
 } from "lucide-react";
 import { useState } from "react";
 
@@ -75,7 +78,7 @@ const navigationCategories: NavigationCategory[] = [
     items: [
       { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
       { id: "threat-analysis", label: "Advanced Analytics", icon: Activity, path: "/threat-analysis", requiredTier: 'advanced', isPremium: true },
-      { id: "threat-intelligence", label: "Threat Intelligence", icon: Target, path: "/threat-intelligence" },
+      { id: "threat-intelligence", label: "Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/threat-intelligence" },
       { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
       { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
       { id: "security-integrations", label: "Security Integrations", icon: Zap, path: "/security-integrations", requiredTier: 'enterprise', isPremium: true },
@@ -95,10 +98,10 @@ const navigationCategories: NavigationCategory[] = [
   {
     id: "compliance",
     label: "Compliance & Risk",
-    icon: ClipboardCheck,
+    icon: () => <CustomClipboardCheckIcon size={20} />,
     items: [
-      { id: "compliance", label: "Compliance Center", icon: ClipboardCheck, path: "/compliance" },
-      { id: "custom-compliance", label: "Custom Frameworks", icon: Settings, path: "/custom-compliance", requiredTier: 'enterprise', isPremium: true },
+      { id: "compliance", label: "Compliance Center", icon: () => <CustomClipboardCheckIcon size={16} />, path: "/compliance" },
+      { id: "custom-compliance", label: "Custom Frameworks", icon: () => <CustomSettingsIcon size={16} />, path: "/custom-compliance", requiredTier: 'enterprise', isPremium: true },
     ]
   },
   {
@@ -114,21 +117,21 @@ const navigationCategories: NavigationCategory[] = [
   {
     id: "administration",
     label: "System Administration",
-    icon: Settings,
+    icon: () => <CustomSettingsIcon size={20} />,
     requiredRoles: ['admin'],
     isPremium: true,
     items: [
-      { id: "users", label: "User Management", icon: Users, path: "/users" },
-      { id: "admin", label: "Admin Panel", icon: Settings, path: "/admin" },
+      { id: "users", label: "User Management", icon: () => <CustomUserIcon size={16} />, path: "/users" },
+      { id: "admin", label: "Admin Panel", icon: () => <CustomSettingsIcon size={16} />, path: "/admin" },
       { id: "ai-config", label: "AI Configuration", icon: Brain, path: "/ai-config", requiredTier: 'enterprise' },
     ]
   },
   {
     id: "support",
     label: "Support & Resources",
-    icon: HelpCircle,
+    icon: () => <CustomHeadphonesIcon size={20} />,
     items: [
-      { id: "support", label: "Help Desk", icon: HelpCircle, path: "/support" },
+      { id: "support", label: "Help Desk", icon: () => <CustomHeadphonesIcon size={16} />, path: "/support" },
     ]
   }
 ];
