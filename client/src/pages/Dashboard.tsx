@@ -1179,7 +1179,11 @@ export default function Dashboard() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-xl font-bold">Secure File Sharing</CardTitle>
-              <Button className="bg-interactive hover:bg-orange-600" data-testid="share-file-button">
+              <Button 
+                className="bg-interactive hover:bg-orange-600" 
+                onClick={() => setLocation('/file-sharing')}
+                data-testid="share-file-button"
+              >
                 <FileText className="w-4 h-4 mr-2 text-gray-400" style={{filter: 'drop-shadow(0 0 4px rgba(156, 163, 175, 0.4))'}} />
                 Share New File
               </Button>
@@ -1188,14 +1192,25 @@ export default function Dashboard() {
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* File Upload Section */}
-              <div className="bg-background rounded-lg p-6 border-2 border-dashed border-surface-light hover:border-interactive transition-colors">
+              <div 
+                className="bg-background rounded-lg p-6 border-2 border-dashed border-surface-light hover:border-interactive transition-colors cursor-pointer"
+                onClick={() => setLocation('/file-sharing')}
+              >
                 <div className="text-center">
                   <div className="w-16 h-16 bg-interactive/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <FileText className="w-6 h-6 text-orange-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.5))'}} />
                   </div>
                   <h4 className="font-medium mb-2">Drag and drop files or click to browse</h4>
                   <p className="text-gray-400 text-sm mb-4">All files are automatically encrypted with AES-256</p>
-                  <Button variant="outline" className="bg-surface hover:bg-surface-light" data-testid="browse-files-button">
+                  <Button 
+                    variant="outline" 
+                    className="bg-surface hover:bg-surface-light" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLocation('/file-sharing');
+                    }}
+                    data-testid="browse-files-button"
+                  >
                     Browse Files
                   </Button>
                 </div>
