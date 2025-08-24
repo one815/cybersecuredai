@@ -554,7 +554,26 @@ export default function ThreatMonitoring() {
               <option value="7d">Last 7 days</option>
               <option value="30d">Last 30 days</option>
             </select>
-            <Button className="bg-interactive hover:bg-orange-600" data-testid="refresh-threats">
+            <Button 
+              className="bg-interactive hover:bg-orange-600" 
+              data-testid="refresh-threats"
+              onClick={async () => {
+                try {
+                  const response = await fetch('/api/threats/refresh', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' } 
+                  });
+                  const result = await response.json();
+                  if (result.success) {
+                    // Refresh the queries
+                    window.location.reload();
+                  }
+                } catch (error) {
+                  console.error('Failed to refresh threats:', error);
+                }
+              }}
+            >
+              <RefreshCw className="w-4 h-4 mr-2" />
               Refresh
             </Button>
           </div>
@@ -713,11 +732,52 @@ export default function ThreatMonitoring() {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Button size="sm" variant="outline" className="h-8">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="h-8"
+                    onClick={async () => {
+                      try {
+                        const settings = { alertThreshold: 'high', autoResponse: true };
+                        const response = await fetch('/api/threats/configure', { 
+                          method: 'POST', 
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ settings })
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                          console.log('Configuration updated successfully');
+                        }
+                      } catch (error) {
+                        console.error('Failed to update configuration:', error);
+                      }
+                    }}
+                  >
                     <Settings className="w-3 h-3 mr-1" />
                     Configure
                   </Button>
-                  <Button size="sm" variant="outline" className="h-8">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="h-8"
+                    onClick={async () => {
+                      try {
+                        const response = await fetch('/api/threats/export', { 
+                          method: 'POST', 
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ format: 'csv', dateRange: '24h' })
+                        });
+                        const result = await response.json();
+                        if (result.success && result.downloadUrl) {
+                          // In a real app, this would trigger a download
+                          console.log('Export ready:', result.downloadUrl);
+                          window.open(result.downloadUrl, '_blank');
+                        }
+                      } catch (error) {
+                        console.error('Failed to export data:', error);
+                      }
+                    }}
+                  >
                     <Download className="w-3 h-3 mr-1" />
                     Export
                   </Button>
@@ -1501,7 +1561,28 @@ export default function ThreatMonitoring() {
                     Based on current threat patterns, I recommend implementing network segmentation for database servers and enabling enhanced logging on critical endpoints.
                   </p>
                   <div className="flex space-x-2">
-                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-xs">
+                    <Button 
+                      size="sm" 
+                      className="bg-blue-600 hover:bg-blue-700 text-xs"
+                      onClick={async () => {
+                        try {
+                          const response = await fetch('/api/threats/apply-recommendation', { 
+                            method: 'POST', 
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ 
+                              recommendationId: 'rec-001', 
+                              action: 'block_suspicious_ips' 
+                            })
+                          });
+                          const result = await response.json();
+                          if (result.success) {
+                            console.log('Recommendation applied successfully');
+                          }
+                        } catch (error) {
+                          console.error('Failed to apply recommendation:', error);
+                        }
+                      }}
+                    >
                       Apply Recommendation
                     </Button>
                     <Button size="sm" variant="outline" className="text-xs">
