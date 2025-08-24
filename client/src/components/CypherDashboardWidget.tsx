@@ -286,6 +286,7 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
                 size="sm"
                 variant="outline"
                 className="h-7 text-xs"
+                onClick={() => window.location.href = '/reports'}
                 data-testid="button-cypher-details"
               >
                 View All Reports

@@ -114,53 +114,19 @@ export default function FileSharing() {
       if (!response.ok) throw new Error('Failed to share file');
       return response.json();
     },
-    onSuccess: (data, file) => {
-      setUploadProgress(prev => ({ ...prev, [file.name]: 100 }));
+    onSuccess: (data, variables) => {
+      const fileName = files.find(f => f.id === variables.fileId)?.name || 'Unknown file';
+      toast({
+        title: "File Shared Successfully",
+        description: `File "${fileName}" shared with ${variables.email}`,
+      });
       queryClient.invalidateQueries({ queryKey: ["/api/files"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/inventory"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/data-classification/summary"] });
-      
-      // Classify the uploaded file with enhanced content for sensitive files
-      let classificationContent = file.name;
-      
-      // Check if this looks like a potentially sensitive document
-      if (file.name.toLowerCase().includes('social security') || 
-          file.name.toLowerCase().includes('ssn') ||
-          file.name.toLowerCase().includes('screen shot') ||
-          file.name.toLowerCase().includes('screenshot')) {
-        // Provide realistic content that will trigger proper classification
-        classificationContent = "Screenshot may contain sensitive information: Social Security Number: 123-45-6789 Account Information: XXXX-XXXX-XXXX-1234 Personal Identifiable Information detected";
-      }
-      
-      classifyFileMutation.mutate({
-        fileId: data.id,
-        fileName: file.name,
-        content: classificationContent
-      });
-      
-      toast({
-        title: "File uploaded successfully",
-        description: `${file.name} has been encrypted and secured.`,
-      });
-      
-      // Clear progress after a delay
-      setTimeout(() => {
-        setUploadProgress(prev => {
-          const newProgress = { ...prev };
-          delete newProgress[file.name];
-          return newProgress;
-        });
-      }, 2000);
     },
-    onError: (error, file) => {
-      setUploadProgress(prev => {
-        const newProgress = { ...prev };
-        delete newProgress[file.name];
-        return newProgress;
-      });
+    onError: (error, variables) => {
+      const fileName = files.find(f => f.id === variables.fileId)?.name || 'Unknown file';
       toast({
-        title: "Upload failed",
-        description: `Failed to upload ${file.name}. Please try again.`,
+        title: "Share Failed",
+        description: `Failed to share "${fileName}" with ${variables.email}`,
         variant: "destructive",
       });
     },
@@ -752,12 +718,28 @@ export default function FileSharing() {
         {/* Right Sidebar */}
         <div className="w-80 bg-surface border-l border-surface-light p-6 overflow-y-auto">
           {/* Share File Button */}
-          <Button className="w-full bg-interactive hover:bg-orange-600 mb-6" data-testid="share-file">
+          <Button 
+            className="w-full bg-interactive hover:bg-orange-600 mb-6" 
+            onClick={() => fileInputRef.current?.click()}
+            data-testid="share-file"
+          >
             <div className="text-center">
-              <div className="font-medium">Share File</div>
-              <div className="text-xs opacity-75">Configure security settings before sharing</div>
+              <div className="font-medium">Share New File</div>
+              <div className="text-xs opacity-75">Upload and configure security settings</div>
             </div>
           </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                uploadFileMutation.mutate(file);
+              }
+            }}
+            multiple={false}
+          />
 
           {/* Current File Info */}
           <Card className="bg-background/50 border-surface-light mb-6">
