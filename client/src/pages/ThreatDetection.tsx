@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Shield, 
   Eye, 
@@ -10,11 +11,73 @@ import {
   ExternalLink,
   TrendingUp,
   Clock,
-  MapPin
+  MapPin,
+  Search,
+  ShieldX
 } from "lucide-react";
 
 export default function ThreatDetection() {
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
+  const handleInvestigate = async (threat: any) => {
+    toast({
+      title: "Investigation Started",
+      description: `Gathering detailed threat intelligence for ${threat.indicator}...`
+    });
+
+    // Simulate investigation process
+    setTimeout(() => {
+      toast({
+        title: "Investigation Complete",
+        description: `${threat.type}: Analysis shows ${threat.confidence}% threat confidence. Recommend immediate blocking.`,
+        duration: 8000
+      });
+    }, 2000);
+  };
+
+  const handleBlock = async (threat: any) => {
+    try {
+      toast({
+        title: "Blocking Threat",
+        description: `Adding ${threat.indicator} to firewall blocklist...`
+      });
+
+      // Make API call to block the threat
+      const response = await fetch('/api/security/block-threat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          indicator: threat.indicator,
+          type: threat.type,
+          severity: threat.severity,
+          reason: threat.description
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        toast({
+          title: "Threat Blocked Successfully",
+          description: `${threat.indicator} has been added to the blocklist. All traffic blocked.`,
+          duration: 6000
+        });
+      } else {
+        toast({
+          title: "Block Failed",
+          description: "Failed to block threat. Please try again or contact administrator.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Block Failed",
+        description: "Network error while blocking threat. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
 
   const mockThreats = [
     {
@@ -182,10 +245,23 @@ export default function ThreatDetection() {
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <Button size="sm" variant="outline" className="text-xs">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs border-blue-600 text-blue-400 hover:bg-blue-900/30"
+                        onClick={() => handleInvestigate(threat)}
+                        data-testid={`investigate-threat-${threat.id}`}
+                      >
+                        <Search className="w-3 h-3 mr-1" />
                         Investigate
                       </Button>
-                      <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white text-xs">
+                      <Button 
+                        size="sm" 
+                        className="bg-red-600 hover:bg-red-700 text-white text-xs"
+                        onClick={() => handleBlock(threat)}
+                        data-testid={`block-threat-${threat.id}`}
+                      >
+                        <ShieldX className="w-3 h-3 mr-1" />
                         Block
                       </Button>
                     </div>

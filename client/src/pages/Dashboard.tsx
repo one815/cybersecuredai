@@ -881,34 +881,32 @@ export default function Dashboard() {
                   size="sm"
                   onClick={async () => {
                     try {
+                      toast({ 
+                        title: "Starting Security Scan", 
+                        description: "Initiating comprehensive security assessment..."
+                      });
+                      
                       const response = await fetch('/api/security/run-scan', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
                       const result = await response.json();
                       
                       if (result.success) {
+                        // Redirect to vulnerability monitoring page to show results
+                        setTimeout(() => {
+                          setLocation('/vulnerability-monitoring');
+                        }, 1500);
+                      } else {
                         toast({ 
-                          title: "Security Scan Started", 
-                          description: `Scan ID: ${result.scanId}. Estimated completion: ${result.estimatedDuration}.`
+                          title: "Scan Failed", 
+                          description: "Failed to start security scan. Please try again.", 
+                          variant: "destructive" 
                         });
-                        
-                        // Poll for scan completion
-                        setTimeout(async () => {
-                          try {
-                            const statusResponse = await fetch(result.statusUrl);
-                            const statusResult = await statusResponse.json();
-                            if (statusResult.status === 'completed') {
-                              toast({ 
-                                title: "Security Scan Complete", 
-                                description: `Found ${statusResult.summary.total} vulnerabilities: ${statusResult.summary.medium} medium, ${statusResult.summary.low} low. No critical issues.`,
-                                duration: 10000
-                              });
-                            }
-                          } catch (error) {
-                            console.error('Failed to get scan status:', error);
-                          }
-                        }, 4000);
                       }
                     } catch (error) {
-                      toast({ title: "Scan Failed", description: "Failed to start security scan. Please try again.", variant: "destructive" });
+                      toast({ 
+                        title: "Scan Failed", 
+                        description: "Failed to start security scan. Please try again.", 
+                        variant: "destructive" 
+                      });
                     }
                   }}
                 >
