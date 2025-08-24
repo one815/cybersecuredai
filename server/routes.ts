@@ -2128,6 +2128,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Block threat endpoint
+  app.post('/api/security/block-threat', async (req, res) => {
+    try {
+      const { indicator, type, severity, reason } = req.body;
+      
+      if (!indicator || !type) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Indicator and type are required' 
+        });
+      }
+
+      // Simulate blocking threat in firewall/security system
+      console.log(`🛡️ Blocking threat: ${indicator} (${type}, ${severity})`);
+      console.log(`   Reason: ${reason}`);
+      
+      // Simulate some processing time
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      res.json({
+        success: true,
+        indicator,
+        type,
+        blocked: true,
+        message: `Threat ${indicator} has been successfully blocked`
+      });
+    } catch (error) {
+      console.error('Error blocking threat:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to block threat' 
+      });
+    }
+  });
+
   // Security scan status endpoint
   app.get("/api/security/scan-status/:scanId", async (req, res) => {
     try {
