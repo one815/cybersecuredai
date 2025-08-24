@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Bot, 
   Activity, 
@@ -150,25 +151,25 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Threat Level:</span>
                 <span className="text-green-400 font-medium">
-                  {systemStatus?.threatLevel || 'LOW'}
+                  {(systemStatus as any)?.threatLevel || 'LOW'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Active Alerts:</span>
                 <span className="text-yellow-400 font-medium">
-                  {systemStatus?.activeAlerts || 0}
+                  {(systemStatus as any)?.activeAlerts || 0}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">System Health:</span>
                 <span className="text-green-400 font-medium">
-                  {systemStatus?.systemHealth || '98%'}
+                  {(systemStatus as any)?.systemHealth || '98%'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Uptime:</span>
                 <span className="text-blue-400 font-medium">
-                  {systemStatus?.uptime || '99.9%'}
+                  {(systemStatus as any)?.uptime || '99.9%'}
                 </span>
               </div>
             </div>
@@ -186,9 +187,9 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
                   Today
                 </Badge>
               </div>
-              <p className="text-xs text-gray-300 mb-3 leading-relaxed">{dailyRecommendations.message}</p>
+              <p className="text-xs text-gray-300 mb-3 leading-relaxed">{(dailyRecommendations as any)?.message}</p>
               <div className="flex flex-wrap gap-2">
-                {dailyRecommendations.actions?.slice(0, 3).map((action: any, index: number) => (
+                {(dailyRecommendations as any)?.actions?.slice(0, 3).map((action: any, index: number) => (
                   <Button
                     key={index}
                     size="sm"

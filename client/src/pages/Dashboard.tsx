@@ -59,8 +59,8 @@ export default function Dashboard() {
   // Function to mark alert as resolved with persistence
   const resolveAlert = (alertId: string) => {
     setResolvedAlerts(prev => {
-      const newSet = new Set([...Array.from(prev), alertId]);
-      localStorage.setItem('resolvedAlerts', JSON.stringify([...newSet]));
+      const newSet = new Set(Array.from(prev).concat(alertId));
+      localStorage.setItem('resolvedAlerts', JSON.stringify(Array.from(newSet)));
       return newSet;
     });
   };
@@ -326,10 +326,10 @@ export default function Dashboard() {
         )}
 
         {/* Badge Achievement Section */}
-        {userBadges && typeof userBadges === 'object' && 'totalBadges' in userBadges && (userBadges as { totalBadges: number }).totalBadges > 0 && (
+        {userBadges && (userBadges as any)?.totalBadges > 0 && (
           <div className="mb-8">
             <BadgeDisplay 
-              userBadges={userBadges} 
+              userBadges={userBadges as any} 
               showProgress={true} 
               limit={3}
               variant="compact"
