@@ -29,6 +29,8 @@ import HelpDesk from "@/pages/HelpDesk";
 import SecurityOverview from "@/pages/SecurityOverview";
 import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
+import MISPLiveDashboard from "@/pages/MISPLiveDashboard";
+import MISPBenefits from "@/pages/MISPBenefits";
 
 // Marketing Website Pages
 import Home from "@/pages/Home";
@@ -108,6 +110,7 @@ function Router() {
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
       <Route path="/why-cybersecure-ai" component={WhyCyberSecureAI} />
+      <Route path="/misp-benefits" component={MISPBenefits} />
       
       {/* Solutions Pages */}
       <Route path="/solutions/ransomware" component={RansomwareProtection} />
@@ -171,6 +174,11 @@ function Router() {
       <Route path="/threat-intelligence">
         <Layout>
           <ThreatIntelligenceDashboard />
+        </Layout>
+      </Route>
+      <Route path="/misp-live">
+        <Layout>
+          <MISPLiveDashboard />
         </Layout>
       </Route>
       <Route path="/security-integrations">
