@@ -55,6 +55,14 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
     staleTime: 20000,
   });
 
+  // Fetch daily recommendations
+  const { data: dailyRecommendations } = useQuery({
+    queryKey: ["/api/cypher/daily-recommendations/admin-1"],
+    enabled: enabled,
+    refetchInterval: 60000, // Refresh every minute
+    staleTime: 30000,
+  });
+
   // Fetch system status for live updates
   const { data: systemStatus } = useQuery({
     queryKey: ["/api/cypher/system-status"],
