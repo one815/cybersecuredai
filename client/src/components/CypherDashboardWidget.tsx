@@ -174,6 +174,44 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
             </div>
           </div>
 
+          {/* Daily Security Recommendations */}
+          {dailyRecommendations && (
+            <div className="mb-4 p-3 bg-gradient-to-r from-cyan-900/20 to-blue-900/20 rounded-lg border border-cyan-700/50">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-medium text-cyan-300 flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-cyan-400" />
+                  <span>Daily Security Recommendations</span>
+                </span>
+                <Badge className="bg-cyan-900/50 text-cyan-400 border-cyan-700 text-xs">
+                  Today
+                </Badge>
+              </div>
+              <p className="text-xs text-gray-300 mb-3 leading-relaxed">{dailyRecommendations.message}</p>
+              <div className="flex flex-wrap gap-2">
+                {dailyRecommendations.actions?.slice(0, 3).map((action: any, index: number) => (
+                  <Button
+                    key={index}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs border-cyan-600 text-cyan-400 hover:bg-cyan-900/50 h-6 px-2"
+                    onClick={() => {
+                      if (action.action === "run_security_scan") {
+                        fetch('/api/security/run-scan', { method: 'POST' });
+                        toast({ title: "Security Scan", description: "Comprehensive security scan initiated." });
+                      } else if (action.action === "open_threat_dashboard") {
+                        window.location.href = '/threats';
+                      } else if (action.action === "review_user_activity") {
+                        window.location.href = '/user-management';
+                      }
+                    }}
+                  >
+                    {action.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Reports Section */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">

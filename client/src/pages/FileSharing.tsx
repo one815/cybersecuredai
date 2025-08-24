@@ -73,14 +73,45 @@ export default function FileSharing() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('encryptionStatus', encryptionLevel.includes('AES') ? 'encrypted' : 'unencrypted');
-      formData.append('accessLevel', 'private');
+      formData.append('accessExpiration', accessExpiration);
+      formData.append('passwordProtection', passwordProtection.toString());
       
       const response = await fetch('/api/files/upload', {
         method: 'POST',
         body: formData,
       });
       
-      if (!response.ok) throw new Error('Failed to upload file');
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+      
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Upload Successful",
+        description: `File "${data.file.name}" uploaded successfully`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/files"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Upload Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  });
+
+  const shareFileMutation = useMutation({
+    mutationFn: async ({ fileId, email, permission }: { fileId: string, email: string, permission: string }) => {
+      const response = await fetch(`/api/files/${fileId}/share`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, permission }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to share file');
       return response.json();
     },
     onSuccess: (data, file) => {
