@@ -175,7 +175,7 @@ export default function ThreatMonitoring() {
     { country: "Others", percentage: 30 }
   ];
 
-  // Threat locations for Google Maps
+  // Threat locations for Google Maps with accurate coordinates
   const threatLocations = [
     {
       lat: 55.7558,
@@ -198,7 +198,7 @@ export default function ThreatMonitoring() {
       lng: 125.7625,
       country: "North Korea",
       attacks: 15,
-      severity: "medium",
+      severity: "high",
       city: "Pyongyang"
     },
     {
@@ -206,7 +206,7 @@ export default function ThreatMonitoring() {
       lng: 139.6503,
       country: "Japan",
       attacks: 8,
-      severity: "low",
+      severity: "medium",
       city: "Tokyo"
     },
     {
@@ -224,6 +224,38 @@ export default function ThreatMonitoring() {
       attacks: 6,
       severity: "low",
       city: "London"
+    },
+    {
+      lat: 33.6844,
+      lng: 73.0479,
+      country: "Pakistan",
+      attacks: 9,
+      severity: "medium",
+      city: "Islamabad"
+    },
+    {
+      lat: 28.6139,
+      lng: 77.2090,
+      country: "India",
+      attacks: 7,
+      severity: "low",
+      city: "New Delhi"
+    },
+    {
+      lat: 40.7128,
+      lng: -74.0060,
+      country: "United States",
+      attacks: 5,
+      severity: "low",
+      city: "New York"
+    },
+    {
+      lat: -23.5505,
+      lng: -46.6333,
+      country: "Brazil",
+      attacks: 4,
+      severity: "low",
+      city: "São Paulo"
     }
   ];
 
@@ -236,8 +268,8 @@ export default function ThreatMonitoring() {
       if (!mapRef.current || !window.google) return;
 
       const mapInstance = new window.google.maps.Map(mapRef.current, {
-        center: { lat: 30, lng: 0 },
-        zoom: 2,
+        center: { lat: 39.8283, lng: -98.5795 }, // Geographic center for better global view
+        zoom: 3,
         styles: [
           {
             elementType: "geometry",
