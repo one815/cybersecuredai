@@ -97,12 +97,55 @@ export default function Home() {
         </div>
       </section>
 
+      {/* MISP Live Dashboard Showcase */}
+      <section className="py-16 px-6 bg-gradient-to-b from-emerald-900/20 to-background">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-green-500/20 text-green-400 border-green-500/30">
+              🚀 NEW: Live MISP Threat Intelligence
+            </Badge>
+            <h2 className="text-4xl font-bold text-white mb-4">Real-Time Threat Intelligence for Critical Organizations</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+              Government agencies, educational institutions, and critical infrastructure organizations rely on our official MISP integration for live threat intelligence from 8+ trusted sources worldwide.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-slate-800/50 p-6 rounded-lg border border-green-500/20">
+                <div className="text-2xl font-bold text-green-400 mb-2">429+</div>
+                <div className="text-sm text-gray-400">Active Malicious IPs</div>
+              </div>
+              <div className="bg-slate-800/50 p-6 rounded-lg border border-orange-500/20">
+                <div className="text-2xl font-bold text-orange-400 mb-2">8</div>
+                <div className="text-sm text-gray-400">Official MISP Feeds</div>
+              </div>
+              <div className="bg-slate-800/50 p-6 rounded-lg border border-cyan-500/20">
+                <div className="text-2xl font-bold text-cyan-400 mb-2">2min</div>
+                <div className="text-sm text-gray-400">Real-Time Updates</div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/misp-benefits">
+                <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg">
+                  <Shield className="mr-2 w-5 h-5" />
+                  Learn More About MISP
+                </Button>
+              </Link>
+              <Link href="/misp-live">
+                <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-4 text-lg">
+                  <Activity className="mr-2 w-5 h-5" />
+                  View Live Dashboard
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Platform Dashboard Showcase */}
       <section className="py-16 px-6 bg-gradient-to-b from-surface/20 to-background">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">Experience the CyberSecure AI Platform</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">Real-time security monitoring and threat intelligence through our unified dashboard</p>
+            <p className="text-gray-400 max-w-2xl mx-auto">Comprehensive security monitoring and threat intelligence through our unified dashboard</p>
           </div>
           
           {/* Enhanced Desktop Dashboard Mockup */}
