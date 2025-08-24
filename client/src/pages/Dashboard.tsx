@@ -243,7 +243,9 @@ export default function Dashboard() {
       {/* Main Content */}
       <main className="p-3 sm:p-4 lg:p-6">
         {/* Post-Onboarding Tasks */}
-        {user?.onboardingCompleted && (!user?.digitalKeyEnabled || !user?.totpEnabled || !user?.biometricEnabled || !user?.hardwareKeyEnabled) && (
+        {user?.onboardingCompleted && (
+          [user?.digitalKeyEnabled, user?.totpEnabled, user?.biometricEnabled, user?.hardwareKeyEnabled].filter(Boolean).length < 2
+        ) && (
           <div className="mb-8">
             <Card className="bg-gradient-to-r from-orange-900/30 to-yellow-900/30 border-orange-500/50">
               <CardHeader>

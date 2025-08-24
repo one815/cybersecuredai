@@ -328,58 +328,92 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // File upload endpoint with multipart support and enhanced content analysis
+  // File upload endpoint with secure file sharing support and enhanced content analysis
   app.post("/api/files/upload", upload.single('file'), async (req, res) => {
     try {
       if (!req.file) {
-        return res.status(400).json({ message: "No file uploaded" });
+        return res.status(400).json({ error: "No file uploaded" });
       }
 
       const file = req.file;
-      const { encryptionStatus = 'encrypted', accessLevel = 'private' } = req.body;
+      const { encryptionStatus = 'encrypted', accessExpiration = '7', passwordProtection = 'false' } = req.body;
 
-      // Create file record in database
-      const fileData = insertFileSchema.parse({
+      // Create file record for secure sharing
+      const fileRecord = {
+        id: `file-${Date.now()}`,
         name: file.originalname,
         size: file.size,
-        type: file.mimetype,
-        uploadedBy: 'admin-1', // In a real app, this would come from authentication
-        encryptionStatus,
-        accessLevel,
-        path: `/uploads/${file.originalname}`, // In a real app, this would be a unique path
-        checksum: Buffer.from(file.buffer).toString('base64').slice(0, 32), // Simple checksum
-      });
+        type: file.mimetype.includes('pdf') ? 'pdf' : 
+              file.mimetype.includes('image') ? 'image' : 
+              file.mimetype.includes('word') || file.mimetype.includes('document') ? 'document' : 'other',
+        uploadedAt: new Date().toISOString(),
+        uploadedBy: 'admin-1', // TODO: Get from auth
+        encryptionStatus: encryptionStatus,
+        accessExpiration: parseInt(accessExpiration) || 7,
+        passwordProtection: passwordProtection === 'true',
+        path: `/uploads/${file.originalname}`,
+        classification: 'Internal', // Default classification
+        sharedWith: [],
+        buffer: file.buffer // Store file data in memory for demo
+      };
 
-      const savedFile = await storage.createFile(fileData);
-      
-      // Extract actual file content for classification
-      try {
-        const { dataClassificationEngine } = await import("./engines/data-classification");
-        const extractedContent = await dataClassificationEngine.extractContentFromFile(file.buffer, file.originalname, file.mimetype);
-        
-        // Automatically classify the extracted content
-        console.log(`Classifying content for file: ${file.originalname}`);
-        await dataClassificationEngine.classifyContent(savedFile.id, file.originalname, extractedContent, {
-          fileSize: file.size,
-          mimeType: file.mimetype,
-          uploadedBy: 'admin-1'
-        });
-      } catch (classificationError) {
-        console.error("Error during file content classification:", classificationError);
-        // Continue even if classification fails
+      // Store in global array for demo (in production, use proper file storage + database)
+      if (!global.fileRecords) {
+        global.fileRecords = [];
       }
+      global.fileRecords.push(fileRecord);
       
-      // Return the file record
-      res.status(201).json(savedFile);
+      // Also try to store in database for compatibility
+      try {
+        const fileData = insertFileSchema.parse({
+          name: file.originalname,
+          size: file.size,
+          type: file.mimetype,
+          uploadedBy: 'admin-1',
+          encryptionStatus,
+          accessLevel: 'private',
+          path: `/uploads/${file.originalname}`,
+          checksum: Buffer.from(file.buffer).toString('base64').slice(0, 32),
+        });
+        const savedFile = await storage.createFile(fileData);
+        
+        // Extract actual file content for classification
+        try {
+          const { dataClassificationEngine } = await import("./engines/data-classification");
+          const extractedContent = await dataClassificationEngine.extractContentFromFile(file.buffer, file.originalname, file.mimetype);
+          
+          // Automatically classify the extracted content
+          console.log(`Classifying content for file: ${file.originalname}`);
+          await dataClassificationEngine.classifyContent(savedFile.id, file.originalname, extractedContent, {
+            fileSize: file.size,
+            mimeType: file.mimetype,
+            uploadedBy: 'admin-1'
+          });
+        } catch (classificationError) {
+          console.error("Error during file content classification:", classificationError);
+        }
+      } catch (dbError) {
+        console.log("Database storage failed, using memory storage only:", dbError.message);
+      }
+
+      res.json({
+        success: true,
+        file: {
+          id: fileRecord.id,
+          name: fileRecord.name,
+          size: fileRecord.size,
+          type: fileRecord.type
+        }
+      });
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("File upload error:", error);
       if (error instanceof multer.MulterError) {
         if (error.code === 'LIMIT_FILE_SIZE') {
-          return res.status(400).json({ message: "File too large (max 100MB)" });
+          return res.status(400).json({ error: "File too large (max 100MB)" });
         }
-        return res.status(400).json({ message: `Upload error: ${error.message}` });
+        return res.status(400).json({ error: "File upload error: " + error.message });
       }
-      res.status(500).json({ message: "Failed to upload file" });
+      res.status(500).json({ error: "File upload failed" });
     }
   });
 
@@ -1151,53 +1185,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // File upload endpoint for secure file sharing
-  app.post("/api/files/upload", upload.single('file'), async (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
+  // Duplicate file upload endpoint removed - using the main one above
 
-      const file = req.file;
-      const { encryptionStatus, accessExpiration, passwordProtection } = req.body;
-      
-      const fileRecord = {
-        id: `file-${Date.now()}`,
-        name: file.originalname,
-        size: file.size,
-        type: file.mimetype,
-        uploadedAt: new Date().toISOString(),
-        encryptionStatus: encryptionStatus || 'unencrypted',
-        accessExpiration: parseInt(accessExpiration) || 7,
-        passwordProtected: passwordProtection === 'true',
-        path: file.path,
-        classification: 'Public', // Default classification
-        owner: 'admin-1', // Mock user
-        sharedWith: []
-      };
-
-      // Store file record in memory (in production, use database)
-      if (!global.fileRecords) {
-        global.fileRecords = [];
-      }
-      global.fileRecords.push(fileRecord);
-
-      res.json({
-        success: true,
-        fileId: fileRecord.id,
-        message: "File uploaded successfully",
-        file: fileRecord
-      });
-    } catch (error) {
-      console.error("File upload error:", error);
-      res.status(500).json({ error: "File upload failed" });
-    }
-  });
-
-  // Get files list
+  // Enhanced files list endpoint
   app.get("/api/files", async (req, res) => {
     try {
-      const files = global.fileRecords || [];
+      // Combine files from both storage systems for compatibility
+      let files = [];
+      
+      // Get files from database storage
+      try {
+        const userId = req.query.userId as string;
+        const dbFiles = await storage.getFiles(userId);
+        files = [...files, ...dbFiles];
+      } catch (error) {
+        console.log("Database files not available, using memory storage");
+      }
+      
+      // Get files from memory storage (secure file sharing)
+      if (global.fileRecords) {
+        files = [...files, ...global.fileRecords];
+      }
+      
       res.json(files);
     } catch (error) {
       console.error("Error fetching files:", error);

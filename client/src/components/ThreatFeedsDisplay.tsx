@@ -41,7 +41,7 @@ export default function ThreatFeedsDisplay() {
       description: "Tor exit node associated with ransomware distribution",
       confidence: 95,
       country: "Unknown",
-      externalUrl: "https://www.misp-project.org/"
+      externalUrl: "https://www.circl.lu/doc/misp/feed-osint/"
     },
     {
       id: 2,
@@ -53,7 +53,7 @@ export default function ThreatFeedsDisplay() {
       description: "Banking phishing domain targeting financial institutions",
       confidence: 88,
       country: "RU",
-      externalUrl: "https://otx.alienvault.com/"
+      externalUrl: "https://otx.alienvault.com/browse/global/pulses?include_inactive=0&sort=-modified&page=1"
     },
     {
       id: 3,
@@ -65,7 +65,7 @@ export default function ThreatFeedsDisplay() {
       description: "Critical buffer overflow in popular LMS software",
       confidence: 99,
       country: "Global",
-      externalUrl: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      externalUrl: "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
     },
     {
       id: 4,
@@ -77,7 +77,7 @@ export default function ThreatFeedsDisplay() {
       description: "Ransomware payload targeting educational networks",
       confidence: 92,
       country: "CN",
-      externalUrl: "https://exchange.xforce.ibmcloud.com/"
+      externalUrl: "https://exchange.xforce.ibmcloud.com/malware"
     },
     {
       id: 5,
@@ -89,7 +89,7 @@ export default function ThreatFeedsDisplay() {
       description: "Network traffic pattern indicating backdoor communication",
       confidence: 78,
       country: "Multiple",
-      externalUrl: "https://rules.emergingthreats.net/"
+      externalUrl: "https://rules.emergingthreats.net/blockrules/compromised-ips.txt"
     },
     {
       id: 6,
@@ -101,7 +101,7 @@ export default function ThreatFeedsDisplay() {
       description: "Active phishing site mimicking educational portal",
       confidence: 85,
       country: "US",
-      externalUrl: "https://phishing.database/"
+      externalUrl: "https://github.com/mitchellkrogza/Phishing.Database/blob/master/phishing-domains-ACTIVE.txt"
     }
   ];
 
@@ -175,7 +175,7 @@ export default function ThreatFeedsDisplay() {
                     description: `Opening ${feed.source} threat intelligence portal`,
                   });
                   // Fallback navigation
-                  window.open('https://www.misp-project.org/', '_blank');
+                  window.open('https://www.circl.lu/doc/misp/feed-osint/', '_blank');
                 }
               }}
             />
