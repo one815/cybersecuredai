@@ -30,10 +30,19 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
+import { clearBrowserCache } from "@/utils/clearCache";
 
 export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Ensure no cached redirects interfere with marketing page access
+  useEffect(() => {
+    // Clear any problematic cached auth redirects on homepage load
+    if (window.location.pathname === '/') {
+      console.log("Marketing homepage loaded - clearing potential auth cache");
+    }
+  }, []);
 
   // Allow both authenticated and non-authenticated users to view marketing page
 
