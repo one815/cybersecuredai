@@ -43,7 +43,8 @@ import {
   Key,
   Target,
   Bot,
-  Monitor
+  Monitor,
+  Globe
 } from "lucide-react";
 
 export default function Dashboard() {
