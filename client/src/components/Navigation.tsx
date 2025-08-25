@@ -93,7 +93,7 @@ export function Navigation() {
       <div className="w-full px-6">
         <div className="flex items-center justify-between h-28">
           {/* Logo */}
-          <Link href="/marketing" className="flex-shrink-0 mr-16">
+          <Link href="/" className="flex-shrink-0 mr-16">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
                 src="/attached_assets/2_1755699581990.png" 
