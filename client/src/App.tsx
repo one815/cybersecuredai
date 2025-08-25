@@ -8,6 +8,7 @@ import { Layout } from "@/components/Layout";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
+import MarketingHome from "@/components/MarketingHome";
 
 // Platform/Dashboard Pages
 import Dashboard from "@/pages/Dashboard";
@@ -103,6 +104,7 @@ function Router() {
     <Switch>
       {/* Marketing Website Routes (no Layout wrapper) */}
       <Route path="/" component={Home} />
+      <Route path="/marketing" component={MarketingHome} />
       <Route path="/about" component={AboutUs} />
       <Route path="/solutions" component={Solutions} />
       <Route path="/pricing" component={Pricing} />
