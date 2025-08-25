@@ -71,7 +71,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-6">
               <img 
-                src="/attached_assets/2_1755699581990.png" 
+                src="/attached_assets/CyberSecure AI (1)_1756164301031.png" 
                 alt="CyberSecure AI" 
                 className="h-60 w-auto"
               />
