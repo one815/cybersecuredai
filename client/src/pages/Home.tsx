@@ -35,12 +35,7 @@ export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
 
-  // Redirect authenticated users to dashboard
-  useEffect(() => {
-    if (!isLoading && user) {
-      setLocation('/dashboard');
-    }
-  }, [user, isLoading, setLocation]);
+  // Allow both authenticated and non-authenticated users to view marketing page
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -51,10 +46,7 @@ export default function Home() {
     );
   }
 
-  // Don't render marketing page if user is authenticated (will redirect)
-  if (user) {
-    return null;
-  }
+  // Show marketing page for all users
 
   return (
     <MarketingLayout>
