@@ -2,29 +2,31 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Shield, 
-  Brain, 
   CheckCircle, 
   Users, 
-  Lock, 
   AlertTriangle,
-  TrendingUp,
-  Globe,
-  GraduationCap,
-  Flag,
   Award,
-  Zap,
-  Eye,
   ArrowRight,
-  Bot,
-  Activity,
-  Settings,
-  FileText,
-  Target,
-  Database,
-  Network,
-  HeadphonesIcon
+  Network
 } from "lucide-react";
+import {
+  CustomShieldIcon,
+  CustomBrainIcon,
+  CustomLockIcon,
+  CustomTrendingUpIcon,
+  CustomGlobeIcon,
+  CustomGraduationCapIcon,
+  CustomFlagIcon,
+  CustomZapIcon,
+  CustomEyeIcon,
+  CustomBotIcon,
+  CustomActivityIcon,
+  CustomSettingsIcon,
+  CustomFileTextIcon,
+  CustomTargetIcon,
+  CustomDatabaseIcon,
+  CustomHeadphonesIcon
+} from "@/components/CustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
@@ -84,13 +86,13 @@ export default function Home() {
               <Link href="/solutions">
                 <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg">
                   Explore Solutions
-                  <Activity className="ml-2 w-6 h-4 text-blue-400" />
+                  <CustomActivityIcon className="ml-2 w-6 h-4 text-blue-400" size={16} />
                 </Button>
               </Link>
               <Link href="/security-scanner">
                 <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg">
                   Free Security Scan
-                  <TrendingUp className="ml-2 w-6 h-4 text-green-400" />
+                  <CustomTrendingUpIcon className="ml-2 w-6 h-4 text-green-400" size={16} />
                 </Button>
               </Link>
             </div>
@@ -126,13 +128,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/misp-benefits">
                 <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 text-lg">
-                  <Shield className="mr-2 w-5 h-5" />
+                  <CustomShieldIcon className="mr-2 w-5 h-5" size={20} />
                   Learn More About MISP
                 </Button>
               </Link>
               <Link href="/misp-live">
                 <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-4 text-lg">
-                  <Activity className="mr-2 w-5 h-5" />
+                  <CustomActivityIcon className="mr-2 w-5 h-5" size={20} />
                   View Live Dashboard
                 </Button>
               </Link>
@@ -193,7 +195,7 @@ export default function Home() {
                         <div className="bg-gray-800/80 px-6 py-4 border-b border-cyan-500/20">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                              <Shield className="w-12 h-8 text-blue-400" />
+                              <CustomShieldIcon className="w-12 h-8 text-blue-400" size={48} />
                               <div>
                                 <h3 className="text-xl font-bold text-white">CyberSecure AI SOC</h3>
                                 <p className="text-sm text-gray-400">Security Operations Center</p>
@@ -244,7 +246,7 @@ export default function Home() {
                               <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
                                   <div className="flex items-center gap-3">
-                                    <Shield className="w-6 h-6 text-red-400" />
+                                    <CustomShieldIcon className="w-6 h-6 text-red-400" size={24} />
                                     <h4 className="text-lg font-semibold text-white drop-shadow-glow">Live Threat Map</h4>
                                   </div>
                                   <div className="flex items-center gap-2">
@@ -263,7 +265,7 @@ export default function Home() {
                             {/* Recent Incidents */}
                             <div className="bg-gray-800/40 rounded-xl p-6 border border-purple-500/30">
                               <div className="flex items-center gap-3 mb-4">
-                                <Brain className="w-6 h-6 text-purple-400" />
+                                <CustomBrainIcon className="w-6 h-6 text-purple-400" size={24} />
                                 <h4 className="text-lg font-semibold text-white">Recent Incidents</h4>
                               </div>
                               
@@ -404,7 +406,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Zap className="w-8 h-6 text-yellow-400" />
+                    <CustomZapIcon className="w-8 h-6 text-yellow-400" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white">Automated Incident Response</CardTitle>
                 </CardHeader>
@@ -423,7 +425,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Brain className="w-8 h-6 text-purple-400" />
+                    <CustomBrainIcon className="w-8 h-6 text-purple-400" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white">Threat Detection System</CardTitle>
                 </CardHeader>
@@ -442,7 +444,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Eye className="w-8 h-6 text-blue-400" />
+                    <CustomEyeIcon className="w-8 h-6 text-blue-400" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white">Predictive Risk Analysis</CardTitle>
                 </CardHeader>
@@ -470,7 +472,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Shield className="w-8 h-6 text-orange-400" />
+                    <CustomShieldIcon className="w-8 h-6 text-orange-400" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white">Firewall Management</CardTitle>
                 </CardHeader>
@@ -489,7 +491,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Activity className="w-6 h-6 text-green-400" />
+                    <CustomActivityIcon className="w-6 h-6 text-green-400" size={24} />
                   </div>
                   <CardTitle className="text-lg text-white">Router & Switch Monitoring</CardTitle>
                 </CardHeader>
@@ -508,7 +510,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Lock className="w-6 h-6 text-blue-400" />
+                    <CustomLockIcon className="w-6 h-6 text-blue-400" size={24} />
                   </div>
                   <CardTitle className="text-lg text-white">Zero-Trust Architecture</CardTitle>
                 </CardHeader>
@@ -536,7 +538,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Eye className="w-6 h-6 text-cyan-400" />
+                    <CustomEyeIcon className="w-6 h-6 text-cyan-400" size={24} />
                   </div>
                   <CardTitle className="text-lg text-white">24/7 Monitoring & Vulnerability Management</CardTitle>
                 </CardHeader>
@@ -555,7 +557,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Bot className="w-6 h-6 text-purple-400" />
+                    <CustomBotIcon className="w-6 h-6 text-purple-400" size={24} />
                   </div>
                   <CardTitle className="text-lg text-white">Identity & Access Management</CardTitle>
                 </CardHeader>
@@ -621,7 +623,7 @@ export default function Home() {
               <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <TrendingUp className="w-6 h-6 text-orange-400" />
+                    <CustomTrendingUpIcon className="w-6 h-6 text-orange-400" size={24} />
                   </div>
                   <CardTitle className="text-lg text-white">Security Awareness Training</CardTitle>
                 </CardHeader>
@@ -652,14 +654,14 @@ export default function Home() {
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Bot className="w-8 h-8 text-purple-400" />
+                  <CustomBotIcon className="w-8 h-8 text-purple-400" size={32} />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">Persistent Footholds</h4>
                 <p className="text-gray-400 text-sm">Identifies advanced malware that survives reboots, detecting sophisticated threat actors maintaining access to your environment.</p>
               </div>
               <div className="text-center">
                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Eye className="w-8 h-8 text-green-400" />
+                  <CustomEyeIcon className="w-8 h-8 text-green-400" size={32} />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">External Vulnerability Scanning</h4>
                 <p className="text-gray-400 text-sm">Continuous perimeter security assessment with automated vulnerability discovery and prioritized remediation guidance.</p>
@@ -776,7 +778,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <Settings className="w-6 h-6 text-cyan-400" />
+                  <CustomSettingsIcon className="w-6 h-6 text-cyan-400" size={24} />
                 </div>
                 <CardTitle className="text-xl text-white">Automated Incident Response</CardTitle>
               </CardHeader>
@@ -796,7 +798,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
               <CardHeader>
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                  <FileText className="w-6 h-6 text-green-400" />
+                  <CustomFileTextIcon className="w-6 h-6 text-green-400" size={24} />
                 </div>
                 <CardTitle className="text-xl text-white">Compliance Automation</CardTitle>
               </CardHeader>
@@ -872,7 +874,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <GraduationCap className="w-8 h-8 text-blue-400" />
+                  <CustomGraduationCapIcon className="w-8 h-8 text-blue-400" size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">K-12 Schools</h3>
                 <p className="text-gray-400 text-sm">
@@ -896,7 +898,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Flag className="w-8 h-8 text-orange-400" />
+                  <CustomFlagIcon className="w-8 h-8 text-orange-400" size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">Municipal Government</h3>
                 <p className="text-gray-400 text-sm">
@@ -908,7 +910,7 @@ export default function Home() {
             <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow text-center">
               <CardContent className="p-8">
                 <div className="w-16 h-16 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-red-400" />
+                  <CustomShieldIcon className="w-8 h-8 text-red-400" size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">Federal Agencies</h3>
                 <p className="text-gray-400 text-sm">
@@ -949,7 +951,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-6 h-6 text-purple-400" />
+                  <CustomBotIcon className="w-6 h-6 text-purple-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">AI-Powered Security</h3>
@@ -962,7 +964,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-green-400" />
+                  <CustomShieldIcon className="w-6 h-6 text-green-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Comprehensive Compliance</h3>
@@ -977,7 +979,7 @@ export default function Home() {
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-6 h-6 text-orange-400" />
+                  <CustomTrendingUpIcon className="w-6 h-6 text-orange-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">Scalable Solutions</h3>
@@ -1003,7 +1005,7 @@ export default function Home() {
 
               <div className="flex items-start space-x-4">
                 <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <HeadphonesIcon className="w-6 h-6 text-red-400" />
+                  <CustomHeadphonesIcon className="w-6 h-6 text-red-400" size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white mb-2">24/7 Support</h3>
