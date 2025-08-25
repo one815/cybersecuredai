@@ -1,5 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import express from "express";
+import path from "path";
 import multer from "multer";
 import { storage } from "./storage";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
@@ -54,6 +56,9 @@ behavioralEngine.on('anomalyDetected', (anomaly) => {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static files from attached_assets directory
+  app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "attached_assets")));
+  
   // Initialize Cypher AI Assistant
   const { CypherAI } = await import('./engines/cypher-ai');
   const cypherAI = new CypherAI(mlThreatEngine, behavioralEngine);
