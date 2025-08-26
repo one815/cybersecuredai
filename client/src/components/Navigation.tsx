@@ -47,7 +47,7 @@ export function Navigation() {
         { label: "Federal Agencies", href: "/solutions/federal" }
       ]
     },
-    { label: "Why CyberSecure AI", href: "/why-cybersecure-ai" },
+    { label: "Why CyberSecured AI", href: "/why-cybersecured-ai" },
     {
       label: "Resources",
       href: "/resources",

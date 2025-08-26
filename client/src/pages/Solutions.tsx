@@ -33,6 +33,11 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
+// Solution images
+import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
+import cloudSecurityImg from "@assets/generated_images/Cloud_Security_Analytics_Platform_0c84c42d.png";
+import federalSolutionsImg from "@assets/generated_images/Federal_AI_Implementation_778c3628.png";
+import higherEdImg from "@assets/generated_images/Campus_AI_Implementation_Course_a7477413.png";
 
 export default function Solutions() {
   // Cloud Security Packages
@@ -373,16 +378,50 @@ export default function Solutions() {
         {/* Header */}
         <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
           <div className="container mx-auto max-w-7xl">
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center cyber-glow">
-                <Bot className="w-8 h-8 text-white" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div className="flex items-center space-x-4">
+                <div className="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center cyber-glow">
+                  <Bot className="w-8 h-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold text-white flex items-center space-x-3">
+                    <span>CyberSecure AI Solutions</span>
+                    <Shield className="w-10 h-10 text-cyan-400" />
+                  </h1>
+                  <p className="text-xl text-gray-400">Comprehensive cybersecurity packages for education and government sectors</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-4xl font-bold text-white flex items-center space-x-3">
-                  <span>CyberSecure AI Solutions</span>
-                  <Shield className="w-10 h-10 text-cyan-400" />
-                </h1>
-                <p className="text-xl text-gray-400">Comprehensive cybersecurity packages for education and government sectors</p>
+              
+              {/* Solution Overview Images */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="relative group">
+                  <img src={zeroTrustImg} alt="Zero Trust Architecture" className="rounded-lg shadow-lg w-full h-20 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Zero Trust Security
+                  </div>
+                </div>
+                <div className="relative group">
+                  <img src={cloudSecurityImg} alt="Cloud Security Analytics" className="rounded-lg shadow-lg w-full h-20 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Cloud Security
+                  </div>
+                </div>
+                <div className="relative group">
+                  <img src={federalSolutionsImg} alt="Federal AI Implementation" className="rounded-lg shadow-lg w-full h-20 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Federal Solutions
+                  </div>
+                </div>
+                <div className="relative group">
+                  <img src={higherEdImg} alt="Higher Education Security" className="rounded-lg shadow-lg w-full h-20 object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                    Higher Education
+                  </div>
+                </div>
               </div>
             </div>
           </div>
