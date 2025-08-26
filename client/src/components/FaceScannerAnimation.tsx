@@ -26,46 +26,91 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw face outline (futuristic wire-frame style)
-      ctx.strokeStyle = '#00ffff';
-      ctx.lineWidth = 2;
-      ctx.globalAlpha = 0.8;
+      // Draw realistic face outline
+      ctx.strokeStyle = '#00bfff';
+      ctx.lineWidth = 1.5;
+      ctx.globalAlpha = 0.9;
       
-      // Face oval
+      // More realistic face shape
       ctx.beginPath();
-      ctx.ellipse(centerX, centerY, 60, 80, 0, 0, 2 * Math.PI);
+      ctx.ellipse(centerX, centerY, 55, 75, 0, 0, 2 * Math.PI);
       ctx.stroke();
       
-      // Eyes
-      ctx.beginPath();
-      ctx.arc(centerX - 20, centerY - 15, 8, 0, 2 * Math.PI);
-      ctx.arc(centerX + 20, centerY - 15, 8, 0, 2 * Math.PI);
-      ctx.stroke();
-      
-      // Nose
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY - 5);
-      ctx.lineTo(centerX - 5, centerY + 5);
-      ctx.lineTo(centerX + 5, centerY + 5);
-      ctx.stroke();
-      
-      // Mouth
-      ctx.beginPath();
-      ctx.arc(centerX, centerY + 25, 15, 0, Math.PI);
-      ctx.stroke();
-      
-      // 4D scanning grid overlay
-      ctx.strokeStyle = '#ff6b35';
+      // Realistic eyes with pupils
+      ctx.strokeStyle = '#00bfff';
       ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.6;
+      // Left eye
+      ctx.beginPath();
+      ctx.ellipse(centerX - 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = '#00bfff';
+      ctx.beginPath();
+      ctx.arc(centerX - 18, centerY - 12, 3, 0, 2 * Math.PI);
+      ctx.fill();
       
-      const gridSize = 10;
-      for (let x = 0; x < canvas.width; x += gridSize) {
-        for (let y = 0; y < canvas.height; y += gridSize) {
-          if (Math.random() > 0.7) {
-            ctx.strokeRect(x, y, gridSize, gridSize);
-          }
-        }
+      // Right eye
+      ctx.strokeStyle = '#00bfff';
+      ctx.beginPath();
+      ctx.ellipse(centerX + 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.fillStyle = '#00bfff';
+      ctx.beginPath();
+      ctx.arc(centerX + 18, centerY - 12, 3, 0, 2 * Math.PI);
+      ctx.fill();
+      
+      // Eyebrows
+      ctx.strokeStyle = '#00bfff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 28, centerY - 25);
+      ctx.lineTo(centerX - 8, centerY - 22);
+      ctx.moveTo(centerX + 8, centerY - 22);
+      ctx.lineTo(centerX + 28, centerY - 25);
+      ctx.stroke();
+      
+      // More realistic nose
+      ctx.strokeStyle = '#00bfff';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY - 8);
+      ctx.lineTo(centerX - 3, centerY + 2);
+      ctx.moveTo(centerX, centerY - 8);
+      ctx.lineTo(centerX + 3, centerY + 2);
+      // Nostrils
+      ctx.arc(centerX - 3, centerY + 3, 1, 0, 2 * Math.PI);
+      ctx.moveTo(centerX + 6, centerY + 3);
+      ctx.arc(centerX + 3, centerY + 3, 1, 0, 2 * Math.PI);
+      ctx.stroke();
+      
+      // More realistic mouth
+      ctx.strokeStyle = '#00bfff';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(centerX - 12, centerY + 20);
+      ctx.quadraticCurveTo(centerX, centerY + 26, centerX + 12, centerY + 20);
+      ctx.stroke();
+      
+      // Subtle facial recognition grid
+      ctx.strokeStyle = '#40e0d0';
+      ctx.lineWidth = 0.5;
+      ctx.globalAlpha = 0.3;
+      
+      // Vertical and horizontal reference lines
+      const gridSpacing = 15;
+      for (let i = 0; i < 4; i++) {
+        const x = centerX - 45 + (i * 30);
+        ctx.beginPath();
+        ctx.moveTo(x, centerY - 70);
+        ctx.lineTo(x, centerY + 70);
+        ctx.stroke();
+      }
+      
+      for (let i = 0; i < 6; i++) {
+        const y = centerY - 60 + (i * 24);
+        ctx.beginPath();
+        ctx.moveTo(centerX - 45, y);
+        ctx.lineTo(centerX + 45, y);
+        ctx.stroke();
       }
       
       // Scanning line
@@ -88,42 +133,57 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       ctx.fillStyle = gradient;
       ctx.fillRect(0, scanY - 20, canvas.width, 40);
       
-      // Biometric data points
-      ctx.fillStyle = '#ff6b35';
-      ctx.globalAlpha = 0.8;
+      // Facial landmark detection points
+      ctx.fillStyle = '#00ff7f';
+      ctx.globalAlpha = 0.9;
       
-      const dataPoints = [
-        { x: centerX - 30, y: centerY - 40 },
-        { x: centerX + 30, y: centerY - 40 },
-        { x: centerX - 40, y: centerY },
-        { x: centerX + 40, y: centerY },
-        { x: centerX, y: centerY + 50 },
+      const landmarkPoints = [
+        { x: centerX - 18, y: centerY - 12, name: 'L_EYE' }, // Left eye
+        { x: centerX + 18, y: centerY - 12, name: 'R_EYE' }, // Right eye
+        { x: centerX, y: centerY + 2, name: 'NOSE' }, // Nose tip
+        { x: centerX - 12, y: centerY + 20, name: 'L_MOUTH' }, // Left mouth corner
+        { x: centerX + 12, y: centerY + 20, name: 'R_MOUTH' }, // Right mouth corner
+        { x: centerX, y: centerY + 22, name: 'CHIN' }, // Chin center
       ];
       
-      dataPoints.forEach((point, index) => {
-        if (scanY >= point.y - 10) {
+      landmarkPoints.forEach((point, index) => {
+        if (scanY >= point.y - 5) {
+          // Draw landmark point
           ctx.beginPath();
-          ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+          ctx.arc(point.x, point.y, 2, 0, 2 * Math.PI);
           ctx.fill();
           
-          // Data lines
-          ctx.strokeStyle = '#ff6b35';
-          ctx.lineWidth = 1;
+          // Draw subtle connection line
+          ctx.strokeStyle = '#00ff7f';
+          ctx.lineWidth = 0.8;
+          ctx.globalAlpha = 0.6;
           ctx.beginPath();
           ctx.moveTo(point.x, point.y);
-          ctx.lineTo(point.x + 30 + (index * 10), point.y - 20);
+          ctx.lineTo(point.x + (index % 2 === 0 ? -25 : 25), point.y - 15);
           ctx.stroke();
+          
+          // Small text label
+          ctx.globalAlpha = 0.8;
+          ctx.fillStyle = '#00ff7f';
+          ctx.font = '8px monospace';
+          ctx.fillText(point.name, point.x + (index % 2 === 0 ? -35 : 15), point.y - 18);
         }
       });
       
-      // Update progress
-      progress += scanDirection * 2;
+      // Update progress with more realistic speed
+      progress += scanDirection * 1.5;
       if (progress >= 100) {
         scanDirection = -1;
         progress = 100;
+        setTimeout(() => {
+          // Brief pause at completion
+        }, 500);
       } else if (progress <= 0) {
         scanDirection = 1;
         progress = 0;
+        setTimeout(() => {
+          // Brief pause before restart
+        }, 300);
       }
       
       setScanProgress(progress);
