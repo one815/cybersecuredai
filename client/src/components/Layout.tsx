@@ -2,12 +2,16 @@ import { ReactNode, useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { ThreatNotificationCenter } from "./ThreatNotificationCenter";
 import { CypherAssistant } from "./CypherAssistant";
+import { OnboardingModal } from "./OnboardingModal";
 
 interface LayoutProps {
   children: ReactNode;
+  showOnboarding?: boolean;
+  onCloseOnboarding?: () => void;
+  onCompleteOnboarding?: () => void;
 }
 
-export function Layout({ children }: LayoutProps) {
+export function Layout({ children, showOnboarding = false, onCloseOnboarding, onCompleteOnboarding }: LayoutProps) {
   const [cypherMinimized, setCypherMinimized] = useState(false);
 
   return (
@@ -23,6 +27,13 @@ export function Layout({ children }: LayoutProps) {
         minimized={cypherMinimized}
         onToggleMinimize={() => setCypherMinimized(!cypherMinimized)}
       />
+      {showOnboarding && onCloseOnboarding && onCompleteOnboarding && (
+        <OnboardingModal
+          isOpen={showOnboarding}
+          onClose={onCloseOnboarding}
+          onComplete={onCompleteOnboarding}
+        />
+      )}
     </div>
   );
 }

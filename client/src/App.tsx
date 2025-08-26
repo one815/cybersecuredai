@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -99,15 +99,36 @@ import SystemAdministration from "@/pages/platform/SystemAdministration";
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [location] = useLocation();
 
   useEffect(() => {
-    // Show onboarding if user exists but hasn't completed onboarding
-    if (user && !user.onboardingCompleted && !isLoading) {
-      setShowOnboarding(true);
+    // Only show onboarding on platform pages (not marketing pages)
+    const isPlatformPage = location.startsWith('/dashboard') || 
+                          location.startsWith('/threats') || 
+                          location.startsWith('/auth') ||
+                          location.startsWith('/files') ||
+                          location.startsWith('/compliance') ||
+                          location.startsWith('/users') ||
+                          location.startsWith('/admin') ||
+                          location.startsWith('/security') ||
+                          location.startsWith('/vulnerability') ||
+                          location.startsWith('/incidents') ||
+                          location.startsWith('/reports') ||
+                          location.startsWith('/training') ||
+                          location.startsWith('/threat-') ||
+                          location.startsWith('/ai-config') ||
+                          location.startsWith('/support');
+
+    // Show onboarding if user exists, is on a platform page, and lacks proper auth setup
+    if (user && isPlatformPage && !isLoading) {
+      const needsAuthSetup = !user.onboardingCompleted || 
+                           (!user.mfaEnabled && !user.digitalKeyEnabled) ||
+                           !user.securityPolicyAccepted;
+      setShowOnboarding(needsAuthSetup);
     } else {
       setShowOnboarding(false);
     }
-  }, [user, isLoading]);
+  }, [user, isLoading, location]);
 
 
   const handleOnboardingComplete = () => {
@@ -173,13 +194,8 @@ function Router() {
       
       {/* Platform/Dashboard Routes (with Layout wrapper) */}
       <Route path="/dashboard">
-        <Layout>
+        <Layout showOnboarding={showOnboarding} onCloseOnboarding={() => setShowOnboarding(false)} onCompleteOnboarding={handleOnboardingComplete}>
           <Dashboard />
-          <OnboardingModal 
-            isOpen={showOnboarding}
-            onClose={() => setShowOnboarding(false)}
-            onComplete={handleOnboardingComplete}
-          />
         </Layout>
       </Route>
       <Route path="/threats">
@@ -386,14 +402,6 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {/* Onboarding Modal */}
-      {showOnboarding && (
-        <OnboardingModal
-          isOpen={showOnboarding}
-          onClose={() => setShowOnboarding(false)}
-          onComplete={handleOnboardingComplete}
-        />
-      )}
     </>
   );
 }
