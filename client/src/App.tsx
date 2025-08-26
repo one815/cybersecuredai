@@ -111,8 +111,11 @@ function Router() {
     }
   }, [user, isLoading]);
 
-  // Trigger loading screen on first visit
+  // Trigger loading screen on first visit or when user navigates to home
   useEffect(() => {
+    // Clear the session storage for testing/demo purposes
+    sessionStorage.removeItem('hasSeenLoadingScreen');
+    
     const hasSeenLoadingScreen = sessionStorage.getItem('hasSeenLoadingScreen');
     if (!hasSeenLoadingScreen && !hasTriggeredLoading) {
       setShowLoadingScreen(true);
