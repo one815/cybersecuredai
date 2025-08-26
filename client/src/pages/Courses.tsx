@@ -18,6 +18,18 @@ import {
   Play,
   Filter
 } from "lucide-react";
+import federalAISecurityCourseImg from "@assets/generated_images/Federal_AI_Security_Course_83447dcc.png";
+import classifiedAISystemsCourseImg from "@assets/generated_images/Classified_AI_Systems_Course_4fcc1bcc.png";
+import crossAgencyResponseCourseImg from "@assets/generated_images/Cross_Agency_Response_Course_68368323.png";
+import universityResearchSecurityCourseImg from "@assets/generated_images/University_Research_Security_Course_aa9fd512.png";
+import campusAIImplCourseImg from "@assets/generated_images/Campus_AI_Implementation_Course_a7477413.png";
+import higherEdSecurityPilotCourseImg from "@assets/generated_images/Higher_Ed_Security_Pilot_Course_072466af.png";
+import k12AISecurityEssentialsCourseImg from "@assets/generated_images/K12_AI_Security_Essentials_a4927a35.png";
+import districtSecurityOpsCourseImg from "@assets/generated_images/District_Security_Operations_Course_4131c14e.png";
+import studentAIInteractionsCourseImg from "@assets/generated_images/Student_AI_Interactions_Course_ac59f45a.png";
+import certifiedAISecurityProfImg from "@assets/generated_images/Certified_AI_Security_Professional_b3eb22a9.png";
+import aiIncidentResponseCourseImg from "@assets/generated_images/AI_Incident_Response_Course_d38ffd86.png";
+import secureAIArchitectureCourseImg from "@assets/generated_images/Secure_AI_Architecture_Course_34260e1d.png";
 
 const sectors = [
   { id: "all", name: "All Sectors", icon: Users },
@@ -37,7 +49,8 @@ const courses = [
     duration: "8 hours",
     level: "Intermediate",
     modules: 12,
-    enrolled: "1,247"
+    enrolled: "1,247",
+    image: federalAISecurityCourseImg
   },
   {
     title: "Securing Classified AI Systems",
@@ -47,7 +60,8 @@ const courses = [
     duration: "12 hours",
     level: "Advanced",
     modules: 18,
-    enrolled: "892"
+    enrolled: "892",
+    image: classifiedAISystemsCourseImg
   },
   {
     title: "Cross-Agency Threat Response",
@@ -57,7 +71,8 @@ const courses = [
     duration: "10 hours",
     level: "Advanced",
     modules: 15,
-    enrolled: "634"
+    enrolled: "634",
+    image: crossAgencyResponseCourseImg
   },
   // Higher Education Courses
   {
@@ -68,7 +83,8 @@ const courses = [
     duration: "6 hours",
     level: "Intermediate",
     modules: 10,
-    enrolled: "2,156"
+    enrolled: "2,156",
+    image: universityResearchSecurityCourseImg
   },
   {
     title: "Campus AI Security Implementation",
@@ -78,7 +94,8 @@ const courses = [
     duration: "8 hours",
     level: "Intermediate",
     modules: 14,
-    enrolled: "1,789"
+    enrolled: "1,789",
+    image: campusAIImplCourseImg
   },
   {
     title: "Higher Education Security Pilot Design",
@@ -88,7 +105,8 @@ const courses = [
     duration: "6 hours",
     level: "Advanced",
     modules: 12,
-    enrolled: "567"
+    enrolled: "567",
+    image: higherEdSecurityPilotCourseImg
   },
   // K-12 Education Courses
   {
@@ -99,7 +117,8 @@ const courses = [
     duration: "4 hours",
     level: "Beginner",
     modules: 8,
-    enrolled: "3,421"
+    enrolled: "3,421",
+    image: k12AISecurityEssentialsCourseImg
   },
   {
     title: "District Security Operations",
@@ -109,7 +128,8 @@ const courses = [
     duration: "6 hours",
     level: "Intermediate",
     modules: 12,
-    enrolled: "1,234"
+    enrolled: "1,234",
+    image: districtSecurityOpsCourseImg
   },
   {
     title: "Protecting Student AI Interactions",
@@ -119,7 +139,8 @@ const courses = [
     duration: "5 hours",
     level: "Intermediate",
     modules: 10,
-    enrolled: "2,867"
+    enrolled: "2,867",
+    image: studentAIInteractionsCourseImg
   },
   // General Courses
   {
@@ -130,7 +151,8 @@ const courses = [
     duration: "40 hours",
     level: "Advanced",
     modules: 48,
-    enrolled: "5,432"
+    enrolled: "5,432",
+    image: certifiedAISecurityProfImg
   },
   {
     title: "AI Incident Response and Forensics",
@@ -140,7 +162,8 @@ const courses = [
     duration: "16 hours",
     level: "Advanced",
     modules: 24,
-    enrolled: "2,198"
+    enrolled: "2,198",
+    image: aiIncidentResponseCourseImg
   },
   {
     title: "Secure AI Architecture and Design",
@@ -150,7 +173,8 @@ const courses = [
     duration: "12 hours",
     level: "Advanced",
     modules: 18,
-    enrolled: "1,876"
+    enrolled: "1,876",
+    image: secureAIArchitectureCourseImg
   }
 ];
 
@@ -333,10 +357,20 @@ export default function Courses() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredCourses.map((course, index) => (
               <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
-                <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
-                  <div className="text-cyan-400 text-6xl opacity-30">
-                    <GraduationCap />
-                  </div>
+                <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg overflow-hidden">
+                  {course.image ? (
+                    <img 
+                      src={course.image} 
+                      alt={course.title}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-cyan-400 text-6xl opacity-30">
+                        <GraduationCap />
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <CardHeader>
                   <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-xl">

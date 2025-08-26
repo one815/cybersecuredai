@@ -18,6 +18,11 @@ import {
   FileText,
   Filter
 } from "lucide-react";
+import definitiveAIHandbookImg from "@assets/generated_images/Definitive_AI_Security_Handbook_11b99390.png";
+import federalAIHandbookImg from "@assets/generated_images/Federal_AI_Security_Handbook_9586f7b5.png";
+import universityAIHandbookImg from "@assets/generated_images/University_AI_Security_Handbook_1c87369e.png";
+import k12AIHandbookImg from "@assets/generated_images/K12_AI_Security_Handbook_220cb241.png";
+import aiFieldGuideImg from "@assets/generated_images/AI_Security_Field_Guide_a103de8a.png";
 
 const handbooks = [
   {
@@ -27,7 +32,8 @@ const handbooks = [
     pages: "300+",
     version: "2025 Edition",
     downloadCount: "8,900",
-    featured: true
+    featured: true,
+    image: definitiveAIHandbookImg
   },
   {
     title: "Federal AI Security Handbook: Compliance, Protection, and Response",
@@ -35,7 +41,8 @@ const handbooks = [
     sector: "federal",
     pages: "250+",
     version: "2025 Edition",
-    downloadCount: "2,400"
+    downloadCount: "2,400",
+    image: federalAIHandbookImg
   },
   {
     title: "University AI Security Handbook: Balancing Academic Freedom with Protection",
@@ -43,7 +50,8 @@ const handbooks = [
     sector: "higher-ed",
     pages: "180+",
     version: "2025 Edition",
-    downloadCount: "1,800"
+    downloadCount: "1,800",
+    image: universityAIHandbookImg
   },
   {
     title: "K-12 AI Security Handbook: Safeguarding Educational Technology",
@@ -51,7 +59,8 @@ const handbooks = [
     sector: "k12",
     pages: "120+",
     version: "2025 Edition",
-    downloadCount: "3,200"
+    downloadCount: "3,200",
+    image: k12AIHandbookImg
   },
   {
     title: "AI Security Field Guide: Practical Approaches for Security Professionals",
@@ -59,7 +68,8 @@ const handbooks = [
     sector: "general",
     pages: "220+",
     version: "2025 Edition",
-    downloadCount: "4,600"
+    downloadCount: "4,600",
+    image: aiFieldGuideImg
   }
 ];
 
@@ -171,10 +181,20 @@ export default function Handbooks() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredHandbooks.map((handbook, index) => (
                 <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
-                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
-                    <div className="text-cyan-400 text-6xl opacity-30">
-                      <BookOpen />
-                    </div>
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg overflow-hidden">
+                    {handbook.image ? (
+                      <img 
+                        src={handbook.image} 
+                        alt={handbook.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-cyan-400 text-6xl opacity-30">
+                          <BookOpen />
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <CardHeader>
                     <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>
