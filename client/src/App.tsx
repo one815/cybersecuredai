@@ -34,6 +34,8 @@ import Handbooks from "@/pages/Handbooks";
 import Webinars from "@/pages/Webinars";
 import WhitePapers from "@/pages/WhitePapers";
 import UseCases from "@/pages/UseCases";
+import EBooks from "@/pages/EBooks";
+import DataSheets from "@/pages/DataSheets";
 import SecurityOverview from "@/pages/SecurityOverview";
 import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
@@ -217,15 +219,21 @@ function Router() {
       </Route>
       {/* Marketing Resource Pages - No Layout wrapper, accessible to all */}
       <Route path="/resources" component={Resources} />
-      <Route path="/resources/reports" component={Resources} />
-      <Route path="/resources/ebooks" component={Resources} />
-      <Route path="/resources/datasheets" component={Resources} />
-      <Route path="/resources/use-cases" component={Resources} />
-      <Route path="/resources/whitepapers" component={Resources} />
-      <Route path="/resources/courses" component={Resources} />
-      <Route path="/resources/handbooks" component={Resources} />
-      <Route path="/resources/webinars" component={Resources} />
-      <Route path="/resources/white-papers" component={Resources} />
+      <Route path="/resources/ebooks" component={EBooks} />
+      <Route path="/resources/datasheets" component={DataSheets} />
+      <Route path="/resources/use-cases" component={UseCases} />
+      <Route path="/resources/whitepapers" component={WhitePapers} />
+      <Route path="/resources/white-papers" component={WhitePapers} />
+      <Route path="/resources/handbooks" component={Handbooks} />
+      <Route path="/resources/webinars" component={Webinars} />
+      <Route path="/resources/courses" component={Courses} />
+      <Route path="/use-cases" component={UseCases} />
+      <Route path="/ebooks" component={EBooks} />
+      <Route path="/datasheets" component={DataSheets} />
+      <Route path="/handbooks" component={Handbooks} />
+      <Route path="/webinars" component={Webinars} />
+      <Route path="/whitepapers" component={WhitePapers} />
+      <Route path="/white-papers" component={WhitePapers} />
       <Route path="/courses">
         <Layout>
           <Courses />
