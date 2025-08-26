@@ -76,24 +76,23 @@ export default function Home() {
                 className="h-60 w-auto"
               />
             </div>
-            <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto">
-              AI-Powered Cybersecurity Platform for Education & Government
+            <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto font-secondary">
+              Delivering reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations
             </p>
-            <p className="text-lg text-gray-400 mb-10 max-w-3xl mx-auto">
-              Comprehensive cybersecurity and IT management platform engineered for K-12 schools, 
-              higher education institutions, municipal governments, and federal agencies. 
-              Automated threat detection, incident response, and compliance management.
+            <p className="text-lg text-gray-400 mb-10 max-w-3xl mx-auto font-secondary">
+              Built on core values of <span className="text-cyan-400 font-semibold">Innovation</span>, <span className="text-cyan-400 font-semibold">Security</span>, <span className="text-cyan-400 font-semibold">Integrity</span>, <span className="text-cyan-400 font-semibold">Accessibility</span>, and <span className="text-cyan-400 font-semibold">Compliance</span>. 
+              Authoritative expertise meets approachable solutions for complete operational excellence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/solutions">
-                <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-8 py-4 text-lg">
-                  Explore Solutions
-                  <CustomActivityIcon className="ml-2 w-8 h-6 text-blue-400" size={32} />
+                <Button size="lg" className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 hover:from-blue-700 hover:via-cyan-700 hover:to-blue-800 text-white px-8 py-4 text-lg font-secondary">
+                  Start Your Security Journey
+                  <CustomActivityIcon className="ml-2 w-8 h-6 text-blue-200" size={32} />
                 </Button>
               </Link>
               <Link href="/security-scanner">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg">
-                  Free Security Scan
+                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 px-8 py-4 text-lg font-secondary">
+                  Free Security Assessment
                   <CustomTrendingUpIcon className="ml-2 w-8 h-6 text-green-400" size={32} />
                 </Button>
               </Link>
@@ -109,9 +108,9 @@ export default function Home() {
             <Badge className="mb-4 bg-green-500/20 text-green-400 border-green-500/30">
               🚀 NEW: Live MISP Threat Intelligence
             </Badge>
-            <h2 className="text-4xl font-bold text-white mb-4">Real-Time Threat Intelligence for Critical Organizations</h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-              Government agencies, educational institutions, and critical infrastructure organizations rely on our official MISP integration for live threat intelligence from 8+ trusted sources worldwide.
+            <h2 className="text-4xl font-bold text-white mb-4 font-sans">Real-Time Threat Intelligence for Critical Organizations</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8 font-secondary">
+              <span className="text-cyan-400 font-semibold">Trustworthy</span> and <span className="text-cyan-400 font-semibold">innovative</span> solutions built on our commitment to security excellence. Government agencies, educational institutions, and critical infrastructure organizations rely on our official MISP integration for live threat intelligence from 8+ trusted sources worldwide.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-slate-800/50 p-6 rounded-lg border border-green-500/20">
@@ -358,25 +357,33 @@ export default function Home() {
       </section>
 
 
-      {/* Key Stats */}
-      <section className="py-16 px-6 bg-surface/30">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-400 mb-2">72%</div>
-              <div className="text-gray-400">K-12 districts experienced security incidents in 2024</div>
+      {/* Brand Values Section */}
+      <section className="py-16 px-6 bg-gradient-to-br from-blue-900/20 to-cyan-900/20">
+        <div className="container mx-auto max-w-6xl text-center">
+          <h2 className="text-3xl font-bold text-white mb-4 font-sans">Built on Core Values</h2>
+          <p className="text-lg text-gray-300 mb-8 font-secondary max-w-3xl mx-auto">
+            Our <span className="text-cyan-400 font-semibold">authoritative yet approachable</span> solutions are guided by five fundamental principles
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+            <div className="bg-gradient-to-br from-cyan-600/20 to-blue-600/20 p-6 rounded-lg border border-cyan-500/30">
+              <div className="text-2xl font-bold text-cyan-400 mb-2 font-sans">Innovation</div>
+              <div className="text-sm text-gray-300 font-secondary">Forward-thinking AI solutions</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-red-400 mb-2">2,300</div>
-              <div className="text-gray-400">Cyberattacks per week targeting education</div>
+            <div className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 p-6 rounded-lg border border-blue-500/30">
+              <div className="text-2xl font-bold text-blue-400 mb-2 font-sans">Security</div>
+              <div className="text-sm text-gray-300 font-secondary">Trustworthy protection first</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-orange-400 mb-2">3x</div>
-              <div className="text-gray-400">Increase in ransomware attack costs</div>
+            <div className="bg-gradient-to-br from-cyan-600/20 to-blue-700/20 p-6 rounded-lg border border-cyan-500/30">
+              <div className="text-2xl font-bold text-cyan-400 mb-2 font-sans">Integrity</div>
+              <div className="text-sm text-gray-300 font-secondary">Professional reliability</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-400 mb-2">$3.7B</div>
-              <div className="text-gray-400">FCC cybersecurity funding requests</div>
+            <div className="bg-gradient-to-br from-blue-600/20 to-cyan-700/20 p-6 rounded-lg border border-blue-500/30">
+              <div className="text-2xl font-bold text-blue-400 mb-2 font-sans">Accessibility</div>
+              <div className="text-sm text-gray-300 font-secondary">Responsive to all needs</div>
+            </div>
+            <div className="bg-gradient-to-br from-cyan-700/20 to-blue-600/20 p-6 rounded-lg border border-cyan-500/30">
+              <div className="text-2xl font-bold text-cyan-400 mb-2 font-sans">Compliance</div>
+              <div className="text-sm text-gray-300 font-secondary">Operational excellence</div>
             </div>
           </div>
         </div>
@@ -386,13 +393,13 @@ export default function Home() {
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 font-sans">
               The CyberSecure AI Managed Security Platform
             </h2>
-            <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-              Enterprise-grade cybersecurity platform built specifically for education and government sectors. 
-              24/7 AI-assisted Security Operations Center with comprehensive threat detection, incident response, 
-              and compliance management - all from a single unified dashboard.
+            <p className="text-xl text-gray-400 max-w-4xl mx-auto font-secondary">
+              Enterprise-grade cybersecurity platform built specifically for education and government sectors with <span className="text-cyan-400 font-semibold">professional</span> expertise. 
+              24/7 AI-assisted Security Operations Center delivering <span className="text-cyan-400 font-semibold">reliable</span> threat detection, incident response, 
+              and compliance management - demonstrating our commitment to <span className="text-cyan-400 font-semibold">operational excellence</span>.
             </p>
           </div>
 

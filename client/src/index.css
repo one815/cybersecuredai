@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nata+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -58,12 +57,35 @@
   --solutions-accent: hsl(220, 15%, 95%); /* Very light accent */
   --solutions-accent-foreground: hsl(220, 15%, 25%); /* Dark text */
 
-  --font-sans: 'Nata Sans', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Nata Sans', 'Work Sans', system-ui, sans-serif;
+  --font-secondary: 'Work Sans', 'Inter', system-ui, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: 'Monaco', 'Courier New', monospace;
-  --font-tech: 'Nata Sans', 'Inter', system-ui, sans-serif;
-  --font-cyber: 'Nata Sans', 'Inter', system-ui, sans-serif;
+  --font-tech: 'Nata Sans', 'Work Sans', system-ui, sans-serif;
+  --font-cyber: 'Nata Sans', 'Work Sans', system-ui, sans-serif;
+
+  /* Cool blue tones with warm highlights */
+  --brand-blue-primary: hsl(220, 70%, 45%);
+  --brand-blue-secondary: hsl(200, 85%, 55%);
+  --brand-warm-highlight: hsl(25, 95%, 58%);
   --radius: 0.75rem;
+}
+
+/* Brand Typography Classes */
+.font-secondary {
+  font-family: var(--font-secondary);
+}
+
+.brand-blue {
+  color: var(--brand-blue-primary);
+}
+
+.brand-blue-secondary {
+  color: var(--brand-blue-secondary);
+}
+
+.brand-highlight {
+  color: var(--brand-warm-highlight);
 }
 
 /* AI/Robot Futuristic Theme */
