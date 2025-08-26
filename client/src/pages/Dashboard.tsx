@@ -14,6 +14,7 @@ import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
+import { ThreatMap } from "@/components/ThreatMap";
 import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
@@ -486,61 +487,7 @@ export default function Dashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="bg-gray-900/50 rounded-lg p-4 mb-4 min-h-[200px] relative overflow-hidden">
-                  {/* Simulated World Map Background */}
-                  <div className="absolute inset-0 opacity-20">
-                    <svg viewBox="0 0 400 200" className="w-full h-full">
-                      {/* Simplified world continents */}
-                      <path d="M50 80 Q80 60 120 70 Q160 75 200 80 Q240 75 280 70 Q320 75 350 80 L350 120 Q320 125 280 130 Q240 125 200 120 Q160 125 120 130 Q80 125 50 120 Z" fill="currentColor" className="text-blue-800" />
-                      <path d="M80 50 Q100 40 140 45 Q180 50 220 45 Q260 40 300 50 L300 80 Q260 75 220 75 Q180 80 140 75 Q100 80 80 80 Z" fill="currentColor" className="text-blue-800" />
-                      <path d="M120 130 Q140 120 180 125 Q220 130 260 125 Q300 120 340 130 L340 160 Q300 155 260 155 Q220 160 180 155 Q140 160 120 160 Z" fill="currentColor" className="text-blue-800" />
-                    </svg>
-                  </div>
-                  
-                  {/* Threat Markers */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {/* High Risk Threats */}
-                    <div className="absolute top-1/4 left-1/4 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="High Risk: Beijing"></div>
-                    <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="High Risk: Moscow"></div>
-                    <div className="absolute bottom-1/3 left-1/3 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="High Risk: Lagos"></div>
-                    
-                    {/* Medium Risk Threats */}
-                    <div className="absolute top-1/2 left-1/2 w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Medium Risk: Berlin"></div>
-                    <div className="absolute bottom-1/4 right-1/3 w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Medium Risk: Sydney"></div>
-                    <div className="absolute top-1/3 left-1/5 w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Medium Risk: London"></div>
-                    
-                    {/* Low Risk Threats */}
-                    <div className="absolute bottom-1/2 right-1/5 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" title="Low Risk: Tokyo"></div>
-                    <div className="absolute top-2/3 left-2/3 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" title="Low Risk: Mumbai"></div>
-                    <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" title="Low Risk: São Paulo"></div>
-                  </div>
-                  
-                  {/* Scanning Animation Lines */}
-                  <div className="absolute inset-0">
-                    <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
-                    <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-400 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
-                    <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse" style={{animationDelay: '2s'}}></div>
-                  </div>
-                  
-                  {/* Center Globe with Pulse */}
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="relative">
-                      <div className="absolute inset-0 w-8 h-8 bg-cyan-400 rounded-full animate-ping opacity-20"></div>
-                      <div className="relative w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
-                        <Globe className="w-4 h-4 text-white" />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Status Text */}
-                  <div className="absolute bottom-2 left-2 text-xs text-cyan-400 font-mono">
-                    GLOBAL THREAT MONITORING
-                  </div>
-                  <div className="absolute bottom-2 right-2 text-xs text-green-400 font-mono flex items-center">
-                    <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse mr-1"></div>
-                    LIVE
-                  </div>
-                </div>
+                <ThreatMap className="mb-4 min-h-[200px]" />
                 <div className="grid grid-cols-4 gap-3 text-center">
                   <div>
                     <div className="text-2xl font-bold text-white mb-1">15</div>
