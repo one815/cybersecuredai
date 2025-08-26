@@ -182,7 +182,7 @@ export default function ClientStories() {
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-spring-500 text-black font-semibold">
+                      <Badge className="bg-spring-500 text-midnight-900 font-semibold">
                         <Star className="w-3 h-3 mr-1" />
                         Featured
                       </Badge>
@@ -222,7 +222,7 @@ export default function ClientStories() {
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                      className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Read Full Story

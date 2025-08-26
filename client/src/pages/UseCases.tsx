@@ -245,7 +245,7 @@ export default function UseCases() {
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-spring-500 text-black font-semibold">
+                      <Badge className="bg-spring-500 text-midnight-900 font-semibold">
                         Featured
                       </Badge>
                     </div>
@@ -273,7 +273,7 @@ export default function UseCases() {
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                      className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
                     >
                       <Eye className="w-4 h-4 mr-2" />
                       View Case Study
