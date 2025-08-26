@@ -18,7 +18,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import videoTopicImg from "@assets/generated_images/CyberSecure_AI_VideoTopic_8dc81963.png";
+import videoTopicImg from "@assets/generated_images/Video_Training_Content_01f9408e.png";
 
 const categories = [
   "AI Security Fundamentals",

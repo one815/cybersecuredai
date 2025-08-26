@@ -19,7 +19,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import podcastImg from "@assets/generated_images/CyberSecure_AI_Podcast_172a246a.png";
+import podcastImg from "@assets/generated_images/Podcast_Audio_Setup_5d354a10.png";
 
 const categories = [
   "AI Security",

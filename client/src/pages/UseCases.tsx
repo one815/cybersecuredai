@@ -20,7 +20,7 @@ import {
   FileText,
   TrendingUp
 } from "lucide-react";
-import usecaseImg from "@assets/generated_images/CyberSecure_AI_UseCase_44be3aae.png";
+import usecaseImg from "@assets/generated_images/Government_UseCase_Visual_d443e24d.png";
 
 const industries = [
   "Federal Government",

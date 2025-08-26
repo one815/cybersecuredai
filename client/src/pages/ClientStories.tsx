@@ -18,7 +18,7 @@ import {
   Award,
   CheckCircle
 } from "lucide-react";
-import clientStoryImg from "@assets/generated_images/CyberSecure_AI_ClientStory_11562679.png";
+import clientStoryImg from "@assets/generated_images/Client_Success_Story_e83fb121.png";
 
 const categories = [
   "Implementation Success",

@@ -22,7 +22,7 @@ import {
   Network,
   Monitor
 } from "lucide-react";
-import integrationImg from "@assets/generated_images/CyberSecure_AI_Integration_fb4936ed.png";
+import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
 
 const categories = [
   "SIEM & Security Analytics",
