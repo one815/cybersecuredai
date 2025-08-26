@@ -202,7 +202,6 @@ const allResources = [
 ];
 
 export default function Resources() {
-  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -319,8 +318,9 @@ export default function Resources() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
+    <MarketingLayout>
+      <div className="ai-dashboard-bg min-h-screen text-white">
+        {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-24">
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
         <div className="relative container mx-auto px-4">
@@ -457,6 +457,7 @@ export default function Resources() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }
