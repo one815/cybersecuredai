@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search,
   Clock,
@@ -15,146 +16,136 @@ import {
   Users,
   ExternalLink,
   Eye,
-  Calendar
+  Calendar,
+  Filter
 } from "lucide-react";
-
-const sectors = [
-  { id: "all", name: "All Sectors", icon: Users },
-  { id: "federal", name: "Federal Government", icon: Building },
-  { id: "higher-ed", name: "Higher Education", icon: GraduationCap },
-  { id: "k12", name: "K-12 Education", icon: School },
-  { id: "general", name: "General", icon: Shield }
-];
 
 const blogPosts = [
   // General Blog Posts
   {
     title: "The Intersection of AI and Cybersecurity: Protecting Digital Assets in 2025",
-    sector: "general",
     description: "Comprehensive analysis of AI's role in modern cybersecurity landscapes",
-    tags: ["AI cybersecurity", "digital asset protection", "2025 cybersecurity trends"],
+    sector: "general",
     readTime: "8 min",
     author: "Security Research Team",
-    publishDate: "2025-01-15",
-    views: "12,400",
+    publishDate: "2025-01-20",
+    views: "2,400",
     featured: true
   },
   {
     title: "Zero-Day Vulnerabilities in AI Systems: Detection and Prevention Strategies",
-    sector: "general",
     description: "Latest techniques for identifying and mitigating zero-day threats in AI",
-    tags: ["zero-day vulnerabilities", "AI system security", "vulnerability detection"],
+    sector: "general",
     readTime: "10 min",
     author: "Vulnerability Research Team",
-    publishDate: "2025-01-10",
-    views: "9,800",
-    featured: false
+    publishDate: "2025-01-18",
+    views: "1,800"
   },
   {
     title: "The Dark Side of AI Automation: How Neglected Security Creates Business Vulnerabilities",
-    sector: "general",
     description: "Analysis of security gaps in automated AI systems and their business impact",
-    tags: ["AI automation risks", "business vulnerabilities", "security neglect"],
+    sector: "general",
     readTime: "12 min",
     author: "Business Security Analysts",
-    publishDate: "2025-01-08",
-    views: "15,600",
-    featured: true
+    publishDate: "2025-01-15",
+    views: "3,200"
   },
   // Federal Government Blog Posts
   {
     title: "Federal Zero Trust Implementation: AI-Powered Security Across Agency Boundaries",
-    sector: "federal",
     description: "How federal agencies implement zero trust with AI enhancement",
-    tags: ["federal zero trust", "government AI security", "cross-agency protection"],
+    sector: "federal",
     readTime: "12 min",
     author: "Federal Security Experts",
-    publishDate: "2025-01-12",
-    views: "7,200",
-    featured: false
+    publishDate: "2025-01-22",
+    views: "1,500",
+    featured: true
   },
   {
     title: "CMMC 3.0 Compliance Through AI: How Federal Contractors Are Meeting New Standards",
-    sector: "federal",
     description: "Real-world implementation of CMMC 3.0 using AI-powered compliance tools",
-    tags: ["CMMC 3.0", "federal contractor security", "AI compliance tools"],
+    sector: "federal",
     readTime: "15 min",
     author: "Compliance Specialists",
-    publishDate: "2025-01-05",
-    views: "6,500",
-    featured: false
+    publishDate: "2025-01-12",
+    views: "1,200"
   },
   // Higher Education Blog Posts
   {
     title: "Campus-Wide AI Security: Results from Three University Pilot Programs",
-    sector: "higher-ed",
     description: "Real-world results from university AI security implementations",
-    tags: ["university security pilots", "campus AI protection", "higher education security"],
+    sector: "higher-ed",
     readTime: "10 min",
     author: "Academic Security Team",
-    publishDate: "2025-01-14",
-    views: "5,400",
-    featured: false
+    publishDate: "2025-01-19",
+    views: "900"
   },
   {
     title: "Research Security in Academia: Protecting AI Innovation Without Hampering Collaboration",
-    sector: "higher-ed",
     description: "Balancing security needs with academic freedom and collaboration",
-    tags: ["research security", "academic innovation protection", "collaborative security"],
+    sector: "higher-ed",
     readTime: "14 min",
     author: "Research Security Experts",
-    publishDate: "2025-01-06",
-    views: "4,800",
-    featured: false
+    publishDate: "2025-01-16",
+    views: "1,100",
+    featured: true
   },
   // K-12 Blog Posts
   {
     title: "Digital Classroom Protection: AI Security Solutions for K-12 Learning Environments",
-    sector: "k12",
     description: "Practical security implementations for modern digital classrooms",
-    tags: ["digital classroom security", "K-12 cybersecurity", "education protection"],
+    sector: "k12",
     readTime: "8 min",
     author: "Educational Security Team",
-    publishDate: "2025-01-11",
-    views: "8,900",
-    featured: false
+    publishDate: "2025-01-21",
+    views: "1,600"
   },
   {
     title: "Teaching Cybersecurity Through AI: How K-12 Schools Are Building Security-Aware Digital Citizens",
-    sector: "k12",
     description: "Innovative approaches to cybersecurity education in schools",
-    tags: ["cybersecurity education", "K-12 security awareness", "digital citizenship"],
+    sector: "k12",
     readTime: "11 min",
     author: "Education Technology Team",
-    publishDate: "2025-01-03",
-    views: "11,200",
-    featured: true
+    publishDate: "2025-01-14",
+    views: "1,300"
   }
 ];
 
 export default function BlogPosts() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSector, setSelectedSector] = useState("all");
+  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
+
+  const sectorNames = ["Federal Government", "Higher Education", "K-12 Education", "General"];
 
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesSector = selectedSector === "all" || post.sector === selectedSector;
+                         post.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSector = selectedSectors.length === 0 || selectedSectors.some(sector => {
+      if (sector === "Federal Government") return post.sector === "federal";
+      if (sector === "Higher Education") return post.sector === "higher-ed";
+      if (sector === "K-12 Education") return post.sector === "k12";
+      if (sector === "General") return post.sector === "general";
+      return false;
+    });
     return matchesSearch && matchesSector;
   });
 
+  const handleSectorChange = (sector: string, checked: boolean) => {
+    if (checked) {
+      setSelectedSectors([...selectedSectors, sector]);
+    } else {
+      setSelectedSectors(selectedSectors.filter(s => s !== sector));
+    }
+  };
+
   const featuredPosts = blogPosts.filter(post => post.featured);
 
-  const BlogCard = ({ post, featured = false }: { post: any, featured?: boolean }) => (
-    <Card className={`bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group ${featured ? 'border-cyan-500/30' : ''}`}>
+  const BlogCard = ({ post }: { post: any }) => (
+    <Card className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {featured && (
-              <Badge className="mb-2 bg-cyan-600 text-white">Featured</Badge>
-            )}
             <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-lg">
               {post.title}
             </CardTitle>
@@ -162,36 +153,25 @@ export default function BlogPosts() {
               {post.description}
             </CardDescription>
           </div>
-          <div className="ml-4 flex flex-col items-end space-y-2">
-            <div className="flex items-center text-gray-400 text-sm">
-              <Clock className="w-4 h-4 mr-1" />
-              {post.readTime}
-            </div>
-            <div className="flex items-center text-gray-400 text-sm">
-              <Eye className="w-4 h-4 mr-1" />
-              {post.views}
-            </div>
-          </div>
+          <Badge variant="outline" className="ml-4 text-cyan-400 border-cyan-400">
+            Article
+          </Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center text-gray-400 text-sm mb-3">
-          <Calendar className="w-4 h-4 mr-1" />
-          {new Date(post.publishDate).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
-          <span className="mx-2">•</span>
-          <span>by {post.author}</span>
-        </div>
-        
-        <div className="flex flex-wrap gap-2 mb-4">
-          {post.tags.slice(0, 3).map((tag: string, index: number) => (
-            <Badge key={index} variant="secondary" className="text-xs bg-gray-700 text-gray-300">
-              {tag}
-            </Badge>
-          ))}
+        <div className="flex items-center justify-between mb-4 text-sm text-gray-400">
+          <div className="flex items-center">
+            <Clock className="w-4 h-4 mr-1" />
+            {post.readTime}
+          </div>
+          <div className="flex items-center">
+            <Eye className="w-4 h-4 mr-1" />
+            {post.views} views
+          </div>
+          <div className="flex items-center">
+            <Calendar className="w-4 h-4 mr-1" />
+            {new Date(post.publishDate).toLocaleDateString()}
+          </div>
         </div>
         
         <div className="flex justify-between items-center">
@@ -204,7 +184,7 @@ export default function BlogPosts() {
               ${post.sector === 'general' ? 'text-purple-400 border-purple-400' : ''}
             `}
           >
-            {sectors.find(s => s.id === post.sector)?.name}
+            {post.author}
           </Badge>
           <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
             <ExternalLink className="w-4 h-4 mr-1" />
@@ -217,114 +197,147 @@ export default function BlogPosts() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+        <div className="relative container mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
             Security Blog & Articles
           </h1>
-          <p className="text-gray-400 text-lg mb-6">
+          <p className="text-xl text-gray-300 max-w-2xl">
             Latest insights, research, and best practices in AI security
           </p>
-          
-          {/* Blog Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-cyan-400">{blogPosts.length}</div>
-                <div className="text-sm text-gray-400">Total Articles</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-green-400">{blogPosts.reduce((acc, post) => acc + parseInt(post.views.replace(',', '')), 0).toLocaleString()}</div>
-                <div className="text-sm text-gray-400">Total Views</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-yellow-400">{featuredPosts.length}</div>
-                <div className="text-sm text-gray-400">Featured Articles</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-purple-400">{new Set(blogPosts.map(post => post.author)).size}</div>
-                <div className="text-sm text-gray-400">Expert Authors</div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
+      </div>
 
+      <div className="container mx-auto px-4 py-12">
         {/* Featured Articles */}
         {featuredPosts.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-4">Featured Articles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-white mb-8">Featured Articles</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredPosts.map((post, index) => (
-                <BlogCard key={index} post={post} featured={true} />
+                <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
+                    <div className="text-cyan-400 text-6xl opacity-30">
+                      <FileText />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>
+                    <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-xl">
+                      {post.title}
+                    </CardTitle>
+                    <CardDescription className="text-gray-300">
+                      {post.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between items-center">
+                      <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                        {post.readTime}
+                      </Badge>
+                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        Read Article
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
         )}
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search articles..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
-            />
-          </div>
+        {/* All Articles Section */}
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold text-white mb-8">All Articles</h2>
+          
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filter Sidebar */}
+            <div className="lg:w-1/4">
+              <Card className="bg-gray-800 border-gray-700 sticky top-4">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <Filter className="w-5 h-5 mr-2" />
+                    Filter by
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Search articles..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                  </div>
 
-          <div className="flex flex-wrap gap-2">
-            {sectors.map((sector) => {
-              const Icon = sector.icon;
-              return (
-                <Button
-                  key={sector.id}
-                  variant={selectedSector === sector.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedSector(sector.id)}
-                  className={`
-                    ${selectedSector === sector.id 
-                      ? 'bg-cyan-600 text-white' 
-                      : 'border-gray-600 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'
-                    }
-                  `}
-                >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {sector.name}
-                </Button>
-              );
-            })}
+                  {/* Sectors */}
+                  <div>
+                    <h3 className="text-white font-medium mb-3">Sector</h3>
+                    <div className="space-y-2">
+                      {sectorNames.map((sector) => (
+                        <div key={sector} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`sector-${sector}`}
+                            checked={selectedSectors.includes(sector)}
+                            onCheckedChange={(checked) => handleSectorChange(sector, checked as boolean)}
+                            className="border-gray-600 data-[state=checked]:bg-cyan-600"
+                          />
+                          <label
+                            htmlFor={`sector-${sector}`}
+                            className="text-sm text-gray-300 cursor-pointer"
+                          >
+                            {sector}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Articles Grid */}
+            <div className="lg:w-3/4">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-gray-400">
+                  Showing {filteredPosts.length} of {blogPosts.length} articles
+                </p>
+                <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                  {filteredPosts.length} results
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredPosts.map((post, index) => (
+                  <BlogCard key={index} post={post} />
+                ))}
+              </div>
+
+              {filteredPosts.length === 0 && (
+                <div className="text-center py-16">
+                  <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <div className="text-gray-400 text-lg mb-2">No articles found</div>
+                  <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSelectedSectors([]);
+                    }}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        {/* All Articles */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">All Articles</h2>
-          <Badge variant="outline" className="text-cyan-400 border-cyan-400">
-            {filteredPosts.length} articles
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPosts.map((post, index) => (
-            <BlogCard key={index} post={post} />
-          ))}
-        </div>
-
-        {filteredPosts.length === 0 && (
-          <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <div className="text-gray-400 text-lg mb-2">No articles found</div>
-            <div className="text-gray-500">Try adjusting your search or filter criteria</div>
-          </div>
-        )}
       </div>
     </div>
   );

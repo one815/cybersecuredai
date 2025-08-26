@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search,
   FileText,
@@ -14,34 +15,27 @@ import {
   Users,
   Download,
   Calendar,
-  File
+  File,
+  ExternalLink,
+  Filter
 } from "lucide-react";
-
-const sectors = [
-  { id: "all", name: "All Sectors", icon: Users },
-  { id: "federal", name: "Federal Government", icon: Building },
-  { id: "higher-ed", name: "Higher Education", icon: GraduationCap },
-  { id: "k12", name: "K-12 Education", icon: School },
-  { id: "general", name: "General", icon: Shield }
-];
 
 const whitepapers = [
   {
     title: "Quantifying AI Security ROI: Metrics and Measurement Frameworks",
-    sector: "general",
     description: "Comprehensive framework for measuring and demonstrating AI security value",
-    tags: ["security ROI", "AI metrics", "enterprise security measurement"],
+    sector: "general",
     pages: "45",
     downloadType: "PDF",
     downloadCount: "3,200",
     publishDate: "2025-01-15",
-    authors: "CyberSecure AI Research Team"
+    authors: "CyberSecure AI Research Team",
+    featured: true
   },
   {
     title: "Privacy-Preserving AI: Implementing Federated Learning in High-Security Environments",
-    sector: "general",
     description: "Technical implementation guide for secure federated learning systems",
-    tags: ["privacy-preserving AI", "federated learning", "secure environments"],
+    sector: "general",
     pages: "38",
     downloadType: "PDF",
     downloadCount: "2,800",
@@ -50,84 +44,73 @@ const whitepapers = [
   },
   {
     title: "Securing Government AI Infrastructure: Federal Compliance Frameworks",
-    sector: "federal",
     description: "Detailed analysis of federal AI security requirements and implementation strategies",
-    tags: ["federal AI compliance", "government security frameworks", "regulatory implementation"],
+    sector: "federal",
     pages: "52",
     downloadType: "PDF",
     downloadCount: "1,900",
-    publishDate: "2025-01-10",
-    authors: "Federal Security Advisory Board"
+    publishDate: "2025-01-18",
+    authors: "Federal Security Advisory Board",
+    featured: true
   },
   {
     title: "Securing Academic Research AI: Protection Strategies for University Environments",
-    sector: "higher-ed",
     description: "Comprehensive security framework for protecting research AI systems",
-    tags: ["academic research security", "university AI protection", "research data safeguards"],
+    sector: "higher-ed",
     pages: "41",
     downloadType: "PDF",
-    downloadCount: "1,600",
-    publishDate: "2025-01-08",
+    downloadCount: "1,400",
+    publishDate: "2025-01-20",
     authors: "Academic Security Consortium"
   },
   {
     title: "K-12 AI Security Implementation Guide: Safeguarding Educational Technology",
-    sector: "k12",
     description: "Practical implementation guide for K-12 AI security systems",
-    tags: ["school technology security", "K-12 implementation", "educational AI protection"],
+    sector: "k12",
     pages: "35",
     downloadType: "PDF",
     downloadCount: "2,100",
-    publishDate: "2025-01-06",
-    authors: "Educational Technology Security Group"
-  },
-  {
-    title: "The Future of AI Security: Emerging Threats and Defense Mechanisms",
-    sector: "general",
-    description: "Forward-looking analysis of AI security challenges and solutions",
-    tags: ["future AI threats", "emerging security", "defense mechanisms"],
-    pages: "48",
-    downloadType: "PDF",
-    downloadCount: "2,700",
-    publishDate: "2025-01-05",
-    authors: "Future Security Research Lab"
-  },
-  {
-    title: "Zero Trust Architecture for AI Systems: Implementation and Best Practices",
-    sector: "general",
-    description: "Complete guide to implementing zero trust principles in AI environments",
-    tags: ["zero trust AI", "implementation guide", "security best practices"],
-    pages: "43",
-    downloadType: "PDF",
-    downloadCount: "2,400",
-    publishDate: "2025-01-03",
-    authors: "Zero Trust Security Institute"
+    publishDate: "2025-01-10",
+    authors: "Educational Technology Security Institute",
+    featured: true
   }
 ];
 
 export default function WhitePapers() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSector, setSelectedSector] = useState("all");
+  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
-  const filteredPapers = whitepapers.filter(paper => {
+  const sectorNames = ["Federal Government", "Higher Education", "K-12 Education", "General"];
+
+  const filteredWhitePapers = whitepapers.filter(paper => {
     const matchesSearch = paper.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         paper.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         paper.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesSector = selectedSector === "all" || paper.sector === selectedSector;
+                         paper.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSector = selectedSectors.length === 0 || selectedSectors.some(sector => {
+      if (sector === "Federal Government") return paper.sector === "federal";
+      if (sector === "Higher Education") return paper.sector === "higher-ed";
+      if (sector === "K-12 Education") return paper.sector === "k12";
+      if (sector === "General") return paper.sector === "general";
+      return false;
+    });
     return matchesSearch && matchesSector;
   });
 
-  const recentPapers = whitepapers.sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()).slice(0, 3);
+  const handleSectorChange = (sector: string, checked: boolean) => {
+    if (checked) {
+      setSelectedSectors([...selectedSectors, sector]);
+    } else {
+      setSelectedSectors(selectedSectors.filter(s => s !== sector));
+    }
+  };
 
-  const WhitePaperCard = ({ paper, recent = false }: { paper: any, recent?: boolean }) => (
-    <Card className={`bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group ${recent ? 'border-orange-500/30' : ''}`}>
+  const featuredWhitePapers = whitepapers.filter(paper => paper.featured);
+
+  const WhitePaperCard = ({ paper }: { paper: any }) => (
+    <Card className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {recent && (
-              <Badge className="mb-2 bg-orange-600 text-white">New Release</Badge>
-            )}
             <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-lg">
               {paper.title}
             </CardTitle>
@@ -135,36 +118,25 @@ export default function WhitePapers() {
               {paper.description}
             </CardDescription>
           </div>
-          <div className="ml-4 flex flex-col items-end space-y-2">
-            <Badge variant="outline" className="text-orange-400 border-orange-400">
-              {paper.downloadType}
-            </Badge>
-            <div className="text-gray-400 text-sm">{paper.pages} pages</div>
-            <div className="flex items-center text-gray-400 text-sm">
-              <Download className="w-4 h-4 mr-1" />
-              {paper.downloadCount}
-            </div>
-          </div>
+          <Badge variant="outline" className="ml-4 text-cyan-400 border-cyan-400">
+            White Paper
+          </Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center text-gray-400 text-sm mb-3">
-          <Calendar className="w-4 h-4 mr-1" />
-          {new Date(paper.publishDate).toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-          })}
-          <span className="mx-2">•</span>
-          <span>by {paper.authors}</span>
-        </div>
-        
-        <div className="flex flex-wrap gap-2 mb-4">
-          {paper.tags.slice(0, 3).map((tag: string, index: number) => (
-            <Badge key={index} variant="secondary" className="text-xs bg-gray-700 text-gray-300">
-              {tag}
-            </Badge>
-          ))}
+        <div className="flex items-center justify-between mb-4 text-sm text-gray-400">
+          <div className="flex items-center">
+            <File className="w-4 h-4 mr-1" />
+            {paper.pages} pages
+          </div>
+          <div className="flex items-center">
+            <Download className="w-4 h-4 mr-1" />
+            {paper.downloadCount} downloads
+          </div>
+          <div className="flex items-center">
+            <Calendar className="w-4 h-4 mr-1" />
+            {new Date(paper.publishDate).toLocaleDateString()}
+          </div>
         </div>
         
         <div className="flex justify-between items-center">
@@ -177,11 +149,11 @@ export default function WhitePapers() {
               ${paper.sector === 'general' ? 'text-purple-400 border-purple-400' : ''}
             `}
           >
-            {sectors.find(s => s.id === paper.sector)?.name}
+            {paper.downloadType}
           </Badge>
           <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
             <Download className="w-4 h-4 mr-1" />
-            Download PDF
+            Download
           </Button>
         </div>
       </CardContent>
@@ -190,112 +162,147 @@ export default function WhitePapers() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-            White Papers & Research
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+        <div className="relative container mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            White Papers
           </h1>
-          <p className="text-gray-400 text-lg mb-6">
-            In-depth technical papers and research on AI security frameworks and implementations
+          <p className="text-xl text-gray-300 max-w-2xl">
+            In-depth research papers and technical analyses on AI security topics
           </p>
-          
-          {/* White Paper Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-cyan-400">{whitepapers.length}</div>
-                <div className="text-sm text-gray-400">Total Papers</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-green-400">{whitepapers.reduce((acc, paper) => acc + parseInt(paper.downloadCount.replace(',', '')), 0).toLocaleString()}</div>
-                <div className="text-sm text-gray-400">Total Downloads</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-yellow-400">{whitepapers.reduce((acc, paper) => acc + parseInt(paper.pages), 0)}</div>
-                <div className="text-sm text-gray-400">Total Pages</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-purple-400">{new Set(whitepapers.map(paper => paper.authors)).size}</div>
-                <div className="text-sm text-gray-400">Research Teams</div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
+      </div>
 
-        {/* Recent Papers */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Latest Publications</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {recentPapers.map((paper, index) => (
-              <WhitePaperCard key={index} paper={paper} recent={true} />
-            ))}
-          </div>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search white papers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {sectors.map((sector) => {
-              const Icon = sector.icon;
-              return (
-                <Button
-                  key={sector.id}
-                  variant={selectedSector === sector.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedSector(sector.id)}
-                  className={`
-                    ${selectedSector === sector.id 
-                      ? 'bg-cyan-600 text-white' 
-                      : 'border-gray-600 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'
-                    }
-                  `}
-                >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {sector.name}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* All White Papers */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">All White Papers</h2>
-          <Badge variant="outline" className="text-cyan-400 border-cyan-400">
-            {filteredPapers.length} papers
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPapers.map((paper, index) => (
-            <WhitePaperCard key={index} paper={paper} />
-          ))}
-        </div>
-
-        {filteredPapers.length === 0 && (
-          <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <div className="text-gray-400 text-lg mb-2">No white papers found</div>
-            <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+      <div className="container mx-auto px-4 py-12">
+        {/* Featured White Papers */}
+        {featuredWhitePapers.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-white mb-8">Featured White Papers</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredWhitePapers.map((paper, index) => (
+                <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
+                    <div className="text-cyan-400 text-6xl opacity-30">
+                      <FileText />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>
+                    <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-xl">
+                      {paper.title}
+                    </CardTitle>
+                    <CardDescription className="text-gray-300">
+                      {paper.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between items-center">
+                      <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                        {paper.pages} pages
+                      </Badge>
+                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                        <Download className="w-4 h-4 mr-1" />
+                        Download
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* All White Papers Section */}
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold text-white mb-8">All White Papers</h2>
+          
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filter Sidebar */}
+            <div className="lg:w-1/4">
+              <Card className="bg-gray-800 border-gray-700 sticky top-4">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <Filter className="w-5 h-5 mr-2" />
+                    Filter by
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Search white papers..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                  </div>
+
+                  {/* Sectors */}
+                  <div>
+                    <h3 className="text-white font-medium mb-3">Sector</h3>
+                    <div className="space-y-2">
+                      {sectorNames.map((sector) => (
+                        <div key={sector} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`sector-${sector}`}
+                            checked={selectedSectors.includes(sector)}
+                            onCheckedChange={(checked) => handleSectorChange(sector, checked as boolean)}
+                            className="border-gray-600 data-[state=checked]:bg-cyan-600"
+                          />
+                          <label
+                            htmlFor={`sector-${sector}`}
+                            className="text-sm text-gray-300 cursor-pointer"
+                          >
+                            {sector}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* White Papers Grid */}
+            <div className="lg:w-3/4">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-gray-400">
+                  Showing {filteredWhitePapers.length} of {whitepapers.length} white papers
+                </p>
+                <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                  {filteredWhitePapers.length} results
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredWhitePapers.map((paper, index) => (
+                  <WhitePaperCard key={index} paper={paper} />
+                ))}
+              </div>
+
+              {filteredWhitePapers.length === 0 && (
+                <div className="text-center py-16">
+                  <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <div className="text-gray-400 text-lg mb-2">No white papers found</div>
+                  <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSelectedSectors([]);
+                    }}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

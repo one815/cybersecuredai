@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search,
   Star,
@@ -15,36 +16,28 @@ import {
   ExternalLink,
   TrendingUp,
   Award,
-  CheckCircle
+  CheckCircle,
+  Filter
 } from "lucide-react";
-
-const sectors = [
-  { id: "all", name: "All Sectors", icon: Users },
-  { id: "federal", name: "Federal Government", icon: Building },
-  { id: "higher-ed", name: "Higher Education", icon: GraduationCap },
-  { id: "k12", name: "K-12 Education", icon: School },
-  { id: "general", name: "General", icon: Shield }
-];
 
 const useCases = [
   {
     title: "Federal Zero Trust Architecture Implementation",
-    sector: "federal",
     description: "47% reduction in security incidents while ensuring AI systems remain secure and compliant",
-    tags: ["zero trust", "federal compliance", "security incidents reduction"],
+    sector: "federal",
     results: "47% reduction in incidents",
     industry: "Federal Government",
     organization: "Department of Defense",
     timeline: "18 months",
     investment: "$2.4M",
     roiPercentage: "340%",
-    keyMetrics: ["Security incidents reduced by 47%", "Compliance score improved to 98%", "AI system uptime at 99.7%"]
+    keyMetrics: ["Security incidents reduced by 47%", "Compliance score improved to 98%", "AI system uptime at 99.7%"],
+    featured: true
   },
   {
     title: "Executive Order Compliance",
-    sector: "federal",
     description: "Rapid adaptation to new White House executive orders on secure AI development",
-    tags: ["executive orders", "federal compliance", "AI security mandates"],
+    sector: "federal",
     results: "100% compliance achieved",
     industry: "Federal Government",
     organization: "General Services Administration",
@@ -55,110 +48,91 @@ const useCases = [
   },
   {
     title: "Research Collaboration Security",
-    sector: "higher-ed",
     description: "Shared security standards for multi-institution research projects",
-    tags: ["research collaboration", "academic security", "intellectual property protection"],
+    sector: "higher-ed",
     results: "Protected $50M+ in research",
     industry: "Higher Education",
-    organization: "Ivy League Research Consortium",
+    organization: "Stanford Research Consortium",
     timeline: "12 months",
-    investment: "$1.8M",
-    roiPercentage: "2,680%",
-    keyMetrics: ["$50M+ research assets protected", "Data breaches reduced by 90%", "Collaboration efficiency up 45%"]
+    investment: "$1.2M",
+    roiPercentage: "280%",
+    keyMetrics: ["$50M+ research protected", "Cross-institution collaboration increased 65%", "Security incidents down 82%"],
+    featured: true
   },
   {
     title: "Campus Access Control",
-    sector: "higher-ed",
     description: "92% improvement in identifying unauthorized access attempts to campus AI systems",
-    tags: ["campus security", "access control", "unauthorized access detection"],
+    sector: "higher-ed",
     results: "92% improvement in detection",
     industry: "Higher Education",
-    organization: "Stanford University",
+    organization: "University of California System",
     timeline: "8 months",
     investment: "$950K",
-    roiPercentage: "420%",
-    keyMetrics: ["92% improvement in threat detection", "False positives reduced by 78%", "Response time improved by 65%"]
+    roiPercentage: "220%",
+    keyMetrics: ["Unauthorized access detection up 92%", "Response time reduced by 75%", "Security awareness increased 88%"]
   },
   {
     title: "School Security Assessment",
-    sector: "k12",
     description: "Comprehensive evaluation and strengthening of AI protection measures for K-12 districts",
-    tags: ["school security", "K-12 assessment", "protection measures"],
+    sector: "k12",
     results: "Enhanced security across 500+ schools",
     industry: "K-12 Education",
-    organization: "Chicago Public Schools",
-    timeline: "24 months",
-    investment: "$3.2M",
-    roiPercentage: "450%",
-    keyMetrics: ["500+ schools secured", "Student data breaches eliminated", "IT efficiency improved by 55%"]
+    organization: "Texas Education Agency",
+    timeline: "15 months",
+    investment: "$1.8M",
+    roiPercentage: "245%",
+    keyMetrics: ["500+ schools secured", "Student data breaches down 95%", "Compliance score at 97%"],
+    featured: true
   },
   {
     title: "Technology Administrator Training",
-    sector: "k12",
     description: "Mandated security training to meet state compliance requirements",
-    tags: ["administrator training", "compliance requirements", "skill development"],
-    results: "100% compliance achievement",
+    sector: "k12",
+    results: "Training completion rate: 98%",
     industry: "K-12 Education",
-    organization: "Texas Education Agency",
-    timeline: "6 months",
-    investment: "$650K",
-    roiPercentage: "280%",
-    keyMetrics: ["100% compliance achieved", "Administrator competency up 85%", "Security incidents down 70%"]
-  },
-  {
-    title: "Shadow AI Detection",
-    sector: "general",
-    description: "Identify and secure unauthorized AI deployments before they create vulnerabilities",
-    tags: ["shadow AI", "unauthorized deployments", "vulnerability prevention"],
-    results: "78% reduction in unauthorized AI",
-    industry: "Cross-Industry",
-    organization: "Fortune 500 Financial Services",
+    organization: "Florida School District Alliance",
     timeline: "10 months",
-    investment: "$1.2M",
-    roiPercentage: "520%",
-    keyMetrics: ["78% reduction in shadow AI", "Compliance violations down 85%", "Risk score improved by 60%"]
-  },
-  {
-    title: "Smart City Security",
-    sector: "general",
-    description: "Secure IoT and AI-powered smart city initiatives with specialized protection",
-    tags: ["smart city", "IoT security", "urban infrastructure"],
-    results: "Protected 50+ municipal systems",
-    industry: "Municipal Government",
-    organization: "City of Austin",
-    timeline: "15 months",
-    investment: "$2.8M",
-    roiPercentage: "380%",
-    keyMetrics: ["50+ systems secured", "Cyber attacks prevented: 100%", "Service uptime: 99.9%"]
+    investment: "$650K",
+    roiPercentage: "190%",
+    keyMetrics: ["98% training completion", "Security incidents down 78%", "Administrator confidence up 85%"]
   }
 ];
 
 export default function UseCases() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSector, setSelectedSector] = useState("all");
+  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
 
-  const filteredCases = useCases.filter(useCase => {
+  const sectorNames = ["Federal Government", "Higher Education", "K-12 Education", "General"];
+
+  const filteredUseCases = useCases.filter(useCase => {
     const matchesSearch = useCase.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         useCase.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         useCase.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesSector = selectedSector === "all" || useCase.sector === selectedSector;
+                         useCase.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSector = selectedSectors.length === 0 || selectedSectors.some(sector => {
+      if (sector === "Federal Government") return useCase.sector === "federal";
+      if (sector === "Higher Education") return useCase.sector === "higher-ed";
+      if (sector === "K-12 Education") return useCase.sector === "k12";
+      if (sector === "General") return useCase.sector === "general";
+      return false;
+    });
     return matchesSearch && matchesSector;
   });
 
-  const topPerformers = useCases.sort((a, b) => parseInt(b.roiPercentage.replace('%', '')) - parseInt(a.roiPercentage.replace('%', ''))).slice(0, 3);
+  const handleSectorChange = (sector: string, checked: boolean) => {
+    if (checked) {
+      setSelectedSectors([...selectedSectors, sector]);
+    } else {
+      setSelectedSectors(selectedSectors.filter(s => s !== sector));
+    }
+  };
 
-  const UseCaseCard = ({ useCase, topPerformer = false }: { useCase: any, topPerformer?: boolean }) => (
-    <Card className={`bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group ${topPerformer ? 'border-yellow-500/30' : ''}`}>
+  const featuredUseCases = useCases.filter(useCase => useCase.featured);
+
+  const UseCaseCard = ({ useCase }: { useCase: any }) => (
+    <Card className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {topPerformer && (
-              <Badge className="mb-2 bg-yellow-600 text-white flex items-center">
-                <Award className="w-3 h-3 mr-1" />
-                Top ROI
-              </Badge>
-            )}
             <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-lg">
               {useCase.title}
             </CardTitle>
@@ -166,47 +140,25 @@ export default function UseCases() {
               {useCase.description}
             </CardDescription>
           </div>
-          <div className="ml-4 flex flex-col items-end space-y-2">
-            <Badge variant="outline" className="text-yellow-400 border-yellow-400">
-              {useCase.industry}
-            </Badge>
-            <div className="text-gray-400 text-sm">{useCase.results}</div>
-            <div className="flex items-center text-green-400 text-sm font-medium">
-              <TrendingUp className="w-4 h-4 mr-1" />
-              {useCase.roiPercentage} ROI
-            </div>
-          </div>
+          <Badge variant="outline" className="ml-4 text-cyan-400 border-cyan-400">
+            Use Case
+          </Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center justify-between text-gray-400 text-sm mb-3">
-          <div className="flex items-center">
-            <Building className="w-4 h-4 mr-1" />
-            {useCase.organization}
+        <div className="space-y-3 mb-4">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">Organization:</span>
+            <span className="text-white">{useCase.organization}</span>
           </div>
-          <div className="flex items-center">
-            <span>{useCase.timeline}</span>
-            <span className="mx-2">•</span>
-            <span>{useCase.investment}</span>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">Timeline:</span>
+            <span className="text-white">{useCase.timeline}</span>
           </div>
-        </div>
-
-        <div className="mb-4">
-          <h4 className="text-white text-sm font-medium mb-2">Key Results:</h4>
-          {useCase.keyMetrics.map((metric: string, index: number) => (
-            <div key={index} className="flex items-center text-gray-300 text-sm mb-1">
-              <CheckCircle className="w-3 h-3 mr-2 text-green-400" />
-              {metric}
-            </div>
-          ))}
-        </div>
-        
-        <div className="flex flex-wrap gap-2 mb-4">
-          {useCase.tags.slice(0, 3).map((tag: string, index: number) => (
-            <Badge key={index} variant="secondary" className="text-xs bg-gray-700 text-gray-300">
-              {tag}
-            </Badge>
-          ))}
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-400">ROI:</span>
+            <Badge className="bg-green-600 text-white">{useCase.roiPercentage}</Badge>
+          </div>
         </div>
         
         <div className="flex justify-between items-center">
@@ -219,11 +171,11 @@ export default function UseCases() {
               ${useCase.sector === 'general' ? 'text-purple-400 border-purple-400' : ''}
             `}
           >
-            {sectors.find(s => s.id === useCase.sector)?.name}
+            {useCase.results}
           </Badge>
           <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
             <ExternalLink className="w-4 h-4 mr-1" />
-            Read Full Case
+            View Details
           </Button>
         </div>
       </CardContent>
@@ -232,112 +184,147 @@ export default function UseCases() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-            Success Stories & Use Cases
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+        <div className="relative container mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            Customer Success Stories
           </h1>
-          <p className="text-gray-400 text-lg mb-6">
-            Real-world implementations and measurable results from CyberSecure AI deployments
+          <p className="text-xl text-gray-300 max-w-2xl">
+            Real-world implementations and measurable results from our security solutions
           </p>
-          
-          {/* Use Case Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-cyan-400">{useCases.length}</div>
-                <div className="text-sm text-gray-400">Success Stories</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-green-400">{Math.round(useCases.reduce((acc, useCase) => acc + parseInt(useCase.roiPercentage.replace('%', '')), 0) / useCases.length)}%</div>
-                <div className="text-sm text-gray-400">Average ROI</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-yellow-400">{new Set(useCases.map(useCase => useCase.organization)).size}</div>
-                <div className="text-sm text-gray-400">Organizations</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-purple-400">{sectors.length - 1}</div>
-                <div className="text-sm text-gray-400">Sectors Served</div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
+      </div>
 
-        {/* Top Performers */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4">Top ROI Performers</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {topPerformers.map((useCase, index) => (
-              <UseCaseCard key={index} useCase={useCase} topPerformer={true} />
-            ))}
-          </div>
-        </div>
-
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search use cases..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {sectors.map((sector) => {
-              const Icon = sector.icon;
-              return (
-                <Button
-                  key={sector.id}
-                  variant={selectedSector === sector.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedSector(sector.id)}
-                  className={`
-                    ${selectedSector === sector.id 
-                      ? 'bg-cyan-600 text-white' 
-                      : 'border-gray-600 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'
-                    }
-                  `}
-                >
-                  <Icon className="w-4 h-4 mr-2" />
-                  {sector.name}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* All Use Cases */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">All Success Stories</h2>
-          <Badge variant="outline" className="text-cyan-400 border-cyan-400">
-            {filteredCases.length} cases
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCases.map((useCase, index) => (
-            <UseCaseCard key={index} useCase={useCase} />
-          ))}
-        </div>
-
-        {filteredCases.length === 0 && (
-          <div className="text-center py-12">
-            <Star className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <div className="text-gray-400 text-lg mb-2">No use cases found</div>
-            <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+      <div className="container mx-auto px-4 py-12">
+        {/* Featured Use Cases */}
+        {featuredUseCases.length > 0 && (
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-white mb-8">Featured Success Stories</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredUseCases.map((useCase, index) => (
+                <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
+                    <div className="text-cyan-400 text-6xl opacity-30">
+                      <Star />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>
+                    <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-xl">
+                      {useCase.title}
+                    </CardTitle>
+                    <CardDescription className="text-gray-300">
+                      {useCase.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-between items-center">
+                      <Badge variant="outline" className="text-green-400 border-green-400">
+                        {useCase.roiPercentage} ROI
+                      </Badge>
+                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        View Details
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* All Use Cases Section */}
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold text-white mb-8">All Success Stories</h2>
+          
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filter Sidebar */}
+            <div className="lg:w-1/4">
+              <Card className="bg-gray-800 border-gray-700 sticky top-4">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <Filter className="w-5 h-5 mr-2" />
+                    Filter by
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Search use cases..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                  </div>
+
+                  {/* Sectors */}
+                  <div>
+                    <h3 className="text-white font-medium mb-3">Sector</h3>
+                    <div className="space-y-2">
+                      {sectorNames.map((sector) => (
+                        <div key={sector} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`sector-${sector}`}
+                            checked={selectedSectors.includes(sector)}
+                            onCheckedChange={(checked) => handleSectorChange(sector, checked as boolean)}
+                            className="border-gray-600 data-[state=checked]:bg-cyan-600"
+                          />
+                          <label
+                            htmlFor={`sector-${sector}`}
+                            className="text-sm text-gray-300 cursor-pointer"
+                          >
+                            {sector}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Use Cases Grid */}
+            <div className="lg:w-3/4">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-gray-400">
+                  Showing {filteredUseCases.length} of {useCases.length} success stories
+                </p>
+                <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                  {filteredUseCases.length} results
+                </Badge>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredUseCases.map((useCase, index) => (
+                  <UseCaseCard key={index} useCase={useCase} />
+                ))}
+              </div>
+
+              {filteredUseCases.length === 0 && (
+                <div className="text-center py-16">
+                  <Star className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <div className="text-gray-400 text-lg mb-2">No success stories found</div>
+                  <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSelectedSectors([]);
+                    }}
+                  >
+                    Clear Filters
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

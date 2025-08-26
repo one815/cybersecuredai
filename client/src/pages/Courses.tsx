@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search,
   Clock,
@@ -13,7 +14,8 @@ import {
   Shield,
   Users,
   ExternalLink,
-  Play
+  Play,
+  Filter
 } from "lucide-react";
 
 const sectors = [
@@ -154,19 +156,42 @@ const courses = [
 export default function Courses() {
   const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSector, setSelectedSector] = useState("all");
-  const [selectedLevel, setSelectedLevel] = useState("all");
+  const [selectedSectors, setSelectedSectors] = useState<string[]>([]);
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
-  const levels = ["all", "Beginner", "Intermediate", "Advanced"];
+  const levels = ["Beginner", "Intermediate", "Advanced"];
+  const sectorNames = ["Federal Government", "Higher Education", "K-12 Education", "General"];
 
   const filteredCourses = courses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          course.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesSector = selectedSector === "all" || course.sector === selectedSector;
-    const matchesLevel = selectedLevel === "all" || course.level === selectedLevel;
+    const matchesSector = selectedSectors.length === 0 || selectedSectors.some(sector => {
+      if (sector === "Federal Government") return course.sector === "federal";
+      if (sector === "Higher Education") return course.sector === "higher-ed";
+      if (sector === "K-12 Education") return course.sector === "k12";
+      if (sector === "General") return course.sector === "general";
+      return false;
+    });
+    const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(course.level);
     return matchesSearch && matchesSector && matchesLevel;
   });
+
+  const handleSectorChange = (sector: string, checked: boolean) => {
+    if (checked) {
+      setSelectedSectors([...selectedSectors, sector]);
+    } else {
+      setSelectedSectors(selectedSectors.filter(s => s !== sector));
+    }
+  };
+
+  const handleLevelChange = (level: string, checked: boolean) => {
+    if (checked) {
+      setSelectedLevels([...selectedLevels, level]);
+    } else {
+      setSelectedLevels(selectedLevels.filter(l => l !== level));
+    }
+  };
 
   const CourseCard = ({ course }: { course: any }) => (
     <Card className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
@@ -232,127 +257,171 @@ export default function Courses() {
     </Card>
   );
 
+  const featuredCourses = courses.filter(course => course.enrolled && parseInt(course.enrolled.replace(',', '')) > 2000).slice(0, 3);
+
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+        <div className="relative container mx-auto px-4">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
             Security Training Courses
           </h1>
-          <p className="text-gray-400 text-lg mb-6">
+          <p className="text-xl text-gray-300 max-w-2xl">
             Comprehensive AI security training courses for all skill levels and sectors
           </p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-12">
+        {/* Featured Courses */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-white mb-8">Featured Courses</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {featuredCourses.map((course, index) => (
+              <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
+                <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
+                  <div className="text-cyan-400 text-6xl opacity-30">
+                    <GraduationCap />
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white group-hover:text-cyan-400 transition-colors text-xl">
+                    {course.title}
+                  </CardTitle>
+                  <CardDescription className="text-gray-300">
+                    {course.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center">
+                    <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                      {course.level}
+                    </Badge>
+                    <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                      <Play className="w-4 h-4 mr-1" />
+                      Enroll Now
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* All Courses Section */}
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold text-white mb-8">All Courses</h2>
           
-          {/* Course Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-cyan-400">{courses.length}</div>
-                <div className="text-sm text-gray-400">Total Courses</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-green-400">{courses.reduce((acc, course) => acc + parseInt(course.enrolled.replace(',', '')), 0).toLocaleString()}</div>
-                <div className="text-sm text-gray-400">Students Enrolled</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-yellow-400">{courses.reduce((acc, course) => acc + course.modules, 0)}</div>
-                <div className="text-sm text-gray-400">Learning Modules</div>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-800/50 border-gray-700">
-              <CardContent className="p-4 text-center">
-                <div className="text-2xl font-bold text-purple-400">{sectors.length - 1}</div>
-                <div className="text-sm text-gray-400">Sectors Covered</div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filter Sidebar */}
+            <div className="lg:w-1/4">
+              <Card className="bg-gray-800 border-gray-700 sticky top-4">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center">
+                    <Filter className="w-5 h-5 mr-2" />
+                    Filter by
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Search courses..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10 bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                  </div>
 
-        {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <Input
-              placeholder="Search courses..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
-            />
-          </div>
+                  {/* Sectors */}
+                  <div>
+                    <h3 className="text-white font-medium mb-3">Sector</h3>
+                    <div className="space-y-2">
+                      {sectorNames.map((sector) => (
+                        <div key={sector} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`sector-${sector}`}
+                            checked={selectedSectors.includes(sector)}
+                            onCheckedChange={(checked) => handleSectorChange(sector, checked as boolean)}
+                            className="border-gray-600 data-[state=checked]:bg-cyan-600"
+                          />
+                          <label
+                            htmlFor={`sector-${sector}`}
+                            className="text-sm text-gray-300 cursor-pointer"
+                          >
+                            {sector}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-          <div className="flex flex-wrap gap-4">
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-gray-400 font-medium">Sector:</span>
-              {sectors.map((sector) => {
-                const Icon = sector.icon;
-                return (
-                  <Button
-                    key={sector.id}
-                    variant={selectedSector === sector.id ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedSector(sector.id)}
-                    className={`
-                      ${selectedSector === sector.id 
-                        ? 'bg-cyan-600 text-white' 
-                        : 'border-gray-600 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'
-                      }
-                    `}
+                  {/* Levels */}
+                  <div>
+                    <h3 className="text-white font-medium mb-3">Level</h3>
+                    <div className="space-y-2">
+                      {levels.map((level) => (
+                        <div key={level} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`level-${level}`}
+                            checked={selectedLevels.includes(level)}
+                            onCheckedChange={(checked) => handleLevelChange(level, checked as boolean)}
+                            className="border-gray-600 data-[state=checked]:bg-cyan-600"
+                          />
+                          <label
+                            htmlFor={`level-${level}`}
+                            className="text-sm text-gray-300 cursor-pointer"
+                          >
+                            {level}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Courses Grid */}
+            <div className="lg:w-3/4">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-gray-400">
+                  Showing {filteredCourses.length} of {courses.length} courses
+                </p>
+                <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                  {filteredCourses.length} results
+                </Badge>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredCourses.map((course, index) => (
+                  <CourseCard key={index} course={course} />
+                ))}
+              </div>
+
+              {filteredCourses.length === 0 && (
+                <div className="text-center py-16">
+                  <GraduationCap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <div className="text-gray-400 text-lg mb-2">No courses found</div>
+                  <div className="text-gray-500">Try adjusting your search or filter criteria</div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+                    onClick={() => {
+                      setSearchTerm("");
+                      setSelectedSectors([]);
+                      setSelectedLevels([]);
+                    }}
                   >
-                    <Icon className="w-4 h-4 mr-2" />
-                    {sector.name}
+                    Clear Filters
                   </Button>
-                );
-              })}
-            </div>
-            
-            <div className="flex flex-wrap gap-2">
-              <span className="text-sm text-gray-400 font-medium">Level:</span>
-              {levels.map((level) => (
-                <Button
-                  key={level}
-                  variant={selectedLevel === level ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedLevel(level)}
-                  className={`
-                    ${selectedLevel === level 
-                      ? 'bg-cyan-600 text-white' 
-                      : 'border-gray-600 text-gray-300 hover:border-cyan-400 hover:text-cyan-400'
-                    }
-                  `}
-                >
-                  {level === "all" ? "All Levels" : level}
-                </Button>
-              ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
-
-        {/* Course Grid */}
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-white">Available Courses</h2>
-          <Badge variant="outline" className="text-cyan-400 border-cyan-400">
-            {filteredCourses.length} courses
-          </Badge>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course, index) => (
-            <CourseCard key={index} course={course} />
-          ))}
-        </div>
-
-        {filteredCourses.length === 0 && (
-          <div className="text-center py-12">
-            <GraduationCap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <div className="text-gray-400 text-lg mb-2">No courses found</div>
-            <div className="text-gray-500">Try adjusting your search or filter criteria</div>
-          </div>
-        )}
       </div>
     </div>
   );
