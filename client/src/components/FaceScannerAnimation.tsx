@@ -7,6 +7,7 @@ interface FaceScannerAnimationProps {
 export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scanProgress, setScanProgress] = useState(0);
+  const [rotationAngle, setRotationAngle] = useState(-30); // Start from left profile
   const [isScanning, setIsScanning] = useState(true);
   const animationRef = useRef<number>();
 
@@ -22,73 +23,130 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
     
     let progress = 0;
     let scanDirection = 1;
+    let rotation = -30; // Start from left profile
+    let rotationDirection = 1;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw realistic face outline
+      // Save context for 3D transformation
+      ctx.save();
+      
+      // Apply 3D perspective transformation
+      const rotationRad = (rotation * Math.PI) / 180;
+      const scaleX = Math.cos(rotationRad);
+      const skewX = Math.sin(rotationRad) * 0.3;
+      
+      // Transform for 3D effect
+      ctx.transform(scaleX, skewX, 0, 1, centerX * (1 - scaleX), -centerY * skewX);
+      
+      // Draw 3D face profile based on rotation
       ctx.strokeStyle = '#00bfff';
       ctx.lineWidth = 1.5;
       ctx.globalAlpha = 0.9;
       
-      // More realistic face shape
+      // Face outline with 3D depth
       ctx.beginPath();
-      ctx.ellipse(centerX, centerY, 55, 75, 0, 0, 2 * Math.PI);
+      if (rotation < -15) {
+        // Left profile view
+        ctx.ellipse(centerX + 10, centerY, 35, 75, 0, 0, 2 * Math.PI);
+      } else if (rotation > 15) {
+        // Right profile view  
+        ctx.ellipse(centerX - 10, centerY, 35, 75, 0, 0, 2 * Math.PI);
+      } else {
+        // Front view
+        ctx.ellipse(centerX, centerY, 55, 75, 0, 0, 2 * Math.PI);
+      }
       ctx.stroke();
       
-      // Realistic eyes with pupils
+      // Eyes with 3D perspective
       ctx.strokeStyle = '#00bfff';
       ctx.lineWidth = 1;
-      // Left eye
-      ctx.beginPath();
-      ctx.ellipse(centerX - 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
-      ctx.stroke();
-      ctx.fillStyle = '#00bfff';
-      ctx.beginPath();
-      ctx.arc(centerX - 18, centerY - 12, 3, 0, 2 * Math.PI);
-      ctx.fill();
       
-      // Right eye
+      if (rotation < -15) {
+        // Left profile - only right eye visible
+        ctx.beginPath();
+        ctx.ellipse(centerX + 5, centerY - 12, 8, 6, 0, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.arc(centerX + 5, centerY - 12, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      } else if (rotation > 15) {
+        // Right profile - only left eye visible
+        ctx.beginPath();
+        ctx.ellipse(centerX - 5, centerY - 12, 8, 6, 0, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.arc(centerX - 5, centerY - 12, 2, 0, 2 * Math.PI);
+        ctx.fill();
+      } else {
+        // Front view - both eyes
+        // Left eye
+        ctx.beginPath();
+        ctx.ellipse(centerX - 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.arc(centerX - 18, centerY - 12, 3, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        // Right eye
+        ctx.strokeStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.ellipse(centerX + 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillStyle = '#00bfff';
+        ctx.beginPath();
+        ctx.arc(centerX + 18, centerY - 12, 3, 0, 2 * Math.PI);
+        ctx.fill();
+      }
+      
+      // Nose with 3D depth
       ctx.strokeStyle = '#00bfff';
+      ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.ellipse(centerX + 18, centerY - 12, 12, 8, 0, 0, 2 * Math.PI);
+      if (rotation < -15) {
+        // Left profile nose
+        ctx.moveTo(centerX + 20, centerY - 8);
+        ctx.lineTo(centerX + 25, centerY + 2);
+        ctx.lineTo(centerX + 20, centerY + 5);
+      } else if (rotation > 15) {
+        // Right profile nose
+        ctx.moveTo(centerX - 20, centerY - 8);
+        ctx.lineTo(centerX - 25, centerY + 2);
+        ctx.lineTo(centerX - 20, centerY + 5);
+      } else {
+        // Front view nose
+        ctx.moveTo(centerX, centerY - 8);
+        ctx.lineTo(centerX - 3, centerY + 2);
+        ctx.moveTo(centerX, centerY - 8);
+        ctx.lineTo(centerX + 3, centerY + 2);
+      }
       ctx.stroke();
-      ctx.fillStyle = '#00bfff';
-      ctx.beginPath();
-      ctx.arc(centerX + 18, centerY - 12, 3, 0, 2 * Math.PI);
-      ctx.fill();
       
-      // Eyebrows
+      // Mouth with 3D perspective
       ctx.strokeStyle = '#00bfff';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.moveTo(centerX - 28, centerY - 25);
-      ctx.lineTo(centerX - 8, centerY - 22);
-      ctx.moveTo(centerX + 8, centerY - 22);
-      ctx.lineTo(centerX + 28, centerY - 25);
+      if (rotation < -15) {
+        // Left profile mouth
+        ctx.moveTo(centerX + 8, centerY + 20);
+        ctx.quadraticCurveTo(centerX + 15, centerY + 25, centerX + 22, centerY + 22);
+      } else if (rotation > 15) {
+        // Right profile mouth
+        ctx.moveTo(centerX - 22, centerY + 22);
+        ctx.quadraticCurveTo(centerX - 15, centerY + 25, centerX - 8, centerY + 20);
+      } else {
+        // Front view mouth
+        ctx.moveTo(centerX - 12, centerY + 20);
+        ctx.quadraticCurveTo(centerX, centerY + 26, centerX + 12, centerY + 20);
+      }
       ctx.stroke();
       
-      // More realistic nose
-      ctx.strokeStyle = '#00bfff';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY - 8);
-      ctx.lineTo(centerX - 3, centerY + 2);
-      ctx.moveTo(centerX, centerY - 8);
-      ctx.lineTo(centerX + 3, centerY + 2);
-      // Nostrils
-      ctx.arc(centerX - 3, centerY + 3, 1, 0, 2 * Math.PI);
-      ctx.moveTo(centerX + 6, centerY + 3);
-      ctx.arc(centerX + 3, centerY + 3, 1, 0, 2 * Math.PI);
-      ctx.stroke();
-      
-      // More realistic mouth
-      ctx.strokeStyle = '#00bfff';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(centerX - 12, centerY + 20);
-      ctx.quadraticCurveTo(centerX, centerY + 26, centerX + 12, centerY + 20);
-      ctx.stroke();
+      // Restore context
+      ctx.restore();
       
       // Subtle facial recognition grid
       ctx.strokeStyle = '#40e0d0';
@@ -133,18 +191,39 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       ctx.fillStyle = gradient;
       ctx.fillRect(0, scanY - 20, canvas.width, 40);
       
-      // Facial landmark detection points
+      // Facial landmark detection points with 3D positioning
       ctx.fillStyle = '#00ff7f';
       ctx.globalAlpha = 0.9;
       
-      const landmarkPoints = [
-        { x: centerX - 18, y: centerY - 12, name: 'L_EYE' }, // Left eye
-        { x: centerX + 18, y: centerY - 12, name: 'R_EYE' }, // Right eye
-        { x: centerX, y: centerY + 2, name: 'NOSE' }, // Nose tip
-        { x: centerX - 12, y: centerY + 20, name: 'L_MOUTH' }, // Left mouth corner
-        { x: centerX + 12, y: centerY + 20, name: 'R_MOUTH' }, // Right mouth corner
-        { x: centerX, y: centerY + 22, name: 'CHIN' }, // Chin center
-      ];
+      let landmarkPoints = [];
+      
+      if (rotation < -15) {
+        // Left profile landmarks
+        landmarkPoints = [
+          { x: centerX + 5, y: centerY - 12, name: 'R_EYE' },
+          { x: centerX + 22, y: centerY + 2, name: 'NOSE' },
+          { x: centerX + 15, y: centerY + 22, name: 'MOUTH' },
+          { x: centerX + 8, y: centerY + 45, name: 'CHIN' },
+        ];
+      } else if (rotation > 15) {
+        // Right profile landmarks
+        landmarkPoints = [
+          { x: centerX - 5, y: centerY - 12, name: 'L_EYE' },
+          { x: centerX - 22, y: centerY + 2, name: 'NOSE' },
+          { x: centerX - 15, y: centerY + 22, name: 'MOUTH' },
+          { x: centerX - 8, y: centerY + 45, name: 'CHIN' },
+        ];
+      } else {
+        // Front view landmarks
+        landmarkPoints = [
+          { x: centerX - 18, y: centerY - 12, name: 'L_EYE' },
+          { x: centerX + 18, y: centerY - 12, name: 'R_EYE' },
+          { x: centerX, y: centerY + 2, name: 'NOSE' },
+          { x: centerX - 12, y: centerY + 20, name: 'L_MOUTH' },
+          { x: centerX + 12, y: centerY + 20, name: 'R_MOUTH' },
+          { x: centerX, y: centerY + 45, name: 'CHIN' },
+        ];
+      }
       
       landmarkPoints.forEach((point, index) => {
         if (scanY >= point.y - 5) {
@@ -175,18 +254,23 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       if (progress >= 100) {
         scanDirection = -1;
         progress = 100;
-        setTimeout(() => {
-          // Brief pause at completion
-        }, 500);
       } else if (progress <= 0) {
         scanDirection = 1;
         progress = 0;
-        setTimeout(() => {
-          // Brief pause before restart
-        }, 300);
+      }
+      
+      // Update rotation for 3D effect (left to right turn)
+      rotation += rotationDirection * 0.8;
+      if (rotation >= 30) {
+        rotationDirection = -1;
+        rotation = 30;
+      } else if (rotation <= -30) {
+        rotationDirection = 1;
+        rotation = -30;
       }
       
       setScanProgress(progress);
+      setRotationAngle(rotation);
       animationRef.current = requestAnimationFrame(animate);
     };
 
@@ -211,7 +295,7 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       {/* Status indicators */}
       <div className="absolute -bottom-8 left-0 right-0 text-center">
         <div className="text-xs text-cyan-400 font-mono">
-          {isScanning ? `SCANNING... ${Math.round(scanProgress)}%` : 'SCAN COMPLETE'}
+          {isScanning ? `3D SCAN... ${Math.round(scanProgress)}% | ${Math.round(rotationAngle)}°` : 'SCAN COMPLETE'}
         </div>
         <div className="flex justify-center mt-1 space-x-1">
           <div className={`w-2 h-2 rounded-full ${scanProgress > 20 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
