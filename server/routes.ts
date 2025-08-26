@@ -3121,6 +3121,201 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Advanced Threat Hunting Engine API Routes
+  app.get("/api/threat-hunting/rules", async (req, res) => {
+    try {
+      const { advancedThreatHuntingEngine } = await import("./engines/advanced-threat-hunting");
+      const rules = advancedThreatHuntingEngine.getHuntingRules();
+      res.json(rules);
+    } catch (error) {
+      console.error("Error fetching hunting rules:", error);
+      res.status(500).json({ message: "Failed to fetch hunting rules" });
+    }
+  });
+
+  app.post("/api/threat-hunting/rules", async (req, res) => {
+    try {
+      const { advancedThreatHuntingEngine } = await import("./engines/advanced-threat-hunting");
+      const rule = advancedThreatHuntingEngine.createHuntingRule(req.body);
+      res.status(201).json(rule);
+    } catch (error) {
+      console.error("Error creating hunting rule:", error);
+      res.status(500).json({ message: "Failed to create hunting rule" });
+    }
+  });
+
+  app.get("/api/threat-hunting/hunts", async (req, res) => {
+    try {
+      const { advancedThreatHuntingEngine } = await import("./engines/advanced-threat-hunting");
+      const hunts = advancedThreatHuntingEngine.getProactiveHunts();
+      res.json(hunts);
+    } catch (error) {
+      console.error("Error fetching proactive hunts:", error);
+      res.status(500).json({ message: "Failed to fetch proactive hunts" });
+    }
+  });
+
+  app.post("/api/threat-hunting/hunt", async (req, res) => {
+    try {
+      const { advancedThreatHuntingEngine } = await import("./engines/advanced-threat-hunting");
+      const { ruleId } = req.body;
+      const huntResults = await advancedThreatHuntingEngine.executeHunt(ruleId);
+      res.json(huntResults);
+    } catch (error) {
+      console.error("Error executing threat hunt:", error);
+      res.status(500).json({ message: "Failed to execute threat hunt" });
+    }
+  });
+
+  // Predictive Risk Analysis Engine API Routes
+  app.get("/api/predictive-risk/models", async (req, res) => {
+    try {
+      const { predictiveRiskAnalysisEngine } = await import("./engines/predictive-risk-analysis");
+      const models = predictiveRiskAnalysisEngine.getRiskModels();
+      res.json(models);
+    } catch (error) {
+      console.error("Error fetching risk models:", error);
+      res.status(500).json({ message: "Failed to fetch risk models" });
+    }
+  });
+
+  app.get("/api/predictive-risk/predictions", async (req, res) => {
+    try {
+      const { predictiveRiskAnalysisEngine } = await import("./engines/predictive-risk-analysis");
+      const predictions = predictiveRiskAnalysisEngine.getVulnerabilityPredictions();
+      res.json(predictions);
+    } catch (error) {
+      console.error("Error fetching risk predictions:", error);
+      res.status(500).json({ message: "Failed to fetch risk predictions" });
+    }
+  });
+
+  app.get("/api/predictive-risk/insights", async (req, res) => {
+    try {
+      const { predictiveRiskAnalysisEngine } = await import("./engines/predictive-risk-analysis");
+      const insights = predictiveRiskAnalysisEngine.getPredictiveInsights();
+      res.json(insights);
+    } catch (error) {
+      console.error("Error fetching predictive insights:", error);
+      res.status(500).json({ message: "Failed to fetch predictive insights" });
+    }
+  });
+
+  app.post("/api/predictive-risk/analyze", async (req, res) => {
+    try {
+      const { predictiveRiskAnalysisEngine } = await import("./engines/predictive-risk-analysis");
+      const { assetId, timeframe } = req.body;
+      const analysis = await predictiveRiskAnalysisEngine.generateAssetPrediction(assetId, timeframe);
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error performing predictive analysis:", error);
+      res.status(500).json({ message: "Failed to perform predictive analysis" });
+    }
+  });
+
+  // User Behavior Analytics Engine API Routes
+  app.get("/api/user-behavior/profiles", async (req, res) => {
+    try {
+      const { userBehaviorAnalyticsEngine } = await import("./engines/user-behavior-analytics");
+      const profiles = userBehaviorAnalyticsEngine.getBehaviorProfiles();
+      res.json(profiles);
+    } catch (error) {
+      console.error("Error fetching behavior profiles:", error);
+      res.status(500).json({ message: "Failed to fetch behavior profiles" });
+    }
+  });
+
+  app.get("/api/user-behavior/anomalies", async (req, res) => {
+    try {
+      const { userBehaviorAnalyticsEngine } = await import("./engines/user-behavior-analytics");
+      const anomalies = userBehaviorAnalyticsEngine.getAnomalies();
+      res.json(anomalies);
+    } catch (error) {
+      console.error("Error fetching behavior anomalies:", error);
+      res.status(500).json({ message: "Failed to fetch behavior anomalies" });
+    }
+  });
+
+  app.get("/api/user-behavior/insights", async (req, res) => {
+    try {
+      const { userBehaviorAnalyticsEngine } = await import("./engines/user-behavior-analytics");
+      const insights = userBehaviorAnalyticsEngine.getBehaviorInsights();
+      res.json(insights);
+    } catch (error) {
+      console.error("Error fetching behavior insights:", error);
+      res.status(500).json({ message: "Failed to fetch behavior insights" });
+    }
+  });
+
+  app.post("/api/user-behavior/analyze", async (req, res) => {
+    try {
+      const { userBehaviorAnalyticsEngine } = await import("./engines/user-behavior-analytics");
+      const { userId, sessionData } = req.body;
+      const analysis = await userBehaviorAnalyticsEngine.analyzeUserSession(userId, sessionData);
+      res.json(analysis);
+    } catch (error) {
+      console.error("Error analyzing user behavior:", error);
+      res.status(500).json({ message: "Failed to analyze user behavior" });
+    }
+  });
+
+  // Cloud Integration Engine API Routes
+  app.get("/api/cloud-integration/providers", async (req, res) => {
+    try {
+      const { cloudIntegrationEngine } = await import("./engines/cloud-integration");
+      const providers = cloudIntegrationEngine.getCloudProviders();
+      res.json(providers);
+    } catch (error) {
+      console.error("Error fetching cloud providers:", error);
+      res.status(500).json({ message: "Failed to fetch cloud providers" });
+    }
+  });
+
+  app.get("/api/cloud-integration/networks", async (req, res) => {
+    try {
+      const { cloudIntegrationEngine } = await import("./engines/cloud-integration");
+      const networks = cloudIntegrationEngine.getCloudNetworks();
+      res.json(networks);
+    } catch (error) {
+      console.error("Error fetching cloud networks:", error);
+      res.status(500).json({ message: "Failed to fetch cloud networks" });
+    }
+  });
+
+  app.get("/api/cloud-integration/smart-city", async (req, res) => {
+    try {
+      const { cloudIntegrationEngine } = await import("./engines/cloud-integration");
+      const components = cloudIntegrationEngine.getSmartCityComponents();
+      res.json(components);
+    } catch (error) {
+      console.error("Error fetching smart city components:", error);
+      res.status(500).json({ message: "Failed to fetch smart city components" });
+    }
+  });
+
+  app.get("/api/cloud-integration/multi-state", async (req, res) => {
+    try {
+      const { cloudIntegrationEngine } = await import("./engines/cloud-integration");
+      const collaborations = cloudIntegrationEngine.getMultiStateCollaborations();
+      res.json(collaborations);
+    } catch (error) {
+      console.error("Error fetching multi-state collaborations:", error);
+      res.status(500).json({ message: "Failed to fetch multi-state collaborations" });
+    }
+  });
+
+  app.post("/api/cloud-integration/connect", async (req, res) => {
+    try {
+      const { cloudIntegrationEngine } = await import("./engines/cloud-integration");
+      const { providerId, configuration } = req.body;
+      const connection = await cloudIntegrationEngine.connectToProvider(providerId, configuration);
+      res.json(connection);
+    } catch (error) {
+      console.error("Error connecting to cloud provider:", error);
+      res.status(500).json({ message: "Failed to connect to cloud provider" });
+    }
+  });
+
   // Geolocation API for threats with AbuseIPDB integration
   app.get("/api/threats/geolocation", async (req, res) => {
     try {
