@@ -18,7 +18,14 @@ import {
   School,
   Users
 } from "lucide-react";
-import videoTopicImg from "@assets/generated_images/Video_Training_Content_01f9408e.png";
+import govAIFundamentalsImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.png";
+import advThreatDetectionImg from "@assets/generated_images/Advanced_Threat_Detection_Video_03258c71.png";
+import ferpaComplianceVideoImg from "@assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.png";
+import k12StudentDataProtImg from "@assets/generated_images/K12_Student_Data_Protection_3f09fa2a.png";
+import zeroTrustArchVideoImg from "@assets/generated_images/Zero_Trust_Architecture_Video_8765cbeb.png";
+import fedAgencyCaseStudyImg from "@assets/generated_images/Federal_Agency_Case_Study_6de66494.png";
+import aiComplianceAutoVideoImg from "@assets/generated_images/AI_Compliance_Automation_Video_c14385ca.png";
+import univResearchDataProtImg from "@assets/generated_images/University_Research_Data_Protection_2c521546.png";
 
 const categories = [
   "AI Security Fundamentals",
@@ -47,7 +54,7 @@ const videoTopics = [
     viewCount: "8,400",
     featured: true,
     level: "Beginner",
-    image: videoTopicImg
+    image: govAIFundamentalsImg
   },
   {
     title: "Advanced Threat Detection with AI",
@@ -58,7 +65,7 @@ const videoTopics = [
     viewCount: "12,300",
     featured: true,
     level: "Advanced",
-    image: videoTopicImg
+    image: advThreatDetectionImg
   },
   {
     title: "FERPA Compliance in AI Systems",
@@ -69,7 +76,7 @@ const videoTopics = [
     viewCount: "5,700",
     featured: true,
     level: "Intermediate",
-    image: videoTopicImg
+    image: ferpaComplianceVideoImg
   },
   {
     title: "K-12 Student Data Protection Strategies",
@@ -80,7 +87,7 @@ const videoTopics = [
     viewCount: "6,900",
     featured: false,
     level: "Intermediate",
-    image: videoTopicImg
+    image: k12StudentDataProtImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -91,7 +98,7 @@ const videoTopics = [
     viewCount: "9,800",
     featured: false,
     level: "Advanced",
-    image: videoTopicImg
+    image: zeroTrustArchVideoImg
   },
   {
     title: "Federal Agency AI Security Case Study",
@@ -102,7 +109,7 @@ const videoTopics = [
     viewCount: "4,200",
     featured: false,
     level: "Intermediate",
-    image: videoTopicImg
+    image: fedAgencyCaseStudyImg
   },
   {
     title: "AI Security Compliance Automation",
@@ -113,7 +120,7 @@ const videoTopics = [
     viewCount: "7,600",
     featured: false,
     level: "Advanced",
-    image: videoTopicImg
+    image: aiComplianceAutoVideoImg
   },
   {
     title: "University Research Data Protection",
@@ -124,7 +131,7 @@ const videoTopics = [
     viewCount: "3,800",
     featured: false,
     level: "Intermediate",
-    image: videoTopicImg
+    image: univResearchDataProtImg
   }
 ];
 
