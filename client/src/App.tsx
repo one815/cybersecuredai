@@ -49,6 +49,7 @@ import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
 import MISPLiveDashboard from "@/pages/MISPLiveDashboard";
 import MISPBenefits from "@/pages/MISPBenefits";
 import VulnerabilityTrendDashboard from "@/pages/VulnerabilityTrendDashboard";
+import ThreatMap5D from "@/pages/ThreatMap5D";
 
 // Marketing Website Pages
 import Home from "@/pages/Home";
@@ -214,6 +215,11 @@ function Router() {
       <Route path="/vulnerability-trends">
         <Layout>
           <VulnerabilityTrendDashboard />
+        </Layout>
+      </Route>
+      <Route path="/threat-map-5d">
+        <Layout>
+          <ThreatMap5D />
         </Layout>
       </Route>
       <Route path="/security-integrations">

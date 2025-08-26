@@ -728,7 +728,7 @@ export default function Home() {
               </div>
               <div className="text-center p-4 bg-surface/30 rounded-lg border border-green-500/30">
                 <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <CustomUsersIcon className="w-8 h-8 text-green-400" size={40} />
+                  <Users className="w-8 h-8 text-green-400" />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">Behavior Analytics</h4>
                 <p className="text-gray-400 text-sm">AI-based user behavior analytics for insider threat detection and anomaly identification</p>

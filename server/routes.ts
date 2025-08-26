@@ -1309,6 +1309,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // 5D Threat Map API endpoints
+  app.get('/api/threats/realtime', async (req, res) => {
+    try {
+      // Generate realistic real-time threat data
+      const threats = [];
+      const threatTypes = ['malware', 'phishing', 'ddos', 'ransomware', 'botnet'];
+      const severities = ['low', 'medium', 'high', 'critical'];
+      const countries = ['CN', 'RU', 'KP', 'IR', 'US', 'BR', 'IN', 'DE', 'FR', 'GB'];
+      
+      for (let i = 0; i < 50; i++) {
+        const sourceCountry = countries[Math.floor(Math.random() * countries.length)];
+        const targetCountry = countries[Math.floor(Math.random() * countries.length)];
+        
+        threats.push({
+          id: `threat_${Date.now()}_${i}`,
+          sourceIP: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+          targetIP: `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+          sourceCountry,
+          targetCountry,
+          sourceLat: (Math.random() - 0.5) * 180,
+          sourceLng: (Math.random() - 0.5) * 360,
+          targetLat: (Math.random() - 0.5) * 180,
+          targetLng: (Math.random() - 0.5) * 360,
+          threatType: threatTypes[Math.floor(Math.random() * threatTypes.length)],
+          severity: severities[Math.floor(Math.random() * severities.length)],
+          timestamp: new Date().toISOString(),
+          attackVector: ['web', 'email', 'network', 'usb', 'social'][Math.floor(Math.random() * 5)],
+          targetPort: Math.floor(Math.random() * 65535),
+          blocked: Math.random() > 0.3
+        });
+      }
+      
+      res.json(threats);
+    } catch (error) {
+      console.error('Error generating real-time threats:', error);
+      res.status(500).json({ error: 'Failed to fetch real-time threats' });
+    }
+  });
+
+  app.get('/api/threats/stats', async (req, res) => {
+    try {
+      const stats = {
+        totalThreats: Math.floor(Math.random() * 1000) + 3000,
+        blockedThreats: Math.floor(Math.random() * 800) + 2800,
+        realTimeRate: Math.floor(Math.random() * 50) + 100,
+        topThreatTypes: [
+          { type: 'malware', count: Math.floor(Math.random() * 500) + 1000 },
+          { type: 'phishing', count: Math.floor(Math.random() * 400) + 800 },
+          { type: 'ddos', count: Math.floor(Math.random() * 300) + 600 },
+          { type: 'ransomware', count: Math.floor(Math.random() * 200) + 400 },
+          { type: 'botnet', count: Math.floor(Math.random() * 200) + 300 }
+        ],
+        topCountries: [
+          { country: 'China', count: Math.floor(Math.random() * 300) + 500 },
+          { country: 'Russia', count: Math.floor(Math.random() * 250) + 400 },
+          { country: 'North Korea', count: Math.floor(Math.random() * 150) + 200 },
+          { country: 'Iran', count: Math.floor(Math.random() * 100) + 150 },
+          { country: 'USA', count: Math.floor(Math.random() * 100) + 100 }
+        ]
+      };
+      
+      res.json(stats);
+    } catch (error) {
+      console.error('Error generating threat stats:', error);
+      res.status(500).json({ error: 'Failed to fetch threat statistics' });
+    }
+  });
+
   // Cypher AI Assistant API routes
   app.post("/api/cypher/chat", async (req, res) => {
     try {

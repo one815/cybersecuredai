@@ -83,6 +83,7 @@ const navigationCategories: NavigationCategory[] = [
       { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
       { id: "threat-analysis", label: "Advanced Analytics", icon: Activity, path: "/threat-analysis", requiredTier: 'advanced', isPremium: true },
       { id: "threat-intelligence", label: "Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/threat-intelligence" },
+      { id: "threat-map-5d", label: "5D Threat Map", icon: Brain, path: "/threat-map-5d", requiredTier: 'enterprise', isPremium: true },
       { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
       { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
       { id: "security-integrations", label: "Security Integrations", icon: Zap, path: "/security-integrations", requiredTier: 'enterprise', isPremium: true },
