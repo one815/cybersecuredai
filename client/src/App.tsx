@@ -6,7 +6,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { OnboardingModal } from "@/components/OnboardingModal";
-import { LoadingScreen } from "@/components/LoadingScreen";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 
@@ -99,32 +98,16 @@ import SystemAdministration from "@/pages/platform/SystemAdministration";
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
-  const [hasTriggeredLoading, setHasTriggeredLoading] = useState(false);
 
   useEffect(() => {
-    // Temporarily disable onboarding to allow testing of loading screen
-    setShowOnboarding(false);
-    
     // Show onboarding if user exists but hasn't completed onboarding
-    // if (user && !user.onboardingCompleted && !isLoading) {
-    //   setShowOnboarding(true);
-    // } else {
-    //   setShowOnboarding(false);
-    // }
+    if (user && !user.onboardingCompleted && !isLoading) {
+      setShowOnboarding(true);
+    } else {
+      setShowOnboarding(false);
+    }
   }, [user, isLoading]);
 
-  // Trigger loading screen on first visit or when user navigates to home
-  useEffect(() => {
-    // Clear the session storage for testing/demo purposes
-    sessionStorage.removeItem('hasSeenLoadingScreen');
-    
-    const hasSeenLoadingScreen = sessionStorage.getItem('hasSeenLoadingScreen');
-    if (!hasSeenLoadingScreen && !hasTriggeredLoading) {
-      setShowLoadingScreen(true);
-      setHasTriggeredLoading(true);
-    }
-  }, [hasTriggeredLoading]);
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
@@ -132,10 +115,6 @@ function Router() {
     window.location.reload();
   };
 
-  const handleLoadingComplete = () => {
-    setShowLoadingScreen(false);
-    sessionStorage.setItem('hasSeenLoadingScreen', 'true');
-  };
 
   if (isLoading) {
     return (
@@ -147,13 +126,6 @@ function Router() {
 
   return (
     <>
-      {/* Cyber Threat Scanning Loading Screen */}
-      <LoadingScreen 
-        trigger={showLoadingScreen}
-        onLoadingComplete={handleLoadingComplete}
-      />
-
-      {/* Main Application Routes */}
       <Switch>
         {/* Marketing Website Routes (no Layout wrapper) */}
       <Route path="/" component={Home} />
@@ -408,14 +380,14 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {/* Onboarding Modal - Temporarily disabled for loading screen testing */}
-      {/* {showOnboarding && (
+      {/* Onboarding Modal */}
+      {showOnboarding && (
         <OnboardingModal
           isOpen={showOnboarding}
           onClose={() => setShowOnboarding(false)}
           onComplete={handleOnboardingComplete}
         />
-      )} */}
+      )}
     </>
   );
 }

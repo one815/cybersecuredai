@@ -96,17 +96,6 @@ export default function Home() {
                   <CustomZapIcon className="ml-2 w-8 h-6 text-purple-200" size={32} />
                 </Button>
               </Link>
-              <Button 
-                size="lg" 
-                onClick={() => {
-                  sessionStorage.removeItem('hasSeenLoadingScreen');
-                  window.location.reload();
-                }}
-                className="bg-gradient-to-r from-red-600 via-orange-600 to-red-700 hover:from-red-700 hover:via-orange-700 hover:to-red-800 text-white px-8 py-4 text-lg font-secondary border border-red-400/30 shadow-lg shadow-red-500/20"
-              >
-                🛡️ Test Loading Screen
-                <CustomZapIcon className="ml-2 w-8 h-6 text-red-200" size={32} />
-              </Button>
               <Link href="/security-scanner">
                 <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 px-8 py-4 text-lg font-secondary">
                   Free Security Assessment
