@@ -19,12 +19,7 @@ import {
   Users,
   Video
 } from "lucide-react";
-import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
-import threatImg from "@/assets/images/threat-monitoring.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
-import federalImg from "@/assets/images/federal-agency.png";
-import complianceImg from "@/assets/images/compliance-dashboard.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Platform Overview",
@@ -60,7 +55,7 @@ const demos = [
     viewCount: "12,400",
     featured: true,
     schedulable: false,
-    image: cybersecurityImg
+    image: placeholderImg
   },
   {
     title: "AI-Powered Threat Detection in Action",
@@ -72,7 +67,7 @@ const demos = [
     viewCount: "8,900",
     featured: true,
     schedulable: true,
-    image: threatImg
+    image: placeholderImg
   },
   {
     title: "Higher Education FERPA Compliance Demo",
@@ -84,7 +79,7 @@ const demos = [
     viewCount: "5,600",
     featured: true,
     schedulable: true,
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "K-12 Student Data Protection Interactive Tutorial",
@@ -96,7 +91,7 @@ const demos = [
     viewCount: "7,200",
     featured: false,
     schedulable: false,
-    image: schoolImg
+    image: placeholderImg
   },
   {
     title: "Enterprise Integration Showcase",
@@ -108,7 +103,7 @@ const demos = [
     viewCount: "4,100",
     featured: false,
     schedulable: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "SOC Dashboard Management Live Demo", 
@@ -120,7 +115,7 @@ const demos = [
     viewCount: "9,800",
     featured: false,
     schedulable: true,
-    image: complianceImg
+    image: placeholderImg
   }
 ];
 

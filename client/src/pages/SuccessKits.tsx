@@ -20,11 +20,7 @@ import {
   Video,
   BookOpen
 } from "lucide-react";
-import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
-import federalImg from "@/assets/images/federal-agency.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
-import complianceImg from "@/assets/images/compliance-dashboard.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Implementation",
@@ -51,7 +47,7 @@ const successKits = [
     components: ["Deployment Guide", "Compliance Checklist", "Training Videos", "Templates"],
     downloadCount: "2,400",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "University AI Security Success Kit",
@@ -61,7 +57,7 @@ const successKits = [
     components: ["FERPA Compliance Guide", "Research Protection Plan", "Campus Security Framework", "Training Materials"],
     downloadCount: "1,800",
     featured: true,
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "K-12 Student Data Protection Kit",
@@ -71,7 +67,7 @@ const successKits = [
     components: ["COPPA Compliance Guide", "Privacy Framework", "Safety Protocols", "Parent Communication Kit"],
     downloadCount: "3,200",
     featured: true,
-    image: schoolImg
+    image: placeholderImg
   },
   {
     title: "AI Threat Response Playbook Kit",
@@ -81,7 +77,7 @@ const successKits = [
     components: ["Response Playbooks", "Communication Templates", "Recovery Procedures", "Analysis Framework"],
     downloadCount: "4,100",
     featured: false,
-    image: cybersecurityImg
+    image: placeholderImg
   },
   {
     title: "AI Security Risk Assessment Kit",
@@ -91,7 +87,7 @@ const successKits = [
     components: ["Assessment Framework", "Scoring Matrix", "Mitigation Strategies", "Report Templates"],
     downloadCount: "2,900",
     featured: false,
-    image: complianceImg
+    image: placeholderImg
   },
   {
     title: "AI Security Awareness Training Kit",
@@ -101,7 +97,7 @@ const successKits = [
     components: ["Training Presentations", "Educational Videos", "Interactive Quizzes", "Certification Materials"],
     downloadCount: "5,600",
     featured: false,
-    image: cybersecurityImg
+    image: placeholderImg
   }
 ];
 

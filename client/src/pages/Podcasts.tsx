@@ -19,11 +19,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
-import threatImg from "@/assets/images/threat-monitoring.png";
-import federalImg from "@/assets/images/federal-agency.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "AI Security",
@@ -55,7 +51,7 @@ const podcasts = [
     publishDate: "January 2025",
     downloadCount: "12,400",
     featured: true,
-    image: cybersecurityImg
+    image: placeholderImg
   },
   {
     title: "Federal AI Implementation Best Practices",
@@ -67,7 +63,7 @@ const podcasts = [
     publishDate: "December 2024",
     downloadCount: "8,900",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Campus Security in the AI Era",
@@ -79,7 +75,7 @@ const podcasts = [
     publishDate: "November 2024",
     downloadCount: "6,700",
     featured: true,
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "Protecting Student Data with AI",
@@ -91,7 +87,7 @@ const podcasts = [
     publishDate: "October 2024",
     downloadCount: "5,200",
     featured: false,
-    image: schoolImg
+    image: placeholderImg
   },
   {
     title: "Threat Intelligence Revolution",
@@ -103,7 +99,7 @@ const podcasts = [
     publishDate: "September 2024",
     downloadCount: "9,800",
     featured: false,
-    image: threatImg
+    image: placeholderImg
   },
   {
     title: "Compliance Automation Success Stories",
@@ -115,7 +111,7 @@ const podcasts = [
     publishDate: "August 2024",
     downloadCount: "7,300",
     featured: false,
-    image: cybersecurityImg
+    image: placeholderImg
   }
 ];
 

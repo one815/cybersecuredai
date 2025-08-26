@@ -18,12 +18,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
-import threatImg from "@/assets/images/threat-monitoring.png";
-import federalImg from "@/assets/images/federal-agency.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
-import complianceImg from "@/assets/images/compliance-dashboard.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "AI Security Fundamentals",
@@ -52,7 +47,7 @@ const videoTopics = [
     viewCount: "8,400",
     featured: true,
     level: "Beginner",
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Advanced Threat Detection with AI",
@@ -63,7 +58,7 @@ const videoTopics = [
     viewCount: "12,300",
     featured: true,
     level: "Advanced",
-    image: threatImg
+    image: placeholderImg
   },
   {
     title: "FERPA Compliance in AI Systems",
@@ -74,7 +69,7 @@ const videoTopics = [
     viewCount: "5,700",
     featured: true,
     level: "Intermediate",
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "K-12 Student Data Protection Strategies",
@@ -85,7 +80,7 @@ const videoTopics = [
     viewCount: "6,900",
     featured: false,
     level: "Intermediate",
-    image: schoolImg
+    image: placeholderImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -96,7 +91,7 @@ const videoTopics = [
     viewCount: "9,800",
     featured: false,
     level: "Advanced",
-    image: cybersecurityImg
+    image: placeholderImg
   },
   {
     title: "Federal Agency AI Security Case Study",
@@ -107,7 +102,7 @@ const videoTopics = [
     viewCount: "4,200",
     featured: false,
     level: "Intermediate",
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "AI Security Compliance Automation",
@@ -118,7 +113,7 @@ const videoTopics = [
     viewCount: "7,600",
     featured: false,
     level: "Advanced",
-    image: complianceImg
+    image: placeholderImg
   },
   {
     title: "University Research Data Protection",
@@ -129,7 +124,7 @@ const videoTopics = [
     viewCount: "3,800",
     featured: false,
     level: "Intermediate",
-    image: uniImg
+    image: placeholderImg
   }
 ];
 
