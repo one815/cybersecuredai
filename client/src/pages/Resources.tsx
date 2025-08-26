@@ -23,7 +23,9 @@ import {
   Filter,
   ChevronDown
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import threatImg from "@/assets/images/threat-monitoring.png";
+import complianceImg from "@/assets/images/compliance-dashboard.png";
+import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
 
 const categories = [
   "AI & Machine Learning",
@@ -70,7 +72,7 @@ const featuredResources = [
     sector: "general",
     downloadCount: "15,400",
     featured: true,
-    image: placeholderImg
+    image: threatImg
   },
   {
     title: "CyberSecure AI named Leader in Cybersecurity",
@@ -80,7 +82,7 @@ const featuredResources = [
     sector: "general",
     downloadCount: "8,900",
     featured: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "CyberSecure AI 2025 Global Security Report",
@@ -90,7 +92,7 @@ const featuredResources = [
     sector: "general",
     downloadCount: "22,300",
     featured: true,
-    image: placeholderImg
+    image: complianceImg
   }
 ];
 
