@@ -33,7 +33,10 @@ import {
   StarIcon,
   Sparkles,
   TrendingUp,
-  BookOpen
+  BookOpen,
+  Video,
+  FileText,
+  Star
 } from "lucide-react";
 import { useState } from "react";
 
@@ -111,9 +114,22 @@ const navigationCategories: NavigationCategory[] = [
     icon: GraduationCap,
     items: [
       { id: "training", label: "Security Training", icon: GraduationCap, path: "/training" },
-      { id: "resources", label: "Resources", icon: BookOpen, path: "/resources" },
+      { id: "courses", label: "Courses", icon: GraduationCap, path: "/courses" },
+      { id: "webinars", label: "Webinars", icon: () => <Video size={16} />, path: "/webinars" },
+      { id: "resources", label: "All Resources", icon: BookOpen, path: "/resources" },
       { id: "achievements", label: "Achievements", icon: Trophy, path: "/achievements" },
       { id: "simulator", label: "Playbook Simulator", icon: Brain, path: "/simulator", requiredTier: 'advanced', isPremium: true },
+    ]
+  },
+  {
+    id: "knowledge",
+    label: "Knowledge Base",
+    icon: BookOpen,
+    items: [
+      { id: "blog-posts", label: "Blog Posts", icon: () => <FileText size={16} />, path: "/blog-posts" },
+      { id: "handbooks", label: "Handbooks", icon: BookOpen, path: "/handbooks" },
+      { id: "whitepapers", label: "White Papers", icon: () => <FileText size={16} />, path: "/whitepapers" },
+      { id: "use-cases", label: "Use Cases", icon: () => <Star size={16} />, path: "/use-cases" },
     ]
   },
   {

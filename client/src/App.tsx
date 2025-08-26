@@ -28,6 +28,12 @@ import ITManagement from "@/pages/ITManagement";
 import SecurityTraining from "@/pages/SecurityTraining";
 import HelpDesk from "@/pages/HelpDesk";
 import Resources from "@/pages/Resources";
+import Courses from "@/pages/Courses";
+import BlogPosts from "@/pages/BlogPosts";
+import Handbooks from "@/pages/Handbooks";
+import Webinars from "@/pages/Webinars";
+import WhitePapers from "@/pages/WhitePapers";
+import UseCases from "@/pages/UseCases";
 import SecurityOverview from "@/pages/SecurityOverview";
 import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
@@ -207,6 +213,36 @@ function Router() {
       <Route path="/resources">
         <Layout>
           <Resources />
+        </Layout>
+      </Route>
+      <Route path="/courses">
+        <Layout>
+          <Courses />
+        </Layout>
+      </Route>
+      <Route path="/blog-posts">
+        <Layout>
+          <BlogPosts />
+        </Layout>
+      </Route>
+      <Route path="/handbooks">
+        <Layout>
+          <Handbooks />
+        </Layout>
+      </Route>
+      <Route path="/webinars">
+        <Layout>
+          <Webinars />
+        </Layout>
+      </Route>
+      <Route path="/whitepapers">
+        <Layout>
+          <WhitePapers />
+        </Layout>
+      </Route>
+      <Route path="/use-cases">
+        <Layout>
+          <UseCases />
         </Layout>
       </Route>
       <Route path="/support">
