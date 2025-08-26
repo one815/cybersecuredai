@@ -69,6 +69,7 @@ import DocumentViewer from "@/pages/marketing/DocumentViewer";
 import ArticleViewer from "@/pages/marketing/ArticleViewer";
 import CourseViewer from "@/pages/marketing/CourseViewer";
 import WhyCyberSecuredAI from "@/pages/WhyCyberSecureAI";
+import FuturisticDemo from "@/pages/FuturisticDemo";
 
 // Solutions Pages
 import RansomwareProtection from "@/pages/solutions/RansomwareProtection";
@@ -135,6 +136,7 @@ function Router() {
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
       <Route path="/why-cybersecured-ai" component={WhyCyberSecuredAI} />
+      <Route path="/futuristic-demo" component={FuturisticDemo} />
       <Route path="/misp-benefits" component={MISPBenefits} />
       
       {/* Solutions Pages */}
