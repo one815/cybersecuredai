@@ -18,7 +18,12 @@ import {
   Award,
   CheckCircle
 } from "lucide-react";
-import clientStoryImg from "@assets/generated_images/Client_Success_Story_e83fb121.png";
+import federalEducationImg from "@assets/generated_images/Federal_Education_Security_Success_147eb718.png";
+import universityFerpaImg from "@assets/generated_images/University_FERPA_Compliance_Success_c6f7fd15.png";
+import k12CostSavingsImg from "@assets/generated_images/K12_District_Cost_Savings_62fda7d5.png";
+import multiAgencyImg from "@assets/generated_images/Multi_Agency_Collaboration_Platform_b50f0b2a.png";
+import mitResearchImg from "@assets/generated_images/MIT_Research_IP_Protection_0a1313e3.png";
+import ruralDigitalImg from "@assets/generated_images/Rural_Digital_Equity_Success_60f1d289.png";
 
 const categories = [
   "Implementation Success",
@@ -46,7 +51,7 @@ const clientStories = [
     results: ["89% reduction in security incidents", "$2.3M annual savings", "50% faster incident response"],
     readTime: "8 min read",
     featured: true,
-    image: clientStoryImg
+    image: federalEducationImg
   },
   {
     title: "State University Achieves 100% FERPA Compliance",
@@ -57,7 +62,7 @@ const clientStories = [
     results: ["100% FERPA compliance", "75% reduction in data breaches", "Enhanced student privacy protection"],
     readTime: "12 min read",
     featured: true,
-    image: clientStoryImg
+    image: universityFerpaImg
   },
   {
     title: "K-12 District Saves $1.2M Annually on Security",
@@ -68,7 +73,7 @@ const clientStories = [
     results: ["$1.2M annual cost savings", "Zero successful phishing attacks", "95% user satisfaction"],
     readTime: "10 min read",
     featured: true,
-    image: clientStoryImg
+    image: k12CostSavingsImg
   },
   {
     title: "Multi-Agency Collaboration Platform Success",
@@ -79,7 +84,7 @@ const clientStories = [
     results: ["15 agencies connected", "Secure data sharing enabled", "30% operational efficiency gain"],
     readTime: "15 min read", 
     featured: false,
-    image: clientStoryImg
+    image: multiAgencyImg
   },
   {
     title: "Research University Protects Intellectual Property",
@@ -90,7 +95,7 @@ const clientStories = [
     results: ["Zero IP theft incidents", "Advanced threat detection", "Researcher productivity maintained"],
     readTime: "11 min read",
     featured: false,
-    image: clientStoryImg
+    image: mitResearchImg
   },
   {
     title: "Rural School District Digital Equity Success",
@@ -101,7 +106,7 @@ const clientStories = [
     results: ["100% secure remote learning", "Digital equity achieved", "Teacher satisfaction up 85%"],
     readTime: "9 min read",
     featured: false,
-    image: clientStoryImg
+    image: ruralDigitalImg
   }
 ];
 
