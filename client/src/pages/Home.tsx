@@ -32,6 +32,7 @@ import {
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
+import { FaceScannerAnimation } from "@/components/FaceScannerAnimation";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 import { clearBrowserCache } from "@/utils/clearCache";
@@ -76,6 +77,21 @@ export default function Home() {
                 className="h-60 w-auto"
               />
             </div>
+            
+            {/* 4D Face Scanner Animation */}
+            <div className="flex justify-center mb-8">
+              <FaceScannerAnimation className="mx-auto" />
+            </div>
+            
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-cyan-400 mb-2 font-mono tracking-wider">
+                🔬 FUTURE AI TECH • MACHINE LEARNING • BIOMETRIC DATA
+              </h3>
+              <p className="text-sm text-orange-400 font-mono uppercase tracking-widest">
+                Advanced 4D Facial Recognition & Identity Verification
+              </p>
+            </div>
+            
             <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto font-secondary">
               Delivering reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations
             </p>
