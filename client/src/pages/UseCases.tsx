@@ -20,13 +20,7 @@ import {
   FileText,
   TrendingUp
 } from "lucide-react";
-import govImg from "@/assets/images/government-building.png";
-import federalImg from "@/assets/images/federal-agency.png";
-import threatImg from "@/assets/images/threat-monitoring.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
-import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
-import complianceImg from "@/assets/images/compliance-dashboard.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const industries = [
   "Federal Government",
@@ -45,7 +39,7 @@ const useCases = [
     results: "47% reduction in security incidents",
     downloadCount: "1,900",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Executive Order Compliance",
@@ -54,7 +48,7 @@ const useCases = [
     results: "Rapid compliance adaptation",
     downloadCount: "1,400",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Critical Infrastructure Protection",
@@ -63,7 +57,7 @@ const useCases = [
     results: "Real-time threat mitigation",
     downloadCount: "2,100",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Multi-State Security Coalition",
@@ -72,7 +66,7 @@ const useCases = [
     results: "Unified multi-state defense",
     downloadCount: "980",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "State-wide AI Security Standards",
@@ -81,7 +75,7 @@ const useCases = [
     results: "Consistent statewide standards",
     downloadCount: "1,150",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "City System Vulnerability Assessment",
@@ -90,7 +84,7 @@ const useCases = [
     results: "78% vulnerability reduction",
     downloadCount: "1,250",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Smart City Security",
@@ -99,7 +93,7 @@ const useCases = [
     results: "Complete IoT protection",
     downloadCount: "1,600",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Research Collaboration Security",
@@ -108,7 +102,7 @@ const useCases = [
     results: "Protected intellectual property",
     downloadCount: "1,800",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Campus Access Control",
@@ -117,7 +111,7 @@ const useCases = [
     results: "92% improvement in access detection",
     downloadCount: "1,450",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Academic Security Framework",
@@ -126,7 +120,7 @@ const useCases = [
     results: "Comprehensive academic protection",
     downloadCount: "2,200",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "School Security Assessment",
@@ -135,7 +129,7 @@ const useCases = [
     results: "Strengthened student data protection",
     downloadCount: "2,800",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Technology Administrator Training",
@@ -144,7 +138,7 @@ const useCases = [
     results: "State compliance achieved",
     downloadCount: "1,900",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Shared Security Operations",
@@ -153,7 +147,7 @@ const useCases = [
     results: "Affordable enterprise protection",
     downloadCount: "1,650",
     featured: false,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Shadow AI Detection",
@@ -162,7 +156,7 @@ const useCases = [
     results: "Eliminated Shadow AI risks",
     downloadCount: "3,200",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   },
   {
     title: "Simplified Security Framework",
@@ -171,7 +165,7 @@ const useCases = [
     results: "Streamlined AI adoption",
     downloadCount: "2,900",
     featured: true,
-    image: federalImg
+    image: placeholderImg
   }
 ];
 

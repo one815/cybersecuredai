@@ -20,12 +20,7 @@ import {
   School,
   Clock
 } from "lucide-react";
-import complianceImg from "@/assets/images/compliance-dashboard.png";
-import threatImg from "@/assets/images/threat-monitoring.png";
-import govImg from "@/assets/images/government-building.png";
-import uniImg from "@/assets/images/university.png";
-import schoolImg from "@/assets/images/school-district.png";
-import placeholderImg from "@/assets/images/cybersecurity-team.png";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Platform Overview",
@@ -53,7 +48,7 @@ const datasheets = [
     downloadCount: "8,400",
     featured: true,
     version: "2025.1",
-    image: threatImg
+    image: placeholderImg
   },
   {
     title: "AI-Powered Threat Detection Engine",
@@ -64,7 +59,7 @@ const datasheets = [
     downloadCount: "5,200",
     featured: true,
     version: "4.2",
-    image: threatImg
+    image: placeholderImg
   },
   {
     title: "Federal Compliance & Certification",
@@ -75,7 +70,7 @@ const datasheets = [
     downloadCount: "3,800",
     featured: true,
     version: "2025.1",
-    image: govImg
+    image: placeholderImg
   },
   {
     title: "University Network Integration",
@@ -86,7 +81,7 @@ const datasheets = [
     downloadCount: "2,900",
     featured: false,
     version: "3.8",
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "K-12 Student Privacy Protection",
@@ -97,7 +92,7 @@ const datasheets = [
     downloadCount: "4,100",
     featured: false,
     version: "2025.1",
-    image: schoolImg
+    image: placeholderImg
   },
   {
     title: "Real-Time Security Analytics",
@@ -108,7 +103,7 @@ const datasheets = [
     downloadCount: "3,600",
     featured: false,
     version: "5.1",
-    image: complianceImg
+    image: placeholderImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -119,7 +114,7 @@ const datasheets = [
     downloadCount: "2,700",
     featured: false,
     version: "2.4",
-    image: govImg
+    image: placeholderImg
   },
   {
     title: "Campus-Wide Deployment Guide",
@@ -130,7 +125,7 @@ const datasheets = [
     downloadCount: "2,200",
     featured: false,
     version: "3.5",
-    image: uniImg
+    image: placeholderImg
   },
   {
     title: "API Integration & Development",
@@ -152,7 +147,7 @@ const datasheets = [
     downloadCount: "3,400",
     featured: false,
     version: "4.7",
-    image: threatImg
+    image: placeholderImg
   }
 ];
 
