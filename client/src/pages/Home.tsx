@@ -90,6 +90,12 @@ export default function Home() {
                   <CustomActivityIcon className="ml-2 w-8 h-6 text-blue-200" size={32} />
                 </Button>
               </Link>
+              <Link href="/futuristic-demo">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 hover:from-purple-700 hover:via-pink-700 hover:to-purple-800 text-white px-8 py-4 text-lg font-secondary border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                  🚀 Experience the Future
+                  <CustomZapIcon className="ml-2 w-8 h-6 text-purple-200" size={32} />
+                </Button>
+              </Link>
               <Link href="/security-scanner">
                 <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 px-8 py-4 text-lg font-secondary">
                   Free Security Assessment
@@ -137,6 +143,55 @@ export default function Home() {
                 <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-4 text-lg">
                   <CustomActivityIcon className="mr-2 w-6 h-6" size={32} />
                   View Live Dashboard
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Futuristic Demo Showcase */}
+      <section className="py-16 px-6 bg-gradient-to-b from-purple-900/20 via-pink-900/10 to-background">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-purple-500/20 text-purple-400 border-purple-500/30 animate-pulse">
+              🚀 NEXT-GENERATION CYBERSECURITY
+            </Badge>
+            <h2 className="text-4xl font-bold text-white mb-4 font-sans">Experience the Future of Cyber Defense</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8 font-secondary">
+              Immerse yourself in cutting-edge cybersecurity with interactive 3D visualizations, AI-powered threat timelines, 
+              biometric navigation, and digital twin simulations. The future of cyber defense is here.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-gradient-to-b from-cyan-900/30 to-blue-900/20 p-6 rounded-lg border border-cyan-500/30">
+                <div className="text-3xl mb-2">🌐</div>
+                <div className="text-lg font-bold text-cyan-400 mb-2">3D Security Visualization</div>
+                <div className="text-sm text-gray-400">Interactive network topology with real-time threat mapping</div>
+              </div>
+              <div className="bg-gradient-to-b from-purple-900/30 to-pink-900/20 p-6 rounded-lg border border-purple-500/30">
+                <div className="text-3xl mb-2">👁️</div>
+                <div className="text-lg font-bold text-purple-400 mb-2">Biometric Navigation</div>
+                <div className="text-sm text-gray-400">Eye tracking and gesture-based interface controls</div>
+              </div>
+              <div className="bg-gradient-to-b from-green-900/30 to-emerald-900/20 p-6 rounded-lg border border-green-500/30">
+                <div className="text-3xl mb-2">🤖</div>
+                <div className="text-lg font-bold text-green-400 mb-2">Digital Twin Simulator</div>
+                <div className="text-sm text-gray-400">Real-time network simulation with attack scenarios</div>
+              </div>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/futuristic-demo">
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-700 hover:from-purple-700 hover:via-pink-700 hover:to-purple-800 text-white px-12 py-4 text-xl font-secondary border border-purple-400/50 shadow-xl shadow-purple-500/30 animate-pulse">
+                  🚀 Launch Futuristic Demo
+                  <CustomZapIcon className="ml-3 w-8 h-6 text-purple-200" size={32} />
+                </Button>
+              </Link>
+              <Link href="/solutions">
+                <Button size="lg" variant="outline" className="border-purple-500 text-purple-400 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-pink-500/10 px-8 py-4 text-lg font-secondary">
+                  Learn More About Our Tech
+                  <CustomBrainIcon className="ml-2 w-8 h-6 text-purple-300" size={32} />
                 </Button>
               </Link>
             </div>
