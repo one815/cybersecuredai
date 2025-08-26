@@ -83,6 +83,7 @@ export function Navigation() {
         { label: "Our Story", href: "/about-us" },
         { label: "Leadership", href: "/about/leadership" },
         { label: "Latest News", href: "/news" },
+        { label: "Futuristic Demo", href: "/futuristic-demo" },
         { label: "Awards", href: "/about/awards" },
         { label: "Careers", href: "/careers" },
         { label: "Contact Us", href: "/contact" }
