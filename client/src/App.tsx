@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { OnboardingModal } from "@/components/OnboardingModal";
+import { LoadingScreen } from "@/components/LoadingScreen";
 import { useAuth } from "@/hooks/useAuth";
 import NotFound from "@/pages/not-found";
 
@@ -98,6 +99,8 @@ import SystemAdministration from "@/pages/platform/SystemAdministration";
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false);
+  const [hasTriggeredLoading, setHasTriggeredLoading] = useState(false);
 
   useEffect(() => {
     // Show onboarding if user exists but hasn't completed onboarding
@@ -108,10 +111,24 @@ function Router() {
     }
   }, [user, isLoading]);
 
+  // Trigger loading screen on first visit
+  useEffect(() => {
+    const hasSeenLoadingScreen = sessionStorage.getItem('hasSeenLoadingScreen');
+    if (!hasSeenLoadingScreen && !hasTriggeredLoading) {
+      setShowLoadingScreen(true);
+      setHasTriggeredLoading(true);
+    }
+  }, [hasTriggeredLoading]);
+
   const handleOnboardingComplete = () => {
     setShowOnboarding(false);
     // Refresh user data to get updated onboarding status
     window.location.reload();
+  };
+
+  const handleLoadingComplete = () => {
+    setShowLoadingScreen(false);
+    sessionStorage.setItem('hasSeenLoadingScreen', 'true');
   };
 
   if (isLoading) {
@@ -123,8 +140,16 @@ function Router() {
   }
 
   return (
-    <Switch>
-      {/* Marketing Website Routes (no Layout wrapper) */}
+    <>
+      {/* Cyber Threat Scanning Loading Screen */}
+      <LoadingScreen 
+        trigger={showLoadingScreen}
+        onLoadingComplete={handleLoadingComplete}
+      />
+
+      {/* Main Application Routes */}
+      <Switch>
+        {/* Marketing Website Routes (no Layout wrapper) */}
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutUs} />
       <Route path="/solutions" component={Solutions} />
@@ -374,8 +399,18 @@ function Router() {
       <Route path="/marketing/webinars/:webinar" component={CourseViewer} />
       <Route path="/marketing/case-studies/:useCase" component={ArticleViewer} />
       
-      <Route component={NotFound} />
-    </Switch>
+        <Route component={NotFound} />
+      </Switch>
+      
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <OnboardingModal
+          isOpen={showOnboarding}
+          onClose={() => setShowOnboarding(false)}
+          onComplete={handleOnboardingComplete}
+        />
+      )}
+    </>
   );
 }
 
