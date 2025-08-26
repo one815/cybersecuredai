@@ -19,8 +19,11 @@ import {
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
+// Why CyberSecured AI images
+import competitiveAnalysisImg from "@assets/generated_images/Market_Research_Report_f84a91b6.png";
+import federalAISecurityImg from "@assets/generated_images/Federal_AI_Security_Course_83447dcc.png";
 
-export default function WhyCyberSecureAI() {
+export default function WhyCyberSecuredAI() {
   const competitorData = [
     {
       name: "AT&T Cybersecurity",
