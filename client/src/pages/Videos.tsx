@@ -237,7 +237,7 @@ export default function VideoTopics() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
           <div className="relative container mx-auto px-4">
             <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Video Topics
+              Videos
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl">
               Educational video content covering AI security fundamentals, implementation guides, and technical deep dives.

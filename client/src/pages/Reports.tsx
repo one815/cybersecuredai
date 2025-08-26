@@ -19,6 +19,10 @@ import {
   Calendar,
   Filter
 } from "lucide-react";
+import securityReportImg from "@assets/generated_images/Security_Report_Analysis_a04e4b7e.png";
+import complianceReportImg from "@assets/generated_images/Compliance_Audit_Report_c7bd1ed8.png";
+import userActivityReportImg from "@assets/generated_images/User_Activity_Analytics_Report_3cf64d91.png";
+import infrastructureReportImg from "@assets/generated_images/Infrastructure_Health_Report_51e19268.png";
 
 export default function Reports() {
   const { toast } = useToast();
@@ -170,6 +174,7 @@ export default function Reports() {
       title: "Security Report",
       description: "Comprehensive security analysis and threat assessment",
       icon: <Shield className="w-6 h-6" />,
+      image: securityReportImg,
       lastGenerated: "Today, 09:30 AM",
       status: "up-to-date",
       metrics: [
@@ -183,6 +188,7 @@ export default function Reports() {
       title: "Compliance Report",
       description: "Regulatory compliance status and audit findings",
       icon: <FileText className="w-6 h-6" />,
+      image: complianceReportImg,
       lastGenerated: "Yesterday, 11:45 AM",
       status: "pending",
       metrics: [
@@ -196,6 +202,7 @@ export default function Reports() {
       title: "User Activity Report",
       description: "User engagement, access patterns, and authentication metrics",
       icon: <Users className="w-6 h-6" />,
+      image: userActivityReportImg,
       lastGenerated: "Today, 08:15 AM",
       status: "up-to-date",
       metrics: [
@@ -209,6 +216,7 @@ export default function Reports() {
       title: "Infrastructure Report",
       description: "System performance, capacity, and infrastructure health",
       icon: <Server className="w-6 h-6" />,
+      image: infrastructureReportImg,
       lastGenerated: "Today, 06:00 AM",
       status: "up-to-date",
       metrics: [
@@ -371,8 +379,16 @@ export default function Reports() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-interactive/20 rounded-lg flex items-center justify-center">
-                      {category.icon}
+                    <div className="w-12 h-12 bg-interactive/20 rounded-lg flex items-center justify-center overflow-hidden">
+                      {category.image ? (
+                        <img 
+                          src={category.image} 
+                          alt={category.title}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      ) : (
+                        category.icon
+                      )}
                     </div>
                     <div>
                       <CardTitle className="text-lg">{category.title}</CardTitle>
