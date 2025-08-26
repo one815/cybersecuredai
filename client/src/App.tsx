@@ -103,12 +103,15 @@ function Router() {
   const [hasTriggeredLoading, setHasTriggeredLoading] = useState(false);
 
   useEffect(() => {
+    // Temporarily disable onboarding to allow testing of loading screen
+    setShowOnboarding(false);
+    
     // Show onboarding if user exists but hasn't completed onboarding
-    if (user && !user.onboardingCompleted && !isLoading) {
-      setShowOnboarding(true);
-    } else {
-      setShowOnboarding(false);
-    }
+    // if (user && !user.onboardingCompleted && !isLoading) {
+    //   setShowOnboarding(true);
+    // } else {
+    //   setShowOnboarding(false);
+    // }
   }, [user, isLoading]);
 
   // Trigger loading screen on first visit or when user navigates to home
@@ -405,14 +408,14 @@ function Router() {
         <Route component={NotFound} />
       </Switch>
       
-      {/* Onboarding Modal */}
-      {showOnboarding && (
+      {/* Onboarding Modal - Temporarily disabled for loading screen testing */}
+      {/* {showOnboarding && (
         <OnboardingModal
           isOpen={showOnboarding}
           onClose={() => setShowOnboarding(false)}
           onComplete={handleOnboardingComplete}
         />
-      )}
+      )} */}
     </>
   );
 }
