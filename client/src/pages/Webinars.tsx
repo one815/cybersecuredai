@@ -157,7 +157,12 @@ export default function Webinars() {
           >
             {webinar.status === 'on-demand' ? 'On-Demand' : 'Live'}
           </Badge>
-          <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            onClick={() => window.open(`/marketing/webinars/${webinar.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+          >
             <Play className="w-4 h-4 mr-1" />
             Watch Now
           </Button>
@@ -208,7 +213,10 @@ export default function Webinars() {
                       <Badge variant="outline" className="text-cyan-400 border-cyan-400">
                         {webinar.duration}
                       </Badge>
-                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                      <Button 
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                        onClick={() => window.open(`/marketing/webinars/${webinar.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+                      >
                         <Play className="w-4 h-4 mr-1" />
                         Watch Now
                       </Button>

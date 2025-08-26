@@ -53,6 +53,11 @@ import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
 import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
+
+// Marketing Document Viewers
+import DocumentViewer from "@/pages/marketing/DocumentViewer";
+import ArticleViewer from "@/pages/marketing/ArticleViewer";
+import CourseViewer from "@/pages/marketing/CourseViewer";
 import WhyCyberSecureAI from "@/pages/WhyCyberSecureAI";
 
 // Solutions Pages
@@ -329,6 +334,13 @@ function Router() {
       <Route path="/solutions">
         <Solutions />
       </Route>
+      
+      {/* Marketing Document Viewer Routes */}
+      <Route path="/marketing/documents/:type/:document" component={DocumentViewer} />
+      <Route path="/marketing/articles/:article" component={ArticleViewer} />
+      <Route path="/marketing/courses/:course" component={CourseViewer} />
+      <Route path="/marketing/webinars/:webinar" component={CourseViewer} />
+      <Route path="/marketing/case-studies/:useCase" component={ArticleViewer} />
       
       <Route component={NotFound} />
     </Switch>

@@ -151,7 +151,12 @@ export default function WhitePapers() {
           >
             {paper.downloadType}
           </Badge>
-          <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            onClick={() => window.open(`/marketing/documents/white-papers/${paper.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+          >
             <Download className="w-4 h-4 mr-1" />
             Download
           </Button>
@@ -202,7 +207,10 @@ export default function WhitePapers() {
                       <Badge variant="outline" className="text-cyan-400 border-cyan-400">
                         {paper.pages} pages
                       </Badge>
-                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                      <Button 
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                        onClick={() => window.open(`/marketing/documents/white-papers/${paper.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+                      >
                         <Download className="w-4 h-4 mr-1" />
                         Download
                       </Button>

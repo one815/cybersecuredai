@@ -173,7 +173,12 @@ export default function UseCases() {
           >
             {useCase.results}
           </Badge>
-          <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            onClick={() => window.open(`/marketing/case-studies/${useCase.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+          >
             <ExternalLink className="w-4 h-4 mr-1" />
             View Details
           </Button>
@@ -224,7 +229,10 @@ export default function UseCases() {
                       <Badge variant="outline" className="text-green-400 border-green-400">
                         {useCase.roiPercentage} ROI
                       </Badge>
-                      <Button className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                      <Button 
+                        className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                        onClick={() => window.open(`/marketing/case-studies/${useCase.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+                      >
                         <ExternalLink className="w-4 h-4 mr-1" />
                         View Details
                       </Button>
