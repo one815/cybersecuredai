@@ -19,7 +19,12 @@ import {
   Users,
   Video
 } from "lucide-react";
-import demoImg from "@assets/generated_images/Interactive_Demo_Screen_fd45f543.png";
+import platformWalkthroughImg from "@assets/generated_images/Platform_Complete_Walkthrough_42b56e86.png";
+import aiThreatLiveImg from "@assets/generated_images/AI_Threat_Detection_Live_579539ba.png";
+import ferpaComplianceImg from "@assets/generated_images/FERPA_Compliance_Demo_0d0f9ed7.png";
+import k12TutorialImg from "@assets/generated_images/K12_Interactive_Tutorial_5efec0ee.png";
+import enterpriseIntegrationImg from "@assets/generated_images/Enterprise_Integration_Showcase_79f150a2.png";
+import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
 
 const categories = [
   "Platform Overview",
@@ -55,7 +60,7 @@ const demos = [
     viewCount: "12,400",
     featured: true,
     schedulable: false,
-    image: demoImg
+    image: platformWalkthroughImg
   },
   {
     title: "AI-Powered Threat Detection in Action",
@@ -67,7 +72,7 @@ const demos = [
     viewCount: "8,900",
     featured: true,
     schedulable: true,
-    image: demoImg
+    image: aiThreatLiveImg
   },
   {
     title: "Higher Education FERPA Compliance Demo",
@@ -79,7 +84,7 @@ const demos = [
     viewCount: "5,600",
     featured: true,
     schedulable: true,
-    image: demoImg
+    image: ferpaComplianceImg
   },
   {
     title: "K-12 Student Data Protection Interactive Tutorial",
@@ -91,7 +96,7 @@ const demos = [
     viewCount: "7,200",
     featured: false,
     schedulable: false,
-    image: demoImg
+    image: k12TutorialImg
   },
   {
     title: "Enterprise Integration Showcase",
@@ -103,7 +108,7 @@ const demos = [
     viewCount: "4,100",
     featured: false,
     schedulable: false,
-    image: demoImg
+    image: enterpriseIntegrationImg
   },
   {
     title: "SOC Dashboard Management Live Demo", 
@@ -115,7 +120,7 @@ const demos = [
     viewCount: "9,800",
     featured: false,
     schedulable: true,
-    image: demoImg
+    image: socDashboardImg
   }
 ];
 

@@ -20,7 +20,21 @@ import {
   FileText,
   TrendingUp
 } from "lucide-react";
-import usecaseImg from "@assets/generated_images/Government_UseCase_Visual_d443e24d.png";
+import zeroTrustFederalImg from "@assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.png";
+import executiveOrderImg from "@assets/generated_images/Executive_Order_Compliance_fa53dcb9.png";
+import criticalInfraImg from "@assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.png";
+import multiStateImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.png";
+import stateStandardsImg from "@assets/generated_images/State_AI_Standards_eedb2317.png";
+import cityVulnImg from "@assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.png";
+import smartCityImg from "@assets/generated_images/Smart_City_Security_d206ef72.png";
+import researchCollabImg from "@assets/generated_images/Research_Collaboration_Security_f063fdbf.png";
+import campusAccessImg from "@assets/generated_images/Campus_Access_Control_71cb5b76.png";
+import academicFrameworkImg from "@assets/generated_images/Academic_Security_Framework_75c0b524.png";
+import schoolAssessmentImg from "@assets/generated_images/School_Security_Assessment_dfded22a.png";
+import techTrainingImg from "@assets/generated_images/Tech_Administrator_Training_98012fa2.png";
+import sharedSecOpsImg from "@assets/generated_images/Shared_Security_Operations_ad805f3d.png";
+import shadowAIImg from "@assets/generated_images/Shadow_AI_Detection_efe2f3db.png";
+import simplifiedFrameworkImg from "@assets/generated_images/Simplified_Security_Framework_40fa4e44.png";
 
 const industries = [
   "Federal Government",
@@ -39,7 +53,7 @@ const useCases = [
     results: "47% reduction in security incidents",
     downloadCount: "1,900",
     featured: true,
-    image: usecaseImg
+    image: zeroTrustFederalImg
   },
   {
     title: "Executive Order Compliance",
@@ -48,7 +62,7 @@ const useCases = [
     results: "Rapid compliance adaptation",
     downloadCount: "1,400",
     featured: false,
-    image: usecaseImg
+    image: executiveOrderImg
   },
   {
     title: "Critical Infrastructure Protection",
@@ -57,7 +71,7 @@ const useCases = [
     results: "Real-time threat mitigation",
     downloadCount: "2,100",
     featured: true,
-    image: usecaseImg
+    image: criticalInfraImg
   },
   {
     title: "Multi-State Security Coalition",
@@ -66,7 +80,7 @@ const useCases = [
     results: "Unified multi-state defense",
     downloadCount: "980",
     featured: false,
-    image: usecaseImg
+    image: multiStateImg
   },
   {
     title: "State-wide AI Security Standards",
@@ -75,7 +89,7 @@ const useCases = [
     results: "Consistent statewide standards",
     downloadCount: "1,150",
     featured: false,
-    image: usecaseImg
+    image: stateStandardsImg
   },
   {
     title: "City System Vulnerability Assessment",
@@ -84,7 +98,7 @@ const useCases = [
     results: "78% vulnerability reduction",
     downloadCount: "1,250",
     featured: false,
-    image: usecaseImg
+    image: cityVulnImg
   },
   {
     title: "Smart City Security",
@@ -93,7 +107,7 @@ const useCases = [
     results: "Complete IoT protection",
     downloadCount: "1,600",
     featured: true,
-    image: usecaseImg
+    image: smartCityImg
   },
   {
     title: "Research Collaboration Security",
@@ -102,7 +116,7 @@ const useCases = [
     results: "Protected intellectual property",
     downloadCount: "1,800",
     featured: true,
-    image: usecaseImg
+    image: researchCollabImg
   },
   {
     title: "Campus Access Control",
@@ -111,7 +125,7 @@ const useCases = [
     results: "92% improvement in access detection",
     downloadCount: "1,450",
     featured: false,
-    image: usecaseImg
+    image: campusAccessImg
   },
   {
     title: "Academic Security Framework",
@@ -120,7 +134,7 @@ const useCases = [
     results: "Comprehensive academic protection",
     downloadCount: "2,200",
     featured: true,
-    image: usecaseImg
+    image: academicFrameworkImg
   },
   {
     title: "School Security Assessment",
@@ -129,7 +143,7 @@ const useCases = [
     results: "Strengthened student data protection",
     downloadCount: "2,800",
     featured: true,
-    image: usecaseImg
+    image: schoolAssessmentImg
   },
   {
     title: "Technology Administrator Training",
@@ -138,7 +152,7 @@ const useCases = [
     results: "State compliance achieved",
     downloadCount: "1,900",
     featured: false,
-    image: usecaseImg
+    image: techTrainingImg
   },
   {
     title: "Shared Security Operations",
@@ -147,7 +161,7 @@ const useCases = [
     results: "Affordable enterprise protection",
     downloadCount: "1,650",
     featured: false,
-    image: usecaseImg
+    image: sharedSecOpsImg
   },
   {
     title: "Shadow AI Detection",
@@ -156,7 +170,7 @@ const useCases = [
     results: "Eliminated Shadow AI risks",
     downloadCount: "3,200",
     featured: true,
-    image: usecaseImg
+    image: shadowAIImg
   },
   {
     title: "Simplified Security Framework",
@@ -165,7 +179,7 @@ const useCases = [
     results: "Streamlined AI adoption",
     downloadCount: "2,900",
     featured: true,
-    image: usecaseImg
+    image: simplifiedFrameworkImg
   }
 ];
 

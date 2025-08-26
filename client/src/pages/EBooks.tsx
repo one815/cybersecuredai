@@ -19,7 +19,14 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import ebookImg from "@assets/generated_images/EBook_Cover_Design_045c2e20.png";
+import educationalSecurityImg from "@assets/generated_images/Educational_Security_Guide_330f6e1c.png";
+import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Handbook_8fbedcba.png";
+import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
+import universityZeroTrustImg from "@assets/generated_images/University_Zero_Trust_411ba981.png";
+import k12DigitalSafetyImg from "@assets/generated_images/K12_Digital_Safety_1bedbed4.png";
+import governmentThreatImg from "@assets/generated_images/Government_Threat_Intelligence_aa6e2a67.png";
+import complianceAutomationImg from "@assets/generated_images/Compliance_Automation_Strategies_dd60a808.png";
+import campusIncidentImg from "@assets/generated_images/Campus_Incident_Response_ea29c3c7.png";
 
 const categories = [
   "AI & Cybersecurity",
@@ -47,7 +54,7 @@ const ebooks = [
     downloadCount: "5,400",
     readTime: "8 hours",
     featured: true,
-    image: ebookImg
+    image: educationalSecurityImg
   },
   {
     title: "Federal Cybersecurity Compliance Handbook",
@@ -58,7 +65,7 @@ const ebooks = [
     downloadCount: "3,800",
     readTime: "6 hours",
     featured: true,
-    image: ebookImg
+    image: federalComplianceImg
   },
   {
     title: "AI Security Implementation Guide",
@@ -69,7 +76,7 @@ const ebooks = [
     downloadCount: "4,200",
     readTime: "10 hours",
     featured: true,
-    image: ebookImg
+    image: aiSecurityImg
   },
   {
     title: "Zero Trust for Universities",
@@ -80,7 +87,7 @@ const ebooks = [
     downloadCount: "2,900",
     readTime: "5 hours",
     featured: false,
-    image: ebookImg
+    image: universityZeroTrustImg
   },
   {
     title: "K-12 Digital Safety & Security",
@@ -91,7 +98,7 @@ const ebooks = [
     downloadCount: "3,500",
     readTime: "4 hours",
     featured: false,
-    image: ebookImg
+    image: k12DigitalSafetyImg
   },
   {
     title: "Threat Intelligence for Government",
@@ -102,7 +109,7 @@ const ebooks = [
     downloadCount: "2,100",
     readTime: "8 hours",
     featured: false,
-    image: ebookImg
+    image: governmentThreatImg
   },
   {
     title: "Compliance Automation Strategies",
@@ -113,7 +120,7 @@ const ebooks = [
     downloadCount: "1,800",
     readTime: "5 hours",
     featured: false,
-    image: ebookImg
+    image: complianceAutomationImg
   },
   {
     title: "Campus Cybersecurity Incident Response",
@@ -124,7 +131,7 @@ const ebooks = [
     downloadCount: "2,600",
     readTime: "6 hours",
     featured: false,
-    image: ebookImg
+    image: campusIncidentImg
   }
 ];
 

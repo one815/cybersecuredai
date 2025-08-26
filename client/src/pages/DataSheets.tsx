@@ -20,7 +20,16 @@ import {
   School,
   Clock
 } from "lucide-react";
-import datasheetImg from "@assets/generated_images/DataSheet_Document_Layout_5b72aac7.png";
+import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
+import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
+import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
+import universityNetworkImg from "@assets/generated_images/University_Network_Integration_b94f16b2.png";
+import k12PrivacyImg from "@assets/generated_images/K12_Student_Privacy_Protection_829fd6b1.png";
+import securityAnalyticsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
+import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
+import campusDeploymentImg from "@assets/generated_images/Campus_Deployment_Guide_660cca2b.png";
+import apiDevelopmentImg from "@assets/generated_images/API_Development_Guide_301134f9.png";
+import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.png";
 
 const categories = [
   "Platform Overview",
@@ -48,7 +57,7 @@ const datasheets = [
     downloadCount: "8,400",
     featured: true,
     version: "2025.1",
-    image: datasheetImg
+    image: platformOverviewImg
   },
   {
     title: "AI-Powered Threat Detection Engine",
@@ -59,7 +68,7 @@ const datasheets = [
     downloadCount: "5,200",
     featured: true,
     version: "4.2",
-    image: datasheetImg
+    image: aiThreatDetectionImg
   },
   {
     title: "Federal Compliance & Certification",
@@ -70,7 +79,7 @@ const datasheets = [
     downloadCount: "3,800",
     featured: true,
     version: "2025.1",
-    image: datasheetImg
+    image: federalComplianceImg
   },
   {
     title: "University Network Integration",
@@ -81,7 +90,7 @@ const datasheets = [
     downloadCount: "2,900",
     featured: false,
     version: "3.8",
-    image: datasheetImg
+    image: universityNetworkImg
   },
   {
     title: "K-12 Student Privacy Protection",
@@ -92,7 +101,7 @@ const datasheets = [
     downloadCount: "4,100",
     featured: false,
     version: "2025.1",
-    image: datasheetImg
+    image: k12PrivacyImg
   },
   {
     title: "Real-Time Security Analytics",
@@ -103,7 +112,7 @@ const datasheets = [
     downloadCount: "3,600",
     featured: false,
     version: "5.1",
-    image: datasheetImg
+    image: securityAnalyticsImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -114,7 +123,7 @@ const datasheets = [
     downloadCount: "2,700",
     featured: false,
     version: "2.4",
-    image: datasheetImg
+    image: zeroTrustImg
   },
   {
     title: "Campus-Wide Deployment Guide",
@@ -125,7 +134,7 @@ const datasheets = [
     downloadCount: "2,200",
     featured: false,
     version: "3.5",
-    image: datasheetImg
+    image: campusDeploymentImg
   },
   {
     title: "API Integration & Development",
@@ -136,7 +145,7 @@ const datasheets = [
     downloadCount: "1,800",
     featured: false,
     version: "6.0",
-    image: datasheetImg
+    image: apiDevelopmentImg
   },
   {
     title: "Automated Incident Response",
@@ -147,7 +156,7 @@ const datasheets = [
     downloadCount: "3,400",
     featured: false,
     version: "4.7",
-    image: datasheetImg
+    image: incidentResponseImg
   }
 ];
 
