@@ -18,7 +18,7 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import marketingReportImg from "@assets/generated_images/CyberSecure_AI_MarketingReport_f6c089f4.png";
+import marketingReportImg from "@assets/generated_images/Market_Research_Report_f84a91b6.png";
 
 const categories = [
   "Threat Reports",

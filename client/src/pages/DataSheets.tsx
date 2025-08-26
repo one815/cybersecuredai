@@ -20,7 +20,7 @@ import {
   School,
   Clock
 } from "lucide-react";
-import datasheetImg from "@assets/generated_images/CyberSecure_AI_DataSheet_102d9c28.png";
+import datasheetImg from "@assets/generated_images/DataSheet_Document_Layout_5b72aac7.png";
 
 const categories = [
   "Platform Overview",

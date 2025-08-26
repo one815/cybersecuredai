@@ -20,7 +20,7 @@ import {
   Video,
   BookOpen
 } from "lucide-react";
-import successKitImg from "@assets/generated_images/CyberSecure_AI_SuccessKit_8dc59fb5.png";
+import successKitImg from "@assets/generated_images/Success_Kit_Package_108b7e6b.png";
 
 const categories = [
   "Implementation",

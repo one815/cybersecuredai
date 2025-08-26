@@ -19,7 +19,7 @@ import {
   Users,
   Video
 } from "lucide-react";
-import demoImg from "@assets/generated_images/CyberSecure_AI_Demo_66434319.png";
+import demoImg from "@assets/generated_images/Interactive_Demo_Screen_fd45f543.png";
 
 const categories = [
   "Platform Overview",

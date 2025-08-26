@@ -19,7 +19,7 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import ebookImg from "@assets/generated_images/CyberSecure_AI_EBook_8af07a80.png";
+import ebookImg from "@assets/generated_images/EBook_Cover_Design_045c2e20.png";
 
 const categories = [
   "AI & Cybersecurity",
