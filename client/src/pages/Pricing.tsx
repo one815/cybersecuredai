@@ -48,7 +48,6 @@ export default function Pricing() {
   const cyberCloudPackages = [
     {
       name: "Cyber-Cloud Essential",
-      priceRange: "$15,000-$30,000",
       icon: <Cloud className="w-12 h-12 text-blue-400" />,
       color: "from-blue-400 to-blue-600",
       features: [
@@ -64,7 +63,6 @@ export default function Pricing() {
     },
     {
       name: "Cyber-Cloud Advanced",
-      priceRange: "$30,000-$60,000",
       icon: <Brain className="w-12 h-12 text-purple-400" />,
       color: "from-purple-400 to-purple-600",
       features: [
@@ -80,7 +78,6 @@ export default function Pricing() {
     },
     {
       name: "Cyber-Cloud Enterprise",
-      priceRange: "$60,000-$150,000",
       icon: <Network className="w-12 h-12 text-cyan-400" />,
       color: "from-cyan-400 to-cyan-600",
       features: [
@@ -101,7 +98,6 @@ export default function Pricing() {
   const eduPilotPrograms = [
     {
       name: "K-12 Pilot Small",
-      priceRange: "$5,000-$10,000/month",
       coverage: "Up to 5,000 sq ft coverage",
       icon: <GraduationCap className="w-12 h-12 text-green-400" />,
       color: "from-green-400 to-green-600",
@@ -116,7 +112,6 @@ export default function Pricing() {
     },
     {
       name: "Higher Education Pilot",
-      priceRange: "$12,000-$35,000/month",
       coverage: "Coverage from 8,000 to 40,000 sq ft (based on package)",
       icon: <Award className="w-12 h-12 text-orange-400" />,
       color: "from-orange-400 to-orange-600",
@@ -171,7 +166,6 @@ export default function Pricing() {
   const cloudHsmPackages = [
     {
       name: "CyberSecure Essential",
-      priceRange: "$25,000-$40,000",
       icon: <Shield className="w-12 h-12 text-blue-400" />,
       color: "from-blue-400 to-blue-600",
       features: [
@@ -187,7 +181,6 @@ export default function Pricing() {
     },
     {
       name: "CyberSecure Advanced",
-      priceRange: "$50,000-$80,000",
       icon: <Brain className="w-12 h-12 text-purple-400" />,
       color: "from-purple-400 to-purple-600",
       features: [
@@ -205,7 +198,6 @@ export default function Pricing() {
     },
     {
       name: "CyberSecure Enterprise",
-      priceRange: "$100,000-$250,000",
       icon: <Crown className="w-12 h-12 text-gold-400" />,
       color: "from-yellow-400 to-orange-600",
       features: [
@@ -229,7 +221,6 @@ export default function Pricing() {
   const itSupportServices = [
     {
       name: "Basic IT Support",
-      priceRange: "$2,000-$4,000/month",
       icon: <Monitor className="w-10 h-10 text-green-400" />,
       features: [
         "System Administration for 25+ users",
@@ -242,7 +233,6 @@ export default function Pricing() {
     },
     {
       name: "Advanced IT Support",
-      priceRange: "$5,000-$9,000/month",
       icon: <Settings className="w-10 h-10 text-blue-400" />,
       features: [
         "System Administration for 100+ users",
@@ -257,7 +247,6 @@ export default function Pricing() {
     },
     {
       name: "Premium IT Support",
-      priceRange: "$10,000-$20,000/month",
       icon: <Crown className="w-10 h-10 text-purple-400" />,
       features: [
         "System Administration for enterprise environments",
@@ -278,7 +267,6 @@ export default function Pricing() {
   const securityAddons = [
     {
       name: "Secure Server Room Kit",
-      priceRange: "$15,000-$30,000",
       icon: <Server className="w-10 h-10 text-red-400" />,
       features: [
         "APC NetShelter SX server racks with electronic locks",
@@ -291,7 +279,6 @@ export default function Pricing() {
     },
     {
       name: "Multi-Factor Authentication Hardware",
-      priceRange: "$5,000-$15,000",
       icon: <Fingerprint className="w-10 h-10 text-blue-400" />,
       features: [
         "YubiKey 5 Series devices (bulk deployment)",
@@ -303,7 +290,6 @@ export default function Pricing() {
     },
     {
       name: "Network Segmentation Bundle",
-      priceRange: "$10,000-$25,000",
       icon: <Network className="w-10 h-10 text-green-400" />,
       features: [
         "Cisco Catalyst switches with VLAN capabilities",
@@ -315,7 +301,6 @@ export default function Pricing() {
     },
     {
       name: "Disaster Recovery Infrastructure",
-      priceRange: "$20,000-$40,000",
       icon: <Database className="w-10 h-10 text-orange-400" />,
       features: [
         "Redundant storage systems (Dell EMC)",
@@ -328,7 +313,6 @@ export default function Pricing() {
     },
     {
       name: "Advanced Threat Intelligence Services",
-      priceRange: "Contact for Pricing",
       icon: <Eye className="w-10 h-10 text-purple-400" />,
       features: [
         "Education-specific threat feeds",
@@ -384,11 +368,6 @@ export default function Pricing() {
           <div className={`w-20 h-20 bg-gradient-to-r ${pkg.color || 'from-gray-400 to-gray-600'} rounded-xl flex items-center justify-center cyber-glow`}>
             {pkg.icon}
           </div>
-          {showPricing && pkg.priceRange && (
-            <Badge variant="outline" className="text-white border-white/30">
-              {pkg.priceRange}
-            </Badge>
-          )}
         </div>
         <CardTitle className="text-2xl text-white geometric-text">{pkg.name}</CardTitle>
         {pkg.coverage && (
@@ -421,11 +400,6 @@ export default function Pricing() {
           <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
             {service.icon}
           </div>
-          {service.priceRange && (
-            <Badge variant="outline" className="text-purple-400 border-purple-400/30">
-              {service.priceRange}
-            </Badge>
-          )}
         </div>
         <CardTitle className="text-xl text-white">{service.name}</CardTitle>
       </CardHeader>
