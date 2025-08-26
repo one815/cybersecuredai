@@ -20,7 +20,12 @@ import {
   Video,
   BookOpen
 } from "lucide-react";
-import successKitImg from "@assets/generated_images/Success_Kit_Package_108b7e6b.png";
+import federalImplKitImg from "@assets/generated_images/Federal_Implementation_Success_Kit_7462db64.png";
+import higherEdDeployKitImg from "@assets/generated_images/Higher_Education_Deployment_Kit_e124065f.png";
+import k12DataProtKitImg from "@assets/generated_images/K12_Data_Protection_Kit_32b1e468.png";
+import aiThreatResponseImg from "@assets/generated_images/AI_Threat_Response_Playbook_bca88bb3.png";
+import aiRiskAssessmentImg from "@assets/generated_images/AI_Security_Risk_Assessment_4eae4751.png";
+import aiAwarenessTrainingImg from "@assets/generated_images/AI_Security_Awareness_Training_643d9a03.png";
 
 const categories = [
   "Implementation",
@@ -47,7 +52,7 @@ const successKits = [
     components: ["Deployment Guide", "Compliance Checklist", "Training Videos", "Templates"],
     downloadCount: "2,400",
     featured: true,
-    image: successKitImg
+    image: federalImplKitImg
   },
   {
     title: "University AI Security Success Kit",
@@ -57,7 +62,7 @@ const successKits = [
     components: ["FERPA Compliance Guide", "Research Protection Plan", "Campus Security Framework", "Training Materials"],
     downloadCount: "1,800",
     featured: true,
-    image: successKitImg
+    image: higherEdDeployKitImg
   },
   {
     title: "K-12 Student Data Protection Kit",
@@ -67,7 +72,7 @@ const successKits = [
     components: ["COPPA Compliance Guide", "Privacy Framework", "Safety Protocols", "Parent Communication Kit"],
     downloadCount: "3,200",
     featured: true,
-    image: successKitImg
+    image: k12DataProtKitImg
   },
   {
     title: "AI Threat Response Playbook Kit",
@@ -77,7 +82,7 @@ const successKits = [
     components: ["Response Playbooks", "Communication Templates", "Recovery Procedures", "Analysis Framework"],
     downloadCount: "4,100",
     featured: false,
-    image: successKitImg
+    image: aiThreatResponseImg
   },
   {
     title: "AI Security Risk Assessment Kit",
@@ -87,7 +92,7 @@ const successKits = [
     components: ["Assessment Framework", "Scoring Matrix", "Mitigation Strategies", "Report Templates"],
     downloadCount: "2,900",
     featured: false,
-    image: successKitImg
+    image: aiRiskAssessmentImg
   },
   {
     title: "AI Security Awareness Training Kit",
@@ -97,7 +102,7 @@ const successKits = [
     components: ["Training Presentations", "Educational Videos", "Interactive Quizzes", "Certification Materials"],
     downloadCount: "5,600",
     featured: false,
-    image: successKitImg
+    image: aiAwarenessTrainingImg
   }
 ];
 
