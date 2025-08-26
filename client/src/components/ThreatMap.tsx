@@ -1,264 +1,258 @@
-import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, CircleMarker, Popup } from "react-leaflet";
-import { LatLngExpression } from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface ThreatLocation {
-  id: string;
-  type: string;
+  ip: string;
   latitude: number;
   longitude: number;
-  severity: "high" | "medium" | "low";
-  timestamp: number;
   country: string;
-  description: string;
+  city: string;
+  riskLevel: 'high' | 'medium' | 'low';
+  abuseConfidence: number;
+  lastSeen: string;
 }
 
 interface ThreatMapProps {
-  height?: string;
-  width?: string;
+  className?: string;
 }
 
-export function ThreatMap({ height = "400px", width = "100%" }: ThreatMapProps) {
-  const [threats, setThreats] = useState<ThreatLocation[]>([]);
-  const [stats, setStats] = useState({
-    total: 0,
-    high: 0,
-    medium: 0,
-    low: 0
+export function ThreatMap({ className = "" }: ThreatMapProps) {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [markers, setMarkers] = useState<google.maps.Marker[]>([]);
+
+  // Fetch threat locations with geolocation data
+  const { data: threatLocations, isLoading } = useQuery({
+    queryKey: ['/api/threats/geolocation'],
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
+  // Initialize Google Maps
   useEffect(() => {
-    // Generate mock threat data - in real implementation, this would come from API
-    const generateThreats = () => {
-      const threatTypes = ["malware", "ddos", "phishing", "ransomware", "botnet", "intrusion"];
-      const severities: ("high" | "medium" | "low")[] = ["high", "medium", "low"];
-      const countries = [
-        { name: "United States", lat: 39.8283, lng: -98.5795 },
-        { name: "China", lat: 35.8617, lng: 104.1954 },
-        { name: "Russia", lat: 61.5240, lng: 105.3188 },
-        { name: "Germany", lat: 51.1657, lng: 10.4515 },
-        { name: "United Kingdom", lat: 55.3781, lng: -3.4360 },
-        { name: "Japan", lat: 36.2048, lng: 138.2529 },
-        { name: "Brazil", lat: -14.2350, lng: -51.9253 },
-        { name: "India", lat: 20.5937, lng: 78.9629 },
-        { name: "Australia", lat: -25.2744, lng: 133.7751 },
-        { name: "Canada", lat: 56.1304, lng: -106.3468 }
-      ];
+    if (!mapRef.current || map) return;
 
-      const newThreats: ThreatLocation[] = [];
-      
-      for (let i = 0; i < 15; i++) {
-        const country = countries[Math.floor(Math.random() * countries.length)];
-        const threatType = threatTypes[Math.floor(Math.random() * threatTypes.length)];
-        const severity = severities[Math.floor(Math.random() * severities.length)];
-        
-        // Add some randomness to coordinates for spread
-        const lat = country.lat + (Math.random() - 0.5) * 10;
-        const lng = country.lng + (Math.random() - 0.5) * 20;
-        
-        newThreats.push({
-          id: `threat-${i}`,
-          type: threatType,
-          latitude: lat,
-          longitude: lng,
-          severity,
-          timestamp: Date.now() - Math.random() * 86400000, // Last 24 hours
-          country: country.name,
-          description: `${threatType.charAt(0).toUpperCase() + threatType.slice(1)} attack detected`
-        });
-      }
+    const initMap = () => {
+      const googleMap = new google.maps.Map(mapRef.current!, {
+        center: { lat: 20, lng: 0 },
+        zoom: 2,
+        styles: [
+          {
+            "elementType": "geometry",
+            "stylers": [{ "color": "#212121" }]
+          },
+          {
+            "elementType": "labels.icon",
+            "stylers": [{ "visibility": "off" }]
+          },
+          {
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#757575" }]
+          },
+          {
+            "elementType": "labels.text.stroke",
+            "stylers": [{ "color": "#212121" }]
+          },
+          {
+            "featureType": "administrative",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#757575" }]
+          },
+          {
+            "featureType": "administrative.country",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#9ca5b3" }]
+          },
+          {
+            "featureType": "administrative.locality",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#bdbdbd" }]
+          },
+          {
+            "featureType": "poi",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#757575" }]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#181818" }]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#616161" }]
+          },
+          {
+            "featureType": "poi.park",
+            "elementType": "labels.text.stroke",
+            "stylers": [{ "color": "#1b1b1b" }]
+          },
+          {
+            "featureType": "road",
+            "elementType": "geometry.fill",
+            "stylers": [{ "color": "#2c2c2c" }]
+          },
+          {
+            "featureType": "road",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#8a8a8a" }]
+          },
+          {
+            "featureType": "road.arterial",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#373737" }]
+          },
+          {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#3c3c3c" }]
+          },
+          {
+            "featureType": "road.highway.controlled_access",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#4e4e4e" }]
+          },
+          {
+            "featureType": "road.local",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#616161" }]
+          },
+          {
+            "featureType": "transit",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#757575" }]
+          },
+          {
+            "featureType": "water",
+            "elementType": "geometry",
+            "stylers": [{ "color": "#000000" }]
+          },
+          {
+            "featureType": "water",
+            "elementType": "labels.text.fill",
+            "stylers": [{ "color": "#3d3d3d" }]
+          }
+        ],
+        disableDefaultUI: true,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_CENTER
+        }
+      });
 
-      setThreats(newThreats);
-      
-      // Calculate stats
-      const newStats = {
-        total: newThreats.length,
-        high: newThreats.filter(t => t.severity === "high").length,
-        medium: newThreats.filter(t => t.severity === "medium").length,
-        low: newThreats.filter(t => t.severity === "low").length
-      };
-      setStats(newStats);
+      setMap(googleMap);
     };
 
-    generateThreats();
-    
-    // Update threats every 30 seconds
-    const interval = setInterval(generateThreats, 30000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  const getThreatColor = (severity: string): string => {
-    switch (severity) {
-      case "high": return "#ef4444"; // red-500
-      case "medium": return "#f59e0b"; // amber-500  
-      case "low": return "#3b82f6"; // blue-500
-      default: return "#6b7280"; // gray-500
-    }
-  };
-
-  const getThreatRadius = (severity: string): number => {
-    switch (severity) {
-      case "high": return 12;
-      case "medium": return 8;
-      case "low": return 6;
-      default: return 5;
-    }
-  };
-
-  const formatTimestamp = (timestamp: number): string => {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    
-    if (hours > 0) {
-      return `${hours}h ago`;
-    } else if (minutes > 0) {
-      return `${minutes}m ago`;
+    // Load Google Maps script if not already loaded
+    if (window.google?.maps) {
+      initMap();
     } else {
-      return "Just now";
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=visualization`;
+      script.onload = initMap;
+      document.head.appendChild(script);
     }
-  };
+  }, [map]);
 
-  const mapCenter: LatLngExpression = [20, 0];
+  // Update markers when threat locations change
+  useEffect(() => {
+    if (!map || !threatLocations) return;
 
-  return (
-    <div className="w-full" style={{ height, width }}>
-      <div className="bg-surface border border-surface-light rounded-lg overflow-hidden">
-        {/* Stats Header - Mobile-Optimized Layout */}
-        <div className="p-3 sm:p-4 border-b border-surface-light bg-surface/50">
-          {/* Mobile: All Vertical Stack, Tablet+: Horizontal Grid */}
-          <div className="flex flex-col space-y-3 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
-            {/* Total Threats - Featured on Mobile */}
-            <div className="text-center p-3 sm:p-0 bg-gray-800/30 sm:bg-transparent rounded-lg sm:rounded-none">
-              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-white">{stats.total}</div>
-              <div className="text-sm sm:text-xs text-gray-400 uppercase font-semibold sm:font-normal">Total Threats</div>
-            </div>
-            
-            {/* High Risk - Vertical on Mobile */}
-            <div className="text-center p-3 sm:p-0 bg-red-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-red-500/30 sm:border-0">
-              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-red-400">{stats.high}</div>
-              <div className="text-sm sm:text-xs text-gray-400 uppercase">High Risk</div>
-            </div>
-            
-            {/* Medium Risk - Vertical on Mobile */}
-            <div className="text-center p-3 sm:p-0 bg-amber-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-amber-500/30 sm:border-0">
-              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-amber-400">{stats.medium}</div>
-              <div className="text-sm sm:text-xs text-gray-400 uppercase">Medium Risk</div>
-            </div>
-            
-            {/* Low Risk - Vertical on Mobile */}
-            <div className="text-center p-3 sm:p-0 bg-blue-900/20 sm:bg-transparent rounded-lg sm:rounded-none border border-blue-500/30 sm:border-0">
-              <div className="text-2xl sm:text-xl lg:text-2xl font-bold text-blue-400">{stats.low}</div>
-              <div className="text-sm sm:text-xs text-gray-400 uppercase">Low Risk</div>
+    // Clear existing markers
+    markers.forEach(marker => marker.setMap(null));
+    setMarkers([]);
+
+    const newMarkers: google.maps.Marker[] = [];
+
+    threatLocations.forEach((threat: ThreatLocation) => {
+      const color = threat.riskLevel === 'high' ? '#ef4444' : 
+                   threat.riskLevel === 'medium' ? '#f59e0b' : '#3b82f6';
+
+      const marker = new google.maps.Marker({
+        position: { lat: threat.latitude, lng: threat.longitude },
+        map: map,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: color,
+          fillOpacity: 0.8,
+          strokeColor: color,
+          strokeOpacity: 1,
+          strokeWeight: 2,
+          scale: threat.riskLevel === 'high' ? 8 : threat.riskLevel === 'medium' ? 6 : 4
+        },
+        title: `${threat.ip} - ${threat.city}, ${threat.country}`,
+        animation: google.maps.Animation.DROP
+      });
+
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div class="text-sm">
+            <div class="font-bold text-gray-900 mb-2">${threat.ip}</div>
+            <div class="text-gray-700">
+              <div>📍 ${threat.city}, ${threat.country}</div>
+              <div>⚠️ Risk: ${threat.riskLevel.toUpperCase()}</div>
+              <div>🎯 Confidence: ${threat.abuseConfidence}%</div>
+              <div>🕒 Last Seen: ${new Date(threat.lastSeen).toLocaleString()}</div>
             </div>
           </div>
-        </div>
+        `
+      });
 
-        {/* Map Container */}
-        <div className="h-[calc(100%-200px)] sm:h-[calc(100%-80px)]" style={{ minHeight: `calc(${height} - 200px)` }}>
-          <MapContainer
-            center={mapCenter}
-            zoom={2}
-            style={{ height: "100%", width: "100%" }}
-            className="threat-map"
-          >
-            <TileLayer
-              url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            />
-            
-            {threats.map((threat) => (
-              <CircleMarker
-                key={threat.id}
-                center={[threat.latitude, threat.longitude]}
-                radius={getThreatRadius(threat.severity)}
-                fillColor={getThreatColor(threat.severity)}
-                color="#ffffff"
-                weight={2}
-                opacity={0.8}
-                fillOpacity={0.6}
-                className="threat-marker"
-              >
-                <Popup className="threat-popup">
-                  <div className="p-2">
-                    <div className="font-semibold text-lg mb-2 capitalize">
-                      {threat.type} Attack
-                    </div>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Severity:</span>
-                        <span className={`font-medium ${
-                          threat.severity === "high" ? "text-red-500" :
-                          threat.severity === "medium" ? "text-amber-500" :
-                          "text-blue-500"
-                        }`}>
-                          {threat.severity.charAt(0).toUpperCase() + threat.severity.slice(1)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Location:</span>
-                        <span className="font-medium">{threat.country}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Detected:</span>
-                        <span className="font-medium">{formatTimestamp(threat.timestamp)}</span>
-                      </div>
-                      <div className="mt-2 pt-2 border-t border-gray-200">
-                        <div className="text-gray-600 text-xs">{threat.description}</div>
-                      </div>
-                    </div>
-                  </div>
-                </Popup>
-              </CircleMarker>
-            ))}
-          </MapContainer>
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+
+      newMarkers.push(marker);
+    });
+
+    setMarkers(newMarkers);
+  }, [map, threatLocations]);
+
+  if (isLoading) {
+    return (
+      <div className={`bg-gray-900/50 rounded-lg p-4 min-h-[300px] flex items-center justify-center ${className}`}>
+        <div className="text-center text-gray-400">
+          <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+          <p>Loading Threat Map...</p>
         </div>
       </div>
+    );
+  }
 
-      {/* Custom CSS for dark theme map */}
-      <style>{`
-        .threat-map .leaflet-container {
-          background: #1a1a1a;
-        }
-        
-        .threat-marker {
-          animation: threatPulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes threatPulse {
-          0% { transform: scale(1); opacity: 0.8; }
-          50% { transform: scale(1.2); opacity: 1; }
-          100% { transform: scale(1); opacity: 0.8; }
-        }
-        
-        .leaflet-popup-content-wrapper {
-          background: #2d3748;
-          color: #e2e8f0;
-          border-radius: 8px;
-        }
-        
-        .leaflet-popup-tip {
-          background: #2d3748;
-        }
-        
-        .leaflet-control-zoom a {
-          background: #2d3748;
-          color: #e2e8f0;
-          border: 1px solid #4a5568;
-        }
-        
-        .leaflet-control-zoom a:hover {
-          background: #4a5568;
-        }
-        
-        .leaflet-control-attribution {
-          background: rgba(45, 55, 72, 0.8);
-          color: #a0aec0;
-        }
-      `}</style>
+  return (
+    <div className={`bg-gray-900/50 rounded-lg overflow-hidden relative ${className}`}>
+      <div ref={mapRef} className="w-full h-full min-h-[300px]" />
+      
+      {/* Map Controls Overlay */}
+      <div className="absolute top-2 left-2 bg-black/80 rounded px-2 py-1">
+        <div className="text-xs text-cyan-400 font-mono">
+          LIVE THREAT MONITORING
+        </div>
+      </div>
+      
+      <div className="absolute top-2 right-2 bg-black/80 rounded px-2 py-1 flex items-center">
+        <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse mr-1"></div>
+        <div className="text-xs text-green-400 font-mono">REAL-TIME</div>
+      </div>
+
+      {/* Legend */}
+      <div className="absolute bottom-2 left-2 bg-black/80 rounded p-2">
+        <div className="text-xs text-gray-300 mb-1 font-semibold">Threat Levels</div>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            <span className="text-xs text-gray-300">High Risk</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+            <span className="text-xs text-gray-300">Medium Risk</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span className="text-xs text-gray-300">Low Risk</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
