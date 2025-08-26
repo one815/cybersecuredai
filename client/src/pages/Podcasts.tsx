@@ -19,7 +19,12 @@ import {
   School,
   Users
 } from "lucide-react";
-import podcastImg from "@assets/generated_images/Podcast_Audio_Setup_5d354a10.png";
+import futureAISecurityImg from "@assets/generated_images/Future_AI_Security_Podcast_c84aa6b3.png";
+import federalAIImplImg from "@assets/generated_images/Federal_AI_Implementation_778c3628.png";
+import campusSecurityImg from "@assets/generated_images/Campus_Security_Podcast_d6549898.png";
+import studentDataProtImg from "@assets/generated_images/Student_Data_Protection_acedb126.png";
+import threatIntelRevImg from "@assets/generated_images/Threat_Intelligence_Revolution_d66501ef.png";
+import complianceAutoSuccessImg from "@assets/generated_images/Compliance_Automation_Success_2b4e2ceb.png";
 
 const categories = [
   "AI Security",
@@ -51,7 +56,7 @@ const podcasts = [
     publishDate: "January 2025",
     downloadCount: "12,400",
     featured: true,
-    image: podcastImg
+    image: futureAISecurityImg
   },
   {
     title: "Federal AI Implementation Best Practices",
@@ -63,7 +68,7 @@ const podcasts = [
     publishDate: "December 2024",
     downloadCount: "8,900",
     featured: true,
-    image: podcastImg
+    image: federalAIImplImg
   },
   {
     title: "Campus Security in the AI Era",
@@ -75,7 +80,7 @@ const podcasts = [
     publishDate: "November 2024",
     downloadCount: "6,700",
     featured: true,
-    image: podcastImg
+    image: campusSecurityImg
   },
   {
     title: "Protecting Student Data with AI",
@@ -87,7 +92,7 @@ const podcasts = [
     publishDate: "October 2024",
     downloadCount: "5,200",
     featured: false,
-    image: podcastImg
+    image: studentDataProtImg
   },
   {
     title: "Threat Intelligence Revolution",
@@ -99,7 +104,7 @@ const podcasts = [
     publishDate: "September 2024",
     downloadCount: "9,800",
     featured: false,
-    image: podcastImg
+    image: threatIntelRevImg
   },
   {
     title: "Compliance Automation Success Stories",
@@ -111,7 +116,7 @@ const podcasts = [
     publishDate: "August 2024",
     downloadCount: "7,300",
     featured: false,
-    image: podcastImg
+    image: complianceAutoSuccessImg
   }
 ];
 
