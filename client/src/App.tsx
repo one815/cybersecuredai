@@ -27,6 +27,7 @@ import SecurityIntegrations from "@/pages/SecurityIntegrations";
 import ITManagement from "@/pages/ITManagement";
 import SecurityTraining from "@/pages/SecurityTraining";
 import HelpDesk from "@/pages/HelpDesk";
+import Resources from "@/pages/Resources";
 import SecurityOverview from "@/pages/SecurityOverview";
 import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
@@ -201,6 +202,11 @@ function Router() {
       <Route path="/training">
         <Layout>
           <SecurityTraining />
+        </Layout>
+      </Route>
+      <Route path="/resources">
+        <Layout>
+          <Resources />
         </Layout>
       </Route>
       <Route path="/support">

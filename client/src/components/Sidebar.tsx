@@ -32,7 +32,8 @@ import {
   Crown,
   StarIcon,
   Sparkles,
-  TrendingUp
+  TrendingUp,
+  BookOpen
 } from "lucide-react";
 import { useState } from "react";
 
@@ -110,6 +111,7 @@ const navigationCategories: NavigationCategory[] = [
     icon: GraduationCap,
     items: [
       { id: "training", label: "Security Training", icon: GraduationCap, path: "/training" },
+      { id: "resources", label: "Resources", icon: BookOpen, path: "/resources" },
       { id: "achievements", label: "Achievements", icon: Trophy, path: "/achievements" },
       { id: "simulator", label: "Playbook Simulator", icon: Brain, path: "/simulator", requiredTier: 'advanced', isPremium: true },
     ]
