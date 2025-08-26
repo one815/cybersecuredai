@@ -211,7 +211,7 @@ export default function Demos() {
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-spring-500 text-black font-semibold">
+                      <Badge className="bg-spring-500 text-midnight-900 font-semibold">
                         <Star className="w-3 h-3 mr-1" />
                         Featured
                       </Badge>
@@ -259,7 +259,7 @@ export default function Demos() {
                     <div className="space-y-2">
                       <Button 
                         size="sm" 
-                        className="w-full bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                        className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
                       >
                         <Play className="w-4 h-4 mr-2" />
                         Watch Demo
@@ -445,7 +445,7 @@ export default function Demos() {
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300" />
                     {demo.featured && (
                       <div className="absolute top-3 left-3">
-                        <Badge className="bg-spring-500 text-black font-semibold text-xs">
+                        <Badge className="bg-spring-500 text-midnight-900 font-semibold text-xs">
                           Featured
                         </Badge>
                       </div>
