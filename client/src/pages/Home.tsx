@@ -258,7 +258,7 @@ export default function Home() {
                                 
                                 {/* Professional Threat Map Component */}
                                 <div className="threat-map-container">
-                                  <ThreatMap height="300px" />
+                                  <ThreatMap className="h-[300px]" />
                                 </div>
                               </div>
                             </div>
