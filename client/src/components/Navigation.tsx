@@ -62,6 +62,11 @@ export function Navigation() {
         { label: "Reports", href: "/resources/reports" },
         { label: "On Demand Webinars", href: "/resources/webinars" },
         { label: "Whitepapers", href: "/resources/whitepapers" },
+        { label: "Courses", href: "/courses" },
+        { label: "Handbooks", href: "/handbooks" },
+        { label: "Podcasts", href: "/podcasts" },
+        { label: "Success Kits", href: "/success-kits" },
+        { label: "Video Topics", href: "/video-topics" },
         { label: "Knowledge Center", href: "/resources#knowledge", isHeader: true },
         { label: "Blogs", href: "/blogs" },
         { label: "Demos", href: "/resources/demos" },
@@ -140,7 +145,7 @@ export function Navigation() {
                                 <div className="px-5 py-3 text-xs font-bold text-cyan-400 uppercase tracking-wider bg-cyan-500/20 border-b border-cyan-500/30 geometric-text">
                                   Resource Center
                                 </div>
-                                {item.dropdown.slice(1, 7).map((dropdownItem, index) => (
+                                {item.dropdown.slice(1, 12).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
                                     <div className="px-5 py-3 text-sm text-white hover:text-cyan-400 hover:bg-cyan-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-cyan-400 cyber-font">
                                       {dropdownItem.label}
@@ -154,7 +159,7 @@ export function Navigation() {
                                 <div className="px-5 py-3 text-xs font-bold text-purple-400 uppercase tracking-wider bg-purple-500/20 border-b border-purple-500/30 geometric-text">
                                   Knowledge Center
                                 </div>
-                                {item.dropdown.slice(8, 10).map((dropdownItem, index) => (
+                                {item.dropdown.slice(13, 15).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
                                     <div className="px-5 py-3 text-sm text-white hover:text-purple-400 hover:bg-purple-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-purple-400 cyber-font">
                                       {dropdownItem.label}
@@ -165,7 +170,7 @@ export function Navigation() {
                                 <div className="px-5 py-3 text-xs font-bold text-orange-400 uppercase tracking-wider bg-orange-500/20 border-b border-orange-500/30 mt-2 geometric-text">
                                   Features
                                 </div>
-                                {item.dropdown.slice(11).map((dropdownItem, index) => (
+                                {item.dropdown.slice(16).map((dropdownItem, index) => (
                                   <Link key={index} href={dropdownItem.href}>
                                     <div className="px-5 py-3 text-sm text-white hover:text-orange-400 hover:bg-orange-500/20 cursor-pointer transition-all duration-200 border-l-3 border-transparent hover:border-orange-400 cyber-font">
                                       {dropdownItem.label}

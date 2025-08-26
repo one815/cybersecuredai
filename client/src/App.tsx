@@ -33,6 +33,9 @@ import BlogPosts from "@/pages/BlogPosts";
 import Handbooks from "@/pages/Handbooks";
 import Webinars from "@/pages/Webinars";
 import WhitePapers from "@/pages/WhitePapers";
+import Podcasts from "@/pages/Podcasts";
+import SuccessKits from "@/pages/SuccessKits";
+import VideoTopics from "@/pages/VideoTopics";
 import UseCases from "@/pages/UseCases";
 import EBooks from "@/pages/EBooks";
 import DataSheets from "@/pages/DataSheets";
@@ -229,6 +232,9 @@ function Router() {
       <Route path="/resources/whitepapers" component={WhitePapers} />
       <Route path="/resources/white-papers" component={WhitePapers} />
       <Route path="/resources/handbooks" component={Handbooks} />
+      <Route path="/podcasts" component={Podcasts} />
+      <Route path="/success-kits" component={SuccessKits} />
+      <Route path="/video-topics" component={VideoTopics} />
       <Route path="/resources/webinars" component={Webinars} />
       <Route path="/resources/client-stories" component={ClientStories} />
       <Route path="/resources/demos" component={Demos} />
