@@ -22,7 +22,10 @@ import {
   Network,
   Monitor
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
+import threatImg from "@/assets/images/threat-monitoring.png";
+import complianceImg from "@/assets/images/compliance-dashboard.png";
+import federalImg from "@/assets/images/federal-agency.png";
 
 const categories = [
   "SIEM & Security Analytics",
@@ -61,7 +64,7 @@ const integrations = [
     setupTime: "< 30 minutes",
     featured: true,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "Azure Active Directory SSO",
@@ -74,7 +77,7 @@ const integrations = [
     setupTime: "< 15 minutes",
     featured: true,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "CrowdStrike Falcon Integration",
@@ -87,7 +90,7 @@ const integrations = [
     setupTime: "< 45 minutes",
     featured: true,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "Canvas LMS Security Integration",
@@ -100,7 +103,7 @@ const integrations = [
     setupTime: "< 60 minutes",
     featured: false,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "Splunk Enterprise Security",
@@ -113,7 +116,7 @@ const integrations = [
     setupTime: "< 90 minutes",
     featured: false,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "Google Workspace for Education",
@@ -126,7 +129,7 @@ const integrations = [
     setupTime: "< 20 minutes",
     featured: false,
     certified: true,
-    image: placeholderImg
+    image: cybersecurityImg
   }
 ];
 
