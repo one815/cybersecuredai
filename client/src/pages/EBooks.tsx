@@ -19,7 +19,14 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import classroomImg from "@/assets/images/classroom.png";
+import govImg from "@/assets/images/government-building.png";
+import threatImg from "@/assets/images/threat-monitoring.png";
+import uniImg from "@/assets/images/university.png";
+import schoolImg from "@/assets/images/school-district.png";
+import complianceImg from "@/assets/images/compliance-dashboard.png";
+import cybersecurityImg from "@/assets/images/cybersecurity-team.png";
+import federalImg from "@/assets/images/federal-agency.png";
 
 const categories = [
   "AI & Cybersecurity",
@@ -47,7 +54,7 @@ const ebooks = [
     downloadCount: "5,400",
     readTime: "8 hours",
     featured: true,
-    image: placeholderImg
+    image: classroomImg
   },
   {
     title: "Federal Cybersecurity Compliance Handbook",
@@ -58,7 +65,7 @@ const ebooks = [
     downloadCount: "3,800",
     readTime: "6 hours",
     featured: true,
-    image: placeholderImg
+    image: federalImg
   },
   {
     title: "AI Security Implementation Guide",
@@ -69,7 +76,7 @@ const ebooks = [
     downloadCount: "4,200",
     readTime: "10 hours",
     featured: true,
-    image: placeholderImg
+    image: cybersecurityImg
   },
   {
     title: "Zero Trust for Universities",
@@ -80,7 +87,7 @@ const ebooks = [
     downloadCount: "2,900",
     readTime: "5 hours",
     featured: false,
-    image: placeholderImg
+    image: uniImg
   },
   {
     title: "K-12 Digital Safety & Security",
@@ -91,7 +98,7 @@ const ebooks = [
     downloadCount: "3,500",
     readTime: "4 hours",
     featured: false,
-    image: placeholderImg
+    image: schoolImg
   },
   {
     title: "Threat Intelligence for Government",
@@ -102,7 +109,7 @@ const ebooks = [
     downloadCount: "2,100",
     readTime: "8 hours",
     featured: false,
-    image: placeholderImg
+    image: threatImg
   },
   {
     title: "Compliance Automation Strategies",
@@ -113,7 +120,7 @@ const ebooks = [
     downloadCount: "1,800",
     readTime: "5 hours",
     featured: false,
-    image: placeholderImg
+    image: complianceImg
   },
   {
     title: "Campus Cybersecurity Incident Response",
@@ -124,7 +131,7 @@ const ebooks = [
     downloadCount: "2,600",
     readTime: "6 hours",
     featured: false,
-    image: placeholderImg
+    image: uniImg
   }
 ];
 
