@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -250,12 +251,11 @@ export default function Courses() {
           </Badge>
           <Button 
             size="sm" 
-            variant="outline" 
-            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
-            onClick={() => window.open(`/marketing/courses/${course.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+            className="bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+            onClick={() => window.location.href = '/dashboard'}
           >
-            <Play className="w-4 h-4 mr-1" />
-            Enroll Now
+            <ExternalLink className="w-4 h-4 mr-1" />
+            Access via Platform
           </Button>
         </div>
       </CardContent>
@@ -265,19 +265,66 @@ export default function Courses() {
   const featuredCourses = courses.filter(course => course.enrolled && parseInt(course.enrolled.replace(',', '')) > 2000).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
-        <div className="relative container mx-auto px-4">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-            Security Training Courses
-          </h1>
-          <p className="text-xl text-gray-300 max-w-2xl">
-            Comprehensive AI security training courses for all skill levels and sectors
-          </p>
+    <MarketingLayout>
+      <div className="min-h-screen ai-dashboard-bg text-white">
+        {/* Hero Section */}
+        <div className="relative bg-gradient-to-r from-midnight-900 via-midnight-800 to-midnight-900 py-24">
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]" />
+          <div className="container mx-auto px-6 relative">
+            <div className="text-center max-w-4xl mx-auto">
+              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-spring-400 to-cyber-blue-400 bg-clip-text text-transparent">
+                CyberSecure AI Training
+              </h1>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                Comprehensive cybersecurity education designed for Federal Government, Higher Education, and K-12 institutions. 
+                Master AI-powered security with sector-specific training programs.
+              </p>
+              
+              {/* Call to Action for Platform Access */}
+              <div className="bg-midnight-800/50 border border-spring-400/30 rounded-lg p-8 mb-8">
+                <h2 className="text-2xl font-bold text-spring-400 mb-4">Access Training Through Our Platform</h2>
+                <p className="text-gray-300 mb-6">
+                  All courses are available exclusively through the CyberSecure AI platform. Sign up to access our 
+                  comprehensive training library with personalized learning paths and real-time progress tracking.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button 
+                    size="lg"
+                    className="bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                    onClick={() => window.location.href = '/dashboard'}
+                  >
+                    <ExternalLink className="w-5 h-5 mr-2" />
+                    Access Training Platform
+                  </Button>
+                  <Button 
+                    size="lg"
+                    variant="outline"
+                    className="border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black"
+                    onClick={() => window.location.href = '/dashboard'}
+                  >
+                    <GraduationCap className="w-5 h-5 mr-2" />
+                    Start Free Trial
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-center gap-6 text-gray-400">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5" />
+                  <span>{courses.length} Courses Available</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5" />
+                  <span>Expert-Led Instruction</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5" />
+                  <span>Industry Certified</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
       <div className="container mx-auto px-4 py-12">
         {/* Featured Courses */}
@@ -431,6 +478,7 @@ export default function Courses() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </MarketingLayout>
   );
 }

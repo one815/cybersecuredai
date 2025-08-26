@@ -36,6 +36,10 @@ import WhitePapers from "@/pages/WhitePapers";
 import UseCases from "@/pages/UseCases";
 import EBooks from "@/pages/EBooks";
 import DataSheets from "@/pages/DataSheets";
+import ClientStories from "@/pages/ClientStories";
+import Demos from "@/pages/Demos";
+import Integrations from "@/pages/Integrations";
+import MarketingReports from "@/pages/MarketingReports";
 import SecurityOverview from "@/pages/SecurityOverview";
 import SecurityDashboard from "@/pages/SecurityDashboard";
 import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
@@ -226,6 +230,10 @@ function Router() {
       <Route path="/resources/white-papers" component={WhitePapers} />
       <Route path="/resources/handbooks" component={Handbooks} />
       <Route path="/resources/webinars" component={Webinars} />
+      <Route path="/resources/client-stories" component={ClientStories} />
+      <Route path="/resources/demos" component={Demos} />
+      <Route path="/resources/integrations" component={Integrations} />
+      <Route path="/resources/reports" component={MarketingReports} />
       <Route path="/resources/courses" component={Courses} />
       <Route path="/use-cases" component={UseCases} />
       <Route path="/ebooks" component={EBooks} />
@@ -234,6 +242,10 @@ function Router() {
       <Route path="/webinars" component={Webinars} />
       <Route path="/whitepapers" component={WhitePapers} />
       <Route path="/white-papers" component={WhitePapers} />
+      <Route path="/client-stories" component={ClientStories} />
+      <Route path="/demos" component={Demos} />
+      <Route path="/integrations" component={Integrations} />
+      <Route path="/reports" component={MarketingReports} />
       <Route path="/courses">
         <Layout>
           <Courses />
