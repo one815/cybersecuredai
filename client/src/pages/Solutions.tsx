@@ -33,7 +33,6 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
-import { FaceScannerAnimation } from "@/components/FaceScannerAnimation";
 // Solution images
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import cloudSecurityImg from "@assets/generated_images/Cloud_Security_Analytics_Platform_0c84c42d.png";
@@ -53,7 +52,6 @@ export default function Solutions() {
       components: [
         "CyberSecure AI Core Platform (limited users)",
         "AI-Driven Advanced Threat Hunting Engine",
-        "3D Biometric Face Recognition System",
         "Basic automated incident response",
         "Standard threat detection with ML enhancement",
         "Essential compliance automation",
@@ -62,7 +60,6 @@ export default function Solutions() {
       ],
       features: [
         "AI-powered threat detection",
-        "3D Biometric authentication",
         "Automated incident response",
         "FERPA/CIPA compliance",
         "24/7 monitoring",
