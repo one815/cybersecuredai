@@ -63,12 +63,10 @@ export default function AboutUs() {
               <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white flex items-center space-x-2 geometric-text">
+              <h1 className="text-3xl font-bold text-white flex items-center space-x-2 font-sans">
                 <span>About CyberSecure AI</span>
-                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
               </h1>
-              <p className="text-gray-400 cyber-font">Leading cybersecurity innovation for education and government sectors</p>
+              <p className="text-gray-400 font-secondary"><span className="text-cyan-400 font-semibold">Trustworthy</span>, <span className="text-cyan-400 font-semibold">innovative</span>, and <span className="text-cyan-400 font-semibold">professional</span> cybersecurity leadership for education and government sectors</p>
             </div>
           </div>
         </div>
@@ -80,21 +78,20 @@ export default function AboutUs() {
           <section className="mb-16">
             <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-white text-center geometric-text">Our Mission</CardTitle>
+                <CardTitle className="text-2xl font-bold text-white text-center font-sans">Our Mission & Promise</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-lg text-gray-300 mb-6 max-w-4xl mx-auto">
-                  CyberSecure AI is dedicated to protecting education and government organizations from evolving 
-                  cyber threats through innovative AI-powered security solutions. We combine advanced artificial 
-                  intelligence with deep sector expertise to deliver comprehensive cybersecurity and IT management 
-                  platforms that ensure compliance, enhance security posture, and enable digital transformation 
-                  for the organizations that serve our communities.
+                <p className="text-lg text-gray-300 mb-6 max-w-4xl mx-auto font-secondary">
+                  <span className="text-cyan-400 font-semibold">To deliver reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations while ensuring compliance and operational excellence.</span> 
+                  We are <span className="text-cyan-400 font-semibold">forward-thinking</span> and <span className="text-cyan-400 font-semibold">responsive</span>, combining advanced artificial 
+                  intelligence with deep sector expertise through our commitment to <span className="text-cyan-400 font-semibold">innovation</span>, <span className="text-cyan-400 font-semibold">security</span>, <span className="text-cyan-400 font-semibold">integrity</span>, <span className="text-cyan-400 font-semibold">accessibility</span>, and <span className="text-cyan-400 font-semibold">compliance</span>.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <Badge className="bg-cyan-600 text-white">AI-Powered Security</Badge>
-                  <Badge className="bg-blue-600 text-white">Education Focus</Badge>
-                  <Badge className="bg-purple-600 text-white">Government Solutions</Badge>
-                  <Badge className="bg-green-600 text-white">Compliance Expertise</Badge>
+                  <Badge className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-secondary">Innovation</Badge>
+                  <Badge className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-secondary">Security</Badge>
+                  <Badge className="bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-secondary">Integrity</Badge>
+                  <Badge className="bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-secondary">Accessibility</Badge>
+                  <Badge className="bg-gradient-to-r from-cyan-700 to-blue-600 text-white font-secondary">Compliance</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -102,19 +99,19 @@ export default function AboutUs() {
 
           {/* Company Values */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12 geometric-text">Our Core Values</h2>
+            <h2 className="text-3xl font-bold text-white text-center mb-12 font-sans">Our Brand Values & Personality</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
                 <CardHeader>
                   <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
                     <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
                   </div>
-                  <CardTitle className="text-xl text-white geometric-text">Security First</CardTitle>
+                  <CardTitle className="text-xl text-white font-sans">Security & Trust</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-400">
-                    Every decision we make prioritizes the security and protection of our clients' data, 
-                    systems, and stakeholders. We build with security as the foundation, not an afterthought.
+                  <p className="text-gray-400 font-secondary">
+                    <span className="text-cyan-400 font-semibold">Trustworthy</span> and <span className="text-cyan-400 font-semibold">professional</span> - every decision prioritizes security and protection of our clients' data, 
+                    systems, and stakeholders. We build with security as the foundation, demonstrating our <span className="text-cyan-400 font-semibold">integrity</span>.
                   </p>
                 </CardContent>
               </Card>
