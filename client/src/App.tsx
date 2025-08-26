@@ -130,6 +130,7 @@ function Router() {
       <Route path="/pricing" component={Pricing} />
       <Route path="/careers" component={Careers} />
       <Route path="/blog" component={Blogs} />
+      <Route path="/threat-report-2025" component={ThreatReport2025} />
       <Route path="/news" component={News} />
       <Route path="/client-login" component={ClientLogin} />
       <Route path="/security-playbook-simulator" component={SecurityPlaybookSimulator} />
