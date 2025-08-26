@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -41,7 +41,7 @@ const categories = [
 ];
 
 const resourceTypes = [
-  "Case Study",
+  "Use Case",
   "Course",
   "CrowdCast",
   "Customer Story", 
@@ -53,7 +53,8 @@ const resourceTypes = [
   "Report",
   "Video",
   "Webinar",
-  "White Paper"
+  "White Paper",
+  "eBook"
 ];
 
 const featuredResources = [
@@ -99,7 +100,8 @@ const allResources = [
     sector: "federal",
     duration: "8 hours",
     level: "Intermediate",
-    downloadCount: "1,247"
+    downloadCount: "1,247",
+    link: "/courses"
   },
   {
     title: "University Research Security",
@@ -109,7 +111,8 @@ const allResources = [
     sector: "higher-ed",
     duration: "6 hours",
     level: "Intermediate",
-    downloadCount: "2,156"
+    downloadCount: "2,156",
+    link: "/courses"
   },
   {
     title: "K-12 AI Security Essentials",
@@ -119,7 +122,8 @@ const allResources = [
     sector: "k12",
     duration: "4 hours",
     level: "Beginner",
-    downloadCount: "3,421"
+    downloadCount: "3,421",
+    link: "/courses"
   },
   // White Papers
   {
@@ -129,7 +133,8 @@ const allResources = [
     category: "AI & Machine Learning",
     sector: "general",
     pages: "45",
-    downloadCount: "3,200"
+    downloadCount: "3,200",
+    link: "/white-papers"
   },
   {
     title: "Privacy-Preserving AI: Implementing Federated Learning",
@@ -138,7 +143,8 @@ const allResources = [
     category: "AI & Machine Learning",
     sector: "general",
     pages: "38",
-    downloadCount: "2,800"
+    downloadCount: "2,800",
+    link: "/white-papers"
   },
   // Webinars
   {
@@ -149,7 +155,8 @@ const allResources = [
     sector: "federal",
     duration: "60 min",
     attendees: "1,200+",
-    downloadCount: "3,400"
+    downloadCount: "3,400",
+    link: "/webinars"
   },
   {
     title: "Campus-Wide AI Security: Protecting University Research Assets",
@@ -159,7 +166,8 @@ const allResources = [
     sector: "higher-ed",
     duration: "45 min",
     attendees: "800+",
-    downloadCount: "1,600"
+    downloadCount: "1,600",
+    link: "/webinars"
   },
   // Handbooks
   {
@@ -169,7 +177,8 @@ const allResources = [
     category: "AI & Machine Learning",
     sector: "general",
     pages: "300+",
-    downloadCount: "8,900"
+    downloadCount: "8,900",
+    link: "/handbooks"
   },
   {
     title: "Federal AI Security Handbook: Compliance, Protection, and Response",
@@ -178,26 +187,29 @@ const allResources = [
     category: "Federal Government",
     sector: "federal",
     pages: "250+",
-    downloadCount: "2,400"
+    downloadCount: "2,400",
+    link: "/handbooks"
   },
-  // Customer Stories
+  // Use Cases
   {
     title: "Federal Zero Trust Architecture Implementation",
     description: "47% reduction in security incidents while ensuring AI systems remain secure and compliant",
-    type: "Customer Story",
+    type: "Use Case",
     category: "Federal Government",
     sector: "federal",
     results: "47% reduction in incidents",
-    downloadCount: "1,900"
+    downloadCount: "1,900",
+    link: "/use-cases"
   },
   {
     title: "Research Collaboration Security Success",
     description: "Shared security standards for multi-institution research projects",
-    type: "Customer Story",
+    type: "Use Case",
     category: "Higher Education",
     sector: "higher-ed",
     results: "Protected $50M+ in research",
-    downloadCount: "1,600"
+    downloadCount: "1,600",
+    link: "/use-cases"
   }
 ];
 
@@ -308,7 +320,16 @@ export default function Resources() {
           >
             {resource.category}
           </Badge>
-          <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+          <Button 
+            size="sm" 
+            variant="outline" 
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            onClick={() => {
+              const resourceAny = resource as any;
+              const link = resourceAny.link || '/resources';
+              window.location.href = link;
+            }}
+          >
             <ExternalLink className="w-4 h-4 mr-1" />
             View
           </Button>
