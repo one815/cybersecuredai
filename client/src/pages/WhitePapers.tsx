@@ -19,6 +19,11 @@ import {
   ExternalLink,
   Filter
 } from "lucide-react";
+import aiSecROIWhitePaperImg from "@assets/generated_images/AI_Security_ROI_White_Paper_c089a823.png";
+import privacyAIWhitePaperImg from "@assets/generated_images/Privacy_Preserving_AI_Paper_5a9a8a4a.png";
+import govAIInfraWhitePaperImg from "@assets/generated_images/Government_AI_Infrastructure_Paper_febb5409.png";
+import academicResearchAIWhitePaperImg from "@assets/generated_images/Academic_Research_AI_Security_8041a1e2.png";
+import k12AIImplWhitePaperImg from "@assets/generated_images/K12_AI_Security_Implementation_7535be1e.png";
 
 const whitepapers = [
   {
@@ -30,7 +35,8 @@ const whitepapers = [
     downloadCount: "3,200",
     publishDate: "2025-01-15",
     authors: "CyberSecure AI Research Team",
-    featured: true
+    featured: true,
+    image: aiSecROIWhitePaperImg
   },
   {
     title: "Privacy-Preserving AI: Implementing Federated Learning in High-Security Environments",
@@ -40,7 +46,8 @@ const whitepapers = [
     downloadType: "PDF",
     downloadCount: "2,800",
     publishDate: "2025-01-12",
-    authors: "Privacy Research Institute"
+    authors: "Privacy Research Institute",
+    image: privacyAIWhitePaperImg
   },
   {
     title: "Securing Government AI Infrastructure: Federal Compliance Frameworks",
@@ -51,7 +58,8 @@ const whitepapers = [
     downloadCount: "1,900",
     publishDate: "2025-01-18",
     authors: "Federal Security Advisory Board",
-    featured: true
+    featured: true,
+    image: govAIInfraWhitePaperImg
   },
   {
     title: "Securing Academic Research AI: Protection Strategies for University Environments",
@@ -61,7 +69,8 @@ const whitepapers = [
     downloadType: "PDF",
     downloadCount: "1,400",
     publishDate: "2025-01-20",
-    authors: "Academic Security Consortium"
+    authors: "Academic Security Consortium",
+    image: academicResearchAIWhitePaperImg
   },
   {
     title: "K-12 AI Security Implementation Guide: Safeguarding Educational Technology",
@@ -72,7 +81,8 @@ const whitepapers = [
     downloadCount: "2,100",
     publishDate: "2025-01-10",
     authors: "Educational Technology Security Institute",
-    featured: true
+    featured: true,
+    image: k12AIImplWhitePaperImg
   }
 ];
 
@@ -188,10 +198,20 @@ export default function WhitePapers() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredWhitePapers.map((paper, index) => (
                 <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
-                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
-                    <div className="text-cyan-400 text-6xl opacity-30">
-                      <FileText />
-                    </div>
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg overflow-hidden">
+                    {paper.image ? (
+                      <img 
+                        src={paper.image} 
+                        alt={paper.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-cyan-400 text-6xl opacity-30">
+                          <FileText />
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <CardHeader>
                     <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>

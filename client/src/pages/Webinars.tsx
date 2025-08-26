@@ -20,6 +20,11 @@ import {
   ExternalLink,
   Filter
 } from "lucide-react";
+import fedAIInfraWebinarImg from "@assets/generated_images/Federal_AI_Infrastructure_Webinar_73974936.png";
+import campusAISecWebinarImg from "@assets/generated_images/Campus_AI_Security_Webinar_032ea4d4.png";
+import k12ClassroomWebinarImg from "@assets/generated_images/K12_Digital_Classroom_Webinar_ccef445f.png";
+import aiInfraHardeningWebinarImg from "@assets/generated_images/AI_Infrastructure_Hardening_Webinar_b8dbbc10.png";
+import aiSecComplianceWebinarImg from "@assets/generated_images/AI_Security_Compliance_Webinar_ae1e454f.png";
 
 const webinars = [
   {
@@ -32,7 +37,8 @@ const webinars = [
     airDate: "2025-01-15",
     status: "on-demand",
     views: "3,400",
-    featured: true
+    featured: true,
+    image: fedAIInfraWebinarImg
   },
   {
     title: "Campus-Wide AI Security: Protecting University Research Assets",
@@ -43,7 +49,8 @@ const webinars = [
     presenter: "Prof. Michael Chen, University CIO",
     airDate: "2025-01-18",
     status: "on-demand",
-    views: "1,600"
+    views: "1,600",
+    image: campusAISecWebinarImg
   },
   {
     title: "Protecting Digital Classrooms: K-12 AI Security Fundamentals",
@@ -55,7 +62,8 @@ const webinars = [
     airDate: "2025-01-20",
     status: "on-demand",
     views: "2,100",
-    featured: true
+    featured: true,
+    image: k12ClassroomWebinarImg
   },
   {
     title: "From Vulnerability to Security: Hardening Your AI Infrastructure",
@@ -66,7 +74,8 @@ const webinars = [
     presenter: "Alex Thompson, Security Architect",
     airDate: "2025-01-22",
     status: "on-demand",
-    views: "2,800"
+    views: "2,800",
+    image: aiInfraHardeningWebinarImg
   },
   {
     title: "AI Security Compliance: Meeting New Regulatory Requirements in 2025",
@@ -78,7 +87,8 @@ const webinars = [
     airDate: "2025-01-12",
     status: "on-demand",
     views: "2,400",
-    featured: true
+    featured: true,
+    image: aiSecComplianceWebinarImg
   }
 ];
 
@@ -194,10 +204,20 @@ export default function Webinars() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredWebinars.map((webinar, index) => (
                 <Card key={index} className="bg-gray-800 border-gray-700 hover:border-cyan-500/50 transition-all duration-200 group">
-                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg flex items-center justify-center">
-                    <div className="text-cyan-400 text-6xl opacity-30">
-                      <Video />
-                    </div>
+                  <div className="aspect-video bg-gradient-to-br from-cyan-600/20 to-blue-600/20 rounded-t-lg overflow-hidden">
+                    {webinar.image ? (
+                      <img 
+                        src={webinar.image} 
+                        alt={webinar.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-cyan-400 text-6xl opacity-30">
+                          <Video />
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <CardHeader>
                     <Badge className="mb-2 bg-cyan-600 text-white w-fit">Featured</Badge>
