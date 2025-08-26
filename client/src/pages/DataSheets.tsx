@@ -20,6 +20,7 @@ import {
   School,
   Clock
 } from "lucide-react";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Platform Overview",
@@ -47,7 +48,7 @@ const datasheets = [
     downloadCount: "8,400",
     featured: true,
     version: "2025.1",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "AI-Powered Threat Detection Engine",
@@ -58,7 +59,7 @@ const datasheets = [
     downloadCount: "5,200",
     featured: true,
     version: "4.2",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Federal Compliance & Certification",
@@ -69,7 +70,7 @@ const datasheets = [
     downloadCount: "3,800",
     featured: true,
     version: "2025.1",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "University Network Integration",
@@ -80,7 +81,7 @@ const datasheets = [
     downloadCount: "2,900",
     featured: false,
     version: "3.8",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "K-12 Student Privacy Protection",
@@ -91,7 +92,7 @@ const datasheets = [
     downloadCount: "4,100",
     featured: false,
     version: "2025.1",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Real-Time Security Analytics",
@@ -102,7 +103,7 @@ const datasheets = [
     downloadCount: "3,600",
     featured: false,
     version: "5.1",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -113,7 +114,7 @@ const datasheets = [
     downloadCount: "2,700",
     featured: false,
     version: "2.4",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Campus-Wide Deployment Guide",
@@ -124,7 +125,7 @@ const datasheets = [
     downloadCount: "2,200",
     featured: false,
     version: "3.5",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "API Integration & Development",
@@ -135,7 +136,7 @@ const datasheets = [
     downloadCount: "1,800",
     featured: false,
     version: "6.0",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Automated Incident Response",
@@ -146,7 +147,7 @@ const datasheets = [
     downloadCount: "3,400",
     featured: false,
     version: "4.7",
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   }
 ];
 
@@ -369,7 +370,7 @@ export default function DataSheets() {
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <Checkbox
                         checked={showFeaturedOnly}
-                        onCheckedChange={setShowFeaturedOnly}
+                        onCheckedChange={(checked) => setShowFeaturedOnly(checked === true)}
                         className="data-[state=checked]:bg-spring-500 data-[state=checked]:border-spring-500"
                       />
                       <span className="text-sm text-gray-300">Featured only</span>

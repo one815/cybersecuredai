@@ -19,6 +19,7 @@ import {
   Users,
   Video
 } from "lucide-react";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Platform Overview",
@@ -54,7 +55,7 @@ const demos = [
     viewCount: "12,400",
     featured: true,
     schedulable: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "AI-Powered Threat Detection in Action",
@@ -66,7 +67,7 @@ const demos = [
     viewCount: "8,900",
     featured: true,
     schedulable: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Higher Education FERPA Compliance Demo",
@@ -78,7 +79,7 @@ const demos = [
     viewCount: "5,600",
     featured: true,
     schedulable: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "K-12 Student Data Protection Interactive Tutorial",
@@ -90,7 +91,7 @@ const demos = [
     viewCount: "7,200",
     featured: false,
     schedulable: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Enterprise Integration Showcase",
@@ -102,7 +103,7 @@ const demos = [
     viewCount: "4,100",
     featured: false,
     schedulable: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "SOC Dashboard Management Live Demo", 
@@ -114,7 +115,7 @@ const demos = [
     viewCount: "9,800",
     featured: false,
     schedulable: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   }
 ];
 

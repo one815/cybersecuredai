@@ -235,6 +235,7 @@ function Router() {
       <Route path="/resources/integrations" component={Integrations} />
       <Route path="/resources/reports" component={MarketingReports} />
       <Route path="/resources/courses" component={Courses} />
+      <Route path="/courses" component={Courses} />
       <Route path="/use-cases" component={UseCases} />
       <Route path="/ebooks" component={EBooks} />
       <Route path="/datasheets" component={DataSheets} />
@@ -246,11 +247,6 @@ function Router() {
       <Route path="/demos" component={Demos} />
       <Route path="/integrations" component={Integrations} />
       <Route path="/reports" component={MarketingReports} />
-      <Route path="/courses">
-        <Layout>
-          <Courses />
-        </Layout>
-      </Route>
       <Route path="/blog-posts">
         <Layout>
           <BlogPosts />

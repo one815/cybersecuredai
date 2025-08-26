@@ -19,6 +19,7 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "AI & Cybersecurity",
@@ -46,7 +47,7 @@ const ebooks = [
     downloadCount: "5,400",
     readTime: "8 hours",
     featured: true,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "Federal Cybersecurity Compliance Handbook",
@@ -57,7 +58,7 @@ const ebooks = [
     downloadCount: "3,800",
     readTime: "6 hours",
     featured: true,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "AI Security Implementation Guide",
@@ -68,7 +69,7 @@ const ebooks = [
     downloadCount: "4,200",
     readTime: "10 hours",
     featured: true,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "Zero Trust for Universities",
@@ -79,7 +80,7 @@ const ebooks = [
     downloadCount: "2,900",
     readTime: "5 hours",
     featured: false,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "K-12 Digital Safety & Security",
@@ -90,7 +91,7 @@ const ebooks = [
     downloadCount: "3,500",
     readTime: "4 hours",
     featured: false,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "Threat Intelligence for Government",
@@ -101,7 +102,7 @@ const ebooks = [
     downloadCount: "2,100",
     readTime: "8 hours",
     featured: false,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "Compliance Automation Strategies",
@@ -112,7 +113,7 @@ const ebooks = [
     downloadCount: "1,800",
     readTime: "5 hours",
     featured: false,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   },
   {
     title: "Campus Cybersecurity Incident Response",
@@ -123,7 +124,7 @@ const ebooks = [
     downloadCount: "2,600",
     readTime: "6 hours",
     featured: false,
-    image: "/api/placeholder/300/400"
+    image: placeholderImg
   }
 ];
 
@@ -329,7 +330,7 @@ export default function EBooks() {
                     <label className="flex items-center space-x-2 cursor-pointer">
                       <Checkbox
                         checked={showFeaturedOnly}
-                        onCheckedChange={setShowFeaturedOnly}
+                        onCheckedChange={(checked) => setShowFeaturedOnly(checked === true)}
                         className="data-[state=checked]:bg-spring-500 data-[state=checked]:border-spring-500"
                       />
                       <span className="text-sm text-gray-300">Featured only</span>
