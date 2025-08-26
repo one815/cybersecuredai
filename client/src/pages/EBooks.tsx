@@ -19,7 +19,7 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import ebookImg from "@assets/generated_images/CyberSecure_AI_EBook_8af07a80.png";
 
 const categories = [
   "AI & Cybersecurity",
@@ -47,7 +47,7 @@ const ebooks = [
     downloadCount: "5,400",
     readTime: "8 hours",
     featured: true,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "Federal Cybersecurity Compliance Handbook",
@@ -58,7 +58,7 @@ const ebooks = [
     downloadCount: "3,800",
     readTime: "6 hours",
     featured: true,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "AI Security Implementation Guide",
@@ -69,7 +69,7 @@ const ebooks = [
     downloadCount: "4,200",
     readTime: "10 hours",
     featured: true,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "Zero Trust for Universities",
@@ -80,7 +80,7 @@ const ebooks = [
     downloadCount: "2,900",
     readTime: "5 hours",
     featured: false,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "K-12 Digital Safety & Security",
@@ -91,7 +91,7 @@ const ebooks = [
     downloadCount: "3,500",
     readTime: "4 hours",
     featured: false,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "Threat Intelligence for Government",
@@ -102,7 +102,7 @@ const ebooks = [
     downloadCount: "2,100",
     readTime: "8 hours",
     featured: false,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "Compliance Automation Strategies",
@@ -113,7 +113,7 @@ const ebooks = [
     downloadCount: "1,800",
     readTime: "5 hours",
     featured: false,
-    image: placeholderImg
+    image: ebookImg
   },
   {
     title: "Campus Cybersecurity Incident Response",
@@ -124,7 +124,7 @@ const ebooks = [
     downloadCount: "2,600",
     readTime: "6 hours",
     featured: false,
-    image: placeholderImg
+    image: ebookImg
   }
 ];
 

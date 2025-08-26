@@ -20,7 +20,7 @@ import {
   School,
   Clock
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import datasheetImg from "@assets/generated_images/CyberSecure_AI_DataSheet_102d9c28.png";
 
 const categories = [
   "Platform Overview",
@@ -48,7 +48,7 @@ const datasheets = [
     downloadCount: "8,400",
     featured: true,
     version: "2025.1",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "AI-Powered Threat Detection Engine",
@@ -59,7 +59,7 @@ const datasheets = [
     downloadCount: "5,200",
     featured: true,
     version: "4.2",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "Federal Compliance & Certification",
@@ -70,7 +70,7 @@ const datasheets = [
     downloadCount: "3,800",
     featured: true,
     version: "2025.1",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "University Network Integration",
@@ -81,7 +81,7 @@ const datasheets = [
     downloadCount: "2,900",
     featured: false,
     version: "3.8",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "K-12 Student Privacy Protection",
@@ -92,7 +92,7 @@ const datasheets = [
     downloadCount: "4,100",
     featured: false,
     version: "2025.1",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "Real-Time Security Analytics",
@@ -103,7 +103,7 @@ const datasheets = [
     downloadCount: "3,600",
     featured: false,
     version: "5.1",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -114,7 +114,7 @@ const datasheets = [
     downloadCount: "2,700",
     featured: false,
     version: "2.4",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "Campus-Wide Deployment Guide",
@@ -125,7 +125,7 @@ const datasheets = [
     downloadCount: "2,200",
     featured: false,
     version: "3.5",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "API Integration & Development",
@@ -136,7 +136,7 @@ const datasheets = [
     downloadCount: "1,800",
     featured: false,
     version: "6.0",
-    image: placeholderImg
+    image: datasheetImg
   },
   {
     title: "Automated Incident Response",
@@ -147,7 +147,7 @@ const datasheets = [
     downloadCount: "3,400",
     featured: false,
     version: "4.7",
-    image: placeholderImg
+    image: datasheetImg
   }
 ];
 

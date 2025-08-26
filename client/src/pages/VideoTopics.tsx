@@ -18,7 +18,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import videoTopicImg from "@assets/generated_images/CyberSecure_AI_VideoTopic_8dc81963.png";
 
 const categories = [
   "AI Security Fundamentals",
@@ -47,7 +47,7 @@ const videoTopics = [
     viewCount: "8,400",
     featured: true,
     level: "Beginner",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "Advanced Threat Detection with AI",
@@ -58,7 +58,7 @@ const videoTopics = [
     viewCount: "12,300",
     featured: true,
     level: "Advanced",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "FERPA Compliance in AI Systems",
@@ -69,7 +69,7 @@ const videoTopics = [
     viewCount: "5,700",
     featured: true,
     level: "Intermediate",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "K-12 Student Data Protection Strategies",
@@ -80,7 +80,7 @@ const videoTopics = [
     viewCount: "6,900",
     featured: false,
     level: "Intermediate",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "Zero Trust Architecture Implementation",
@@ -91,7 +91,7 @@ const videoTopics = [
     viewCount: "9,800",
     featured: false,
     level: "Advanced",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "Federal Agency AI Security Case Study",
@@ -102,7 +102,7 @@ const videoTopics = [
     viewCount: "4,200",
     featured: false,
     level: "Intermediate",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "AI Security Compliance Automation",
@@ -113,7 +113,7 @@ const videoTopics = [
     viewCount: "7,600",
     featured: false,
     level: "Advanced",
-    image: placeholderImg
+    image: videoTopicImg
   },
   {
     title: "University Research Data Protection",
@@ -124,7 +124,7 @@ const videoTopics = [
     viewCount: "3,800",
     featured: false,
     level: "Intermediate",
-    image: placeholderImg
+    image: videoTopicImg
   }
 ];
 

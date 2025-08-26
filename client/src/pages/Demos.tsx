@@ -19,7 +19,7 @@ import {
   Users,
   Video
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import demoImg from "@assets/generated_images/CyberSecure_AI_Demo_66434319.png";
 
 const categories = [
   "Platform Overview",
@@ -55,7 +55,7 @@ const demos = [
     viewCount: "12,400",
     featured: true,
     schedulable: false,
-    image: placeholderImg
+    image: demoImg
   },
   {
     title: "AI-Powered Threat Detection in Action",
@@ -67,7 +67,7 @@ const demos = [
     viewCount: "8,900",
     featured: true,
     schedulable: true,
-    image: placeholderImg
+    image: demoImg
   },
   {
     title: "Higher Education FERPA Compliance Demo",
@@ -79,7 +79,7 @@ const demos = [
     viewCount: "5,600",
     featured: true,
     schedulable: true,
-    image: placeholderImg
+    image: demoImg
   },
   {
     title: "K-12 Student Data Protection Interactive Tutorial",
@@ -91,7 +91,7 @@ const demos = [
     viewCount: "7,200",
     featured: false,
     schedulable: false,
-    image: placeholderImg
+    image: demoImg
   },
   {
     title: "Enterprise Integration Showcase",
@@ -103,7 +103,7 @@ const demos = [
     viewCount: "4,100",
     featured: false,
     schedulable: false,
-    image: placeholderImg
+    image: demoImg
   },
   {
     title: "SOC Dashboard Management Live Demo", 
@@ -115,7 +115,7 @@ const demos = [
     viewCount: "9,800",
     featured: false,
     schedulable: true,
-    image: placeholderImg
+    image: demoImg
   }
 ];
 

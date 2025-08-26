@@ -18,7 +18,7 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import marketingReportImg from "@assets/generated_images/CyberSecure_AI_MarketingReport_f6c089f4.png";
 
 const categories = [
   "Threat Reports",
@@ -46,7 +46,7 @@ const reports = [
     downloadCount: "15,400",
     publishDate: "January 2025",
     featured: true,
-    image: placeholderImg
+    image: marketingReportImg
   },
   {
     title: "CyberSecure AI named Leader in Cybersecurity",
@@ -57,7 +57,7 @@ const reports = [
     downloadCount: "8,900",
     publishDate: "December 2024",
     featured: true,
-    image: placeholderImg
+    image: marketingReportImg
   },
   {
     title: "CyberSecure AI 2025 Global Security Report",
@@ -68,7 +68,7 @@ const reports = [
     downloadCount: "22,100", 
     publishDate: "January 2025",
     featured: true,
-    image: placeholderImg
+    image: marketingReportImg
   },
   {
     title: "Federal Government Security Assessment 2024",
@@ -79,7 +79,7 @@ const reports = [
     downloadCount: "5,200",
     publishDate: "November 2024",
     featured: false,
-    image: placeholderImg
+    image: marketingReportImg
   },
   {
     title: "Higher Education Cybersecurity Market Analysis",
@@ -90,7 +90,7 @@ const reports = [
     downloadCount: "3,800",
     publishDate: "October 2024",
     featured: false,
-    image: placeholderImg
+    image: marketingReportImg
   },
   {
     title: "K-12 Privacy Compliance Report",
@@ -101,7 +101,7 @@ const reports = [
     downloadCount: "6,700",
     publishDate: "September 2024",
     featured: false,
-    image: placeholderImg
+    image: marketingReportImg
   }
 ];
 
