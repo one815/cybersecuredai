@@ -61,6 +61,7 @@ import Careers from "@/pages/Careers";
 import Blogs from "@/pages/Blogs";
 import News from "@/pages/News";
 import { ClientLogin } from "@/pages/ClientLogin";
+import ThreatReport2025 from "@/pages/ThreatReport2025";
 import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
 
 // Marketing Document Viewers
