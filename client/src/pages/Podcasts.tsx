@@ -19,7 +19,7 @@ import {
   School,
   Users
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import podcastImg from "@assets/generated_images/CyberSecure_AI_Podcast_172a246a.png";
 
 const categories = [
   "AI Security",
@@ -51,7 +51,7 @@ const podcasts = [
     publishDate: "January 2025",
     downloadCount: "12,400",
     featured: true,
-    image: placeholderImg
+    image: podcastImg
   },
   {
     title: "Federal AI Implementation Best Practices",
@@ -63,7 +63,7 @@ const podcasts = [
     publishDate: "December 2024",
     downloadCount: "8,900",
     featured: true,
-    image: placeholderImg
+    image: podcastImg
   },
   {
     title: "Campus Security in the AI Era",
@@ -75,7 +75,7 @@ const podcasts = [
     publishDate: "November 2024",
     downloadCount: "6,700",
     featured: true,
-    image: placeholderImg
+    image: podcastImg
   },
   {
     title: "Protecting Student Data with AI",
@@ -87,7 +87,7 @@ const podcasts = [
     publishDate: "October 2024",
     downloadCount: "5,200",
     featured: false,
-    image: placeholderImg
+    image: podcastImg
   },
   {
     title: "Threat Intelligence Revolution",
@@ -99,7 +99,7 @@ const podcasts = [
     publishDate: "September 2024",
     downloadCount: "9,800",
     featured: false,
-    image: placeholderImg
+    image: podcastImg
   },
   {
     title: "Compliance Automation Success Stories",
@@ -111,7 +111,7 @@ const podcasts = [
     publishDate: "August 2024",
     downloadCount: "7,300",
     featured: false,
-    image: placeholderImg
+    image: podcastImg
   }
 ];
 

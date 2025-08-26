@@ -20,7 +20,7 @@ import {
   Video,
   BookOpen
 } from "lucide-react";
-import placeholderImg from "@/assets/images/placeholder.svg";
+import successKitImg from "@assets/generated_images/CyberSecure_AI_SuccessKit_8dc59fb5.png";
 
 const categories = [
   "Implementation",
@@ -47,7 +47,7 @@ const successKits = [
     components: ["Deployment Guide", "Compliance Checklist", "Training Videos", "Templates"],
     downloadCount: "2,400",
     featured: true,
-    image: placeholderImg
+    image: successKitImg
   },
   {
     title: "University AI Security Success Kit",
@@ -57,7 +57,7 @@ const successKits = [
     components: ["FERPA Compliance Guide", "Research Protection Plan", "Campus Security Framework", "Training Materials"],
     downloadCount: "1,800",
     featured: true,
-    image: placeholderImg
+    image: successKitImg
   },
   {
     title: "K-12 Student Data Protection Kit",
@@ -67,7 +67,7 @@ const successKits = [
     components: ["COPPA Compliance Guide", "Privacy Framework", "Safety Protocols", "Parent Communication Kit"],
     downloadCount: "3,200",
     featured: true,
-    image: placeholderImg
+    image: successKitImg
   },
   {
     title: "AI Threat Response Playbook Kit",
@@ -77,7 +77,7 @@ const successKits = [
     components: ["Response Playbooks", "Communication Templates", "Recovery Procedures", "Analysis Framework"],
     downloadCount: "4,100",
     featured: false,
-    image: placeholderImg
+    image: successKitImg
   },
   {
     title: "AI Security Risk Assessment Kit",
@@ -87,7 +87,7 @@ const successKits = [
     components: ["Assessment Framework", "Scoring Matrix", "Mitigation Strategies", "Report Templates"],
     downloadCount: "2,900",
     featured: false,
-    image: placeholderImg
+    image: successKitImg
   },
   {
     title: "AI Security Awareness Training Kit",
@@ -97,7 +97,7 @@ const successKits = [
     components: ["Training Presentations", "Educational Videos", "Interactive Quizzes", "Certification Materials"],
     downloadCount: "5,600",
     featured: false,
-    image: placeholderImg
+    image: successKitImg
   }
 ];
 
