@@ -23,6 +23,9 @@ import {
   Monitor
 } from "lucide-react";
 import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
+import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
+import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.png";
+import crowdStrikeImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.png";
 
 const categories = [
   "SIEM & Security Analytics",
@@ -61,7 +64,7 @@ const integrations = [
     setupTime: "< 30 minutes",
     featured: true,
     certified: true,
-    image: integrationImg
+    image: sentinelImg
   },
   {
     title: "Azure Active Directory SSO",
@@ -74,7 +77,7 @@ const integrations = [
     setupTime: "< 15 minutes",
     featured: true,
     certified: true,
-    image: integrationImg
+    image: azureAdImg
   },
   {
     title: "CrowdStrike Falcon Integration",
@@ -87,7 +90,7 @@ const integrations = [
     setupTime: "< 45 minutes",
     featured: true,
     certified: true,
-    image: integrationImg
+    image: crowdStrikeImg
   },
   {
     title: "Canvas LMS Security Integration",

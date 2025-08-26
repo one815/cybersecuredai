@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -24,6 +24,16 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 // Vector security icons from attached assets
 import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+// Platform demo videos and feature images
+import platformDemoImg from "@assets/generated_images/Platform_Demo_Video_23616ca7.png";
+import aiThreatDemo from "@assets/generated_images/AI_Threat_Detection_Demo_94b2c9ed.png";
+import incidentResponseDemo from "@assets/generated_images/Incident_Response_Demo_71885a42.png";
+import complianceDemoImg from "@assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.png";
+import networkSecurityDemo from "@assets/generated_images/Network_Security_Demo_f519b96f.png";
+import cloudSecurityImg from "@assets/generated_images/Cloud_Security_Analytics_Platform_0c84c42d.png";
+import networkInfraImg from "@assets/generated_images/Network_Infrastructure_Management_733af78c.png";
+import endpointSecurityImg from "@assets/generated_images/Endpoint_Security_Management_60b6fce3.png";
+import complianceRiskImg from "@assets/generated_images/Compliance_Risk_Management_5c6a0896.png";
 
 export default function Platform() {
   const platformCategories = [
@@ -32,6 +42,7 @@ export default function Platform() {
       description: "AI-powered threat detection and automated incident response systems",
       color: "from-cyan-400 to-blue-500",
       icon: <Brain className="w-8 h-8" />,
+      image: cloudSecurityImg,
       services: [
         {
           name: "Automated Incident Response",
@@ -58,6 +69,7 @@ export default function Platform() {
       description: "Comprehensive network security and zero-trust architecture implementation",
       color: "from-green-400 to-emerald-500",
       icon: <Network className="w-8 h-8" />,
+      image: networkInfraImg,
       services: [
         {
           name: "Firewall Management",
@@ -87,6 +99,7 @@ export default function Platform() {
       description: "Comprehensive endpoint protection and system administration services",
       color: "from-purple-400 to-violet-500",
       icon: <Shield className="w-8 h-8" />,
+      image: endpointSecurityImg,
       services: [
         {
           name: "24/7 Monitoring & Vulnerability",
@@ -115,6 +128,7 @@ export default function Platform() {
       description: "Automated compliance monitoring and security awareness training programs",
       color: "from-orange-400 to-red-500", 
       icon: <ClipboardCheck className="w-8 h-8" />,
+      image: complianceRiskImg,
       services: [
         {
           name: "Compliance Automation",
@@ -189,8 +203,16 @@ export default function Platform() {
               <section key={categoryIndex} className="space-y-6">
                 {/* Category Header */}
                 <div className="flex items-center space-x-4">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center text-white`}>
-                    {category.icon}
+                  <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center text-white overflow-hidden`}>
+                    {category.image ? (
+                      <img 
+                        src={category.image} 
+                        alt={category.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      category.icon
+                    )}
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold text-white">{category.title}</h2>
@@ -334,6 +356,134 @@ export default function Platform() {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* Demo Videos Section */}
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              Platform Demo Videos
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={platformDemoImg} 
+                    alt="Platform Demo"
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
+                    <div className="w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white">Complete Platform Overview</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Comprehensive walkthrough of all CyberSecure AI features
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full bg-cyan-600 hover:bg-cyan-700">Watch Demo</Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={aiThreatDemo} 
+                    alt="AI Threat Detection Demo"
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
+                    <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white">AI Threat Detection</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    See how our AI identifies and responds to threats in real-time
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700">Watch Demo</Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={incidentResponseDemo} 
+                    alt="Incident Response Demo"
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
+                    <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white">Automated Incident Response</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Discover automated containment and remediation workflows
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full bg-green-600 hover:bg-green-700">Watch Demo</Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={complianceDemoImg} 
+                    alt="Compliance Dashboard Demo"
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
+                    <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white">Compliance Monitoring</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Explore FERPA, FISMA compliance automation features
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full bg-orange-600 hover:bg-orange-700">Watch Demo</Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={networkSecurityDemo} 
+                    alt="Network Security Demo"
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
+                    <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
+                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-white">Network Infrastructure</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Zero-trust architecture and firewall management
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">Watch Demo</Button>
+                </CardContent>
+              </Card>
             </div>
           </section>
 
