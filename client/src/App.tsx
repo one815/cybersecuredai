@@ -35,7 +35,7 @@ import Webinars from "@/pages/Webinars";
 import WhitePapers from "@/pages/WhitePapers";
 import Podcasts from "@/pages/Podcasts";
 import SuccessKits from "@/pages/SuccessKits";
-import VideoTopics from "@/pages/VideoTopics";
+import Videos from "@/pages/Videos";
 import UseCases from "@/pages/UseCases";
 import EBooks from "@/pages/EBooks";
 import DataSheets from "@/pages/DataSheets";
@@ -234,7 +234,7 @@ function Router() {
       <Route path="/resources/handbooks" component={Handbooks} />
       <Route path="/podcasts" component={Podcasts} />
       <Route path="/success-kits" component={SuccessKits} />
-      <Route path="/video-topics" component={VideoTopics} />
+      <Route path="/videos" component={Videos} />
       <Route path="/resources/webinars" component={Webinars} />
       <Route path="/resources/client-stories" component={ClientStories} />
       <Route path="/resources/demos" component={Demos} />
