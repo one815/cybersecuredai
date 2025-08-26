@@ -18,6 +18,7 @@ import {
   Award,
   CheckCircle
 } from "lucide-react";
+import placeholderImg from "@/assets/images/placeholder.svg";
 
 const categories = [
   "Implementation Success",
@@ -45,7 +46,7 @@ const clientStories = [
     results: ["89% reduction in security incidents", "$2.3M annual savings", "50% faster incident response"],
     readTime: "8 min read",
     featured: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "State University Achieves 100% FERPA Compliance",
@@ -56,7 +57,7 @@ const clientStories = [
     results: ["100% FERPA compliance", "75% reduction in data breaches", "Enhanced student privacy protection"],
     readTime: "12 min read",
     featured: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "K-12 District Saves $1.2M Annually on Security",
@@ -67,7 +68,7 @@ const clientStories = [
     results: ["$1.2M annual cost savings", "Zero successful phishing attacks", "95% user satisfaction"],
     readTime: "10 min read",
     featured: true,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Multi-Agency Collaboration Platform Success",
@@ -78,7 +79,7 @@ const clientStories = [
     results: ["15 agencies connected", "Secure data sharing enabled", "30% operational efficiency gain"],
     readTime: "15 min read", 
     featured: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Research University Protects Intellectual Property",
@@ -89,7 +90,7 @@ const clientStories = [
     results: ["Zero IP theft incidents", "Advanced threat detection", "Researcher productivity maintained"],
     readTime: "11 min read",
     featured: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   },
   {
     title: "Rural School District Digital Equity Success",
@@ -100,7 +101,7 @@ const clientStories = [
     results: ["100% secure remote learning", "Digital equity achieved", "Teacher satisfaction up 85%"],
     readTime: "9 min read",
     featured: false,
-    image: "/api/placeholder/400/300"
+    image: placeholderImg
   }
 ];
 
