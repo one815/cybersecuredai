@@ -705,6 +705,64 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Enhanced AI-Driven Features */}
+          <div className="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 rounded-2xl p-8 mb-16">
+            <h3 className="text-3xl font-bold text-white mb-6 text-center">Enhanced AI-Driven Security Platform</h3>
+            <p className="text-center text-gray-300 mb-8 max-w-3xl mx-auto">
+              Our platform now includes 8 fully operational AI engines providing maximum cybersecurity effectiveness
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="text-center p-4 bg-surface/30 rounded-lg border border-cyan-500/30">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <CustomBrainIcon className="w-8 h-8 text-purple-400" size={40} />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">AI Threat Hunting</h4>
+                <p className="text-gray-400 text-sm">Advanced AI-driven threat hunting engine with autonomous threat discovery and analysis</p>
+              </div>
+              <div className="text-center p-4 bg-surface/30 rounded-lg border border-blue-500/30">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <CustomEyeIcon className="w-8 h-8 text-blue-400" size={40} />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">Predictive Analytics</h4>
+                <p className="text-gray-400 text-sm">AI-enhanced predictive risk analysis with machine learning vulnerability forecasting</p>
+              </div>
+              <div className="text-center p-4 bg-surface/30 rounded-lg border border-green-500/30">
+                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <CustomUsersIcon className="w-8 h-8 text-green-400" size={40} />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">Behavior Analytics</h4>
+                <p className="text-gray-400 text-sm">AI-based user behavior analytics for insider threat detection and anomaly identification</p>
+              </div>
+              <div className="text-center p-4 bg-surface/30 rounded-lg border border-orange-500/30">
+                <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <CustomGlobeIcon className="w-8 h-8 text-orange-400" size={40} />
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2">5D Visualization</h4>
+                <p className="text-gray-400 text-sm">Interactive 5D security visualization with immersive threat exploration and analysis</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 bg-surface/20 rounded-lg border border-cyan-500/20">
+                <h4 className="text-xl font-semibold text-white mb-3">Multi-State Collaboration</h4>
+                <p className="text-gray-400 mb-4">Advanced platform for inter-agency coordination and threat intelligence sharing across multiple states and government entities</p>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Cross-jurisdictional threat sharing</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Real-time collaboration tools</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Secure inter-agency communication</li>
+                </ul>
+              </div>
+              <div className="p-6 bg-surface/20 rounded-lg border border-blue-500/20">
+                <h4 className="text-xl font-semibold text-white mb-3">Smart City Security</h4>
+                <p className="text-gray-400 mb-4">Comprehensive security suite for critical infrastructure monitoring, IoT device management, and urban cybersecurity</p>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Infrastructure vulnerability assessment</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />IoT device security monitoring</li>
+                  <li className="flex items-center"><CheckCircle className="w-4 h-4 mr-2 text-green-400" />Urban threat landscape analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {/* Specialized Detection Features */}
           <div className="bg-gradient-to-r from-surface/50 to-surface/30 rounded-2xl p-8 mb-16">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">Advanced Threat Detection Capabilities</h3>

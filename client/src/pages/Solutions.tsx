@@ -51,10 +51,12 @@ export default function Solutions() {
       color: "from-blue-400 to-blue-600",
       components: [
         "CyberSecure AI Core Platform (limited users)",
+        "AI-Driven Advanced Threat Hunting Engine",
         "Basic automated incident response",
-        "Standard threat detection",
+        "Standard threat detection with ML enhancement",
         "Essential compliance automation",
-        "Cloud security monitoring"
+        "Cloud security monitoring",
+        "Interactive Security Visualization (2D)"
       ],
       features: [
         "AI-powered threat detection",
@@ -73,15 +75,20 @@ export default function Solutions() {
       color: "from-purple-400 to-purple-600",
       components: [
         "CyberSecure AI Core Platform",
+        "AI-Driven Advanced Threat Hunting Engine",
+        "AI-Enhanced Predictive Risk Analysis",
         "Advanced automated incident response",
-        "AI-powered threat detection",
-        "Predictive risk analysis",
+        "AI-powered threat detection with ML models",
+        "AI-Based User Behavior Analytics",
         "Comprehensive compliance automation",
+        "Interactive 3D Security Visualization",
         "24/7 cloud security monitoring"
       ],
       features: [
-        "Machine learning threat detection",
-        "Predictive risk analysis",
+        "Advanced AI threat hunting",
+        "Predictive risk analysis with ML",
+        "User behavior analytics",
+        "Interactive security visualization",
         "Advanced incident response",
         "Multi-framework compliance",
         "Enhanced monitoring dashboard"
@@ -96,19 +103,30 @@ export default function Solutions() {
       color: "from-cyan-400 to-cyan-600",
       components: [
         "CyberSecure AI Core Platform (unlimited users)",
+        "AI-Driven Advanced Threat Hunting Engine",
+        "AI-Enhanced Predictive Risk Analysis",
+        "AI-Based User Behavior Analytics",
+        "Cloud Integration Engine (Multi-Provider)",
+        "AI-Based Compliance Automation",
+        "Interactive 5D Security Visualization",
+        "Multi-State Security Coalition Platform",
+        "Smart City Security Suite",
         "Enterprise automated incident response",
-        "Advanced threat detection with ML",
-        "Custom predictive risk models",
+        "Advanced threat detection with custom ML models",
         "Comprehensive compliance frameworks",
         "24/7 premium monitoring",
         "Custom integration framework"
       ],
       features: [
+        "All 8 AI engines fully operational",
+        "5D interactive security visualization",
+        "Multi-state collaboration capabilities",
+        "Smart city infrastructure monitoring",
+        "Custom ML models and AI training",
         "Unlimited user access",
-        "Custom ML models",
         "Enterprise integrations",
-        "Premium support",
-        "Advanced analytics"
+        "Premium 24/7 support",
+        "Advanced predictive analytics"
       ]
     }
   ];
