@@ -115,7 +115,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
 
   // Update markers when threat locations change
   useEffect(() => {
-    if (!map || !threatLocations) return;
+    if (!map || !threatLocations || !Array.isArray(threatLocations)) return;
 
     // Clear existing markers
     markers.forEach(marker => marker.setMap(null));
@@ -123,7 +123,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
 
     const newMarkers: any[] = [];
 
-    threatLocations.forEach((threat: ThreatLocation) => {
+    (threatLocations as ThreatLocation[]).forEach((threat: ThreatLocation) => {
       const color = threat.riskLevel === 'high' ? '#ef4444' : 
                    threat.riskLevel === 'medium' ? '#f59e0b' : '#3b82f6';
 
@@ -215,7 +215,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       {/* Threat Stats */}
       <div className="absolute bottom-2 right-2 bg-black/80 rounded p-2 z-10">
         <div className="text-xs text-gray-300 font-mono">
-          {threatLocations ? `${threatLocations.length} ACTIVE THREATS` : 'SCANNING...'}
+          {threatLocations && Array.isArray(threatLocations) ? `${threatLocations.length} ACTIVE THREATS` : 'SCANNING...'}
         </div>
       </div>
     </div>
