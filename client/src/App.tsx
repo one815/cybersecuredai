@@ -220,14 +220,12 @@ function Router() {
       <Route path="/resources/reports" component={Resources} />
       <Route path="/resources/ebooks" component={Resources} />
       <Route path="/resources/datasheets" component={Resources} />
-      <Route path="/resources/client-stories" component={Resources} />
+      <Route path="/resources/use-cases" component={Resources} />
       <Route path="/resources/whitepapers" component={Resources} />
-      <Route path="/courses" component={Courses} />
-      <Route path="/blog-posts" component={BlogPosts} />
-      <Route path="/handbooks" component={Handbooks} />
-      <Route path="/webinars" component={Webinars} />
-      <Route path="/white-papers" component={WhitePapers} />
-      <Route path="/use-cases" component={UseCases} />
+      <Route path="/resources/courses" component={Resources} />
+      <Route path="/resources/handbooks" component={Resources} />
+      <Route path="/resources/webinars" component={Resources} />
+      <Route path="/resources/white-papers" component={Resources} />
       <Route path="/courses">
         <Layout>
           <Courses />
