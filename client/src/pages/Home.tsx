@@ -83,14 +83,6 @@ export default function Home() {
               <FaceScannerAnimation className="mx-auto" />
             </div>
             
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-bold text-cyan-400 mb-2 font-mono tracking-wider">
-                🔬 FUTURE AI TECH • MACHINE LEARNING • BIOMETRIC DATA
-              </h3>
-              <p className="text-sm text-orange-400 font-mono uppercase tracking-widest">
-                Advanced 4D Facial Recognition & Identity Verification
-              </p>
-            </div>
             
             <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto font-secondary">
               Delivering reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations
