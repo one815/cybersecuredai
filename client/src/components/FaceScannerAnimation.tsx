@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import realisticFaceImg from "@assets/generated_images/Realistic_4D_biometric_face_scan_42621f9d.png";
+import frontFaceImg from "@assets/generated_images/Professional_biometric_face_front_view_9c52270e.png";
 
 interface FaceScannerAnimationProps {
   className?: string;
@@ -19,13 +20,20 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Load the realistic face image
+    // Load the realistic face images
     const faceImage = new Image();
+    const frontImage = new Image();
     faceImage.src = realisticFaceImg;
+    frontImage.src = frontFaceImg;
     let imageLoaded = false;
+    let frontImageLoaded = false;
     
     faceImage.onload = () => {
       imageLoaded = true;
+    };
+    
+    frontImage.onload = () => {
+      frontImageLoaded = true;
     };
 
     const centerX = canvas.width / 2;
@@ -51,21 +59,27 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       
       // Draw ultra-realistic human face with 4D image integration
       const drawRealisticFace = () => {
-        if (imageLoaded) {
+        if (imageLoaded || frontImageLoaded) {
           // Apply 3D transformation to the realistic face image
           ctx.save();
           
           // Calculate transform matrix for 3D rotation
           const scaleX = perspective;
-          const skewX = sinAngle * 0.4;
-          const skewY = cosAngle * 0.1;
+          const skewX = sinAngle * 0.3;
+          const skewY = cosAngle * 0.05;
           
           // Transform for 3D perspective
-          ctx.setTransform(scaleX, skewY, skewX, 1, centerX + offsetX - 80, centerY - 80);
+          ctx.setTransform(scaleX, skewY, skewX, 1, centerX + offsetX - 75, centerY - 75);
+          
+          // Choose which image to display based on rotation angle
+          let currentImage = frontImageLoaded ? frontImage : faceImage;
+          if (Math.abs(rotation) > 15 && imageLoaded) {
+            currentImage = faceImage;
+          }
           
           // Draw the realistic face image with proper scaling
-          ctx.globalAlpha = 0.85;
-          ctx.drawImage(faceImage, 0, 0, 160, 160);
+          ctx.globalAlpha = 0.9;
+          ctx.drawImage(currentImage, 0, 0, 150, 150);
           
           ctx.restore();
         }
@@ -499,13 +513,13 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         progress = 0;
       }
       
-      rotation += rotationDirection * 0.7;
-      if (rotation >= 30) {
+      rotation += rotationDirection * 0.4;
+      if (rotation >= 25) {
         rotationDirection = -1;
-        rotation = 30;
-      } else if (rotation <= -30) {
+        rotation = 25;
+      } else if (rotation <= -25) {
         rotationDirection = 1;
-        rotation = -30;
+        rotation = -25;
       }
       
       setScanProgress(progress);
