@@ -43,16 +43,16 @@ import { useEffect, useState } from "react";
 
 // Add custom CSS for scanning animations
 const scanningStyles = `
-  @keyframes scan-vertical {
+  @keyframes scan-line {
     0% { top: 15%; opacity: 0; }
-    50% { opacity: 1; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
     100% { top: 85%; opacity: 0; }
   }
   
-  @keyframes scan-horizontal {
-    0% { left: 25%; opacity: 0; }
-    50% { opacity: 1; }
-    100% { left: 75%; opacity: 0; }
+  @keyframes scan-flash {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
   }
 `;
 
