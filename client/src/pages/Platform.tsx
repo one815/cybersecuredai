@@ -153,6 +153,37 @@ export default function Platform() {
     { label: "Average Cost Savings", value: "2.22M annually", icon: <CheckCircle className="w-5 h-5" /> }
   ];
 
+  const coreAIFeatures = [
+    {
+      category: "Core AI Features",
+      features: [
+        { name: "AI-Powered Threat Detection", description: "Advanced machine learning for threat identification" },
+        { name: "Automated Incident Response", description: "Intelligent automated response to security incidents" },
+        { name: "Compliance Automation", description: "Automated compliance monitoring and reporting" },
+        { name: "Predictive Risk Analysis", description: "AI-driven risk prediction and prevention" }
+      ]
+    },
+    {
+      category: "Advanced AI Capabilities", 
+      features: [
+        { name: "Advanced AI-Driven Threat Hunting", description: "Proactive threat hunting using advanced AI" },
+        { name: "AI-Enhanced Predictive Risk Analysis", description: "Enhanced predictive capabilities with deep learning" },
+        { name: "AI-Powered Compliance Automation", description: "Intelligent compliance management" },
+        { name: "Interactive Security Visualization", description: "Advanced visualization and analytics" },
+        { name: "AI-Based User Behavior Analytics", description: "Behavioral analysis for anomaly detection" }
+      ]
+    },
+    {
+      category: "Security Infrastructure",
+      features: [
+        { name: "Multi-Factor Authentication", description: "Advanced MFA with biometric options" },
+        { name: "Zero-Trust Architecture", description: "Comprehensive zero-trust security model" },
+        { name: "Data Protection & Encryption", description: "End-to-end data protection" },
+        { name: "Identity Management", description: "Centralized identity and access management" }
+      ]
+    }
+  ];
+
   return (
     <MarketingLayout>
       <div className="ai-dashboard-bg min-h-screen">
@@ -257,6 +288,37 @@ export default function Platform() {
               </section>
             ))}
           </div>
+
+          {/* Platform Features Overview */}
+          <section className="mt-16">
+            <h2 className="text-3xl font-bold text-white mb-8 text-center">
+              CyberSecure AI Core Platform Features
+            </h2>
+            <p className="text-gray-300 mb-12 text-center max-w-3xl mx-auto">
+              Advanced AI-powered cybersecurity platform with comprehensive threat detection and automated response capabilities.
+            </p>
+            
+            <div className="space-y-8">
+              {coreAIFeatures.map((category) => (
+                <div key={category.category}>
+                  <h3 className="text-2xl font-semibold text-white mb-6">{category.category}</h3>
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {category.features.map((feature) => (
+                      <Card key={feature.name} className="bg-surface/50 border-surface-light hover:border-cyan-500/60 transition-colors">
+                        <CardHeader>
+                          <CardTitle className="text-white flex items-center">
+                            <Brain className="h-5 w-5 text-cyan-400 mr-2" />
+                            {feature.name}
+                          </CardTitle>
+                          <CardDescription className="text-gray-300">{feature.description}</CardDescription>
+                        </CardHeader>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Platform Visual Overview */}
           <section className="mt-16">
