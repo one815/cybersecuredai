@@ -22,7 +22,7 @@ import {
   ExternalLink,
   Star
 } from "lucide-react";
-import securityImagesPath from "@assets/generated_images/Security_Visualization_Dashboard_2b9e9a1f.png";
+import securityImagesPath from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 
 export default function AboutUs() {
   const [activeTab, setActiveTab] = useState(0);
