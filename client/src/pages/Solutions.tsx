@@ -218,8 +218,8 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core</Badge>
                   <CardTitle className="text-xl text-white mb-4">Essential Protection</CardTitle>
-                  <div className="text-2xl font-bold text-blue-400 mb-2">$2,500</div>
-                  <p className="text-gray-300 text-sm">per month</p>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">Essential Protection</div>
+                  <p className="text-gray-300 text-sm">Contact for Pricing</p>
                   <Badge className="mt-2 bg-blue-500/20 text-blue-300">250 Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -258,8 +258,8 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-xl text-white mb-4">Advanced Security</CardTitle>
-                  <div className="text-2xl font-bold text-purple-400 mb-2">$7,500</div>
-                  <p className="text-gray-300 text-sm">per month</p>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
+                  <p className="text-gray-300 text-sm">Contact for Pricing</p>
                   <Badge className="mt-2 bg-purple-500/20 text-purple-300">1K Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -295,8 +295,8 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-xl text-white mb-4">Enterprise Shield</CardTitle>
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">$15,000</div>
-                  <p className="text-gray-300 text-sm">per month</p>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">Enterprise Shield</div>
+                  <p className="text-gray-300 text-sm">Contact for Pricing</p>
                   <Badge className="mt-2 bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
