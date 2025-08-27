@@ -234,6 +234,78 @@ export default function Pricing() {
                     </Card>
                   ))}
                 </div>
+                
+                {/* Educational Pilot Programs */}
+                <div className="mt-16">
+                  <div className="text-center mb-12">
+                    <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                      CyberSecure AI-EDU Pilot Programs
+                    </Badge>
+                    <h3 className="text-3xl font-bold text-white mb-4">
+                      Educational<br />
+                      <span className="text-cyan-400">Pilot Programs</span>
+                    </h3>
+                    <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+                      Specialized pilot programs designed for K-12 and higher education institutions.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <Card className="bg-slate-700/60 border border-green-500/30">
+                      <CardHeader className="p-6 text-center">
+                        <CustomGraduationCapIcon className="w-12 h-12 text-green-400 mx-auto mb-4" size={48} />
+                        <CardTitle className="text-xl text-white mb-3">K-12 Pilot Programs</CardTitle>
+                        <p className="text-gray-300 text-sm mb-4">Comprehensive cybersecurity for K-12 educational institutions</p>
+                      </CardHeader>
+                      <CardContent className="p-6 pt-0">
+                        <div className="space-y-3 mb-6">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Small Districts</span>
+                            <span className="text-green-400 font-semibold">Custom Pricing</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Medium Districts</span>
+                            <span className="text-green-400 font-semibold">Custom Pricing</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Large Districts</span>
+                            <span className="text-green-400 font-semibold">Custom Pricing</span>
+                          </div>
+                        </div>
+                        <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white">
+                          Learn More About K-12 Programs
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-purple-500/30">
+                      <CardHeader className="p-6 text-center">
+                        <Building className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                        <CardTitle className="text-xl text-white mb-3">Higher Education Pilot Programs</CardTitle>
+                        <p className="text-gray-300 text-sm mb-4">Advanced cybersecurity for colleges and universities</p>
+                      </CardHeader>
+                      <CardContent className="p-6 pt-0">
+                        <div className="space-y-3 mb-6">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Small Institutions</span>
+                            <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Medium Universities</span>
+                            <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-300 text-sm">Large University Systems</span>
+                            <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                          </div>
+                        </div>
+                        <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                          Learn More About Higher Ed Programs
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
               </TabsContent>
 
               <TabsContent value="government">
