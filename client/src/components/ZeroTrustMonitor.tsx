@@ -70,7 +70,9 @@ export function ZeroTrustMonitor() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const animateNetwork = () => {
+    let animationId: number;
+
+    const animateNetwork = (frame: number) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       const { nodes, connections } = zeroTrustData.networkTopology;
@@ -100,7 +102,7 @@ export function ZeroTrustMonitor() {
         ctx.stroke();
         
         // Animated flow particles
-        const progress = (animationFrame + index * 20) % 100 / 100;
+        const progress = (frame + index * 20) % 100 / 100;
         const particleX = fromNode.x + (toNode.x - fromNode.x) * progress;
         const particleY = fromNode.y + (toNode.y - fromNode.y) * progress;
         
@@ -141,24 +143,26 @@ export function ZeroTrustMonitor() {
         
         // Pulsing effect for active nodes
         if (node.status === 'secure') {
-          const pulseRadius = 8 + Math.sin(animationFrame * 0.1) * 2;
+          const pulseRadius = 8 + Math.sin(frame * 0.1) * 2;
           ctx.beginPath();
           ctx.arc(node.x, node.y, pulseRadius, 0, 2 * Math.PI);
-          ctx.strokeStyle = `rgba(34, 197, 94, ${0.3 + Math.sin(animationFrame * 0.1) * 0.2})`;
+          ctx.strokeStyle = `rgba(34, 197, 94, ${0.3 + Math.sin(frame * 0.1) * 0.2})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
       });
+      
+      animationId = requestAnimationFrame(() => animateNetwork(frame + 1));
     };
 
-    const animate = () => {
-      setAnimationFrame(prev => prev + 1);
-      animateNetwork();
-      requestAnimationFrame(animate);
-    };
+    animateNetwork(0);
 
-    animate();
-  }, [zeroTrustData, animationFrame]);
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [zeroTrustData]);
 
   const getMethodIcon = (method: string) => {
     switch (method) {
