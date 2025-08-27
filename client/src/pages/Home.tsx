@@ -347,51 +347,27 @@ export default function Home() {
                       </Card>
                     </div>
 
-                    {/* Cambridge Analytics Enhanced Preview */}
-                    <Card className="holographic-card border-orange-500/30">
-                      <CardHeader>
-                        <CardTitle className="text-orange-300 flex items-center font-bold tracking-wide">
-                          <Brain className="w-6 h-6 mr-3 text-orange-400" />
-                          CAMBRIDGE INTELLIGENCE ANALYTICS
+                    {/* Cambridge Intelligence Summary */}
+                    <Card className="holographic-card border-purple-500/30">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide text-sm">
+                          <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                          CAMBRIDGE INTELLIGENCE SUMMARY
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
-                            <div className="text-sm font-medium text-purple-300 mb-2 flex items-center">
-                              <Target className="w-4 h-4 mr-2" />
-                              Strategic Insights
-                            </div>
-                            <div className="text-xs text-gray-300 mb-3">Emerging phishing campaign targeting educational institutions with 94% confidence</div>
-                            <div className="w-full bg-gray-700 rounded-full h-1">
-                              <div className="bg-purple-400 h-1 rounded-full" style={{width: '94%'}}></div>
-                            </div>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="text-center p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                            <div className="text-lg font-bold text-purple-400">94%</div>
+                            <div className="text-xs text-gray-400">Threat Confidence</div>
                           </div>
-                          <div className="p-4 bg-orange-500/10 rounded-lg border border-orange-500/20">
-                            <div className="text-sm font-medium text-orange-300 mb-2 flex items-center">
-                              <AlertTriangle className="w-4 h-4 mr-2" />
-                              Threat Vectors
-                            </div>
-                            <div className="text-xs text-gray-300 mb-3">Advanced Persistent Threat - 23% probability, 89% severity</div>
-                            <div className="flex space-x-2">
-                              <div className="w-full bg-gray-700 rounded-full h-1">
-                                <div className="bg-orange-400 h-1 rounded-full" style={{width: '23%'}}></div>
-                              </div>
-                              <div className="w-full bg-gray-700 rounded-full h-1">
-                                <div className="bg-red-400 h-1 rounded-full" style={{width: '89%'}}></div>
-                              </div>
-                            </div>
+                          <div className="text-center p-3 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                            <div className="text-lg font-bold text-orange-400">2,847</div>
+                            <div className="text-xs text-gray-400">Data Points</div>
                           </div>
-                          <div className="p-4 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
-                            <div className="text-sm font-medium text-cyan-300 mb-2 flex items-center">
-                              <Activity className="w-4 h-4 mr-2" />
-                              Behavioral Analysis
-                            </div>
-                            <div className="text-xs text-gray-300 mb-3">Real-time monitoring of network activity patterns</div>
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                              <span className="text-xs text-cyan-400">2,847 Data Points Analyzed</span>
-                            </div>
+                          <div className="text-center p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+                            <div className="text-lg font-bold text-cyan-400">15</div>
+                            <div className="text-xs text-gray-400">Active Models</div>
                           </div>
                         </div>
                       </CardContent>
