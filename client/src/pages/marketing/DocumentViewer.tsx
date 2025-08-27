@@ -14,6 +14,30 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 
 const documentDatabase = {
+  // Success Kits
+  'federal-ai-security-compliance-kit': {
+    type: 'success-kit',
+    title: 'Federal AI Security Compliance Kit',
+    description: 'Complete FISMA compliance templates with step-by-step implementation guides and FedRAMP certification preparation materials.',
+    pages: '150+',
+    downloadCount: '2,400',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI Compliance Team',
+    downloadUrl: '/marketing/documents/success-kits/federal-ai-security-compliance-kit.pdf',
+    previewContent: 'Complete FISMA compliance templates and implementation guides for federal agencies.'
+  },
+  'national-security-ai-protection-kit': {
+    type: 'success-kit',
+    title: 'National Security AI Protection Kit',
+    description: 'Classified data handling procedures with multi-level security protocols and compartmentalized access control frameworks.',
+    pages: '200+',
+    downloadCount: '1,800',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI National Security Team',
+    downloadUrl: '/marketing/documents/success-kits/national-security-ai-protection-kit.pdf',
+    previewContent: 'Classified data handling procedures and multi-level security protocols.'
+  },
+  
   // Handbooks
   'the-definitive-ai-security-handbook': {
     type: 'handbook',
@@ -44,6 +68,18 @@ const documentDatabase = {
       - Audit requirements
     `
   },
+  'zero-trust-security-implementation-guide': {
+    type: 'handbook',
+    title: 'Zero Trust Security Implementation Guide',
+    description: 'Complete implementation guide for zero trust architecture in educational and government environments.',
+    pages: '220+',
+    version: '2025 Edition',
+    downloadCount: '5,600',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI Architecture Team',
+    downloadUrl: '/marketing/documents/handbooks/zero-trust-security-implementation-guide.pdf',
+    previewContent: 'Complete implementation guide for zero trust architecture in educational and government environments.'
+  },
   
   // White Papers
   'quantifying-ai-security-roi-metrics-and-measurement-frameworks': {
@@ -67,6 +103,43 @@ const documentDatabase = {
       - Operational efficiency gains
       - Compliance cost avoidance
     `
+  },
+  
+  // EBooks
+  'federal-ai-security-compliance-guide-fisma-fedramp': {
+    type: 'ebook',
+    title: 'Federal AI Security Compliance Guide: FISMA & FedRAMP',
+    description: 'Comprehensive guide for federal agencies implementing AI security solutions under FISMA and FedRAMP.',
+    pages: '160',
+    downloadCount: '3,800',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI Federal Compliance Team',
+    downloadUrl: '/marketing/documents/ebooks/federal-ai-security-compliance-guide-fisma-fedramp.pdf',
+    previewContent: 'Comprehensive guide for federal agencies implementing AI security solutions under FISMA and FedRAMP.'
+  },
+  'complete-guide-to-university-ai-security-research-protection': {
+    type: 'ebook',
+    title: 'Complete Guide to University AI Security: Research Protection',
+    description: 'Comprehensive 195-page guide covering all aspects of AI security for educational institutions.',
+    pages: '195',
+    downloadCount: '5,400',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI Education Team',
+    downloadUrl: '/marketing/documents/ebooks/complete-guide-to-university-ai-security-research-protection.pdf',
+    previewContent: 'Comprehensive 195-page guide covering all aspects of AI security for educational institutions.'
+  },
+  
+  // Use Cases
+  'federal-agency-threat-detection-enhancement': {
+    type: 'use-case',
+    title: 'Federal Agency Threat Detection Enhancement',
+    description: 'Advanced AI algorithms identifying sophisticated attack patterns with 99.7% accuracy in federal environments.',
+    pages: '25',
+    downloadCount: '2,100',
+    publishDate: '2025-01-15',
+    authors: 'CyberSecure AI Federal Solutions Team',
+    downloadUrl: '/marketing/documents/use-cases/federal-agency-threat-detection-enhancement.pdf',
+    previewContent: 'Advanced AI algorithms identifying sophisticated attack patterns with 99.7% accuracy in federal environments.'
   }
 };
 

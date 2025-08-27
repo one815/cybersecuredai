@@ -327,6 +327,10 @@ export default function EBooks() {
                       size="sm" 
                       className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold min-h-[40px] flex items-center justify-center"
                       data-testid="button-download-ebook-featured"
+                      onClick={() => {
+                        const slug = ebook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+                        window.open(`/marketing/documents/ebooks/${slug}.pdf`, '_blank');
+                      }}
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download PDF
@@ -529,6 +533,10 @@ export default function EBooks() {
                       variant="outline"
                       className="w-full border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-h-[36px] flex items-center justify-center"
                       data-testid="button-download-ebook-list"
+                      onClick={() => {
+                        const slug = ebook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+                        window.open(`/marketing/documents/ebooks/${slug}.pdf`, '_blank');
+                      }}
                     >
                       <Download className="w-3 h-3 mr-2" />
                       Download PDF

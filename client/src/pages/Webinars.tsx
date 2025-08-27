@@ -272,7 +272,10 @@ export default function Webinars() {
             size="sm" 
             variant="outline" 
             className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-w-[110px] flex items-center justify-center"
-            onClick={() => window.open(`/marketing/webinars/${webinar.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+            onClick={() => {
+              const slug = webinar.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+              window.location.href = `/marketing/webinars/${slug}`;
+            }}
             data-testid="button-watch-webinar"
           >
             <Play className="w-4 h-4 mr-1" />

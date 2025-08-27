@@ -187,7 +187,10 @@ export default function Handbooks() {
             size="sm" 
             variant="outline" 
             className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-w-[100px] flex items-center justify-center"
-            onClick={() => window.open(`/marketing/documents/handbooks/${handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+            onClick={() => {
+              const slug = handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+              window.open(`/marketing/documents/handbooks/${slug}.pdf`, '_blank');
+            }}
             data-testid="button-download-handbook"
           >
             <Download className="w-4 h-4 mr-1" />
@@ -252,7 +255,10 @@ export default function Handbooks() {
                       </Badge>
                       <Button 
                         className="bg-blue-600 hover:bg-blue-700 text-white border-0 min-w-[100px] flex items-center justify-center"
-                        onClick={() => window.open(`/marketing/documents/handbooks/${handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+                        onClick={() => {
+                          const slug = handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+                          window.open(`/marketing/documents/handbooks/${slug}.pdf`, '_blank');
+                        }}
                         data-testid="button-download-handbook-featured"
                       >
                         <Download className="w-4 h-4 mr-1" />

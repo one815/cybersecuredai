@@ -94,6 +94,147 @@ const courseDatabase = {
       'Secure educational technology infrastructure',
       'Develop school-specific security policies'
     ]
+  },
+  
+  'university-ai-governance-and-ethics': {
+    title: 'University AI Governance and Ethics',
+    description: 'Ethical AI deployment and governance frameworks for higher education institutions',
+    sector: 'higher-ed',
+    duration: '10 hours',
+    level: 'Intermediate',
+    modules: 14,
+    enrolled: '1,876',
+    instructor: 'Dr. Michael Thompson, Higher Ed AI Ethics',
+    price: '$399',
+    certification: 'University AI Governance Certificate',
+    curriculum: [
+      {
+        module: 1,
+        title: 'AI Ethics in Higher Education',
+        duration: '50 min',
+        topics: ['Ethical frameworks', 'Student privacy', 'Research integrity'],
+        completed: false
+      }
+    ],
+    prerequisites: 'Experience with educational administration',
+    learningObjectives: [
+      'Develop ethical AI policies for universities',
+      'Implement governance frameworks',
+      'Protect research data and intellectual property'
+    ]
+  },
+  
+  'advanced-threat-detection-with-ai': {
+    title: 'Advanced Threat Detection with AI',
+    description: 'Machine learning algorithms and pattern recognition for cybersecurity professionals',
+    sector: 'cross-industry',
+    duration: '16 hours',
+    level: 'Advanced',
+    modules: 20,
+    enrolled: '4,237',
+    instructor: 'Alex Rodriguez, Senior AI Security Architect',
+    price: '$599',
+    certification: 'Advanced AI Threat Detection Certificate',
+    curriculum: [
+      {
+        module: 1,
+        title: 'Machine Learning for Security',
+        duration: '60 min',
+        topics: ['ML algorithms', 'Pattern recognition', 'Anomaly detection'],
+        completed: false
+      }
+    ],
+    prerequisites: 'Advanced cybersecurity knowledge',
+    learningObjectives: [
+      'Implement ML-based threat detection',
+      'Develop custom security algorithms',
+      'Analyze complex attack patterns'
+    ]
+  },
+  
+  'national-security-ai-protection-advanced-threat-response': {
+    title: 'National Security AI Protection: Advanced Threat Response',
+    description: 'Specialized training for national security professionals on AI threat response and classified data protection',
+    sector: 'federal',
+    duration: '20 hours',
+    level: 'Advanced',
+    modules: 24,
+    enrolled: '892',
+    instructor: 'Colonel James Patterson, NSA Cyber Operations',
+    price: 'Security Clearance Required',
+    certification: 'National Security AI Protection Certificate',
+    curriculum: [
+      {
+        module: 1,
+        title: 'Classified AI Systems Security',
+        duration: '75 min',
+        topics: ['Classified data handling', 'Multi-level security', 'Compartmentalized access'],
+        completed: false
+      }
+    ],
+    prerequisites: 'Active security clearance, advanced cybersecurity experience',
+    learningObjectives: [
+      'Protect classified AI systems',
+      'Implement national security protocols',
+      'Coordinate interagency threat response'
+    ]
+  },
+  
+  // Webinars (also handled by this viewer)
+  'federal-ai-compliance-best-practices': {
+    title: 'Federal AI Compliance Best Practices',
+    description: 'Essential compliance strategies for government agencies implementing AI security solutions.',
+    sector: 'federal',
+    duration: '60 minutes',
+    level: 'Beginner',
+    modules: 1,
+    enrolled: '2,847',
+    instructor: 'Sarah Chen, Federal Compliance Expert',
+    price: 'Free',
+    certification: 'Attendance Certificate',
+    curriculum: [
+      {
+        module: 1,
+        title: 'Federal AI Compliance Overview',
+        duration: '60 min',
+        topics: ['FISMA requirements', 'FedRAMP compliance', 'Best practices'],
+        completed: false
+      }
+    ],
+    prerequisites: 'None',
+    learningObjectives: [
+      'Understand federal AI compliance requirements',
+      'Implement FISMA and FedRAMP protocols',
+      'Apply best practices for government AI security'
+    ]
+  },
+  
+  'university-ferpa-ai-integration': {
+    title: 'University FERPA AI Integration',
+    description: 'Protecting student privacy while leveraging AI technologies in higher education environments.',
+    sector: 'higher-ed',
+    duration: '45 minutes',
+    level: 'Intermediate',
+    modules: 1,
+    enrolled: '1,923',
+    instructor: 'Dr. Michael Rodriguez, Education Privacy Specialist',
+    price: 'Free',
+    certification: 'Attendance Certificate',
+    curriculum: [
+      {
+        module: 1,
+        title: 'FERPA and AI Integration',
+        duration: '45 min',
+        topics: ['FERPA compliance', 'Student data protection', 'AI implementation strategies'],
+        completed: false
+      }
+    ],
+    prerequisites: 'Basic understanding of FERPA',
+    learningObjectives: [
+      'Implement FERPA-compliant AI systems',
+      'Protect student data in AI environments',
+      'Balance innovation with privacy requirements'
+    ]
   }
 };
 
