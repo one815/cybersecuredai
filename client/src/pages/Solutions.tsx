@@ -218,7 +218,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core</Badge>
                   <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Core</CardTitle>
-                  <div className="text-2xl font-bold text-blue-400 mb-2">$15,000 - $30,000</div>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Basic AI security platform with standard compliance</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -249,7 +249,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Advanced</CardTitle>
-                  <div className="text-2xl font-bold text-purple-400 mb-2">$30,000 - $60,000</div>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Enhanced AI platform with comprehensive automation</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -277,7 +277,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Enterprise</CardTitle>
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">$60,000 - $150,000</div>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Enterprise AI platform with custom frameworks</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -322,7 +322,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Fundamental</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Fundamental</CardTitle>
-                  <div className="text-2xl font-bold text-blue-400 mb-2">$8,000 - $15,000</div>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Basic network security hardware foundation</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -350,7 +350,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Advanced</CardTitle>
-                  <div className="text-2xl font-bold text-purple-400 mb-2">$35,000 - $55,000</div>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Enhanced hardware security infrastructure</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -378,7 +378,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Enterprise</CardTitle>
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">$90,000 - $155,000</div>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-sm">Complete enterprise hardware security</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -441,17 +441,17 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core EDU</CardTitle>
                       <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Up to 15 classrooms, 500 students</p>
+                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Classroom security for 15 classrooms</span>
+                          <span className="text-gray-300 text-sm">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Student data protection (500 students)</span>
+                          <span className="text-gray-300 text-sm">Student data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
@@ -472,17 +472,17 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-purple-500/20 text-purple-300">Core+ EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core+ EDU</CardTitle>
                       <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Up to 40 classrooms, 1,200 students</p>
+                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Classroom security for 40 classrooms</span>
+                          <span className="text-gray-300 text-sm">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Student data protection (1,200 students)</span>
+                          <span className="text-gray-300 text-sm">Student data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
@@ -500,17 +500,17 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Advanced EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core Advanced EDU</CardTitle>
                       <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">40+ classrooms, 1,200+ students</p>
+                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Classroom security for 40+ classrooms</span>
+                          <span className="text-gray-300 text-sm">Advanced classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Student data protection (1,200+ students)</span>
+                          <span className="text-gray-300 text-sm">Advanced student data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
@@ -533,21 +533,21 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">5 departments, single building, 2,000 students</p>
+                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Research network security (5 departments)</span>
+                          <span className="text-gray-300 text-sm">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Campus protection (single building)</span>
+                          <span className="text-gray-300 text-sm">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Academic data security (2,000 students)</span>
+                          <span className="text-gray-300 text-sm">Academic data security</span>
                         </li>
                       </ul>
                       <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
@@ -564,21 +564,21 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-purple-500/20 text-purple-300">Core+ HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core+ HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">15 departments, multiple buildings, 10,000 students</p>
+                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Research network security (15 departments)</span>
+                          <span className="text-gray-300 text-sm">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Campus protection (multiple buildings)</span>
+                          <span className="text-gray-300 text-sm">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Academic data security (10,000 students)</span>
+                          <span className="text-gray-300 text-sm">Academic data security</span>
                         </li>
                       </ul>
                       <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
@@ -592,21 +592,21 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Advanced HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core Advanced HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">15+ departments, entire campus, 10,000+ students</p>
+                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Research network security (15+ departments)</span>
+                          <span className="text-gray-300 text-sm">Advanced research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Campus protection (entire campus complexes)</span>
+                          <span className="text-gray-300 text-sm">Comprehensive campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Academic data security (10,000+ students)</span>
+                          <span className="text-gray-300 text-sm">Advanced academic data security</span>
                         </li>
                       </ul>
                       <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
@@ -638,7 +638,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300 text-xs">Core</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN - Core</CardTitle>
-                  <div className="text-xl font-bold text-blue-400 mb-2">$25,000 - $40,000</div>
+                  <div className="text-xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Core AI platform with basic hardware</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -657,7 +657,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300 text-xs">Advanced</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN Advanced</CardTitle>
-                  <div className="text-xl font-bold text-purple-400 mb-2">$50,000 - $80,000</div>
+                  <div className="text-xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Enhanced platform with advanced hardware</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -676,7 +676,7 @@ export default function Solutions() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300 text-xs">Enterprise</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN Enterprise</CardTitle>
-                  <div className="text-xl font-bold text-yellow-400 mb-2">$100,000 - $250,000</div>
+                  <div className="text-xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Complete enterprise solution (unlimited users)</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -912,7 +912,7 @@ export default function Solutions() {
                           <Network className="w-8 h-8 text-cyan-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Research Network Security Partitioning</h4>
-                            <p className="text-cyan-400 font-bold text-sm">$25,000 - $60,000</p>
+                            <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-xs">Secure research data networks with advanced partitioning</p>
@@ -925,7 +925,7 @@ export default function Solutions() {
                           <Users className="w-8 h-8 text-green-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Classroom Device Management</h4>
-                            <p className="text-green-400 font-bold text-sm">$15,000 - $35,000</p>
+                            <p className="text-green-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-xs">Comprehensive classroom technology security management</p>
@@ -938,7 +938,7 @@ export default function Solutions() {
                           <Shield className="w-8 h-8 text-purple-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold text-sm">BYOD Security Management</h4>
-                            <p className="text-purple-400 font-bold text-sm">$20,000 - $45,000</p>
+                            <p className="text-purple-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-xs">Secure bring-your-own-device policies and monitoring</p>
@@ -1034,7 +1034,7 @@ export default function Solutions() {
                           <Network className="w-8 h-8 text-orange-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Multi-State Security Coalition Platform</h4>
-                            <p className="text-orange-400 font-bold text-sm">$50,000 - $120,000</p>
+                            <p className="text-orange-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-xs">Inter-agency cybersecurity coordination and threat sharing</p>
@@ -1047,7 +1047,7 @@ export default function Solutions() {
                           <Shield className="w-8 h-8 text-cyan-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Government Community Cloud Integration</h4>
-                            <p className="text-cyan-400 font-bold text-sm">$30,000 - $75,000</p>
+                            <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-xs">Secure government community cloud deployment and management</p>
