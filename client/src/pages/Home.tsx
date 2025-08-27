@@ -39,7 +39,7 @@ import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Import authoritative images
 import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.png";
@@ -48,16 +48,44 @@ import complianceImg from "@assets/generated_images/Federal_Compliance_Certifica
 import platformImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
+import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
 
 export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const [isScanning, setIsScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState(0);
+  const [scanResults, setScanResults] = useState(null);
 
   useEffect(() => {
     if (window.location.pathname === '/') {
       console.log("Marketing homepage loaded - clearing potential auth cache");
     }
   }, []);
+
+  const handleScan = () => {
+    setIsScanning(true);
+    setScanProgress(0);
+    setScanResults(null);
+    
+    // Simulate scanning progress
+    const interval = setInterval(() => {
+      setScanProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setIsScanning(false);
+          setScanResults({
+            threats: Math.floor(Math.random() * 5) + 1,
+            vulnerabilities: Math.floor(Math.random() * 8) + 2,
+            score: Math.floor(Math.random() * 15) + 85,
+            recommendations: Math.floor(Math.random() * 6) + 3
+          });
+          return 100;
+        }
+        return prev + Math.random() * 15 + 5;
+      });
+    }, 200);
+  };
 
   if (isLoading) {
     return (
@@ -103,6 +131,171 @@ export default function Home() {
               <p className="text-sm text-gray-400 max-w-2xl mx-auto">
                 Source: Gartner Magic Quadrant for AI-Powered Cybersecurity Platforms 2024
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* AI Security Scanner */}
+        <section className="py-24 px-6 bg-gradient-to-br from-slate-800 via-blue-900/20 to-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              
+              {/* Scanner Interface */}
+              <div>
+                <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-lg px-6 py-3">
+                  AI-Powered Security Scanner
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                  Experience Our<br />
+                  <span className="text-cyan-400">Advanced AI Scanner</span>
+                </h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  See how our AI-powered facial recognition and behavioral analysis 
+                  technology works in real-time to detect potential security threats.
+                </p>
+
+                <div className="space-y-6">
+                  {/* Scan Button */}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      onClick={handleScan}
+                      disabled={isScanning}
+                      className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4 text-lg"
+                      data-testid="button-start-scan"
+                    >
+                      {isScanning ? (
+                        <>
+                          <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                          Scanning...
+                        </>
+                      ) : (
+                        <>
+                          <Target className="mr-2 w-5 h-5" />
+                          Start AI Security Scan
+                        </>
+                      )}
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg"
+                      data-testid="link-learn-more"
+                    >
+                      Learn More
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </div>
+
+                  {/* Progress Bar */}
+                  {isScanning && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm text-gray-300">
+                        <span>Analyzing security patterns...</span>
+                        <span>{Math.round(scanProgress)}%</span>
+                      </div>
+                      <div className="w-full bg-slate-700 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${scanProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Results */}
+                  {scanResults && !isScanning && (
+                    <div className="bg-slate-700/50 rounded-lg p-6 border border-cyan-500/30">
+                      <h4 className="text-lg font-semibold text-white mb-4">Scan Results</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-cyan-400" data-testid="text-threats-count">{scanResults.threats}</div>
+                          <div className="text-sm text-gray-300">Threats Detected</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-yellow-400" data-testid="text-vulnerabilities-count">{scanResults.vulnerabilities}</div>
+                          <div className="text-sm text-gray-300">Vulnerabilities</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-green-400" data-testid="text-security-score">{scanResults.score}%</div>
+                          <div className="text-sm text-gray-300">Security Score</div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-2xl font-bold text-purple-400" data-testid="text-recommendations-count">{scanResults.recommendations}</div>
+                          <div className="text-sm text-gray-300">Recommendations</div>
+                        </div>
+                      </div>
+                      <div className="mt-4 text-center">
+                        <Button 
+                          size="sm" 
+                          className="bg-green-600 hover:bg-green-700 text-white"
+                          data-testid="button-view-report"
+                        >
+                          View Detailed Report
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Features List */}
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <span className="text-gray-300">Real-time facial recognition analysis</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <span className="text-gray-300">Advanced behavioral pattern detection</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <span className="text-gray-300">AI-powered threat assessment</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <span className="text-gray-300">Instant security recommendations</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scanner Visual */}
+              <div className="relative">
+                <div className={`relative ${isScanning ? 'animate-pulse' : ''}`}>
+                  <img 
+                    src={scanningImg}
+                    alt="AI Security Scanner in Action"
+                    className="w-full rounded-xl shadow-2xl border border-cyan-500/30"
+                  />
+                  
+                  {/* Scanning Overlay Effect */}
+                  {isScanning && (
+                    <div className="absolute inset-0 bg-cyan-500/10 rounded-xl flex items-center justify-center">
+                      <div className="text-white text-2xl font-bold animate-pulse">
+                        ANALYZING...
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Corner Brackets Animation */}
+                  <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-cyan-400 animate-pulse"></div>
+                  <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-cyan-400 animate-pulse"></div>
+                  <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-cyan-400 animate-pulse"></div>
+                  <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-cyan-400 animate-pulse"></div>
+                </div>
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent rounded-xl pointer-events-none"></div>
+                
+                {/* Status Indicators */}
+                <div className="absolute top-6 left-6 bg-slate-900/80 rounded-lg p-3 border border-cyan-500/30">
+                  <div className="flex items-center space-x-2">
+                    <div className={`w-3 h-3 rounded-full ${isScanning ? 'bg-cyan-400 animate-pulse' : 'bg-green-400'}`}></div>
+                    <span className="text-white text-sm font-medium">
+                      {isScanning ? 'SCANNING' : 'READY'}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
