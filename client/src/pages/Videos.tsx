@@ -135,7 +135,7 @@ const videoTopics = [
   }
 ];
 
-export default function VideoTopics() {
+export default function Videos() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
