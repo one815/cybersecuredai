@@ -332,11 +332,14 @@ export default function Courses() {
           <Button 
             size="sm" 
             className="bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold min-w-[150px] flex items-center justify-center"
-            onClick={() => window.location.href = '/dashboard'}
+            onClick={() => {
+              const slug = course.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+              window.location.href = `/marketing/courses/${slug}`;
+            }}
             data-testid="button-access-course"
           >
             <ExternalLink className="w-4 h-4 mr-1" />
-            Access via Platform
+            View Course Details
           </Button>
         </div>
       </CardContent>

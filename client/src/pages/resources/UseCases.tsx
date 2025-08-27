@@ -327,6 +327,10 @@ export default function UseCases() {
                                 variant="outline" 
                                 className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-w-[150px] flex items-center justify-center"
                                 data-testid="button-download-case-study"
+                                onClick={() => {
+                                  const slug = useCase.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');
+                                  window.open(`/marketing/documents/use-cases/${slug}.pdf`, '_blank');
+                                }}
                               >
                                 <Download className="w-4 h-4 mr-1" />
                                 Download Case Study
@@ -375,6 +379,9 @@ export default function UseCases() {
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white border-0 px-8 py-4 min-w-[260px] flex items-center justify-center"
                 data-testid="button-request-consultation"
+                onClick={() => {
+                  window.location.href = '/contact?service=implementation-consultation';
+                }}
               >
                 <ExternalLink className="w-5 h-5 mr-2" />
                 Request Implementation Consultation
@@ -384,6 +391,9 @@ export default function UseCases() {
                 variant="outline" 
                 className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black px-8 py-4 min-w-[220px] flex items-center justify-center"
                 data-testid="button-download-all-cases"
+                onClick={() => {
+                  window.open('/marketing/documents/use-cases/all-case-studies.zip', '_blank');
+                }}
               >
                 <Download className="w-5 h-5 mr-2" />
                 Download All Case Studies
