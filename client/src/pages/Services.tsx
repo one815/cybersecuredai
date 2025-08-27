@@ -16,7 +16,13 @@ import {
   Award,
   Target,
   Eye,
-  Phone
+  Phone,
+  Building,
+  Server,
+  Network,
+  HardDrive,
+  Cpu,
+  Database
 } from "lucide-react";
 import {
   CustomShieldIcon,
@@ -46,7 +52,9 @@ export default function Services() {
         "Expert security analysts", 
         "AI-assisted threat hunting",
         "8-minute mean response time",
-        "Incident escalation management"
+        "Incident escalation management",
+        "Advanced behavioral analytics",
+        "Interactive 5D security visualization"
       ],
       metrics: "8min MTTR",
       price: "Starting at $5,000/month"
@@ -57,6 +65,7 @@ export default function Services() {
       icon: <CustomShieldIcon className="w-8 h-8 text-green-400" size={32} />,
       features: [
         "FERPA/FISMA/CIPA automation",
+        "FedRAMP High compliance",
         "Continuous compliance monitoring",
         "Automated audit reporting",
         "Policy enforcement",
@@ -70,14 +79,30 @@ export default function Services() {
       description: "Curated threat intelligence with actionable insights",
       icon: <CustomBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
       features: [
-        "Real-time threat feeds",
-        "Custom threat analysis",
+        "Real-time threat feeds from 50+ sources",
+        "AI-enhanced predictive risk analysis",
         "Industry-specific intelligence",
+        "Multi-state collaboration platform",
         "Threat landscape reporting",
         "Predictive threat modeling"
       ],
       metrics: "50+ Sources",
       price: "Starting at $2,500/month"
+    },
+    {
+      title: "Smart City Security Suite",
+      description: "Comprehensive infrastructure monitoring for smart cities",
+      icon: <Building className="w-8 h-8 text-cyan-400" />,
+      features: [
+        "Traffic management system security",
+        "Utility grid monitoring",
+        "Emergency services integration",
+        "SCADA system protection",
+        "Multi-agency coordination",
+        "Critical infrastructure defense"
+      ],
+      metrics: "Full Infrastructure",
+      price: "Starting at $8,000/month"
     }
   ];
 
@@ -99,6 +124,13 @@ export default function Services() {
           deliverables: ["Architecture blueprint", "Implementation plan", "Technology recommendations"],
           timeline: "6-8 weeks", 
           price: "$35,000 - $85,000"
+        },
+        {
+          name: "Multi-State Collaboration Platform",
+          description: "Inter-agency cybersecurity coordination and threat sharing",
+          deliverables: ["NIEM compliance setup", "Cross-state protocols", "Emergency response coordination"],
+          timeline: "8-12 weeks",
+          price: "$45,000 - $95,000"
         }
       ]
     },
@@ -119,6 +151,33 @@ export default function Services() {
           deliverables: ["Integration architecture", "Data migration", "API development", "Testing"],
           timeline: "4-8 weeks",
           price: "$20,000 - $60,000"
+        },
+        {
+          name: "Advanced Authentication Setup",
+          description: "FIDO2/WebAuthn, PIV/CAC, and hardware security key integration",
+          deliverables: ["Multi-factor authentication", "Hardware key provisioning", "Government authentication"],
+          timeline: "3-5 weeks",
+          price: "$18,000 - $48,000"
+        }
+      ]
+    },
+    {
+      category: "Specialized Solutions",
+      icon: <Building className="w-6 h-6 text-purple-400" />,
+      services: [
+        {
+          name: "Smart City Infrastructure Security",
+          description: "Comprehensive protection for smart city and critical infrastructure",
+          deliverables: ["Traffic system security", "Utility grid monitoring", "Emergency services integration"],
+          timeline: "6-10 weeks",
+          price: "$40,000 - $120,000"
+        },
+        {
+          name: "Education Sector Integration",
+          description: "FERPA-compliant security for educational institutions",
+          deliverables: ["LMS integration", "Student data protection", "Campus security coordination"],
+          timeline: "4-6 weeks",
+          price: "$22,000 - $65,000"
         }
       ]
     }
@@ -193,44 +252,266 @@ export default function Services() {
               </div>
 
               <TabsContent value="managed" className="space-y-12">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {managedServices.map((service, index) => (
-                    <Card key={index} className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group">
-                      <CardHeader className="p-8 text-center">
-                        <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500/30 transition-colors">
-                          {service.icon}
-                        </div>
-                        <div className="flex justify-center mb-4">
-                          <Badge className="bg-white/10 text-orange-300 font-bold">
-                            {service.metrics}
-                          </Badge>
-                        </div>
-                        <CardTitle className="text-2xl text-white mb-4">{service.title}</CardTitle>
-                        <p className="text-gray-300 mb-6">{service.description}</p>
+                {/* Core Managed Services */}
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Core Managed Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {managedServices.map((service, index) => (
+                      <Card key={index} className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group">
+                        <CardHeader className="p-6 text-center">
+                          <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/30 transition-colors">
+                            {service.icon}
+                          </div>
+                          <div className="flex justify-center mb-3">
+                            <Badge className="bg-white/10 text-orange-300 font-bold text-xs">
+                              {service.metrics}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-xl text-white mb-3">{service.title}</CardTitle>
+                          <p className="text-gray-300 text-sm mb-4">{service.description}</p>
+                        </CardHeader>
+                        <CardContent className="p-6 pt-0">
+                          <ul className="space-y-2 mb-4">
+                            {service.features.slice(0, 4).map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center space-x-2">
+                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <span className="text-gray-300 text-xs">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="text-center mb-4">
+                            <div className="text-orange-400 font-bold">{service.price}</div>
+                          </div>
+                          <Button size="sm" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                            Learn More
+                            <ArrowRight className="ml-2 w-3 h-3" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
+                {/* IT Support Tiers */}
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">IT Support & Managed Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <Card className="bg-slate-700/60 border border-blue-500/30">
+                      <CardHeader className="p-6 text-center">
+                        <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                        <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
+                        <CardTitle className="text-xl text-white mb-3">Basic IT Support</CardTitle>
+                        <div className="text-2xl font-bold text-blue-400 mb-2">$2,000 - $4,000</div>
+                        <p className="text-gray-300 text-sm">per month</p>
                       </CardHeader>
-                      <CardContent className="p-8 pt-0">
-                        <ul className="space-y-3 mb-6">
-                          {service.features.map((feature, fIndex) => (
-                            <li key={fIndex} className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span className="text-gray-300 text-sm">{feature}</span>
-                            </li>
-                          ))}
+                      <CardContent className="p-6 pt-0">
+                        <ul className="space-y-2 mb-6">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Help desk support</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">System monitoring</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Basic maintenance</span>
+                          </li>
                         </ul>
-                        <div className="text-center mb-6">
-                          <div className="text-orange-400 font-bold text-lg">{service.price}</div>
-                        </div>
-                        <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white">
-                          Learn More
-                          <ArrowRight className="ml-2 w-4 h-4" />
+                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                          Get Quote
                         </Button>
                       </CardContent>
                     </Card>
-                  ))}
+
+                    <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <Badge className="bg-purple-600 text-white">Popular</Badge>
+                      </div>
+                      <CardHeader className="p-6 text-center">
+                        <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                        <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                        <CardTitle className="text-xl text-white mb-3">Advanced IT Support</CardTitle>
+                        <div className="text-2xl font-bold text-purple-400 mb-2">$5,000 - $9,000</div>
+                        <p className="text-gray-300 text-sm">per month</p>
+                      </CardHeader>
+                      <CardContent className="p-6 pt-0">
+                        <ul className="space-y-2 mb-6">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">24/7 monitoring</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Proactive maintenance</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Priority support</span>
+                          </li>
+                        </ul>
+                        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                          Get Quote
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-yellow-500/30">
+                      <CardHeader className="p-6 text-center">
+                        <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+                        <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
+                        <CardTitle className="text-xl text-white mb-3">Premium IT Support</CardTitle>
+                        <div className="text-2xl font-bold text-yellow-400 mb-2">$10,000 - $20,000</div>
+                        <p className="text-gray-300 text-sm">per month</p>
+                      </CardHeader>
+                      <CardContent className="p-6 pt-0">
+                        <ul className="space-y-2 mb-6">
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Dedicated team</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Custom solutions</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Strategic planning</span>
+                          </li>
+                        </ul>
+                        <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                          Contact Enterprise
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Security Add-on Services */}
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Security Add-on Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Server className="w-8 h-8 text-cyan-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Secure Server Room Kit</h4>
+                            <p className="text-cyan-400 font-bold">$15,000 - $30,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Complete secure server infrastructure setup</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-green-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Shield className="w-8 h-8 text-green-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Multi-Factor Authentication Hardware</h4>
+                            <p className="text-green-400 font-bold">$5,000 - $15,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Hardware security keys and MFA infrastructure</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-purple-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Network className="w-8 h-8 text-purple-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Network Segmentation Bundle</h4>
+                            <p className="text-purple-400 font-bold">$10,000 - $25,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Advanced network isolation and security</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-red-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Database className="w-8 h-8 text-red-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Disaster Recovery Infrastructure</h4>
+                            <p className="text-red-400 font-bold">$20,000 - $40,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Complete backup and recovery solutions</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-yellow-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Target className="w-8 h-8 text-yellow-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Advanced Security Assessment</h4>
+                            <p className="text-yellow-400 font-bold">$8,000 - $25,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Comprehensive security evaluation and recommendations</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-orange-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Eye className="w-8 h-8 text-orange-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold">Penetration Testing</h4>
+                            <p className="text-orange-400 font-bold">$15,000 - $30,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-sm">Professional penetration testing services</p>
+                      </CardContent>
+                    </Card>
+                  </div>
                 </div>
               </TabsContent>
 
               <TabsContent value="professional" className="space-y-12">
+                {/* Assessment and Planning Services */}
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Assessment and Planning</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                      <CardContent className="p-6 text-center">
+                        <Target className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
+                        <h4 className="text-white font-semibold mb-2">Security Assessment</h4>
+                        <p className="text-gray-300 text-sm mb-4">Comprehensive security evaluation</p>
+                        <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
+                          Learn More
+                        </Button>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-slate-700/60 border border-green-500/30">
+                      <CardContent className="p-6 text-center">
+                        <Server className="w-10 h-10 text-green-400 mx-auto mb-4" />
+                        <h4 className="text-white font-semibold mb-2">IT Infrastructure Assessment</h4>
+                        <p className="text-gray-300 text-sm mb-4">Complete infrastructure evaluation</p>
+                        <Button variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+                          Learn More
+                        </Button>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-slate-700/60 border border-purple-500/30">
+                      <CardContent className="p-6 text-center">
+                        <Shield className="w-10 h-10 text-purple-400 mx-auto mb-4" />
+                        <h4 className="text-white font-semibold mb-2">Compliance Readiness Assessment</h4>
+                        <p className="text-gray-300 text-sm mb-4">Regulatory compliance evaluation</p>
+                        <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                          Learn More
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+
+                {/* Professional Services Categories */}
                 <div className="space-y-16">
                   {professionalServices.map((category, index) => (
                     <div key={index}>
@@ -241,36 +522,36 @@ export default function Services() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {category.services.map((service, sIndex) => (
                           <Card key={sIndex} className="bg-slate-700/60 border border-cyan-500/30">
-                            <CardHeader className="p-8">
-                              <CardTitle className="text-2xl text-white mb-4">{service.name}</CardTitle>
-                              <p className="text-gray-300 mb-6">{service.description}</p>
+                            <CardHeader className="p-6">
+                              <CardTitle className="text-xl text-white mb-3">{service.name}</CardTitle>
+                              <p className="text-gray-300 text-sm mb-4">{service.description}</p>
                               
-                              <div className="grid grid-cols-2 gap-4 mb-6">
+                              <div className="grid grid-cols-2 gap-4 mb-4">
                                 <div>
-                                  <div className="text-cyan-400 font-semibold mb-2">Timeline</div>
-                                  <div className="text-gray-300">{service.timeline}</div>
+                                  <div className="text-cyan-400 font-semibold mb-1 text-sm">Timeline</div>
+                                  <div className="text-gray-300 text-sm">{service.timeline}</div>
                                 </div>
                                 <div>
-                                  <div className="text-cyan-400 font-semibold mb-2">Investment</div>
-                                  <div className="text-gray-300">{service.price}</div>
+                                  <div className="text-cyan-400 font-semibold mb-1 text-sm">Investment</div>
+                                  <div className="text-gray-300 text-sm">{service.price}</div>
                                 </div>
                               </div>
                             </CardHeader>
-                            <CardContent className="p-8 pt-0">
-                              <div className="mb-6">
-                                <h4 className="text-white font-semibold mb-3">Deliverables</h4>
-                                <ul className="space-y-2">
+                            <CardContent className="p-6 pt-0">
+                              <div className="mb-4">
+                                <h4 className="text-white font-semibold mb-2 text-sm">Deliverables</h4>
+                                <ul className="space-y-1">
                                   {service.deliverables.map((deliverable, dIndex) => (
                                     <li key={dIndex} className="flex items-center space-x-2">
-                                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                                      <span className="text-gray-300 text-sm">{deliverable}</span>
+                                      <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                      <span className="text-gray-300 text-xs">{deliverable}</span>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
                               <Button variant="outline" className="w-full border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
                                 Get Quote
-                                <ArrowRight className="ml-2 w-4 h-4" />
+                                <ArrowRight className="ml-2 w-3 h-3" />
                               </Button>
                             </CardContent>
                           </Card>
