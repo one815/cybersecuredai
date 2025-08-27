@@ -28,8 +28,8 @@ export default function Pricing() {
     {
       name: "Essential Protection",
       description: "Perfect for small organizations getting started",
-      price: "$2,500",
-      period: "per month",
+      price: "Essential",
+      period: "Protection",
       badge: "Small Organizations",
       color: "border-blue-500/30",
       buttonClass: "bg-blue-600 hover:bg-blue-700",
@@ -48,8 +48,8 @@ export default function Pricing() {
     {
       name: "Advanced Security", 
       description: "Comprehensive protection for growing institutions",
-      price: "$7,500",
-      period: "per month",
+      price: "Advanced",
+      period: "Security",
       badge: "Most Popular",
       color: "border-purple-500/30",
       buttonClass: "bg-purple-600 hover:bg-purple-700",
@@ -69,8 +69,8 @@ export default function Pricing() {
     {
       name: "Enterprise Shield",
       description: "Complete security suite for large organizations", 
-      price: "$15,000",
-      period: "per month",
+      price: "Enterprise",
+      period: "Shield",
       badge: "Enterprise",
       color: "border-cyan-500/30",
       buttonClass: "bg-cyan-600 hover:bg-cyan-700",
@@ -111,8 +111,8 @@ export default function Pricing() {
     {
       name: "State & Local",
       description: "Tailored for state and municipal governments",
-      price: "$12,000",
-      period: "per month",
+      price: "Contact",
+      period: "for Quote",
       badge: "Government Optimized",
       color: "border-orange-500/30",
       buttonClass: "bg-orange-600 hover:bg-orange-700", 
@@ -161,7 +161,7 @@ export default function Pricing() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-2">$4.2M</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">Millions</div>
                   <div className="text-gray-300">Average cost savings</div>
                 </div>
                 <div className="text-center">
@@ -281,7 +281,7 @@ export default function Pricing() {
                             <Building className="w-8 h-8 text-purple-400 mr-3" />
                             <div>
                               <h4 className="text-white font-semibold">Multi-State Security Coalition Platform</h4>
-                              <p className="text-purple-400 font-bold">$50,000 - $120,000</p>
+                              <p className="text-purple-400 font-bold">Contact for Pricing</p>
                             </div>
                           </div>
                           <p className="text-gray-300 text-sm">Inter-agency cybersecurity coordination and threat sharing</p>
@@ -294,7 +294,7 @@ export default function Pricing() {
                             <Shield className="w-8 h-8 text-cyan-400 mr-3" />
                             <div>
                               <h4 className="text-white font-semibold">Government Community Cloud Integration</h4>
-                              <p className="text-cyan-400 font-bold">$30,000 - $75,000</p>
+                              <p className="text-cyan-400 font-bold">Contact for Pricing</p>
                             </div>
                           </div>
                           <p className="text-gray-300 text-sm">Secure government community cloud deployment</p>
@@ -326,7 +326,7 @@ export default function Pricing() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Essential</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecure Essential</CardTitle>
-                  <div className="text-xl font-bold text-blue-400 mb-2">$25,000 - $40,000</div>
+                  <div className="text-xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Complete basic security package</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -340,7 +340,7 @@ export default function Pricing() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecure Advanced</CardTitle>
-                  <div className="text-xl font-bold text-purple-400 mb-2">$50,000 - $80,000</div>
+                  <div className="text-xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Enhanced security capabilities</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -354,7 +354,7 @@ export default function Pricing() {
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecure Enterprise</CardTitle>
-                  <div className="text-xl font-bold text-yellow-400 mb-2">$100,000 - $250,000</div>
+                  <div className="text-xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
                   <p className="text-gray-300 text-xs">Complete enterprise solution</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
