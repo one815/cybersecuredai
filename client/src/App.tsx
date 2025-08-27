@@ -153,6 +153,7 @@ function Router() {
         {/* Marketing Website Routes (no Layout wrapper) */}
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutUs} />
+      <Route path="/about-us" component={AboutUs} />
       <Route path="/solutions" component={Solutions} />
       <Route path="/services" component={Services} />
       <Route path="/pricing" component={Pricing} />
