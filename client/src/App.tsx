@@ -55,6 +55,7 @@ import ThreatMap5D from "@/pages/ThreatMap5D";
 import Home from "@/pages/Home";
 import AboutUs from "@/pages/AboutUs";
 import Solutions from "@/pages/Solutions";
+import Services from "@/pages/Services";
 import Pricing from "@/pages/Pricing";
 import SecurityScanner from "@/pages/SecurityScanner";
 import BasicSecurityScan from "@/pages/BasicSecurityScan";
@@ -153,6 +154,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutUs} />
       <Route path="/solutions" component={Solutions} />
+      <Route path="/services" component={Services} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/careers" component={Careers} />
       <Route path="/blog" component={Blogs} />
