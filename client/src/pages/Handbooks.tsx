@@ -186,8 +186,9 @@ export default function Handbooks() {
           <Button 
             size="sm" 
             variant="outline" 
-            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-w-[100px] flex items-center justify-center"
             onClick={() => window.open(`/marketing/documents/handbooks/${handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+            data-testid="button-download-handbook"
           >
             <Download className="w-4 h-4 mr-1" />
             Download
@@ -250,8 +251,9 @@ export default function Handbooks() {
                         {handbook.pages}
                       </Badge>
                       <Button 
-                        className="bg-cyan-600 hover:bg-cyan-700 text-white"
+                        className="bg-blue-600 hover:bg-blue-700 text-white border-0 min-w-[100px] flex items-center justify-center"
                         onClick={() => window.open(`/marketing/documents/handbooks/${handbook.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`, '_blank')}
+                        data-testid="button-download-handbook-featured"
                       >
                         <Download className="w-4 h-4 mr-1" />
                         Download

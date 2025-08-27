@@ -271,8 +271,9 @@ export default function Webinars() {
           <Button 
             size="sm" 
             variant="outline" 
-            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black"
+            className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-w-[110px] flex items-center justify-center"
             onClick={() => window.open(`/marketing/webinars/${webinar.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}`, '_blank')}
+            data-testid="button-watch-webinar"
           >
             <Play className="w-4 h-4 mr-1" />
             Watch Now

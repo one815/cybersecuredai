@@ -325,7 +325,8 @@ export default function EBooks() {
                     </div>
                     <Button 
                       size="sm" 
-                      className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold min-h-[40px] flex items-center justify-center"
+                      data-testid="button-download-ebook-featured"
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download PDF
@@ -526,7 +527,8 @@ export default function EBooks() {
                     <Button 
                       size="sm" 
                       variant="outline"
-                      className="w-full border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black text-xs"
+                      className="w-full border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black min-h-[36px] flex items-center justify-center"
+                      data-testid="button-download-ebook-list"
                     >
                       <Download className="w-3 h-3 mr-2" />
                       Download PDF
