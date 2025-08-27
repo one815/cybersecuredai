@@ -131,253 +131,145 @@ export default function Home() {
                 </Button>
               </div>
               
-              {/* Live Platform Dashboard Mockup */}
-              <div className="max-w-6xl mx-auto mb-8">
-                {/* Desktop Frame with Live Dashboard */}
-                <div className="relative transform -rotate-1 perspective-1000">
-                  {/* Monitor Frame */}
-                  <div className="relative bg-gray-900 rounded-lg p-3 shadow-2xl border border-gray-700">
-                    {/* Screen */}
-                    <div className="bg-black rounded-md p-2">
-                      {/* Live CyberSecure AI Dashboard */}
-                      <div className="bg-gradient-to-br from-slate-900 via-blue-900/30 to-slate-900 rounded-sm overflow-hidden min-h-[500px]">
-                        {/* Dashboard Header */}
-                        <div className="bg-slate-800/90 p-3 border-b border-cyan-500/30">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                              <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
-                              <span className="text-cyan-400 text-sm font-bold">CYBERSECURE AI PLATFORM - LIVE DASHBOARD</span>
-                            </div>
-                            <div className="flex items-center space-x-4">
-                              <span className="text-green-400 text-xs">● OPERATIONAL</span>
-                              <div className="flex space-x-1">
-                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Live Dashboard Content - Gartner Quadrant Style */}
-                        <div className="p-4 grid grid-cols-2 gap-4 h-full">
-                          {/* Intelligence Analytics - Top Left */}
-                          <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-lg border border-cyan-500/40 p-4">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-cyan-400 text-sm font-bold flex items-center">
-                                <Brain className="w-4 h-4 mr-2" />
-                                CAMBRIDGE INTELLIGENCE ANALYTICS
-                              </div>
-                              <div className="bg-cyan-500/20 text-cyan-400 text-xs px-2 py-1 rounded">LIVE</div>
-                            </div>
-                            
-                            <div className="space-y-3">
-                              <div className="flex justify-between text-sm">
-                                <span className="text-gray-300">Threat Confidence</span>
-                                <span className="text-cyan-400 font-bold">94%</span>
-                              </div>
-                              <div className="w-full bg-gray-700 rounded-full h-2">
-                                <div className="bg-gradient-to-r from-cyan-400 to-blue-400 h-2 rounded-full animate-pulse" style={{width: '94%'}}></div>
-                              </div>
-                              
-                              <div className="grid grid-cols-2 gap-2 text-xs">
-                                <div className="bg-slate-800/50 rounded p-2 text-center">
-                                  <div className="text-lg font-bold text-purple-400">2847</div>
-                                  <div className="text-gray-400">Data Points</div>
-                                </div>
-                                <div className="bg-slate-800/50 rounded p-2 text-center">
-                                  <div className="text-lg font-bold text-green-400">89%</div>
-                                  <div className="text-gray-400">Accuracy</div>
-                                </div>
-                              </div>
-                              
-                              <div className="text-xs space-y-1">
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                                  <span className="text-gray-300">Phishing Campaign Detected</span>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                  <span className="text-gray-300">Network Anomaly Analysis</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Global Threat Map - Top Right */}
-                          <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-lg border border-red-500/40 p-4">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-red-400 text-sm font-bold flex items-center">
-                                <Globe className="w-4 h-4 mr-2" />
-                                GLOBAL THREAT INTELLIGENCE MAP
-                              </div>
-                              <div className="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded">REAL-TIME</div>
-                            </div>
-                            
-                            {/* Live Map Visualization */}
-                            <div className="bg-slate-900/70 rounded-lg h-24 relative overflow-hidden mb-3">
-                              {/* Animated threat points */}
-                              <div className="absolute top-3 left-4 w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
-                              <div className="absolute top-6 right-6 w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                              <div className="absolute bottom-4 left-8 w-2 h-2 bg-yellow-400 rounded-full"></div>
-                              <div className="absolute bottom-3 right-4 w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
-                              <div className="absolute top-8 left-1/2 w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                              
-                              {/* Grid overlay */}
-                              <div className="absolute inset-0 opacity-30" style={{
-                                backgroundImage: 'linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px)',
-                                backgroundSize: '12px 12px'
-                              }}></div>
-                              
-                              {/* Scanning line effect */}
-                              <div className="absolute inset-0">
-                                <div className="w-full h-0.5 bg-cyan-400/60 animate-pulse" style={{
-                                  animation: 'scan 3s linear infinite',
-                                  transformOrigin: 'left'
-                                }}></div>
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-4 gap-1 text-xs text-center">
-                              <div>
-                                <div className="text-red-400 font-bold">15</div>
-                                <div className="text-gray-400">Critical</div>
-                              </div>
-                              <div>
-                                <div className="text-orange-400 font-bold">8</div>
-                                <div className="text-gray-400">High</div>
-                              </div>
-                              <div>
-                                <div className="text-yellow-400 font-bold">12</div>
-                                <div className="text-gray-400">Medium</div>
-                              </div>
-                              <div>
-                                <div className="text-blue-400 font-bold">23</div>
-                                <div className="text-gray-400">Low</div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Compliance Management - Bottom Left */}
-                          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg border border-green-500/40 p-4">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-green-400 text-sm font-bold flex items-center">
-                                <CheckCircle className="w-4 h-4 mr-2" />
-                                COMPLIANCE MANAGEMENT
-                              </div>
-                              <div className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded">96%</div>
-                            </div>
-                            
-                            <div className="space-y-3">
-                              <div className="text-center">
-                                <div className="text-3xl font-bold text-green-400 mb-1">96%</div>
-                                <div className="text-xs text-gray-400">Overall Compliance Score</div>
-                              </div>
-                              
-                              <div className="space-y-2">
-                                <div className="flex justify-between text-xs">
-                                  <span className="text-gray-400">FERPA</span>
-                                  <span className="text-green-400">98%</span>
-                                </div>
-                                <div className="flex justify-between text-xs">
-                                  <span className="text-gray-400">FISMA</span>
-                                  <span className="text-green-400">95%</span>
-                                </div>
-                                <div className="flex justify-between text-xs">
-                                  <span className="text-gray-400">CIPA</span>
-                                  <span className="text-yellow-400">92%</span>
-                                </div>
-                              </div>
-                              
-                              <div className="flex justify-center space-x-1">
-                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* AI Security Engine - Bottom Right */}
-                          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg border border-purple-500/40 p-4">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-purple-400 text-sm font-bold flex items-center">
-                                <Shield className="w-4 h-4 mr-2" />
-                                AI SECURITY ENGINE
-                              </div>
-                              <div className="bg-purple-500/20 text-purple-400 text-xs px-2 py-1 rounded">ACTIVE</div>
-                            </div>
-                            
-                            <div className="space-y-3">
-                              <div className="grid grid-cols-2 gap-2 text-xs">
-                                <div className="bg-slate-800/50 rounded p-2 text-center">
-                                  <div className="text-lg font-bold text-purple-400">99.7%</div>
-                                  <div className="text-gray-400">Detection Rate</div>
-                                </div>
-                                <div className="bg-slate-800/50 rounded p-2 text-center">
-                                  <div className="text-lg font-bold text-green-400">2.1s</div>
-                                  <div className="text-gray-400">Response Time</div>
-                                </div>
-                              </div>
-                              
-                              <div className="space-y-2 text-xs">
-                                <div className="flex items-center justify-between">
-                                  <span className="text-gray-400">ML Models Active</span>
-                                  <div className="flex items-center space-x-1">
-                                    <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-                                    <span className="text-purple-400">28</span>
-                                  </div>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <span className="text-gray-400">Threats Blocked Today</span>
-                                  <span className="text-green-400">847</span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <span className="text-gray-400">System Health</span>
-                                  <span className="text-green-400">98.4%</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+              {/* Live Platform Dashboard Preview */}
+              <div className="max-w-6xl mx-auto mb-8 relative">
+                {/* Realistic Browser Frame */}
+                <div className="bg-gray-800 rounded-t-lg p-1">
+                  <div className="flex items-center space-x-2 px-3 py-2">
+                    <div className="flex space-x-1">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                     </div>
-                    
-                    {/* Monitor Stand */}
-                    <div className="h-3 bg-gradient-to-b from-gray-700 to-gray-900 rounded-b-lg"></div>
+                    <div className="flex-1 bg-gray-700 rounded px-3 py-1 text-gray-300 text-sm">
+                      https://dashboard.cybersecure.ai
+                    </div>
                   </div>
-                  
-                  {/* Monitor Base */}
-                  <div className="relative -mt-2 mx-auto w-32 h-6 bg-gradient-to-b from-gray-800 to-gray-900 rounded-full transform perspective-500 scale-y-50"></div>
                 </div>
                 
-                {/* Live Dashboard Features Overlay */}
-                <div className="absolute top-8 right-8 bg-slate-900/95 rounded-lg p-4 border border-cyan-500/50 max-w-sm">
-                  <div className="text-cyan-400 text-sm font-bold mb-3 flex items-center">
-                    <Target className="w-4 h-4 mr-2" />
-                    LIVE PLATFORM FEATURES
+                {/* Actual Dashboard Content */}
+                <div className="bg-slate-900 border-x border-b border-gray-700 rounded-b-lg overflow-hidden">
+                  {/* Real Dashboard Implementation */}
+                  <div className="p-6 space-y-6">
+                    {/* Platform Intelligence Overview */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <Card className="holographic-card border-cyan-500/30">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
+                            <Globe className="w-5 h-5 mr-2 text-cyan-400" />
+                            PLATFORM INTELLIGENCE STATUS
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div className="text-center p-3 bg-background/30 rounded-lg">
+                              <div className="text-xl font-bold text-cyan-400">847</div>
+                              <div className="text-xs text-gray-400">Protected Assets</div>
+                            </div>
+                            <div className="text-center p-3 bg-background/30 rounded-lg">
+                              <div className="text-xl font-bold text-green-400">98%</div>
+                              <div className="text-xs text-gray-400">System Health</div>
+                            </div>
+                          </div>
+                          <div className="text-xs text-gray-400">Analysis Confidence: 94%</div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="holographic-card border-red-500/30">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
+                            <AlertTriangle className="w-5 h-5 mr-2 text-red-400" />
+                            THREAT MONITORING
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="mb-4">
+                            <ThreatMap className="h-24 rounded border border-red-500/30" />
+                          </div>
+                          <div className="grid grid-cols-4 gap-2 text-center text-xs">
+                            <div>
+                              <div className="font-bold text-red-400">4</div>
+                              <div className="text-gray-400">Critical</div>
+                            </div>
+                            <div>
+                              <div className="font-bold text-orange-400">7</div>
+                              <div className="text-gray-400">High</div>
+                            </div>
+                            <div>
+                              <div className="font-bold text-yellow-400">12</div>
+                              <div className="text-gray-400">Medium</div>
+                            </div>
+                            <div>
+                              <div className="font-bold text-blue-400">23</div>
+                              <div className="text-gray-400">Low</div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="holographic-card border-green-500/30">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
+                            <CheckCircle className="w-5 h-5 mr-2 text-green-400" />
+                            COMPLIANCE STATUS
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-center mb-4">
+                            <div className="text-2xl font-bold text-green-400">96%</div>
+                            <div className="text-xs text-gray-400">Overall Score</div>
+                          </div>
+                          <div className="space-y-2 text-xs">
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">FERPA</span>
+                              <span className="text-green-400">98%</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">FISMA</span>
+                              <span className="text-green-400">95%</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-400">CIPA</span>
+                              <span className="text-yellow-400">92%</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Cambridge Analytics Preview */}
+                    <Card className="holographic-card border-purple-500/30">
+                      <CardHeader>
+                        <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide">
+                          <Brain className="w-6 h-6 mr-3 text-purple-400" />
+                          CAMBRIDGE INTELLIGENCE ANALYTICS
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div className="p-4 bg-background/20 rounded-lg border border-purple-500/20">
+                            <div className="text-sm font-medium text-purple-300 mb-2">Strategic Insights</div>
+                            <div className="text-xs text-gray-300">Emerging phishing campaign targeting educational institutions with 94% confidence</div>
+                          </div>
+                          <div className="p-4 bg-background/20 rounded-lg border border-orange-500/20">
+                            <div className="text-sm font-medium text-orange-300 mb-2">Threat Vectors</div>
+                            <div className="text-xs text-gray-300">Advanced Persistent Threat - 23% probability, 89% severity</div>
+                          </div>
+                          <div className="p-4 bg-background/20 rounded-lg border border-cyan-500/20">
+                            <div className="text-sm font-medium text-cyan-300 mb-2">Behavioral Analysis</div>
+                            <div className="text-xs text-gray-300">Real-time monitoring of network activity patterns</div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
                   </div>
-                  <div className="space-y-2 text-xs text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span>Cambridge Intelligence Analytics</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span>Real-Time Global Threat Mapping</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span>Automated Compliance Tracking</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span>AI-Powered Security Engine</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span>99.7% Threat Detection Rate</span>
-                    </div>
+                </div>
+                
+                {/* Live Status Indicator */}
+                <div className="absolute top-20 right-6 bg-slate-900/95 rounded-lg p-3 border border-green-500/50">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                    <span className="text-green-400 text-xs font-medium">LIVE DASHBOARD</span>
                   </div>
                 </div>
               </div>
