@@ -16,11 +16,17 @@ export default function Privacy() {
                 Privacy & Data Protection
               </Badge>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                Privacy <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Policy</span>
+                Enterprise-Grade <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Privacy Protection</span>
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Your privacy is fundamental to our mission. Learn how we protect and respect your data.
+                Your privacy is fundamental to our mission. Learn how we protect and respect your data 
+                with industry-leading security standards.
               </p>
+              <div className="flex items-center justify-center space-x-6 text-gray-400">
+                <span>• SOC 2 Type II Certified</span>
+                <span>• GDPR Compliant</span>
+                <span>• Zero Trust Architecture</span>
+              </div>
               <p className="text-sm text-gray-400">Last updated: December 1, 2024</p>
             </div>
           </div>

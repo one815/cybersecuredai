@@ -25,6 +25,7 @@ import {
   CustomFlagIcon,
   CustomTargetIcon
 } from "@/components/CustomIcons";
+import { Link } from "wouter";
 
 // Import professional images
 import leadershipImg from "@assets/generated_images/Cybersecurity_Podcast_Studio_526ffd72.png";

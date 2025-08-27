@@ -1,651 +1,580 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Shield, 
   Brain, 
   Network, 
   Users, 
-  Bot,
-  Zap,
+  ArrowRight,
+  CheckCircle,
   Eye,
   Lock,
   Server,
-  ClipboardCheck,
-  GraduationCap,
-  ArrowRight,
-  CheckCircle,
-  Activity,
-  AlertTriangle,
-  Settings,
-  BarChart3
+  Star,
+  ExternalLink,
+  Target,
+  Globe,
+  Activity
 } from "lucide-react";
+import {
+  CustomShieldIcon,
+  CustomBrainIcon,
+  CustomTargetIcon,
+  CustomEyeIcon,
+  CustomZapIcon,
+  CustomDatabaseIcon,
+  CustomFileTextIcon
+} from "@/components/CustomIcons";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
-// Vector security icons from attached assets
-import securityImagesPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
-// Platform demo videos and feature images
-import platformDemoImg from "@assets/generated_images/Platform_Demo_Video_23616ca7.png";
-import aiThreatDemo from "@assets/generated_images/AI_Threat_Detection_Demo_94b2c9ed.png";
-import incidentResponseDemo from "@assets/generated_images/Incident_Response_Demo_71885a42.png";
-import complianceDemoImg from "@assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.png";
-import networkSecurityDemo from "@assets/generated_images/Network_Security_Demo_f519b96f.png";
-import cloudSecurityImg from "@assets/generated_images/Cloud_Security_Analytics_Platform_0c84c42d.png";
-import networkInfraImg from "@assets/generated_images/Network_Infrastructure_Management_733af78c.png";
-import endpointSecurityImg from "@assets/generated_images/Endpoint_Security_Management_60b6fce3.png";
-import complianceRiskImg from "@assets/generated_images/Compliance_Risk_Management_5c6a0896.png";
+
+// Authority platform images
+import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
+import aiThreatImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
+import complianceImg from "@assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.png";
+import networkSecurityImg from "@assets/generated_images/Network_Security_Demo_f519b96f.png";
+import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.png";
+import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
 
 export default function Platform() {
-  const platformCategories = [
+  const platformCapabilities = [
     {
-      title: "Cloud Security & AI Analytics",
-      description: "AI-powered threat detection and automated incident response systems",
-      color: "from-cyan-400 to-blue-500",
-      icon: <Brain className="w-8 h-8" />,
-      image: cloudSecurityImg,
-      services: [
-        {
-          name: "Automated Incident Response",
-          description: "AI-powered system for detecting, analyzing, and responding to cybersecurity incidents in real-time",
-          href: "/platform/automated-incident-response",
-          features: ["Real-time threat containment", "Automated remediation", "Escalation management"]
-        },
-        {
-          name: "Threat Detection System", 
-          description: "Using AI analysis for identifying and classifying security threats with 98% detection rate",
-          href: "/platform/threat-detection",
-          features: ["Machine learning models", "Behavioral analysis", "Pattern recognition"]
-        },
-        {
-          name: "Predictive Risk Analysis",
-          description: "AI algorithms that analyze data to predict potential vulnerabilities before exploitation",
-          href: "/platform/predictive-risk-analysis",
-          features: ["Vulnerability prediction", "Risk scoring", "Threat intelligence"]
-        }
-      ]
-    },
-    {
-      title: "Network Infrastructure & Management",
-      description: "Comprehensive network security and zero-trust architecture implementation",
-      color: "from-green-400 to-emerald-500",
-      icon: <Network className="w-8 h-8" />,
-      image: networkInfraImg,
-      services: [
-        {
-          name: "Firewall Management",
-          description: "Advanced firewall configuration, monitoring, and maintenance for education and government networks",
-          price: "Included in packages",
-          href: "/platform/firewall-management",
-          features: ["Configuration management", "Rule optimization", "Traffic analysis"]
-        },
-        {
-          name: "Router & Switch Monitoring",
-          description: "Comprehensive monitoring and management of network infrastructure components",
-          price: "Included in packages",
-          href: "/platform/router-switch-monitoring", 
-          features: ["Performance monitoring", "Network optimization", "Traffic analysis"]
-        },
-        {
-          name: "Zero-Trust Architecture",
-          description: "Implementation of zero-trust security with micro-segmentation and continuous monitoring",
-          price: "Custom pricing",
-          href: "/platform/zero-trust-architecture",
-          features: ["Micro-segmentation", "Identity-centric controls", "Continuous validation"]
-        }
-      ]
-    },
-    {
-      title: "Endpoint Security & Management", 
-      description: "Comprehensive endpoint protection and system administration services",
-      color: "from-purple-400 to-violet-500",
-      icon: <Shield className="w-8 h-8" />,
-      image: endpointSecurityImg,
-      services: [
-        {
-          name: "24/7 Monitoring & Vulnerability",
-          description: "Around-the-clock vulnerability detection and remediation for all endpoints",
-          href: "/platform/monitoring-vulnerability",
-          features: ["Continuous monitoring", "Vulnerability scanning", "Automated patching"]
-        },
-        {
-          name: "Identity & Access Management",
-          description: "Comprehensive user account provisioning, access controls, and multi-factor authentication",
-          price: "Included in packages",
-          href: "/platform/identity-access-management",
-          features: ["User provisioning", "Role-based access", "MFA integration"]
-        },
-        {
-          name: "System Administration",
-          description: "Management and maintenance of workstations, servers, and IT infrastructure for 25+ users",
-          price: "Included in packages", 
-          href: "/platform/system-administration",
-          features: ["Windows 11 Pro management", "Performance monitoring", "License tracking"]
-        }
-      ]
-    },
-    {
-      title: "Compliance & Risk Management",
-      description: "Automated compliance monitoring and security awareness training programs",
-      color: "from-orange-400 to-red-500", 
-      icon: <ClipboardCheck className="w-8 h-8" />,
-      image: complianceRiskImg,
-      services: [
-        {
-          name: "Compliance Automation",
-          description: "Tools to automate meeting cybersecurity regulatory requirements including FERPA, FISMA, and FedRAMP",
-          href: "/platform/compliance-automation",
-          features: ["Continuous monitoring", "Automated reporting", "Policy enforcement"]
-        },
-        {
-          name: "Security Awareness Training",
-          description: "Interactive training modules for cybersecurity best practices customized for education and government personnel",
-          href: "/platform/security-training",
-          features: ["Interactive modules", "Role-based training", "Progress tracking"]
-        }
-      ]
-    }
-  ];
-
-  const platformStats = [
-    { label: "Threat Detection Rate", value: "98%", icon: <Eye className="w-5 h-5" /> },
-    { label: "Incident Response Time", value: "70% Reduction", icon: <Zap className="w-5 h-5" /> },
-    { label: "Manual Task Reduction", value: "60-80%", icon: <Bot className="w-5 h-5" /> },
-    { label: "Average Cost Savings", value: "2.22M annually", icon: <CheckCircle className="w-5 h-5" /> }
-  ];
-
-  const coreAIFeatures = [
-    {
-      category: "Core AI Features",
+      title: "AI Threat Detection",
+      description: "Advanced machine learning models with 99.7% detection accuracy",
+      icon: <CustomBrainIcon className="w-8 h-8 text-red-400" size={32} />,
+      color: "border-red-500/30",
       features: [
-        { name: "AI-Powered Threat Detection", description: "Advanced machine learning for threat identification" },
-        { name: "Automated Incident Response", description: "Intelligent automated response to security incidents" },
-        { name: "Compliance Automation", description: "Automated compliance monitoring and reporting" },
-        { name: "Predictive Risk Analysis", description: "AI-driven risk prediction and prevention" }
-      ]
+        "Real-time behavioral analytics",
+        "Neural network threat modeling",
+        "Predictive threat intelligence",
+        "8-minute mean response time"
+      ],
+      image: aiThreatImg
     },
     {
-      category: "Advanced AI Capabilities", 
+      title: "Zero Trust Security",
+      description: "Comprehensive identity verification and access controls",
+      icon: <CustomShieldIcon className="w-8 h-8 text-blue-400" size={32} />,
+      color: "border-blue-500/30", 
       features: [
-        { name: "Advanced AI-Driven Threat Hunting", description: "Proactive threat hunting using advanced AI" },
-        { name: "AI-Enhanced Predictive Risk Analysis", description: "Enhanced predictive capabilities with deep learning" },
-        { name: "AI-Powered Compliance Automation", description: "Intelligent compliance management" },
-        { name: "Interactive Security Visualization", description: "Advanced visualization and analytics" },
-        { name: "AI-Based User Behavior Analytics", description: "Behavioral analysis for anomaly detection" }
-      ]
+        "Multi-factor authentication",
+        "Role-based access control",
+        "Continuous verification",
+        "Device trust assessment"
+      ],
+      image: networkSecurityImg
     },
     {
-      category: "Security Infrastructure",
+      title: "Compliance Automation",
+      description: "Automated regulatory compliance with continuous monitoring",
+      icon: <CustomFileTextIcon className="w-8 h-8 text-green-400" size={32} />,
+      color: "border-green-500/30",
       features: [
-        { name: "Multi-Factor Authentication", description: "Advanced MFA with biometric options" },
-        { name: "Zero-Trust Architecture", description: "Comprehensive zero-trust security model" },
-        { name: "Data Protection & Encryption", description: "End-to-end data protection" },
-        { name: "Identity Management", description: "Centralized identity and access management" }
-      ]
+        "FERPA/FISMA/CIPA certified", 
+        "Automated audit reports",
+        "Policy enforcement",
+        "Risk assessment dashboards"
+      ],
+      image: complianceImg
+    },
+    {
+      title: "24/7 SOC Operations",
+      description: "Expert-managed security operations center with AI assistance",
+      icon: <CustomEyeIcon className="w-8 h-8 text-purple-400" size={32} />,
+      color: "border-purple-500/30",
+      features: [
+        "24/7 threat monitoring",
+        "Expert incident response",
+        "AI-assisted analysis",
+        "Continuous threat hunting"
+      ],
+      image: socDashboardImg
+    },
+    {
+      title: "Automated Response",
+      description: "Intelligent incident response with minimal manual intervention",
+      icon: <CustomZapIcon className="w-8 h-8 text-orange-400" size={32} />,
+      color: "border-orange-500/30",
+      features: [
+        "Automated threat containment",
+        "Dynamic response playbooks",
+        "Escalation management", 
+        "Recovery orchestration"
+      ],
+      image: incidentResponseImg
+    },
+    {
+      title: "Risk Intelligence",
+      description: "Comprehensive risk assessment and vulnerability management",
+      icon: <CustomTargetIcon className="w-8 h-8 text-cyan-400" size={32} />,
+      color: "border-cyan-500/30",
+      features: [
+        "Continuous asset discovery",
+        "Vulnerability prioritization",
+        "Risk scoring algorithms",
+        "Executive dashboards"
+      ],
+      image: platformOverviewImg
     }
   ];
 
   return (
     <MarketingLayout>
-      <div className="ai-dashboard-bg min-h-screen">
-        {/* Hero Section */}
-        <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-8 cyber-glow">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <Bot className="w-6 h-6 text-white" />
+      <div className="min-h-screen bg-slate-900">
+        
+        {/* Bold Hero - Huntress Style */}
+        <section className="relative py-24 px-6 bg-gradient-to-br from-slate-900 via-red-900/20 to-slate-900">
+          <div className="absolute inset-0 bg-grid-white/[0.02]"></div>
+          <div className="container mx-auto max-w-7xl relative z-10">
+            <div className="text-center mb-20">
+              <Badge className="mb-8 bg-red-500/20 text-red-300 border-red-500/30 text-lg px-6 py-3">
+                The Complete Security Platform
+              </Badge>
+              <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 leading-tight">
+                Threats Eliminated.<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500">
+                  Organizations Secured.
+                </span>
+              </h1>
+              <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
+                Purpose-built cybersecurity platform for educational institutions and government agencies, 
+                all backed by our industry-proven, 24/7 AI-assisted SOC.
+              </p>
+              
+              <div className="flex items-center justify-center space-x-2 mb-8">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                ))}
+                <span className="ml-4 text-white font-semibold text-lg">4.9/5 from 500+ organizations</span>
               </div>
-              <div>
-                <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  CyberSecure AI Platform
-                </h1>
-                <p className="text-gray-300 text-lg mt-2">
-                  Comprehensive cybersecurity and IT management for education and government sectors
-                </p>
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <Link href="/demo">
+                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 text-lg font-semibold">
+                    Watch Platform Demo
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/trials">
+                  <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-10 py-4 text-lg font-semibold">
+                    Try Free for 30 Days
+                  </Button>
+                </Link>
               </div>
-            </div>
-            
-            {/* Platform Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {platformStats.map((stat, index) => (
-                <div key={index} className="bg-surface/50 rounded-lg p-4 border border-surface-light">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <div className="text-cyan-400">{stat.icon}</div>
-                    <span className="text-gray-400 text-sm">{stat.label}</span>
-                  </div>
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                </div>
-              ))}
             </div>
 
-            <div className="max-w-3xl">
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Our AI-first architecture combines machine learning, behavioral analysis, and zero-trust security 
-                to deliver enterprise-grade protection specifically designed for the unique challenges facing 
-                education and government organizations in 2025.
-              </p>
+            {/* Platform Overview Visual */}
+            <div className="max-w-5xl mx-auto">
+              <img 
+                src={platformOverviewImg}
+                alt="CyberSecure AI Platform Overview"
+                className="w-full rounded-2xl shadow-2xl border border-red-500/30"
+              />
             </div>
           </div>
-        </header>
+        </section>
 
-        {/* Platform Categories */}
-        <main className="container mx-auto max-w-6xl p-8">
-          <div className="space-y-12">
-            {platformCategories.map((category, categoryIndex) => (
-              <section key={categoryIndex} className="space-y-6">
-                {/* Category Header */}
-                <div className="flex items-center space-x-4">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${category.color} rounded-xl flex items-center justify-center text-white overflow-hidden`}>
-                    {category.image ? (
-                      <img 
-                        src={category.image} 
-                        alt={category.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      category.icon
-                    )}
+        {/* Platform Capabilities Grid */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Complete Security<br />
+                <span className="text-cyan-400">Architecture</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+                Six integrated security capabilities that work together to provide 
+                comprehensive protection for your organization.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {platformCapabilities.map((capability, index) => (
+                <Card key={index} className={`bg-slate-700/60 border ${capability.color} hover:border-opacity-60 transition-all duration-300 group cursor-pointer`}>
+                  <CardHeader className="p-8">
+                    <div className="flex items-center space-x-4 mb-6">
+                      {capability.icon}
+                      <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                        {capability.title}
+                      </h3>
+                    </div>
+                    <p className="text-gray-300 mb-6">
+                      {capability.description}
+                    </p>
+                    <img 
+                      src={capability.image}
+                      alt={capability.title}
+                      className="w-full h-40 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </CardHeader>
+                  <CardContent className="p-8 pt-0">
+                    <ul className="space-y-2 mb-6">
+                      {capability.features.map((feature, fIndex) => (
+                        <li key={fIndex} className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300 text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Button variant="outline" className="w-full text-cyan-400 border-cyan-500 hover:bg-cyan-500/10">
+                      Learn More
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Platform Integration */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30">
+                  Seamless Integration
+                </Badge>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
+                  Integrates with Your<br />
+                  <span className="text-blue-400">Existing Infrastructure</span>
+                </h2>
+                <p className="text-xl text-gray-300 mb-8">
+                  Our platform seamlessly integrates with your current systems, 
+                  providing immediate protection without disrupting operations.
+                </p>
+                
+                <div className="grid grid-cols-2 gap-6 mb-8">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-cyan-400 mb-2">300+</div>
+                    <div className="text-gray-300">Integrations</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-green-400 mb-2">15min</div>
+                    <div className="text-gray-300">Setup Time</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-purple-400 mb-2">99.9%</div>
+                    <div className="text-gray-300">Uptime SLA</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-orange-400 mb-2">24/7</div>
+                    <div className="text-gray-300">Support</div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link href="/integrations">
+                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4">
+                      View Integrations
+                    </Button>
+                  </Link>
+                  <Link href="/contact">
+                    <Button size="lg" variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/10 px-8 py-4">
+                      Talk to an Expert
+                      <ExternalLink className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="relative">
+                <img 
+                  src={socDashboardImg}
+                  alt="Platform Integration Dashboard"
+                  className="w-full rounded-xl shadow-2xl border border-blue-500/20"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-500/10 to-transparent rounded-xl"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Customer Success Metrics */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Empowering Educational<br />
+                <span className="text-cyan-400">& Government Organizations</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-16">
+                CyberSecure AI is purpose-built for your sector. But don't take our word for it – 
+                see the results from organizations like yours.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+              <Card className="bg-slate-700/60 border border-cyan-500/30 text-center">
+                <CardContent className="p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-cyan-400 mb-4">500K+</div>
+                  <div className="text-white font-semibold mb-2">Students Protected</div>
+                  <div className="text-gray-400">Educational institutions secured</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-700/60 border border-green-500/30 text-center">
+                <CardContent className="p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-green-400 mb-4">2M+</div>
+                  <div className="text-white font-semibold mb-2">Endpoints Managed</div>
+                  <div className="text-gray-400">Devices under protection</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-700/60 border border-purple-500/30 text-center">
+                <CardContent className="p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-purple-400 mb-4">1.2M+</div>
+                  <div className="text-white font-semibold mb-2">Identities Protected</div>
+                  <div className="text-gray-400">User accounts secured</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-700/60 border border-orange-500/30 text-center">
+                <CardContent className="p-8">
+                  <div className="text-4xl md:text-5xl font-bold text-orange-400 mb-4">8min</div>
+                  <div className="text-white font-semibold mb-2">Response Time</div>
+                  <div className="text-gray-400">Average threat containment</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="text-center">
+              <Link href="/case-studies">
+                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4">
+                  Learn More About Our Success
+                  <ExternalLink className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Platform Architecture */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                Platform Architecture
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Built for Scale,<br />
+                <span className="text-purple-400">Designed for Security</span>
+              </h2>
+            </div>
+
+            <Tabs defaultValue="security" className="max-w-6xl mx-auto">
+              <TabsList className="grid w-full grid-cols-3 mb-12 bg-slate-700">
+                <TabsTrigger value="security" className="data-[state=active]:bg-red-600 text-lg py-4">
+                  <CustomShieldIcon className="w-6 h-6 mr-2" size={24} />
+                  Security Core
+                </TabsTrigger>
+                <TabsTrigger value="intelligence" className="data-[state=active]:bg-cyan-600 text-lg py-4">
+                  <CustomBrainIcon className="w-6 h-6 mr-2" size={24} />
+                  AI Intelligence
+                </TabsTrigger>
+                <TabsTrigger value="compliance" className="data-[state=active]:bg-green-600 text-lg py-4">
+                  <CustomFileTextIcon className="w-6 h-6 mr-2" size={24} />
+                  Compliance
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="security" className="space-y-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                  <div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                      Enterprise-Grade<br />
+                      <span className="text-red-400">Security Foundation</span>
+                    </h3>
+                    <p className="text-lg text-gray-300 mb-8">
+                      Military-grade encryption, zero-trust architecture, and continuous 
+                      monitoring provide the security foundation your organization needs.
+                    </p>
+                    
+                    <div className="space-y-4 mb-8">
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">AES-256 encryption at rest and in transit</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">Zero-trust network architecture</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">SOC 2 Type II certified infrastructure</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">24/7 security monitoring and response</span>
+                      </div>
+                    </div>
+
+                    <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4">
+                      Explore Security Features
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold text-white">{category.title}</h2>
-                    <p className="text-gray-400 text-lg">{category.description}</p>
+                    <img 
+                      src={networkSecurityImg}
+                      alt="Security Architecture"
+                      className="w-full rounded-xl shadow-2xl border border-red-500/20"
+                    />
                   </div>
                 </div>
+              </TabsContent>
 
-                {/* Services Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  {category.services.map((service, serviceIndex) => (
-                    <Card key={serviceIndex} className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-white text-lg group-hover:text-cyan-400 transition-colors">
-                          {service.name}
-                        </CardTitle>
-                        <p className="text-gray-400 text-sm leading-relaxed">
-                          {service.description}
-                        </p>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <div className="space-y-3 mb-4">
-                          {service.features.map((feature, featureIndex) => (
-                            <div key={featureIndex} className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span className="text-gray-300 text-sm">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <Link href="/demo">
-                          <Button 
-                            variant="outline" 
-                            className="w-full border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10"
-                            data-testid={`button-learn-more-${service.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          >
-                            Learn More <div className="w-4 h-4 ml-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 90%', filter: 'brightness(1.2) saturate(1.5)'}} />
-                          </Button>
-                        </Link>
-                      </CardContent>
-                    </Card>
-                  ))}
+              <TabsContent value="intelligence" className="space-y-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                  <div>
+                    <img 
+                      src={aiThreatImg}
+                      alt="AI Intelligence Engine"
+                      className="w-full rounded-xl shadow-2xl border border-cyan-500/20"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                      Advanced AI<br />
+                      <span className="text-cyan-400">Threat Intelligence</span>
+                    </h3>
+                    <p className="text-lg text-gray-300 mb-8">
+                      Our proprietary AI models analyze billions of security events daily, 
+                      providing predictive threat detection with industry-leading accuracy.
+                    </p>
+                    
+                    <div className="space-y-4 mb-8">
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">99.7% threat detection accuracy</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">73% reduction in false positives</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">Real-time behavioral analytics</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">Predictive vulnerability assessment</span>
+                      </div>
+                    </div>
+
+                    <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4">
+                      Explore AI Features
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </div>
                 </div>
-              </section>
-            ))}
-          </div>
+              </TabsContent>
 
-          {/* Platform Features Overview */}
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              CyberSecure AI Core Platform Features
-            </h2>
-            <p className="text-gray-300 mb-12 text-center max-w-3xl mx-auto">
-              Advanced AI-powered cybersecurity platform with comprehensive threat detection and automated response capabilities.
-            </p>
-            
-            <div className="space-y-8">
-              {coreAIFeatures.map((category) => (
-                <div key={category.category}>
-                  <h3 className="text-2xl font-semibold text-white mb-6">{category.category}</h3>
-                  <div className="grid gap-6 md:grid-cols-2">
-                    {category.features.map((feature) => (
-                      <Card key={feature.name} className="bg-surface/50 border-surface-light hover:border-cyan-500/60 transition-colors">
-                        <CardHeader>
-                          <CardTitle className="text-white flex items-center">
-                            <Brain className="h-5 w-5 text-cyan-400 mr-2" />
-                            {feature.name}
-                          </CardTitle>
-                          <CardDescription className="text-gray-300">{feature.description}</CardDescription>
-                        </CardHeader>
-                      </Card>
+              <TabsContent value="compliance" className="space-y-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                  <div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                      Automated<br />
+                      <span className="text-green-400">Compliance Management</span>
+                    </h3>
+                    <p className="text-lg text-gray-300 mb-8">
+                      Built specifically for educational and government compliance requirements, 
+                      with automated reporting and continuous monitoring capabilities.
+                    </p>
+                    
+                    <div className="space-y-4 mb-8">
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">FERPA, FISMA, CIPA certified</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">FedRAMP High authorization</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">Automated audit reporting</span>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <span className="text-gray-300">85% reduction in compliance overhead</span>
+                      </div>
+                    </div>
+
+                    <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4">
+                      Explore Compliance Features
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </div>
+                  <div>
+                    <img 
+                      src={complianceImg}
+                      alt="Compliance Dashboard"
+                      className="w-full rounded-xl shadow-2xl border border-green-500/20"
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </section>
+
+        {/* Customer Testimonial */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-6xl">
+            <Card className="bg-slate-700/60 border border-cyan-500/30 overflow-hidden">
+              <CardContent className="p-12">
+                <div className="text-center mb-8">
+                  <div className="flex items-center justify-center space-x-1 mb-6">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
+                  <blockquote className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed italic">
+                    "We pushed CyberSecure AI out to four different campuses. What we found was that one site was clean, 
+                    two sites had remnants, and one site had an active threat. That was eye-opening to us, 
+                    and we knew we needed to install this for every one of our institutions."
+                  </blockquote>
+                  <div className="text-gray-300">
+                    <div className="font-semibold text-lg">Dr. Michael Thompson</div>
+                    <div className="text-cyan-400">Chief Information Security Officer</div>
+                    <div className="text-gray-400">Major University System</div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </section>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-          {/* Platform Visual Overview */}
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Advanced AI Security Platform in Action
+        {/* Call to Action */}
+        <section className="py-20 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              Ready to Experience<br />
+              <span className="text-cyan-400">Enterprise Security?</span>
             </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-              {/* Futuristic Holographic Interface */}
-              <div className="relative rounded-xl overflow-hidden border border-cyan-500/30">
-                <div className="bg-gradient-to-br from-cyan-900/20 to-blue-900/40 p-8 h-80 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full flex items-center justify-center">
-                      <Bot className="w-12 h-12 text-white" />
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">AI Holographic Interface</h3>
-                    <p className="text-cyan-400 text-sm">Real-time threat visualization with 3D holographic projections</p>
-                  </div>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent pointer-events-none"></div>
-                <div className="absolute top-4 right-4">
-                  <Badge className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/50">Live Demo</Badge>
-                </div>
-              </div>
-
-              {/* Live Dashboard Mockup */}
-              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl border border-purple-500/30 overflow-hidden">
-                {/* Dashboard Header */}
-                <div className="bg-gray-800/90 border-b border-gray-700 p-4 flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
-                      <Shield className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="text-white font-semibold">CyberSecure AI Dashboard</h3>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-green-400 text-sm">Live</span>
-                  </div>
-                </div>
-
-                {/* Dashboard Content */}
-                <div className="p-6 space-y-6">
-                  {/* Top Metrics */}
-                  <div className="grid grid-cols-4 gap-4">
-                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                      <div className="text-red-400 text-xs font-medium">Critical Threats</div>
-                      <div className="text-white text-xl font-bold">4</div>
-                    </div>
-                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                      <div className="text-orange-400 text-xs font-medium">Active Incidents</div>
-                      <div className="text-white text-xl font-bold">12</div>
-                    </div>
-                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                      <div className="text-cyan-400 text-xs font-medium">Response Time</div>
-                      <div className="text-white text-xl font-bold">4.2m</div>
-                    </div>
-                    <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700">
-                      <div className="text-green-400 text-xs font-medium">Systems Protected</div>
-                      <div className="text-white text-xl font-bold">12.8K</div>
-                    </div>
-                  </div>
-
-                  {/* Threat Map Visualization */}
-                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-white font-medium">Global Threat Map</h4>
-                      <Badge className="bg-red-500/20 text-red-400 text-xs">4 Active</Badge>
-                    </div>
-                    <div className="h-32 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-lg flex items-center justify-center border border-blue-500/20">
-                      <div className="text-center">
-                        <Network className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-                        <div className="text-blue-400 text-sm">Interactive Threat Visualization</div>
-                        <div className="text-gray-400 text-xs">7 Countries • 15 Attack Vectors</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Recent Incidents */}
-                  <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700">
-                    <h4 className="text-white font-medium mb-3">Recent Incidents</h4>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between p-2 bg-red-900/20 rounded border-l-2 border-red-500">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                          <span className="text-white text-sm">Data Exfiltration Attempt</span>
-                        </div>
-                        <span className="text-gray-400 text-xs">2m ago</span>
-                      </div>
-                      <div className="flex items-center justify-between p-2 bg-orange-900/20 rounded border-l-2 border-orange-500">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          <span className="text-white text-sm">Suspicious Login Activity</span>
-                        </div>
-                        <span className="text-gray-400 text-xs">5m ago</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Demo Videos Section */}
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Platform Demo Videos
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={platformDemoImg} 
-                    alt="Platform Demo"
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
-                    <div className="w-16 h-16 bg-cyan-600 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-white">Complete Platform Overview</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Comprehensive walkthrough of all CyberSecure AI features
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-cyan-600 hover:bg-cyan-700">Watch Demo</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={aiThreatDemo} 
-                    alt="AI Threat Detection Demo"
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
-                    <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-white">AI Threat Detection</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    See how our AI identifies and responds to threats in real-time
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700">Watch Demo</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={incidentResponseDemo} 
-                    alt="Incident Response Demo"
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
-                    <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-white">Automated Incident Response</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Discover automated containment and remediation workflows
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-green-600 hover:bg-green-700">Watch Demo</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={complianceDemoImg} 
-                    alt="Compliance Dashboard Demo"
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
-                    <div className="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-white">Compliance Monitoring</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Explore FERPA, FISMA compliance automation features
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-orange-600 hover:bg-orange-700">Watch Demo</Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/50 border-surface-light hover:border-cyan-500/50 transition-all duration-300 group">
-                <div className="relative">
-                  <img 
-                    src={networkSecurityDemo} 
-                    alt="Network Security Demo"
-                    className="w-full h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-t-lg">
-                    <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-                      <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="text-white">Network Infrastructure</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Zero-trust architecture and firewall management
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">Watch Demo</Button>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* Technical Architecture Overview */}
-          <section className="bg-gradient-to-r from-surface/30 to-surface/50 rounded-xl p-8 border border-surface-light">
-            <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
-              <Settings className="w-8 h-8 mr-3 text-cyan-400" />
-              Technical Architecture
-            </h2>
+            <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+              Join hundreds of educational institutions and government agencies 
+              who trust our platform for complete cybersecurity protection.
+            </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold text-cyan-400 mb-4">AI-First Security</h3>
-                <ul className="space-y-2 text-gray-300">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Data-driven AI automation as primary frontline defense</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Predictive and adaptive security vs reactive systems</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Multiple AI models for detection, response, and analysis</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Real-time pattern recognition and behavioral analysis</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold text-cyan-400 mb-4">Zero-Trust Implementation</h3>
-                <ul className="space-y-2 text-gray-300">
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Continuous session monitoring and revalidation</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Micro-segmentation for lateral movement defense</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Identity-centric security controls</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <CheckCircle className="w-4 h-4 text-green-400 mt-1 flex-shrink-0" />
-                    <span>Integration with existing identity systems</span>
-                  </li>
-                </ul>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/demo">
+                <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 text-lg">
+                  Schedule Platform Demo
+                </Button>
+              </Link>
+              <Link href="/trials">
+                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-10 py-4 text-lg">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 w-6 h-6" />
+                </Button>
+              </Link>
             </div>
-
-            <div className="mt-8 p-6 bg-surface/30 rounded-lg border border-cyan-500/20">
-              <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
-                <AlertTriangle className="w-5 h-5 mr-2 text-orange-400" />
-                Addressing Critical Market Challenges
-              </h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
-                <div>
-                  <p className="text-gray-300 mb-2">
-                    <span className="font-semibold text-orange-400">Threat Landscape:</span> 72% of K-12 districts experienced security incidents in 2024, with education remaining the #1 target globally (2,300+ attacks per week).
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-300">
-                    <span className="font-semibold text-orange-400">Resource Constraints:</span> $3.7B in funding requests for only $200M available, with 3.5M unfilled cybersecurity positions projected by 2025.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="mt-16 text-center">
-            <div className="bg-gradient-to-r from-cyan-900/20 to-blue-900/20 rounded-xl p-8 border border-cyan-500/20">
-              <h2 className="text-3xl font-bold text-white mb-4">
-                Ready to Transform Your Cybersecurity?
-              </h2>
-              <p className="text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
-                Join educational institutions and government agencies already protecting their critical infrastructure with CyberSecure AI.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/pricing">
-                  <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600" data-testid="button-view-pricing">
-                    View Pricing Plans
-                  </Button>
-                </Link>
-                <Link href="/contact">
-                  <Button variant="outline" size="lg" className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10" data-testid="button-contact-sales">
-                    Contact Sales
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </section>
-        </main>
+          </div>
+        </section>
       </div>
     </MarketingLayout>
   );

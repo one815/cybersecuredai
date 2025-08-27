@@ -1,275 +1,276 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MarketingLayout } from "@/components/MarketingLayout";
-import { Separator } from "@/components/ui/separator";
 import { 
   Shield, 
   Settings, 
   Users, 
-  Server, 
-  Lock, 
-  AlertTriangle, 
-  Target, 
-  Search, 
-  Eye,
   CheckCircle,
-  Phone,
-  Mail,
   ArrowRight,
-  Building2,
-  Globe,
-  Network
+  Star,
+  ExternalLink,
+  Clock,
+  Award,
+  Target,
+  Eye,
+  Phone
 } from "lucide-react";
+import {
+  CustomShieldIcon,
+  CustomBrainIcon,
+  CustomTargetIcon,
+  CustomEyeIcon,
+  CustomHeadphonesIcon,
+  CustomSettingsIcon
+} from "@/components/CustomIcons";
+import { Link } from "wouter";
+
+// Professional services images
+import managedServicesImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
+import professionalImg from "@assets/generated_images/Client_Success_Story_e83fb121.png";
+import supportImg from "@assets/generated_images/Success_Kit_Collection_aad5a657.png";
 
 export default function Services() {
-  const [selectedCategory, setSelectedCategory] = useState("professional");
-
-  const professionalServices = [
-    {
-      category: "Assessment and Planning",
-      icon: <Search className="h-6 w-6" />,
-      services: [
-        {
-          name: "Security Assessment",
-          description: "Comprehensive evaluation of your current security posture",
-          features: ["Risk analysis", "Vulnerability scanning", "Compliance gap analysis"],
-          price: "$8,000 - $25,000"
-        },
-        {
-          name: "IT Infrastructure Assessment", 
-          description: "Complete analysis of your technology infrastructure",
-          features: ["Network topology review", "Performance analysis", "Scalability planning"],
-          price: "Contact for pricing"
-        },
-        {
-          name: "Compliance Readiness Assessment",
-          description: "Prepare for regulatory compliance requirements",
-          features: ["FERPA compliance", "FISMA readiness", "CIPA assessment"],
-          price: "$5,000 - $15,000"
-        }
-      ]
-    },
-    {
-      category: "Implementation Services",
-      icon: <Settings className="h-6 w-6" />,
-      services: [
-        {
-          name: "Hardware Installation",
-          description: "Professional installation of security hardware",
-          features: ["On-site installation", "Configuration", "Testing & validation"],
-          price: "$2,000 - $8,000"
-        },
-        {
-          name: "Software Deployment",
-          description: "Expert deployment of security software solutions",
-          features: ["Custom configuration", "Integration setup", "User training"],
-          price: "$3,000 - $12,000"
-        },
-        {
-          name: "System Integration",
-          description: "Seamless integration with existing systems",
-          features: ["API integration", "Data migration", "Legacy system support"],
-          price: "$5,000 - $20,000"
-        }
-      ]
-    },
-    {
-      category: "Ongoing Services",
-      icon: <Users className="h-6 w-6" />,
-      services: [
-        {
-          name: "Security Training",
-          description: "Comprehensive security awareness training programs",
-          features: ["Interactive modules", "Phishing simulations", "Progress tracking"],
-          price: "$1,500 - $5,000/month"
-        },
-        {
-          name: "Regular Security Reviews",
-          description: "Scheduled security assessments and updates",
-          features: ["Monthly reviews", "Threat landscape updates", "Recommendations"],
-          price: "$2,000 - $8,000/month"
-        },
-        {
-          name: "Incident Response Support",
-          description: "24/7 incident response and support services",
-          features: ["Emergency response", "Forensic analysis", "Recovery planning"],
-          price: "$5,000 - $15,000/month"
-        }
-      ]
-    }
-  ];
+  const [selectedCategory, setSelectedCategory] = useState("managed");
 
   const managedServices = [
     {
-      tier: "Basic IT Support",
-      price: "$2,000 - $4,000/month",
-      description: "Essential IT support for small organizations",
+      title: "24/7 Managed SOC",
+      description: "Expert-staffed Security Operations Center with AI assistance",
+      icon: <CustomEyeIcon className="w-8 h-8 text-red-400" size={32} />,
       features: [
-        "8x5 help desk support",
-        "Basic monitoring",
-        "Patch management", 
-        "Email support",
-        "Remote assistance"
+        "24/7 threat monitoring and response",
+        "Expert security analysts", 
+        "AI-assisted threat hunting",
+        "8-minute mean response time",
+        "Incident escalation management"
       ],
-      icon: <Phone className="h-8 w-8" />
+      metrics: "8min MTTR",
+      price: "Starting at $5,000/month"
     },
     {
-      tier: "Advanced IT Support", 
-      price: "$5,000 - $9,000/month",
-      description: "Comprehensive support for growing organizations",
+      title: "Managed Compliance",
+      description: "Automated regulatory compliance monitoring and reporting",
+      icon: <CustomShieldIcon className="w-8 h-8 text-green-400" size={32} />,
       features: [
-        "24x7 help desk support",
-        "Proactive monitoring",
-        "Security monitoring",
-        "On-site support",
-        "Priority response"
+        "FERPA/FISMA/CIPA automation",
+        "Continuous compliance monitoring",
+        "Automated audit reporting",
+        "Policy enforcement",
+        "Risk assessment dashboards"
       ],
-      icon: <Shield className="h-8 w-8" />
+      metrics: "85% Less Admin",
+      price: "Starting at $3,000/month"
     },
     {
-      tier: "Premium IT Support",
-      price: "$10,000 - $20,000/month", 
-      description: "Enterprise-grade support with dedicated resources",
+      title: "Managed Threat Intelligence",
+      description: "Curated threat intelligence with actionable insights",
+      icon: <CustomBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
       features: [
-        "Dedicated account manager",
-        "Advanced threat detection",
-        "Compliance monitoring",
-        "Strategic planning",
-        "Custom integrations"
+        "Real-time threat feeds",
+        "Custom threat analysis",
+        "Industry-specific intelligence",
+        "Threat landscape reporting",
+        "Predictive threat modeling"
       ],
-      icon: <Building2 className="h-8 w-8" />
+      metrics: "50+ Sources",
+      price: "Starting at $2,500/month"
     }
   ];
 
-  const securityAddOns = [
+  const professionalServices = [
     {
-      name: "Secure Server Room Kit",
-      price: "$15,000 - $30,000",
-      description: "Complete physical security solution for server rooms",
-      features: ["Access control systems", "Environmental monitoring", "Surveillance cameras", "Fire suppression"],
-      icon: <Server className="h-6 w-6" />
+      category: "Strategic Consulting",
+      icon: <CustomTargetIcon className="w-6 h-6 text-cyan-400" size={24} />,
+      services: [
+        {
+          name: "Cybersecurity Strategy Development",
+          description: "Comprehensive security strategy aligned with your organizational goals",
+          deliverables: ["Security roadmap", "Risk assessment", "Budget planning", "Executive briefings"],
+          timeline: "4-6 weeks",
+          price: "$25,000 - $75,000"
+        },
+        {
+          name: "Zero Trust Architecture Design",
+          description: "Complete zero trust implementation planning and design",
+          deliverables: ["Architecture blueprint", "Implementation plan", "Technology recommendations"],
+          timeline: "6-8 weeks", 
+          price: "$35,000 - $85,000"
+        }
+      ]
     },
     {
-      name: "Multi-Factor Authentication Hardware",
-      price: "$5,000 - $15,000", 
-      description: "Hardware-based MFA solutions for enhanced security",
-      features: ["Hardware tokens", "Biometric scanners", "Smart cards", "Integration support"],
-      icon: <Lock className="h-6 w-6" />
-    },
-    {
-      name: "Network Segmentation Bundle",
-      price: "$10,000 - $25,000",
-      description: "Advanced network segmentation for enhanced security",
-      features: ["VLAN configuration", "Firewall rules", "Access controls", "Monitoring"],
-      icon: <Network className="h-6 w-6" />
-    },
-    {
-      name: "Disaster Recovery Infrastructure", 
-      price: "$20,000 - $40,000",
-      description: "Comprehensive disaster recovery and business continuity",
-      features: ["Backup systems", "Failover solutions", "Recovery testing", "Documentation"],
-      icon: <AlertTriangle className="h-6 w-6" />
-    },
-    {
-      name: "Penetration Testing",
-      price: "$15,000 - $30,000",
-      description: "Comprehensive security testing and vulnerability assessment",
-      features: ["Network testing", "Application testing", "Social engineering", "Detailed reporting"],
-      icon: <Target className="h-6 w-6" />
-    },
-    {
-      name: "Advanced Threat Intelligence Integration",
-      price: "$10,000 - $20,000",
-      description: "Integration of advanced threat intelligence feeds",
-      features: ["MISP integration", "Custom feeds", "Real-time alerts", "Threat hunting"],
-      icon: <Eye className="h-6 w-6" />
-    },
-    {
-      name: "Smart City Security Suite",
-      price: "$25,000 - $45,000",
-      description: "Comprehensive security solution for smart city initiatives",
-      features: ["IoT security", "Infrastructure monitoring", "Emergency response", "Citizen services"],
-      icon: <Globe className="h-6 w-6" />
+      category: "Implementation & Integration",
+      icon: <CustomSettingsIcon className="w-6 h-6 text-green-400" size={24} />,
+      services: [
+        {
+          name: "Platform Implementation", 
+          description: "Expert deployment and configuration of CyberSecure AI platform",
+          deliverables: ["Platform setup", "Custom configuration", "Integration testing", "User training"],
+          timeline: "2-4 weeks",
+          price: "$15,000 - $45,000"
+        },
+        {
+          name: "Legacy System Integration",
+          description: "Seamless integration with existing security infrastructure",
+          deliverables: ["Integration architecture", "Data migration", "API development", "Testing"],
+          timeline: "4-8 weeks",
+          price: "$20,000 - $60,000"
+        }
+      ]
     }
   ];
-
 
   return (
     <MarketingLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-        {/* Hero Section */}
-        <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Professional <span className="text-cyan-400">Cybersecurity Services</span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Comprehensive cybersecurity solutions tailored for educational institutions, government agencies, and enterprises. From assessment to implementation and ongoing support.
-            </p>
-            <div className="flex justify-center space-x-4">
-              <Button size="lg" className="bg-cyan-500 hover:bg-cyan-600 text-white">
-                Get Started <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button size="lg" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10">
-                Schedule Consultation
-              </Button>
+      <div className="min-h-screen bg-slate-900">
+        
+        {/* Bold Hero - Huntress Style */}
+        <section className="relative py-24 px-6 bg-gradient-to-br from-slate-900 via-orange-900/20 to-slate-900">
+          <div className="absolute inset-0 bg-grid-white/[0.02]"></div>
+          <div className="container mx-auto max-w-7xl relative z-10">
+            <div className="text-center mb-20">
+              <Badge className="mb-8 bg-orange-500/20 text-orange-300 border-orange-500/30 text-lg px-6 py-3">
+                Expert Security Services
+              </Badge>
+              <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 leading-tight">
+                Threats Hunted.<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
+                  Expertise Delivered.
+                </span>
+              </h1>
+              <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
+                Expert-led cybersecurity services backed by our industry-proven team and 
+                24/7 AI-assisted SOC for continuous protection.
+              </p>
+              
+              <div className="flex items-center justify-center space-x-2 mb-8">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                ))}
+                <span className="ml-4 text-white font-semibold text-lg">4.9/5 customer satisfaction rating</span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <Link href="/contact">
+                  <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-4 text-lg font-semibold">
+                    Consult with Experts
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Button>
+                </Link>
+                <Link href="/pricing">
+                  <Button size="lg" variant="outline" className="border-orange-500 text-orange-400 hover:bg-orange-500/10 px-10 py-4 text-lg font-semibold">
+                    View Service Pricing
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Service Categories */}
-        <section className="py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-7xl">
             <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-slate-800/50">
-                <TabsTrigger value="professional" className="data-[state=active]:bg-cyan-500">
-                  Professional Services
-                </TabsTrigger>
-                <TabsTrigger value="managed" className="data-[state=active]:bg-cyan-500">
-                  Managed Services
-                </TabsTrigger>
-              </TabsList>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                  Expert Services<br />
+                  <span className="text-orange-400">Tailored for You</span>
+                </h2>
+                <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 bg-slate-700">
+                  <TabsTrigger value="managed" className="data-[state=active]:bg-orange-600 text-lg py-4">
+                    <CustomEyeIcon className="w-6 h-6 mr-2" size={24} />
+                    Managed Services
+                  </TabsTrigger>
+                  <TabsTrigger value="professional" className="data-[state=active]:bg-orange-600 text-lg py-4">
+                    <CustomHeadphonesIcon className="w-6 h-6 mr-2" size={24} />
+                    Professional Services
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-              {/* Professional Services */}
-              <TabsContent value="professional">
-                <div className="mb-8">
-                  <h2 className="text-3xl font-bold text-white mb-4">Professional Services</h2>
-                  <p className="text-gray-300 mb-8">Expert consulting and implementation services to establish and enhance your cybersecurity posture.</p>
-                </div>
-                
-                <div className="space-y-8">
-                  {professionalServices.map((category) => (
-                    <div key={category.category}>
-                      <div className="flex items-center mb-6">
-                        <div className="p-2 bg-cyan-500/20 rounded-lg mr-4">
-                          {category.icon}
+              <TabsContent value="managed" className="space-y-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {managedServices.map((service, index) => (
+                    <Card key={index} className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group">
+                      <CardHeader className="p-8 text-center">
+                        <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500/30 transition-colors">
+                          {service.icon}
                         </div>
-                        <h3 className="text-2xl font-semibold text-white">{category.category}</h3>
+                        <div className="flex justify-center mb-4">
+                          <Badge className="bg-white/10 text-orange-300 font-bold">
+                            {service.metrics}
+                          </Badge>
+                        </div>
+                        <CardTitle className="text-2xl text-white mb-4">{service.title}</CardTitle>
+                        <p className="text-gray-300 mb-6">{service.description}</p>
+                      </CardHeader>
+                      <CardContent className="p-8 pt-0">
+                        <ul className="space-y-3 mb-6">
+                          {service.features.map((feature, fIndex) => (
+                            <li key={fIndex} className="flex items-center space-x-2">
+                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              <span className="text-gray-300 text-sm">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="text-center mb-6">
+                          <div className="text-orange-400 font-bold text-lg">{service.price}</div>
+                        </div>
+                        <Button className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                          Learn More
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="professional" className="space-y-12">
+                <div className="space-y-16">
+                  {professionalServices.map((category, index) => (
+                    <div key={index}>
+                      <div className="flex items-center space-x-4 mb-8">
+                        {category.icon}
+                        <h3 className="text-3xl font-bold text-white">{category.category}</h3>
                       </div>
-                      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                        {category.services.map((service) => (
-                          <Card key={service.name} className="bg-slate-800/50 border-cyan-400/30 hover:border-cyan-400/60 transition-colors">
-                            <CardHeader>
-                              <CardTitle className="text-white">{service.name}</CardTitle>
-                              <CardDescription className="text-gray-300">{service.description}</CardDescription>
-                              <Badge variant="outline" className="border-green-400 text-green-400 w-fit">
-                                {service.price}
-                              </Badge>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {category.services.map((service, sIndex) => (
+                          <Card key={sIndex} className="bg-slate-700/60 border border-cyan-500/30">
+                            <CardHeader className="p-8">
+                              <CardTitle className="text-2xl text-white mb-4">{service.name}</CardTitle>
+                              <p className="text-gray-300 mb-6">{service.description}</p>
+                              
+                              <div className="grid grid-cols-2 gap-4 mb-6">
+                                <div>
+                                  <div className="text-cyan-400 font-semibold mb-2">Timeline</div>
+                                  <div className="text-gray-300">{service.timeline}</div>
+                                </div>
+                                <div>
+                                  <div className="text-cyan-400 font-semibold mb-2">Investment</div>
+                                  <div className="text-gray-300">{service.price}</div>
+                                </div>
+                              </div>
                             </CardHeader>
-                            <CardContent>
-                              <ul className="space-y-2">
-                                {service.features.map((feature) => (
-                                  <li key={feature} className="flex items-center text-gray-300">
-                                    <CheckCircle className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
-                                    {feature}
-                                  </li>
-                                ))}
-                              </ul>
-                              <Button className="w-full mt-4 bg-cyan-500 hover:bg-cyan-600">
-                                Learn More
+                            <CardContent className="p-8 pt-0">
+                              <div className="mb-6">
+                                <h4 className="text-white font-semibold mb-3">Deliverables</h4>
+                                <ul className="space-y-2">
+                                  {service.deliverables.map((deliverable, dIndex) => (
+                                    <li key={dIndex} className="flex items-center space-x-2">
+                                      <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                      <span className="text-gray-300 text-sm">{deliverable}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <Button variant="outline" className="w-full border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
+                                Get Quote
+                                <ArrowRight className="ml-2 w-4 h-4" />
                               </Button>
                             </CardContent>
                           </Card>
@@ -278,102 +279,237 @@ export default function Services() {
                     </div>
                   ))}
                 </div>
-
-                {/* Security Add-on Services */}
-                <div className="mt-16">
-                  <h3 className="text-2xl font-bold text-white mb-6">Security Add-on Services</h3>
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {securityAddOns.map((addon) => (
-                      <Card key={addon.name} className="bg-slate-800/50 border-cyan-400/30 hover:border-cyan-400/60 transition-colors">
-                        <CardHeader>
-                          <div className="flex items-center mb-2">
-                            <div className="p-2 bg-cyan-500/20 rounded-lg mr-3">
-                              {addon.icon}
-                            </div>
-                            <CardTitle className="text-white">{addon.name}</CardTitle>
-                          </div>
-                          <CardDescription className="text-gray-300">{addon.description}</CardDescription>
-                          <Badge variant="outline" className="border-green-400 text-green-400 w-fit">
-                            {addon.price}
-                          </Badge>
-                        </CardHeader>
-                        <CardContent>
-                          <ul className="space-y-2">
-                            {addon.features.map((feature) => (
-                              <li key={feature} className="flex items-center text-gray-300">
-                                <CheckCircle className="h-4 w-4 text-green-400 mr-2 flex-shrink-0" />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                          <Button className="w-full mt-4 bg-cyan-500 hover:bg-cyan-600">
-                            Request Quote
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
               </TabsContent>
-
-              {/* Managed Services */}
-              <TabsContent value="managed">
-                <div className="mb-8">
-                  <h2 className="text-3xl font-bold text-white mb-4">IT Support & Managed Services</h2>
-                  <p className="text-gray-300 mb-8">Comprehensive managed IT and security services with 24/7 monitoring and support.</p>
-                </div>
-                
-                <div className="grid gap-8 lg:grid-cols-3">
-                  {managedServices.map((tier) => (
-                    <Card key={tier.tier} className="bg-slate-800/50 border-cyan-400/30 hover:border-cyan-400/60 transition-colors">
-                      <CardHeader className="text-center">
-                        <div className="mx-auto p-4 bg-cyan-500/20 rounded-full mb-4 w-fit">
-                          {tier.icon}
-                        </div>
-                        <CardTitle className="text-white text-xl">{tier.tier}</CardTitle>
-                        <CardDescription className="text-gray-300">{tier.description}</CardDescription>
-                        <Badge variant="outline" className="border-green-400 text-green-400 w-fit mx-auto">
-                          {tier.price}
-                        </Badge>
-                      </CardHeader>
-                      <CardContent>
-                        <ul className="space-y-3">
-                          {tier.features.map((feature) => (
-                            <li key={feature} className="flex items-center text-gray-300">
-                              <CheckCircle className="h-4 w-4 text-green-400 mr-3 flex-shrink-0" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                        <Button className="w-full mt-6 bg-cyan-500 hover:bg-cyan-600">
-                          Choose Plan
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
             </Tabs>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-900/50">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-white mb-6">Ready to Enhance Your Cybersecurity?</h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Contact our experts to discuss your specific needs and find the right solution for your organization.
+        {/* Service Guarantees */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Service Excellence<br />
+                <span className="text-orange-400">Guaranteed</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <Card className="bg-slate-800/60 border border-green-500/30 text-center">
+                <CardContent className="p-8">
+                  <Clock className="w-12 h-12 text-green-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-green-400 mb-2">99.9%</div>
+                  <div className="text-white font-semibold mb-2">Uptime SLA</div>
+                  <div className="text-gray-400 text-sm">Enterprise-grade reliability</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-800/60 border border-cyan-500/30 text-center">
+                <CardContent className="p-8">
+                  <CustomHeadphonesIcon className="w-12 h-12 text-cyan-400 mx-auto mb-4" size={48} />
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">24/7</div>
+                  <div className="text-white font-semibold mb-2">Expert Support</div>
+                  <div className="text-gray-400 text-sm">Always available assistance</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-800/60 border border-purple-500/30 text-center">
+                <CardContent className="p-8">
+                  <Award className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                  <div className="text-3xl font-bold text-purple-400 mb-2">8min</div>
+                  <div className="text-white font-semibold mb-2">Response Time</div>
+                  <div className="text-gray-400 text-sm">Industry-leading MTTR</div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-slate-800/60 border border-orange-500/30 text-center">
+                <CardContent className="p-8">
+                  <Star className="w-12 h-12 text-orange-400 mx-auto mb-4 fill-orange-400" />
+                  <div className="text-3xl font-bold text-orange-400 mb-2">4.9/5</div>
+                  <div className="text-white font-semibold mb-2">Satisfaction</div>
+                  <div className="text-gray-400 text-sm">Customer rating</div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Customer Success Story */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-6xl">
+            <Card className="bg-slate-700/60 border border-cyan-500/30 overflow-hidden">
+              <CardContent className="p-12">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <div className="flex items-center space-x-1 mb-6">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                      ))}
+                    </div>
+                    <blockquote className="text-2xl font-bold text-white mb-8 leading-relaxed italic">
+                      "With the CyberSecure AI SOC, we have some of the best minds in cybersecurity at our disposal. 
+                      They help us validate incidents, handle them and also level up our own knowledge."
+                    </blockquote>
+                    <div className="text-gray-300">
+                      <div className="font-semibold text-lg">Dr. Anthony Rodriguez</div>
+                      <div className="text-cyan-400">Chief Information Security Officer</div>
+                      <div className="text-gray-400">Major University System</div>
+                    </div>
+                  </div>
+                  <div>
+                    <img 
+                      src={professionalImg}
+                      alt="Customer Success"
+                      className="w-full rounded-xl shadow-xl border border-cyan-500/20"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* Support Tiers */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                Support Excellence
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                World-Class<br />
+                <span className="text-purple-400">Customer Success</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Card className="bg-slate-800/60 border border-blue-500/30">
+                <CardHeader className="p-8 text-center">
+                  <Badge className="mb-4 bg-blue-500/20 text-blue-300">Standard</Badge>
+                  <CardTitle className="text-2xl text-white mb-4">Business Support</CardTitle>
+                  <div className="text-4xl font-bold text-blue-400 mb-2">Included</div>
+                  <p className="text-gray-300">with all plans</p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <ul className="space-y-3 mb-8">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Email support</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Knowledge base access</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Community forums</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Business hours response</span>
+                    </li>
+                  </ul>
+                  <Button variant="outline" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                    Get Started
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/60 border border-purple-500/30 relative">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-purple-600 text-white">Most Popular</Badge>
+                </div>
+                <CardHeader className="p-8 text-center">
+                  <Badge className="mb-4 bg-purple-500/20 text-purple-300">Premium</Badge>
+                  <CardTitle className="text-2xl text-white mb-4">Enterprise Support</CardTitle>
+                  <div className="text-4xl font-bold text-purple-400 mb-2">$2,500</div>
+                  <p className="text-gray-300">per month</p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <ul className="space-y-3 mb-8">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">24/7 priority support</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Dedicated success manager</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Phone & video support</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Custom training sessions</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Contact Sales
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/60 border border-yellow-500/30">
+                <CardHeader className="p-8 text-center">
+                  <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Elite</Badge>
+                  <CardTitle className="text-2xl text-white mb-4">White Glove Support</CardTitle>
+                  <div className="text-4xl font-bold text-yellow-400 mb-2">Custom</div>
+                  <p className="text-gray-300">pricing</p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <ul className="space-y-3 mb-8">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Dedicated technical team</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">On-site consulting</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Custom integrations</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300">Executive briefings</span>
+                    </li>
+                  </ul>
+                  <Button variant="outline" className="w-full border-yellow-500 text-yellow-400 hover:bg-yellow-500/10">
+                    Contact Enterprise
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-20 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto max-w-4xl text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+              Ready to Get<br />
+              <span className="text-orange-400">Expert Protection?</span>
+            </h2>
+            <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+              Talk to our cybersecurity experts and discover how our services 
+              can strengthen your organization's security posture.
             </p>
-            <div className="flex justify-center space-x-4">
-              <Button size="lg" className="bg-cyan-500 hover:bg-cyan-600 text-white">
-                <Phone className="mr-2 h-5 w-5" />
-                Schedule Consultation
-              </Button>
-              <Button size="lg" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10">
-                <Mail className="mr-2 h-5 w-5" />
-                Request Quote
-              </Button>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Link href="/contact">
+                <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-4 text-lg">
+                  Schedule Consultation
+                  <Phone className="ml-2 w-6 h-6" />
+                </Button>
+              </Link>
+              <Link href="/pricing">
+                <Button size="lg" variant="outline" className="border-orange-500 text-orange-400 hover:bg-orange-500/10 px-10 py-4 text-lg">
+                  View All Pricing
+                  <ArrowRight className="ml-2 w-6 h-6" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
