@@ -15,7 +15,8 @@ import {
   Globe,
   Lock,
   Brain,
-  ExternalLink
+  ExternalLink,
+  Activity
 } from "lucide-react";
 import {
   CustomShieldIcon,
