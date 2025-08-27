@@ -445,7 +445,7 @@ export default function Services() {
                         <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
                         <CardTitle className="text-xl text-white mb-3">Essential Protection</CardTitle>
                         <div className="text-2xl font-bold text-blue-400 mb-2">Essential Protection</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
                         <div className="mt-2">
                           <Badge className="bg-blue-500/20 text-blue-300">250 Users Max</Badge>
                         </div>
@@ -488,7 +488,7 @@ export default function Services() {
                         <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                         <CardTitle className="text-xl text-white mb-3">Advanced Security</CardTitle>
                         <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
                         <div className="mt-2">
                           <Badge className="bg-purple-500/20 text-purple-300">1K Users Max</Badge>
                         </div>
@@ -528,7 +528,7 @@ export default function Services() {
                         <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
                         <CardTitle className="text-xl text-white mb-3">Enterprise Shield</CardTitle>
                         <div className="text-2xl font-bold text-yellow-400 mb-2">Enterprise Shield</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
                         <div className="mt-2">
                           <Badge className="bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
                         </div>
