@@ -41,7 +41,6 @@ interface PolicyEnforcementPoint {
 export function ZeroTrustMonitor() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedTimeframe, setSelectedTimeframe] = useState("1h");
-  const [animationFrame, setAnimationFrame] = useState(0);
 
   // Fetch Zero Trust monitoring data
   const { data: zeroTrustData, isLoading } = useQuery<{
