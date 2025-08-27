@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { MarketingLayout } from "@/components/MarketingLayout";
 import { 
   Search,
   Video,
@@ -287,7 +288,8 @@ export default function Webinars() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <MarketingLayout>
+      <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-gray-900 via-blue-900/20 to-cyan-900/20 py-16">
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
@@ -444,5 +446,6 @@ export default function Webinars() {
         </div>
       </div>
     </div>
+    </MarketingLayout>
   );
 }
