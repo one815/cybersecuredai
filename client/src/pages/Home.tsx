@@ -41,6 +41,21 @@ import { ThreatMap } from "@/components/ThreatMap";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 
+// Add custom CSS for scanning animations
+const scanningStyles = `
+  @keyframes scan-vertical {
+    0% { top: 15%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 85%; opacity: 0; }
+  }
+  
+  @keyframes scan-horizontal {
+    0% { left: 25%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { left: 75%; opacity: 0; }
+  }
+`;
+
 // Import authoritative images
 import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.png";
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
@@ -97,6 +112,7 @@ export default function Home() {
 
   return (
     <MarketingLayout>
+      <style>{scanningStyles}</style>
       <div className="min-h-screen bg-slate-900">
         
         {/* Leadership Recognition Hero */}
@@ -261,40 +277,125 @@ export default function Home() {
 
               {/* Scanner Visual */}
               <div className="relative">
-                <div className={`relative ${isScanning ? 'animate-pulse' : ''}`}>
+                <div className="relative overflow-hidden rounded-xl">
                   <img 
                     src={scanningImg}
                     alt="AI Security Scanner in Action"
                     className="w-full rounded-xl shadow-2xl border border-cyan-500/30"
                   />
                   
-                  {/* Scanning Overlay Effect */}
-                  {isScanning && (
-                    <div className="absolute inset-0 bg-cyan-500/10 rounded-xl flex items-center justify-center">
-                      <div className="text-white text-2xl font-bold animate-pulse">
-                        ANALYZING...
-                      </div>
+                  {/* Face Detection Grid Overlay - Always Visible */}
+                  <div className="absolute inset-0 rounded-xl">
+                    {/* Main face targeting box */}
+                    <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] border-2 border-cyan-400/60 rounded-lg">
+                      {/* Face detection points */}
+                      <div className="absolute top-[20%] left-[35%] w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <div className="absolute top-[20%] right-[35%] w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <div className="absolute top-[50%] left-[50%] w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <div className="absolute bottom-[30%] left-[50%] w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      
+                      {/* Corner markers */}
+                      <div className="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-cyan-400"></div>
+                      <div className="absolute -top-1 -right-1 w-4 h-4 border-r-2 border-t-2 border-cyan-400"></div>
+                      <div className="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-cyan-400"></div>
+                      <div className="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-cyan-400"></div>
                     </div>
-                  )}
+
+                    {/* Additional facial feature detection boxes */}
+                    {/* Eyes */}
+                    <div className="absolute top-[28%] left-[32%] w-[8%] h-[8%] border border-green-400/80 rounded-sm">
+                      <div className="absolute inset-0 bg-green-400/20 rounded-sm"></div>
+                    </div>
+                    <div className="absolute top-[28%] right-[32%] w-[8%] h-[8%] border border-green-400/80 rounded-sm">
+                      <div className="absolute inset-0 bg-green-400/20 rounded-sm"></div>
+                    </div>
+                    
+                    {/* Nose */}
+                    <div className="absolute top-[45%] left-[47%] w-[6%] h-[10%] border border-yellow-400/80 rounded-sm">
+                      <div className="absolute inset-0 bg-yellow-400/20 rounded-sm"></div>
+                    </div>
+                    
+                    {/* Mouth */}
+                    <div className="absolute bottom-[25%] left-[42%] w-[16%] h-[8%] border border-purple-400/80 rounded-sm">
+                      <div className="absolute inset-0 bg-purple-400/20 rounded-sm"></div>
+                    </div>
+                  </div>
                   
-                  {/* Corner Brackets Animation */}
-                  <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-cyan-400 animate-pulse"></div>
-                  <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-cyan-400 animate-pulse"></div>
-                  <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-cyan-400 animate-pulse"></div>
-                  <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-cyan-400 animate-pulse"></div>
+                  {/* Active Scanning Effects */}
+                  {isScanning && (
+                    <>
+                      {/* Scanning Lines Animation */}
+                      <div className="absolute inset-0 rounded-xl overflow-hidden">
+                        <div 
+                          className="absolute w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-80"
+                          style={{
+                            top: '20%',
+                            animation: 'scan-vertical 2s ease-in-out infinite'
+                          }}
+                        ></div>
+                        <div 
+                          className="absolute w-1 h-full bg-gradient-to-b from-transparent via-cyan-400 to-transparent opacity-80"
+                          style={{
+                            left: '50%',
+                            animation: 'scan-horizontal 2s ease-in-out infinite 1s'
+                          }}
+                        ></div>
+                      </div>
+
+                      {/* Pulsing Detection Grid */}
+                      <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] border-2 border-cyan-400 rounded-lg animate-pulse">
+                        <div className="absolute inset-0 bg-cyan-400/10 rounded-lg"></div>
+                      </div>
+
+                      {/* Biometric Analysis Points */}
+                      <div className="absolute top-[25%] left-[35%] w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+                      <div className="absolute top-[25%] right-[35%] w-3 h-3 bg-red-400 rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+                      <div className="absolute top-[45%] left-[50%] w-3 h-3 bg-red-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+                      <div className="absolute bottom-[25%] left-[50%] w-3 h-3 bg-red-400 rounded-full animate-ping" style={{animationDelay: '1.5s'}}></div>
+
+                      {/* Analysis Text Overlay */}
+                      <div className="absolute top-[85%] left-[50%] transform -translate-x-1/2 bg-slate-900/90 rounded-lg p-2 border border-cyan-400/50">
+                        <div className="text-cyan-400 text-sm font-bold animate-pulse">
+                          FACIAL RECOGNITION ACTIVE
+                        </div>
+                      </div>
+
+                      {/* Progress Indicator on Face */}
+                      <div className="absolute top-[10%] right-[20%] bg-slate-900/90 rounded-lg p-3 border border-cyan-400/50">
+                        <div className="text-cyan-400 text-xs font-bold mb-1">BIOMETRIC SCAN</div>
+                        <div className="w-16 bg-slate-700 rounded-full h-1">
+                          <div 
+                            className="bg-gradient-to-r from-cyan-500 to-green-500 h-1 rounded-full transition-all duration-300"
+                            style={{ width: `${scanProgress}%` }}
+                          ></div>
+                        </div>
+                        <div className="text-cyan-400 text-xs mt-1">{Math.round(scanProgress)}%</div>
+                      </div>
+                    </>
+                  )}
                 </div>
                 
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent rounded-xl pointer-events-none"></div>
-                
                 {/* Status Indicators */}
-                <div className="absolute top-6 left-6 bg-slate-900/80 rounded-lg p-3 border border-cyan-500/30">
+                <div className="absolute top-6 left-6 bg-slate-900/90 rounded-lg p-3 border border-cyan-500/30">
                   <div className="flex items-center space-x-2">
                     <div className={`w-3 h-3 rounded-full ${isScanning ? 'bg-cyan-400 animate-pulse' : 'bg-green-400'}`}></div>
                     <span className="text-white text-sm font-medium">
-                      {isScanning ? 'SCANNING' : 'READY'}
+                      {isScanning ? 'FACIAL SCAN ACTIVE' : 'READY TO SCAN'}
                     </span>
                   </div>
                 </div>
+
+                {/* Results Overlay */}
+                {scanResults && !isScanning && (
+                  <div className="absolute top-[10%] right-[20%] bg-slate-900/95 rounded-lg p-4 border border-green-500/50 max-w-xs">
+                    <div className="text-green-400 text-sm font-bold mb-2">✓ SCAN COMPLETE</div>
+                    <div className="space-y-1 text-xs text-gray-300">
+                      <div>Identity Verified: 99.7%</div>
+                      <div>Threat Level: Low</div>
+                      <div>Access: Authorized</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
