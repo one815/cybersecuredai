@@ -151,57 +151,102 @@ export default function Home() {
                 <div className="bg-slate-900 border-x border-b border-gray-700 rounded-b-lg overflow-hidden">
                   {/* Real Dashboard Implementation */}
                   <div className="p-6 space-y-6">
-                    {/* Platform Intelligence Overview */}
+                    {/* Large Threat Map Section */}
+                    <Card className="holographic-card border-red-500/30">
+                      <CardHeader className="pb-4">
+                        <CardTitle className="text-white flex items-center justify-between font-bold tracking-wide">
+                          <div className="flex items-center">
+                            <Globe className="w-6 h-6 mr-3 text-red-400" />
+                            GLOBAL THREAT INTELLIGENCE MAP
+                          </div>
+                          <div className="flex items-center space-x-4">
+                            <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded">REAL-TIME</div>
+                            <div className="text-xs text-gray-400">Live Updates Every 30s</div>
+                          </div>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="mb-6">
+                          <ThreatMap className="h-80 rounded-lg border border-red-500/30" />
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                          <div className="text-center p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                            <div className="text-2xl font-bold text-red-400">4</div>
+                            <div className="text-sm text-gray-300">Critical Threats</div>
+                            <div className="text-xs text-gray-400">Immediate Action Required</div>
+                          </div>
+                          <div className="text-center p-3 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                            <div className="text-2xl font-bold text-orange-400">7</div>
+                            <div className="text-sm text-gray-300">High Priority</div>
+                            <div className="text-xs text-gray-400">Review Within 2 Hours</div>
+                          </div>
+                          <div className="text-center p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                            <div className="text-2xl font-bold text-yellow-400">12</div>
+                            <div className="text-sm text-gray-300">Medium Risk</div>
+                            <div className="text-xs text-gray-400">Monitor Closely</div>
+                          </div>
+                          <div className="text-center p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                            <div className="text-2xl font-bold text-blue-400">23</div>
+                            <div className="text-sm text-gray-300">Low Impact</div>
+                            <div className="text-xs text-gray-400">Routine Monitoring</div>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 text-xs">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                            <span className="text-gray-300">Active Incidents: 8</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                            <span className="text-gray-300">Blocked Attacks: 847</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
+                            <span className="text-gray-300">Intelligence Sources: 15</span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* Enhanced Dashboard Metrics */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                       <Card className="holographic-card border-cyan-500/30">
                         <CardHeader className="pb-3">
                           <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
-                            <Globe className="w-5 h-5 mr-2 text-cyan-400" />
+                            <Shield className="w-5 h-5 mr-2 text-cyan-400" />
                             PLATFORM INTELLIGENCE STATUS
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <div className="grid grid-cols-2 gap-4 mb-4">
-                            <div className="text-center p-3 bg-background/30 rounded-lg">
-                              <div className="text-xl font-bold text-cyan-400">847</div>
-                              <div className="text-xs text-gray-400">Protected Assets</div>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="text-center p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+                                <div className="text-xl font-bold text-cyan-400">847</div>
+                                <div className="text-xs text-gray-400">Protected Assets</div>
+                              </div>
+                              <div className="text-center p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                                <div className="text-xl font-bold text-green-400">98%</div>
+                                <div className="text-xs text-gray-400">System Health</div>
+                              </div>
                             </div>
-                            <div className="text-center p-3 bg-background/30 rounded-lg">
-                              <div className="text-xl font-bold text-green-400">98%</div>
-                              <div className="text-xs text-gray-400">System Health</div>
+                            <div className="space-y-2">
+                              <div className="flex justify-between text-xs">
+                                <span className="text-gray-400">Analysis Confidence</span>
+                                <span className="text-cyan-400">94%</span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div className="bg-gradient-to-r from-cyan-400 to-blue-400 h-2 rounded-full" style={{width: '94%'}}></div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="text-xs text-gray-400">Analysis Confidence: 94%</div>
-                        </CardContent>
-                      </Card>
-
-                      <Card className="holographic-card border-red-500/30">
-                        <CardHeader className="pb-3">
-                          <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
-                            <AlertTriangle className="w-5 h-5 mr-2 text-red-400" />
-                            THREAT MONITORING
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="mb-4">
-                            <ThreatMap className="h-24 rounded border border-red-500/30" />
-                          </div>
-                          <div className="grid grid-cols-4 gap-2 text-center text-xs">
-                            <div>
-                              <div className="font-bold text-red-400">4</div>
-                              <div className="text-gray-400">Critical</div>
-                            </div>
-                            <div>
-                              <div className="font-bold text-orange-400">7</div>
-                              <div className="text-gray-400">High</div>
-                            </div>
-                            <div>
-                              <div className="font-bold text-yellow-400">12</div>
-                              <div className="text-gray-400">Medium</div>
-                            </div>
-                            <div>
-                              <div className="font-bold text-blue-400">23</div>
-                              <div className="text-gray-400">Low</div>
+                            <div className="text-xs space-y-1">
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-400">ML Models Active</span>
+                                <span className="text-purple-400">28</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-400">Response Time</span>
+                                <span className="text-green-400">2.1s</span>
+                              </div>
                             </div>
                           </div>
                         </CardContent>
@@ -211,53 +256,141 @@ export default function Home() {
                         <CardHeader className="pb-3">
                           <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
                             <CheckCircle className="w-5 h-5 mr-2 text-green-400" />
-                            COMPLIANCE STATUS
+                            COMPLIANCE DASHBOARD
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <div className="text-center mb-4">
-                            <div className="text-2xl font-bold text-green-400">96%</div>
-                            <div className="text-xs text-gray-400">Overall Score</div>
+                          <div className="space-y-4">
+                            <div className="text-center">
+                              <div className="text-3xl font-bold text-green-400">96%</div>
+                              <div className="text-xs text-gray-400">Overall Compliance Score</div>
+                            </div>
+                            <div className="space-y-3">
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-xs">
+                                  <span className="text-gray-400">FERPA</span>
+                                  <span className="text-green-400">98%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-green-400 h-1 rounded-full" style={{width: '98%'}}></div>
+                                </div>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-xs">
+                                  <span className="text-gray-400">FISMA</span>
+                                  <span className="text-green-400">95%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-green-400 h-1 rounded-full" style={{width: '95%'}}></div>
+                                </div>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="flex justify-between text-xs">
+                                  <span className="text-gray-400">CIPA</span>
+                                  <span className="text-yellow-400">92%</span>
+                                </div>
+                                <div className="w-full bg-gray-700 rounded-full h-1">
+                                  <div className="bg-yellow-400 h-1 rounded-full" style={{width: '92%'}}></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex justify-center space-x-1">
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            </div>
                           </div>
-                          <div className="space-y-2 text-xs">
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">FERPA</span>
-                              <span className="text-green-400">98%</span>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="holographic-card border-purple-500/30">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-white flex items-center font-bold tracking-wide text-sm">
+                            <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                            AI SECURITY ENGINE
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="text-center p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                                <div className="text-lg font-bold text-purple-400">99.7%</div>
+                                <div className="text-xs text-gray-400">Detection Rate</div>
+                              </div>
+                              <div className="text-center p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+                                <div className="text-lg font-bold text-green-400">2.1s</div>
+                                <div className="text-xs text-gray-400">Response Time</div>
+                              </div>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">FISMA</span>
-                              <span className="text-green-400">95%</span>
+                            <div className="space-y-2 text-xs">
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-400">Threats Blocked Today</span>
+                                <span className="text-green-400">847</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-400">False Positives</span>
+                                <span className="text-yellow-400">0.3%</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-gray-400">System Uptime</span>
+                                <span className="text-green-400">99.9%</span>
+                              </div>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">CIPA</span>
-                              <span className="text-yellow-400">92%</span>
+                            <div className="flex items-center space-x-2 justify-center">
+                              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                              <span className="text-xs text-purple-400">AI Engine Active</span>
                             </div>
                           </div>
                         </CardContent>
                       </Card>
                     </div>
 
-                    {/* Cambridge Analytics Preview */}
-                    <Card className="holographic-card border-purple-500/30">
+                    {/* Cambridge Analytics Enhanced Preview */}
+                    <Card className="holographic-card border-orange-500/30">
                       <CardHeader>
-                        <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide">
-                          <Brain className="w-6 h-6 mr-3 text-purple-400" />
+                        <CardTitle className="text-orange-300 flex items-center font-bold tracking-wide">
+                          <Brain className="w-6 h-6 mr-3 text-orange-400" />
                           CAMBRIDGE INTELLIGENCE ANALYTICS
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div className="p-4 bg-background/20 rounded-lg border border-purple-500/20">
-                            <div className="text-sm font-medium text-purple-300 mb-2">Strategic Insights</div>
-                            <div className="text-xs text-gray-300">Emerging phishing campaign targeting educational institutions with 94% confidence</div>
+                          <div className="p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+                            <div className="text-sm font-medium text-purple-300 mb-2 flex items-center">
+                              <Target className="w-4 h-4 mr-2" />
+                              Strategic Insights
+                            </div>
+                            <div className="text-xs text-gray-300 mb-3">Emerging phishing campaign targeting educational institutions with 94% confidence</div>
+                            <div className="w-full bg-gray-700 rounded-full h-1">
+                              <div className="bg-purple-400 h-1 rounded-full" style={{width: '94%'}}></div>
+                            </div>
                           </div>
-                          <div className="p-4 bg-background/20 rounded-lg border border-orange-500/20">
-                            <div className="text-sm font-medium text-orange-300 mb-2">Threat Vectors</div>
-                            <div className="text-xs text-gray-300">Advanced Persistent Threat - 23% probability, 89% severity</div>
+                          <div className="p-4 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                            <div className="text-sm font-medium text-orange-300 mb-2 flex items-center">
+                              <AlertTriangle className="w-4 h-4 mr-2" />
+                              Threat Vectors
+                            </div>
+                            <div className="text-xs text-gray-300 mb-3">Advanced Persistent Threat - 23% probability, 89% severity</div>
+                            <div className="flex space-x-2">
+                              <div className="w-full bg-gray-700 rounded-full h-1">
+                                <div className="bg-orange-400 h-1 rounded-full" style={{width: '23%'}}></div>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-1">
+                                <div className="bg-red-400 h-1 rounded-full" style={{width: '89%'}}></div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="p-4 bg-background/20 rounded-lg border border-cyan-500/20">
-                            <div className="text-sm font-medium text-cyan-300 mb-2">Behavioral Analysis</div>
-                            <div className="text-xs text-gray-300">Real-time monitoring of network activity patterns</div>
+                          <div className="p-4 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+                            <div className="text-sm font-medium text-cyan-300 mb-2 flex items-center">
+                              <Activity className="w-4 h-4 mr-2" />
+                              Behavioral Analysis
+                            </div>
+                            <div className="text-xs text-gray-300 mb-3">Real-time monitoring of network activity patterns</div>
+                            <div className="flex items-center space-x-2">
+                              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                              <span className="text-xs text-cyan-400">2,847 Data Points Analyzed</span>
+                            </div>
                           </div>
                         </div>
                       </CardContent>
