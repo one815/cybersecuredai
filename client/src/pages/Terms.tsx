@@ -16,11 +16,17 @@ export default function Terms() {
                 Legal Terms & Conditions
               </Badge>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                Terms of <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Service</span>
+                Enterprise Service <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Agreement</span>
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Please read these terms carefully before using our cybersecurity platform and services.
+                Professional cybersecurity services with clear terms, enterprise-grade SLAs, 
+                and comprehensive protection guarantees.
               </p>
+              <div className="flex items-center justify-center space-x-6 text-gray-400">
+                <span>• 99.9% Uptime SLA</span>
+                <span>• 24/7 Support</span>
+                <span>• Enterprise Contracts</span>
+              </div>
               <p className="text-sm text-gray-400">Last updated: December 1, 2024</p>
             </div>
           </div>
