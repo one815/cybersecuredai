@@ -758,7 +758,7 @@ export default function Solutions() {
                     </Card>
                   </div>
                 </div>
-              </TabsContent>
+                
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                   <div>
                     <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30">
