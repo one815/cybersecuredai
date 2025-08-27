@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import realisticFaceImg from "@assets/generated_images/Realistic_4D_biometric_face_scan_42621f9d.png";
 
 interface FaceScannerAnimationProps {
   className?: string;
@@ -17,6 +18,15 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // Load the realistic face image
+    const faceImage = new Image();
+    faceImage.src = realisticFaceImg;
+    let imageLoaded = false;
+    
+    faceImage.onload = () => {
+      imageLoaded = true;
+    };
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
@@ -39,70 +49,59 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       // Save canvas state
       ctx.save();
       
-      // Draw ultra-realistic human face with anatomical accuracy
+      // Draw ultra-realistic human face with 4D image integration
       const drawRealisticFace = () => {
-        // Face outline with proper human proportions
+        if (imageLoaded) {
+          // Apply 3D transformation to the realistic face image
+          ctx.save();
+          
+          // Calculate transform matrix for 3D rotation
+          const scaleX = perspective;
+          const skewX = sinAngle * 0.4;
+          const skewY = cosAngle * 0.1;
+          
+          // Transform for 3D perspective
+          ctx.setTransform(scaleX, skewY, skewX, 1, centerX + offsetX - 80, centerY - 80);
+          
+          // Draw the realistic face image with proper scaling
+          ctx.globalAlpha = 0.85;
+          ctx.drawImage(faceImage, 0, 0, 160, 160);
+          
+          ctx.restore();
+        }
+        
+        // Overlay biometric grid lines on the face
         ctx.strokeStyle = '#00e6ff';
-        ctx.lineWidth = 2;
-        ctx.globalAlpha = 0.95;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.4;
         
         const faceWidth = 60 * perspective;
         const faceHeight = 80;
         
-        // Human face contour
-        ctx.beginPath();
-        ctx.moveTo(centerX + offsetX, centerY - faceHeight * 0.65);
+        // Biometric analysis grid overlay
+        for (let i = 0; i < 8; i++) {
+          const y = centerY - faceHeight * 0.6 + (i * faceHeight * 0.15);
+          ctx.beginPath();
+          ctx.moveTo(centerX + offsetX - faceWidth * 0.5, y);
+          ctx.lineTo(centerX + offsetX + faceWidth * 0.5, y);
+          ctx.stroke();
+        }
         
-        // Forehead curve
-        ctx.quadraticCurveTo(
-          centerX + offsetX - faceWidth * 0.5, centerY - faceHeight * 0.6,
-          centerX + offsetX - faceWidth * 0.45, centerY - faceHeight * 0.3
-        );
+        for (let i = 0; i < 6; i++) {
+          const x = centerX + offsetX - faceWidth * 0.5 + (i * faceWidth * 0.2);
+          ctx.beginPath();
+          ctx.moveTo(x, centerY - faceHeight * 0.6);
+          ctx.lineTo(x, centerY + faceHeight * 0.5);
+          ctx.stroke();
+        }
         
-        // Temple to cheekbone
-        ctx.quadraticCurveTo(
-          centerX + offsetX - faceWidth * 0.52, centerY - faceHeight * 0.1,
-          centerX + offsetX - faceWidth * 0.48, centerY + faceHeight * 0.1
-        );
-        
-        // Cheek to jaw
-        ctx.quadraticCurveTo(
-          centerX + offsetX - faceWidth * 0.45, centerY + faceHeight * 0.3,
-          centerX + offsetX - faceWidth * 0.25, centerY + faceHeight * 0.5
-        );
-        
-        // Jaw to chin
-        ctx.quadraticCurveTo(
-          centerX + offsetX, centerY + faceHeight * 0.55,
-          centerX + offsetX + faceWidth * 0.25, centerY + faceHeight * 0.5
-        );
-        
-        // Right side mirror
-        ctx.quadraticCurveTo(
-          centerX + offsetX + faceWidth * 0.45, centerY + faceHeight * 0.3,
-          centerX + offsetX + faceWidth * 0.48, centerY + faceHeight * 0.1
-        );
-        
-        ctx.quadraticCurveTo(
-          centerX + offsetX + faceWidth * 0.52, centerY - faceHeight * 0.1,
-          centerX + offsetX + faceWidth * 0.45, centerY - faceHeight * 0.3
-        );
-        
-        ctx.quadraticCurveTo(
-          centerX + offsetX + faceWidth * 0.5, centerY - faceHeight * 0.6,
-          centerX + offsetX, centerY - faceHeight * 0.65
-        );
-        
-        ctx.closePath();
-        ctx.stroke();
-        
-        // Add facial depth lines based on rotation
+        // Enhanced depth perception overlay
         ctx.strokeStyle = '#0099cc';
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.6;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.3;
         
         if (rotation > 5) {
-          // Right profile depth lines
+          // Right profile depth indicators
           ctx.beginPath();
           ctx.moveTo(centerX + offsetX + faceWidth * 0.3, centerY - faceHeight * 0.4);
           ctx.lineTo(centerX + offsetX + faceWidth * 0.35, centerY - faceHeight * 0.2);
@@ -110,7 +109,7 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
           ctx.lineTo(centerX + offsetX + faceWidth * 0.3, centerY + faceHeight * 0.1);
           ctx.stroke();
         } else if (rotation < -5) {
-          // Left profile depth lines
+          // Left profile depth indicators
           ctx.beginPath();
           ctx.moveTo(centerX + offsetX - faceWidth * 0.3, centerY - faceHeight * 0.4);
           ctx.lineTo(centerX + offsetX - faceWidth * 0.35, centerY - faceHeight * 0.2);
@@ -391,11 +390,15 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         }
       };
       
-      // Draw all facial features
+      // Draw realistic face with biometric overlay
       drawRealisticFace();
-      drawDetailedEyes();
-      drawRealisticNose();
-      drawDetailedMouth();
+      
+      // Only draw detailed features if image isn't loaded (fallback)
+      if (!imageLoaded) {
+        drawDetailedEyes();
+        drawRealisticNose();
+        drawDetailedMouth();
+      }
       
       // Advanced 3D scanning grid
       ctx.strokeStyle = '#40e0d0';
