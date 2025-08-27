@@ -205,7 +205,7 @@ export default function Solutions() {
                 Cloud Security Packages
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-                CyberSecured Cloud<br />
+                Protection Level<br />
                 <span className="text-blue-400">Solutions</span>
               </h2>
               <p className="text-xl text-gray-300 max-w-4xl mx-auto">
@@ -217,23 +217,32 @@ export default function Solutions() {
               <Card className="bg-slate-700/60 border border-blue-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core</Badge>
-                  <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Core</CardTitle>
-                  <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Basic AI security platform with standard compliance</p>
+                  <CardTitle className="text-xl text-white mb-4">Essential Protection</CardTitle>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">$2,500</div>
+                  <p className="text-gray-300 text-sm">per month</p>
+                  <Badge className="mt-2 bg-blue-500/20 text-blue-300">250 Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Basic AI security platform</span>
+                      <span className="text-gray-300 text-sm">Up to 250 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Standard threat detection</span>
+                      <span className="text-gray-300 text-sm">AI-powered threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Essential compliance automation</span>
+                      <span className="text-gray-300 text-sm">Basic incident response</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Email & chat support</span>
                     </li>
                   </ul>
                   <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
@@ -248,23 +257,32 @@ export default function Solutions() {
                 </div>
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
-                  <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Advanced</CardTitle>
-                  <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Enhanced AI platform with comprehensive automation</p>
+                  <CardTitle className="text-xl text-white mb-4">Advanced Security</CardTitle>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">$7,500</div>
+                  <p className="text-gray-300 text-sm">per month</p>
+                  <Badge className="mt-2 bg-purple-500/20 text-purple-300">1K Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Enhanced AI platform features</span>
+                      <span className="text-gray-300 text-sm">Up to 1000 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Advanced threat detection with AI analysis</span>
+                      <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Comprehensive compliance automation</span>
+                      <span className="text-gray-300 text-sm">Automated incident response</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Full compliance automation</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">24/7 priority support</span>
                     </li>
                   </ul>
                   <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
@@ -276,23 +294,32 @@ export default function Solutions() {
               <Card className="bg-slate-700/60 border border-yellow-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
-                  <CardTitle className="text-xl text-white mb-4">CyberSecured - Cloud Enterprise</CardTitle>
-                  <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Enterprise AI platform with custom frameworks</p>
+                  <CardTitle className="text-xl text-white mb-4">Enterprise Shield</CardTitle>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">$15,000</div>
+                  <p className="text-gray-300 text-sm">per month</p>
+                  <Badge className="mt-2 bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Enterprise AI security platform</span>
+                      <span className="text-gray-300 text-sm">Unlimited users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Advanced threat detection with ML models</span>
+                      <span className="text-gray-300 text-sm">Premium AI models</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Custom compliance frameworks</span>
+                      <span className="text-gray-300 text-sm">Custom response playbooks</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">White-glove compliance</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Dedicated success team</span>
                     </li>
                   </ul>
                   <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
