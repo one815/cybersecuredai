@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -157,6 +158,54 @@ const datasheets = [
     featured: false,
     version: "4.7",
     image: incidentResponseImg
+  },
+  {
+    title: "Federal Zero-Trust Architecture Implementation",
+    description: "Technical specifications and deployment guide for FedRAMP High-compliant zero-trust security models with 99.7% threat detection accuracy and continuous verification.",
+    category: "Technical Specifications",
+    industry: "Federal Government",
+    pages: "12 pages",
+    downloadCount: "4,200",
+    featured: true,
+    version: "2025.1",
+    image: federalComplianceImg,
+    link: "/resources/datasheets/federal-zero-trust"
+  },
+  {
+    title: "Critical Infrastructure AI Security Framework",
+    description: "Standards and best practices for federal agencies protecting critical infrastructure with sector-specific security models for energy, water, transportation, and communications.",
+    category: "Compliance Features",
+    industry: "Federal Government",
+    pages: "16 pages",
+    downloadCount: "3,800",
+    featured: true,
+    version: "2025.1",
+    image: zeroTrustImg,
+    link: "/resources/datasheets/critical-infrastructure"
+  },
+  {
+    title: "Federal Rapid Response Security Toolkit",
+    description: "Technical components and implementation guidelines for sub-4-minute incident detection and containment with 200+ pre-configured attack scenario playbooks.",
+    category: "AI Security Tools",
+    industry: "Federal Government",
+    pages: "10 pages",
+    downloadCount: "3,100",
+    featured: true,
+    version: "2025.1",
+    image: incidentResponseImg,
+    link: "/resources/datasheets/rapid-response"
+  },
+  {
+    title: "University Research Data Protection System",
+    description: "Technical architecture and security features for higher education research environments with AI-powered classification and 15.6PB data support capability.",
+    category: "Technical Specifications",
+    industry: "Higher Education",
+    pages: "14 pages",
+    downloadCount: "2,900",
+    featured: true,
+    version: "2025.1",
+    image: universityNetworkImg,
+    link: "/resources/datasheets/university-research"
   }
 ];
 
@@ -187,10 +236,17 @@ const getCategoryIcon = (category: string) => {
 };
 
 export default function DataSheets() {
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+
+  const handleDataSheetClick = (datasheet: any) => {
+    if (datasheet.link) {
+      setLocation(datasheet.link);
+    }
+  };
 
   const filteredDataSheets = datasheets.filter(datasheet => {
     const matchesSearch = datasheet.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -290,9 +346,19 @@ export default function DataSheets() {
                     <Button 
                       size="sm" 
                       className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
+                      onClick={() => handleDataSheetClick(datasheet)}
                     >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download PDF
+                      {datasheet.link ? (
+                        <>
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Details
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4 mr-2" />
+                          Download PDF
+                        </>
+                      )}
                     </Button>
                   </CardContent>
                 </Card>
@@ -496,9 +562,19 @@ export default function DataSheets() {
                       size="sm" 
                       variant="outline"
                       className="w-full border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black text-xs"
+                      onClick={() => handleDataSheetClick(datasheet)}
                     >
-                      <Download className="w-3 h-3 mr-2" />
-                      Download PDF
+                      {datasheet.link ? (
+                        <>
+                          <Eye className="w-3 h-3 mr-2" />
+                          View Details
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-3 h-3 mr-2" />
+                          Download PDF
+                        </>
+                      )}
                     </Button>
                   </CardContent>
                 </Card>
