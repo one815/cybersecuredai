@@ -432,18 +432,18 @@ export default function Services() {
                         <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
                         <CardTitle className="text-xl text-white mb-3">Basic IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="text-2xl font-bold text-blue-400 mb-2">25+ Users</div>
+                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">System Administration for multiple users</span>
+                            <span className="text-gray-300 text-sm">System Administration for 25+ users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Windows 11 Pro workstation management</span>
+                            <span className="text-gray-300 text-sm">Windows 11 Pro or newer workstation management</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
@@ -464,8 +464,8 @@ export default function Services() {
                         <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                         <CardTitle className="text-xl text-white mb-3">Advanced IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Tier</div>
+                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
@@ -497,8 +497,8 @@ export default function Services() {
                         <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
                         <CardTitle className="text-xl text-white mb-3">Premium IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="text-2xl font-bold text-yellow-400 mb-2">Premium Tier</div>
+                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
