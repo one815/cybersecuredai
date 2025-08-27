@@ -39,82 +39,204 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       // Save canvas state
       ctx.save();
       
-      // Draw cyan wireframe head matching the reference image
+      // Draw fully assembled 3D geometric wireframe head
       const drawWireframeFace = () => {
-        // Main wireframe in bright cyan
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = 1.5;
         ctx.globalAlpha = 0.9;
         
-        const headRadius = 45 * perspective;
         const headX = centerX + offsetX;
         const headY = centerY - 5;
         
-        // Draw main head outline (oval shape)
-        ctx.beginPath();
-        ctx.ellipse(headX, headY, headRadius * 0.8, headRadius * 1.1, 0, 0, 2 * Math.PI);
-        ctx.stroke();
+        // Create 3D head vertex points for geometric assembly
+        const vertices = [];
+        const faces = [];
         
-        // Create detailed wireframe mesh pattern
+        // Define 3D head geometry vertices
+        const baseVertices = [
+          // Front face vertices (z = 0)
+          [-30, -40, 0], [0, -45, 0], [30, -40, 0],    // Top forehead
+          [-35, -20, 0], [-15, -25, 0], [0, -30, 0], [15, -25, 0], [35, -20, 0], // Upper face
+          [-38, 0, 0], [-20, -5, 0], [0, -10, 0], [20, -5, 0], [38, 0, 0],       // Mid face
+          [-35, 20, 0], [-15, 15, 0], [0, 10, 0], [15, 15, 0], [35, 20, 0],      // Lower face
+          [-25, 40, 0], [0, 45, 0], [25, 40, 0],       // Jaw/chin
+          
+          // Back face vertices (z = -20) - for 3D depth
+          [-25, -35, -20], [0, -40, -20], [25, -35, -20],
+          [-30, -15, -20], [-12, -20, -20], [0, -25, -20], [12, -20, -20], [30, -15, -20],
+          [-32, 5, -20], [-16, 0, -20], [0, -5, -20], [16, 0, -20], [32, 5, -20],
+          [-30, 25, -20], [-12, 20, -20], [0, 15, -20], [12, 20, -20], [30, 25, -20],
+          [-20, 35, -20], [0, 40, -20], [20, 35, -20]
+        ];
+        
+        // Transform vertices to screen coordinates with 3D perspective
+        baseVertices.forEach(([x, y, z]) => {
+          const rotatedX = x * Math.cos(rotationRad) - z * Math.sin(rotationRad);
+          const rotatedZ = x * Math.sin(rotationRad) + z * Math.cos(rotationRad);
+          
+          const scale = 200 / (200 + rotatedZ); // Perspective projection
+          const screenX = headX + rotatedX * scale * perspective;
+          const screenY = headY + y * scale;
+          
+          vertices.push({ x: screenX, y: screenY, z: rotatedZ });
+        });
+        
+        // Define triangular faces for the 3D head mesh
+        const faceIndices = [
+          // Front face triangles
+          [0, 1, 4], [1, 2, 6], [1, 4, 5], [1, 5, 6],
+          [3, 4, 8], [4, 5, 9], [5, 6, 11], [6, 7, 12],
+          [8, 9, 13], [9, 10, 14], [10, 11, 16], [11, 12, 17],
+          [13, 14, 18], [14, 15, 19], [15, 16, 20], [16, 17, 20],
+          
+          // Side connections (front to back)
+          [0, 21, 1], [1, 22, 2], [3, 24, 4], [4, 25, 5],
+          [8, 29, 9], [9, 30, 10], [13, 34, 14], [14, 35, 15],
+          
+          // Additional geometric structure
+          [5, 10, 15], [10, 15, 30], [4, 9, 14], [9, 14, 29]
+        ];
+        
+        // Draw wireframe faces
         ctx.strokeStyle = '#00ffff';
         ctx.lineWidth = 1.2;
-        ctx.globalAlpha = 0.7;
+        ctx.globalAlpha = 0.85;
         
-        // Vertical wireframe lines across the head
-        for (let i = -4; i <= 4; i++) {
-          const x = headX + (i * 8 * perspective);
-          const topY = headY - Math.sqrt(Math.max(0, (headRadius * 1.1) ** 2 - (i * 8) ** 2));
-          const bottomY = headY + Math.sqrt(Math.max(0, (headRadius * 1.1) ** 2 - (i * 8) ** 2));
-          
+        faceIndices.forEach(face => {
+          const [a, b, c] = face;
+          if (vertices[a] && vertices[b] && vertices[c]) {
+            ctx.beginPath();
+            ctx.moveTo(vertices[a].x, vertices[a].y);
+            ctx.lineTo(vertices[b].x, vertices[b].y);
+            ctx.lineTo(vertices[c].x, vertices[c].y);
+            ctx.closePath();
+            ctx.stroke();
+          }
+        });
+        
+        // Draw main structural edges
+        ctx.strokeStyle = '#40e0d0';
+        ctx.lineWidth = 1.8;
+        ctx.globalAlpha = 1;
+        
+        // Vertical structural lines
+        const verticalConnections = [
+          [0, 3, 8, 13, 18], // Left outline
+          [1, 5, 10, 15, 19], // Center line
+          [2, 7, 12, 17, 20], // Right outline
+        ];
+        
+        verticalConnections.forEach(line => {
           ctx.beginPath();
-          ctx.moveTo(x, topY);
-          ctx.lineTo(x, bottomY);
+          line.forEach((vertexIndex, i) => {
+            if (vertices[vertexIndex]) {
+              if (i === 0) {
+                ctx.moveTo(vertices[vertexIndex].x, vertices[vertexIndex].y);
+              } else {
+                ctx.lineTo(vertices[vertexIndex].x, vertices[vertexIndex].y);
+              }
+            }
+          });
           ctx.stroke();
-        }
+        });
         
-        // Horizontal wireframe lines across the head
-        for (let j = -5; j <= 5; j++) {
-          const y = headY + (j * 8);
-          const leftX = headX - Math.sqrt(Math.max(0, (headRadius * 0.8) ** 2 - (j * 8) ** 2)) * perspective;
-          const rightX = headX + Math.sqrt(Math.max(0, (headRadius * 0.8) ** 2 - (j * 8) ** 2)) * perspective;
-          
+        // Horizontal structural lines
+        const horizontalConnections = [
+          [0, 1, 2], // Top
+          [3, 4, 5, 6, 7], // Upper
+          [8, 9, 10, 11, 12], // Middle
+          [13, 14, 15, 16, 17], // Lower
+          [18, 19, 20] // Bottom
+        ];
+        
+        horizontalConnections.forEach(line => {
           ctx.beginPath();
-          ctx.moveTo(leftX, y);
-          ctx.lineTo(rightX, y);
+          line.forEach((vertexIndex, i) => {
+            if (vertices[vertexIndex]) {
+              if (i === 0) {
+                ctx.moveTo(vertices[vertexIndex].x, vertices[vertexIndex].y);
+              } else {
+                ctx.lineTo(vertices[vertexIndex].x, vertices[vertexIndex].y);
+              }
+            }
+          });
           ctx.stroke();
-        }
+        });
         
-        // Create digital noise/glitch pattern like in the reference
+        // Draw facial feature geometry
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 0.8;
-        ctx.globalAlpha = 0.5;
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.9;
         
-        // Random wireframe fragments for digital effect
-        for (let i = 0; i < 15; i++) {
-          const angle = (i / 15) * Math.PI * 2;
-          const radius = 25 + Math.random() * 15;
-          const x1 = headX + Math.cos(angle) * radius * perspective;
-          const y1 = headY + Math.sin(angle) * radius;
-          const x2 = x1 + (Math.random() - 0.5) * 10;
-          const y2 = y1 + (Math.random() - 0.5) * 10;
+        // Eyes - geometric diamond shapes
+        if (vertices[4] && vertices[9]) {
+          const leftEyeX = vertices[4].x;
+          const leftEyeY = vertices[9].y - 8;
           
           ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(x2, y2);
+          ctx.moveTo(leftEyeX - 8 * perspective, leftEyeY);
+          ctx.lineTo(leftEyeX, leftEyeY - 5);
+          ctx.lineTo(leftEyeX + 8 * perspective, leftEyeY);
+          ctx.lineTo(leftEyeX, leftEyeY + 5);
+          ctx.closePath();
           ctx.stroke();
         }
         
-        // Add pixelated/blocky elements like in the reference
-        ctx.fillStyle = '#00ffff';
-        ctx.globalAlpha = 0.3;
-        
-        for (let i = 0; i < 8; i++) {
-          const x = headX + (Math.random() - 0.5) * 60 * perspective;
-          const y = headY + (Math.random() - 0.5) * 80;
-          const size = 2 + Math.random() * 3;
+        if (vertices[6] && vertices[11]) {
+          const rightEyeX = vertices[6].x;
+          const rightEyeY = vertices[11].y - 8;
           
-          ctx.fillRect(x - size/2, y - size/2, size, size);
+          ctx.beginPath();
+          ctx.moveTo(rightEyeX - 8 * perspective, rightEyeY);
+          ctx.lineTo(rightEyeX, rightEyeY - 5);
+          ctx.lineTo(rightEyeX + 8 * perspective, rightEyeY);
+          ctx.lineTo(rightEyeX, rightEyeY + 5);
+          ctx.closePath();
+          ctx.stroke();
         }
+        
+        // Nose - triangular pyramid
+        if (vertices[10] && vertices[15]) {
+          const noseX = vertices[10].x;
+          const noseTopY = vertices[10].y;
+          const noseBottomY = vertices[15].y - 5;
+          
+          ctx.beginPath();
+          ctx.moveTo(noseX, noseTopY);
+          ctx.lineTo(noseX - 6 * perspective, noseBottomY);
+          ctx.lineTo(noseX + 6 * perspective, noseBottomY);
+          ctx.closePath();
+          ctx.stroke();
+        }
+        
+        // Mouth - geometric rectangle
+        if (vertices[15]) {
+          const mouthX = vertices[15].x;
+          const mouthY = vertices[15].y + 8;
+          const mouthWidth = 12 * perspective;
+          
+          ctx.beginPath();
+          ctx.rect(mouthX - mouthWidth, mouthY - 3, mouthWidth * 2, 6);
+          ctx.stroke();
+          
+          // Mouth center line
+          ctx.beginPath();
+          ctx.moveTo(mouthX - mouthWidth, mouthY);
+          ctx.lineTo(mouthX + mouthWidth, mouthY);
+          ctx.stroke();
+        }
+        
+        // Add vertex points for technical effect
+        ctx.fillStyle = '#00ffff';
+        ctx.globalAlpha = 0.8;
+        
+        vertices.forEach((vertex, i) => {
+          if (i < 21) { // Only front vertices
+            ctx.beginPath();
+            ctx.arc(vertex.x, vertex.y, 1.5, 0, 2 * Math.PI);
+            ctx.fill();
+          }
+        });
       };
 
       // Draw geometric face structure - focus on facial geometry and proportions
