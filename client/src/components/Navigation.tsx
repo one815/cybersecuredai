@@ -47,25 +47,7 @@ export function Navigation() {
         { label: "Federal Agencies", href: "/solutions/federal" }
       ]
     },
-    {
-      label: "Services",
-      href: "/services",
-      dropdown: [
-        { label: "Professional Services", href: "/services#professional", isHeader: true },
-        { label: "Security Assessment", href: "/services#security-assessment" },
-        { label: "Implementation Services", href: "/services#implementation" },
-        { label: "Security Training", href: "/services#training" },
-        { label: "Incident Response Support", href: "/services#incident-response" },
-        { label: "Managed Services", href: "/services#managed", isHeader: true },
-        { label: "Basic IT Support", href: "/services#basic-support" },
-        { label: "Advanced IT Support", href: "/services#advanced-support" },
-        { label: "Premium IT Support", href: "/services#premium-support" },
-        { label: "Security Add-ons", href: "/services#security-addons", isHeader: true },
-        { label: "Penetration Testing", href: "/services#penetration-testing" },
-        { label: "Network Segmentation", href: "/services#network-segmentation" },
-        { label: "Smart City Security", href: "/services#smart-city" }
-      ]
-    },
+    { label: "Services", href: "/services" },
     { label: "Why CyberSecured AI", href: "/why-cybersecured-ai" },
     {
       label: "Resources",
