@@ -157,16 +157,16 @@ export default function Home() {
                         {/* Header with Real Platform Info */}
                         <div className="flex items-center justify-between mb-6">
                           <div className="flex items-center space-x-3">
-                            <Shield className="w-8 h-8 text-cyan-400" />
+                            <Shield className="w-8 h-8 text-cyan-400 icon-3d" />
                             <div>
-                              <h1 className="text-2xl font-bold text-white">CyberSecure AI Platform</h1>
+                              <h1 className="text-2xl font-bold text-white neon-glow">CyberSecure AI Platform</h1>
                               <p className="text-gray-400 text-sm">Cambridge Intelligence Dashboard</p>
                             </div>
                           </div>
                           <div className="flex items-center space-x-4">
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 holo-badge rounded-full px-3 py-1">
                               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                              <span className="text-green-400 text-sm">OPERATIONAL</span>
+                              <span className="text-green-400 text-sm font-bold">OPERATIONAL</span>
                             </div>
                             <div className="text-gray-400 text-sm">Last Update: Live</div>
                           </div>
@@ -176,8 +176,8 @@ export default function Home() {
                         <Card className="holographic-card border-cyan-500/30 mb-6">
                           <CardHeader>
                             <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
-                              <Brain className="w-6 h-6 mr-3 text-cyan-400" />
-                              INTELLIGENCE OVERVIEW
+                              <Brain className="w-6 h-6 mr-3 text-cyan-400 icon-3d" />
+                              <span className="neon-glow">INTELLIGENCE OVERVIEW</span>
                             </CardTitle>
                           </CardHeader>
                           <CardContent>
@@ -222,10 +222,10 @@ export default function Home() {
                               <CardHeader>
                                 <CardTitle className="text-red-300 flex items-center justify-between font-bold tracking-wide">
                                   <div className="flex items-center">
-                                    <Globe className="w-6 h-6 mr-3 text-red-400" />
-                                    GLOBAL THREAT MAP
+                                    <Globe className="w-6 h-6 mr-3 text-red-400 icon-3d" />
+                                    <span className="neon-glow">GLOBAL THREAT MAP</span>
                                   </div>
-                                  <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded">LIVE</div>
+                                  <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded holo-badge">LIVE</div>
                                 </CardTitle>
                               </CardHeader>
                               <CardContent>
@@ -279,8 +279,8 @@ export default function Home() {
                             <Card className="holographic-card border-purple-500/30">
                               <CardHeader className="pb-3">
                                 <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide text-sm">
-                                  <Brain className="w-5 h-5 mr-2 text-purple-400" />
-                                  CAMBRIDGE ANALYTICS
+                                  <Brain className="w-5 h-5 mr-2 text-purple-400 metallic-icon" />
+                                  <span className="neon-glow">CAMBRIDGE ANALYTICS</span>
                                 </CardTitle>
                               </CardHeader>
                               <CardContent>
@@ -306,8 +306,8 @@ export default function Home() {
                             <Card className="holographic-card border-green-500/30">
                               <CardHeader className="pb-3">
                                 <CardTitle className="text-green-300 flex items-center font-bold tracking-wide text-sm">
-                                  <CheckCircle className="w-5 h-5 mr-2 text-green-400" />
-                                  COMPLIANCE
+                                  <CheckCircle className="w-5 h-5 mr-2 text-green-400 glass-icon" />
+                                  <span className="neon-glow">COMPLIANCE</span>
                                 </CardTitle>
                               </CardHeader>
                               <CardContent>
@@ -347,10 +347,10 @@ export default function Home() {
                 </div>
                 
                 {/* Live Platform Badge */}
-                <div className="absolute top-6 right-6 bg-slate-900/95 rounded-lg p-3 border border-green-500/50">
+                <div className="absolute top-6 right-6 bg-slate-900/95 rounded-lg p-3 border border-green-500/50 holo-badge">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
-                    <span className="text-green-400 text-sm font-medium">LIVE PLATFORM</span>
+                    <span className="text-green-400 text-sm font-medium neon-glow">LIVE PLATFORM</span>
                   </div>
                 </div>
               </div>
