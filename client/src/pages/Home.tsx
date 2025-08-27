@@ -70,7 +70,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center justify-center mb-10">
               <img 
                 src="/attached_assets/CyberSecure AI (1)_1756164301031.png" 
                 alt="CyberSecure AI" 
@@ -78,11 +78,10 @@ export default function Home() {
               />
             </div>
             
-            {/* 4D Face Scanner Animation */}
-            <div className="flex justify-center mb-8">
+            {/* 4D Face Scanner Animation - Centered between logo and text */}
+            <div className="flex justify-center items-center my-12">
               <FaceScannerAnimation className="mx-auto" />
             </div>
-            
             
             <p className="text-2xl md:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto font-secondary">
               Delivering reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations
