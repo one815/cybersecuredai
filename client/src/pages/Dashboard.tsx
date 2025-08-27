@@ -455,95 +455,94 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        {/* Live Threat Map and Recent Incidents */}
+        {/* Live Threat Map - Dedicated Section */}
         <div className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Live Threat Map */}
-            <Card className="holographic-card border border-pink-500/30 bg-background/50">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      <Shield className="w-4 h-4 text-white" />
-                    </div>
-                    <CardTitle className="text-white text-lg">Live Threat Map</CardTitle>
-                  </div>
+          <Card className="holographic-card border-red-500/40 backdrop-blur-xl floating-3d">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-red-300 flex items-center font-bold tracking-wide text-xl">
+                  <Globe className="w-7 h-7 mr-3 text-red-400 animate-pulse" />
+                  GLOBAL THREAT INTELLIGENCE MAP
+                  <Badge className="ml-3 bg-gradient-to-r from-red-500 to-orange-500 text-white animate-pulse">
+                    LIVE MONITORING
+                  </Badge>
+                </CardTitle>
+                <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span className="text-green-400 text-sm">Live Updates</span>
+                    <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                    <span className="text-red-400 text-sm font-medium">Real-Time Updates</span>
                   </div>
+                  <Button 
+                    className="cyber-button border border-red-500/50 hover:bg-red-500/20"
+                    onClick={() => setLocation('/threat-map-5d')}
+                  >
+                    <Target className="w-4 h-4 mr-2" />
+                    5D View
+                  </Button>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <ThreatMap className="mb-4 min-h-[200px]" />
-                <div className="grid grid-cols-4 gap-3 text-center">
-                  <div>
-                    <div className="text-2xl font-bold text-white mb-1">15</div>
-                    <div className="text-xs text-gray-400">TOTAL THREATS</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-red-400 mb-1">4</div>
-                    <div className="text-xs text-gray-400">HIGH RISK</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-yellow-400 mb-1">5</div>
-                    <div className="text-xs text-gray-400">MEDIUM RISK</div>
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-blue-400 mb-1">6</div>
-                    <div className="text-xs text-gray-400">LOW RISK</div>
-                  </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6">
+                <ThreatMap className="min-h-[400px] rounded-lg border border-red-500/30" />
+              </div>
+              
+              {/* Threat Statistics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="text-center p-4 bg-red-500/10 rounded-lg border border-red-500/30">
+                  <div className="text-3xl font-bold text-red-400 cyber-text-glow mb-2">15</div>
+                  <div className="text-sm text-gray-400">Active Threats</div>
+                  <div className="text-xs text-red-400 mt-1">↑ 3 new</div>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="text-center p-4 bg-orange-500/10 rounded-lg border border-orange-500/30">
+                  <div className="text-3xl font-bold text-orange-400 cyber-text-glow mb-2">4</div>
+                  <div className="text-sm text-gray-400">High Risk</div>
+                  <div className="text-xs text-orange-400 mt-1">Critical</div>
+                </div>
+                <div className="text-center p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/30">
+                  <div className="text-3xl font-bold text-yellow-400 cyber-text-glow mb-2">5</div>
+                  <div className="text-sm text-gray-400">Medium Risk</div>
+                  <div className="text-xs text-yellow-400 mt-1">Monitoring</div>
+                </div>
+                <div className="text-center p-4 bg-blue-500/10 rounded-lg border border-blue-500/30">
+                  <div className="text-3xl font-bold text-blue-400 cyber-text-glow mb-2">6</div>
+                  <div className="text-sm text-gray-400">Low Risk</div>
+                  <div className="text-xs text-blue-400 mt-1">Routine</div>
+                </div>
+              </div>
 
-            {/* Recent Incidents */}
-            <Card className="holographic-card border border-gray-600/30 bg-background/50">
-              <CardHeader>
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-gray-600 to-gray-500 rounded-lg flex items-center justify-center">
-                    <AlertTriangle className="w-4 h-4 text-white" />
-                  </div>
-                  <CardTitle className="text-white text-lg">Recent Incidents</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-red-900/20 border-l-4 border-red-400">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white mb-1">Phishing Email Blocked</h4>
-                      <p className="text-sm text-gray-400">finance@university.edu</p>
-                      <p className="text-xs text-gray-500 mt-1">3 min ago</p>
+              {/* Recent Threat Activity */}
+              <div className="bg-background/20 rounded-lg p-4 border border-red-500/20">
+                <h4 className="text-red-300 font-bold mb-3 flex items-center">
+                  <Activity className="w-4 h-4 mr-2" />
+                  Recent Threat Activity
+                </h4>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                      <span className="text-white">DDoS Attack Vector - 192.168.1.0/24</span>
                     </div>
+                    <span className="text-gray-400">2 min ago</span>
                   </div>
-                  
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-yellow-900/20 border-l-4 border-yellow-400">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white mb-1">Suspicious Login</h4>
-                      <p className="text-sm text-gray-400">admin@school.edu</p>
-                      <p className="text-xs text-gray-500 mt-1">5 min ago</p>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                      <span className="text-white">Malware Signature Detected - EU Region</span>
                     </div>
+                    <span className="text-gray-400">5 min ago</span>
                   </div>
-                  
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-orange-900/20 border-l-4 border-orange-400">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white mb-1">Malware Quarantined</h4>
-                      <p className="text-sm text-gray-400">STUDENT-PC-42</p>
-                      <p className="text-xs text-gray-500 mt-1">12 min ago</p>
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                      <span className="text-white">Suspicious Traffic Pattern - Asia-Pacific</span>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-blue-900/20 border-l-4 border-blue-400">
-                    <div className="flex-1">
-                      <h4 className="font-medium text-white mb-1">System Update</h4>
-                      <p className="text-sm text-gray-400">Firewall Rules Updated</p>
-                      <p className="text-xs text-gray-500 mt-1">15 min ago</p>
-                    </div>
+                    <span className="text-gray-400">8 min ago</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Network Traffic and AI Detection Engine */}
