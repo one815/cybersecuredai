@@ -23,7 +23,8 @@ import {
   HardDrive,
   Cpu,
   Database,
-  Crown
+  Crown,
+  Globe
 } from "lucide-react";
 import {
   CustomShieldIcon,
@@ -43,67 +44,126 @@ import supportImg from "@assets/generated_images/Success_Kit_Collection_aad5a657
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState("managed");
 
-  const managedServices = [
+  const enhancedAICapabilities = [
     {
-      title: "24/7 Managed SOC",
-      description: "Expert-staffed Security Operations Center with AI assistance",
+      title: "Advanced AI-Driven Threat Hunting",
+      description: "Proactive AI-powered threat hunting that identifies potential threats before they manifest",
       icon: <CustomEyeIcon className="w-8 h-8 text-red-400" size={32} />,
       features: [
-        "24/7 threat monitoring and response",
-        "Expert security analysts", 
-        "AI-assisted threat hunting",
-        "8-minute mean response time",
-        "Incident escalation management",
-        "Advanced behavioral analytics",
-        "Interactive 5D security visualization"
+        "Real-time threat detection and analysis",
+        "Behavioral analytics for anomaly detection",
+        "Automated threat intelligence integration",
+        "Predictive threat modeling",
+        "Continuous monitoring and response",
+        "AI-enhanced investigation tools"
       ],
-      metrics: "8min MTTR",
+      metrics: "99.7% Accuracy",
+      price: "Starting at $8,000/month"
+    },
+    {
+      title: "AI-Enhanced Predictive Risk Analysis",
+      description: "Advanced machine learning models that predict potential vulnerabilities based on historical data",
+      icon: <CustomBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
+      features: [
+        "Customized risk modeling for education/government",
+        "Trend analysis and forecasting",
+        "Prioritized vulnerability management",
+        "Historical data pattern analysis",
+        "Emerging threat pattern recognition",
+        "Risk score optimization"
+      ],
+      metrics: "87% Risk Reduction",
+      price: "Starting at $6,500/month"
+    },
+    {
+      title: "AI-Powered Compliance Automation",
+      description: "Sophisticated AI to streamline regulatory compliance across multiple frameworks",
+      icon: <CustomShieldIcon className="w-8 h-8 text-green-400" size={32} />,
+      features: [
+        "FERPA, COPPA, CIPA automation",
+        "FedRAMP, FISMA compliance",
+        "Dynamic policy enforcement",
+        "Automated compliance monitoring",
+        "Compliance reporting and documentation",
+        "Multi-framework management"
+      ],
+      metrics: "85% Less Admin",
       price: "Starting at $5,000/month"
     },
     {
-      title: "Managed Compliance",
-      description: "Automated regulatory compliance monitoring and reporting",
-      icon: <CustomShieldIcon className="w-8 h-8 text-green-400" size={32} />,
+      title: "Interactive Security Visualization",
+      description: "5D security visualization environment for intuitive threat exploration",
+      icon: <Eye className="w-8 h-8 text-cyan-400" />,
       features: [
-        "FERPA/FISMA/CIPA automation",
-        "FedRAMP High compliance",
-        "Continuous compliance monitoring",
-        "Automated audit reporting",
-        "Policy enforcement",
-        "Risk assessment dashboards"
+        "Real-time security dashboard",
+        "Interactive threat maps",
+        "Custom visualization for stakeholders",
+        "5D security environment",
+        "Intuitive threat exploration",
+        "Executive-level reporting"
       ],
-      metrics: "85% Less Admin",
-      price: "Starting at $3,000/month"
+      metrics: "5D Visualization",
+      price: "Starting at $4,500/month"
     },
     {
-      title: "Managed Threat Intelligence",
-      description: "Curated threat intelligence with actionable insights",
-      icon: <CustomBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
+      title: "AI-Based User Behavior Analytics",
+      description: "Advanced user behavior pattern analysis to detect anomalies and insider threats",
+      icon: <Users className="w-8 h-8 text-orange-400" />,
       features: [
-        "Real-time threat feeds from 50+ sources",
-        "AI-enhanced predictive risk analysis",
-        "Industry-specific intelligence",
-        "Multi-state collaboration platform",
-        "Threat landscape reporting",
-        "Predictive threat modeling"
+        "User activity profiling",
+        "Anomaly detection and alerting",
+        "Continuous authentication monitoring",
+        "Insider threat detection",
+        "Compromised account identification",
+        "Behavioral baseline establishment"
       ],
-      metrics: "50+ Sources",
-      price: "Starting at $2,500/month"
+      metrics: "24/7 Monitoring",
+      price: "Starting at $3,500/month"
+    }
+  ];
+
+  const additionalSpecializedOfferings = [
+    {
+      title: "Advanced Threat Intelligence Integration",
+      description: "Comprehensive threat intelligence with education and government-specific data",
+      icon: <Network className="w-8 h-8 text-blue-400" />,
+      features: [
+        "Sector-specific threat feeds",
+        "Integration with national security databases",
+        "Customized threat intelligence reporting",
+        "Multi-source intelligence aggregation",
+        "Real-time threat correlation",
+        "Government threat data access"
+      ],
+      price: "Starting at $7,500/month"
+    },
+    {
+      title: "Multi-State Security Coalition Platform",
+      description: "Collaborative platform enabling state governments to share resources and threat intelligence",
+      icon: <Globe className="w-8 h-8 text-green-400" />,
+      features: [
+        "Secure information sharing portal",
+        "Cross-jurisdiction threat alerting",
+        "Collaborative incident response",
+        "Multi-state coordination tools",
+        "Secure communication channels",
+        "Joint operation capabilities"
+      ],
+      price: "Contact for Pricing"
     },
     {
       title: "Smart City Security Suite",
-      description: "Comprehensive infrastructure monitoring for smart cities",
-      icon: <Building className="w-8 h-8 text-cyan-400" />,
+      description: "Specialized protection for IoT and AI-powered smart city initiatives",
+      icon: <Building className="w-8 h-8 text-purple-400" />,
       features: [
-        "Traffic management system security",
+        "IoT device security management",
+        "Smart infrastructure protection",
+        "Public safety system security",
+        "Traffic management protection",
         "Utility grid monitoring",
-        "Emergency services integration",
-        "SCADA system protection",
-        "Multi-agency coordination",
-        "Critical infrastructure defense"
+        "Emergency services integration"
       ],
-      metrics: "Full Infrastructure",
-      price: "Starting at $8,000/month"
+      price: "Starting at $15,000/month"
     }
   ];
 
@@ -253,12 +313,47 @@ export default function Services() {
               </div>
 
               <TabsContent value="managed" className="space-y-12">
-                {/* Core Managed Services */}
+                {/* Enhanced AI Capabilities */}
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Core Managed Services</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {managedServices.map((service, index) => (
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Enhanced AI Capabilities</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {enhancedAICapabilities.slice(0, 3).map((service, index) => (
                       <Card key={index} className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group">
+                        <CardHeader className="p-6 text-center">
+                          <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/30 transition-colors">
+                            {service.icon}
+                          </div>
+                          <div className="flex justify-center mb-3">
+                            <Badge className="bg-white/10 text-orange-300 font-bold text-xs">
+                              {service.metrics}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-xl text-white mb-3">{service.title}</CardTitle>
+                          <p className="text-gray-300 text-sm mb-4">{service.description}</p>
+                        </CardHeader>
+                        <CardContent className="p-6 pt-0">
+                          <ul className="space-y-2 mb-4">
+                            {service.features.slice(0, 4).map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center space-x-2">
+                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <span className="text-gray-300 text-xs">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="text-center mb-4">
+                            <div className="text-orange-400 font-bold">{service.price}</div>
+                          </div>
+                          <Button size="sm" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                            Learn More
+                            <ArrowRight className="ml-2 w-3 h-3" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 max-w-4xl mx-auto">
+                    {enhancedAICapabilities.slice(3, 5).map((service, index) => (
+                      <Card key={index + 3} className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group">
                         <CardHeader className="p-6 text-center">
                           <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/30 transition-colors">
                             {service.icon}
@@ -293,6 +388,41 @@ export default function Services() {
                   </div>
                 </div>
 
+                {/* Additional Specialized Offerings */}
+                <div>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Additional Specialized Offerings</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {additionalSpecializedOfferings.map((service, index) => (
+                      <Card key={index} className="bg-slate-700/60 border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 group">
+                        <CardHeader className="p-6 text-center">
+                          <div className="w-16 h-16 bg-cyan-500/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-cyan-500/30 transition-colors">
+                            {service.icon}
+                          </div>
+                          <CardTitle className="text-xl text-white mb-3">{service.title}</CardTitle>
+                          <p className="text-gray-300 text-sm mb-4">{service.description}</p>
+                        </CardHeader>
+                        <CardContent className="p-6 pt-0">
+                          <ul className="space-y-2 mb-4">
+                            {service.features.slice(0, 4).map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center space-x-2">
+                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <span className="text-gray-300 text-xs">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="text-center mb-4">
+                            <div className="text-cyan-400 font-bold">{service.price}</div>
+                          </div>
+                          <Button size="sm" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
+                            Learn More
+                            <ArrowRight className="ml-2 w-3 h-3" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+
                 {/* IT Support Tiers */}
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-8 text-center">IT Support & Managed Services</h3>
@@ -309,15 +439,15 @@ export default function Services() {
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Help desk support</span>
+                            <span className="text-gray-300 text-sm">System Administration for 25+ users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">System monitoring</span>
+                            <span className="text-gray-300 text-sm">Windows 11 Pro workstation management</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Basic maintenance</span>
+                            <span className="text-gray-300 text-sm">Basic network monitoring and maintenance</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
@@ -341,15 +471,19 @@ export default function Services() {
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">24/7 monitoring</span>
+                            <span className="text-gray-300 text-sm">All Basic IT Support features</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Proactive maintenance</span>
+                            <span className="text-gray-300 text-sm">Firewall configuration and maintenance</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Priority support</span>
+                            <span className="text-gray-300 text-sm">Network traffic analysis and optimization</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">VPN configuration and management</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
@@ -370,15 +504,19 @@ export default function Services() {
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Dedicated team</span>
+                            <span className="text-gray-300 text-sm">All Advanced IT Support features</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Custom solutions</span>
+                            <span className="text-gray-300 text-sm">24/7 monitoring and vulnerability management</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Strategic planning</span>
+                            <span className="text-gray-300 text-sm">Advanced security incident investigation</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Custom integration with existing systems</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
