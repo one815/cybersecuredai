@@ -15,11 +15,8 @@ import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
 import { ThreatMap } from "@/components/ThreatMap";
-import { ThreatIntelligenceNetwork } from "@/components/ThreatIntelligenceNetwork";
-import { AIPredictiveAnalytics } from "@/components/AIPredictiveAnalytics";
-import { SectorRiskHeatmap } from "@/components/SectorRiskHeatmap";
-import { CompliancePostureRadialChart } from "@/components/CompliancePostureRadialChart";
-import { ZeroTrustMonitor } from "@/components/ZeroTrustMonitor";
+import { IntelligenceOverview } from "@/components/IntelligenceOverview";
+import { CambridgeAnalytics } from "@/components/CambridgeAnalytics";
 import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
@@ -427,49 +424,35 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* SOC Key Metrics */}
+        {/* Essential Platform Overview */}
         <div className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Protected Endpoints */}
-            <Card className="holographic-card border border-cyan-500/30 bg-background/50">
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <div className="text-3xl font-bold text-cyan-400 mb-1">834</div>
-                  <div className="text-gray-400 text-sm">Protected Endpoints</div>
+          <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl">
+            <CardHeader>
+              <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
+                <Monitor className="w-6 h-6 mr-3 text-cyan-400 animate-pulse" />
+                PLATFORM CAPABILITIES OVERVIEW
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center p-6 bg-background/20 rounded-lg border border-cyan-500/20">
+                  <Shield className="w-12 h-12 mx-auto mb-4 text-cyan-400" />
+                  <h3 className="text-lg font-bold text-white mb-2">AI-Powered Security</h3>
+                  <p className="text-sm text-gray-400">Advanced threat detection and response using machine learning algorithms</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Threats Blocked Today */}
-            <Card className="holographic-card border border-green-500/30 bg-background/50">
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <div className="text-3xl font-bold text-green-400 mb-1">24</div>
-                  <div className="text-gray-400 text-sm">Threats Blocked Today</div>
+                <div className="text-center p-6 bg-background/20 rounded-lg border border-purple-500/20">
+                  <Brain className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                  <h3 className="text-lg font-bold text-white mb-2">Intelligence Analytics</h3>
+                  <p className="text-sm text-gray-400">Cambridge-style analytical insights for strategic security planning</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Critical Alerts */}
-            <Card className="holographic-card border border-red-500/30 bg-background/50">
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <div className="text-3xl font-bold text-red-400 mb-1">2</div>
-                  <div className="text-gray-400 text-sm">Critical Alerts</div>
+                <div className="text-center p-6 bg-background/20 rounded-lg border border-green-500/20">
+                  <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-400" />
+                  <h3 className="text-lg font-bold text-white mb-2">Compliance Management</h3>
+                  <p className="text-sm text-gray-400">Automated compliance tracking for FERPA, FISMA, and CIPA requirements</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* System Health */}
-            <Card className="holographic-card border border-purple-500/30 bg-background/50">
-              <CardContent className="p-6">
-                <div className="flex flex-col">
-                  <div className="text-3xl font-bold text-purple-400 mb-1">98.7%</div>
-                  <div className="text-gray-400 text-sm">System Health</div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Live Threat Map and Recent Incidents */}
@@ -1614,22 +1597,14 @@ export default function Dashboard() {
         </Card>
 
 
-        {/* Unified Advanced Security Operations Center */}
-        <div className="space-y-6 mb-8">
-          {/* Primary Threat Intelligence & Analytics Row */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <ThreatIntelligenceNetwork />
-            <AIPredictiveAnalytics />
-          </div>
-          
-          {/* Risk Analysis & Compliance Row */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <SectorRiskHeatmap />
-            <CompliancePostureRadialChart />
-          </div>
-          
-          {/* Zero Trust Monitor - Full Width */}
-          <ZeroTrustMonitor />
+        {/* Platform Intelligence Overview */}
+        <div className="mb-8">
+          <IntelligenceOverview />
+        </div>
+
+        {/* Cambridge-Style Analytics */}
+        <div className="mb-8">
+          <CambridgeAnalytics />
         </div>
 
         {/* Cypher AI Assistant Dashboard Widget */}
