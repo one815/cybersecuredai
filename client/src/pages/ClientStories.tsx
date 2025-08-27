@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,7 +52,8 @@ const clientStories = [
     results: ["89% reduction in security incidents", "$2.3M annual savings", "50% faster incident response"],
     readTime: "8 min read",
     featured: true,
-    image: federalEducationImg
+    image: federalEducationImg,
+    link: "/client-stories/federal-education-security"
   },
   {
     title: "State University Achieves 100% FERPA Compliance",
@@ -62,7 +64,8 @@ const clientStories = [
     results: ["100% FERPA compliance", "75% reduction in data breaches", "Enhanced student privacy protection"],
     readTime: "12 min read",
     featured: true,
-    image: universityFerpaImg
+    image: universityFerpaImg,
+    link: "/client-stories/university-ferpa-compliance"
   },
   {
     title: "K-12 District Saves $1.2M Annually on Security",
@@ -73,7 +76,8 @@ const clientStories = [
     results: ["$1.2M annual cost savings", "Zero successful phishing attacks", "95% user satisfaction"],
     readTime: "10 min read",
     featured: true,
-    image: k12CostSavingsImg
+    image: k12CostSavingsImg,
+    link: "/client-stories/k12-cost-savings"
   },
   {
     title: "Multi-Agency Collaboration Platform Success",
@@ -126,10 +130,17 @@ const getIndustryIcon = (industry: string) => {
 };
 
 export default function ClientStories() {
+  const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+
+  const handleStoryClick = (story: any) => {
+    if (story.link) {
+      setLocation(story.link);
+    }
+  };
 
   const filteredStories = clientStories.filter(story => {
     const matchesSearch = story.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -228,9 +239,10 @@ export default function ClientStories() {
                     <Button 
                       size="sm" 
                       className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
+                      onClick={() => handleStoryClick(story)}
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Read Full Story
+                      {story.link ? "Read Full Story" : "Read Story"}
                     </Button>
                   </CardContent>
                 </Card>
@@ -433,9 +445,10 @@ export default function ClientStories() {
                       size="sm" 
                       variant="outline"
                       className="w-full border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black text-xs"
+                      onClick={() => handleStoryClick(story)}
                     >
                       <ExternalLink className="w-3 h-3 mr-2" />
-                      Read Story
+                      {story.link ? "Read Full Story" : "Read Story"}
                     </Button>
                   </CardContent>
                 </Card>
