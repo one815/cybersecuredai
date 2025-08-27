@@ -237,39 +237,221 @@ export default function Pricing() {
               </TabsContent>
 
               <TabsContent value="government">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                  {governmentPlans.map((plan, index) => (
-                    <Card key={index} className={`bg-slate-700/60 border ${plan.color}`}>
-                      <CardHeader className="p-8 text-center">
-                        <Badge className="mb-4 bg-white/10 text-gray-300">{plan.badge}</Badge>
-                        <CardTitle className="text-2xl text-white mb-4">{plan.name}</CardTitle>
-                        <p className="text-gray-300 mb-6">{plan.description}</p>
-                        <div className="text-4xl font-bold text-white mb-2">
-                          {plan.price}
-                          <span className="text-lg text-gray-400 font-normal">
-                            {plan.period && `/${plan.period}`}
-                          </span>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="p-8 pt-0">
-                        <ul className="space-y-3 mb-8">
-                          {plan.features.map((feature, fIndex) => (
-                            <li key={fIndex} className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
-                              <span className="text-gray-300 text-sm">{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <Button className={`w-full text-white ${plan.buttonClass}`}>
-                          Contact Sales
-                          <Phone className="ml-2 w-4 h-4" />
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                <div className="space-y-12">
+                  {/* Core Government Plans */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    {governmentPlans.map((plan, index) => (
+                      <Card key={index} className={`bg-slate-700/60 border ${plan.color}`}>
+                        <CardHeader className="p-8 text-center">
+                          <Badge className="mb-4 bg-white/10 text-gray-300">{plan.badge}</Badge>
+                          <CardTitle className="text-2xl text-white mb-4">{plan.name}</CardTitle>
+                          <p className="text-gray-300 mb-6">{plan.description}</p>
+                          <div className="text-4xl font-bold text-white mb-2">
+                            {plan.price}
+                            <span className="text-lg text-gray-400 font-normal">
+                              {plan.period && `/${plan.period}`}
+                            </span>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="p-8 pt-0">
+                          <ul className="space-y-3 mb-8">
+                            {plan.features.map((feature, fIndex) => (
+                              <li key={fIndex} className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                <span className="text-gray-300 text-sm">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <Button className={`w-full text-white ${plan.buttonClass}`}>
+                            Contact Sales
+                            <Phone className="ml-2 w-4 h-4" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+
+                  {/* Specialized Government Solutions */}
+                  <div>
+                    <h3 className="text-3xl font-bold text-white mb-8 text-center">Specialized Government Solutions</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                      <Card className="bg-slate-700/60 border border-purple-500/30">
+                        <CardContent className="p-6">
+                          <div className="flex items-center mb-4">
+                            <Building className="w-8 h-8 text-purple-400 mr-3" />
+                            <div>
+                              <h4 className="text-white font-semibold">Multi-State Security Coalition Platform</h4>
+                              <p className="text-purple-400 font-bold">$50,000 - $120,000</p>
+                            </div>
+                          </div>
+                          <p className="text-gray-300 text-sm">Inter-agency cybersecurity coordination and threat sharing</p>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="bg-slate-700/60 border border-cyan-500/30">
+                        <CardContent className="p-6">
+                          <div className="flex items-center mb-4">
+                            <Shield className="w-8 h-8 text-cyan-400 mr-3" />
+                            <div>
+                              <h4 className="text-white font-semibold">Government Community Cloud Integration</h4>
+                              <p className="text-cyan-400 font-bold">$30,000 - $75,000</p>
+                            </div>
+                          </div>
+                          <p className="text-gray-300 text-sm">Secure government community cloud deployment</p>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </div>
                 </div>
               </TabsContent>
             </Tabs>
+          </div>
+        </section>
+
+        {/* Integrated Packages */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-green-500/20 text-green-300 border-green-500/30">
+                Integrated Cloud & Networking Packages
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Complete Security<br />
+                <span className="text-green-400">Packages</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-slate-700/60 border border-blue-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-blue-500/20 text-blue-300">Essential</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Essential</CardTitle>
+                  <div className="text-xl font-bold text-blue-400 mb-2">$25,000 - $40,000</div>
+                  <p className="text-gray-300 text-xs">Complete basic security package</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Quote
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-purple-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Advanced</CardTitle>
+                  <div className="text-xl font-bold text-purple-400 mb-2">$50,000 - $80,000</div>
+                  <p className="text-gray-300 text-xs">Enhanced security capabilities</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Get Quote
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-yellow-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Enterprise</CardTitle>
+                  <div className="text-xl font-bold text-yellow-400 mb-2">$100,000 - $250,000</div>
+                  <p className="text-gray-300 text-xs">Complete enterprise solution</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                    Contact Enterprise
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-red-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-red-500/20 text-red-300">Government</Badge>
+                  <CardTitle className="text-lg text-white mb-3">Custom Government Package</CardTitle>
+                  <div className="text-xl font-bold text-red-400 mb-2">Custom</div>
+                  <p className="text-gray-300 text-xs">Tailored government solutions</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-red-600 hover:bg-red-700 text-white">
+                    Contact Sales
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* K-12 and Higher Ed Pilot Programs */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                CyberSecure AI-EDU Pilot Programs
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Educational<br />
+                <span className="text-cyan-400">Pilot Programs</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+                Specialized pilot programs designed for K-12 and higher education institutions.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <Card className="bg-slate-700/60 border border-green-500/30">
+                <CardHeader className="p-8 text-center">
+                  <CustomGraduationCapIcon className="w-16 h-16 text-green-400 mx-auto mb-6" size={64} />
+                  <CardTitle className="text-2xl text-white mb-4">K-12 Pilot Programs</CardTitle>
+                  <p className="text-gray-300 mb-6">Comprehensive cybersecurity for K-12 educational institutions</p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Small Districts</span>
+                      <span className="text-green-400 font-semibold">Custom Pricing</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Medium Districts</span>
+                      <span className="text-green-400 font-semibold">Custom Pricing</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Large Districts</span>
+                      <span className="text-green-400 font-semibold">Custom Pricing</span>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                    Learn More About K-12 Programs
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-purple-500/30">
+                <CardHeader className="p-8 text-center">
+                  <Building className="w-16 h-16 text-purple-400 mx-auto mb-6" />
+                  <CardTitle className="text-2xl text-white mb-4">Higher Education Pilot Programs</CardTitle>
+                  <p className="text-gray-300 mb-6">Advanced cybersecurity for colleges and universities</p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-4 mb-8">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Small Institutions</span>
+                      <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Medium Universities</span>
+                      <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-300">Large University Systems</span>
+                      <span className="text-purple-400 font-semibold">Custom Pricing</span>
+                    </div>
+                  </div>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Learn More About Higher Ed Programs
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
 
@@ -292,7 +474,7 @@ export default function Pricing() {
                   <div className="text-center">
                     <CustomBrainIcon className="w-16 h-16 text-purple-400 mx-auto mb-4" size={64} />
                     <h4 className="text-xl font-bold text-white mb-2">AI Innovation</h4>
-                    <p className="text-gray-300">Advanced machine learning models that adapt to emerging threats</p>
+                    <p className="text-gray-300">Eight core AI engines working together for maximum effectiveness</p>
                   </div>
                   <div className="text-center">
                     <Crown className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
