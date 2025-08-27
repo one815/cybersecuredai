@@ -331,8 +331,9 @@ export default function Courses() {
           </Badge>
           <Button 
             size="sm" 
-            className="bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+            className="bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold min-w-[150px] flex items-center justify-center"
             onClick={() => window.location.href = '/dashboard'}
+            data-testid="button-access-course"
           >
             <ExternalLink className="w-4 h-4 mr-1" />
             Access via Platform
@@ -370,8 +371,9 @@ export default function Courses() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
                     size="lg"
-                    className="bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                    className="bg-blue-600 hover:bg-blue-700 text-white border-0 font-semibold px-8 py-4 min-w-[200px] flex items-center justify-center"
                     onClick={() => window.location.href = '/dashboard'}
+                    data-testid="button-access-platform"
                   >
                     <ExternalLink className="w-5 h-5 mr-2" />
                     Access Training Platform
@@ -379,8 +381,9 @@ export default function Courses() {
                   <Button 
                     size="lg"
                     variant="outline"
-                    className="border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black"
+                    className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-black px-8 py-4 min-w-[160px] flex items-center justify-center"
                     onClick={() => window.location.href = '/dashboard'}
+                    data-testid="button-start-trial"
                   >
                     <GraduationCap className="w-5 h-5 mr-2" />
                     Start Free Trial

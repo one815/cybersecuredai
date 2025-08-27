@@ -250,7 +250,11 @@ export default function SuccessKits() {
                   {kit.downloadCount} downloads
                 </div>
               </div>
-              <Button size="sm" className="bg-cyan-600 hover:bg-cyan-700 text-white">
+              <Button 
+                size="sm" 
+                className="bg-blue-600 hover:bg-blue-700 text-white border-0 min-w-[120px] flex items-center justify-center"
+                data-testid="button-download-kit"
+              >
                 <Package className="w-4 h-4 mr-1" />
                 Download Kit
               </Button>
