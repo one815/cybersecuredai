@@ -115,6 +115,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Additional spacing between scan feature and content */}
+      <div className="py-12"></div>
+
       {/* MISP Live Dashboard Showcase */}
       <section className="py-16 px-6 bg-gradient-to-b from-emerald-900/20 to-background">
         <div className="container mx-auto max-w-6xl">
