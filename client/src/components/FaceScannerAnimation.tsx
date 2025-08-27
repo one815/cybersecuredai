@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import biometricFaceImage from "@assets/3d image_1756256105586.jpg";
 
 interface FaceScannerAnimationProps {
   className?: string;
@@ -6,14 +7,26 @@ interface FaceScannerAnimationProps {
 
 export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const [scanProgress, setScanProgress] = useState(0);
   const [rotationAngle, setRotationAngle] = useState(-25);
   const [isScanning, setIsScanning] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const animationRef = useRef<number>();
 
   useEffect(() => {
+    // Load the biometric face image
+    const img = new Image();
+    img.src = biometricFaceImage;
+    img.onload = () => {
+      setImageLoaded(true);
+      imgRef.current = img;
+    };
+  }, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !imageLoaded || !imgRef.current) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -39,11 +52,39 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       // Save canvas state
       ctx.save();
       
-      // Draw fully assembled 3D geometric wireframe head
+      // Draw the biometric face image with transparency and 3D transformation
+      const drawBiometricFace = () => {
+        const img = imgRef.current;
+        if (!img) return;
+        
+        ctx.save();
+        
+        // Apply 3D rotation transform
+        const rotationRad = (rotation * Math.PI) / 180;
+        const scaleX = Math.cos(rotationRad) * 0.8 + 0.2;
+        const scaleY = 0.8;
+        
+        // Position and scale for the image
+        const imgWidth = 180 * scaleX;
+        const imgHeight = 180 * scaleY;
+        const imgX = centerX + offsetX - imgWidth / 2;
+        const imgY = centerY - imgHeight / 2;
+        
+        // Apply transparency and blend mode for futuristic effect
+        ctx.globalAlpha = 0.85;
+        ctx.globalCompositeOperation = 'screen';
+        
+        // Draw the biometric face image
+        ctx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
+        
+        ctx.restore();
+      };
+      
+      // Draw additional wireframe overlay for enhanced biometric effect
       const drawWireframeFace = () => {
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 1.5;
-        ctx.globalAlpha = 0.9;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.3;
         
         const headX = centerX + offsetX;
         const headY = centerY - 5;
@@ -99,8 +140,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Draw wireframe faces
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 1.2;
-        ctx.globalAlpha = 0.85;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.25;
         
         faceIndices.forEach(face => {
           const [a, b, c] = face;
@@ -116,8 +157,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Draw main structural edges
         ctx.strokeStyle = '#40e0d0';
-        ctx.lineWidth = 1.8;
-        ctx.globalAlpha = 1;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.4;
         
         // Vertical structural lines
         const verticalConnections = [
@@ -165,8 +206,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Draw facial feature geometry
         ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 1.5;
-        ctx.globalAlpha = 0.9;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.3;
         
         // Eyes - geometric diamond shapes
         if (vertices[4] && vertices[9]) {
@@ -228,7 +269,7 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Add vertex points for technical effect
         ctx.fillStyle = '#00ffff';
-        ctx.globalAlpha = 0.8;
+        ctx.globalAlpha = 0.4;
         
         vertices.forEach((vertex, i) => {
           if (i < 21) { // Only front vertices
@@ -244,8 +285,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         // Draw the advanced wireframe face
         drawWireframeFace();
         ctx.strokeStyle = '#00e6ff';
-        ctx.lineWidth = 1.8;
-        ctx.globalAlpha = 0.9;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.3;
         
         const faceWidth = 55 * perspective;
         const faceHeight = 75;
@@ -299,8 +340,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Facial structure guidelines (anatomical proportions)
         ctx.strokeStyle = '#0099cc';
-        ctx.lineWidth = 0.8;
-        ctx.globalAlpha = 0.6;
+        ctx.lineWidth = 0.5;
+        ctx.globalAlpha = 0.2;
         
         // Horizontal division lines (rule of thirds)
         const divisions = [
@@ -329,8 +370,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         const eyeHeight = 6;
         
         ctx.strokeStyle = '#00e6ff';
-        ctx.lineWidth = 1.2;
-        ctx.globalAlpha = 0.85;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.4;
         
         if (rotation > 12) {
           // Right profile - geometric eye structure
@@ -395,8 +436,8 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         
         // Nose geometry (structural triangle)
         ctx.strokeStyle = '#00e6ff';
-        ctx.lineWidth = 1.2;
-        ctx.globalAlpha = 0.8;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.4;
         
         const noseY = centerY + 5;
         const noseX = centerX + offsetX;
@@ -423,14 +464,17 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         ctx.stroke();
       };
       
-      // Draw structural framework
+      // Draw the biometric face first
+      drawBiometricFace();
+      
+      // Draw overlay wireframe and analysis elements
       drawGeometricFace();
       drawStructuralFeatures();
       
       // Advanced measurement grid
       ctx.strokeStyle = '#40e0d0';
-      ctx.lineWidth = 0.4;
-      ctx.globalAlpha = 0.25;
+      ctx.lineWidth = 0.3;
+      ctx.globalAlpha = 0.15;
       
       // Precise measurement grid
       for (let i = 0; i < 12; i++) {
@@ -593,7 +637,7 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [imageLoaded]);
 
   return (
     <div className={`relative inline-block ${className}`}>
