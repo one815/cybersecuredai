@@ -201,13 +201,13 @@ export function ZeroTrustMonitor() {
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="holographic-card border-blue-500/30 backdrop-blur-xl floating-3d">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center">
-            <Shield className="w-5 h-5 mr-2" />
-            Zero Trust Implementation Monitor
-            <Badge className="ml-2 bg-blue-600 text-white">Live</Badge>
+          <CardTitle className="text-blue-300 flex items-center font-bold tracking-wide">
+            <Shield className="w-5 h-5 mr-2 text-blue-400 animate-pulse" />
+            ZERO TRUST IMPLEMENTATION MONITOR
+            <Badge className="ml-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white animate-pulse">LIVE</Badge>
           </CardTitle>
           
           <div className="flex items-center space-x-2">
