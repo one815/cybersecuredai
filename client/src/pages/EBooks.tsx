@@ -45,93 +45,171 @@ const industries = [
 ];
 
 const ebooks = [
+  // Federal Government eBooks
   {
-    title: "Complete Guide to Cybersecurity for Educational Institutions",
-    description: "Comprehensive eBook covering all aspects of educational cybersecurity from K-12 to university level. Includes practical implementation guides, compliance frameworks, and real-world case studies.",
+    title: "Federal AI Security Compliance Guide: FISMA & FedRAMP Implementation",
+    description: "Comprehensive guide for federal agencies implementing AI security compliance requirements. Covers FISMA frameworks, FedRAMP certification processes, executive order compliance, and practical implementation strategies.",
+    fullDescription: "This essential 180-page guide provides federal IT professionals with detailed guidance on implementing AI security compliance across government agencies. Content includes step-by-step FISMA compliance implementation for AI systems, comprehensive FedRAMP certification preparation and documentation, executive order compliance strategies and adaptation frameworks, federal security assessment tools and methodologies, and inter-agency coordination protocols. Features real case studies from successful federal implementations, compliance checklists, and template documentation.",
+    category: "Government Security",
+    industry: "Federal Government",
+    pages: "180 pages",
+    downloadCount: "3,800",
+    readTime: "10 hours",
+    featured: true,
+    image: federalComplianceImg,
+    keywords: "federal AI security compliance, FISMA implementation guide, FedRAMP certification, government cybersecurity compliance, federal security frameworks",
+    studyGuides: [
+      "Federal AI Compliance Quick Reference",
+      "FISMA Implementation Checklist",
+      "FedRAMP Documentation Templates"
+    ]
+  },
+  {
+    title: "National Security AI Protection: Advanced Threat Response",
+    description: "Specialized guide for protecting classified and sensitive AI systems. Covers compartmentalized security architectures, multi-level access controls, nation-state threat response, and classified data handling.",
+    fullDescription: "This 225-page advanced guide addresses sophisticated threats targeting federal AI systems handling classified information. Content includes compartmentalized security architectures for AI workloads, multi-level security protocols and clearance-based access controls, classified data handling procedures and processing requirements, nation-state threat assessment and response strategies, and coordinated security operations for sensitive systems. Designed for security professionals with appropriate clearance levels.",
+    category: "Threat Intelligence",
+    industry: "Federal Government",
+    pages: "225 pages",
+    downloadCount: "1,950",
+    readTime: "12 hours",
+    featured: true,
+    image: governmentThreatImg,
+    keywords: "national security AI protection, classified AI security, nation-state threat response, compartmented information security, federal AI threat intelligence",
+    studyGuides: [
+      "Classified AI Security Protocols",
+      "Nation-State Threat Assessment Framework",
+      "Compartmented Security Implementation Guide"
+    ]
+  },
+  {
+    title: "Cross-Agency AI Security Coordination Handbook",
+    description: "Comprehensive guide for coordinating AI security efforts across federal agencies. Inter-agency collaboration frameworks, shared threat intelligence, unified incident response, and standardized practices.",
+    fullDescription: "This 165-page handbook provides federal security leaders with frameworks for coordinating AI security across agency boundaries. Content includes inter-agency security communication protocols and frameworks, shared threat intelligence platforms and analysis methodologies, coordinated incident response procedures across multiple agencies, standardized security practices while respecting agency autonomy, and resource sharing strategies for enhanced security coverage. Includes detailed case studies from successful multi-agency security initiatives.",
+    category: "Government Security",
+    industry: "Federal Government",
+    pages: "165 pages",
+    downloadCount: "1,450",
+    readTime: "9 hours",
+    featured: false,
+    image: complianceAutomationImg,
+    keywords: "cross-agency AI security, federal inter-agency coordination, government security collaboration, unified federal protection, multi-agency threat response",
+    studyGuides: [
+      "Inter-Agency Coordination Framework",
+      "Federal Security Standards Template",
+      "Multi-Agency Response Protocols"
+    ]
+  },
+  // Higher Education eBooks
+  {
+    title: "Complete Guide to University AI Security: Research Protection & Academic Freedom",
+    description: "Comprehensive 195-page guide covering all aspects of AI security in higher education environments. Research data protection, intellectual property safeguards, collaborative security frameworks, and campus-wide implementation.",
+    fullDescription: "This comprehensive guide addresses the unique security challenges faced by universities implementing AI systems. Content includes academic-specific threat assessment and vulnerability analysis, research data protection strategies and intellectual property safeguards, collaborative security frameworks that preserve academic freedom and research collaboration, campus-wide deployment strategies for diverse academic environments, and student privacy considerations and FERPA compliance. Features detailed case studies from successful university implementations, security policy templates, and implementation roadmaps.",
+    category: "Educational Security",
+    industry: "Higher Education",
+    pages: "195 pages",
+    downloadCount: "5,400",
+    readTime: "12 hours",
+    featured: true,
+    image: educationalSecurityImg,
+    keywords: "university AI security, academic research protection, higher education cybersecurity, research data security, scholarly integrity protection",
+    studyGuides: [
+      "Academic Security Assessment Framework",
+      "Research Data Protection Templates",
+      "University AI Policy Guidelines"
+    ]
+  },
+  {
+    title: "Campus AI Security Implementation: Multi-Department Coordination Guide",
+    description: "Practical guide for implementing AI security across university campuses. Multi-department coordination strategies, stakeholder engagement, student privacy compliance, and scalable deployment approaches.",
+    fullDescription: "This 145-page implementation guide provides university IT leaders with proven strategies for campus-wide AI security deployment. Content includes multi-department coordination techniques and communication strategies, stakeholder engagement across academic and administrative units, student privacy protection and FERPA compliance frameworks, scalable implementation approaches for large campus environments, and change management strategies for academic settings. Includes practical templates, checklists, and real-world implementation timelines.",
+    category: "Educational Security",
+    industry: "Higher Education",
+    pages: "145 pages",
+    downloadCount: "3,200",
+    readTime: "8 hours",
+    featured: true,
+    image: universityZeroTrustImg,
+    keywords: "campus AI security implementation, university deployment strategies, higher education protection, multi-department coordination, student privacy compliance",
+    studyGuides: [
+      "Campus Deployment Roadmap",
+      "Multi-Department Coordination Toolkit",
+      "Student Privacy Compliance Guide"
+    ]
+  },
+  {
+    title: "Higher Education AI Security Pilot Programs: Design & Evaluation",
+    description: "Comprehensive guide to designing, implementing, and evaluating AI security pilot programs in academic environments. Pilot design principles, metrics frameworks, evaluation methodologies, and scaling strategies.",
+    fullDescription: "This 120-page guide provides higher education security leaders with frameworks for successful security pilot programs. Content includes pilot program design principles tailored for academic environments, metrics and evaluation frameworks for educational contexts, stakeholder engagement strategies across diverse academic departments, pilot evaluation methodologies and success criteria, and strategies for scaling successful pilots to full campus deployment. Features detailed case studies from successful university pilot programs and evaluation templates.",
     category: "Educational Security",
     industry: "Higher Education",
     pages: "120 pages",
-    downloadCount: "5,400",
-    readTime: "8 hours",
-    featured: true,
-    image: educationalSecurityImg
-  },
-  {
-    title: "Federal Cybersecurity Compliance Handbook",
-    description: "Essential guide for federal agencies to meet cybersecurity compliance requirements. Covers NIST frameworks, FedRAMP, and emerging AI security mandates.",
-    category: "Government Security",
-    industry: "Federal Government",
-    pages: "95 pages",
-    downloadCount: "3,800",
-    readTime: "6 hours",
-    featured: true,
-    image: federalComplianceImg
-  },
-  {
-    title: "AI Security Implementation Guide",
-    description: "Step-by-step guide to implementing AI security measures across organizations. Includes technical specifications, best practices, and monitoring strategies.",
-    category: "AI & Cybersecurity",
-    industry: "Cross-Industry",
-    pages: "156 pages",
-    downloadCount: "4,200",
-    readTime: "10 hours",
-    featured: true,
-    image: aiSecurityImg
-  },
-  {
-    title: "Zero Trust for Universities",
-    description: "Comprehensive guide to implementing zero trust architecture in higher education environments. Addresses unique academic challenges and collaboration needs.",
-    category: "Zero Trust Architecture",
-    industry: "Higher Education",
-    pages: "89 pages",
-    downloadCount: "2,900",
-    readTime: "5 hours",
+    downloadCount: "1,850",
+    readTime: "7 hours",
     featured: false,
-    image: universityZeroTrustImg
+    image: campusIncidentImg,
+    keywords: "higher education security pilots, academic security testing, university pilot programs, educational security trials, campus security experiments",
+    studyGuides: [
+      "Pilot Program Design Template",
+      "Academic Metrics Framework",
+      "University Pilot Evaluation Toolkit"
+    ]
   },
+  // K-12 Education eBooks
   {
-    title: "K-12 Digital Safety & Security",
-    description: "Complete resource for protecting K-12 students and educational technology. Covers privacy laws, age-appropriate security measures, and incident response.",
+    title: "K-12 AI Security & Student Safety: Complete Protection Guide",
+    description: "Essential 110-page resource for protecting K-12 students and educational technology. Age-appropriate security measures, privacy law compliance, student safety frameworks, and parental engagement strategies.",
+    fullDescription: "This comprehensive guide provides K-12 administrators with complete AI security and student safety strategies. Content includes school-specific threat assessment and age-appropriate security measures, student safety protocols and privacy protection frameworks, classroom technology security and educational AI safeguards, parent engagement and communication strategies for security awareness, and compliance with COPPA, FERPA, and state privacy regulations. Features practical implementation guides, safety checklists, and communication templates for parents and educators.",
     category: "Educational Security",
     industry: "K-12 Education",
-    pages: "67 pages",
-    downloadCount: "3,500",
-    readTime: "4 hours",
-    featured: false,
-    image: k12DigitalSafetyImg
+    pages: "110 pages",
+    downloadCount: "4,500",
+    readTime: "6 hours",
+    featured: true,
+    image: k12DigitalSafetyImg,
+    keywords: "K-12 AI security, student safety protection, school cybersecurity, educational technology security, classroom AI safety",
+    studyGuides: [
+      "K-12 Security Implementation Checklist",
+      "Student Safety Protocol Framework",
+      "Parent Communication Toolkit"
+    ]
+  },
+  // Cross-Industry eBooks
+  {
+    title: "AI Security Implementation Guide: Technical Specifications & Best Practices",
+    description: "Comprehensive 210-page technical guide for implementing AI security across any organization. Technical specifications, architectural frameworks, monitoring strategies, and industry-specific adaptations.",
+    fullDescription: "This detailed technical guide provides IT professionals with comprehensive AI security implementation strategies. Content includes technical specifications for secure AI architectures, security frameworks and implementation methodologies, monitoring and detection strategies for AI-specific threats, incident response procedures tailored for AI systems, and industry-specific adaptation guidance for government and education sectors. Features code examples, configuration templates, and detailed technical appendices.",
+    category: "AI & Cybersecurity",
+    industry: "Cross-Industry",
+    pages: "210 pages",
+    downloadCount: "4,200",
+    readTime: "14 hours",
+    featured: true,
+    image: aiSecurityImg,
+    keywords: "AI security implementation, technical AI protection, secure AI architecture, AI cybersecurity best practices, AI security frameworks",
+    studyGuides: [
+      "AI Security Technical Specifications",
+      "Implementation Best Practices Guide",
+      "AI Security Monitoring Framework"
+    ]
   },
   {
-    title: "Threat Intelligence for Government",
-    description: "Advanced guide to implementing threat intelligence programs in government agencies. Includes inter-agency collaboration and classified information handling.",
-    category: "Threat Intelligence",
-    industry: "Federal Government",
-    pages: "134 pages",
-    downloadCount: "2,100",
-    readTime: "8 hours",
-    featured: false,
-    image: governmentThreatImg
-  },
-  {
-    title: "Compliance Automation Strategies",
-    description: "Learn how to automate compliance monitoring and reporting across educational and government institutions. Includes tool recommendations and implementation roadmaps.",
+    title: "Compliance Automation Strategies: Government & Education Focus",
+    description: "Learn how to automate compliance monitoring and reporting across government and educational institutions. Tool recommendations, implementation roadmaps, and sector-specific guidance.",
+    fullDescription: "This 135-page guide provides compliance officers and IT leaders with automation strategies for regulatory compliance. Content includes automated compliance monitoring tools and implementation strategies, reporting automation and dashboard development, sector-specific compliance requirements for government and education, tool selection criteria and vendor evaluation frameworks, and implementation roadmaps with timelines and milestones. Features comparative tool analysis and ROI calculations for compliance automation initiatives.",
     category: "Compliance & Governance",
     industry: "Cross-Industry",
-    pages: "78 pages",
-    downloadCount: "1,800",
-    readTime: "5 hours",
+    pages: "135 pages",
+    downloadCount: "2,300",
+    readTime: "8 hours",
     featured: false,
-    image: complianceAutomationImg
-  },
-  {
-    title: "Campus Cybersecurity Incident Response",
-    description: "Detailed playbook for responding to cybersecurity incidents in university environments. Covers communication, containment, and recovery procedures.",
-    category: "Educational Security",
-    industry: "Higher Education",
-    pages: "101 pages",
-    downloadCount: "2,600",
-    readTime: "6 hours",
-    featured: false,
-    image: campusIncidentImg
+    image: complianceAutomationImg,
+    keywords: "compliance automation, regulatory monitoring automation, government compliance tools, education sector compliance, automated reporting strategies",
+    studyGuides: [
+      "Compliance Automation Implementation Guide",
+      "Tool Selection and Evaluation Framework",
+      "ROI Calculator for Compliance Automation"
+    ]
   }
 ];
 

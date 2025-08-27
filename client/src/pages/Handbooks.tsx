@@ -26,50 +26,89 @@ import aiFieldGuideImg from "@assets/generated_images/AI_Security_Field_Guide_a1
 
 const handbooks = [
   {
-    title: "The Definitive AI Security Handbook",
-    description: "Strategies, tools, and techniques for protecting intelligent systems",
+    title: "The Definitive AI Security Handbook: Comprehensive Protection Strategies",
+    description: "Complete 450-page reference covering all aspects of AI security across industries. Advanced strategies, cutting-edge tools, and proven techniques for protecting intelligent systems in any environment.",
+    fullDescription: "This comprehensive handbook serves as the ultimate reference for AI security professionals across all sectors. Content includes advanced threat detection and response strategies, comprehensive security architecture frameworks for AI systems, cutting-edge tools and technologies for AI protection, industry-specific implementation guides for government and education, and emerging threat landscape analysis with future-proofing strategies. Features detailed case studies, technical specifications, implementation checklists, and expert interviews from leading AI security practitioners.",
     sector: "general",
-    pages: "300+",
+    pages: "450+",
     version: "2025 Edition",
     downloadCount: "8,900",
     featured: true,
-    image: definitiveAIHandbookImg
+    image: definitiveAIHandbookImg,
+    keywords: "comprehensive AI security handbook, advanced AI protection strategies, AI cybersecurity best practices, intelligent systems security, AI threat detection",
+    studyGuides: [
+      "AI Security Professional Certification Guide",
+      "Advanced Threat Response Playbook",
+      "AI Security Architecture Reference"
+    ]
   },
   {
-    title: "Federal AI Security Handbook: Compliance, Protection, and Response",
-    description: "Comprehensive guide for government AI security implementation",
+    title: "Federal AI Security Handbook: Government Compliance, Protection, and Response",
+    description: "Specialized 320-page handbook for federal agencies implementing AI security. FISMA compliance, FedRAMP certification, classified systems protection, and inter-agency coordination strategies.",
+    fullDescription: "This authoritative handbook provides federal security professionals with comprehensive guidance on government AI security implementation. Content includes detailed FISMA compliance frameworks and implementation strategies, FedRAMP certification processes and documentation requirements, classified AI systems protection and compartmented security, inter-agency coordination protocols and resource sharing, and executive order compliance and regulatory adaptation. Features federal case studies, compliance templates, security assessment tools, and coordination frameworks.",
     sector: "federal",
-    pages: "250+",
+    pages: "320+",
     version: "2025 Edition",
     downloadCount: "2,400",
-    image: federalAIHandbookImg
+    featured: true,
+    image: federalAIHandbookImg,
+    keywords: "federal AI security handbook, government cybersecurity compliance, FISMA AI implementation, FedRAMP certification guide, federal security frameworks",
+    studyGuides: [
+      "Federal AI Compliance Master Guide",
+      "Government Security Assessment Toolkit",
+      "Inter-Agency Coordination Framework"
+    ]
   },
   {
-    title: "University AI Security Handbook: Balancing Academic Freedom with Protection",
-    description: "Academic-focused security strategies and implementation guides",
+    title: "University AI Security Handbook: Balancing Academic Freedom with Comprehensive Protection",
+    description: "Academic-focused 275-page handbook addressing unique higher education challenges. Research protection, collaborative security, campus-wide implementation, and academic freedom preservation strategies.",
+    fullDescription: "This specialized handbook addresses the complex security challenges faced by universities implementing AI systems. Content includes academic-specific threat assessment and research vulnerability analysis, collaborative security frameworks that preserve academic freedom, research data protection and intellectual property safeguards, campus-wide deployment strategies for diverse academic environments, and student privacy protection with FERPA compliance. Features university case studies, policy templates, implementation roadmaps, and stakeholder engagement strategies.",
     sector: "higher-ed",
-    pages: "180+",
+    pages: "275+",
     version: "2025 Edition",
     downloadCount: "1,800",
-    image: universityAIHandbookImg
+    featured: true,
+    image: universityAIHandbookImg,
+    keywords: "university AI security handbook, academic cybersecurity, research protection strategies, campus security implementation, higher education AI safety",
+    studyGuides: [
+      "Academic Security Policy Template Library",
+      "Research Data Protection Framework",
+      "Campus Deployment Strategy Guide"
+    ]
   },
   {
-    title: "K-12 AI Security Handbook: Safeguarding Educational Technology",
-    description: "Student data protection and educational technology security",
+    title: "K-12 AI Security Handbook: Comprehensive Student Safety and Educational Technology Protection",
+    description: "Essential 185-page handbook for K-12 administrators and technology leaders. Age-appropriate security measures, student safety protocols, classroom technology protection, and parental engagement strategies.",
+    fullDescription: "This comprehensive handbook provides K-12 educational leaders with complete AI security and student safety strategies. Content includes school-specific threat assessment and age-appropriate security measures, student safety protocols and privacy protection frameworks, classroom technology security and educational AI safeguards, parent and community engagement strategies for security awareness, and compliance with COPPA, FERPA, and state educational privacy regulations. Features implementation guides, safety checklists, communication templates, and district-wide deployment strategies.",
     sector: "k12",
-    pages: "120+",
+    pages: "185+",
     version: "2025 Edition",
     downloadCount: "3,200",
-    image: k12AIHandbookImg
+    featured: true,
+    image: k12AIHandbookImg,
+    keywords: "K-12 AI security handbook, student safety protection, school cybersecurity, educational technology security, classroom AI safety",
+    studyGuides: [
+      "K-12 Security Implementation Checklist",
+      "Student Safety Protocol Framework",
+      "District-Wide Deployment Guide"
+    ]
   },
   {
-    title: "AI Security Field Guide: Practical Approaches for Security Professionals",
-    description: "Hands-on reference for cybersecurity practitioners",
+    title: "AI Security Field Guide: Advanced Practical Approaches for Security Professionals",
+    description: "Hands-on 350-page reference for cybersecurity practitioners across all sectors. Practical implementation techniques, troubleshooting guides, real-world scenarios, and expert recommendations.",
+    fullDescription: "This practical field guide provides cybersecurity professionals with hands-on approaches to AI security implementation and management. Content includes step-by-step implementation procedures and troubleshooting guides, real-world scenario analysis and response strategies, tool comparisons and expert recommendations, sector-specific adaptation strategies for government and education, and advanced techniques for complex security challenges. Features practical exercises, implementation templates, decision trees, and expert interviews from seasoned AI security practitioners.",
     sector: "general",
-    pages: "220+",
+    pages: "350+",
     version: "2025 Edition",
     downloadCount: "4,600",
-    image: aiFieldGuideImg
+    featured: true,
+    image: aiFieldGuideImg,
+    keywords: "AI security field guide, practical AI protection, cybersecurity implementation, AI security troubleshooting, hands-on security strategies",
+    studyGuides: [
+      "Practical Implementation Toolkit",
+      "Troubleshooting and Resolution Guide",
+      "Advanced Techniques Reference"
+    ]
   }
 ];
 

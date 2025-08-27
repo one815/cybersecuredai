@@ -27,9 +27,11 @@ import aiInfraHardeningWebinarImg from "@assets/generated_images/AI_Infrastructu
 import aiSecComplianceWebinarImg from "@assets/generated_images/AI_Security_Compliance_Webinar_ae1e454f.png";
 
 const webinars = [
+  // Federal Government Webinars
   {
     title: "Securing Federal AI Infrastructure: NIST Framework Implementation",
-    description: "Regulatory compliance walkthrough and federal case studies",
+    description: "Comprehensive deep-dive into implementing NIST Cybersecurity Framework specifically for federal AI systems. Covers regulatory compliance walkthrough, federal case studies, and practical implementation roadmaps.",
+    fullDescription: "This webinar provides federal IT professionals with actionable guidance on implementing the NIST Cybersecurity Framework for AI systems. Content includes detailed compliance walkthroughs mapped to federal requirements, real-world case studies from successful federal implementations, hands-on demonstration of security assessment tools, and Q&A sessions addressing common federal implementation challenges. Learn how agencies achieve 47% reduction in security incidents while maintaining full regulatory compliance.",
     sector: "federal",
     duration: "60 min",
     attendees: "1,200+",
@@ -38,11 +40,59 @@ const webinars = [
     status: "on-demand",
     views: "3,400",
     featured: true,
-    image: fedAIInfraWebinarImg
+    image: fedAIInfraWebinarImg,
+    keywords: "federal AI security, NIST framework implementation, government cybersecurity compliance, federal security assessment tools, AI regulatory compliance",
+    studyGuides: [
+      "Federal AI Security Implementation Checklist",
+      "NIST Framework Mapping for Government AI Systems",
+      "Federal Compliance Quick Reference Guide"
+    ]
   },
   {
+    title: "National Security AI Protection: Advanced Threat Response",
+    description: "Specialized training for protecting classified and sensitive AI systems against nation-state threats. Advanced threat detection, response protocols, and security clearance considerations.",
+    fullDescription: "This advanced webinar covers sophisticated threats targeting federal AI systems, with focus on nation-state actors and advanced persistent threats. Content includes threat intelligence specific to AI-targeting attacks, classified data handling procedures for AI systems, multi-level security protocols and compartmentalization, and coordinated response strategies across agencies. Ideal for federal security professionals with appropriate clearance levels.",
+    sector: "federal",
+    duration: "75 min",
+    attendees: "650+",
+    presenter: "Colonel James Harrison, NSA Cybersecurity Director",
+    airDate: "2025-01-25",
+    status: "on-demand",
+    views: "1,800",
+    featured: true,
+    image: aiInfraHardeningWebinarImg,
+    keywords: "national security AI protection, classified AI systems security, nation-state threat response, federal AI threat intelligence, advanced AI security protocols",
+    studyGuides: [
+      "Classified AI Security Protocols Guide",
+      "Nation-State Threat Intelligence Briefing",
+      "Advanced AI Security Response Playbook"
+    ]
+  },
+  {
+    title: "Cross-Agency AI Security Coordination",
+    description: "Strategies for unified AI security across federal agencies. Inter-agency collaboration frameworks, shared threat intelligence, and coordinated incident response.",
+    fullDescription: "Learn how federal agencies coordinate AI security efforts across organizational boundaries. This webinar covers establishing inter-agency security protocols, implementing shared threat intelligence platforms, coordinating incident response across agencies, and standardizing security practices while maintaining agency autonomy. Includes case studies from successful multi-agency security initiatives.",
+    sector: "federal",
+    duration: "45 min",
+    attendees: "890+",
+    presenter: "Maria Santos, DHS Cybersecurity Coordinator",
+    airDate: "2025-01-30",
+    status: "on-demand",
+    views: "2,100",
+    featured: false,
+    image: aiSecComplianceWebinarImg,
+    keywords: "cross-agency AI security, federal inter-agency coordination, government security collaboration, unified federal AI protection, multi-agency threat response",
+    studyGuides: [
+      "Inter-Agency Security Coordination Framework",
+      "Federal AI Security Standards Guide",
+      "Cross-Agency Communication Protocols"
+    ]
+  },
+  // Higher Education Webinars
+  {
     title: "Campus-Wide AI Security: Protecting University Research Assets",
-    description: "Academic threat models and research protection strategies",
+    description: "Comprehensive guide to securing academic AI systems while maintaining research collaboration and academic freedom. Research data protection strategies and campus-wide implementation.",
+    fullDescription: "This webinar addresses the unique security challenges faced by higher education institutions implementing AI systems. Content includes academic threat models and research-specific vulnerabilities, research data protection strategies and intellectual property safeguards, collaborative security frameworks that preserve academic freedom, and campus-wide deployment strategies for diverse academic environments. Learn how universities achieve 92% improvement in unauthorized access detection.",
     sector: "higher-ed",
     duration: "45 min",
     attendees: "800+",
@@ -50,11 +100,40 @@ const webinars = [
     airDate: "2025-01-18",
     status: "on-demand",
     views: "1,600",
-    image: campusAISecWebinarImg
+    featured: true,
+    image: campusAISecWebinarImg,
+    keywords: "campus AI security, university research protection, academic cybersecurity, higher education AI implementation, research data security",
+    studyGuides: [
+      "Campus AI Security Implementation Guide",
+      "Academic Research Protection Framework",
+      "University AI Policy Templates"
+    ]
   },
   {
+    title: "Higher Education AI Security Pilot Programs",
+    description: "Designing and implementing AI security pilot programs in academic environments. Pilot design, metrics collection, evaluation frameworks, and scaling strategies.",
+    fullDescription: "Learn how to design effective AI security pilot programs tailored for higher education environments. This webinar covers pilot program design principles for academic settings, metrics and evaluation frameworks for educational contexts, stakeholder engagement across diverse academic departments, and strategies for scaling successful pilots campus-wide. Includes real examples from successful university security pilot implementations.",
+    sector: "higher-ed",
+    duration: "55 min",
+    attendees: "720+",
+    presenter: "Dr. Lisa Park, Academic Security Researcher",
+    airDate: "2025-02-05",
+    status: "on-demand",
+    views: "1,450",
+    featured: false,
+    image: fedAIInfraWebinarImg,
+    keywords: "higher education security pilots, academic AI testing, university security trials, educational pilot programs, campus security experiments",
+    studyGuides: [
+      "Academic Security Pilot Design Template",
+      "Higher Education Metrics Framework",
+      "University Pilot Evaluation Toolkit"
+    ]
+  },
+  // K-12 Education Webinars
+  {
     title: "Protecting Digital Classrooms: K-12 AI Security Fundamentals",
-    description: "School-specific threats and student safety measures",
+    description: "Essential security training for K-12 educational technology leaders. Student safety measures, age-appropriate protections, and classroom technology security.",
+    fullDescription: "This webinar provides K-12 administrators and IT staff with comprehensive guidance on securing AI systems in educational environments. Content includes school-specific threats and age-appropriate security measures, student safety protocols and privacy protection strategies, classroom technology security and teacher training programs, and parent engagement and communication strategies. Learn practical approaches to maintaining educational effectiveness while ensuring student safety.",
     sector: "k12",
     duration: "45 min",
     attendees: "950+",
@@ -63,11 +142,19 @@ const webinars = [
     status: "on-demand",
     views: "2,100",
     featured: true,
-    image: k12ClassroomWebinarImg
+    image: k12ClassroomWebinarImg,
+    keywords: "K-12 AI security, student safety digital classroom, school cybersecurity, educational technology protection, classroom AI safety",
+    studyGuides: [
+      "K-12 AI Security Essentials Checklist",
+      "Student Safety Protocol Guide",
+      "Classroom Technology Security Framework"
+    ]
   },
+  // General Webinars
   {
     title: "From Vulnerability to Security: Hardening Your AI Infrastructure",
-    description: "Comprehensive infrastructure hardening and vulnerability remediation",
+    description: "Comprehensive infrastructure hardening strategies for AI systems. Vulnerability assessment, remediation techniques, and ongoing security maintenance.",
+    fullDescription: "This technical webinar provides IT professionals with advanced techniques for securing AI infrastructure across any organization type. Content includes comprehensive vulnerability assessment methodologies, prioritized remediation strategies based on risk levels, infrastructure hardening techniques specific to AI workloads, and continuous monitoring and maintenance protocols. Suitable for technical audiences across government and education sectors.",
     sector: "general",
     duration: "60 min",
     attendees: "1,800+",
@@ -75,11 +162,19 @@ const webinars = [
     airDate: "2025-01-22",
     status: "on-demand",
     views: "2,800",
-    image: aiInfraHardeningWebinarImg
+    featured: true,
+    image: aiInfraHardeningWebinarImg,
+    keywords: "AI infrastructure hardening, vulnerability assessment AI systems, AI security architecture, infrastructure security best practices, AI system protection",
+    studyGuides: [
+      "AI Infrastructure Security Assessment Guide",
+      "Vulnerability Remediation Priority Matrix",
+      "AI Hardening Best Practices Checklist"
+    ]
   },
   {
     title: "AI Security Compliance: Meeting New Regulatory Requirements in 2025",
-    description: "Regulatory overview, compliance checklist, and implementation timeline",
+    description: "Navigate the complex regulatory landscape for AI security. Updated compliance requirements, implementation timelines, and practical guidance.",
+    fullDescription: "Stay ahead of evolving AI security regulations with this comprehensive compliance webinar. Content includes detailed overview of 2025 regulatory changes affecting AI systems, compliance checklist and implementation timeline guidance, sector-specific requirements for government and education, and practical strategies for maintaining ongoing compliance. Essential for compliance officers and security leaders across all sectors.",
     sector: "general",
     duration: "50 min",
     attendees: "1,500+",
@@ -88,7 +183,13 @@ const webinars = [
     status: "on-demand",
     views: "2,400",
     featured: true,
-    image: aiSecComplianceWebinarImg
+    image: aiSecComplianceWebinarImg,
+    keywords: "AI security compliance 2025, regulatory requirements AI, compliance implementation timeline, AI governance frameworks, security regulation updates",
+    studyGuides: [
+      "2025 AI Compliance Requirements Guide",
+      "Regulatory Implementation Timeline",
+      "AI Compliance Self-Assessment Tool"
+    ]
   }
 ];
 

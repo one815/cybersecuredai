@@ -44,65 +44,123 @@ const industries = [
 ];
 
 const successKits = [
+  // Federal Government Kits
   {
-    title: "Federal AI Security Implementation Kit",
-    description: "Complete implementation package including deployment guides, compliance checklists, training materials, and best practices for federal agencies.",
-    category: "Implementation",
+    title: "Federal AI Security Compliance Kit",
+    description: "Complete FISMA compliance templates with step-by-step implementation guides and FedRAMP certification preparation materials.",
+    category: "Compliance",
     industry: "Federal Government",
-    components: ["Deployment Guide", "Compliance Checklist", "Training Videos", "Templates"],
+    components: ["FISMA Compliance Templates", "FedRAMP Certification Framework", "Federal Security Assessment Tools", "Documentation Templates"],
     downloadCount: "2,400",
     featured: true,
-    image: federalImplKitImg
+    image: federalImplKitImg,
+    keywords: "federal compliance, government security, FISMA tools, FedRAMP certification",
+    studyGuides: [
+      "Top 20 FISMA Audit Questions & Answers",
+      "FedRAMP Certification FAQ: Expert Responses",
+      "Federal AI Compliance: Common Pitfalls & Solutions"
+    ]
   },
   {
-    title: "University AI Security Success Kit",
-    description: "Comprehensive package for higher education institutions including FERPA compliance, research protection, and campus-wide security implementation.",
+    title: "National Security AI Protection Kit",
+    description: "Classified data handling procedures with multi-level security protocols and compartmentalized access control frameworks.",
     category: "Implementation",
-    industry: "Higher Education",
-    components: ["FERPA Compliance Guide", "Research Protection Plan", "Campus Security Framework", "Training Materials"],
+    industry: "Federal Government",
+    components: ["Classified Data Handling Procedures", "Access Control Frameworks", "Threat Response Playbooks", "Zero-Trust Architecture Guide"],
     downloadCount: "1,800",
     featured: true,
-    image: higherEdDeployKitImg
+    image: aiRiskAssessmentImg,
+    keywords: "national security, classified AI, government protection, security clearance",
+    studyGuides: [
+      "Classified Data Handling: Essential Protocols",
+      "National Security Threat Assessment Framework",
+      "Zero-Trust Architecture Implementation Guide"
+    ]
   },
   {
-    title: "K-12 Student Data Protection Kit",
-    description: "Student privacy protection package with age-appropriate security measures, COPPA compliance, and educational technology safety protocols.",
+    title: "Cross-Agency AI Security Coordination Kit",
+    description: "Interagency communication templates and unified incident response frameworks with collaborative monitoring tools.",
+    category: "Incident Response",
+    industry: "Federal Government",
+    components: ["Communication Templates", "Unified Response Framework", "Collaborative Monitoring Tools", "Joint Response Matrix"],
+    downloadCount: "1,600",
+    featured: false,
+    image: aiThreatResponseImg,
+    keywords: "interagency security, government collaboration, unified response, cross-agency coordination",
+    studyGuides: [
+      "Interagency Communication Best Practices",
+      "Unified Response Protocols: Decision Trees",
+      "Cross-Agency Data Sharing: Legal and Technical Requirements"
+    ]
+  },
+  // Higher Education Kits
+  {
+    title: "University Research AI Security Kit",
+    description: "Academic data protection guidelines aligned with research requirements and collaborative project security frameworks.",
+    category: "Implementation",
+    industry: "Higher Education",
+    components: ["Research Data Security Guide", "Integrity Assurance Framework", "Collaboration Security Model", "Academic Case Studies"],
+    downloadCount: "1,800",
+    featured: true,
+    image: higherEdDeployKitImg,
+    keywords: "research security, academic protection, university data, scholarly integrity",
+    studyGuides: [
+      "Academic Data Protection: Compliance and Best Practices",
+      "Research Integrity in AI: Verification Methods",
+      "Collaborative Research Security: Technical Implementation Guide"
+    ]
+  },
+  {
+    title: "Campus-Wide AI Security Implementation Kit",
+    description: "Multi-department deployment strategies with student privacy protection tools and FERPA compliance frameworks.",
+    category: "Implementation",
+    industry: "Higher Education",
+    components: ["Implementation Roadmap", "Department-Specific Guides", "Privacy Framework", "Assessment Toolkit"],
+    downloadCount: "2,100",
+    featured: true,
+    image: aiAwarenessTrainingImg,
+    keywords: "campus security, university deployment, student privacy, educational technology",
+    studyGuides: [
+      "Campus Security Leadership: Roles and Responsibilities",
+      "Student Privacy Compliance: Key Requirements",
+      "Educational Technology Risk Assessment Framework",
+      "Cross-Departmental Security Coordination Best Practices"
+    ]
+  },
+  {
+    title: "Higher Education AI Security Pilot Kit",
+    description: "Pilot program design templates with metrics collection frameworks and security experiment evaluation tools.",
+    category: "Training",
+    industry: "Higher Education",
+    components: ["Pilot Design Framework", "Metrics Dashboard", "Evaluation Toolkit", "Scaling Guide"],
+    downloadCount: "1,400",
+    featured: false,
+    image: higherEdDeployKitImg,
+    keywords: "security pilots, academic testing, university trials, experimental frameworks",
+    studyGuides: [
+      "Designing Effective Security Pilot Programs",
+      "Security Metrics That Matter: Measurement and Analysis",
+      "From Pilot to Production: Security Scaling Strategies",
+      "Common Security Pilot Pitfalls and How to Avoid Them"
+    ]
+  },
+  // K-12 Education Kit
+  {
+    title: "K-12 AI Student Safety Kit",
+    description: "Age-appropriate security guidelines with classroom technology protection tools and student data privacy compliance.",
     category: "Compliance",
     industry: "K-12 Education",
-    components: ["COPPA Compliance Guide", "Privacy Framework", "Safety Protocols", "Parent Communication Kit"],
+    components: ["Age-Specific Security Guide", "Technology Protection Framework", "Privacy Compliance Checklist", "Parental Engagement Kit"],
     downloadCount: "3,200",
     featured: true,
-    image: k12DataProtKitImg
-  },
-  {
-    title: "AI Threat Response Playbook Kit",
-    description: "Incident response package with playbooks, communication templates, recovery procedures, and post-incident analysis frameworks.",
-    category: "Incident Response",
-    industry: "Cross-Industry",
-    components: ["Response Playbooks", "Communication Templates", "Recovery Procedures", "Analysis Framework"],
-    downloadCount: "4,100",
-    featured: false,
-    image: aiThreatResponseImg
-  },
-  {
-    title: "AI Security Risk Assessment Kit",
-    description: "Comprehensive risk assessment package with evaluation frameworks, scoring matrices, mitigation strategies, and reporting templates.",
-    category: "Risk Assessment",
-    industry: "Cross-Industry",
-    components: ["Assessment Framework", "Scoring Matrix", "Mitigation Strategies", "Report Templates"],
-    downloadCount: "2,900",
-    featured: false,
-    image: aiRiskAssessmentImg
-  },
-  {
-    title: "AI Security Awareness Training Kit",
-    description: "Complete training package with presentations, videos, quizzes, and certification materials for organization-wide security education.",
-    category: "Training",
-    industry: "Cross-Industry",
-    components: ["Training Presentations", "Educational Videos", "Interactive Quizzes", "Certification Materials"],
-    downloadCount: "5,600",
-    featured: false,
-    image: aiAwarenessTrainingImg
+    image: k12DataProtKitImg,
+    keywords: "K-12 security, student safety, classroom protection, educational compliance",
+    studyGuides: [
+      "Age-Appropriate Security: Tailoring Protection by Grade Level",
+      "COPPA and FERPA Compliance in K-12 AI Implementations",
+      "Classroom Technology Safety: Teacher's Guide",
+      "Parent Engagement: Security Awareness Communication"
+    ]
   }
 ];
 

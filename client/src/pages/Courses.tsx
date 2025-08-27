@@ -42,86 +42,142 @@ const sectors = [
 const courses = [
   // Federal Government Courses
   {
-    title: "Federal AI Security Fundamentals",
+    title: "Federal AI Security Compliance Mastery",
     sector: "federal",
-    description: "Government-specific threats, FISMA compliance, and federal security frameworks",
-    tags: ["federal security training", "government AI protection", "FISMA compliance"],
-    duration: "8 hours",
+    description: "Comprehensive training on FISMA compliance, FedRAMP certification, and federal security frameworks. Includes hands-on implementation exercises and assessment tools.",
+    fullDescription: "This comprehensive course provides federal IT professionals with deep expertise in AI security compliance requirements. Modules cover FISMA compliance requirements and implementation strategies, FedRAMP certification processes and documentation requirements, federal security assessment tools and methodologies, executive order compliance and adaptation strategies, and inter-agency security coordination protocols. Includes practical exercises using real federal security scenarios.",
+    tags: ["federal security training", "government AI protection", "FISMA compliance", "FedRAMP certification", "federal security frameworks"],
+    duration: "12 hours",
     level: "Intermediate",
-    modules: 12,
+    modules: 16,
     enrolled: "1,247",
-    image: federalAISecurityCourseImg
+    image: federalAISecurityCourseImg,
+    keywords: "federal AI security training, government cybersecurity compliance, FISMA implementation, FedRAMP certification course, federal security professional development",
+    learningObjectives: [
+      "Master FISMA compliance requirements for AI systems",
+      "Navigate FedRAMP certification processes",
+      "Implement federal security assessment methodologies",
+      "Coordinate security across federal agencies"
+    ]
   },
   {
     title: "Securing Classified AI Systems",
     sector: "federal", 
-    description: "Compartmentalized security, clearance-level access controls, and sensitive data handling",
-    tags: ["classified AI security", "government clearance", "sensitive data protection"],
-    duration: "12 hours",
+    description: "Advanced course for security professionals with appropriate clearance levels. Covers compartmentalized security, multi-level access controls, and classified data protection.",
+    fullDescription: "This advanced course addresses the unique challenges of securing AI systems handling classified information. Content includes compartmentalized security architectures and implementation, multi-level security protocols and access controls, classified data handling procedures for AI workloads, threat assessment for nation-state actors, and coordinated response for security incidents involving classified systems. Requires appropriate security clearance for enrollment.",
+    tags: ["classified AI security", "government clearance", "sensitive data protection", "national security AI", "compartmented information"],
+    duration: "16 hours",
     level: "Advanced",
-    modules: 18,
+    modules: 20,
     enrolled: "892",
-    image: classifiedAISystemsCourseImg
+    image: classifiedAISystemsCourseImg,
+    keywords: "classified AI security training, government clearance cybersecurity, sensitive compartmented information, national security AI protection, classified data handling",
+    learningObjectives: [
+      "Design compartmentalized AI security architectures",
+      "Implement multi-level security access controls",
+      "Handle classified data in AI processing environments",
+      "Coordinate security response for sensitive systems"
+    ]
   },
   {
-    title: "Cross-Agency Threat Response",
+    title: "Cross-Agency AI Security Coordination",
     sector: "federal",
-    description: "Collaborative incident management, unified security operations, and inter-agency coordination",
-    tags: ["agency collaboration", "government incident response", "cross-agency security"],
+    description: "Master inter-agency collaboration frameworks, unified security operations, and coordinated incident response across federal agencies.",
+    fullDescription: "Learn to coordinate AI security efforts across federal agency boundaries. This course covers establishing inter-agency security protocols and communication frameworks, implementing shared threat intelligence platforms and analysis, coordinating incident response across multiple agencies, and standardizing security practices while respecting agency autonomy. Includes case studies from successful multi-agency security initiatives.",
+    tags: ["agency collaboration", "government incident response", "cross-agency security", "federal coordination", "unified operations"],
     duration: "10 hours",
     level: "Advanced",
     modules: 15,
     enrolled: "634",
-    image: crossAgencyResponseCourseImg
+    image: crossAgencyResponseCourseImg,
+    keywords: "cross-agency AI security, federal inter-agency coordination, government security collaboration, unified federal protection, multi-agency response",
+    learningObjectives: [
+      "Establish inter-agency security communication protocols",
+      "Implement shared threat intelligence platforms",
+      "Coordinate multi-agency incident response",
+      "Standardize security practices across agencies"
+    ]
   },
   // Higher Education Courses
   {
-    title: "University Research Security",
+    title: "University Research AI Security",
     sector: "higher-ed",
-    description: "Academic-specific threats, research data protection, and scholarly integrity safeguards",
-    tags: ["research security", "academic protection", "university cybersecurity"],
-    duration: "6 hours",
-    level: "Intermediate",
-    modules: 10,
-    enrolled: "2,156",
-    image: universityResearchSecurityCourseImg
-  },
-  {
-    title: "Campus AI Security Implementation",
-    sector: "higher-ed",
-    description: "Multi-department deployment, student privacy considerations, and campus-wide coordination",
-    tags: ["campus security", "university implementation", "education protection"],
+    description: "Protect academic research assets while maintaining collaboration and academic freedom. Research data security, intellectual property protection, and collaborative frameworks.",
+    fullDescription: "This course addresses the unique security challenges in academic research environments. Content includes academic-specific threats and research vulnerability assessment, research data protection strategies and intellectual property safeguards, collaborative security frameworks that preserve academic freedom, and campus-wide deployment strategies for diverse research environments. Learn proven strategies from successful university implementations.",
+    tags: ["research security", "academic protection", "university cybersecurity", "intellectual property", "collaborative research"],
     duration: "8 hours",
     level: "Intermediate",
-    modules: 14,
+    modules: 12,
+    enrolled: "2,156",
+    image: universityResearchSecurityCourseImg,
+    keywords: "university AI security, academic research protection, higher education cybersecurity, research data security, scholarly integrity protection",
+    learningObjectives: [
+      "Assess and mitigate academic-specific AI threats",
+      "Implement research data protection strategies",
+      "Design collaborative security frameworks",
+      "Deploy campus-wide security across diverse departments"
+    ]
+  },
+  {
+    title: "Campus-Wide AI Security Implementation",
+    sector: "higher-ed",
+    description: "Comprehensive course on deploying AI security across university campuses. Multi-department coordination, student privacy considerations, and scalable implementation strategies.",
+    fullDescription: "Learn to implement AI security solutions across diverse university environments. This comprehensive course covers multi-department deployment strategies and coordination techniques, student privacy considerations and FERPA compliance, scalable implementation approaches for large campus environments, and stakeholder engagement across academic and administrative units. Includes practical exercises using real university scenarios.",
+    tags: ["campus security", "university implementation", "education protection", "multi-department coordination", "student privacy"],
+    duration: "10 hours",
+    level: "Intermediate",
+    modules: 16,
     enrolled: "1,789",
-    image: campusAIImplCourseImg
+    image: campusAIImplCourseImg,
+    keywords: "campus AI security implementation, university deployment strategies, higher education protection, multi-department security, student privacy compliance",
+    learningObjectives: [
+      "Deploy AI security across multiple university departments",
+      "Ensure student privacy and FERPA compliance",
+      "Coordinate stakeholders across academic units",
+      "Scale security implementations campus-wide"
+    ]
   },
   {
     title: "Higher Education Security Pilot Design",
     sector: "higher-ed",
-    description: "Experimental security frameworks, metrics collection, and academic pilot assessment",
-    tags: ["education pilots", "academic security testing", "university trials"],
+    description: "Design and evaluate AI security pilot programs in academic environments. Experimental frameworks, metrics collection, evaluation methodologies, and scaling strategies.",
+    fullDescription: "Master the design and implementation of security pilot programs tailored for higher education. Course content includes pilot program design principles for academic settings, metrics and evaluation frameworks for educational contexts, stakeholder engagement across diverse academic departments, and strategies for scaling successful pilots campus-wide. Features real case studies from successful university security pilot programs.",
+    tags: ["education pilots", "academic security testing", "university trials", "pilot design", "security experimentation"],
     duration: "6 hours",
     level: "Advanced",
     modules: 12,
     enrolled: "567",
-    image: higherEdSecurityPilotCourseImg
+    image: higherEdSecurityPilotCourseImg,
+    keywords: "higher education security pilots, academic security testing, university pilot programs, educational security trials, campus security experiments",
+    learningObjectives: [
+      "Design effective security pilot programs for academic environments",
+      "Implement metrics and evaluation frameworks",
+      "Engage stakeholders across diverse academic units",
+      "Scale successful pilots to full campus deployment"
+    ]
   },
   // K-12 Education Courses
   {
     title: "K-12 AI Security Essentials",
     sector: "k12",
-    description: "Age-appropriate protections, educational technology security, and student safety frameworks",
-    tags: ["school security", "K-12 protection", "student safety"],
-    duration: "4 hours",
+    description: "Fundamental training for K-12 technology leaders. Age-appropriate protections, educational technology security, student safety frameworks, and parental engagement strategies.",
+    fullDescription: "This essential course provides K-12 administrators and IT staff with comprehensive AI security training. Content includes school-specific threats and age-appropriate security measures, student safety protocols and privacy protection strategies, classroom technology security and teacher training programs, and parent engagement and communication strategies. Learn practical approaches that maintain educational effectiveness while ensuring student safety.",
+    tags: ["school security", "K-12 protection", "student safety", "educational technology", "age-appropriate security"],
+    duration: "6 hours",
     level: "Beginner",
-    modules: 8,
+    modules: 10,
     enrolled: "3,421",
-    image: k12AISecurityEssentialsCourseImg
+    image: k12AISecurityEssentialsCourseImg,
+    keywords: "K-12 AI security training, school cybersecurity, student safety protection, educational technology security, classroom AI safety",
+    learningObjectives: [
+      "Implement age-appropriate AI security measures",
+      "Design student safety and privacy protocols",
+      "Secure classroom technology and educational AI",
+      "Engage parents and community in security awareness"
+    ]
   },
   {
-    title: "District Security Operations",
+    title: "District Security Operations Management",
     sector: "k12",
     description: "Centralized management, multi-school coordination, and resource optimization",
     tags: ["school district security", "K-12 operations", "educational administration"],
