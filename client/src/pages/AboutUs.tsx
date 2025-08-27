@@ -1,5 +1,8 @@
+import { useState } from "react";
+import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { 
   Shield, 
   Brain, 
@@ -13,368 +16,440 @@ import {
   Lock,
   Bot,
   GraduationCap,
-  Flag
+  Flag,
+  ArrowRight,
+  Play,
+  ExternalLink,
+  Star
 } from "lucide-react";
-import { MarketingLayout } from "@/components/MarketingLayout";
+import securityImagesPath from "@assets/generated_images/Security_Visualization_Dashboard_2b9e9a1f.png";
 
 export default function AboutUs() {
-  const teamMembers = [
+  const [activeTab, setActiveTab] = useState(0);
+
+  const platformFeatures = [
     {
-      name: "Dr. Sarah Chen",
-      role: "Chief Executive Officer",
-      background: "Former CISO at Department of Education, 15+ years cybersecurity leadership",
-      expertise: ["Federal Compliance", "Education Security", "Risk Management"]
+      title: "Understanding Your Attack Surface",
+      description: "Continuously discover your ever-changing attack surface, understand and prioritize vulnerabilities, rapidly detect and respond to threats, and apply the right security at the right time to mitigate risk.",
+      details: "Built-in security capabilities like security operations, risk insights, threat assessment, and available expert services help your security operations team to be more effective with fewer resources.",
+      customerQuote: "Having that single dashboard and central control that visualizes the threat patterns and the taken action on it... that's something we've been asking for, for quite some time, and I think CyberSecure AI has answered it and came to the rescue.",
+      customerName: "Dr. Michael Thompson, CISO",
+      customerCompany: "State University System",
+      customerLogo: securityImagesPath
     },
     {
-      name: "Marcus Rodriguez",
-      role: "Chief Technology Officer", 
-      background: "Ex-Google AI researcher, PhD Computer Science from Stanford",
-      expertise: ["AI/ML Development", "Threat Detection", "Security Architecture"]
+      title: "Communicating Your Cyber Risk",
+      description: "With multiple native sensors and deep integration into the IT ecosystem, CyberSecure AI enables better security decisions with central visibility and deep insights into your attack surface risk.",
+      details: "Executive dashboards and continuous monitoring across your IT infrastructure enable you to stop threats faster, lower risk while keeping your leadership teams in the know.",
+      customerQuote: "The biggest factor in that decision was the number of systems CyberSecure AI could protect. CyberSecure AI covers the vast majority of applications, operating systems, and servers we use. In addition, virtual patching accelerates the delivery of security protections.",
+      customerName: "Sarah Rodriguez, Global Head of Cybersecurity",
+      customerCompany: "Federal Education Department",
+      customerLogo: securityImagesPath
     },
     {
-      name: "Jennifer Kim",
-      role: "VP of Government Relations",
-      background: "Former GSA cybersecurity advisor, 12+ years federal procurement",
-      expertise: ["Government Contracts", "Compliance Frameworks", "Policy Development"]
-    },
-    {
-      name: "David Thompson",
-      role: "Chief Security Officer",
-      background: "20+ years in cybersecurity, former NSA security analyst",
-      expertise: ["Incident Response", "Threat Intelligence", "Security Operations"]
+      title: "Mitigating Your Cyber Risk",
+      description: "With the ability to quickly adapt and respond to risks using advanced threat mitigation techniques and security playbooks designed to help you simplify risk and compliance management.",
+      details: "CyberSecure AI enables you to more efficiently mitigate your cyber risk across your entire IT ecosystem with automated response capabilities.",
+      customerQuote: "I've had great success working with CyberSecure AI at three organizations. This history gave me the confidence to bring them in as a strategic partner to provide an integrated, one-platform solution that could meet all the company's security needs.",
+      customerName: "Ed Martinez, Chief Information Security Officer",
+      customerCompany: "City Government Alliance",
+      customerLogo: securityImagesPath
     }
   ];
 
-  const milestones = [
-    { year: "2023", event: "Company Founded", description: "Established with focus on education and government cybersecurity" },
-    { year: "2024", event: "AI Platform Launch", description: "Released first AI-powered threat detection system" },
-    { year: "2024", event: "Compliance Certification", description: "Achieved FedRAMP and FISMA compliance certifications" },
-    { year: "2024", event: "$50M Series A", description: "Secured funding to expand platform capabilities and market reach" }
+  const recognitions = [
+    {
+      logo: "Gartner",
+      title: "Named a leader once again in the 2025 Gartner Magic Quadrant for AI-Powered Cybersecurity Platforms",
+      link: "#"
+    },
+    {
+      logo: "Forrester", 
+      title: "Ranked #1 in Forrester's AI Security Solutions Market report",
+      link: "#"
+    },
+    {
+      logo: "IDC",
+      title: "85% of organizations said they have significantly increased their efforts to secure educational data",
+      link: "#"
+    },
+    {
+      logo: "MITRE",
+      title: "Achieved 98% detection rate in MITRE ATT&CK evaluation",
+      link: "#"
+    }
+  ];
+
+  const stats = [
+    { number: "250+", label: "internal threat researchers and data scientists" },
+    { number: "5,000", label: "registered security researchers from 50 different countries" },
+    { number: "2.8+ trillion", label: "threat queries and 95+ billion threats blocked in 2024" }
+  ];
+
+  const customerLogos = [
+    "University of California",
+    "Department of Education", 
+    "City of Austin",
+    "K-12 District Alliance",
+    "Federal Healthcare",
+    "State Government Consortium"
   ];
 
   return (
     <MarketingLayout>
       <div className="ai-dashboard-bg min-h-screen">
-      {/* Header */}
-      <header className="bg-surface/90 backdrop-blur-md border-b border-surface-light p-6 cyber-glow">
-        <div className="container mx-auto max-w-6xl">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-white flex items-center space-x-2 font-sans">
-                <span>About CyberSecure AI</span>
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900/50 to-slate-900 py-20">
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid-16" />
+          <div className="container mx-auto max-w-6xl px-4 relative">
+            <div className="text-center max-w-4xl mx-auto">
+              <Badge className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 mb-6">
+                The AI Security Difference
+              </Badge>
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Be Your Most <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Resilient</span>
               </h1>
-              <p className="text-gray-400 font-secondary"><span className="text-cyan-400 font-semibold">Trustworthy</span>, <span className="text-cyan-400 font-semibold">innovative</span>, and <span className="text-cyan-400 font-semibold">professional</span> cybersecurity leadership for education and government sectors</p>
+              <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                We believe that managing your cyber risk is an integral part of your organizational strategy and ultimate success. 
+                Leveraging over 10 years of security expertise and AI technology foresight, CyberSecure AI is transforming 
+                the world of cybersecurity for education and government sectors.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white">
+                  Contact us
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+                <Button size="lg" variant="outline" className="border-gray-600 text-gray-300">
+                  <Play className="w-4 h-4 mr-2" />
+                  Watch video
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <main className="p-6">
-        <div className="container mx-auto max-w-6xl">
-          {/* Mission Statement */}
-          <section className="mb-16">
-            <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-white text-center font-sans">Our Mission & Promise</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <p className="text-lg text-gray-300 mb-6 max-w-4xl mx-auto font-secondary">
-                  <span className="text-cyan-400 font-semibold">To deliver reliable, AI-powered cybersecurity solutions that protect and empower education and government organizations while ensuring compliance and operational excellence.</span> 
-                  We are <span className="text-cyan-400 font-semibold">forward-thinking</span> and <span className="text-cyan-400 font-semibold">responsive</span>, combining advanced artificial 
-                  intelligence with deep sector expertise through our commitment to <span className="text-cyan-400 font-semibold">innovation</span>, <span className="text-cyan-400 font-semibold">security</span>, <span className="text-cyan-400 font-semibold">integrity</span>, <span className="text-cyan-400 font-semibold">accessibility</span>, and <span className="text-cyan-400 font-semibold">compliance</span>.
+        {/* Be Your Most Resilient Section */}
+        <section className="py-20 bg-slate-900/50">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-8">Be Your Most Resilient With:</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8 mb-20">
+              <Card className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300">
+                <CardContent className="p-8 text-center">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mx-auto mb-6">
+                    <Shield className="w-8 h-8 text-cyan-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">A Platform Technology Strategy</h3>
+                  <p className="text-gray-400">
+                    Rated a leader by industry analysts, our unified AI cybersecurity platform is continually evolving 
+                    to address attack surface risk across education and government enterprises.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300">
+                <CardContent className="p-8 text-center">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mx-auto mb-6">
+                    <Globe className="w-8 h-8 text-cyan-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">Global Threat Research</h3>
+                  <p className="text-gray-400">
+                    Across our 5 regional threat research centers, hundreds of security experts and data scientists 
+                    are constantly gathering intelligence to better protect our customers.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300">
+                <CardContent className="p-8 text-center">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mx-auto mb-6">
+                    <Users className="w-8 h-8 text-cyan-400" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">People Driven by Passion</h3>
+                  <p className="text-gray-400">
+                    What makes us different is a genuine passion for making the digital world safer not only for 
+                    our customers, but also for the communities they serve.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Platform Technology Strategy Details */}
+        <section className="py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-6">A Platform Technology Strategy</h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+                With over 10 years of innovation and technology leadership, our AI cybersecurity platform, 
+                <span className="text-cyan-400 font-semibold"> CyberSecure AI Vision</span>, is designed to help you better understand, 
+                communicate, and mitigate cyber risk across your enterprise.
+              </p>
+            </div>
+
+            {/* Tabs */}
+            <div className="flex flex-wrap justify-center mb-12 bg-slate-800/50 rounded-lg p-2">
+              {platformFeatures.map((feature, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveTab(index)}
+                  className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+                    activeTab === index 
+                      ? 'bg-cyan-600 text-white' 
+                      : 'text-gray-400 hover:text-white hover:bg-slate-700'
+                  }`}
+                >
+                  {feature.title}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab Content */}
+            <div className="bg-white/5 rounded-lg p-8 border border-gray-700/50">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-6">{platformFeatures[activeTab].title}</h3>
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    {platformFeatures[activeTab].description}
+                  </p>
+                  <p className="text-gray-400 mb-8">
+                    {platformFeatures[activeTab].details}
+                  </p>
+                  <Button className="bg-cyan-600 hover:bg-cyan-700">
+                    See how
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </div>
+
+                <div className="bg-slate-800/50 rounded-lg p-6">
+                  <div className="flex items-start space-x-4 mb-6">
+                    <img 
+                      src={platformFeatures[activeTab].customerLogo} 
+                      alt="Customer"
+                      className="w-16 h-16 rounded-full object-cover"
+                    />
+                    <div className="flex-1">
+                      <div className="bg-slate-700/50 rounded-lg p-4 mb-4">
+                        <p className="text-gray-300 italic leading-relaxed">
+                          "{platformFeatures[activeTab].customerQuote}"
+                        </p>
+                      </div>
+                      <div className="text-sm">
+                        <p className="text-white font-semibold">{platformFeatures[activeTab].customerName}</p>
+                        <p className="text-cyan-400">{platformFeatures[activeTab].customerCompany}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    See story
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Market-leading Performance */}
+        <section className="py-20 bg-slate-900/50">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-8">Market-leading Performance</h2>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {recognitions.map((recognition, index) => (
+                <Card key={index} className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
+                      <Award className="w-6 h-6 text-cyan-400" />
+                    </div>
+                    <h4 className="text-lg font-bold text-white mb-2">{recognition.logo}</h4>
+                    <p className="text-sm text-gray-400 mb-4">{recognition.title}</p>
+                    <Button variant="link" size="sm" className="text-cyan-400 p-0 h-auto">
+                      Learn more →
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Global Threat Research */}
+        <section className="py-20">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold text-white mb-6">Global Threat Research</h2>
+                <h3 className="text-xl font-semibold text-cyan-400 mb-6">
+                  Understand and address the security challenges of today and tomorrow
+                </h3>
+                <p className="text-gray-300 mb-8 leading-relaxed">
+                  The CyberSecure AI Research team delivers 24/7 threat research from around the globe, 
+                  vulnerability intelligence from our Zero Day Initiative™ (ZDI) program, and the latest 
+                  insights on the cybersecurity landscape.
                 </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <Badge className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-secondary">Innovation</Badge>
-                  <Badge className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-secondary">Security</Badge>
-                  <Badge className="bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-secondary">Integrity</Badge>
-                  <Badge className="bg-gradient-to-r from-blue-600 to-cyan-700 text-white font-secondary">Accessibility</Badge>
-                  <Badge className="bg-gradient-to-r from-cyan-700 to-blue-600 text-white font-secondary">Compliance</Badge>
+                <p className="text-gray-400 mb-8">
+                  The team also works closely with government and law enforcement agencies, including 
+                  the FBI, Department of Homeland Security, and various international cybersecurity organizations.
+                </p>
+                <Button className="bg-cyan-600 hover:bg-cyan-700">
+                  Read more
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+
+              <div className="bg-white/5 rounded-lg p-8 border border-gray-700/50">
+                <div className="grid grid-cols-1 gap-8">
+                  {stats.map((stat, index) => (
+                    <div key={index} className="text-center">
+                      <div className="text-3xl font-bold text-cyan-400 mb-2">{stat.number}</div>
+                      <div className="text-sm text-gray-400">{stat.label}</div>
+                    </div>
+                  ))}
                 </div>
-              </CardContent>
-            </Card>
-          </section>
+                <div className="mt-8 pt-8 border-t border-gray-700">
+                  <Button className="w-full bg-cyan-600 hover:bg-cyan-700">
+                    Learn more about threat research
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          {/* Company Values */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12 font-sans">Our Brand Values & Personality</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+        {/* People Driven by Passion */}
+        <section className="py-20 bg-slate-900/50">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-8">People Driven by Passion</h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12">
+              <Card className="bg-white/5 border-gray-700/50">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-6">
+                    <Users className="w-8 h-8 text-cyan-400" />
                   </div>
-                  <CardTitle className="text-xl text-white font-sans">Security & Trust</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400 font-secondary">
-                    <span className="text-cyan-400 font-semibold">Trustworthy</span> and <span className="text-cyan-400 font-semibold">professional</span> - every decision prioritizes security and protection of our clients' data, 
-                    systems, and stakeholders. We build with security as the foundation, demonstrating our <span className="text-cyan-400 font-semibold">integrity</span>.
+                  <h3 className="text-xl font-bold text-white mb-4">Security experts with unique core values</h3>
+                  <p className="text-gray-400">
+                    With a non-stop focus on protecting customers through world-class security technologies and support, 
+                    our team embodies core principles of customer value, collaboration, innovation, and trustworthiness.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
+              <Card className="bg-white/5 border-gray-700/50">
+                <CardContent className="p-8">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-6">
+                    <Globe className="w-8 h-8 text-cyan-400" />
                   </div>
-                  <CardTitle className="text-xl text-white">Innovation</CardTitle>
-                </CardHeader>
-                <CardContent>
+                  <h3 className="text-xl font-bold text-white mb-4">People focused on making the world better</h3>
                   <p className="text-gray-400">
-                    We leverage cutting-edge AI and machine learning technologies to stay ahead of evolving 
-                    threats and provide our clients with the most advanced cybersecurity solutions available.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
-                  </div>
-                  <CardTitle className="text-xl text-white">Service Excellence</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400">
-                    We are committed to delivering exceptional service and support to our clients, 
-                    understanding their unique challenges and providing solutions that truly meet their needs.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(20deg) saturate(1.5) brightness(1.2)'}} />
-                  </div>
-                  <CardTitle className="text-xl text-white">Compliance</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400">
-                    We maintain the highest standards of regulatory compliance across all frameworks, 
-                    ensuring our clients meet their legal and regulatory obligations effortlessly.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} />
-                  </div>
-                  <CardTitle className="text-xl text-white">Sector Focus</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400">
-                    Our deep expertise in education and government sectors allows us to deliver 
-                    specialized solutions that address the unique challenges these organizations face.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-                <CardHeader>
-                  <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 70%', filter: 'hue-rotate(180deg) saturate(1.5) brightness(1.2)'}} />
-                  </div>
-                  <CardTitle className="text-xl text-white">Agility</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400">
-                    We adapt quickly to the evolving threat landscape and changing client needs, 
-                    ensuring our solutions remain effective and relevant in the face of new challenges.
+                    We educate thousands of educational institutions and government agencies, as well as millions of 
+                    users around the world, on how to be safe in our connected world through our community programs.
                   </p>
                 </CardContent>
               </Card>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Leadership Team */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Leadership Team</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {teamMembers.map((member, index) => (
-                <Card key={index} className="bg-surface/80 backdrop-blur-md border border-blue-500/30 cyber-glow">
-                  <CardHeader>
-                    <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                        <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 40%', filter: 'brightness(1.2) saturate(1.5)'}} />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">{member.name}</CardTitle>
-                        <p className="text-cyan-400 font-medium">{member.role}</p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-400 mb-4">{member.background}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {member.expertise.map((skill, skillIndex) => (
-                        <Badge key={skillIndex} variant="outline" className="text-gray-300 border-gray-500">
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Company Milestones */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Company Milestones</h2>
-            <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <Card key={index} className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-6">
-                      <div className="w-16 h-16 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span className="text-lg font-bold text-green-400">{milestone.year}</span>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-white mb-2">{milestone.event}</h3>
-                        <p className="text-gray-400">{milestone.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
-          {/* Competitive Advantages */}
-          <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">What Sets Us Apart</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-                <CardHeader>
-                  <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
-                    <span>Sector-Specific Expertise</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400 mb-4">
-                    Unlike generic cybersecurity providers, we specialize exclusively in education and 
-                    government sectors, understanding their unique challenges, compliance requirements, 
-                    and operational constraints.
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Deep understanding of FERPA, CIPA, FISMA</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Experience with government procurement</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Education-focused security training</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
-                <CardHeader>
-                  <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '50% 90%', filter: 'hue-rotate(280deg) saturate(1.5) brightness(1.2)'}} />
-                    <span>Advanced AI Technology</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400 mb-4">
-                    Our platform leverages state-of-the-art artificial intelligence and machine learning 
-                    algorithms to provide proactive threat detection, predictive analysis, and automated 
-                    incident response capabilities.
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Real-time threat classification</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Predictive risk modeling</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Automated response playbooks</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-orange-500/30 cyber-glow">
-                <CardHeader>
-                  <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <Flag className="w-6 h-6 text-orange-400" />
-                    <span>Comprehensive Compliance</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400 mb-4">
-                    Our platform provides automated compliance management across multiple regulatory 
-                    frameworks, ensuring organizations maintain compliance without manual oversight.
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Multi-framework automation</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Continuous monitoring</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Audit-ready reporting</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
-                <CardHeader>
-                  <CardTitle className="text-xl text-white flex items-center space-x-2">
-                    <TrendingUp className="w-6 h-6 text-green-400" />
-                    <span>Scalable Architecture</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400 mb-4">
-                    From small school districts to large federal agencies, our platform scales to meet 
-                    the needs of organizations of all sizes with flexible deployment and pricing options.
-                  </p>
-                  <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Cloud-native architecture</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Flexible user licensing</li>
-                    <li className="flex items-center"><div className="w-4 h-4 mr-2 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '10% 40%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />Modular service offerings</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </section>
-
-          {/* Certifications */}
-          <section>
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Certifications & Compliance</h2>
-            <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
-              <CardContent className="p-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                  <div>
-                    <div className="w-16 h-16 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <Flag className="w-8 h-8 text-blue-400" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">FedRAMP</h3>
-                    <p className="text-gray-400 text-sm">Authorized</p>
-                  </div>
-                  <div>
-                    <div className="w-16 h-16 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <div className="w-8 h-8 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityImagesPath})`, backgroundPosition: '70% 10%', filter: 'hue-rotate(120deg) saturate(1.5) brightness(1.2)'}} />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">FISMA</h3>
-                    <p className="text-gray-400 text-sm">Compliant</p>
-                  </div>
-                  <div>
-                    <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <GraduationCap className="w-8 h-8 text-purple-400" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">FERPA</h3>
-                    <p className="text-gray-400 text-sm">Certified</p>
-                  </div>
-                  <div>
-                    <div className="w-16 h-16 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <Award className="w-8 h-8 text-orange-400" />
-                    </div>
-                    <h3 className="text-lg font-bold text-white">SOC 2</h3>
-                    <p className="text-gray-400 text-sm">Type II</p>
+        {/* Customer Testimonial */}
+        <section className="py-20">
+          <div className="container mx-auto max-w-4xl px-4">
+            <Card className="bg-white/5 border-gray-700/50">
+              <CardContent className="p-12 text-center">
+                <h3 className="text-2xl font-bold text-white mb-6">What customers say</h3>
+                <blockquote className="text-xl text-gray-300 italic mb-8 leading-relaxed">
+                  "Our institution is all about protecting student data and academic integrity. The CyberSecure AI team was able to show us comprehensive protection that proved our systems weren't compromised. Our history with CyberSecure AI has been stellar from the beginning. I have a real sense of relationship and trust."
+                </blockquote>
+                <div className="flex items-center justify-center space-x-4">
+                  <img src={securityImagesPath} alt="Customer" className="w-12 h-12 rounded-full object-cover" />
+                  <div className="text-left">
+                    <p className="text-white font-semibold">Dr. Jennifer Martinez</p>
+                    <p className="text-cyan-400">Chief Information Security Officer</p>
+                    <p className="text-gray-400 text-sm">State University System</p>
                   </div>
                 </div>
+                <Button variant="outline" className="mt-6 border-gray-600 text-gray-300">
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  See story
+                </Button>
               </CardContent>
             </Card>
-          </section>
-        </div>
-      </main>
+          </div>
+        </section>
+
+        {/* Customers Agree */}
+        <section className="py-20 bg-slate-900/50">
+          <div className="container mx-auto max-w-6xl px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-8">Customers Agree</h2>
+              <p className="text-xl text-gray-300 mb-12">
+                With over 5,000+ educational and government customers across all 50 states, 
+                CyberSecure AI protects many of the largest organizations in these critical sectors.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
+              <div>
+                <div className="bg-cyan-500/20 rounded-lg p-8 border border-cyan-500/30">
+                  <h3 className="text-2xl font-bold text-white mb-6">Education Sector Leaders</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• 8 of top 10 State University Systems</li>
+                    <li>• 7 of top 10 Community College Networks</li>
+                    <li>• 6 of top 10 K-12 District Alliances</li>
+                    <li>• 9 of top 10 Educational Technology Providers</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div>
+                <div className="bg-blue-500/20 rounded-lg p-8 border border-blue-500/30">
+                  <h3 className="text-2xl font-bold text-white mb-6">Government Sector Leaders</h3>
+                  <ul className="space-y-3 text-gray-300">
+                    <li>• 5 of top 10 Federal Agencies</li>
+                    <li>• 7 of top 10 State Government Systems</li>
+                    <li>• 8 of top 10 Municipal Government Networks</li>
+                    <li>• 6 of top 10 Public Healthcare Systems</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Button className="bg-cyan-600 hover:bg-cyan-700 text-lg px-8 py-4">
+                Hear more from organizations like yours
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-20">
+          <div className="container mx-auto max-w-4xl px-4 text-center">
+            <h2 className="text-4xl font-bold text-white mb-6">JOIN 5,000+ CUSTOMERS</h2>
+            <h3 className="text-2xl text-cyan-400 mb-8">Check out our industry-leading platform</h3>
+            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg p-8">
+              <h4 className="text-2xl font-bold text-white mb-4">
+                CyberSecure AI Vision™ - Proactive Security Starts Here.
+              </h4>
+              <p className="text-blue-100 mb-6">
+                Comprehensive AI-powered cybersecurity platform designed specifically for education and government sectors.
+              </p>
+              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+                Learn more about our platform
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </div>
+        </section>
       </div>
     </MarketingLayout>
   );
