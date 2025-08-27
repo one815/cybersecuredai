@@ -211,7 +211,7 @@ export default function Pricing() {
                         <Badge className="mb-4 bg-white/10 text-gray-300">{plan.badge}</Badge>
                         <CardTitle className="text-2xl text-white mb-4">{plan.name}</CardTitle>
                         <p className="text-gray-300 mb-6">{plan.description}</p>
-                        <div className="text-4xl font-bold text-white mb-2">
+                        <div className="text-4xl text-white mb-2">
                           {plan.price}
                           <span className="text-lg text-gray-400 font-normal">/{plan.period}</span>
                         </div>
@@ -246,7 +246,7 @@ export default function Pricing() {
                           <Badge className="mb-4 bg-white/10 text-gray-300">{plan.badge}</Badge>
                           <CardTitle className="text-2xl text-white mb-4">{plan.name}</CardTitle>
                           <p className="text-gray-300 mb-6">{plan.description}</p>
-                          <div className="text-4xl font-bold text-white mb-2">
+                          <div className="text-4xl text-white mb-2">
                             {plan.price}
                             <span className="text-lg text-gray-400 font-normal">
                               {plan.period && `/${plan.period}`}
