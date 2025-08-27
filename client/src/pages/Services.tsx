@@ -425,29 +425,52 @@ export default function Services() {
 
                 {/* IT Support Tiers */}
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-8 text-center">IT Support & Managed Services</h3>
+                  <h3 className="text-3xl font-bold text-white mb-8 text-center">Protection Level</h3>
+                  
+                  <div className="flex justify-center mb-8">
+                    <div className="flex bg-gray-800/50 rounded-lg p-1">
+                      <button className="px-6 py-2 rounded-md bg-green-500 text-white font-semibold">
+                        🎓 Education
+                      </button>
+                      <button className="px-6 py-2 rounded-md text-gray-300 hover:text-white">
+                        🏛️ Government
+                      </button>
+                    </div>
+                  </div>
+                  
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <Card className="bg-slate-700/60 border border-blue-500/30">
                       <CardHeader className="p-6 text-center">
                         <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Basic IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-blue-400 mb-2">25+ Users</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <CardTitle className="text-xl text-white mb-3">Essential Protection</CardTitle>
+                        <div className="text-2xl font-bold text-blue-400 mb-2">$2,500</div>
+                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="mt-2">
+                          <Badge className="bg-blue-500/20 text-blue-300">250 Users Max</Badge>
+                        </div>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">System Administration for 25+ users</span>
+                            <span className="text-gray-300 text-sm">Up to 250 users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Windows 11 Pro or newer workstation management</span>
+                            <span className="text-gray-300 text-sm">AI-powered threat detection</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Basic network monitoring and maintenance</span>
+                            <span className="text-gray-300 text-sm">Basic incident response</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Email & chat support</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
@@ -463,27 +486,34 @@ export default function Services() {
                       <CardHeader className="p-6 text-center">
                         <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Advanced IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Tier</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <CardTitle className="text-xl text-white mb-3">Advanced Security</CardTitle>
+                        <div className="text-2xl font-bold text-purple-400 mb-2">$7,500</div>
+                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="mt-2">
+                          <Badge className="bg-purple-500/20 text-purple-300">1K Users Max</Badge>
+                        </div>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">All Basic IT Support features</span>
+                            <span className="text-gray-300 text-sm">Up to 1000 users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Firewall configuration and maintenance</span>
+                            <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Network traffic analysis and optimization</span>
+                            <span className="text-gray-300 text-sm">Automated incident response</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">VPN configuration and management</span>
+                            <span className="text-gray-300 text-sm">Full compliance automation</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">24/7 priority support</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
@@ -496,27 +526,34 @@ export default function Services() {
                       <CardHeader className="p-6 text-center">
                         <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Premium IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-yellow-400 mb-2">Premium Tier</div>
-                        <p className="text-gray-300 text-sm">Contact for Pricing</p>
+                        <CardTitle className="text-xl text-white mb-3">Enterprise Shield</CardTitle>
+                        <div className="text-2xl font-bold text-yellow-400 mb-2">$15,000</div>
+                        <p className="text-gray-300 text-sm">per month</p>
+                        <div className="mt-2">
+                          <Badge className="bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
+                        </div>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">All Advanced IT Support features</span>
+                            <span className="text-gray-300 text-sm">Unlimited users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">24/7 monitoring and vulnerability management</span>
+                            <span className="text-gray-300 text-sm">Premium AI models</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Advanced security incident investigation</span>
+                            <span className="text-gray-300 text-sm">Custom response playbooks</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Custom integration with existing systems</span>
+                            <span className="text-gray-300 text-sm">White-glove compliance</span>
+                          </li>
+                          <li className="flex items-center space-x-2">
+                            <CheckCircle className="w-4 h-4 text-green-400" />
+                            <span className="text-gray-300 text-sm">Dedicated success team</span>
                           </li>
                         </ul>
                         <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
