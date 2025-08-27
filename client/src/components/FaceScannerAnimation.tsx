@@ -39,8 +39,158 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       // Save canvas state
       ctx.save();
       
+      // Draw advanced wireframe face structure with enhanced 3D mesh
+      const drawWireframeFace = () => {
+        ctx.strokeStyle = '#00e6ff';
+        ctx.lineWidth = 1.2;
+        ctx.globalAlpha = 0.85;
+        
+        const faceWidth = 50 * perspective;
+        const faceHeight = 70;
+        
+        // Create detailed wireframe mesh pattern
+        const meshPoints = [];
+        
+        // Generate facial mesh grid points based on anatomical landmarks
+        for (let i = 0; i < 8; i++) {
+          for (let j = 0; j < 10; j++) {
+            const x = centerX + offsetX - faceWidth * 0.4 + (i / 7) * faceWidth * 0.8;
+            const y = centerY - faceHeight * 0.5 + (j / 9) * faceHeight;
+            
+            // Create facial contour deformation
+            let deformationX = 0;
+            let deformationY = 0;
+            
+            // Forehead curve
+            if (j < 3) {
+              const foreheadFactor = (3 - j) / 3;
+              deformationX = Math.sin((i / 7) * Math.PI) * 8 * foreheadFactor * perspective;
+              deformationY = -foreheadFactor * 5;
+            }
+            
+            // Cheek area
+            if (j >= 3 && j <= 6) {
+              const cheekFactor = Math.abs(i - 3.5) / 3.5;
+              deformationX = cheekFactor * 12 * perspective;
+            }
+            
+            // Jaw area
+            if (j > 6) {
+              const jawFactor = (j - 6) / 3;
+              const jawCurve = 1 - Math.abs(i - 3.5) / 3.5;
+              deformationX = Math.sin((i / 7) * Math.PI) * 6 * jawFactor * perspective;
+              deformationY = jawFactor * jawCurve * 8;
+            }
+            
+            meshPoints.push({
+              x: x + deformationX,
+              y: y + deformationY,
+              i,
+              j
+            });
+          }
+        }
+        
+        // Draw horizontal mesh lines
+        for (let j = 0; j < 10; j++) {
+          ctx.beginPath();
+          for (let i = 0; i < 8; i++) {
+            const point = meshPoints[j * 8 + i];
+            if (i === 0) {
+              ctx.moveTo(point.x, point.y);
+            } else {
+              ctx.lineTo(point.x, point.y);
+            }
+          }
+          ctx.stroke();
+        }
+        
+        // Draw vertical mesh lines
+        for (let i = 0; i < 8; i++) {
+          ctx.beginPath();
+          for (let j = 0; j < 10; j++) {
+            const point = meshPoints[j * 8 + i];
+            if (j === 0) {
+              ctx.moveTo(point.x, point.y);
+            } else {
+              ctx.lineTo(point.x, point.y);
+            }
+          }
+          ctx.stroke();
+        }
+        
+        // Draw facial feature wireframes
+        ctx.strokeStyle = '#40e0d0';
+        ctx.lineWidth = 1.5;
+        ctx.globalAlpha = 0.9;
+        
+        // Eye wireframes
+        const eyeY = centerY - 12;
+        if (rotation > -15 && rotation < 15) {
+          // Front view - both eyes
+          const leftEyeX = centerX + offsetX - 16;
+          const rightEyeX = centerX + offsetX + 16;
+          
+          // Left eye wireframe
+          ctx.beginPath();
+          ctx.ellipse(leftEyeX, eyeY, 8 * perspective, 4, 0, 0, 2 * Math.PI);
+          ctx.moveTo(leftEyeX - 6 * perspective, eyeY);
+          ctx.lineTo(leftEyeX + 6 * perspective, eyeY);
+          ctx.moveTo(leftEyeX, eyeY - 3);
+          ctx.lineTo(leftEyeX, eyeY + 3);
+          ctx.stroke();
+          
+          // Right eye wireframe
+          ctx.beginPath();
+          ctx.ellipse(rightEyeX, eyeY, 8 * perspective, 4, 0, 0, 2 * Math.PI);
+          ctx.moveTo(rightEyeX - 6 * perspective, eyeY);
+          ctx.lineTo(rightEyeX + 6 * perspective, eyeY);
+          ctx.moveTo(rightEyeX, eyeY - 3);
+          ctx.lineTo(rightEyeX, eyeY + 3);
+          ctx.stroke();
+        } else {
+          // Profile view - single eye
+          const eyeX = centerX + offsetX + (rotation > 0 ? -10 : 10);
+          ctx.beginPath();
+          ctx.ellipse(eyeX, eyeY, 6 * perspective, 4, 0, 0, 2 * Math.PI);
+          ctx.moveTo(eyeX - 4 * perspective, eyeY);
+          ctx.lineTo(eyeX + 4 * perspective, eyeY);
+          ctx.stroke();
+        }
+        
+        // Nose wireframe
+        const noseX = centerX + offsetX;
+        const noseY = centerY + 2;
+        
+        ctx.beginPath();
+        ctx.moveTo(noseX, centerY - 10);
+        ctx.lineTo(noseX - 4 * perspective, noseY + 6);
+        ctx.lineTo(noseX + 4 * perspective, noseY + 6);
+        ctx.closePath();
+        
+        // Nostril details
+        ctx.moveTo(noseX - 3 * perspective, noseY + 4);
+        ctx.arc(noseX - 2 * perspective, noseY + 4, 1, 0, 2 * Math.PI);
+        ctx.moveTo(noseX + 3 * perspective, noseY + 4);
+        ctx.arc(noseX + 2 * perspective, noseY + 4, 1, 0, 2 * Math.PI);
+        ctx.stroke();
+        
+        // Mouth wireframe
+        const mouthY = centerY + 22;
+        const mouthWidth = 12 * perspective;
+        
+        ctx.beginPath();
+        ctx.moveTo(noseX - mouthWidth, mouthY - 2);
+        ctx.quadraticCurveTo(noseX, mouthY + 2, noseX + mouthWidth, mouthY - 2);
+        ctx.moveTo(noseX - mouthWidth, mouthY + 2);
+        ctx.quadraticCurveTo(noseX, mouthY - 2, noseX + mouthWidth, mouthY + 2);
+        ctx.stroke();
+      };
+
       // Draw geometric face structure - focus on facial geometry and proportions
       const drawGeometricFace = () => {
+        // Draw the advanced wireframe face
+        drawWireframeFace();
         ctx.strokeStyle = '#00e6ff';
         ctx.lineWidth = 1.8;
         ctx.globalAlpha = 0.9;
