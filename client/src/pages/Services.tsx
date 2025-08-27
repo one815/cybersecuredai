@@ -58,7 +58,7 @@ export default function Services() {
         "AI-enhanced investigation tools"
       ],
       metrics: "99.7% Accuracy",
-      price: "Starting at $8,000/month"
+      price: "Contact for Pricing"
     },
     {
       title: "AI-Enhanced Predictive Risk Analysis",
@@ -73,7 +73,7 @@ export default function Services() {
         "Risk score optimization"
       ],
       metrics: "87% Risk Reduction",
-      price: "Starting at $6,500/month"
+      price: "Contact for Pricing"
     },
     {
       title: "AI-Powered Compliance Automation",
@@ -88,7 +88,7 @@ export default function Services() {
         "Multi-framework management"
       ],
       metrics: "85% Less Admin",
-      price: "Starting at $5,000/month"
+      price: "Contact for Pricing"
     },
     {
       title: "Interactive Security Visualization",
@@ -103,7 +103,7 @@ export default function Services() {
         "Executive-level reporting"
       ],
       metrics: "5D Visualization",
-      price: "Starting at $4,500/month"
+      price: "Contact for Pricing"
     },
     {
       title: "AI-Based User Behavior Analytics",
@@ -118,7 +118,7 @@ export default function Services() {
         "Behavioral baseline establishment"
       ],
       metrics: "24/7 Monitoring",
-      price: "Starting at $3,500/month"
+      price: "Contact for Pricing"
     }
   ];
 
@@ -135,7 +135,7 @@ export default function Services() {
         "Real-time threat correlation",
         "Government threat data access"
       ],
-      price: "Starting at $7,500/month"
+      price: "Contact for Pricing"
     },
     {
       title: "Multi-State Security Coalition Platform",
@@ -163,7 +163,7 @@ export default function Services() {
         "Utility grid monitoring",
         "Emergency services integration"
       ],
-      price: "Starting at $15,000/month"
+      price: "Contact for Pricing"
     }
   ];
 
@@ -177,21 +177,21 @@ export default function Services() {
           description: "Comprehensive security strategy aligned with your organizational goals",
           deliverables: ["Security roadmap", "Risk assessment", "Budget planning", "Executive briefings"],
           timeline: "4-6 weeks",
-          price: "$25,000 - $75,000"
+          price: "Contact for Pricing"
         },
         {
           name: "Zero Trust Architecture Design",
           description: "Complete zero trust implementation planning and design",
           deliverables: ["Architecture blueprint", "Implementation plan", "Technology recommendations"],
           timeline: "6-8 weeks", 
-          price: "$35,000 - $85,000"
+          price: "Contact for Pricing"
         },
         {
           name: "Multi-State Collaboration Platform",
           description: "Inter-agency cybersecurity coordination and threat sharing",
           deliverables: ["NIEM compliance setup", "Cross-state protocols", "Emergency response coordination"],
           timeline: "8-12 weeks",
-          price: "$45,000 - $95,000"
+          price: "Contact for Pricing"
         }
       ]
     },
@@ -204,21 +204,21 @@ export default function Services() {
           description: "Expert deployment and configuration of CyberSecure AI platform",
           deliverables: ["Platform setup", "Custom configuration", "Integration testing", "User training"],
           timeline: "2-4 weeks",
-          price: "$15,000 - $45,000"
+          price: "Contact for Pricing"
         },
         {
           name: "Legacy System Integration",
           description: "Seamless integration with existing security infrastructure",
           deliverables: ["Integration architecture", "Data migration", "API development", "Testing"],
           timeline: "4-8 weeks",
-          price: "$20,000 - $60,000"
+          price: "Contact for Pricing"
         },
         {
           name: "Advanced Authentication Setup",
           description: "FIDO2/WebAuthn, PIV/CAC, and hardware security key integration",
           deliverables: ["Multi-factor authentication", "Hardware key provisioning", "Government authentication"],
           timeline: "3-5 weeks",
-          price: "$18,000 - $48,000"
+          price: "Contact for Pricing"
         }
       ]
     },
@@ -231,14 +231,14 @@ export default function Services() {
           description: "Comprehensive protection for smart city and critical infrastructure",
           deliverables: ["Traffic system security", "Utility grid monitoring", "Emergency services integration"],
           timeline: "6-10 weeks",
-          price: "$40,000 - $120,000"
+          price: "Contact for Pricing"
         },
         {
           name: "Education Sector Integration",
           description: "FERPA-compliant security for educational institutions",
           deliverables: ["LMS integration", "Student data protection", "Campus security coordination"],
           timeline: "4-6 weeks",
-          price: "$22,000 - $65,000"
+          price: "Contact for Pricing"
         }
       ]
     }
@@ -432,14 +432,14 @@ export default function Services() {
                         <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
                         <CardTitle className="text-xl text-white mb-3">Basic IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-blue-400 mb-2">$2,000 - $4,000</div>
+                        <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
                         <p className="text-gray-300 text-sm">per month</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">System Administration for 25+ users</span>
+                            <span className="text-gray-300 text-sm">System Administration for multiple users</span>
                           </li>
                           <li className="flex items-center space-x-2">
                             <CheckCircle className="w-4 h-4 text-green-400" />
@@ -464,7 +464,7 @@ export default function Services() {
                         <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                         <CardTitle className="text-xl text-white mb-3">Advanced IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-purple-400 mb-2">$5,000 - $9,000</div>
+                        <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
                         <p className="text-gray-300 text-sm">per month</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
@@ -497,7 +497,7 @@ export default function Services() {
                         <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
                         <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
                         <CardTitle className="text-xl text-white mb-3">Premium IT Support</CardTitle>
-                        <div className="text-2xl font-bold text-yellow-400 mb-2">$10,000 - $20,000</div>
+                        <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
                         <p className="text-gray-300 text-sm">per month</p>
                       </CardHeader>
                       <CardContent className="p-6 pt-0">
@@ -537,7 +537,7 @@ export default function Services() {
                           <Server className="w-8 h-8 text-cyan-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Secure Server Room Kit</h4>
-                            <p className="text-cyan-400 font-bold">$15,000 - $30,000</p>
+                            <p className="text-cyan-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Complete secure server infrastructure setup</p>
@@ -550,7 +550,7 @@ export default function Services() {
                           <Shield className="w-8 h-8 text-green-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Multi-Factor Authentication Hardware</h4>
-                            <p className="text-green-400 font-bold">$5,000 - $15,000</p>
+                            <p className="text-green-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Hardware security keys and MFA infrastructure</p>
@@ -563,7 +563,7 @@ export default function Services() {
                           <Network className="w-8 h-8 text-purple-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Network Segmentation Bundle</h4>
-                            <p className="text-purple-400 font-bold">$10,000 - $25,000</p>
+                            <p className="text-purple-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Advanced network isolation and security</p>
@@ -576,7 +576,7 @@ export default function Services() {
                           <Database className="w-8 h-8 text-red-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Disaster Recovery Infrastructure</h4>
-                            <p className="text-red-400 font-bold">$20,000 - $40,000</p>
+                            <p className="text-red-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Complete backup and recovery solutions</p>
@@ -589,7 +589,7 @@ export default function Services() {
                           <Target className="w-8 h-8 text-yellow-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Advanced Security Assessment</h4>
-                            <p className="text-yellow-400 font-bold">$8,000 - $25,000</p>
+                            <p className="text-yellow-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Comprehensive security evaluation and recommendations</p>
@@ -602,7 +602,7 @@ export default function Services() {
                           <Eye className="w-8 h-8 text-orange-400 mr-3" />
                           <div>
                             <h4 className="text-white font-semibold">Penetration Testing</h4>
-                            <p className="text-orange-400 font-bold">$15,000 - $30,000</p>
+                            <p className="text-orange-400 font-bold">Contact for Pricing</p>
                           </div>
                         </div>
                         <p className="text-gray-300 text-sm">Professional penetration testing services</p>
@@ -842,7 +842,7 @@ export default function Services() {
                 <CardHeader className="p-8 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Premium</Badge>
                   <CardTitle className="text-2xl text-white mb-4">Enterprise Support</CardTitle>
-                  <div className="text-4xl font-bold text-purple-400 mb-2">$2,500</div>
+                  <div className="text-4xl font-bold text-purple-400 mb-2">Contact for Quote</div>
                   <p className="text-gray-300">per month</p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
