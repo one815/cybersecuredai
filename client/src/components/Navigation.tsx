@@ -67,7 +67,7 @@ export function Navigation() {
         { label: "Handbooks", href: "/handbooks" },
         { label: "Podcasts", href: "/podcasts" },
         { label: "Success Kits", href: "/success-kits" },
-        { label: "Video Topics", href: "/video-topics" },
+        { label: "Videos", href: "/video-topics" },
         { label: "Knowledge Center", href: "/resources#knowledge", isHeader: true },
         { label: "Blogs", href: "/blogs" },
         { label: "Demos", href: "/resources/demos" },
