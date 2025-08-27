@@ -16,7 +16,8 @@ import {
   ExternalLink,
   Target,
   Globe,
-  Activity
+  Activity,
+  Building
 } from "lucide-react";
 import {
   CustomShieldIcon,
@@ -39,10 +40,10 @@ import incidentResponseImg from "@assets/generated_images/Automated_Incident_Res
 import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
 
 export default function Platform() {
-  const platformCapabilities = [
+  const coreAIEngines = [
     {
-      title: "AI Threat Detection",
-      description: "Advanced machine learning models with 99.7% detection accuracy",
+      title: "Advanced AI-Driven Threat Hunting",
+      description: "Next-generation threat detection with 99.7% accuracy",
       icon: <CustomBrainIcon className="w-8 h-8 text-red-400" size={32} />,
       color: "border-red-500/30",
       features: [
@@ -51,63 +52,12 @@ export default function Platform() {
         "Predictive threat intelligence",
         "8-minute mean response time"
       ],
-      image: aiThreatImg
+      image: aiThreatImg,
+      status: "Fully Operational"
     },
     {
-      title: "Zero Trust Security",
-      description: "Comprehensive identity verification and access controls",
-      icon: <CustomShieldIcon className="w-8 h-8 text-blue-400" size={32} />,
-      color: "border-blue-500/30", 
-      features: [
-        "Multi-factor authentication",
-        "Role-based access control",
-        "Continuous verification",
-        "Device trust assessment"
-      ],
-      image: networkSecurityImg
-    },
-    {
-      title: "Compliance Automation",
-      description: "Automated regulatory compliance with continuous monitoring",
-      icon: <CustomFileTextIcon className="w-8 h-8 text-green-400" size={32} />,
-      color: "border-green-500/30",
-      features: [
-        "FERPA/FISMA/CIPA certified", 
-        "Automated audit reports",
-        "Policy enforcement",
-        "Risk assessment dashboards"
-      ],
-      image: complianceImg
-    },
-    {
-      title: "24/7 SOC Operations",
-      description: "Expert-managed security operations center with AI assistance",
-      icon: <CustomEyeIcon className="w-8 h-8 text-purple-400" size={32} />,
-      color: "border-purple-500/30",
-      features: [
-        "24/7 threat monitoring",
-        "Expert incident response",
-        "AI-assisted analysis",
-        "Continuous threat hunting"
-      ],
-      image: socDashboardImg
-    },
-    {
-      title: "Automated Response",
-      description: "Intelligent incident response with minimal manual intervention",
-      icon: <CustomZapIcon className="w-8 h-8 text-orange-400" size={32} />,
-      color: "border-orange-500/30",
-      features: [
-        "Automated threat containment",
-        "Dynamic response playbooks",
-        "Escalation management", 
-        "Recovery orchestration"
-      ],
-      image: incidentResponseImg
-    },
-    {
-      title: "Risk Intelligence",
-      description: "Comprehensive risk assessment and vulnerability management",
+      title: "AI-Enhanced Predictive Risk Analysis",
+      description: "Machine learning risk assessment and vulnerability prediction",
       icon: <CustomTargetIcon className="w-8 h-8 text-cyan-400" size={32} />,
       color: "border-cyan-500/30",
       features: [
@@ -116,7 +66,92 @@ export default function Platform() {
         "Risk scoring algorithms",
         "Executive dashboards"
       ],
-      image: platformOverviewImg
+      image: platformOverviewImg,
+      status: "Integrated & Active"
+    },
+    {
+      title: "AI-Based User Behavior Analytics",
+      description: "Advanced insider threat detection and user monitoring",
+      icon: <CustomEyeIcon className="w-8 h-8 text-purple-400" size={32} />,
+      color: "border-purple-500/30",
+      features: [
+        "Real-time user monitoring",
+        "Anomaly detection",
+        "Insider threat identification",
+        "Behavioral baseline analysis"
+      ],
+      image: socDashboardImg,
+      status: "Real-time Monitoring"
+    },
+    {
+      title: "Interactive 5D Security Visualization",
+      description: "Immersive security data visualization and threat exploration",
+      icon: <Globe className="w-8 h-8 text-green-400" />,
+      color: "border-green-500/30",
+      features: [
+        "5D threat visualization",
+        "Interactive security dashboards",
+        "Real-time threat mapping",
+        "Executive-level insights"
+      ],
+      image: networkSecurityImg,
+      status: "Deployed"
+    },
+    {
+      title: "Cloud Integration Engine",
+      description: "Multi-provider cloud security with FedRAMP compliance",
+      icon: <Server className="w-8 h-8 text-blue-400" />,
+      color: "border-blue-500/30",
+      features: [
+        "Multi-cloud monitoring",
+        "FedRAMP High compliance",
+        "AWS/Azure/GCP integration",
+        "Kubernetes security"
+      ],
+      image: complianceImg,
+      status: "Multi-Provider Support"
+    },
+    {
+      title: "AI-Based Compliance Automation",
+      description: "Automated regulatory compliance with continuous monitoring",
+      icon: <CustomFileTextIcon className="w-8 h-8 text-yellow-400" size={32} />,
+      color: "border-yellow-500/30",
+      features: [
+        "FERPA/FISMA/CIPA automation", 
+        "Automated audit reports",
+        "Policy enforcement",
+        "Risk assessment dashboards"
+      ],
+      image: complianceImg,
+      status: "Regulatory Ready"
+    },
+    {
+      title: "Multi-State Security Coalition Platform",
+      description: "Inter-agency cybersecurity coordination and threat sharing",
+      icon: <Network className="w-8 h-8 text-orange-400" />,
+      color: "border-orange-500/30",
+      features: [
+        "Inter-state threat sharing",
+        "NIEM-compliant protocols",
+        "Multi-jurisdictional response",
+        "Emergency coordination"
+      ],
+      image: incidentResponseImg,
+      status: "Government Ready"
+    },
+    {
+      title: "Smart City Security Suite",
+      description: "Critical infrastructure protection for smart cities",
+      icon: <Building className="w-8 h-8 text-pink-400" />,
+      color: "border-pink-500/30",
+      features: [
+        "Traffic system security",
+        "Utility grid monitoring",
+        "Emergency services integration",
+        "SCADA protection"
+      ],
+      image: platformOverviewImg,
+      status: "Infrastructure Monitoring"
     }
   ];
 
@@ -180,47 +215,53 @@ export default function Platform() {
         <section className="py-20 px-6 bg-slate-800">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16">
+              <Badge className="mb-6 bg-green-500/20 text-green-300 border-green-500/30">
+                Eight Core AI Engines - All Operational
+              </Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-                Complete Security<br />
-                <span className="text-cyan-400">Architecture</span>
+                Enterprise AI Security<br />
+                <span className="text-cyan-400">Platform</span>
               </h2>
               <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-                Six integrated security capabilities that work together to provide 
-                comprehensive protection for your organization.
+                Eight integrated AI engines working together to provide 
+                comprehensive protection for government and educational organizations.
               </p>
+              <div className="mt-8">
+                <Badge className="bg-green-500/20 text-green-300 text-lg px-6 py-2">
+                  ✅ All Systems Operational
+                </Badge>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {platformCapabilities.map((capability, index) => (
-                <Card key={index} className={`bg-slate-700/60 border ${capability.color} hover:border-opacity-60 transition-all duration-300 group cursor-pointer`}>
-                  <CardHeader className="p-8">
-                    <div className="flex items-center space-x-4 mb-6">
-                      {capability.icon}
-                      <h3 className="text-2xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                        {capability.title}
-                      </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {coreAIEngines.map((engine, index) => (
+                <Card key={index} className={`bg-slate-700/60 border ${engine.color} hover:border-opacity-60 transition-all duration-300 group cursor-pointer`}>
+                  <CardHeader className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      {engine.icon}
+                      <Badge className="bg-green-500/20 text-green-300 text-xs">
+                        ✅ {engine.status}
+                      </Badge>
                     </div>
-                    <p className="text-gray-300 mb-6">
-                      {capability.description}
+                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors mb-3">
+                      {engine.title}
+                    </h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      {engine.description}
                     </p>
-                    <img 
-                      src={capability.image}
-                      alt={capability.title}
-                      className="w-full h-40 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform duration-300"
-                    />
                   </CardHeader>
-                  <CardContent className="p-8 pt-0">
-                    <ul className="space-y-2 mb-6">
-                      {capability.features.map((feature, fIndex) => (
+                  <CardContent className="p-6 pt-0">
+                    <ul className="space-y-1 mb-4">
+                      {engine.features.slice(0, 3).map((feature, fIndex) => (
                         <li key={fIndex} className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">{feature}</span>
+                          <CheckCircle className="w-3 h-3 text-green-400" />
+                          <span className="text-gray-300 text-xs">{feature}</span>
                         </li>
                       ))}
                     </ul>
                     <Button variant="outline" className="w-full text-cyan-400 border-cyan-500 hover:bg-cyan-500/10">
                       Learn More
-                      <ArrowRight className="ml-2 w-4 h-4" />
+                      <ArrowRight className="ml-2 w-3 h-3" />
                     </Button>
                   </CardContent>
                 </Card>

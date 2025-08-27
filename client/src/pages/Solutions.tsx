@@ -19,7 +19,9 @@ import {
   Network,
   Lock,
   Eye,
-  FileText
+  FileText,
+  Server,
+  HardDrive
 } from "lucide-react";
 import {
   CustomShieldIcon,
@@ -119,89 +121,294 @@ export default function Solutions() {
           </div>
         </section>
 
-        {/* Purpose-Built Solutions */}
+        {/* Cloud Security Packages */}
         <section className="py-20 px-6 bg-slate-800">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-6xl font-bold text-white mb-8">
-                Purpose-Built<br />
+              <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                Cloud Security Packages
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Cloud Security<br />
                 <span className="text-cyan-400">Solutions</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+                Comprehensive cloud security packages designed for modern infrastructure.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Card className="bg-slate-700/60 border border-blue-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-blue-500/20 text-blue-300">Essential</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Cyber-Cloud Essential</CardTitle>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">$15,000 - $30,000</div>
+                  <p className="text-gray-300 text-sm">Basic cloud security foundation</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Basic cloud monitoring</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Essential compliance</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Standard support</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Quote
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-purple-600 text-white">Popular</Badge>
+                </div>
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Cyber-Cloud Advanced</CardTitle>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">$30,000 - $60,000</div>
+                  <p className="text-gray-300 text-sm">Enhanced cloud security capabilities</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Advanced threat detection</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Multi-cloud support</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Priority support</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Get Quote
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-yellow-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Cyber-Cloud Enterprise</CardTitle>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">$60,000 - $150,000</div>
+                  <p className="text-gray-300 text-sm">Complete enterprise cloud security</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 mb-6">
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Full AI capabilities</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">Custom integrations</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-gray-300 text-sm">White glove support</span>
+                    </li>
+                  </ul>
+                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                    Contact Enterprise
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Hardware Security Packages */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-orange-500/20 text-orange-300 border-orange-500/30">
+                Hardware Security Packages
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Hardware Security<br />
+                <span className="text-orange-400">Infrastructure</span>
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {/* Managed AI Threat Detection */}
-              <Card className="bg-slate-700/60 border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 group cursor-pointer">
-                <CardHeader className="p-8 text-center">
-                  <div className="w-20 h-20 bg-cyan-500/20 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-cyan-500/30 transition-colors">
-                    <CustomBrainIcon className="w-10 h-10 text-cyan-400" size={40} />
-                  </div>
-                  <CardTitle className="text-xl text-white mb-4">Managed AI Threat Detection</CardTitle>
-                  <p className="text-gray-300 text-sm mb-6">
-                    Defend against attacks as they're happening with AI-powered threat detection and response.
-                  </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Card className="bg-slate-700/60 border border-blue-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-blue-500/20 text-blue-300">Essential</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Hardware Essential</CardTitle>
+                  <div className="text-2xl font-bold text-blue-400 mb-2">$8,000 - $14,500</div>
+                  <p className="text-gray-300 text-sm">Basic hardware security setup</p>
                 </CardHeader>
-                <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4" />
+                <CardContent className="p-6 pt-0">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Quote
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Managed Compliance */}
-              <Card className="bg-slate-700/60 border border-green-500/30 hover:border-green-400/60 transition-all duration-300 group cursor-pointer">
-                <CardHeader className="p-8 text-center">
-                  <div className="w-20 h-20 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-green-500/30 transition-colors">
-                    <CustomFileTextIcon className="w-10 h-10 text-green-400" size={40} />
-                  </div>
-                  <CardTitle className="text-xl text-white mb-4">Managed Compliance</CardTitle>
-                  <p className="text-gray-300 text-sm mb-6">
-                    Protect your regulatory requirements with automated FERPA, FISMA, and CIPA compliance.
-                  </p>
+              <Card className="bg-slate-700/60 border border-purple-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Hardware Advanced</CardTitle>
+                  <div className="text-2xl font-bold text-purple-400 mb-2">$35,000 - $55,000</div>
+                  <p className="text-gray-300 text-sm">Enhanced hardware security infrastructure</p>
                 </CardHeader>
-                <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4" />
+                <CardContent className="p-6 pt-0">
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Get Quote
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Managed Security Training */}
-              <Card className="bg-slate-700/60 border border-purple-500/30 hover:border-purple-400/60 transition-all duration-300 group cursor-pointer">
-                <CardHeader className="p-8 text-center">
-                  <div className="w-20 h-20 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-500/30 transition-colors">
-                    <Users className="w-10 h-10 text-purple-400" />
-                  </div>
-                  <CardTitle className="text-xl text-white mb-4">Managed Security Training</CardTitle>
-                  <p className="text-gray-300 text-sm mb-6">
-                    Enable your teams to identify and avoid phishing attacks, malware, and social engineering.
-                  </p>
+              <Card className="bg-slate-700/60 border border-yellow-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
+                  <CardTitle className="text-xl text-white mb-4">Hardware Enterprise</CardTitle>
+                  <div className="text-2xl font-bold text-yellow-400 mb-2">$90,000 - $155,000</div>
+                  <p className="text-gray-300 text-sm">Complete enterprise hardware security</p>
                 </CardHeader>
-                <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500/10">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4" />
+                <CardContent className="p-6 pt-0">
+                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                    Contact Enterprise
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Education-Specific Solutions */}
+        <section className="py-20 px-6 bg-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-green-500/20 text-green-300 border-green-500/30">
+                Education-Specific Networks
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Educational<br />
+                <span className="text-green-400">Security Solutions</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Card className="bg-slate-700/60 border border-cyan-500/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Network className="w-8 h-8 text-cyan-400 mr-3" />
+                    <div>
+                      <h4 className="text-white font-semibold">Research Network Security Partitioning</h4>
+                      <p className="text-cyan-400 font-bold">$25,000 - $60,000</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-sm">Secure research data networks with advanced partitioning</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-green-500/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Users className="w-8 h-8 text-green-400 mr-3" />
+                    <div>
+                      <h4 className="text-white font-semibold">Classroom Device Management</h4>
+                      <p className="text-green-400 font-bold">$15,000 - $35,000</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-sm">Comprehensive classroom technology security management</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-purple-500/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Shield className="w-8 h-8 text-purple-400 mr-3" />
+                    <div>
+                      <h4 className="text-white font-semibold">BYOD Security Management</h4>
+                      <p className="text-purple-400 font-bold">$20,000 - $45,000</p>
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-sm">Secure bring-your-own-device policies and monitoring</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Integrated Cloud & Networking Showcase */}
+        <section className="py-20 px-6 bg-slate-700">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                Complete Integration Packages
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Integrated Cloud &<br />
+                <span className="text-purple-400">Networking Solutions</span>
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-slate-700/60 border border-blue-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-blue-500/20 text-blue-300 text-xs">Essential</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Essential</CardTitle>
+                  <div className="text-xl font-bold text-blue-400 mb-2">$25,000 - $40,000</div>
+                  <p className="text-gray-300 text-xs">Complete basic security package</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Get Quote
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Managed SOC */}
-              <Card className="bg-slate-700/60 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group cursor-pointer">
-                <CardHeader className="p-8 text-center">
-                  <div className="w-20 h-20 bg-orange-500/20 rounded-xl flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500/30 transition-colors">
-                    <CustomEyeIcon className="w-10 h-10 text-orange-400" size={40} />
-                  </div>
-                  <CardTitle className="text-xl text-white mb-4">Managed SOC</CardTitle>
-                  <p className="text-gray-300 text-sm mb-6">
-                    Capture the security data that matters while filtering out the noise with 24/7 monitoring.
-                  </p>
+              <Card className="bg-slate-700/60 border border-purple-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-purple-500/20 text-purple-300 text-xs">Advanced</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Advanced</CardTitle>
+                  <div className="text-xl font-bold text-purple-400 mb-2">$50,000 - $80,000</div>
+                  <p className="text-gray-300 text-xs">Enhanced security capabilities</p>
                 </CardHeader>
-                <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-orange-500 text-orange-400 hover:bg-orange-500/10">
-                    Learn More
-                    <ArrowRight className="ml-2 w-4 h-4" />
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                    Get Quote
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-yellow-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-yellow-500/20 text-yellow-300 text-xs">Enterprise</Badge>
+                  <CardTitle className="text-lg text-white mb-3">CyberSecure Enterprise</CardTitle>
+                  <div className="text-xl font-bold text-yellow-400 mb-2">$100,000 - $250,000</div>
+                  <p className="text-gray-300 text-xs">Complete enterprise solution</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                    Contact Enterprise
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-700/60 border border-red-500/30">
+                <CardHeader className="p-6 text-center">
+                  <Badge className="mb-4 bg-red-500/20 text-red-300 text-xs">Government</Badge>
+                  <CardTitle className="text-lg text-white mb-3">Custom Government Package</CardTitle>
+                  <div className="text-xl font-bold text-red-400 mb-2">Custom</div>
+                  <p className="text-gray-300 text-xs">Tailored government solutions</p>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <Button size="sm" className="w-full bg-red-600 hover:bg-red-700 text-white">
+                    Contact Sales
                   </Button>
                 </CardContent>
               </Card>
@@ -323,6 +530,235 @@ export default function Solutions() {
               </TabsList>
 
               <TabsContent value="education" className="space-y-12">
+                {/* K-12 and Higher Ed Solutions */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <Card className="bg-slate-700/60 border border-green-500/30">
+                    <CardHeader className="p-8">
+                      <CustomGraduationCapIcon className="w-12 h-12 text-green-400 mb-4" size={48} />
+                      <CardTitle className="text-2xl text-white mb-4">K-12 Education Solutions</CardTitle>
+                      <p className="text-gray-300 mb-6">
+                        Comprehensive cybersecurity tailored for K-12 educational institutions with FERPA compliance.
+                      </p>
+                    </CardHeader>
+                    <CardContent className="p-8 pt-0">
+                      <ul className="space-y-3 mb-6">
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Student device management</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Classroom security monitoring</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">CIPA compliance automation</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Parent portal security</span>
+                        </li>
+                      </ul>
+                      <Link href="/solutions/k12">
+                        <Button variant="outline" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
+                          Explore K-12 Solutions
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-slate-700/60 border border-purple-500/30">
+                    <CardHeader className="p-8">
+                      <Building className="w-12 h-12 text-purple-400 mb-4" />
+                      <CardTitle className="text-2xl text-white mb-4">Higher Education Solutions</CardTitle>
+                      <p className="text-gray-300 mb-6">
+                        Advanced cybersecurity for universities and colleges with research network protection.
+                      </p>
+                    </CardHeader>
+                    <CardContent className="p-8 pt-0">
+                      <ul className="space-y-3 mb-6">
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Research data protection</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Campus-wide monitoring</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">BYOD security management</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Multi-campus coordination</span>
+                        </li>
+                      </ul>
+                      <Link href="/solutions/higher-ed">
+                        <Button variant="outline" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                          Explore Higher Ed Solutions
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Education-Specific Services */}
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-6 text-center">Education-Specific Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Network className="w-8 h-8 text-cyan-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold text-sm">Research Network Security Partitioning</h4>
+                            <p className="text-cyan-400 font-bold text-sm">$25,000 - $60,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-xs">Secure research data networks with advanced partitioning</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-green-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Users className="w-8 h-8 text-green-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold text-sm">Classroom Device Management</h4>
+                            <p className="text-green-400 font-bold text-sm">$15,000 - $35,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-xs">Comprehensive classroom technology security management</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-purple-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Shield className="w-8 h-8 text-purple-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold text-sm">BYOD Security Management</h4>
+                            <p className="text-purple-400 font-bold text-sm">$20,000 - $45,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-xs">Secure bring-your-own-device policies and monitoring</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="government" className="space-y-12">
+                {/* Government Solutions */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <Card className="bg-slate-700/60 border border-red-500/30">
+                    <CardHeader className="p-8">
+                      <CustomFlagIcon className="w-12 h-12 text-red-400 mb-4" size={48} />
+                      <CardTitle className="text-2xl text-white mb-4">Federal Agency Solutions</CardTitle>
+                      <p className="text-gray-300 mb-6">
+                        FedRAMP High compliant cybersecurity for federal agencies with advanced authentication.
+                      </p>
+                    </CardHeader>
+                    <CardContent className="p-8 pt-0">
+                      <ul className="space-y-3 mb-6">
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">PIV/CAC authentication</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">FedRAMP High compliance</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Multi-agency coordination</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">FISMA compliance automation</span>
+                        </li>
+                      </ul>
+                      <Link href="/solutions/federal">
+                        <Button variant="outline" className="w-full border-red-500 text-red-400 hover:bg-red-500/10">
+                          Explore Federal Solutions
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-slate-700/60 border border-blue-500/30">
+                    <CardHeader className="p-8">
+                      <Building className="w-12 h-12 text-blue-400 mb-4" />
+                      <CardTitle className="text-2xl text-white mb-4">Municipal Government Solutions</CardTitle>
+                      <p className="text-gray-300 mb-6">
+                        Smart city cybersecurity with critical infrastructure protection and emergency coordination.
+                      </p>
+                    </CardHeader>
+                    <CardContent className="p-8 pt-0">
+                      <ul className="space-y-3 mb-6">
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Smart city infrastructure</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Emergency services integration</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Traffic system security</span>
+                        </li>
+                        <li className="flex items-center space-x-2">
+                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <span className="text-gray-300">Utility grid monitoring</span>
+                        </li>
+                      </ul>
+                      <Link href="/solutions/municipal">
+                        <Button variant="outline" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                          Explore Municipal Solutions
+                          <ArrowRight className="ml-2 w-4 h-4" />
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Specialized Government Services */}
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-6 text-center">Specialized Government Services</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="bg-slate-700/60 border border-orange-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Network className="w-8 h-8 text-orange-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold text-sm">Multi-State Security Coalition Platform</h4>
+                            <p className="text-orange-400 font-bold text-sm">$50,000 - $120,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-xs">Inter-agency cybersecurity coordination and threat sharing</p>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <Shield className="w-8 h-8 text-cyan-400 mr-3" />
+                          <div>
+                            <h4 className="text-white font-semibold text-sm">Government Community Cloud Integration</h4>
+                            <p className="text-cyan-400 font-bold text-sm">$30,000 - $75,000</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-300 text-xs">Secure government community cloud deployment and management</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </TabsContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                   <div>
                     <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30">

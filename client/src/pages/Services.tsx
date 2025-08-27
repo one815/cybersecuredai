@@ -22,7 +22,8 @@ import {
   Network,
   HardDrive,
   Cpu,
-  Database
+  Database,
+  Crown
 } from "lucide-react";
 import {
   CustomShieldIcon,
