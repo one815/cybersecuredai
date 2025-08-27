@@ -1614,21 +1614,21 @@ export default function Dashboard() {
         </Card>
 
 
-        {/* Enhanced AI Dashboard Visualizations */}
-        <div className="space-y-8 mb-8">
-          {/* Threat Intelligence Network Visualization */}
-          <ThreatIntelligenceNetwork />
+        {/* Unified Advanced Security Operations Center */}
+        <div className="space-y-6 mb-8">
+          {/* Primary Threat Intelligence & Analytics Row */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <ThreatIntelligenceNetwork />
+            <AIPredictiveAnalytics />
+          </div>
           
-          {/* AI Predictive Analytics Hub */}
-          <AIPredictiveAnalytics />
+          {/* Risk Analysis & Compliance Row */}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <SectorRiskHeatmap />
+            <CompliancePostureRadialChart />
+          </div>
           
-          {/* Sector Risk Heatmap */}
-          <SectorRiskHeatmap />
-          
-          {/* Compliance Posture Radial Chart */}
-          <CompliancePostureRadialChart />
-          
-          {/* Zero Trust Implementation Monitor */}
+          {/* Zero Trust Monitor - Full Width */}
           <ZeroTrustMonitor />
         </div>
 
