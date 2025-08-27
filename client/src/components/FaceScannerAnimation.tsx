@@ -7,7 +7,7 @@ interface FaceScannerAnimationProps {
 export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [scanProgress, setScanProgress] = useState(0);
-  const [rotationAngle, setRotationAngle] = useState(-25);
+  const [rotationAngle, setRotationAngle] = useState(-30);
   const [isScanning, setIsScanning] = useState(true);
   const animationRef = useRef<number>();
 
@@ -23,464 +23,471 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
     
     let progress = 0;
     let scanDirection = 1;
-    let rotation = -25;
+    let rotation = -30;
     let rotationDirection = 1;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Advanced 3D face rendering
+      // Calculate 3D transformation variables
       const rotationRad = (rotation * Math.PI) / 180;
       const cosAngle = Math.cos(rotationRad);
       const sinAngle = Math.sin(rotationRad);
+      const perspective = 0.7 + (Math.abs(cosAngle) * 0.3);
+      const offsetX = sinAngle * 12;
       
-      // Calculate 3D depth and perspective
-      const depth = Math.abs(cosAngle);
-      const perspective = 0.6 + (depth * 0.4);
-      
+      // Save canvas state
       ctx.save();
       
-      // Advanced facial structure with proper depth
-      const drawAdvancedFace = () => {
-        // Face contour with realistic proportions
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 1.8;
+      // Draw ultra-realistic human face with anatomical accuracy
+      const drawRealisticFace = () => {
+        // Face outline with proper human proportions
+        ctx.strokeStyle = '#00e6ff';
+        ctx.lineWidth = 2;
         ctx.globalAlpha = 0.95;
         
-        // Calculate face dimensions based on rotation
-        const faceWidth = 65 * perspective;
-        const faceHeight = 85;
-        const offsetX = sinAngle * 15;
+        const faceWidth = 60 * perspective;
+        const faceHeight = 80;
         
-        // Face outline - more anatomically correct
+        // Human face contour
         ctx.beginPath();
-        ctx.moveTo(centerX + offsetX - faceWidth * 0.5, centerY - faceHeight * 0.6);
-        ctx.quadraticCurveTo(centerX + offsetX - faceWidth * 0.6, centerY - faceHeight * 0.3, centerX + offsetX - faceWidth * 0.5, centerY);
-        ctx.quadraticCurveTo(centerX + offsetX - faceWidth * 0.6, centerY + faceHeight * 0.3, centerX + offsetX - faceWidth * 0.3, centerY + faceHeight * 0.5);
-        ctx.quadraticCurveTo(centerX + offsetX, centerY + faceHeight * 0.6, centerX + offsetX + faceWidth * 0.3, centerY + faceHeight * 0.5);
-        ctx.quadraticCurveTo(centerX + offsetX + faceWidth * 0.6, centerY + faceHeight * 0.3, centerX + offsetX + faceWidth * 0.5, centerY);
-        ctx.quadraticCurveTo(centerX + offsetX + faceWidth * 0.6, centerY - faceHeight * 0.3, centerX + offsetX + faceWidth * 0.5, centerY - faceHeight * 0.6);
+        ctx.moveTo(centerX + offsetX, centerY - faceHeight * 0.65);
+        
+        // Forehead curve
+        ctx.quadraticCurveTo(
+          centerX + offsetX - faceWidth * 0.5, centerY - faceHeight * 0.6,
+          centerX + offsetX - faceWidth * 0.45, centerY - faceHeight * 0.3
+        );
+        
+        // Temple to cheekbone
+        ctx.quadraticCurveTo(
+          centerX + offsetX - faceWidth * 0.52, centerY - faceHeight * 0.1,
+          centerX + offsetX - faceWidth * 0.48, centerY + faceHeight * 0.1
+        );
+        
+        // Cheek to jaw
+        ctx.quadraticCurveTo(
+          centerX + offsetX - faceWidth * 0.45, centerY + faceHeight * 0.3,
+          centerX + offsetX - faceWidth * 0.25, centerY + faceHeight * 0.5
+        );
+        
+        // Jaw to chin
+        ctx.quadraticCurveTo(
+          centerX + offsetX, centerY + faceHeight * 0.55,
+          centerX + offsetX + faceWidth * 0.25, centerY + faceHeight * 0.5
+        );
+        
+        // Right side mirror
+        ctx.quadraticCurveTo(
+          centerX + offsetX + faceWidth * 0.45, centerY + faceHeight * 0.3,
+          centerX + offsetX + faceWidth * 0.48, centerY + faceHeight * 0.1
+        );
+        
+        ctx.quadraticCurveTo(
+          centerX + offsetX + faceWidth * 0.52, centerY - faceHeight * 0.1,
+          centerX + offsetX + faceWidth * 0.45, centerY - faceHeight * 0.3
+        );
+        
+        ctx.quadraticCurveTo(
+          centerX + offsetX + faceWidth * 0.5, centerY - faceHeight * 0.6,
+          centerX + offsetX, centerY - faceHeight * 0.65
+        );
+        
         ctx.closePath();
         ctx.stroke();
         
-        // Forehead and temple details
+        // Add facial depth lines based on rotation
         ctx.strokeStyle = '#0099cc';
         ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.7;
+        ctx.globalAlpha = 0.6;
         
-        // Forehead contours
-        ctx.beginPath();
-        ctx.moveTo(centerX + offsetX - faceWidth * 0.3, centerY - faceHeight * 0.5);
-        ctx.quadraticCurveTo(centerX + offsetX, centerY - faceHeight * 0.6, centerX + offsetX + faceWidth * 0.3, centerY - faceHeight * 0.5);
-        ctx.stroke();
-        
-        // Temple definition
-        if (Math.abs(rotation) > 10) {
+        if (rotation > 5) {
+          // Right profile depth lines
           ctx.beginPath();
-          ctx.moveTo(centerX + offsetX + (rotation > 0 ? -1 : 1) * faceWidth * 0.4, centerY - faceHeight * 0.4);
-          ctx.lineTo(centerX + offsetX + (rotation > 0 ? -1 : 1) * faceWidth * 0.5, centerY - faceHeight * 0.2);
+          ctx.moveTo(centerX + offsetX + faceWidth * 0.3, centerY - faceHeight * 0.4);
+          ctx.lineTo(centerX + offsetX + faceWidth * 0.35, centerY - faceHeight * 0.2);
+          ctx.moveTo(centerX + offsetX + faceWidth * 0.25, centerY);
+          ctx.lineTo(centerX + offsetX + faceWidth * 0.3, centerY + faceHeight * 0.1);
+          ctx.stroke();
+        } else if (rotation < -5) {
+          // Left profile depth lines
+          ctx.beginPath();
+          ctx.moveTo(centerX + offsetX - faceWidth * 0.3, centerY - faceHeight * 0.4);
+          ctx.lineTo(centerX + offsetX - faceWidth * 0.35, centerY - faceHeight * 0.2);
+          ctx.moveTo(centerX + offsetX - faceWidth * 0.25, centerY);
+          ctx.lineTo(centerX + offsetX - faceWidth * 0.3, centerY + faceHeight * 0.1);
           ctx.stroke();
         }
       };
       
-      const drawRealisticEyes = () => {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.fillStyle = '#00d4ff';
-        ctx.lineWidth = 1.2;
+      const drawDetailedEyes = () => {
+        const eyeY = centerY - 12;
+        const eyeWidth = 14 * perspective;
+        const eyeHeight = 7;
+        
+        ctx.strokeStyle = '#00e6ff';
+        ctx.lineWidth = 1.5;
         ctx.globalAlpha = 0.9;
         
-        const eyeY = centerY - 15;
-        const eyeWidth = 15 * perspective;
-        const eyeHeight = 8;
-        
-        if (rotation < -15) {
-          // Left profile - only right eye visible with perspective
-          const eyeX = centerX + offsetX + 8;
+        if (rotation > 15) {
+          // Right profile - left eye only
+          const eyeX = centerX + offsetX - 15;
           
           // Eye socket
           ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.9, eyeHeight, 0, 0, 2 * Math.PI);
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.8, eyeHeight, 0, 0, 2 * Math.PI);
           ctx.stroke();
           
-          // Iris and pupil
-          ctx.fillStyle = '#004d66';
+          // Iris
+          ctx.fillStyle = 'rgba(0, 150, 200, 0.7)';
           ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.5, eyeHeight * 0.7, 0, 0, 2 * Math.PI);
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.5, eyeHeight * 0.8, 0, 0, 2 * Math.PI);
+          ctx.fill();
+          
+          // Pupil
+          ctx.fillStyle = '#000';
+          ctx.beginPath();
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.2, eyeHeight * 0.4, 0, 0, 2 * Math.PI);
+          ctx.fill();
+          
+          // Eyelid
+          ctx.strokeStyle = '#0080b3';
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.ellipse(eyeX, eyeY - 1, eyeWidth * 0.8, eyeHeight * 0.5, 0, 0, Math.PI);
+          ctx.stroke();
+          
+          // Eyebrow
+          ctx.strokeStyle = '#00e6ff';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(eyeX - eyeWidth * 0.6, eyeY - 15);
+          ctx.quadraticCurveTo(eyeX, eyeY - 18, eyeX + eyeWidth * 0.6, eyeY - 14);
+          ctx.stroke();
+          
+        } else if (rotation < -15) {
+          // Left profile - right eye only
+          const eyeX = centerX + offsetX + 15;
+          
+          ctx.beginPath();
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.8, eyeHeight, 0, 0, 2 * Math.PI);
+          ctx.stroke();
+          
+          ctx.fillStyle = 'rgba(0, 150, 200, 0.7)';
+          ctx.beginPath();
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.5, eyeHeight * 0.8, 0, 0, 2 * Math.PI);
           ctx.fill();
           
           ctx.fillStyle = '#000';
           ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.25, eyeHeight * 0.4, 0, 0, 2 * Math.PI);
+          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.2, eyeHeight * 0.4, 0, 0, 2 * Math.PI);
           ctx.fill();
           
-          // Eyelid detail
-          ctx.strokeStyle = '#0099cc';
+          ctx.strokeStyle = '#0080b3';
           ctx.lineWidth = 0.8;
           ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY - 2, eyeWidth * 0.9, eyeHeight * 0.6, 0, 0, Math.PI);
+          ctx.ellipse(eyeX, eyeY - 1, eyeWidth * 0.8, eyeHeight * 0.5, 0, 0, Math.PI);
           ctx.stroke();
           
-          // Eyebrow with depth
-          ctx.strokeStyle = '#00d4ff';
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = '#00e6ff';
+          ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.moveTo(eyeX - eyeWidth * 0.6, eyeY - 18);
-          ctx.quadraticCurveTo(eyeX, eyeY - 22, eyeX + eyeWidth * 0.8, eyeY - 16);
-          ctx.stroke();
-          
-        } else if (rotation > 15) {
-          // Right profile - only left eye visible
-          const eyeX = centerX + offsetX - 8;
-          
-          ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.9, eyeHeight, 0, 0, 2 * Math.PI);
-          ctx.stroke();
-          
-          ctx.fillStyle = '#004d66';
-          ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.5, eyeHeight * 0.7, 0, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          ctx.fillStyle = '#000';
-          ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY, eyeWidth * 0.25, eyeHeight * 0.4, 0, 0, 2 * Math.PI);
-          ctx.fill();
-          
-          ctx.strokeStyle = '#0099cc';
-          ctx.lineWidth = 0.8;
-          ctx.beginPath();
-          ctx.ellipse(eyeX, eyeY - 2, eyeWidth * 0.9, eyeHeight * 0.6, 0, 0, Math.PI);
-          ctx.stroke();
-          
-          ctx.strokeStyle = '#00d4ff';
-          ctx.lineWidth = 1.5;
-          ctx.beginPath();
-          ctx.moveTo(eyeX - eyeWidth * 0.8, eyeY - 16);
-          ctx.quadraticCurveTo(eyeX, eyeY - 22, eyeX + eyeWidth * 0.6, eyeY - 18);
+          ctx.moveTo(eyeX - eyeWidth * 0.6, eyeY - 14);
+          ctx.quadraticCurveTo(eyeX, eyeY - 18, eyeX + eyeWidth * 0.6, eyeY - 15);
           ctx.stroke();
           
         } else {
-          // Front view - both eyes with detailed anatomy
-          const leftEyeX = centerX + offsetX - 22;
-          const rightEyeX = centerX + offsetX + 22;
+          // Front view - both eyes
+          const leftEyeX = centerX + offsetX - 20;
+          const rightEyeX = centerX + offsetX + 20;
           
           // Left eye
           ctx.beginPath();
           ctx.ellipse(leftEyeX, eyeY, eyeWidth, eyeHeight, 0, 0, 2 * Math.PI);
           ctx.stroke();
           
-          ctx.fillStyle = '#004d66';
+          ctx.fillStyle = 'rgba(0, 150, 200, 0.7)';
           ctx.beginPath();
-          ctx.ellipse(leftEyeX, eyeY, eyeWidth * 0.6, eyeHeight * 0.8, 0, 0, 2 * Math.PI);
+          ctx.ellipse(leftEyeX, eyeY, eyeWidth * 0.6, eyeHeight * 0.9, 0, 0, 2 * Math.PI);
           ctx.fill();
           
           ctx.fillStyle = '#000';
           ctx.beginPath();
-          ctx.ellipse(leftEyeX, eyeY, eyeWidth * 0.3, eyeHeight * 0.5, 0, 0, 2 * Math.PI);
+          ctx.ellipse(leftEyeX, eyeY, eyeWidth * 0.25, eyeHeight * 0.5, 0, 0, 2 * Math.PI);
           ctx.fill();
           
           // Right eye
-          ctx.strokeStyle = '#00d4ff';
+          ctx.strokeStyle = '#00e6ff';
           ctx.beginPath();
           ctx.ellipse(rightEyeX, eyeY, eyeWidth, eyeHeight, 0, 0, 2 * Math.PI);
           ctx.stroke();
           
-          ctx.fillStyle = '#004d66';
+          ctx.fillStyle = 'rgba(0, 150, 200, 0.7)';
           ctx.beginPath();
-          ctx.ellipse(rightEyeX, eyeY, eyeWidth * 0.6, eyeHeight * 0.8, 0, 0, 2 * Math.PI);
+          ctx.ellipse(rightEyeX, eyeY, eyeWidth * 0.6, eyeHeight * 0.9, 0, 0, 2 * Math.PI);
           ctx.fill();
           
           ctx.fillStyle = '#000';
           ctx.beginPath();
-          ctx.ellipse(rightEyeX, eyeY, eyeWidth * 0.3, eyeHeight * 0.5, 0, 0, 2 * Math.PI);
+          ctx.ellipse(rightEyeX, eyeY, eyeWidth * 0.25, eyeHeight * 0.5, 0, 0, 2 * Math.PI);
           ctx.fill();
           
           // Eyelids
-          ctx.strokeStyle = '#0099cc';
+          ctx.strokeStyle = '#0080b3';
           ctx.lineWidth = 0.8;
           ctx.beginPath();
-          ctx.ellipse(leftEyeX, eyeY - 2, eyeWidth, eyeHeight * 0.6, 0, 0, Math.PI);
-          ctx.ellipse(rightEyeX, eyeY - 2, eyeWidth, eyeHeight * 0.6, 0, 0, Math.PI);
+          ctx.ellipse(leftEyeX, eyeY - 1, eyeWidth, eyeHeight * 0.5, 0, 0, Math.PI);
+          ctx.ellipse(rightEyeX, eyeY - 1, eyeWidth, eyeHeight * 0.5, 0, 0, Math.PI);
           ctx.stroke();
           
           // Eyebrows
-          ctx.strokeStyle = '#00d4ff';
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = '#00e6ff';
+          ctx.lineWidth = 2;
           ctx.beginPath();
-          ctx.moveTo(leftEyeX - eyeWidth * 0.8, eyeY - 18);
-          ctx.quadraticCurveTo(leftEyeX, eyeY - 22, leftEyeX + eyeWidth * 0.8, eyeY - 16);
-          ctx.moveTo(rightEyeX - eyeWidth * 0.8, eyeY - 16);
-          ctx.quadraticCurveTo(rightEyeX, eyeY - 22, rightEyeX + eyeWidth * 0.8, eyeY - 18);
+          ctx.moveTo(leftEyeX - eyeWidth * 0.7, eyeY - 15);
+          ctx.quadraticCurveTo(leftEyeX, eyeY - 18, leftEyeX + eyeWidth * 0.7, eyeY - 14);
+          ctx.moveTo(rightEyeX - eyeWidth * 0.7, eyeY - 14);
+          ctx.quadraticCurveTo(rightEyeX, eyeY - 18, rightEyeX + eyeWidth * 0.7, eyeY - 15);
           ctx.stroke();
         }
       };
       
-      const drawDetailedNose = () => {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 1.2;
+      const drawRealisticNose = () => {
+        ctx.strokeStyle = '#00e6ff';
+        ctx.lineWidth = 1.5;
         ctx.globalAlpha = 0.85;
         
-        const noseY = centerY + 2;
+        const noseY = centerY + 5;
         
-        if (rotation < -15) {
-          // Left profile nose with proper bridge and nostril
-          const noseX = centerX + offsetX + 25;
+        if (rotation > 15) {
+          // Right profile nose
+          const noseX = centerX + offsetX - 20;
           
           // Nose bridge
           ctx.beginPath();
-          ctx.moveTo(noseX - 8, centerY - 20);
-          ctx.quadraticCurveTo(noseX - 5, noseY - 5, noseX, noseY + 8);
+          ctx.moveTo(noseX + 5, centerY - 15);
+          ctx.quadraticCurveTo(noseX + 2, noseY, noseX, noseY + 10);
           ctx.stroke();
           
-          // Nose tip and nostril
+          // Nose tip
           ctx.beginPath();
-          ctx.moveTo(noseX, noseY + 8);
-          ctx.quadraticCurveTo(noseX - 3, noseY + 12, noseX - 8, noseY + 10);
+          ctx.arc(noseX, noseY + 10, 2, 0, 2 * Math.PI);
           ctx.stroke();
           
-          // Nostril detail
-          ctx.fillStyle = '#003d4d';
+          // Nostril
+          ctx.fillStyle = 'rgba(0, 60, 80, 0.8)';
           ctx.beginPath();
-          ctx.ellipse(noseX - 6, noseY + 8, 2, 3, Math.PI * 0.3, 0, 2 * Math.PI);
+          ctx.ellipse(noseX + 3, noseY + 8, 1.5, 2.5, Math.PI * 0.2, 0, 2 * Math.PI);
           ctx.fill();
           
-        } else if (rotation > 15) {
-          // Right profile nose
-          const noseX = centerX + offsetX - 25;
+        } else if (rotation < -15) {
+          // Left profile nose
+          const noseX = centerX + offsetX + 20;
           
           ctx.beginPath();
-          ctx.moveTo(noseX + 8, centerY - 20);
-          ctx.quadraticCurveTo(noseX + 5, noseY - 5, noseX, noseY + 8);
+          ctx.moveTo(noseX - 5, centerY - 15);
+          ctx.quadraticCurveTo(noseX - 2, noseY, noseX, noseY + 10);
           ctx.stroke();
           
           ctx.beginPath();
-          ctx.moveTo(noseX, noseY + 8);
-          ctx.quadraticCurveTo(noseX + 3, noseY + 12, noseX + 8, noseY + 10);
+          ctx.arc(noseX, noseY + 10, 2, 0, 2 * Math.PI);
           ctx.stroke();
           
-          ctx.fillStyle = '#003d4d';
+          ctx.fillStyle = 'rgba(0, 60, 80, 0.8)';
           ctx.beginPath();
-          ctx.ellipse(noseX + 6, noseY + 8, 2, 3, -Math.PI * 0.3, 0, 2 * Math.PI);
+          ctx.ellipse(noseX - 3, noseY + 8, 1.5, 2.5, -Math.PI * 0.2, 0, 2 * Math.PI);
           ctx.fill();
           
         } else {
-          // Front view nose with detailed structure
+          // Front view nose
           const noseX = centerX + offsetX;
           
           // Nose bridge
           ctx.beginPath();
-          ctx.moveTo(noseX, centerY - 20);
-          ctx.lineTo(noseX, noseY + 5);
+          ctx.moveTo(noseX, centerY - 15);
+          ctx.lineTo(noseX, noseY + 8);
           ctx.stroke();
           
           // Nose sides
           ctx.beginPath();
-          ctx.moveTo(noseX - 8, noseY - 2);
-          ctx.quadraticCurveTo(noseX - 4, noseY + 8, noseX, noseY + 10);
-          ctx.quadraticCurveTo(noseX + 4, noseY + 8, noseX + 8, noseY - 2);
+          ctx.moveTo(noseX - 6, noseY);
+          ctx.quadraticCurveTo(noseX - 3, noseY + 10, noseX, noseY + 12);
+          ctx.quadraticCurveTo(noseX + 3, noseY + 10, noseX + 6, noseY);
           ctx.stroke();
           
           // Nostrils
-          ctx.fillStyle = '#003d4d';
+          ctx.fillStyle = 'rgba(0, 60, 80, 0.8)';
           ctx.beginPath();
-          ctx.ellipse(noseX - 4, noseY + 6, 2, 3, 0, 0, 2 * Math.PI);
-          ctx.ellipse(noseX + 4, noseY + 6, 2, 3, 0, 0, 2 * Math.PI);
+          ctx.ellipse(noseX - 3, noseY + 8, 1.5, 2.5, 0, 0, 2 * Math.PI);
+          ctx.ellipse(noseX + 3, noseY + 8, 1.5, 2.5, 0, 0, 2 * Math.PI);
           ctx.fill();
         }
       };
       
-      const drawRealisticMouth = () => {
-        ctx.strokeStyle = '#00d4ff';
-        ctx.lineWidth = 1.4;
+      const drawDetailedMouth = () => {
+        ctx.strokeStyle = '#00e6ff';
+        ctx.lineWidth = 1.8;
         ctx.globalAlpha = 0.9;
         
-        const mouthY = centerY + 25;
+        const mouthY = centerY + 28;
         
-        if (rotation < -15) {
-          // Left profile mouth
-          const mouthX = centerX + offsetX + 15;
-          
-          ctx.beginPath();
-          ctx.moveTo(mouthX - 5, mouthY);
-          ctx.quadraticCurveTo(mouthX + 8, mouthY + 6, mouthX + 18, mouthY + 2);
-          ctx.stroke();
-          
-          // Lip line detail
-          ctx.strokeStyle = '#0099cc';
-          ctx.lineWidth = 0.8;
-          ctx.beginPath();
-          ctx.moveTo(mouthX - 2, mouthY - 2);
-          ctx.quadraticCurveTo(mouthX + 8, mouthY + 3, mouthX + 15, mouthY);
-          ctx.stroke();
-          
-        } else if (rotation > 15) {
+        if (rotation > 15) {
           // Right profile mouth
-          const mouthX = centerX + offsetX - 15;
+          const mouthX = centerX + offsetX - 12;
           
           ctx.beginPath();
-          ctx.moveTo(mouthX - 18, mouthY + 2);
-          ctx.quadraticCurveTo(mouthX - 8, mouthY + 6, mouthX + 5, mouthY);
+          ctx.moveTo(mouthX - 15, mouthY + 1);
+          ctx.quadraticCurveTo(mouthX - 5, mouthY + 8, mouthX + 8, mouthY + 3);
+          ctx.stroke();
+          
+          // Lip definition
+          ctx.strokeStyle = '#0099cc';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(mouthX - 12, mouthY);
+          ctx.quadraticCurveTo(mouthX - 2, mouthY + 5, mouthX + 5, mouthY + 1);
+          ctx.stroke();
+          
+        } else if (rotation < -15) {
+          // Left profile mouth
+          const mouthX = centerX + offsetX + 12;
+          
+          ctx.beginPath();
+          ctx.moveTo(mouthX - 8, mouthY + 3);
+          ctx.quadraticCurveTo(mouthX + 5, mouthY + 8, mouthX + 15, mouthY + 1);
           ctx.stroke();
           
           ctx.strokeStyle = '#0099cc';
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo(mouthX - 15, mouthY);
-          ctx.quadraticCurveTo(mouthX - 8, mouthY + 3, mouthX + 2, mouthY - 2);
+          ctx.moveTo(mouthX - 5, mouthY + 1);
+          ctx.quadraticCurveTo(mouthX + 2, mouthY + 5, mouthX + 12, mouthY);
           ctx.stroke();
           
         } else {
-          // Front view mouth with detailed lips
+          // Front view mouth
           const mouthX = centerX + offsetX;
           
           // Upper lip
           ctx.beginPath();
-          ctx.moveTo(mouthX - 18, mouthY - 2);
-          ctx.quadraticCurveTo(mouthX - 6, mouthY - 4, mouthX, mouthY - 2);
-          ctx.quadraticCurveTo(mouthX + 6, mouthY - 4, mouthX + 18, mouthY - 2);
+          ctx.moveTo(mouthX - 16, mouthY);
+          ctx.quadraticCurveTo(mouthX - 5, mouthY - 3, mouthX, mouthY - 1);
+          ctx.quadraticCurveTo(mouthX + 5, mouthY - 3, mouthX + 16, mouthY);
           ctx.stroke();
           
           // Lower lip
           ctx.beginPath();
-          ctx.moveTo(mouthX - 18, mouthY - 2);
-          ctx.quadraticCurveTo(mouthX, mouthY + 8, mouthX + 18, mouthY - 2);
+          ctx.moveTo(mouthX - 16, mouthY);
+          ctx.quadraticCurveTo(mouthX, mouthY + 10, mouthX + 16, mouthY);
           ctx.stroke();
           
-          // Lip center line
+          // Lip center
           ctx.strokeStyle = '#0099cc';
-          ctx.lineWidth = 0.8;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.moveTo(mouthX - 15, mouthY);
-          ctx.quadraticCurveTo(mouthX, mouthY + 2, mouthX + 15, mouthY);
-          ctx.stroke();
-        }
-      };
-      
-      const drawJawlineAndChin = () => {
-        ctx.strokeStyle = '#0099cc';
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 0.7;
-        
-        const chinY = centerY + 55;
-        const jawWidth = 45 * perspective;
-        
-        // Jawline definition
-        ctx.beginPath();
-        ctx.moveTo(centerX + offsetX - jawWidth * 0.8, centerY + 30);
-        ctx.quadraticCurveTo(centerX + offsetX - jawWidth * 0.6, chinY - 10, centerX + offsetX, chinY);
-        ctx.quadraticCurveTo(centerX + offsetX + jawWidth * 0.6, chinY - 10, centerX + offsetX + jawWidth * 0.8, centerY + 30);
-        ctx.stroke();
-        
-        // Chin definition
-        if (Math.abs(rotation) < 20) {
-          ctx.beginPath();
-          ctx.moveTo(centerX + offsetX - 8, chinY - 5);
-          ctx.quadraticCurveTo(centerX + offsetX, chinY + 2, centerX + offsetX + 8, chinY - 5);
+          ctx.moveTo(mouthX - 13, mouthY + 2);
+          ctx.quadraticCurveTo(mouthX, mouthY + 4, mouthX + 13, mouthY + 2);
           ctx.stroke();
         }
       };
       
       // Draw all facial features
-      drawAdvancedFace();
-      drawRealisticEyes();
-      drawDetailedNose();
-      drawRealisticMouth();
-      drawJawlineAndChin();
+      drawRealisticFace();
+      drawDetailedEyes();
+      drawRealisticNose();
+      drawDetailedMouth();
       
-      // Advanced scanning grid with depth mapping
+      // Advanced 3D scanning grid
       ctx.strokeStyle = '#40e0d0';
-      ctx.lineWidth = 0.4;
-      ctx.globalAlpha = 0.25;
+      ctx.lineWidth = 0.5;
+      ctx.globalAlpha = 0.3;
       
-      const gridDensity = 12;
-      for (let i = 0; i < 8; i++) {
-        const x = centerX + offsetX - 60 + (i * 15);
-        const depthOffset = Math.sin((x - centerX) * 0.02) * depth * 3;
+      for (let i = 0; i < 10; i++) {
+        const x = centerX + offsetX - 50 + (i * 10);
+        const depthOffset = Math.sin(x * 0.05) * Math.abs(sinAngle) * 3;
         
         ctx.beginPath();
-        ctx.moveTo(x + depthOffset, centerY - 80);
-        ctx.lineTo(x + depthOffset, centerY + 80);
+        ctx.moveTo(x + depthOffset, centerY - 70);
+        ctx.lineTo(x + depthOffset, centerY + 70);
         ctx.stroke();
       }
       
-      for (let i = 0; i < 12; i++) {
-        const y = centerY - 70 + (i * 12);
-        const depthOffset = Math.cos((y - centerY) * 0.03) * Math.abs(sinAngle) * 2;
+      for (let i = 0; i < 14; i++) {
+        const y = centerY - 70 + (i * 10);
+        const depthOffset = Math.cos(y * 0.03) * offsetX * 0.3;
         
         ctx.beginPath();
-        ctx.moveTo(centerX + offsetX - 60 + depthOffset, y);
-        ctx.lineTo(centerX + offsetX + 60 + depthOffset, y);
+        ctx.moveTo(centerX + offsetX - 50 + depthOffset, y);
+        ctx.lineTo(centerX + offsetX + 50 + depthOffset, y);
         ctx.stroke();
       }
       
-      // Advanced scanning line with depth effect
+      // Scanning beam with 3D effect
       ctx.strokeStyle = '#00ff41';
-      ctx.lineWidth = 2;
-      ctx.globalAlpha = 0.9;
+      ctx.lineWidth = 2.5;
+      ctx.globalAlpha = 0.95;
       
       const scanY = (progress / 100) * canvas.height;
-      const scanDepth = Math.sin((scanY - centerY) * 0.01) * Math.abs(sinAngle) * 4;
       
       ctx.beginPath();
       ctx.moveTo(0, scanY);
-      ctx.lineTo(canvas.width, scanY + scanDepth);
+      ctx.lineTo(canvas.width, scanY);
       ctx.stroke();
       
-      // Scanning glow with 3D effect
-      const gradient = ctx.createLinearGradient(0, scanY - 15, 0, scanY + 15);
+      // Scanning glow
+      const gradient = ctx.createLinearGradient(0, scanY - 20, 0, scanY + 20);
       gradient.addColorStop(0, 'rgba(0, 255, 65, 0)');
-      gradient.addColorStop(0.5, 'rgba(0, 255, 65, 0.6)');
+      gradient.addColorStop(0.5, 'rgba(0, 255, 65, 0.7)');
       gradient.addColorStop(1, 'rgba(0, 255, 65, 0)');
       
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, scanY - 15, canvas.width, 30);
+      ctx.fillRect(0, scanY - 20, canvas.width, 40);
       
-      ctx.restore();
-      
-      // Advanced biometric points with anatomical accuracy
+      // Biometric landmarks with anatomical precision
       ctx.fillStyle = '#00ff7f';
-      ctx.globalAlpha = 0.95;
+      ctx.globalAlpha = 1;
       
-      const landmarks = getAnatomicalLandmarks(rotation, centerX, centerY, offsetX, perspective);
+      const landmarks = getAnatomicalPoints(rotation, centerX, centerY, offsetX, perspective);
       
       landmarks.forEach((point, index) => {
-        if (scanY >= point.y - 8) {
-          // Draw landmark with depth indicator
-          const size = 2 + (point.importance || 0) * 0.5;
+        if (scanY >= point.y - 10) {
+          const size = 2.5 + (point.importance * 0.8);
+          
           ctx.beginPath();
           ctx.arc(point.x, point.y, size, 0, 2 * Math.PI);
           ctx.fill();
           
-          // Connection line with opacity based on importance
-          ctx.strokeStyle = '#00ff7f';
-          ctx.lineWidth = 0.6 + (point.importance || 0) * 0.2;
-          ctx.globalAlpha = 0.5 + (point.importance || 0) * 0.3;
+          // Enhanced connection lines
+          ctx.strokeStyle = `rgba(0, 255, 127, ${0.6 + point.importance * 0.4})`;
+          ctx.lineWidth = 1 + point.importance * 0.5;
           
-          const lineLength = 20 + (point.importance || 0) * 8;
-          const lineAngle = (index * 45) * (Math.PI / 180);
+          const lineLength = 25 + point.importance * 10;
+          const angle = (index * 40 + rotation * 2) * (Math.PI / 180);
           
           ctx.beginPath();
           ctx.moveTo(point.x, point.y);
           ctx.lineTo(
-            point.x + Math.cos(lineAngle) * lineLength,
-            point.y + Math.sin(lineAngle) * lineLength
+            point.x + Math.cos(angle) * lineLength,
+            point.y + Math.sin(angle) * lineLength
           );
           ctx.stroke();
           
-          // Label with depth awareness
-          ctx.globalAlpha = 0.8;
+          // Enhanced labels
+          ctx.globalAlpha = 0.9;
           ctx.fillStyle = '#00ff7f';
-          ctx.font = '7px monospace';
+          ctx.font = 'bold 8px monospace';
           ctx.fillText(
             point.name,
-            point.x + Math.cos(lineAngle) * (lineLength + 5),
-            point.y + Math.sin(lineAngle) * (lineLength + 5)
+            point.x + Math.cos(angle) * (lineLength + 8),
+            point.y + Math.sin(angle) * (lineLength + 8)
           );
         }
       });
       
-      // Update animations
-      progress += scanDirection * 1.2;
+      ctx.restore();
+      
+      // Update animation values
+      progress += scanDirection * 1.3;
       if (progress >= 100) {
         scanDirection = -1;
         progress = 100;
@@ -489,13 +496,13 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         progress = 0;
       }
       
-      rotation += rotationDirection * 0.6;
-      if (rotation >= 25) {
+      rotation += rotationDirection * 0.7;
+      if (rotation >= 30) {
         rotationDirection = -1;
-        rotation = 25;
-      } else if (rotation <= -25) {
+        rotation = 30;
+      } else if (rotation <= -30) {
         rotationDirection = 1;
-        rotation = -25;
+        rotation = -30;
       }
       
       setScanProgress(progress);
@@ -503,51 +510,51 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    const getAnatomicalLandmarks = (rotation: number, centerX: number, centerY: number, offsetX: number, perspective: number) => {
-      const landmarks = [];
+    const getAnatomicalPoints = (rotation: number, centerX: number, centerY: number, offsetX: number, perspective: number) => {
+      const points = [];
       
-      if (rotation < -15) {
-        // Left profile landmarks with anatomical precision
-        landmarks.push(
-          { x: centerX + offsetX + 8, y: centerY - 15, name: 'R_EYE_CENTER', importance: 3 },
-          { x: centerX + offsetX + 15, y: centerY - 18, name: 'R_EYEBROW_ARCH', importance: 2 },
-          { x: centerX + offsetX + 25, y: centerY + 2, name: 'NOSE_TIP', importance: 3 },
-          { x: centerX + offsetX + 20, y: centerY + 8, name: 'NOSTRIL', importance: 2 },
-          { x: centerX + offsetX + 15, y: centerY + 25, name: 'MOUTH_CORNER', importance: 2 },
-          { x: centerX + offsetX + 5, y: centerY + 55, name: 'CHIN_POINT', importance: 2 },
-          { x: centerX + offsetX + 35, y: centerY + 30, name: 'JAW_ANGLE', importance: 1 }
+      if (rotation > 15) {
+        // Right profile anatomical points
+        points.push(
+          { x: centerX + offsetX - 15, y: centerY - 12, name: 'L_EYE', importance: 1 },
+          { x: centerX + offsetX - 18, y: centerY - 16, name: 'L_BROW', importance: 0.8 },
+          { x: centerX + offsetX - 20, y: centerY + 5, name: 'NOSE_TIP', importance: 1 },
+          { x: centerX + offsetX - 17, y: centerY + 8, name: 'NOSTRIL', importance: 0.6 },
+          { x: centerX + offsetX - 12, y: centerY + 28, name: 'MOUTH', importance: 0.9 },
+          { x: centerX + offsetX - 5, y: centerY + 50, name: 'CHIN', importance: 0.7 },
+          { x: centerX + offsetX - 30, y: centerY + 20, name: 'JAW', importance: 0.5 }
         );
-      } else if (rotation > 15) {
-        // Right profile landmarks
-        landmarks.push(
-          { x: centerX + offsetX - 8, y: centerY - 15, name: 'L_EYE_CENTER', importance: 3 },
-          { x: centerX + offsetX - 15, y: centerY - 18, name: 'L_EYEBROW_ARCH', importance: 2 },
-          { x: centerX + offsetX - 25, y: centerY + 2, name: 'NOSE_TIP', importance: 3 },
-          { x: centerX + offsetX - 20, y: centerY + 8, name: 'NOSTRIL', importance: 2 },
-          { x: centerX + offsetX - 15, y: centerY + 25, name: 'MOUTH_CORNER', importance: 2 },
-          { x: centerX + offsetX - 5, y: centerY + 55, name: 'CHIN_POINT', importance: 2 },
-          { x: centerX + offsetX - 35, y: centerY + 30, name: 'JAW_ANGLE', importance: 1 }
+      } else if (rotation < -15) {
+        // Left profile anatomical points
+        points.push(
+          { x: centerX + offsetX + 15, y: centerY - 12, name: 'R_EYE', importance: 1 },
+          { x: centerX + offsetX + 18, y: centerY - 16, name: 'R_BROW', importance: 0.8 },
+          { x: centerX + offsetX + 20, y: centerY + 5, name: 'NOSE_TIP', importance: 1 },
+          { x: centerX + offsetX + 17, y: centerY + 8, name: 'NOSTRIL', importance: 0.6 },
+          { x: centerX + offsetX + 12, y: centerY + 28, name: 'MOUTH', importance: 0.9 },
+          { x: centerX + offsetX + 5, y: centerY + 50, name: 'CHIN', importance: 0.7 },
+          { x: centerX + offsetX + 30, y: centerY + 20, name: 'JAW', importance: 0.5 }
         );
       } else {
-        // Front view landmarks with comprehensive mapping
-        landmarks.push(
-          { x: centerX + offsetX - 22, y: centerY - 15, name: 'L_EYE_CENTER', importance: 3 },
-          { x: centerX + offsetX + 22, y: centerY - 15, name: 'R_EYE_CENTER', importance: 3 },
-          { x: centerX + offsetX - 25, y: centerY - 18, name: 'L_EYEBROW_ARCH', importance: 2 },
-          { x: centerX + offsetX + 25, y: centerY - 18, name: 'R_EYEBROW_ARCH', importance: 2 },
-          { x: centerX + offsetX, y: centerY + 2, name: 'NOSE_TIP', importance: 3 },
-          { x: centerX + offsetX - 4, y: centerY + 6, name: 'L_NOSTRIL', importance: 2 },
-          { x: centerX + offsetX + 4, y: centerY + 6, name: 'R_NOSTRIL', importance: 2 },
-          { x: centerX + offsetX - 18, y: centerY + 25, name: 'L_MOUTH_CORNER', importance: 2 },
-          { x: centerX + offsetX + 18, y: centerY + 25, name: 'R_MOUTH_CORNER', importance: 2 },
-          { x: centerX + offsetX, y: centerY + 27, name: 'MOUTH_CENTER', importance: 2 },
-          { x: centerX + offsetX, y: centerY + 55, name: 'CHIN_CENTER', importance: 2 },
-          { x: centerX + offsetX - 35, y: centerY + 30, name: 'L_JAW_ANGLE', importance: 1 },
-          { x: centerX + offsetX + 35, y: centerY + 30, name: 'R_JAW_ANGLE', importance: 1 }
+        // Front view comprehensive mapping
+        points.push(
+          { x: centerX + offsetX - 20, y: centerY - 12, name: 'L_EYE', importance: 1 },
+          { x: centerX + offsetX + 20, y: centerY - 12, name: 'R_EYE', importance: 1 },
+          { x: centerX + offsetX - 22, y: centerY - 16, name: 'L_BROW', importance: 0.8 },
+          { x: centerX + offsetX + 22, y: centerY - 16, name: 'R_BROW', importance: 0.8 },
+          { x: centerX + offsetX, y: centerY + 5, name: 'NOSE_TIP', importance: 1 },
+          { x: centerX + offsetX - 3, y: centerY + 8, name: 'L_NOSTRIL', importance: 0.6 },
+          { x: centerX + offsetX + 3, y: centerY + 8, name: 'R_NOSTRIL', importance: 0.6 },
+          { x: centerX + offsetX - 16, y: centerY + 28, name: 'L_MOUTH', importance: 0.9 },
+          { x: centerX + offsetX + 16, y: centerY + 28, name: 'R_MOUTH', importance: 0.9 },
+          { x: centerX + offsetX, y: centerY + 30, name: 'MOUTH_CTR', importance: 0.8 },
+          { x: centerX + offsetX, y: centerY + 50, name: 'CHIN_CTR', importance: 0.7 },
+          { x: centerX + offsetX - 30, y: centerY + 20, name: 'L_JAW', importance: 0.5 },
+          { x: centerX + offsetX + 30, y: centerY + 20, name: 'R_JAW', importance: 0.5 }
         );
       }
       
-      return landmarks;
+      return points;
     };
 
     animate();
@@ -565,35 +572,38 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         ref={canvasRef}
         width={220}
         height={220}
-        className="rounded-lg bg-slate-900/30 border border-cyan-500/40 shadow-lg shadow-cyan-500/20"
+        className="rounded-lg bg-slate-900/40 border border-cyan-400/50 shadow-xl shadow-cyan-400/30"
       />
       
-      {/* Advanced status display */}
-      <div className="absolute -bottom-10 left-0 right-0 text-center">
-        <div className="text-xs text-cyan-400 font-mono">
-          {isScanning ? `BIOMETRIC SCAN ${Math.round(scanProgress)}% | ${Math.round(rotationAngle)}°` : 'ANALYSIS COMPLETE'}
+      {/* Enhanced status display */}
+      <div className="absolute -bottom-12 left-0 right-0 text-center">
+        <div className="text-xs text-cyan-300 font-mono tracking-wide">
+          {isScanning ? `BIOMETRIC ANALYSIS ${Math.round(scanProgress)}% | ${Math.round(rotationAngle)}°` : 'SCAN COMPLETE'}
         </div>
-        <div className="flex justify-center mt-1 space-x-1">
-          <div className={`w-2 h-2 rounded-full ${scanProgress > 15 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
-          <div className={`w-2 h-2 rounded-full ${scanProgress > 35 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
-          <div className={`w-2 h-2 rounded-full ${scanProgress > 55 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
-          <div className={`w-2 h-2 rounded-full ${scanProgress > 75 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
-          <div className={`w-2 h-2 rounded-full ${scanProgress > 90 ? 'bg-green-400' : 'bg-gray-600'}`}></div>
+        <div className="flex justify-center mt-2 space-x-1">
+          {[15, 35, 55, 75, 90].map((threshold, i) => (
+            <div
+              key={i}
+              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                scanProgress > threshold ? 'bg-green-400 shadow-sm shadow-green-400' : 'bg-gray-600'
+              }`}
+            />
+          ))}
         </div>
       </div>
       
-      {/* Enhanced corner markers */}
-      <div className="absolute top-1 left-1 w-5 h-5 border-l-2 border-t-2 border-cyan-400 opacity-80"></div>
-      <div className="absolute top-1 right-1 w-5 h-5 border-r-2 border-t-2 border-cyan-400 opacity-80"></div>
-      <div className="absolute bottom-1 left-1 w-5 h-5 border-l-2 border-b-2 border-cyan-400 opacity-80"></div>
-      <div className="absolute bottom-1 right-1 w-5 h-5 border-r-2 border-b-2 border-cyan-400 opacity-80"></div>
+      {/* Corner targeting reticles */}
+      <div className="absolute top-2 left-2 w-6 h-6 border-l-2 border-t-2 border-cyan-300 opacity-90"></div>
+      <div className="absolute top-2 right-2 w-6 h-6 border-r-2 border-t-2 border-cyan-300 opacity-90"></div>
+      <div className="absolute bottom-2 left-2 w-6 h-6 border-l-2 border-b-2 border-cyan-300 opacity-90"></div>
+      <div className="absolute bottom-2 right-2 w-6 h-6 border-r-2 border-b-2 border-cyan-300 opacity-90"></div>
       
-      {/* Side labels with depth indicator */}
-      <div className="absolute -left-20 top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-orange-400 font-mono tracking-wider">
+      {/* Side identification labels */}
+      <div className="absolute -left-24 top-1/2 transform -translate-y-1/2 -rotate-90 text-xs text-orange-300 font-mono tracking-widest">
         3D BIOMETRIC
       </div>
-      <div className="absolute -right-20 top-1/2 transform -translate-y-1/2 rotate-90 text-xs text-orange-400 font-mono tracking-wider">
-        DEPTH ANALYSIS
+      <div className="absolute -right-24 top-1/2 transform -translate-y-1/2 rotate-90 text-xs text-orange-300 font-mono tracking-widest">
+        DEPTH SCAN
       </div>
     </div>
   );
