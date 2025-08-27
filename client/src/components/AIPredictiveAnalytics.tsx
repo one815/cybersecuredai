@@ -109,13 +109,13 @@ export function AIPredictiveAnalytics() {
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="holographic-card border-purple-500/30 backdrop-blur-xl floating-3d">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center">
-            <Brain className="w-5 h-5 mr-2" />
-            AI Predictive Analytics Hub
-            <Badge className="ml-2 bg-purple-600 text-white">ML-Powered</Badge>
+          <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide">
+            <Brain className="w-5 h-5 mr-2 text-purple-400 animate-pulse" />
+            AI PREDICTIVE ANALYTICS HUB
+            <Badge className="ml-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white animate-pulse">ML-POWERED</Badge>
           </CardTitle>
           
           <div className="flex items-center space-x-2">

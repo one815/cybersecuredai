@@ -148,13 +148,13 @@ export function ThreatIntelligenceNetwork() {
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl floating-3d">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center">
-            <Network className="w-5 h-5 mr-2" />
-            Threat Intelligence Network
-            <Badge className="ml-2 bg-blue-600 text-white">3D Interactive</Badge>
+          <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
+            <Network className="w-5 h-5 mr-2 text-cyan-400 animate-pulse" />
+            THREAT INTELLIGENCE NETWORK
+            <Badge className="ml-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white animate-pulse">3D INTERACTIVE</Badge>
           </CardTitle>
           
           <div className="flex items-center space-x-2">

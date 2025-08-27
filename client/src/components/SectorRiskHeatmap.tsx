@@ -163,13 +163,13 @@ export function SectorRiskHeatmap() {
   const cells = generateTreemapCells(sectorData?.sectors || [], 500, 300);
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="holographic-card border-orange-500/30 backdrop-blur-xl floating-3d">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center">
-            <AlertTriangle className="w-5 h-5 mr-2" />
-            Sector Risk Heatmap
-            <Badge className="ml-2 bg-orange-600 text-white">Interactive</Badge>
+          <CardTitle className="text-orange-300 flex items-center font-bold tracking-wide">
+            <AlertTriangle className="w-5 h-5 mr-2 text-orange-400 animate-pulse" />
+            SECTOR RISK HEATMAP
+            <Badge className="ml-2 bg-gradient-to-r from-orange-500 to-red-500 text-white animate-pulse">INTERACTIVE</Badge>
           </CardTitle>
           
           <div className="flex items-center space-x-2">

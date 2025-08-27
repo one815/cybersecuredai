@@ -109,13 +109,13 @@ export function CompliancePostureRadialChart() {
   const selectedFrameworkData = complianceData?.frameworks?.find(f => f.id === selectedFramework);
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="holographic-card border-green-500/30 backdrop-blur-xl floating-3d">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-white flex items-center">
-            <Shield className="w-5 h-5 mr-2" />
-            Compliance Posture Analysis
-            <Badge className="ml-2 bg-green-600 text-white">Real-time</Badge>
+          <CardTitle className="text-green-300 flex items-center font-bold tracking-wide">
+            <Shield className="w-5 h-5 mr-2 text-green-400 animate-pulse" />
+            COMPLIANCE POSTURE ANALYSIS
+            <Badge className="ml-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white animate-pulse">REAL-TIME</Badge>
           </CardTitle>
           
           <div className="flex items-center space-x-2">
