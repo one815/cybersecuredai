@@ -15,6 +15,11 @@ import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
 import { ThreatMap } from "@/components/ThreatMap";
+import { ThreatIntelligenceNetwork } from "@/components/ThreatIntelligenceNetwork";
+import { AIPredictiveAnalytics } from "@/components/AIPredictiveAnalytics";
+import { SectorRiskHeatmap } from "@/components/SectorRiskHeatmap";
+import { CompliancePostureRadialChart } from "@/components/CompliancePostureRadialChart";
+import { ZeroTrustMonitor } from "@/components/ZeroTrustMonitor";
 import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
@@ -1608,6 +1613,24 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
+
+        {/* Enhanced AI Dashboard Visualizations */}
+        <div className="space-y-8 mb-8">
+          {/* Threat Intelligence Network Visualization */}
+          <ThreatIntelligenceNetwork />
+          
+          {/* AI Predictive Analytics Hub */}
+          <AIPredictiveAnalytics />
+          
+          {/* Sector Risk Heatmap */}
+          <SectorRiskHeatmap />
+          
+          {/* Compliance Posture Radial Chart */}
+          <CompliancePostureRadialChart />
+          
+          {/* Zero Trust Implementation Monitor */}
+          <ZeroTrustMonitor />
+        </div>
 
         {/* Cypher AI Assistant Dashboard Widget */}
         <div className="mb-8">

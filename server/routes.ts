@@ -3454,6 +3454,321 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enhanced AI Dashboard API endpoints
+  app.get("/api/threat-intelligence/network", (req, res) => {
+    // Mock data for threat intelligence network visualization
+    const nodes = [
+      {
+        id: "threat-1",
+        type: "threat",
+        severity: "critical",
+        name: "Advanced Persistent Threat",
+        description: "Sophisticated multi-stage attack targeting education sector",
+        connections: 15,
+        lastSeen: new Date(Date.now() - 300000).toISOString()
+      },
+      {
+        id: "asset-1",
+        type: "asset",
+        severity: "high",
+        name: "Student Information System",
+        description: "Primary database containing sensitive student records",
+        connections: 23,
+        lastSeen: new Date().toISOString()
+      },
+      {
+        id: "actor-1",
+        type: "actor",
+        severity: "high",
+        name: "APT-EDU-2024",
+        description: "Known threat actor group targeting educational institutions",
+        connections: 8,
+        lastSeen: new Date(Date.now() - 600000).toISOString()
+      },
+      {
+        id: "threat-2",
+        type: "threat",
+        severity: "medium",
+        name: "Phishing Campaign",
+        description: "Targeted phishing emails impersonating IT support",
+        connections: 12,
+        lastSeen: new Date(Date.now() - 900000).toISOString()
+      },
+      {
+        id: "asset-2",
+        type: "asset",
+        severity: "medium",
+        name: "Email Gateway",
+        description: "Primary email security gateway and filtering system",
+        connections: 18,
+        lastSeen: new Date().toISOString()
+      }
+    ];
+
+    const links = [
+      { source: "threat-1", target: "asset-1", strength: 0.9, type: "attack", label: "Data exfiltration attempt" },
+      { source: "actor-1", target: "threat-1", strength: 0.8, type: "communication", label: "Command & control" },
+      { source: "threat-2", target: "asset-2", strength: 0.6, type: "attack", label: "Email compromise" },
+      { source: "threat-1", target: "threat-2", strength: 0.4, type: "dependency", label: "Multi-stage attack" }
+    ];
+
+    res.json({ nodes, links });
+  });
+
+  app.get("/api/ai/predictions/:timeframe?", (req, res) => {
+    const timeframe = req.params.timeframe || "24h";
+    const now = new Date();
+    const predictions = [];
+    
+    // Generate mock prediction data
+    for (let i = 0; i < 10; i++) {
+      const timestamp = new Date(now.getTime() - (i * 3600000));
+      predictions.push({
+        timestamp: timestamp.toISOString(),
+        confidence: Math.floor(Math.random() * 40) + 60, // 60-100%
+        riskScore: Math.floor(Math.random() * 60) + 20, // 20-80
+        threatType: ["Phishing", "Malware", "Data Breach", "Insider Threat"][Math.floor(Math.random() * 4)],
+        prediction: [
+          "Increased phishing activity expected in education sector",
+          "Potential ransomware campaign targeting healthcare",
+          "Insider threat risk elevated due to policy changes",
+          "Credential stuffing attacks likely to increase"
+        ][Math.floor(Math.random() * 4)],
+        likelihood: Math.floor(Math.random() * 50) + 25 // 25-75%
+      });
+    }
+
+    const thresholds = [
+      { type: "Failed Login Attempts", threshold: 100, current: 87, trend: "up" },
+      { type: "Data Transfer Volume", threshold: 500, current: 342, trend: "stable" },
+      { type: "Suspicious IPs", threshold: 50, current: 23, trend: "down" },
+      { type: "Anomalous Behavior", threshold: 25, current: 31, trend: "up" }
+    ];
+
+    const models = [
+      { name: "Anomaly Detection Engine", accuracy: 94, lastTrained: new Date(Date.now() - 86400000).toISOString(), status: "active" },
+      { name: "Threat Classification Model", accuracy: 89, lastTrained: new Date(Date.now() - 172800000).toISOString(), status: "active" },
+      { name: "Behavioral Analysis Model", accuracy: 91, lastTrained: new Date(Date.now() - 259200000).toISOString(), status: "training" },
+      { name: "Predictive Risk Model", accuracy: 87, lastTrained: new Date(Date.now() - 345600000).toISOString(), status: "active" }
+    ];
+
+    res.json({ predictions, thresholds, models });
+  });
+
+  app.get("/api/sectors/risk-analysis", (req, res) => {
+    const sectors = [
+      {
+        id: "federal",
+        name: "Federal Government",
+        riskLevel: 75,
+        vulnerabilities: 23,
+        incidents: 8,
+        compliance: 92,
+        trend: "stable"
+      },
+      {
+        id: "higher-ed",
+        name: "Higher Education",
+        riskLevel: 68,
+        vulnerabilities: 31,
+        incidents: 12,
+        compliance: 85,
+        trend: "up"
+      },
+      {
+        id: "k12",
+        name: "K-12 Education",
+        riskLevel: 72,
+        vulnerabilities: 28,
+        incidents: 15,
+        compliance: 78,
+        trend: "up"
+      },
+      {
+        id: "healthcare",
+        name: "Healthcare",
+        riskLevel: 83,
+        vulnerabilities: 45,
+        incidents: 22,
+        compliance: 88,
+        trend: "up"
+      },
+      {
+        id: "manufacturing",
+        name: "Manufacturing",
+        riskLevel: 65,
+        vulnerabilities: 19,
+        incidents: 6,
+        compliance: 82,
+        trend: "down"
+      },
+      {
+        id: "financial",
+        name: "Financial Services",
+        riskLevel: 58,
+        vulnerabilities: 16,
+        incidents: 4,
+        compliance: 95,
+        trend: "stable"
+      },
+      {
+        id: "technology",
+        name: "Technology",
+        riskLevel: 71,
+        vulnerabilities: 34,
+        incidents: 18,
+        compliance: 89,
+        trend: "stable"
+      },
+      {
+        id: "energy",
+        name: "Energy",
+        riskLevel: 79,
+        vulnerabilities: 27,
+        incidents: 11,
+        compliance: 91,
+        trend: "up"
+      }
+    ];
+
+    res.json({ sectors, lastUpdated: new Date().toISOString() });
+  });
+
+  app.get("/api/compliance/posture", (req, res) => {
+    const frameworks = [
+      {
+        id: "ferpa",
+        name: "FERPA",
+        fullName: "Family Educational Rights and Privacy Act",
+        score: 89,
+        status: "compliant",
+        requirements: { total: 45, completed: 40, inProgress: 3, notStarted: 2 },
+        lastAudit: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+        nextAudit: new Date(Date.now() + 335 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "fisma",
+        name: "FISMA",
+        fullName: "Federal Information Security Modernization Act",
+        score: 76,
+        status: "partial",
+        requirements: { total: 78, completed: 59, inProgress: 12, notStarted: 7 },
+        lastAudit: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
+        nextAudit: new Date(Date.now() + 305 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "cipa",
+        name: "CIPA",
+        fullName: "Children's Internet Protection Act",
+        score: 94,
+        status: "compliant",
+        requirements: { total: 32, completed: 30, inProgress: 2, notStarted: 0 },
+        lastAudit: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+        nextAudit: new Date(Date.now() + 350 * 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: "nist",
+        name: "NIST CSF",
+        fullName: "NIST Cybersecurity Framework",
+        score: 68,
+        status: "partial",
+        requirements: { total: 98, completed: 67, inProgress: 18, notStarted: 13 },
+        lastAudit: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
+        nextAudit: new Date(Date.now() + 320 * 24 * 60 * 60 * 1000).toISOString()
+      }
+    ];
+
+    const overallScore = Math.round(frameworks.reduce((acc, f) => acc + f.score, 0) / frameworks.length);
+    const riskLevel = overallScore >= 80 ? "low" : overallScore >= 60 ? "medium" : "high";
+
+    res.json({ frameworks, overallScore, riskLevel });
+  });
+
+  app.get("/api/zero-trust/monitor/:timeframe?", (req, res) => {
+    const timeframe = req.params.timeframe || "1h";
+    const now = new Date();
+
+    // Generate mock authentication events
+    const authEvents = [];
+    for (let i = 0; i < 20; i++) {
+      const timestamp = new Date(now.getTime() - (i * 300000)); // Every 5 minutes
+      authEvents.push({
+        id: `auth-${i}`,
+        timestamp: timestamp.toISOString(),
+        user: ["john.doe", "jane.smith", "admin.user", "student.jones"][Math.floor(Math.random() * 4)],
+        device: ["Windows-Laptop", "iPhone-12", "MacBook-Pro", "Android-Phone"][Math.floor(Math.random() * 4)],
+        location: ["New York, NY", "Los Angeles, CA", "Chicago, IL", "Remote"][Math.floor(Math.random() * 4)],
+        method: ["password", "mfa", "biometric", "hardware_key"][Math.floor(Math.random() * 4)],
+        status: Math.random() > 0.15 ? "success" : Math.random() > 0.5 ? "failed" : "blocked",
+        riskScore: Math.floor(Math.random() * 100)
+      });
+    }
+
+    const policyPoints = [
+      {
+        id: "gateway-1",
+        name: "Main Security Gateway",
+        type: "gateway",
+        status: "active",
+        policies: 45,
+        violations: 0,
+        location: { x: 100, y: 150 }
+      },
+      {
+        id: "endpoint-1",
+        name: "Endpoint Protection",
+        type: "endpoint",
+        status: "warning",
+        policies: 32,
+        violations: 3,
+        location: { x: 200, y: 100 }
+      },
+      {
+        id: "app-1",
+        name: "Student Portal",
+        type: "application",
+        status: "active",
+        policies: 28,
+        violations: 0,
+        location: { x: 300, y: 200 }
+      },
+      {
+        id: "network-1",
+        name: "Internal Network",
+        type: "network",
+        status: "active",
+        policies: 56,
+        violations: 1,
+        location: { x: 400, y: 120 }
+      }
+    ];
+
+    const networkTopology = {
+      nodes: [
+        { id: "gateway", type: "gateway", x: 100, y: 150, status: "secure" },
+        { id: "firewall", type: "firewall", x: 200, y: 100, status: "secure" },
+        { id: "server", type: "server", x: 300, y: 200, status: "secure" },
+        { id: "endpoint", type: "endpoint", x: 400, y: 120, status: "warning" },
+        { id: "database", type: "database", x: 500, y: 180, status: "secure" }
+      ],
+      connections: [
+        { from: "gateway", to: "firewall", encrypted: true, verified: true },
+        { from: "firewall", to: "server", encrypted: true, verified: true },
+        { from: "server", to: "database", encrypted: true, verified: true },
+        { from: "firewall", to: "endpoint", encrypted: true, verified: false }
+      ]
+    };
+
+    const metrics = {
+      verificationRate: 94,
+      encryptionCoverage: 98,
+      policyCompliance: 92,
+      threatBlocked: 147
+    };
+
+    res.json({ authEvents, policyPoints, networkTopology, metrics });
+  });
+
   // Marketing document routes
   app.get("/marketing/documents/*", (req, res) => {
     // For now, return a simple PDF response header to make downloads work
