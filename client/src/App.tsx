@@ -54,6 +54,9 @@ import ThreatMap5D from "@/pages/ThreatMap5D";
 // Marketing Website Pages
 import Home from "@/pages/Home";
 import AboutUs from "@/pages/AboutUs";
+import Leadership from "@/pages/Leadership";
+import Awards from "@/pages/Awards";
+import Contact from "@/pages/Contact";
 import Solutions from "@/pages/Solutions";
 import Services from "@/pages/Services";
 import Pricing from "@/pages/Pricing";
@@ -154,6 +157,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutUs} />
       <Route path="/about-us" component={AboutUs} />
+      <Route path="/about/leadership" component={Leadership} />
+      <Route path="/about/awards" component={Awards} />
+      <Route path="/contact" component={Contact} />
       <Route path="/solutions" component={Solutions} />
       <Route path="/services" component={Services} />
       <Route path="/pricing" component={Pricing} />
