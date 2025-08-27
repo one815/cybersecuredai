@@ -43,16 +43,25 @@ import { useEffect, useState } from "react";
 
 // Add custom CSS for scanning animations
 const scanningStyles = `
-  @keyframes scan-line {
-    0% { top: 15%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { top: 85%; opacity: 0; }
+  @keyframes scanLine {
+    0% { 
+      transform: translateY(0px); 
+      opacity: 0; 
+    }
+    10% { 
+      opacity: 1; 
+    }
+    90% { 
+      opacity: 1; 
+    }
+    100% { 
+      transform: translateY(400px); 
+      opacity: 0; 
+    }
   }
   
-  @keyframes scan-flash {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.3; }
+  .scan-line-animate {
+    animation: scanLine 2s ease-in-out infinite;
   }
 `;
 
@@ -303,23 +312,20 @@ export default function Home() {
                     <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] overflow-hidden rounded-lg">
                       {/* Moving scan line */}
                       <div 
-                        className={`absolute w-full h-1 shadow-lg ${
+                        className={`absolute w-full h-1 scan-line-animate shadow-lg ${
                           scanProgress < 50 ? 'bg-red-400' : 'bg-green-400'
                         }`}
                         style={{
-                          animation: 'scan-line 3s ease-in-out infinite',
-                          boxShadow: `0 0 20px ${scanProgress < 50 ? '#ef4444' : '#22c55e'}`
+                          boxShadow: `0 0 20px ${scanProgress < 50 ? '#ef4444' : '#22c55e'}`,
+                          filter: `drop-shadow(0 0 8px ${scanProgress < 50 ? '#ef4444' : '#22c55e'})`
                         }}
                       ></div>
                       
                       {/* Flashing effect */}
                       <div 
-                        className={`absolute inset-0 rounded-lg ${
+                        className={`absolute inset-0 rounded-lg animate-pulse ${
                           scanProgress < 50 ? 'bg-red-400/10' : 'bg-green-400/10'
                         }`}
-                        style={{
-                          animation: 'scan-flash 0.5s ease-in-out infinite'
-                        }}
                       ></div>
                     </div>
                   )}
