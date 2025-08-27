@@ -41,27 +41,13 @@ import { ThreatMap } from "@/components/ThreatMap";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 
-// Add custom CSS for scanning animations
+// Simple CSS for glow effects
 const scanningStyles = `
-  @keyframes scanLine {
-    0% { 
-      transform: translateY(0px); 
-      opacity: 0; 
-    }
-    10% { 
-      opacity: 1; 
-    }
-    90% { 
-      opacity: 1; 
-    }
-    100% { 
-      transform: translateY(400px); 
-      opacity: 0; 
-    }
+  .scan-line-glow-red {
+    box-shadow: 0 0 20px #ef4444, 0 0 40px #ef4444, 0 0 60px #ef4444;
   }
-  
-  .scan-line-animate {
-    animation: scanLine 2s ease-in-out infinite;
+  .scan-line-glow-green {
+    box-shadow: 0 0 20px #22c55e, 0 0 40px #22c55e, 0 0 60px #22c55e;
   }
 `;
 
@@ -79,6 +65,7 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [isScanning, setIsScanning] = useState(false);
   const [scanProgress, setScanProgress] = useState(0);
+  const [scanLinePosition, setScanLinePosition] = useState(0);
   const [scanResults, setScanResults] = useState<{
     threats: number;
     vulnerabilities: number;
@@ -95,25 +82,33 @@ export default function Home() {
   const handleScan = () => {
     setIsScanning(true);
     setScanProgress(0);
+    setScanLinePosition(0);
     setScanResults(null);
     
-    // Simulate scanning progress
+    // Simulate scanning progress and line movement
     const interval = setInterval(() => {
       setScanProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setIsScanning(false);
-          setScanResults({
-            threats: Math.floor(Math.random() * 5) + 1,
-            vulnerabilities: Math.floor(Math.random() * 8) + 2,
-            score: Math.floor(Math.random() * 15) + 85,
-            recommendations: Math.floor(Math.random() * 6) + 3
-          });
-          return 100;
+        const newProgress = prev >= 100 ? 0 : prev + Math.random() * 10 + 3;
+        
+        // Move scan line based on progress
+        setScanLinePosition((newProgress / 100) * 85); // 85% of container height
+        
+        if (newProgress >= 100) {
+          setTimeout(() => {
+            clearInterval(interval);
+            setIsScanning(false);
+            setScanResults({
+              threats: Math.floor(Math.random() * 5) + 1,
+              vulnerabilities: Math.floor(Math.random() * 8) + 2,
+              score: Math.floor(Math.random() * 15) + 85,
+              recommendations: Math.floor(Math.random() * 6) + 3
+            });
+          }, 500);
         }
-        return prev + Math.random() * 15 + 5;
+        
+        return newProgress > 100 ? 100 : newProgress;
       });
-    }, 200);
+    }, 100);
   };
 
   if (isLoading) {
@@ -312,12 +307,14 @@ export default function Home() {
                     <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] overflow-hidden rounded-lg">
                       {/* Moving scan line */}
                       <div 
-                        className={`absolute w-full h-1 scan-line-animate shadow-lg ${
-                          scanProgress < 50 ? 'bg-red-400' : 'bg-green-400'
+                        className={`absolute w-full h-1 transition-all duration-100 ${
+                          scanProgress < 50 
+                            ? 'bg-red-400 scan-line-glow-red' 
+                            : 'bg-green-400 scan-line-glow-green'
                         }`}
                         style={{
-                          boxShadow: `0 0 20px ${scanProgress < 50 ? '#ef4444' : '#22c55e'}`,
-                          filter: `drop-shadow(0 0 8px ${scanProgress < 50 ? '#ef4444' : '#22c55e'})`
+                          top: `${scanLinePosition}%`,
+                          opacity: 0.9
                         }}
                       ></div>
                       
