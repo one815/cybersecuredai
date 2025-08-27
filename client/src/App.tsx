@@ -100,6 +100,12 @@ import ZeroTrustArchitecture from "@/pages/platform/ZeroTrustArchitecture";
 import IdentityAccessManagement from "@/pages/platform/IdentityAccessManagement";
 import SystemAdministration from "@/pages/platform/SystemAdministration";
 
+// Resource Pages
+import DataSheetFederalZeroTrust from "@/pages/resources/DataSheetFederalZeroTrust";
+import DataSheetCriticalInfrastructure from "@/pages/resources/DataSheetCriticalInfrastructure";
+import DataSheetRapidResponse from "@/pages/resources/DataSheetRapidResponse";
+import DataSheetUniversityResearch from "@/pages/resources/DataSheetUniversityResearch";
+
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -402,6 +408,12 @@ function Router() {
       <Route path="/solutions">
         <Solutions />
       </Route>
+      
+      {/* Resource Document Routes */}
+      <Route path="/resources/datasheets/federal-zero-trust" component={DataSheetFederalZeroTrust} />
+      <Route path="/resources/datasheets/critical-infrastructure" component={DataSheetCriticalInfrastructure} />
+      <Route path="/resources/datasheets/rapid-response" component={DataSheetRapidResponse} />
+      <Route path="/resources/datasheets/university-research" component={DataSheetUniversityResearch} />
       
       {/* Marketing Document Viewer Routes */}
       <Route path="/marketing/documents/:type/:document" component={DocumentViewer} />

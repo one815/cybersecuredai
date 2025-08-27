@@ -334,6 +334,47 @@ const allResources = [
     results: "Streamlined AI adoption",
     downloadCount: "2,900",
     link: "/use-cases"
+  },
+  // Data Sheets
+  {
+    title: "Federal Zero-Trust Architecture Implementation",
+    description: "Technical specifications and deployment guide for FedRAMP High-compliant zero-trust security models with 99.7% threat detection accuracy.",
+    type: "Data Sheet",
+    category: "Federal Government",
+    sector: "federal",
+    pages: "12",
+    downloadCount: "4,200",
+    link: "/resources/datasheets/federal-zero-trust"
+  },
+  {
+    title: "Critical Infrastructure AI Security Framework",
+    description: "Standards and best practices for federal agencies protecting critical infrastructure with sector-specific security models.",
+    type: "Data Sheet",
+    category: "Federal Government",
+    sector: "federal",
+    pages: "16",
+    downloadCount: "3,800",
+    link: "/resources/datasheets/critical-infrastructure"
+  },
+  {
+    title: "Federal Rapid Response Security Toolkit",
+    description: "Technical components and implementation guidelines for sub-4-minute incident detection and containment.",
+    type: "Data Sheet",
+    category: "Federal Government",
+    sector: "federal",
+    pages: "10",
+    downloadCount: "3,100",
+    link: "/resources/datasheets/rapid-response"
+  },
+  {
+    title: "University Research Data Protection System",
+    description: "Technical architecture and security features for higher education research environments with AI-powered classification.",
+    type: "Data Sheet",
+    category: "Higher Education",
+    sector: "higher-ed",
+    pages: "14",
+    downloadCount: "2,900",
+    link: "/resources/datasheets/university-research"
   }
 ];
 
