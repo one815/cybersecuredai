@@ -70,7 +70,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-10">
+            <div className="flex items-center justify-center mb-16">
               <img 
                 src="/attached_assets/CyberSecure AI (1)_1756164301031.png" 
                 alt="CyberSecure AI" 
@@ -79,7 +79,7 @@ export default function Home() {
             </div>
             
             {/* 4D Face Scanner Animation - Centered between logo and text */}
-            <div className="flex justify-center items-center my-12">
+            <div className="flex justify-center items-center mb-16">
               <FaceScannerAnimation className="mx-auto" />
             </div>
             
