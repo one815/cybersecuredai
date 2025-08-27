@@ -209,156 +209,57 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Dashboard Mockup in Desktop Frame */}
+              {/* Scanner Visual */}
               <div className="relative">
-                {/* Desktop Frame - Slightly Rotated */}
-                <div className="relative transform rotate-3 perspective-1000">
-                  {/* Laptop Screen */}
-                  <div className="relative bg-gray-800 rounded-lg p-2 shadow-2xl border border-gray-600">
-                    {/* Screen Bezel */}
-                    <div className="bg-black rounded-md p-1">
-                      {/* Dashboard Content */}
-                      <div className="bg-gradient-to-br from-slate-900 via-blue-900/30 to-slate-900 rounded-sm overflow-hidden min-h-[400px]">
-                        {/* Dashboard Header */}
-                        <div className="bg-slate-800/80 p-2 border-b border-cyan-500/30">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                              <span className="text-cyan-400 text-xs font-bold">CYBERSECURE AI PLATFORM</span>
-                            </div>
-                            <div className="flex space-x-1">
-                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                              <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                              <div className="w-2 h-2 bg-red-400 rounded-full"></div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Gartner Quadrant-Style Dashboard Layout */}
-                        <div className="p-3 grid grid-cols-2 gap-2 h-full">
-                          {/* Top Left: Intelligence Overview */}
-                          <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded border border-cyan-500/30 p-2">
-                            <div className="text-cyan-400 text-xs font-bold mb-1 flex items-center">
-                              <Brain className="w-3 h-3 mr-1" />
-                              INTELLIGENCE ANALYTICS
-                            </div>
-                            <div className="space-y-1">
-                              <div className="flex justify-between text-xs">
-                                <span className="text-gray-300">Threat Level</span>
-                                <span className="text-yellow-400">MEDIUM</span>
-                              </div>
-                              <div className="w-full bg-gray-700 rounded-full h-1">
-                                <div className="bg-gradient-to-r from-cyan-400 to-blue-400 h-1 rounded-full w-3/4"></div>
-                              </div>
-                              <div className="flex justify-between text-xs">
-                                <span className="text-gray-400">Confidence</span>
-                                <span className="text-cyan-400">94%</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Top Right: Live Threat Map */}
-                          <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded border border-red-500/30 p-2">
-                            <div className="text-red-400 text-xs font-bold mb-1 flex items-center">
-                              <Globe className="w-3 h-3 mr-1" />
-                              GLOBAL THREAT MAP
-                            </div>
-                            {/* Mini map visualization */}
-                            <div className="bg-slate-900/50 rounded h-16 relative overflow-hidden">
-                              <div className="absolute top-2 left-2 w-1 h-1 bg-red-400 rounded-full animate-pulse"></div>
-                              <div className="absolute top-4 right-3 w-1 h-1 bg-orange-400 rounded-full"></div>
-                              <div className="absolute bottom-3 left-4 w-1 h-1 bg-yellow-400 rounded-full"></div>
-                              <div className="absolute bottom-2 right-2 w-1 h-1 bg-red-400 rounded-full animate-pulse"></div>
-                              {/* Grid overlay */}
-                              <div className="absolute inset-0 opacity-20" style={{
-                                backgroundImage: 'linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px)',
-                                backgroundSize: '8px 8px'
-                              }}></div>
-                            </div>
-                            <div className="text-xs text-gray-400 mt-1">15 Active Threats</div>
-                          </div>
-
-                          {/* Bottom Left: Compliance Status */}
-                          <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded border border-green-500/30 p-2">
-                            <div className="text-green-400 text-xs font-bold mb-1 flex items-center">
-                              <CheckCircle className="w-3 h-3 mr-1" />
-                              COMPLIANCE SCORE
-                            </div>
-                            <div className="text-center">
-                              <div className="text-xl font-bold text-green-400">96%</div>
-                              <div className="text-xs text-gray-400">FERPA • FISMA • CIPA</div>
-                              <div className="flex justify-center space-x-1 mt-1">
-                                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                                <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Bottom Right: AI Security Engine */}
-                          <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded border border-purple-500/30 p-2">
-                            <div className="text-purple-400 text-xs font-bold mb-1 flex items-center">
-                              <Shield className="w-3 h-3 mr-1" />
-                              AI SECURITY ENGINE
-                            </div>
-                            <div className="space-y-1">
-                              <div className="flex justify-between text-xs">
-                                <span className="text-gray-400">Detection Rate</span>
-                                <span className="text-purple-400">99.7%</span>
-                              </div>
-                              <div className="flex justify-between text-xs">
-                                <span className="text-gray-400">Response Time</span>
-                                <span className="text-green-400">2.1s</span>
-                              </div>
-                              <div className="flex items-center space-x-1">
-                                <div className="w-1 h-1 bg-purple-400 rounded-full animate-pulse"></div>
-                                <span className="text-xs text-gray-400">ML Active</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Laptop Base */}
-                    <div className="h-2 bg-gradient-to-b from-gray-600 to-gray-800 rounded-b-lg"></div>
+                <div className="relative overflow-hidden rounded-xl">
+                  <img 
+                    src={scanningImg}
+                    alt="AI Security Scanner in Action"
+                    className="w-full rounded-xl shadow-2xl border border-cyan-500/30"
+                  />
+                  
+                  {/* Face Detection Frame - Always Visible */}
+                  <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] border-2 border-cyan-400/60 rounded-lg">
+                    {/* Corner markers */}
+                    <div className="absolute -top-1 -left-1 w-4 h-4 border-l-2 border-t-2 border-cyan-400"></div>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 border-r-2 border-t-2 border-cyan-400"></div>
+                    <div className="absolute -bottom-1 -left-1 w-4 h-4 border-l-2 border-b-2 border-cyan-400"></div>
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 border-r-2 border-b-2 border-cyan-400"></div>
                   </div>
                   
-                  {/* Laptop Keyboard */}
-                  <div className="relative -mt-1 h-4 bg-gradient-to-b from-gray-700 to-gray-900 rounded-b-xl transform perspective-500 scale-y-50"></div>
+                  {/* Continuous Scanning Line Animation */}
+                  <div className="absolute top-[15%] left-[25%] w-[50%] h-[70%] overflow-hidden rounded-lg">
+                    {/* Moving scan line */}
+                    <div 
+                      className="absolute w-full h-1 bg-cyan-400 scan-line-glow transition-all duration-75"
+                      style={{
+                        top: `${scanLinePosition}%`,
+                        opacity: 0.8
+                      }}
+                    ></div>
+                    
+                    {/* Subtle background glow */}
+                    <div className="absolute inset-0 rounded-lg bg-cyan-400/5 animate-pulse"></div>
+                  </div>
                 </div>
                 
-                {/* Live Dashboard Indicator */}
+                {/* Status Indicators */}
                 <div className="absolute top-6 left-6 bg-slate-900/90 rounded-lg p-3 border border-cyan-500/30">
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></div>
                     <span className="text-white text-sm font-medium">
-                      LIVE DASHBOARD
+                      LIVE SCANNING
                     </span>
                   </div>
                 </div>
 
-                {/* Platform Features Overlay */}
-                <div className="absolute top-[15%] right-[5%] bg-slate-900/95 rounded-lg p-4 border border-cyan-500/50 max-w-xs">
-                  <div className="text-cyan-400 text-sm font-bold mb-2">🚀 PLATFORM HIGHLIGHTS</div>
+                {/* Demo Overlay */}
+                <div className="absolute top-[10%] right-[20%] bg-slate-900/95 rounded-lg p-4 border border-cyan-500/50 max-w-xs">
+                  <div className="text-cyan-400 text-sm font-bold mb-2">⚡ LIVE DEMO</div>
                   <div className="space-y-1 text-xs text-gray-300">
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-3 h-3 text-green-400" />
-                      <span>Cambridge-Style Analytics</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-3 h-3 text-green-400" />
-                      <span>Real-Time Threat Mapping</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-3 h-3 text-green-400" />
-                      <span>AI-Powered Intelligence</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-3 h-3 text-green-400" />
-                      <span>Compliance Management</span>
-                    </div>
+                    <div>Facial Recognition: Active</div>
+                    <div>Threat Analysis: Real-time</div>
+                    <div>Security Level: Maximum</div>
                   </div>
                 </div>
               </div>
