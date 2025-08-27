@@ -106,6 +106,11 @@ import DataSheetCriticalInfrastructure from "@/pages/resources/DataSheetCritical
 import DataSheetRapidResponse from "@/pages/resources/DataSheetRapidResponse";
 import DataSheetUniversityResearch from "@/pages/resources/DataSheetUniversityResearch";
 
+// Client Story Pages
+import FederalEducationSecurity from "@/pages/client-stories/FederalEducationSecurity";
+import UniversityFerpaCompliance from "@/pages/client-stories/UniversityFerpaCompliance";
+import K12CostSavings from "@/pages/client-stories/K12CostSavings";
+
 function Router() {
   const { user, isLoading } = useAuth();
   const [showOnboarding, setShowOnboarding] = useState(false);
@@ -414,6 +419,11 @@ function Router() {
       <Route path="/resources/datasheets/critical-infrastructure" component={DataSheetCriticalInfrastructure} />
       <Route path="/resources/datasheets/rapid-response" component={DataSheetRapidResponse} />
       <Route path="/resources/datasheets/university-research" component={DataSheetUniversityResearch} />
+      
+      {/* Client Story Routes */}
+      <Route path="/client-stories/federal-education-security" component={FederalEducationSecurity} />
+      <Route path="/client-stories/university-ferpa-compliance" component={UniversityFerpaCompliance} />
+      <Route path="/client-stories/k12-cost-savings" component={K12CostSavings} />
       
       {/* Marketing Document Viewer Routes */}
       <Route path="/marketing/documents/:type/:document" component={DocumentViewer} />
