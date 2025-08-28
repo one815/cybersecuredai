@@ -926,67 +926,85 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Enterprise Cybersecurity Command Center */}
-              <div className="relative bg-midnight-950 rounded-xl border border-cyan-500/20 shadow-2xl overflow-hidden">
-                {/* Header with Status Indicators */}
-                <div className="bg-gradient-to-r from-midnight-900 to-midnight-950 px-6 py-4 border-b border-cyan-500/20">
+              {/* Enhanced Enterprise Cybersecurity Command Center */}
+              <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden">
+                {/* Advanced Header with Enhanced Status Indicators */}
+                <div className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-800 px-8 py-6 border-b border-cyan-500/30">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-white flex items-center gap-3">
-                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                      CyberSecure AI Command Center
-                      <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30">OPERATIONAL</span>
+                    <h3 className="text-2xl font-bold text-white flex items-center gap-4">
+                      <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
+                      CyberSecure AI Enterprise Command Center
+                      <span className="text-sm bg-green-500/20 text-green-300 px-3 py-1.5 rounded-full border border-green-500/40 font-semibold">LIVE OPERATIONAL</span>
                     </h3>
-                    <div className="flex items-center gap-4 text-xs">
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                        <span className="text-blue-400">AI Anomaly Detection</span>
+                    <div className="flex items-center gap-6 text-sm">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50"></div>
+                        <span className="text-blue-300 font-medium">AI Anomaly Detection</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-green-400">Predictive Analytics</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse shadow-lg shadow-purple-400/50"></div>
+                        <span className="text-purple-300 font-medium">Predictive Analytics</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse shadow-lg shadow-orange-400/50"></div>
+                        <span className="text-orange-300 font-medium">Threat Intelligence</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6">
-                  {/* Multi-Panel Dashboard Layout */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="p-8">
+                  {/* Advanced Multi-Panel Dashboard Layout */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     
                     {/* Real-Time Threat Matrix Panel */}
                     <div className="lg:col-span-2 space-y-4">
-                      {/* Geospatial Attack Origin Map */}
-                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="text-sm font-semibold text-cyan-400">Global Attack Origins</h4>
-                          <span className="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded">LIVE</span>
+                      {/* Enhanced Geospatial Attack Origin Map */}
+                      <div className="bg-gradient-to-br from-slate-800/70 to-slate-900/70 rounded-xl border border-red-500/30 p-6 shadow-lg">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="text-lg font-bold text-red-300 flex items-center gap-2">
+                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                            Global Attack Origins
+                          </h4>
+                          <span className="text-sm text-green-300 bg-green-500/20 px-3 py-1 rounded-full border border-green-500/40 font-semibold">LIVE FEED</span>
                         </div>
-                        <div className="relative h-32 bg-gradient-to-br from-blue-950/30 to-purple-950/30 rounded border border-blue-500/20">
-                          {/* World Map Visualization */}
-                          <svg viewBox="0 0 300 120" className="w-full h-full opacity-40">
-                            <path d="M15,40 Q25,30 45,35 Q65,25 85,30 Q105,20 125,25 Q145,15 165,20 Q185,15 205,20 Q225,15 245,20 Q265,15 285,20" 
-                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
-                            <path d="M20,60 Q40,50 60,55 Q80,45 100,50 Q120,40 140,45 Q160,35 180,40 Q200,35 220,40 Q240,35 260,40" 
-                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
-                            <path d="M25,80 Q45,70 65,75 Q85,65 105,70 Q125,60 145,65 Q165,55 185,60 Q205,55 225,60 Q245,55 265,60" 
-                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
+                        <div className="relative h-40 bg-gradient-to-br from-red-950/40 via-purple-950/40 to-blue-950/40 rounded-lg border border-red-500/30 overflow-hidden">
+                          {/* Enhanced World Map Visualization */}
+                          <svg viewBox="0 0 400 160" className="w-full h-full opacity-60">
+                            {/* Continental outlines */}
+                            <path d="M20,50 Q30,40 50,45 Q70,35 90,40 Q110,30 130,35 Q150,25 170,30 Q190,25 210,30 Q230,25 250,30 Q270,25 290,30 Q310,25 330,30 Q350,25 370,30" 
+                                  stroke="rgba(59, 130, 246, 0.6)" strokeWidth="1" fill="none"/>
+                            <path d="M25,80 Q45,70 65,75 Q85,65 105,70 Q125,60 145,65 Q165,55 185,60 Q205,55 225,60 Q245,55 265,60 Q285,55 305,60 Q325,55 345,60" 
+                                  stroke="rgba(59, 130, 246, 0.6)" strokeWidth="1" fill="none"/>
+                            <path d="M30,110 Q50,100 70,105 Q90,95 110,100 Q130,90 150,95 Q170,85 190,90 Q210,85 230,90 Q250,85 270,90 Q290,85 310,90 Q330,85 350,90" 
+                                  stroke="rgba(59, 130, 246, 0.6)" strokeWidth="1" fill="none"/>
+                            {/* Network connection lines */}
+                            <line x1="60" y1="45" x2="180" y2="75" stroke="rgba(255, 0, 0, 0.4)" strokeWidth="1" opacity="0.7"/>
+                            <line x1="120" y1="65" x2="260" y2="90" stroke="rgba(255, 165, 0, 0.4)" strokeWidth="1" opacity="0.6"/>
+                            <line x1="200" y1="30" x2="320" y2="60" stroke="rgba(255, 255, 0, 0.4)" strokeWidth="1" opacity="0.5"/>
                           </svg>
-                          {/* Attack Origin Points */}
-                          <div className="absolute top-3 left-8 w-2 h-2 bg-red-500 rounded-full animate-pulse">
+                          {/* Enhanced Attack Origin Points */}
+                          <div className="absolute top-4 left-12 w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/70">
                             <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
                           </div>
-                          <div className="absolute top-6 left-20 w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse">
+                          <div className="absolute top-7 left-28 w-2.5 h-2.5 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/70">
                             <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping opacity-75"></div>
                           </div>
-                          <div className="absolute top-4 left-35 w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse">
+                          <div className="absolute top-5 left-44 w-3.5 h-3.5 bg-red-600 rounded-full animate-pulse shadow-lg shadow-red-600/70">
                             <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-75"></div>
                           </div>
-                          <div className="absolute top-7 left-50 w-1 h-1 bg-yellow-500 rounded-full animate-pulse">
+                          <div className="absolute top-8 left-60 w-2 h-2 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/70">
                             <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping opacity-75"></div>
                           </div>
-                          {/* Attack Flow Lines */}
-                          <div className="absolute top-3 left-8 w-12 h-0.5 bg-gradient-to-r from-red-500 to-transparent opacity-60 animate-pulse"></div>
-                          <div className="absolute top-6 left-20 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-50 animate-pulse"></div>
+                          <div className="absolute top-3 left-76 w-2.5 h-2.5 bg-purple-500 rounded-full animate-pulse shadow-lg shadow-purple-500/70">
+                            <div className="absolute inset-0 bg-purple-500 rounded-full animate-ping opacity-75"></div>
+                          </div>
+                          {/* Enhanced Attack Flow Lines */}
+                          <div className="absolute top-4 left-12 w-16 h-1 bg-gradient-to-r from-red-500 via-red-400 to-transparent opacity-80 animate-pulse rounded-full"></div>
+                          <div className="absolute top-7 left-28 w-12 h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-transparent opacity-70 animate-pulse rounded-full"></div>
+                          <div className="absolute top-5 left-44 w-18 h-1 bg-gradient-to-r from-red-600 via-red-500 to-transparent opacity-85 animate-pulse rounded-full"></div>
+                          {/* Threat indicators */}
+                          <div className="absolute bottom-2 right-2 text-xs text-red-300 font-mono">428 Active Threats</div>
                         </div>
                       </div>
 
