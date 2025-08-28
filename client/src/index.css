@@ -138,17 +138,12 @@
 }
 
 .cyber-glow {
-  box-shadow: 
-    0 0 20px rgba(59, 130, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Removed glow effects */
   transition: all 0.3s ease;
 }
 
 .cyber-glow:hover {
-  box-shadow: 
-    0 0 30px rgba(59, 130, 246, 0.2),
-    0 0 60px rgba(59, 130, 246, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  /* Removed glow effects */
   transform: translateY(-2px);
 }
 
@@ -159,11 +154,11 @@
 @keyframes pulse-glow {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+    /* Removed glow effects */
   }
   50% {
     opacity: 0.7;
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 30px rgba(239, 68, 68, 0.5);
+    /* Removed glow effects */
   }
 }
 
@@ -496,15 +491,11 @@
 
   /* Enhanced Glow Effects for Dashboard */
   .drop-shadow-glow {
-    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.2));
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    /* Removed glow effects */
   }
 
   .cyber-glow {
-    box-shadow: 
-      0 0 20px rgba(59, 130, 246, 0.1),
-      0 0 40px rgba(59, 130, 246, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    /* Removed glow effects */
     border: 1px solid rgba(59, 130, 246, 0.3);
     position: relative;
   }
@@ -1116,13 +1107,7 @@
 
   /* Enhanced Neon Glow Effects */
   .neon-glow {
-    text-shadow: 
-      0 0 5px currentColor,
-      0 0 10px currentColor,
-      0 0 15px currentColor,
-      0 0 20px currentColor,
-      0 0 30px currentColor;
-    animation: neon-pulse 2.5s ease-in-out infinite alternate;
+    /* Removed text shadow glow effects */
     position: relative;
   }
 
@@ -1139,20 +1124,10 @@
 
   @keyframes neon-pulse {
     from {
-      text-shadow: 
-        0 0 5px currentColor,
-        0 0 10px currentColor,
-        0 0 15px currentColor,
-        0 0 20px currentColor,
-        0 0 30px currentColor;
+      /* Removed text shadow glow effects */
     }
     to {
-      text-shadow: 
-        0 0 2px currentColor,
-        0 0 5px currentColor,
-        0 0 8px currentColor,
-        0 0 12px currentColor,
-        0 0 18px currentColor;
+      /* Removed text shadow glow effects */
     }
   }
 
@@ -1217,7 +1192,7 @@
       rgba(255, 0, 255, 0.1) 100%);
     border: 1px solid rgba(0, 255, 255, 0.5);
     color: #00ffff;
-    text-shadow: 0 0 10px currentColor;
+    /* Removed text shadow glow effects */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -1298,8 +1273,8 @@
   }
 
   @keyframes check-glow {
-    0%, 100% { text-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
-    50% { text-shadow: 0 0 10px rgba(34, 197, 94, 1); }
+    0%, 100% { /* Removed text shadow glow effects */ }
+    50% { /* Removed text shadow glow effects */ }
   }
 
   .security-protocol {
@@ -1455,7 +1430,7 @@
   }
 
   .chart-glow {
-    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.3));
+    /* Removed glow effects */
   }
 
   /* ===== REAL-TIME INDICATORS ===== */
