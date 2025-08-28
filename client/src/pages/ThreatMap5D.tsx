@@ -11,11 +11,10 @@ import {
   Brain,
   Target,
   Filter,
-  Settings,
-  MapPin,
-  Zap
+  Settings
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { ThreatMap } from "@/components/ThreatMap";
 
 interface ThreatStats {
   totalThreats: number;
@@ -130,83 +129,7 @@ export default function ThreatMap5D() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0 h-full">
-                <div className="w-full h-full bg-gradient-to-b from-gray-900 to-black rounded-b-lg relative overflow-hidden">
-                  {/* Traditional World Map Representation */}
-                  <div className="absolute inset-0 p-8">
-                    {/* World Map Grid */}
-                    <div className="w-full h-full relative">
-                      {/* Grid lines */}
-                      <div className="absolute inset-0 opacity-20" style={{
-                        backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.3) 1px, transparent 1px)',
-                        backgroundSize: '40px 30px'
-                      }}></div>
-                      
-                      {/* Continent outlines */}
-                      <div className="absolute" style={{left: '15%', top: '20%', width: '15%', height: '25%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded-lg bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">North America</div>
-                      </div>
-                      
-                      <div className="absolute" style={{left: '22%', top: '45%', width: '8%', height: '30%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">S. America</div>
-                      </div>
-                      
-                      <div className="absolute" style={{left: '45%', top: '15%', width: '8%', height: '15%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">Europe</div>
-                      </div>
-                      
-                      <div className="absolute" style={{left: '48%', top: '30%', width: '8%', height: '25%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">Africa</div>
-                      </div>
-                      
-                      <div className="absolute" style={{left: '60%', top: '15%', width: '25%', height: '35%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">Asia</div>
-                      </div>
-                      
-                      <div className="absolute" style={{left: '75%', top: '65%', width: '8%', height: '8%'}}>
-                        <div className="w-full h-full border border-gray-600 rounded bg-gray-800/30"></div>
-                        <div className="text-xs text-gray-400 mt-1 text-center">Australia</div>
-                      </div>
-                      
-                      {/* Threat indicators */}
-                      <div className="absolute top-8 left-20 w-3 h-3 bg-red-500 rounded-full animate-ping" title="Critical Threat"></div>
-                      <div className="absolute top-16 right-24 w-3 h-3 bg-orange-500 rounded-full animate-pulse" title="High Threat"></div>
-                      <div className="absolute bottom-16 left-32 w-3 h-3 bg-yellow-500 rounded-full" title="Medium Threat"></div>
-                      <div className="absolute bottom-12 right-20 w-3 h-3 bg-red-500 rounded-full animate-ping" title="Critical Threat"></div>
-                      <div className="absolute top-32 left-1/2 w-3 h-3 bg-orange-500 rounded-full animate-pulse" title="High Threat"></div>
-                      <div className="absolute bottom-24 right-1/3 w-3 h-3 bg-yellow-500 rounded-full" title="Medium Threat"></div>
-                      <div className="absolute top-24 right-16 w-3 h-3 bg-blue-500 rounded-full" title="Low Threat"></div>
-                      <div className="absolute bottom-32 left-1/4 w-3 h-3 bg-green-500 rounded-full" title="Resolved"></div>
-                    </div>
-                    
-                    {/* Legend */}
-                    <div className="absolute bottom-4 right-4 bg-gray-800/80 rounded p-3">
-                      <div className="text-xs text-gray-300 mb-2 font-semibold">Threat Levels</div>
-                      <div className="space-y-1 text-xs">
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                          <span className="text-gray-400">Critical</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          <span className="text-gray-400">High</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                          <span className="text-gray-400">Medium</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                          <span className="text-gray-400">Low</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ThreatMap className="w-full h-full rounded-b-lg" />
               </CardContent>
             </Card>
           </div>
