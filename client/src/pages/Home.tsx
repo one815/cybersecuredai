@@ -952,7 +952,7 @@ export default function Home() {
                     <div className="relative h-80 bg-black rounded-lg border-2 border-red-500/40 overflow-hidden">
                       {/* World Map Background */}
                       <img 
-                        src={import.meta.env.BASE_URL + "attached_assets/download_1756404747630.jpg"}
+                        src="/download_1756404747630.jpg"
                         alt="Global Threat Map"
                         className="absolute inset-0 w-full h-full object-cover opacity-80"
                       />
