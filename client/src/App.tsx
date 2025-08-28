@@ -185,6 +185,11 @@ function Router() {
       <Route path="/why-cybersecured-ai" component={WhyCyberSecuredAI} />
       <Route path="/futuristic-demo" component={FuturisticDemo} />
       <Route path="/misp-benefits" component={MISPBenefits} />
+      <Route path="/demos/biometric-authentication" component={FuturisticDemo} />
+      <Route path="/platform-demo" component={Demos} />
+      <Route path="/platform-tour" component={Demos} />
+      <Route path="/trials" component={Pricing} />
+      <Route path="/security-scanner" component={BasicSecurityScan} />
       
       {/* Solutions Pages */}
       <Route path="/solutions/ransomware" component={RansomwareProtection} />

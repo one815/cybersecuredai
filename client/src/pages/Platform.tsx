@@ -332,7 +332,7 @@ export default function Platform() {
                     <Button 
                       size="lg" 
                       className="button-4d px-8 py-4"
-                      onClick={() => setLocation('/contact')}
+                      onClick={() => { setLocation('/contact'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Talk to an Expert
                       <ExternalLink className="ml-2 w-5 h-5" />
@@ -642,7 +642,7 @@ export default function Platform() {
                 <Button 
                   size="lg" 
                   className="button-4d px-10 py-4 text-lg"
-                  onClick={() => setLocation('/contact')}
+                  onClick={() => { setLocation('/contact'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Schedule Platform Demo
                 </Button>
