@@ -229,26 +229,9 @@ export default function Home() {
                                 </CardTitle>
                               </CardHeader>
                               <CardContent>
-                                {/* Threat Map Representation */}
-                                <div className="bg-slate-900/70 rounded-lg h-64 relative overflow-hidden mb-4">
-                                  {/* Animated threat indicators */}
-                                  <div className="absolute top-6 left-8 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
-                                  <div className="absolute top-12 right-12 w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
-                                  <div className="absolute bottom-8 left-16 w-3 h-3 bg-yellow-400 rounded-full"></div>
-                                  <div className="absolute bottom-6 right-8 w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
-                                  <div className="absolute top-20 left-1/2 w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
-                                  <div className="absolute bottom-16 right-1/3 w-3 h-3 bg-yellow-400 rounded-full"></div>
-                                  
-                                  {/* Grid overlay for professional look */}
-                                  <div className="absolute inset-0 opacity-20" style={{
-                                    backgroundImage: 'linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px)',
-                                    backgroundSize: '20px 20px'
-                                  }}></div>
-                                  
-                                  {/* Loading indicator */}
-                                  <div className="absolute bottom-4 left-4 text-xs text-gray-400">
-                                    Loading Google Maps...
-                                  </div>
+                                {/* Real Geospatial Threat Map */}
+                                <div className="h-64 relative overflow-hidden mb-4">
+                                  <ThreatMap className="w-full h-full rounded-lg border border-red-500/30" />
                                 </div>
                                 
                                 {/* Threat Statistics */}
