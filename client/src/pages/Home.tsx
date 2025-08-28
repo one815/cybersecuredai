@@ -405,19 +405,27 @@ export default function Home() {
                   {/* Features List */}
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <span className="text-gray-300">Enterprise Single Sign-On (SSO) with JWT security</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <span className="text-gray-300">AES-256 encryption for all sensitive data</span>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
                       <span className="text-gray-300">Real-time facial recognition analysis</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
                       <span className="text-gray-300">Advanced behavioral pattern detection</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
                       <span className="text-gray-300">AI-powered threat assessment</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
                       <span className="text-gray-300">Instant security recommendations</span>
                     </div>
                   </div>
@@ -478,6 +486,160 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 🔐 Enterprise Authentication & Security Section */}
+        <section className="py-20 px-6 bg-gradient-to-b from-slate-800 to-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-8">
+                Enterprise-Grade<br />
+                <span className="text-cyan-400 neon-glow">Authentication & Security</span>
+              </h2>
+              <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto">
+                Built with production-ready single sign-on, advanced encryption, and comprehensive security features 
+                that meet the highest standards for educational and government institutions.
+              </p>
+            </div>
+
+            {/* Security Features Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              {/* Single Sign-On */}
+              <Card className="holographic-card border-cyan-500/30 bg-slate-800/50">
+                <CardHeader>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-3 bg-cyan-500/20 rounded-lg">
+                      <Shield className="w-8 h-8 text-cyan-400 icon-3d" />
+                    </div>
+                    <CardTitle className="text-cyan-300 font-bold">
+                      <span className="neon-glow">Single Sign-On (SSO)</span>
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>JWT-based secure token authentication</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>24-hour access tokens with auto-refresh</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Role-based access control (RBAC)</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Seamless user experience</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* High-Level Encryption */}
+              <Card className="holographic-card border-purple-500/30 bg-slate-800/50">
+                <CardHeader>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-3 bg-purple-500/20 rounded-lg">
+                      <Lock className="w-8 h-8 text-purple-400 metallic-icon" />
+                    </div>
+                    <CardTitle className="text-purple-300 font-bold">
+                      <span className="neon-glow">AES-256 Encryption</span>
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Military-grade AES-256 data encryption</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Bcrypt password hashing (12 salt rounds)</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Encrypted TOTP secrets & sensitive data</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Zero-knowledge data protection</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              {/* Advanced Security */}
+              <Card className="holographic-card border-red-500/30 bg-slate-800/50">
+                <CardHeader>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-3 bg-red-500/20 rounded-lg">
+                      <AlertTriangle className="w-8 h-8 text-red-400 glass-icon" />
+                    </div>
+                    <CardTitle className="text-red-300 font-bold">
+                      <span className="neon-glow">Threat Protection</span>
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Rate limiting & brute force protection</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Multi-factor authentication (MFA)</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Session management & token validation</span>
+                    </li>
+                    <li className="flex items-center space-x-3">
+                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <span>Comprehensive security logging</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Security Compliance Badges */}
+            <div className="text-center mb-12">
+              <h3 className="text-2xl font-bold text-white mb-8">
+                <span className="neon-glow">Security & Compliance Certifications</span>
+              </h3>
+              <div className="flex flex-wrap justify-center gap-6">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge">
+                  <div className="text-cyan-400 font-bold text-sm">SOC 2 TYPE II</div>
+                  <div className="text-gray-400 text-xs">Security Controls</div>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge">
+                  <div className="text-green-400 font-bold text-sm">FERPA COMPLIANT</div>
+                  <div className="text-gray-400 text-xs">Educational Privacy</div>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge">
+                  <div className="text-blue-400 font-bold text-sm">FISMA READY</div>
+                  <div className="text-gray-400 text-xs">Federal Security</div>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge">
+                  <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
+                  <div className="text-gray-400 text-xs">Info Security Mgmt</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center">
+              <Button size="lg" className="button-4d px-8 py-4 text-lg">
+                Experience Secure Authentication
+                <Shield className="ml-2 w-5 h-5 icon-3d" />
+              </Button>
             </div>
           </div>
         </section>
