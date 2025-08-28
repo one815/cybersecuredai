@@ -29,7 +29,8 @@ import {
   type CustomComplianceFramework,
   type InsertCustomComplianceFramework,
   type CustomComplianceControl,
-  type InsertCustomComplianceControl
+  type InsertCustomComplianceControl,
+  type UpsertUser
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -39,6 +40,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<User>): Promise<User>;
+  upsertUser(user: UpsertUser): Promise<User>;
   getUsers(): Promise<User[]>;
   
   // Package operations
@@ -431,6 +433,48 @@ export class MemStorage implements IStorage {
     const updatedUser = { ...user, ...updates, updatedAt: new Date() };
     this.users.set(id, updatedUser);
     return updatedUser;
+  }
+
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    // Check if user exists by email
+    const existingUser = Array.from(this.users.values()).find(u => u.email === userData.email);
+    
+    if (existingUser) {
+      // Update existing user
+      const updatedUser = { ...existingUser, ...userData, updatedAt: new Date() };
+      this.users.set(existingUser.id, updatedUser);
+      return updatedUser;
+    } else {
+      // Create new user
+      const newUser: User = {
+        id: userData.id || `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        email: userData.email!,
+        passwordHash: userData.passwordHash || null,
+        firstName: userData.firstName || null,
+        lastName: userData.lastName || null,
+        role: userData.role || 'user',
+        organization: userData.organization || null,
+        profileImageUrl: userData.profileImageUrl || null,
+        isActive: userData.isActive ?? true,
+        lastLogin: userData.lastLogin || null,
+        mfaEnabled: userData.mfaEnabled ?? false,
+        mfaMethod: userData.mfaMethod || 'none',
+        biometricEnabled: userData.biometricEnabled ?? false,
+        digitalKeyEnabled: userData.digitalKeyEnabled ?? false,
+        totpEnabled: userData.totpEnabled ?? false,
+        hardwareKeyEnabled: userData.hardwareKeyEnabled ?? false,
+        totpSecret: userData.totpSecret || null,
+        totpBackupCodes: userData.totpBackupCodes || null,
+        planType: userData.planType || 'standard',
+        onboardingCompleted: userData.onboardingCompleted ?? false,
+        securityPolicyAccepted: userData.securityPolicyAccepted ?? false,
+        dataPolicyAccepted: userData.dataPolicyAccepted ?? false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      this.users.set(newUser.id, newUser);
+      return newUser;
+    }
   }
 
   async getUsers(): Promise<User[]> {

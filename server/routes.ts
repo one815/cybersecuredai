@@ -4,6 +4,7 @@ import express from "express";
 import path from "path";
 import multer from "multer";
 import { storage } from "./storage";
+import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
 import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
 import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
@@ -982,53 +983,179 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Authentication endpoints
-  app.post("/api/auth/login", async (req, res) => {
+  // 🔐 Enhanced Authentication System with JWT and Encryption
+  // Login endpoint with security features
+  app.post("/api/auth/login", sensitiveOperationLimiter(5, 15 * 60 * 1000), async (req, res) => {
     try {
       const { email, password } = req.body;
       
-      // Find user by email
-      const users = await storage.getUsers();
-      const user = users.find(u => u.email === email);
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
       
-      if (!user || !user.isActive) {
+      const authResult = await AuthService.authenticateUser(email, password);
+      
+      if (!authResult) {
         return res.status(401).json({ message: "Invalid email or password" });
       }
       
-      // In a real app, you'd verify the password hash here
-      // For now, we'll accept any password for demo purposes
-      console.log(`User ${email} logged in successfully`);
+      const { user, token, refreshToken } = authResult;
       
-      // Update last login
-      await storage.updateUser(user.id, { lastLogin: new Date() });
+      // Log successful authentication
+      console.log(`✅ User ${email} authenticated successfully`);
       
-      // Return user info (excluding password)
-      res.json({ user, token: "demo-token-" + user.id });
+      // Return secure response (exclude sensitive data)
+      const { passwordHash, totpSecret, totpBackupCodes, ...safeUser } = user;
+      
+      res.json({ 
+        user: safeUser, 
+        token, 
+        refreshToken,
+        expiresIn: "24h"
+      });
     } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).json({ message: "Login failed" });
+      console.error("❌ Authentication error:", error);
+      res.status(500).json({ message: "Authentication failed" });
     }
   });
 
-  app.get("/api/auth/user", async (req, res) => {
+  // Register new user endpoint
+  app.post("/api/auth/register", sensitiveOperationLimiter(3, 60 * 60 * 1000), async (req, res) => {
     try {
-      // Check for user email in localStorage (sent via header)
-      const userEmail = req.headers['x-user-email'] as string;
+      const { email, password, firstName, lastName, organization, role } = req.body;
       
-      if (userEmail) {
-        const users = await storage.getUsers();
-        const user = users.find(u => u.email === userEmail);
-        if (user) {
-          return res.json(user);
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+      }
+      
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(409).json({ message: "User with this email already exists" });
+      }
+      
+      // Hash password
+      const passwordHash = await AuthService.hashPassword(password);
+      
+      // Create user
+      const newUser = await storage.upsertUser({
+        email,
+        passwordHash,
+        firstName: firstName || null,
+        lastName: lastName || null,
+        organization: organization || null,
+        role: role || 'user',
+        isActive: true,
+        onboardingCompleted: false,
+        securityPolicyAccepted: false,
+        dataPolicyAccepted: false
+      });
+      
+      // Generate tokens
+      const token = AuthService.generateToken(newUser);
+      const refreshToken = AuthService.generateRefreshToken(newUser.id);
+      
+      console.log(`✅ New user registered: ${email}`);
+      
+      // Return secure response
+      const { passwordHash: _, totpSecret, totpBackupCodes, ...safeUser } = newUser;
+      
+      res.status(201).json({ 
+        user: safeUser, 
+        token, 
+        refreshToken,
+        expiresIn: "24h"
+      });
+    } catch (error) {
+      console.error("❌ Registration error:", error);
+      res.status(500).json({ message: "Registration failed" });
+    }
+  });
+
+  // Get current authenticated user
+  app.get("/api/auth/user", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const user = req.user!;
+      
+      // Return safe user data (exclude sensitive fields)
+      const { passwordHash, totpSecret, totpBackupCodes, ...safeUser } = user;
+      
+      res.json(safeUser);
+    } catch (error) {
+      console.error("❌ Error fetching current user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+  
+  // Refresh token endpoint
+  app.post("/api/auth/refresh", async (req, res) => {
+    try {
+      const { refreshToken } = req.body;
+      
+      if (!refreshToken) {
+        return res.status(400).json({ message: "Refresh token is required" });
+      }
+      
+      const newAccessToken = await AuthService.refreshAccessToken(refreshToken);
+      
+      if (!newAccessToken) {
+        return res.status(401).json({ message: "Invalid or expired refresh token" });
+      }
+      
+      res.json({ 
+        token: newAccessToken,
+        expiresIn: "24h"
+      });
+    } catch (error) {
+      console.error("❌ Token refresh error:", error);
+      res.status(500).json({ message: "Token refresh failed" });
+    }
+  });
+  
+  // Logout endpoint
+  app.post("/api/auth/logout", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      // In a real implementation, you'd invalidate the token here
+      // For now, we'll just log the logout
+      console.log(`✅ User ${req.user?.email} logged out`);
+      
+      res.json({ message: "Logged out successfully" });
+    } catch (error) {
+      console.error("❌ Logout error:", error);
+      res.status(500).json({ message: "Logout failed" });
+    }
+  });
+  
+  // Change password endpoint
+  app.put("/api/auth/change-password", authenticateJWT, sensitiveOperationLimiter(3, 15 * 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+      const user = req.user!;
+      
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Current and new passwords are required" });
+      }
+      
+      // Verify current password if user has one
+      if (user.passwordHash) {
+        const isValidPassword = await AuthService.verifyPassword(currentPassword, user.passwordHash);
+        if (!isValidPassword) {
+          return res.status(401).json({ message: "Current password is incorrect" });
         }
       }
       
-      // Fallback to admin user for demo
-      const user = await storage.getUser("admin-1");
-      res.json(user);
+      // Hash new password
+      const newPasswordHash = await AuthService.hashPassword(newPassword);
+      
+      // Update user
+      await storage.updateUser(user.id, { passwordHash: newPasswordHash });
+      
+      console.log(`✅ Password changed for user: ${user.email}`);
+      
+      res.json({ message: "Password changed successfully" });
     } catch (error) {
-      console.error("Error fetching current user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
+      console.error("❌ Password change error:", error);
+      res.status(500).json({ message: "Password change failed" });
     }
   });
 
