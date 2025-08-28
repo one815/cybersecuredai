@@ -926,68 +926,202 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Global Threat Map - Interactive Dashboard */}
+              {/* Enterprise Cybersecurity Command Center */}
               <div className="relative bg-midnight-950 rounded-xl border border-cyan-500/20 shadow-2xl overflow-hidden">
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                    Global Threat Intelligence Map
-                  </h3>
-                  <div className="relative h-80 bg-gradient-to-b from-midnight-900 to-midnight-950 rounded-lg border border-cyan-500/10">
-                    {/* World map background */}
-                    <div className="absolute inset-0 opacity-20">
-                      <svg viewBox="0 0 400 200" className="w-full h-full">
-                        {/* Simplified world map outline */}
-                        <path d="M20,80 Q40,60 80,70 Q120,50 160,60 Q200,45 240,55 Q280,40 320,50 Q360,45 380,55" 
-                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
-                        <path d="M30,120 Q70,100 110,110 Q150,95 190,105 Q230,90 270,100 Q310,85 350,95" 
-                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
-                        <path d="M40,160 Q80,140 120,150 Q160,135 200,145 Q240,130 280,140 Q320,125 360,135" 
-                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
-                      </svg>
-                    </div>
-                    
-                    {/* Threat indicators */}
-                    <div className="absolute top-16 left-20 w-4 h-4 bg-red-500 rounded-full animate-pulse opacity-80">
-                      <div className="absolute inset-0 bg-red-500 rounded-full animate-ping"></div>
-                    </div>
-                    <div className="absolute top-32 left-60 w-3 h-3 bg-yellow-500 rounded-full animate-pulse opacity-70">
-                      <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping"></div>
-                    </div>
-                    <div className="absolute top-24 left-80 w-5 h-5 bg-orange-500 rounded-full animate-pulse opacity-90">
-                      <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping"></div>
-                    </div>
-                    <div className="absolute top-40 left-45 w-3 h-3 bg-red-400 rounded-full animate-pulse opacity-60">
-                      <div className="absolute inset-0 bg-red-400 rounded-full animate-ping"></div>
-                    </div>
-                    <div className="absolute top-20 left-75 w-4 h-4 bg-yellow-400 rounded-full animate-pulse opacity-75">
-                      <div className="absolute inset-0 bg-yellow-400 rounded-full animate-ping"></div>
-                    </div>
-                    
-                    {/* Data flow lines */}
-                    <div className="absolute inset-0">
-                      <div className="absolute top-16 left-20 w-40 h-0.5 bg-gradient-to-r from-red-500 to-transparent opacity-60 animate-pulse"></div>
-                      <div className="absolute top-32 left-60 w-20 h-0.5 bg-gradient-to-r from-yellow-500 to-transparent opacity-50 animate-pulse"></div>
-                      <div className="absolute top-24 left-80 w-30 h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-70 animate-pulse"></div>
-                    </div>
-                  </div>
-                  
-                  {/* Threat statistics */}
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    <div className="text-center">
-                      <div className="text-red-400 text-xl font-bold">847</div>
-                      <div className="text-gray-400 text-xs">Active Threats</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-yellow-400 text-xl font-bold">23</div>
-                      <div className="text-gray-400 text-xs">Countries</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-green-400 text-xl font-bold">99.7%</div>
-                      <div className="text-gray-400 text-xs">Blocked</div>
+                {/* Header with Status Indicators */}
+                <div className="bg-gradient-to-r from-midnight-900 to-midnight-950 px-6 py-4 border-b border-cyan-500/20">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-white flex items-center gap-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                      CyberSecure AI Command Center
+                      <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30">OPERATIONAL</span>
+                    </h3>
+                    <div className="flex items-center gap-4 text-xs">
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                        <span className="text-blue-400">AI Anomaly Detection</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-green-400">Predictive Analytics</span>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <div className="p-6">
+                  {/* Multi-Panel Dashboard Layout */}
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    {/* Real-Time Threat Matrix Panel */}
+                    <div className="lg:col-span-2 space-y-4">
+                      {/* Geospatial Attack Origin Map */}
+                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="text-sm font-semibold text-cyan-400">Global Attack Origins</h4>
+                          <span className="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded">LIVE</span>
+                        </div>
+                        <div className="relative h-32 bg-gradient-to-br from-blue-950/30 to-purple-950/30 rounded border border-blue-500/20">
+                          {/* World Map Visualization */}
+                          <svg viewBox="0 0 300 120" className="w-full h-full opacity-40">
+                            <path d="M15,40 Q25,30 45,35 Q65,25 85,30 Q105,20 125,25 Q145,15 165,20 Q185,15 205,20 Q225,15 245,20 Q265,15 285,20" 
+                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
+                            <path d="M20,60 Q40,50 60,55 Q80,45 100,50 Q120,40 140,45 Q160,35 180,40 Q200,35 220,40 Q240,35 260,40" 
+                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
+                            <path d="M25,80 Q45,70 65,75 Q85,65 105,70 Q125,60 145,65 Q165,55 185,60 Q205,55 225,60 Q245,55 265,60" 
+                                  stroke="rgba(59, 130, 246, 0.4)" strokeWidth="0.5" fill="none"/>
+                          </svg>
+                          {/* Attack Origin Points */}
+                          <div className="absolute top-3 left-8 w-2 h-2 bg-red-500 rounded-full animate-pulse">
+                            <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-75"></div>
+                          </div>
+                          <div className="absolute top-6 left-20 w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse">
+                            <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping opacity-75"></div>
+                          </div>
+                          <div className="absolute top-4 left-35 w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse">
+                            <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-75"></div>
+                          </div>
+                          <div className="absolute top-7 left-50 w-1 h-1 bg-yellow-500 rounded-full animate-pulse">
+                            <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping opacity-75"></div>
+                          </div>
+                          {/* Attack Flow Lines */}
+                          <div className="absolute top-3 left-8 w-12 h-0.5 bg-gradient-to-r from-red-500 to-transparent opacity-60 animate-pulse"></div>
+                          <div className="absolute top-6 left-20 w-8 h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-50 animate-pulse"></div>
+                        </div>
+                      </div>
+
+                      {/* Network Topology Visualization */}
+                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="text-sm font-semibold text-cyan-400">Network Topology Analysis</h4>
+                          <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded">SCANNING</span>
+                        </div>
+                        <div className="relative h-24 bg-gradient-to-r from-purple-950/20 to-blue-950/20 rounded border border-purple-500/20">
+                          {/* Network Nodes */}
+                          <div className="absolute top-2 left-4 w-3 h-3 bg-green-500 rounded-full border-2 border-green-400 animate-pulse">
+                            <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-30"></div>
+                          </div>
+                          <div className="absolute top-4 left-16 w-2 h-2 bg-blue-500 rounded-full border border-blue-400"></div>
+                          <div className="absolute top-6 left-28 w-2 h-2 bg-blue-500 rounded-full border border-blue-400"></div>
+                          <div className="absolute top-2 left-40 w-2.5 h-2.5 bg-yellow-500 rounded-full border border-yellow-400 animate-pulse">
+                            <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping opacity-40"></div>
+                          </div>
+                          <div className="absolute top-5 left-52 w-2 h-2 bg-red-500 rounded-full border border-red-400 animate-pulse">
+                            <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-50"></div>
+                          </div>
+                          {/* Connection Lines */}
+                          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 50">
+                            <line x1="8" y1="8" x2="16" y2="12" stroke="rgba(34, 197, 94, 0.6)" strokeWidth="0.5"/>
+                            <line x1="16" y1="12" x2="28" y2="16" stroke="rgba(59, 130, 246, 0.6)" strokeWidth="0.5"/>
+                            <line x1="28" y1="16" x2="40" y2="8" stroke="rgba(245, 158, 11, 0.6)" strokeWidth="0.5"/>
+                            <line x1="40" y1="8" x2="52" y2="14" stroke="rgba(239, 68, 68, 0.8)" strokeWidth="1" className="animate-pulse"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Panel - Analytics & Metrics */}
+                    <div className="space-y-4">
+                      {/* Multi-Dimensional Vulnerability Heat Map */}
+                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
+                        <h4 className="text-sm font-semibold text-cyan-400 mb-3">Vulnerability Heat Map</h4>
+                        <div className="grid grid-cols-6 gap-1">
+                          {/* Heat Map Grid */}
+                          {Array.from({ length: 24 }, (_, i) => (
+                            <div 
+                              key={i}
+                              className={`w-3 h-3 rounded-sm ${
+                                i % 7 === 0 ? 'bg-red-500/80' :
+                                i % 5 === 0 ? 'bg-orange-500/60' :
+                                i % 3 === 0 ? 'bg-yellow-500/40' :
+                                'bg-green-500/20'
+                              }`}
+                            ></div>
+                          ))}
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-400 mt-2">
+                          <span>Low</span>
+                          <span>Critical</span>
+                        </div>
+                      </div>
+
+                      {/* AI-Driven Predictive Analytics */}
+                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
+                        <h4 className="text-sm font-semibold text-cyan-400 mb-3">AI Predictive Risk</h4>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-300">Next 24h Risk</span>
+                            <span className="text-xs text-orange-400 font-semibold">Medium</span>
+                          </div>
+                          <div className="w-full bg-gray-700 rounded-full h-1.5">
+                            <div className="bg-gradient-to-r from-green-500 via-yellow-500 to-orange-500 h-1.5 rounded-full" style={{width: '68%'}}></div>
+                          </div>
+                          <div className="text-xs text-gray-400">Confidence: 94.2%</div>
+                        </div>
+                      </div>
+
+                      {/* Anomaly Detection Trends */}
+                      <div className="bg-gradient-to-b from-midnight-900/50 to-midnight-950/50 rounded-lg border border-cyan-500/20 p-4">
+                        <h4 className="text-sm font-semibold text-cyan-400 mb-3">Anomaly Detection</h4>
+                        <div className="relative h-16 bg-gradient-to-r from-gray-900/20 to-gray-950/20 rounded border border-gray-500/20">
+                          {/* Trend Line Visualization */}
+                          <svg className="w-full h-full" viewBox="0 0 100 40">
+                            <polyline 
+                              fill="none" 
+                              stroke="rgba(34, 197, 94, 0.8)" 
+                              strokeWidth="1"
+                              points="5,30 15,25 25,35 35,20 45,28 55,15 65,22 75,18 85,25 95,20"
+                              className="animate-pulse"
+                            />
+                            <polyline 
+                              fill="none" 
+                              stroke="rgba(239, 68, 68, 0.6)" 
+                              strokeWidth="1"
+                              points="5,35 15,32 25,38 35,28 45,35 55,25 65,30 75,28 85,32 95,30"
+                            />
+                          </svg>
+                          {/* Anomaly Spikes */}
+                          <div className="absolute top-1 left-14 w-1 h-1 bg-red-500 rounded-full animate-ping"></div>
+                          <div className="absolute top-0.5 left-28 w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-400 mt-1">
+                          <span>Normal</span>
+                          <span>Anomalous</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Status Bar */}
+                  <div className="mt-6 grid grid-cols-2 md:grid-cols-6 gap-4 pt-4 border-t border-cyan-500/20">
+                    <div className="text-center">
+                      <div className="text-red-400 text-lg font-bold">1,247</div>
+                      <div className="text-gray-400 text-xs">Active Threats</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-orange-400 text-lg font-bold">47</div>
+                      <div className="text-gray-400 text-xs">Vulnerabilities</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-yellow-400 text-lg font-bold">156</div>
+                      <div className="text-gray-400 text-xs">Endpoints</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-blue-400 text-lg font-bold">23</div>
+                      <div className="text-gray-400 text-xs">Countries</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-green-400 text-lg font-bold">99.8%</div>
+                      <div className="text-gray-400 text-xs">Protected</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-purple-400 text-lg font-bold">AI</div>
+                      <div className="text-gray-400 text-xs">Enhanced</div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Ambient Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 to-transparent pointer-events-none"></div>
               </div>
             </div>
