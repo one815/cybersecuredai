@@ -949,48 +949,98 @@ export default function Home() {
                       </h4>
                       <span className="text-sm text-red-300 bg-red-500/30 px-3 py-2 rounded border border-red-400/50 font-bold animate-pulse">⚡ LIVE FEED</span>
                     </div>
-                    <div className="relative h-48 bg-gradient-to-br from-red-950/50 via-purple-950/50 to-blue-950/50 rounded-lg border-2 border-red-500/40 overflow-hidden">
-                      {/* World Map Grid */}
-                      <div className="absolute inset-0 opacity-30">
-                        <svg viewBox="0 0 500 200" className="w-full h-full">
-                          <defs>
-                            <pattern id="worldGrid" width="25" height="25" patternUnits="userSpaceOnUse">
-                              <path d="M 25 0 L 0 0 0 25" fill="none" stroke="rgba(59, 130, 246, 0.2)" strokeWidth="0.5"/>
-                            </pattern>
-                          </defs>
-                          <rect width="500" height="200" fill="url(#worldGrid)"/>
-                          {/* Continental shapes */}
-                          <path d="M50,80 Q80,60 120,70 Q160,50 200,60 Q240,40 280,50 Q320,40 360,50 Q400,40 450,50" 
-                                stroke="rgba(59, 130, 246, 0.6)" strokeWidth="2" fill="none"/>
-                          <path d="M60,120 Q100,100 140,110 Q180,90 220,100 Q260,80 300,90 Q340,80 380,90 Q420,80 460,90" 
-                                stroke="rgba(59, 130, 246, 0.6)" strokeWidth="2" fill="none"/>
-                        </svg>
-                      </div>
+                    <div className="relative h-80 bg-black rounded-lg border-2 border-red-500/40 overflow-hidden">
+                      {/* World Map Background */}
+                      <img 
+                        src={import.meta.env.BASE_URL + "attached_assets/download_1756404747630.jpg"}
+                        alt="Global Threat Map"
+                        className="absolute inset-0 w-full h-full object-cover opacity-80"
+                      />
+                      
+                      {/* Threat Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-red-900/40 via-transparent to-yellow-900/20"></div>
+                      
                       {/* Active Attack Points */}
-                      <div className="absolute top-6 left-16 w-4 h-4 bg-red-500 rounded-full animate-pulse shadow-xl shadow-red-500/80">
+                      <div className="absolute top-12 left-16 w-4 h-4 bg-red-500 rounded-full animate-pulse shadow-xl shadow-red-500/80">
                         <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-80"></div>
+                        <div className="absolute -top-1 -left-1 w-6 h-6 border border-red-400 rounded-full animate-pulse"></div>
                       </div>
-                      <div className="absolute top-12 left-32 w-3 h-3 bg-orange-500 rounded-full animate-pulse shadow-xl shadow-orange-500/80">
-                        <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping opacity-80"></div>
-                      </div>
+                      
+                      {/* Europe - High Activity */}
                       <div className="absolute top-8 left-48 w-5 h-5 bg-red-600 rounded-full animate-pulse shadow-xl shadow-red-600/80">
                         <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-80"></div>
+                        <div className="absolute -top-1 -left-1 w-7 h-7 border border-red-400 rounded-full animate-pulse"></div>
                       </div>
-                      <div className="absolute top-14 left-64 w-2.5 h-2.5 bg-yellow-500 rounded-full animate-pulse shadow-xl shadow-yellow-500/80">
+                      
+                      {/* Asia - Critical Activity */}
+                      <div className="absolute top-10 left-72 w-6 h-6 bg-red-700 rounded-full animate-pulse shadow-xl shadow-red-700/90">
+                        <div className="absolute inset-0 bg-red-700 rounded-full animate-ping opacity-90"></div>
+                        <div className="absolute -top-2 -left-2 w-10 h-10 border-2 border-red-300 rounded-full animate-pulse"></div>
+                      </div>
+                      
+                      {/* North America */}
+                      <div className="absolute top-6 left-20 w-3 h-3 bg-orange-500 rounded-full animate-pulse shadow-xl shadow-orange-500/80">
+                        <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping opacity-80"></div>
+                      </div>
+                      
+                      {/* South America */}
+                      <div className="absolute top-20 left-28 w-2.5 h-2.5 bg-yellow-500 rounded-full animate-pulse shadow-xl shadow-yellow-500/80">
                         <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping opacity-80"></div>
                       </div>
-                      <div className="absolute top-4 left-80 w-3.5 h-3.5 bg-purple-500 rounded-full animate-pulse shadow-xl shadow-purple-500/80">
+                      
+                      {/* Australia */}
+                      <div className="absolute top-24 left-78 w-2 h-2 bg-purple-500 rounded-full animate-pulse shadow-xl shadow-purple-500/80">
                         <div className="absolute inset-0 bg-purple-500 rounded-full animate-ping opacity-80"></div>
                       </div>
                       
-                      {/* Attack Flow Lines */}
-                      <div className="absolute top-6 left-16 w-20 h-1 bg-gradient-to-r from-red-500 via-red-400 to-transparent opacity-90 animate-pulse rounded-full"></div>
-                      <div className="absolute top-12 left-32 w-16 h-1 bg-gradient-to-r from-orange-500 via-orange-400 to-transparent opacity-80 animate-pulse rounded-full"></div>
+                      {/* Africa */}
+                      <div className="absolute top-16 left-50 w-3 h-3 bg-orange-400 rounded-full animate-pulse shadow-xl shadow-orange-400/80">
+                        <div className="absolute inset-0 bg-orange-400 rounded-full animate-ping opacity-80"></div>
+                      </div>
                       
-                      {/* Live Stats */}
-                      <div className="absolute bottom-2 left-2 text-sm text-red-300 font-mono font-bold animate-pulse">🔴 1,652 Active IPs</div>
-                      <div className="absolute bottom-2 right-2 text-sm text-orange-300 font-mono font-bold animate-pulse">⚠️ 95 Domains</div>
-                      <div className="absolute top-2 right-2 text-sm text-green-300 font-mono font-bold animate-pulse">✅ 8 Intel Feeds</div>
+                      {/* Attack Flow Lines */}
+                      <div className="absolute top-12 left-16 w-32 h-1 bg-gradient-to-r from-red-500 via-red-400 to-transparent opacity-90 animate-pulse rounded-full transform rotate-12"></div>
+                      <div className="absolute top-8 left-48 w-24 h-1 bg-gradient-to-r from-red-600 via-red-500 to-transparent opacity-95 animate-pulse rounded-full transform -rotate-6"></div>
+                      <div className="absolute top-10 left-72 w-28 h-1 bg-gradient-to-r from-red-700 via-red-600 to-transparent opacity-90 animate-pulse rounded-full transform rotate-3"></div>
+                      
+                      {/* Threat Statistics Overlay */}
+                      <div className="absolute bottom-4 left-4 bg-black/70 rounded-lg px-4 py-2 border border-red-500/50">
+                        <div className="text-red-300 text-sm font-mono font-bold animate-pulse">🔴 1,652 Active IPs</div>
+                      </div>
+                      
+                      <div className="absolute bottom-4 right-4 bg-black/70 rounded-lg px-4 py-2 border border-orange-500/50">
+                        <div className="text-orange-300 text-sm font-mono font-bold animate-pulse">⚠️ 95 Domains</div>
+                      </div>
+                      
+                      <div className="absolute top-4 right-4 bg-black/70 rounded-lg px-4 py-2 border border-green-500/50">
+                        <div className="text-green-300 text-sm font-mono font-bold animate-pulse">✅ 8 Intel Feeds</div>
+                      </div>
+                      
+                      <div className="absolute top-4 left-4 bg-black/70 rounded-lg px-4 py-2 border border-purple-500/50">
+                        <div className="text-purple-300 text-sm font-mono font-bold animate-pulse">🌍 Live Global Map</div>
+                      </div>
+                      
+                      {/* Legend */}
+                      <div className="absolute bottom-4 center left-1/2 transform -translate-x-1/2 bg-black/80 rounded-lg px-6 py-2 border border-cyan-500/50">
+                        <div className="flex items-center gap-4 text-xs">
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 bg-red-700 rounded-full animate-pulse"></div>
+                            <span className="text-red-300">Critical</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                            <span className="text-red-300">High</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                            <span className="text-orange-300">Medium</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
+                            <span className="text-yellow-300">Low</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
