@@ -975,11 +975,11 @@ export default function Home() {
                 </div>
                 
                 {/* University of Cambridge Logo */}
-                <div className="flex items-center justify-center h-28 w-48 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
+                <div className="flex items-center justify-center h-28 w-56 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
                     src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756397271073.png"}
                     alt="University of Cambridge"
-                    className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
                 </div>
                 
@@ -993,11 +993,11 @@ export default function Home() {
                 </div>
                 
                 {/* CSU - The California State University Logo */}
-                <div className="flex items-center justify-center h-28 w-52 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
+                <div className="flex items-center justify-center h-28 w-60 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
                     src={import.meta.env.BASE_URL + "attached_assets/7_1756397271072.png"}
                     alt="The California State University"
-                    className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
                 </div>
               </div>
