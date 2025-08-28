@@ -58,7 +58,7 @@ const scanningStyles = `
 import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.png";
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
-import platformImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
+// Removed static platformImg - now using dynamic enterprise dashboard
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
