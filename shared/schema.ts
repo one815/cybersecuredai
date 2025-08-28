@@ -17,6 +17,7 @@ export const sessions = pgTable(
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   email: varchar("email").notNull().unique(),
+  passwordHash: varchar("password_hash"), // Bcrypt hashed password
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   role: varchar("role").notNull().default("user"), // user, admin, faculty, student, compliance_officer
