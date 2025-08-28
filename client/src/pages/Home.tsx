@@ -946,35 +946,59 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-gray-300 mb-8">
                 Trusted by leading educational institutions and government agencies
               </h3>
-              <div className="flex flex-wrap justify-center items-center gap-12 opacity-70">
+              <div className="flex flex-wrap justify-center items-center gap-12 opacity-80">
                 {/* MIT Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-lg tracking-wider">MIT</div>
+                <div className="flex items-center justify-center h-16 w-32 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756395725866.png"}
+                    alt="MIT"
+                    className="h-12 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
                 </div>
                 
                 {/* Stanford Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-lg">STANFORD</div>
-                </div>
-                
-                {/* Harvard Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-lg">HARVARD</div>
+                <div className="flex items-center justify-center h-16 w-32 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756395725866.png"}
+                    alt="Stanford University"
+                    className="h-12 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
                 </div>
                 
                 {/* UC Berkeley Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-sm">UC BERKELEY</div>
+                <div className="flex items-center justify-center h-16 w-32 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/5_1756395725863.png"}
+                    alt="UC Berkeley"
+                    className="h-12 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
                 </div>
                 
-                {/* Yale Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-lg">YALE</div>
+                {/* University of Cambridge Logo */}
+                <div className="flex items-center justify-center h-16 w-40 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756395725865.png"}
+                    alt="University of Cambridge"
+                    className="h-8 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
                 </div>
                 
-                {/* Princeton Logo */}
-                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
-                  <div className="text-gray-300 font-bold text-lg">PRINCETON</div>
+                {/* Colorado State University Logo */}
+                <div className="flex items-center justify-center h-16 w-32 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/6_1756395725865.png"}
+                    alt="Colorado State University"
+                    className="h-10 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
+                </div>
+                
+                {/* CSU - The California State University Logo */}
+                <div className="flex items-center justify-center h-16 w-40 hover:scale-105 transition-transform duration-200">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/7_1756395725865.png"}
+                    alt="The California State University"
+                    className="h-8 w-auto filter brightness-90 hover:brightness-110 transition-all duration-200"
+                  />
                 </div>
               </div>
             </div>
