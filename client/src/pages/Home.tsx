@@ -950,7 +950,7 @@ export default function Home() {
                 {/* MIT Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756395725866.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.png"}
                     alt="MIT"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -959,7 +959,7 @@ export default function Home() {
                 {/* Stanford Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756395725866.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756397271074.png"}
                     alt="Stanford University"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -968,7 +968,7 @@ export default function Home() {
                 {/* UC Berkeley Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/5_1756395725863.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/5_1756397271070.png"}
                     alt="UC Berkeley"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -977,7 +977,7 @@ export default function Home() {
                 {/* University of Cambridge Logo */}
                 <div className="flex items-center justify-center h-28 w-40 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756395725865.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756397271073.png"}
                     alt="University of Cambridge"
                     className="h-16 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -986,7 +986,7 @@ export default function Home() {
                 {/* Colorado State University Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/6_1756395725865.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/6_1756397271072.png"}
                     alt="Colorado State University"
                     className="h-18 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -995,7 +995,7 @@ export default function Home() {
                 {/* CSU - The California State University Logo */}
                 <div className="flex items-center justify-center h-28 w-40 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/7_1756395725865.png"}
+                    src={import.meta.env.BASE_URL + "attached_assets/7_1756397271072.png"}
                     alt="The California State University"
                     className="h-16 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
