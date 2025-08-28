@@ -946,13 +946,36 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-gray-300 mb-8">
                 Trusted by leading educational institutions and government agencies
               </h3>
-              <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
-                <div className="text-gray-400 text-lg font-semibold">MIT</div>
-                <div className="text-gray-400 text-lg font-semibold">Stanford</div>
-                <div className="text-gray-400 text-lg font-semibold">Harvard</div>
-                <div className="text-gray-400 text-lg font-semibold">UC Berkeley</div>
-                <div className="text-gray-400 text-lg font-semibold">Yale</div>
-                <div className="text-gray-400 text-lg font-semibold">Princeton</div>
+              <div className="flex flex-wrap justify-center items-center gap-12 opacity-70">
+                {/* MIT Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-lg tracking-wider">MIT</div>
+                </div>
+                
+                {/* Stanford Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-lg">STANFORD</div>
+                </div>
+                
+                {/* Harvard Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-lg">HARVARD</div>
+                </div>
+                
+                {/* UC Berkeley Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-sm">UC BERKELEY</div>
+                </div>
+                
+                {/* Yale Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-lg">YALE</div>
+                </div>
+                
+                {/* Princeton Logo */}
+                <div className="flex items-center justify-center h-16 w-32 bg-white/5 rounded-lg border border-gray-600/30 hover:border-cyan-500/50 transition-colors">
+                  <div className="text-gray-300 font-bold text-lg">PRINCETON</div>
+                </div>
               </div>
             </div>
           </div>
