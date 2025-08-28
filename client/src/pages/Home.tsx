@@ -594,25 +594,45 @@ export default function Home() {
               </Card>
             </div>
 
-            {/* Security Compliance Badges */}
+            {/* Security Compliance Badges with Actual Certificates */}
             <div className="text-center mb-12">
               <h3 className="text-2xl font-bold text-white mb-8">
                 <span className="neon-glow">Security & Compliance Certifications</span>
               </h3>
-              <div className="flex flex-wrap justify-center gap-6">
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-8">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.png"}
+                    alt="SOC 2 Type II Certificate"
+                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
+                  />
                   <div className="text-cyan-400 font-bold text-sm">SOC 2 TYPE II</div>
                   <div className="text-gray-400 text-xs">Security Controls</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756397271074.png"}
+                    alt="FERPA Compliance Certificate"
+                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
+                  />
                   <div className="text-green-400 font-bold text-sm">FERPA COMPLIANT</div>
                   <div className="text-gray-400 text-xs">Educational Privacy</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (3)_1756397271074.png"}
+                    alt="FISMA Ready Certificate"
+                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
+                  />
                   <div className="text-blue-400 font-bold text-sm">FISMA READY</div>
                   <div className="text-gray-400 text-xs">Federal Security</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300">
+                  <img 
+                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756397271074.png"}
+                    alt="ISO 27001 Certificate"
+                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
+                  />
                   <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
                   <div className="text-gray-400 text-xs">Info Security Mgmt</div>
                 </div>
@@ -624,7 +644,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="button-4d px-8 py-4 text-lg"
-                onClick={() => setLocation('/authentication')}
+                onClick={() => setLocation('/demos/biometric-authentication')}
               >
                 Experience Secure Authentication
                 <Shield className="ml-2 w-5 h-5 icon-3d" />
@@ -730,7 +750,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/threat-intelligence')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -751,7 +771,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/compliance')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -772,7 +792,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/zero-trust')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -793,7 +813,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/ai-security')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -814,7 +834,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/vulnerability-management')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -835,7 +855,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => setLocation('/solutions/incident-response')}
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -926,7 +946,7 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     className="button-4d px-8 py-3"
-                    onClick={() => setLocation('/platform')}
+                    onClick={() => { setLocation('/platform'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn more
                   </Button>
@@ -936,13 +956,6 @@ export default function Home() {
                     onClick={() => setLocation('/platform-tour')}
                   >
                     Take a product tour
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    className="button-4d px-8 py-3"
-                    onClick={() => setLocation('/trials')}
-                  >
-                    Try free
                   </Button>
                 </div>
               </div>
@@ -958,7 +971,9 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-gray-300 mb-8">
                 Trusted by leading educational institutions and government agencies
               </h3>
-              <div className="flex justify-center items-center gap-10 opacity-95 overflow-x-auto py-4">
+              <div className="relative overflow-hidden">
+                <div className="flex animate-marquee items-center gap-10 opacity-95 py-4">
+                  {/* First set of logos */}
                 {/* MIT Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
@@ -1011,6 +1026,7 @@ export default function Home() {
                     alt="The California State University"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
+                </div>
                 </div>
               </div>
             </div>

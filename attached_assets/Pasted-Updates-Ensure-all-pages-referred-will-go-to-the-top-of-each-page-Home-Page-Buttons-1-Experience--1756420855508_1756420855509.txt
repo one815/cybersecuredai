@@ -1,0 +1,33 @@
+Updates
+Ensure all pages referred will go to the top of each page
+
+Home Page Buttons
+	1.	Experience Secure Authentication needs to show a screenshot or dashboard or more features of the 3rd party integration for biometric vs forwarding to our actual dashboard
+	2.	All “Learn More” buttons under “Secure, adapt, and defend with confidence.” Are all not being directed
+	3.	“Watch Demo” need to revert to an actual demo
+	4.	“Learn More” needs to go to the top of the page and not the bottom of the platform page
+	5.	“Platform tour” remove or send it a page
+	6.	“Try free” we need to remove””
+	7.	PICTURE NEXT TO button under Complete Security Platform” add a snapshot of the security highlights platform 
+
+Platform - all pages are listed on the platform. It seems a reference to the saas vs the marketing website
+	1.	All pages - Request Demo ensure its going to the top of the page and not bottom “Contact”
+	2.	Add more images for AI modes architecture  and platform integrations showing the logos of the softwares referenced
+	3.	Predictive risk analysis - make increasing, stable and increasing in a 4d image and remove the existing images and text references. Also add an 4d image of the title of the small cards
+	4.	“Learn mitt about predictive risk analysis” change Learn more and revert to the working demo
+	5.	Firewall management - add 4d images to all titles
+	6.	For each network, security, domain, social media add in the same scanner but the applicable search format (rx. Network assessment: Advise user to add in IP or connect to check )
+	7.	Zero Trust - create secured, compliant and protected labels customize to add 
+	8.	Vulnerability management needs to be removed from SaaS and on marketing website
+	9.	Platform/AIM - create a signature icons for Biometric, MFA app, SMS Token, Hardware Key
+	10.	Platform/ System Administration - update 4d vectored icons on all titles and cards
+	11.	Platform/compliance automation - add applicable badge for each compliance
+	12.	
+
+
+
+
+Other Home Page
+	1.	Add actual Certificates under “ Security & Compliance Certifications”
+	2.	Trusted by leading educational institutions and government agencies - add a slider to show off logos (i need to update the colors of the logos)
+	3.	Live Threat Intelligence - add a geospatial map to showcase 
