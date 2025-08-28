@@ -926,14 +926,69 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Platform Visual */}
-              <div className="relative">
-                <img 
-                  src={platformImg}
-                  alt="CyberSecure AI Platform Dashboard"
-                  className="w-full rounded-xl shadow-2xl border border-cyan-500/20"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent rounded-xl"></div>
+              {/* Global Threat Map - Interactive Dashboard */}
+              <div className="relative bg-midnight-950 rounded-xl border border-cyan-500/20 shadow-2xl overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                    Global Threat Intelligence Map
+                  </h3>
+                  <div className="relative h-80 bg-gradient-to-b from-midnight-900 to-midnight-950 rounded-lg border border-cyan-500/10">
+                    {/* World map background */}
+                    <div className="absolute inset-0 opacity-20">
+                      <svg viewBox="0 0 400 200" className="w-full h-full">
+                        {/* Simplified world map outline */}
+                        <path d="M20,80 Q40,60 80,70 Q120,50 160,60 Q200,45 240,55 Q280,40 320,50 Q360,45 380,55" 
+                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
+                        <path d="M30,120 Q70,100 110,110 Q150,95 190,105 Q230,90 270,100 Q310,85 350,95" 
+                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
+                        <path d="M40,160 Q80,140 120,150 Q160,135 200,145 Q240,130 280,140 Q320,125 360,135" 
+                              stroke="rgba(59, 130, 246, 0.3)" strokeWidth="1" fill="none"/>
+                      </svg>
+                    </div>
+                    
+                    {/* Threat indicators */}
+                    <div className="absolute top-16 left-20 w-4 h-4 bg-red-500 rounded-full animate-pulse opacity-80">
+                      <div className="absolute inset-0 bg-red-500 rounded-full animate-ping"></div>
+                    </div>
+                    <div className="absolute top-32 left-60 w-3 h-3 bg-yellow-500 rounded-full animate-pulse opacity-70">
+                      <div className="absolute inset-0 bg-yellow-500 rounded-full animate-ping"></div>
+                    </div>
+                    <div className="absolute top-24 left-80 w-5 h-5 bg-orange-500 rounded-full animate-pulse opacity-90">
+                      <div className="absolute inset-0 bg-orange-500 rounded-full animate-ping"></div>
+                    </div>
+                    <div className="absolute top-40 left-45 w-3 h-3 bg-red-400 rounded-full animate-pulse opacity-60">
+                      <div className="absolute inset-0 bg-red-400 rounded-full animate-ping"></div>
+                    </div>
+                    <div className="absolute top-20 left-75 w-4 h-4 bg-yellow-400 rounded-full animate-pulse opacity-75">
+                      <div className="absolute inset-0 bg-yellow-400 rounded-full animate-ping"></div>
+                    </div>
+                    
+                    {/* Data flow lines */}
+                    <div className="absolute inset-0">
+                      <div className="absolute top-16 left-20 w-40 h-0.5 bg-gradient-to-r from-red-500 to-transparent opacity-60 animate-pulse"></div>
+                      <div className="absolute top-32 left-60 w-20 h-0.5 bg-gradient-to-r from-yellow-500 to-transparent opacity-50 animate-pulse"></div>
+                      <div className="absolute top-24 left-80 w-30 h-0.5 bg-gradient-to-r from-orange-500 to-transparent opacity-70 animate-pulse"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Threat statistics */}
+                  <div className="grid grid-cols-3 gap-4 mt-4">
+                    <div className="text-center">
+                      <div className="text-red-400 text-xl font-bold">847</div>
+                      <div className="text-gray-400 text-xs">Active Threats</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-yellow-400 text-xl font-bold">23</div>
+                      <div className="text-gray-400 text-xs">Countries</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-green-400 text-xl font-bold">99.7%</div>
+                      <div className="text-gray-400 text-xs">Blocked</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/5 to-transparent pointer-events-none"></div>
               </div>
             </div>
           </div>
