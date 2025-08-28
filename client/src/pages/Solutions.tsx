@@ -35,7 +35,7 @@ import {
   CustomFileTextIcon,
   CustomDatabaseIcon
 } from "@/components/CustomIcons";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
 // Professional solution images
@@ -47,6 +47,7 @@ import platformImg from "@assets/generated_images/Platform_Overview_Datasheet_3d
 import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.png";
 
 export default function Solutions() {
+  const [, setLocation] = useLocation();
   const customerTestimonials = [
     {
       quote: "We pushed CyberSecure AI out to four different campuses. What we found was that one site was clean, two sites had remnants, and one site had an active threat. That was eye-opening to us, and we knew we needed to install this for every one of our institutions.",
@@ -96,12 +97,20 @@ export default function Solutions() {
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
                 <Link href="/trials">
-                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 text-lg font-semibold">
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-10 py-4 text-lg font-semibold"
+                    onClick={() => setLocation('/trials')}
+                  >
                     Start for Free
                   </Button>
                 </Link>
                 <Link href="/demo">
-                  <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-10 py-4 text-lg font-semibold">
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-10 py-4 text-lg font-semibold"
+                    onClick={() => setLocation('/contact')}
+                  >
                     Get a Demo
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
@@ -790,7 +799,11 @@ export default function Solutions() {
 
             <div className="text-center">
               <Link href="/case-studies">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4"
+                  onClick={() => setLocation('/client-stories')}
+                >
                   Learn More About Our Success
                   <ExternalLink className="ml-2 w-5 h-5" />
                 </Button>
@@ -815,7 +828,11 @@ export default function Solutions() {
                   Get details on the cyberattacks we saw most last year, learn key industry insights, 
                   and build strategies to outsmart the most sophisticated threat actors.
                 </p>
-                <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4"
+                  onClick={() => setLocation('/resources/threat-report')}
+                >
                   Download the Threat Report
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -1116,7 +1133,11 @@ export default function Solutions() {
                       </div>
                     </div>
 
-                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/solutions/education')}
+                    >
                       Explore Education Solutions
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -1165,7 +1186,11 @@ export default function Solutions() {
                       </div>
                     </div>
 
-                    <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/solutions/government')}
+                    >
                       Explore Government Solutions
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -1248,7 +1273,11 @@ export default function Solutions() {
                   <span className="ml-4 text-white font-semibold">4.9/5 based on hundreds of reviews</span>
                 </div>
 
-                <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4"
+                  onClick={() => setLocation('/client-stories')}
+                >
                   Read Customer Reviews
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -1360,12 +1389,20 @@ export default function Solutions() {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/trials">
-                <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/trials')}
+                >
                   Start Free Trial
                 </Button>
               </Link>
               <Link href="/demo">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-10 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/contact')}
+                >
                   Schedule Demo
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>

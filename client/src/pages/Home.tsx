@@ -126,7 +126,11 @@ export default function Home() {
                 </span>
               </h1>
               <div className="flex justify-center mb-12">
-                <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4 text-lg"
+                  onClick={() => window.open('/platform', '_blank')}
+                >
                   See how we lead
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
@@ -337,9 +341,6 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-gray-400 max-w-2xl mx-auto">
-                Source: Gartner Magic Quadrant for AI-Powered Cybersecurity Platforms 2024
-              </p>
             </div>
           </div>
         </section>
@@ -368,17 +369,18 @@ export default function Home() {
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button 
                       size="lg" 
-                      className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4 text-lg"
+                      className="button-4d px-8 py-4 text-lg"
                       data-testid="button-learn-more"
+                      onClick={() => setLocation('/platform')}
                     >
                       <Target className="mr-2 w-5 h-5" />
                       Learn About Our Technology
                     </Button>
                     <Button 
                       size="lg" 
-                      variant="outline" 
-                      className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg"
+                      className="button-4d px-8 py-4 text-lg"
                       data-testid="link-demo"
+                      onClick={() => setLocation('/contact')}
                     >
                       Request Demo
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -619,7 +621,11 @@ export default function Home() {
 
             {/* Call to Action */}
             <div className="text-center">
-              <Button size="lg" className="button-4d px-8 py-4 text-lg">
+              <Button 
+                size="lg" 
+                className="button-4d px-8 py-4 text-lg"
+                onClick={() => setLocation('/authentication')}
+              >
                 Experience Secure Authentication
                 <Shield className="ml-2 w-5 h-5 icon-3d" />
               </Button>
@@ -640,7 +646,11 @@ export default function Home() {
                 for 5+ years - with <span className="text-cyan-400 font-bold">87% market share*</span>
               </p>
               <div className="flex justify-center mb-12">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4 text-lg"
+                  onClick={() => setLocation('/about')}
+                >
                   See why
                   <ExternalLink className="ml-2 w-5 h-5" />
                 </Button>
@@ -718,7 +728,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/threat-intelligence')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -736,7 +749,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/compliance')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -754,7 +770,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/zero-trust')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -772,7 +791,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/ai-security')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -790,7 +812,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-orange-500 text-orange-400 hover:bg-orange-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/vulnerability-management')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -808,7 +833,10 @@ export default function Home() {
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
-                  <Button variant="outline" className="w-full border-red-500 text-red-400 hover:bg-red-500/10">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => setLocation('/solutions/incident-response')}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -818,18 +846,22 @@ export default function Home() {
             {/* Call to Action */}
             <div className="text-center">
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Link href="/platform-demo">
-                  <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 text-lg">
-                    Watch Demo
-                    <CustomActivityIcon className="ml-2 w-6 h-6" size={24} />
-                  </Button>
-                </Link>
-                <Link href="/security-scanner">
-                  <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-10 py-4 text-lg">
-                    Try Free Security Scan
-                    <CustomTargetIcon className="ml-2 w-6 h-6" size={24} />
-                  </Button>
-                </Link>
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/platform-demo')}
+                >
+                  Watch Demo
+                  <CustomActivityIcon className="ml-2 w-6 h-6" size={24} />
+                </Button>
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/security-scanner')}
+                >
+                  Try Free Security Scan
+                  <CustomTargetIcon className="ml-2 w-6 h-6" size={24} />
+                </Button>
               </div>
             </div>
           </div>
@@ -891,21 +923,27 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/platform">
-                    <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-3">
-                      Learn more
-                    </Button>
-                  </Link>
-                  <Link href="/platform-tour">
-                    <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3">
-                      Take a product tour
-                    </Button>
-                  </Link>
-                  <Link href="/trials">
-                    <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-8 py-3">
-                      Try free
-                    </Button>
-                  </Link>
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-8 py-3"
+                    onClick={() => setLocation('/platform')}
+                  >
+                    Learn more
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-8 py-3"
+                    onClick={() => setLocation('/platform-tour')}
+                  >
+                    Take a product tour
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-8 py-3"
+                    onClick={() => setLocation('/trials')}
+                  >
+                    Try free
+                  </Button>
                 </div>
               </div>
 

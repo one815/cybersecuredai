@@ -29,7 +29,7 @@ import {
   CustomFileTextIcon
 } from "@/components/CustomIcons";
 import { MarketingLayout } from "@/components/MarketingLayout";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 
 // Authority platform images
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
@@ -40,6 +40,7 @@ import incidentResponseImg from "@assets/generated_images/Automated_Incident_Res
 import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
 
 export default function Platform() {
+  const [, setLocation] = useLocation();
   const coreAIEngines = [
     {
       title: "Advanced AI-Driven Threat Hunting",
@@ -187,13 +188,21 @@ export default function Platform() {
 
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link href="/demo">
-                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 text-lg font-semibold">
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-10 py-4 text-lg font-semibold"
+                    onClick={() => setLocation('/platform-demo')}
+                  >
                     Watch Platform Demo
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
                 <Link href="/trials">
-                  <Button size="lg" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 px-10 py-4 text-lg font-semibold">
+                  <Button 
+                    size="lg" 
+                    className="button-4d px-10 py-4 text-lg font-semibold"
+                    onClick={() => setLocation('/trials')}
+                  >
                     Try Free for 30 Days
                   </Button>
                 </Link>
@@ -259,7 +268,10 @@ export default function Platform() {
                         </li>
                       ))}
                     </ul>
-                    <Button variant="outline" className="w-full text-cyan-400 border-cyan-500 hover:bg-cyan-500/10">
+                    <Button 
+                      className="button-4d w-full"
+                      onClick={() => setLocation('/solutions/threat-intelligence')}
+                    >
                       Learn More
                       <ArrowRight className="ml-2 w-3 h-3" />
                     </Button>
@@ -308,12 +320,20 @@ export default function Platform() {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link href="/integrations">
-                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/integrations')}
+                    >
                       View Integrations
                     </Button>
                   </Link>
                   <Link href="/contact">
-                    <Button size="lg" variant="outline" className="border-blue-500 text-blue-400 hover:bg-blue-500/10 px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/contact')}
+                    >
                       Talk to an Expert
                       <ExternalLink className="ml-2 w-5 h-5" />
                     </Button>
@@ -383,7 +403,11 @@ export default function Platform() {
 
             <div className="text-center">
               <Link href="/case-studies">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-8 py-4"
+                  onClick={() => setLocation('/client-stories')}
+                >
                   Learn More About Our Success
                   <ExternalLink className="ml-2 w-5 h-5" />
                 </Button>
@@ -452,7 +476,11 @@ export default function Platform() {
                       </div>
                     </div>
 
-                    <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/solutions/threat-intelligence')}
+                    >
                       Explore Security Features
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -505,7 +533,11 @@ export default function Platform() {
                       </div>
                     </div>
 
-                    <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/solutions/ai-security')}
+                    >
                       Explore AI Features
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -544,7 +576,11 @@ export default function Platform() {
                       </div>
                     </div>
 
-                    <Button size="lg" className="bg-green-600 hover:bg-green-700 text-white px-8 py-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-4"
+                      onClick={() => setLocation('/solutions/compliance')}
+                    >
                       Explore Compliance Features
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
@@ -603,12 +639,20 @@ export default function Platform() {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/demo">
-                <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/contact')}
+                >
                   Schedule Platform Demo
                 </Button>
               </Link>
               <Link href="/trials">
-                <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-10 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg"
+                  onClick={() => setLocation('/trials')}
+                >
                   Start Free Trial
                   <ArrowRight className="ml-2 w-6 h-6" />
                 </Button>
