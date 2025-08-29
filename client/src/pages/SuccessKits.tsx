@@ -252,7 +252,7 @@ export default function SuccessKits() {
               </div>
               <Button 
                 size="sm" 
-                className="bg-blue-600 hover:bg-blue-700 text-white border-0 min-w-[120px] flex items-center justify-center"
+                className="bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold border-0 min-w-[120px] flex items-center justify-center"
                 data-testid="button-download-kit"
                 onClick={() => {
                   const slug = kit.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-');

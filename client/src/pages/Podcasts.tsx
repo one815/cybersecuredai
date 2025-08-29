@@ -208,7 +208,7 @@ export default function Podcasts() {
                   <Play className="w-4 h-4 mr-1" />
                   Listen
                 </Button>
-                <Button size="sm" variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black">
+                <Button size="sm" className="bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold">
                   <Download className="w-4 h-4 mr-1" />
                   Download
                 </Button>
