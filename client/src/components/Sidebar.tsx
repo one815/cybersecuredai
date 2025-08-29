@@ -184,6 +184,8 @@ export function Sidebar() {
   };
 
   const canAccessItem = (item: NavigationItem | NavigationCategory) => {
+    // For debugging - let admin users see everything
+    if (user?.role === 'admin') return true;
     return hasRoleAccess(item.requiredRoles) && hasTierAccess(item.requiredTier);
   };
 
