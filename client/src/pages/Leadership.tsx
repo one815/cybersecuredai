@@ -71,23 +71,25 @@ import pmpPreviewImg from "@assets/pmp-certificate-v0-h4bdy6vnlmbc1-1_1756505280
 import azureDeveloperPreviewImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756505280919.pdf";
 import digitalMarketingPreviewImg from "@assets/CMP_1756505280918.pdf";
 
+// Import actual certificate screenshot preview images
+import pmpCertScreenshot from "@assets/Screen Shot 2025-08-29 at 5.10.16 PM_1756505437343.png";
+
 // Create PDF preview placeholder since PDFs can't be displayed as images directly
-const createCertPreview = (title) => {
+const createCertPreview = (title: string) => {
   return "data:image/svg+xml;base64," + btoa(`
-<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+<svg width="120" height="80" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="certGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a365d;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#2d5a87;stop-opacity:1" />
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
     </linearGradient>
   </defs>
-  <rect width="200" height="120" fill="url(#certGradient)" stroke="#38a169" stroke-width="2" rx="8"/>
-  <rect x="10" y="10" width="180" height="100" fill="none" stroke="#38a169" stroke-width="1" stroke-dasharray="3,3" rx="4"/>
-  <text x="100" y="35" text-anchor="middle" fill="#38a169" font-family="Arial, sans-serif" font-size="10" font-weight="bold">PROFESSIONAL</text>
-  <text x="100" y="50" text-anchor="middle" fill="#68d391" font-family="Arial, sans-serif" font-size="8">CERTIFICATION</text>
-  <text x="100" y="75" text-anchor="middle" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="7">${title}</text>
-  <circle cx="100" cy="95" r="6" fill="#38a169" opacity="0.8"/>
-  <text x="100" y="98" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6">PDF</text>
+  <rect width="120" height="80" fill="url(#certGradient)" stroke="#3b82f6" stroke-width="1" rx="4"/>
+  <rect x="5" y="5" width="110" height="70" fill="none" stroke="#60a5fa" stroke-width="0.5" stroke-dasharray="2,2" rx="2"/>
+  <text x="60" y="25" text-anchor="middle" fill="#60a5fa" font-family="Arial, sans-serif" font-size="8" font-weight="bold">CERTIFICATION</text>
+  <text x="60" y="45" text-anchor="middle" fill="#93c5fd" font-family="Arial, sans-serif" font-size="6">${title}</text>
+  <circle cx="60" cy="65" r="4" fill="#3b82f6" opacity="0.8"/>
+  <text x="60" y="67" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="5">PDF</text>
 </svg>
   `);
 };
@@ -272,9 +274,10 @@ export default function Leadership() {
       organization: "Project Management Institute",
       description: "Global certification for project management excellence and organizational objective achievement.",
       category: "Project Management",
-      image: createCertPreview("PMP®"),
+      image: pmpCertScreenshot,
       documentUrl: pmpPreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[0_0]" // Show PMP section
     },
     {
       title: "Microsoft Certified: Azure Security Engineer Associate", 
@@ -282,9 +285,10 @@ export default function Leadership() {
       validUntil: "March 03, 2026",
       description: "Advanced certification in Azure security architecture and implementation.",
       category: "Cloud Security",
-      image: createCertPreview("Azure Security"),
+      image: pmpCertScreenshot,
       documentUrl: azureSecurityPreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[33.3%_0]" // Show Azure Security section
     },
     {
       title: "Microsoft Certified: Azure Developer Associate",
@@ -292,9 +296,10 @@ export default function Leadership() {
       validUntil: "May 24, 2026",
       description: "Expert-level Azure development and cloud solution architecture.",
       category: "Cloud Development",
-      image: createCertPreview("Azure Developer"),
+      image: pmpCertScreenshot,
       documentUrl: azureDeveloperPreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[66.6%_0]" // Show Azure Developer section
     },
     {
       title: "Google Cloud Certified Professional Cloud Security Engineer",
@@ -303,18 +308,20 @@ export default function Leadership() {
       certificationId: "90zcfz",
       description: "Advanced certification in Google Cloud security architecture and best practices.",
       category: "Cloud Security",
-      image: createCertPreview("Google Cloud Security"),
+      image: pmpCertScreenshot,
       documentUrl: googleCloudPreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[0_50%]" // Show Google Cloud section
     },
     {
       title: "VMware Certified Professional - Network Virtualization 2021",
       organization: "VMware",
       description: "Professional certification in network virtualization and VMware infrastructure.",
       category: "Network Infrastructure",
-      image: createCertPreview("VMware VCP-NV"),
+      image: pmpCertScreenshot,
       documentUrl: vmwarePreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[33.3%_50%]" // Show VMware section
     },
     {
       title: "Certified Digital Marketing Professional",
@@ -322,9 +329,10 @@ export default function Leadership() {
       graduateNo: "IE-DMI287777",
       description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
       category: "Marketing & Strategy",
-      image: createCertPreview("Digital Marketing"),
+      image: pmpCertScreenshot,
       documentUrl: digitalMarketingPreviewImg,
-      isDocument: true
+      isDocument: true,
+      cropStyle: "object-[66.6%_50%]" // Show Digital Marketing section
     }
   ];
 
@@ -583,11 +591,11 @@ export default function Leadership() {
                   <DialogTrigger asChild>
                     <Card className="bg-midnight-800/40 border-midnight-600 hover:border-spring-400/50 transition-all duration-300 group cursor-pointer" data-testid={`cert-card-${index}`}>
                       <div className="relative p-4 bg-midnight-900/30">
-                        <div className="flex justify-center items-center h-24 mb-4">
+                        <div className="flex justify-center items-center h-24 mb-4 overflow-hidden rounded-md">
                           <img 
                             src={cert.image} 
                             alt={cert.title}
-                            className="max-h-16 object-contain group-hover:scale-105 transition-transform duration-300"
+                            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${cert.cropStyle || ''}`}
                           />
                         </div>
                         <div className="absolute top-2 right-2">
