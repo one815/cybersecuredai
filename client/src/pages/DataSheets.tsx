@@ -641,7 +641,7 @@ export default function DataSheets() {
                     <Button 
                       size="sm" 
                       variant="outline"
-                      className="w-full border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black text-xs"
+                      className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold text-xs"
                       onClick={() => handleDataSheetClick(datasheet)}
                     >
                       {datasheet.link ? (
