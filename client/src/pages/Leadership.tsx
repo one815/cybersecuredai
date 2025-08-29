@@ -63,13 +63,34 @@ import azureDeveloperCertImg from "@assets/Microsoft Azure Dev 2_1755634405250-D
 const vmwareCertImg = null;
 const digitalMarketingCertImg = null;
 
-// Import certification preview images
-import azureSecurityPreviewImg from "@assets/IMG_0355_1756165940504.png";
-import googleCloudPreviewImg from "@assets/IMG_0356_1756166020580.png";
-import vmwarePreviewImg from "@assets/IMG_0357_1756169617269.png";
-import pmpPreviewImg from "@assets/IMG_0358_1756171132593.png";
-import azureDeveloperPreviewImg from "@assets/IMG_0359_1756175262723.png";
-import digitalMarketingPreviewImg from "@assets/IMG_0360_1756175262723.png";
+// Import actual certification document images
+import azureSecurityPreviewImg from "@assets/Azure Security Engineer-1 2_1756505290548.pdf";
+import googleCloudPreviewImg from "@assets/Google Cloud 2_1756505280919.pdf";
+import vmwarePreviewImg from "@assets/vmare certified 2_1756505285362.pdf";
+import pmpPreviewImg from "@assets/pmp-certificate-v0-h4bdy6vnlmbc1-1_1756505280920.pdf";
+import azureDeveloperPreviewImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756505280919.pdf";
+import digitalMarketingPreviewImg from "@assets/CMP_1756505280918.pdf";
+
+// Create PDF preview placeholder since PDFs can't be displayed as images directly
+const createCertPreview = (title) => {
+  return "data:image/svg+xml;base64," + btoa(`
+<svg width="200" height="120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="certGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a365d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d5a87;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="200" height="120" fill="url(#certGradient)" stroke="#38a169" stroke-width="2" rx="8"/>
+  <rect x="10" y="10" width="180" height="100" fill="none" stroke="#38a169" stroke-width="1" stroke-dasharray="3,3" rx="4"/>
+  <text x="100" y="35" text-anchor="middle" fill="#38a169" font-family="Arial, sans-serif" font-size="10" font-weight="bold">PROFESSIONAL</text>
+  <text x="100" y="50" text-anchor="middle" fill="#68d391" font-family="Arial, sans-serif" font-size="8">CERTIFICATION</text>
+  <text x="100" y="75" text-anchor="middle" fill="#e2e8f0" font-family="Arial, sans-serif" font-size="7">${title}</text>
+  <circle cx="100" cy="95" r="6" fill="#38a169" opacity="0.8"/>
+  <text x="100" y="98" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="6">PDF</text>
+</svg>
+  `);
+};
 
 export default function Leadership() {
   // Camtivates team adapted for CyberSecure AI
@@ -251,8 +272,8 @@ export default function Leadership() {
       organization: "Project Management Institute",
       description: "Global certification for project management excellence and organizational objective achievement.",
       category: "Project Management",
-      image: pmpPreviewImg,
-      documentUrl: pmpCertImg,
+      image: createCertPreview("PMP®"),
+      documentUrl: pmpPreviewImg,
       isDocument: true
     },
     {
@@ -261,8 +282,8 @@ export default function Leadership() {
       validUntil: "March 03, 2026",
       description: "Advanced certification in Azure security architecture and implementation.",
       category: "Cloud Security",
-      image: azureSecurityPreviewImg,
-      documentUrl: azureSecurityCertImg,
+      image: createCertPreview("Azure Security"),
+      documentUrl: azureSecurityPreviewImg,
       isDocument: true
     },
     {
@@ -271,8 +292,8 @@ export default function Leadership() {
       validUntil: "May 24, 2026",
       description: "Expert-level Azure development and cloud solution architecture.",
       category: "Cloud Development",
-      image: azureDeveloperPreviewImg,
-      documentUrl: azureDeveloperCertImg,
+      image: createCertPreview("Azure Developer"),
+      documentUrl: azureDeveloperPreviewImg,
       isDocument: true
     },
     {
@@ -282,8 +303,8 @@ export default function Leadership() {
       certificationId: "90zcfz",
       description: "Advanced certification in Google Cloud security architecture and best practices.",
       category: "Cloud Security",
-      image: googleCloudPreviewImg,
-      documentUrl: googleCloudCertImg,
+      image: createCertPreview("Google Cloud Security"),
+      documentUrl: googleCloudPreviewImg,
       isDocument: true
     },
     {
@@ -291,8 +312,8 @@ export default function Leadership() {
       organization: "VMware",
       description: "Professional certification in network virtualization and VMware infrastructure.",
       category: "Network Infrastructure",
-      image: vmwarePreviewImg,
-      documentUrl: vmwareCertImg,
+      image: createCertPreview("VMware VCP-NV"),
+      documentUrl: vmwarePreviewImg,
       isDocument: true
     },
     {
@@ -301,8 +322,8 @@ export default function Leadership() {
       graduateNo: "IE-DMI287777",
       description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
       category: "Marketing & Strategy",
-      image: digitalMarketingPreviewImg,
-      documentUrl: digitalMarketingCertImg,
+      image: createCertPreview("Digital Marketing"),
+      documentUrl: digitalMarketingPreviewImg,
       isDocument: true
     }
   ];
