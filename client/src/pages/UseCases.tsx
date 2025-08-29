@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MarketingLayout } from "@/components/MarketingLayout";
+import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -204,6 +205,13 @@ export default function UseCases() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<any>(null);
+
+  const handleViewCaseStudy = (useCase: any) => {
+    setSelectedResource(useCase);
+    setEmailModalOpen(true);
+  };
 
   const filteredUseCases = useCases.filter(useCase => {
     const matchesSearch = useCase.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -288,6 +296,7 @@ export default function UseCases() {
                     <Button 
                       size="sm" 
                       className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
+                      onClick={() => handleViewCaseStudy(useCase)}
                     >
                       <Eye className="w-4 h-4 mr-2" />
                       View Case Study
@@ -450,6 +459,7 @@ export default function UseCases() {
                       size="sm" 
                       variant="outline"
                       className="w-full border-spring-400 text-spring-400 hover:bg-spring-400 hover:text-black"
+                      onClick={() => handleViewCaseStudy(useCase)}
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       View Case Study
@@ -469,6 +479,20 @@ export default function UseCases() {
           </div>
         </div>
       </div>
+
+      {/* Email Capture Modal */}
+      {selectedResource && (
+        <EmailCaptureModal
+          isOpen={emailModalOpen}
+          onClose={() => {
+            setEmailModalOpen(false);
+            setSelectedResource(null);
+          }}
+          resourceTitle={`${selectedResource.title} - Case Study`}
+          resourceId={selectedResource.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}
+          downloadUrl={`/marketing/documents/case-studies/${selectedResource.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`}
+        />
+      )}
     </MarketingLayout>
   );
 }
