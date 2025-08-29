@@ -1172,49 +1172,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Threat Monitoring Section - Simple Version */}
-        <section className="py-20 px-6 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Live Threat Intelligence
-              </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Real-time monitoring and analysis of cybersecurity threats across global networks
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-              <Card className="bg-slate-800/50 border border-red-500/30 text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-red-400 mb-2">1,247</div>
-                  <div className="text-gray-300">Active Threats</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-slate-800/50 border border-orange-500/30 text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">8</div>
-                  <div className="text-gray-300">Official MISP Feeds</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-slate-800/50 border border-cyan-500/30 text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-cyan-400 mb-2">2min</div>
-                  <div className="text-gray-300">Update Frequency</div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-slate-800/50 border border-green-500/30 text-center">
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold text-green-400 mb-2">99.7%</div>
-                  <div className="text-gray-300">Detection Rate</div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
 
         {/* Customer Success Quote */}
         <section className="py-20 px-6 bg-slate-800">

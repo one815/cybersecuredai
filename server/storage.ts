@@ -10,6 +10,7 @@ import {
   userSubscriptions,
   customComplianceFrameworks,
   customComplianceControls,
+  subscribers,
   type User, 
   type InsertUser,
   type Threat,
@@ -30,6 +31,8 @@ import {
   type InsertCustomComplianceFramework,
   type CustomComplianceControl,
   type InsertCustomComplianceControl,
+  type Subscriber,
+  type InsertSubscriber,
   type UpsertUser
 } from "@shared/schema";
 import { randomUUID } from "crypto";
@@ -109,6 +112,11 @@ export interface IStorage {
   createCustomComplianceControl(control: InsertCustomComplianceControl): Promise<CustomComplianceControl>;
   updateCustomComplianceControl(id: string, updates: Partial<CustomComplianceControl>): Promise<CustomComplianceControl>;
   deleteCustomComplianceControl(id: string): Promise<void>;
+
+  // Subscriber operations
+  getSubscribers(): Promise<Subscriber[]>;
+  createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
+  updateSubscriberDownload(email: string, resourceId: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
