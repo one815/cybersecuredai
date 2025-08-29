@@ -5,7 +5,7 @@ import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
 import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";
 import nistCompliantImg from "@assets/NIST compliant_1755703344784.png";
 import soc2CompliantImg from "@assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.png";
-import isoCompliantImg from "@assets/ISO certified_1756458882675.png";
+import isoCompliantImg from "@assets/ISO certified 2_1756459077090.png";
 
 export function Footer() {
   return (
