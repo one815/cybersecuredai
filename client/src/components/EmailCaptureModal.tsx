@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Loader2, Mail, Download } from "lucide-react";
+import { Loader2, Mail, Download, Lock, CheckCircle } from "lucide-react";
 
 interface EmailCaptureModalProps {
   isOpen: boolean;
@@ -32,175 +32,262 @@ export function EmailCaptureModal({
 }: EmailCaptureModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState("");
   const [subscribeToEmails, setSubscribeToEmails] = useState(true);
+  const [step, setStep] = useState<'email' | 'code'>('email');
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const subscribeMutation = useMutation({
-    mutationFn: async (data: { name: string; email: string; subscribedToEmails: boolean; resourceId: string }) => {
-      return apiRequest("/api/subscribers", "POST", data);
+  const generateCodeMutation = useMutation({
+    mutationFn: async (data: { name: string; email: string; resourceTitle: string; resourceId: string; downloadUrl: string }) => {
+      return apiRequest("/api/generate-confirmation-code", "POST", data);
     },
-    onSuccess: async () => {
-      // Trigger download
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = resourceTitle;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
+    onSuccess: () => {
+      setStep('code');
       toast({
-        title: "Success!",
-        description: `${resourceTitle} is being downloaded. Check your downloads folder.`,
+        title: "Code Sent!",
+        description: "Please check your email for the confirmation code.",
       });
-
-      // Send email with resource
-      await apiRequest("/api/send-resource-email", "POST", {
-        email,
-        name,
-        resourceTitle,
-        resourceId
-      });
-
-      onClose();
-      setName("");
-      setEmail("");
-      setSubscribeToEmails(true);
-      
-      queryClient.invalidateQueries({ queryKey: ["/api/subscribers"] });
     },
     onError: (error: any) => {
       toast({
         title: "Error",
-        description: error.message || "Failed to process your request. Please try again.",
+        description: error.message || "Failed to send confirmation code. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const verifyCodeMutation = useMutation({
+    mutationFn: async (data: { email: string; code: string }) => {
+      return apiRequest("/api/verify-confirmation-code", "POST", data);
+    },
+    onSuccess: async (response: any) => {
+      // Trigger download
+      const link = document.createElement('a');
+      link.href = response.downloadUrl;
+      link.download = response.resourceTitle;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: "Download Started!",
+        description: `${response.resourceTitle} is being downloaded. Check your downloads folder.`,
+      });
+
+      // Create subscriber record
+      await apiRequest("/api/subscribers", "POST", {
+        name,
+        email,
+        subscribedToEmails,
+        resourceId
+      });
+
+      handleClose();
+      queryClient.invalidateQueries({ queryKey: ["/api/subscribers"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Invalid Code",
+        description: error.message || "Invalid or expired confirmation code. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleClose = () => {
+    onClose();
+    setStep('email');
+    setName("");
+    setEmail("");
+    setConfirmationCode("");
+    setSubscribeToEmails(true);
+  };
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!name.trim() || !email.trim()) {
       toast({
-        title: "Required Fields",
-        description: "Please fill in your name and email address.",
+        title: "Error",
+        description: "Please fill in all required fields.",
         variant: "destructive",
       });
       return;
     }
 
-    if (!email.includes("@")) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    subscribeMutation.mutate({
+    generateCodeMutation.mutate({
       name: name.trim(),
       email: email.trim(),
-      subscribedToEmails: subscribeToEmails,
-      resourceId
+      resourceTitle,
+      resourceId,
+      downloadUrl
+    });
+  };
+
+  const handleCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!confirmationCode.trim() || confirmationCode.length !== 6) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid 6-digit confirmation code.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    verifyCodeMutation.mutate({
+      email,
+      code: confirmationCode.trim()
     });
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-slate-900 border-slate-700">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-cyan-400">
-            <Download className="w-5 h-5" />
-            Download {resourceTitle}
-          </DialogTitle>
-          <DialogDescription className="text-slate-300">
-            Please provide your contact information to download this resource. 
-            We'll also send a copy to your email.
-          </DialogDescription>
-        </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name" className="text-slate-200">Full Name *</Label>
-            <Input
-              id="name"
-              type="text"
-              placeholder="Enter your full name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="bg-slate-800 border-slate-600 text-white placeholder-slate-400"
-              data-testid="input-subscriber-name"
-              required
-            />
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-slate-200">Email Address *</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-slate-800 border-slate-600 text-white placeholder-slate-400"
-              data-testid="input-subscriber-email"
-              required
-            />
-          </div>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="ai-dialog max-w-md">
+        {step === 'email' ? (
+          <>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-white">
+                <Download className="w-5 h-5 text-spring-400" />
+                Download Resource
+              </DialogTitle>
+              <DialogDescription className="text-gray-300">
+                Enter your details to download <span className="font-semibold text-spring-400">{resourceTitle}</span>
+              </DialogDescription>
+            </DialogHeader>
 
-          <div className="flex items-center space-x-2 p-3 bg-slate-800/50 rounded-md border border-slate-600">
-            <Checkbox
-              id="subscribe"
-              checked={subscribeToEmails}
-              onCheckedChange={(checked) => setSubscribeToEmails(!!checked)}
-              className="border-slate-500"
-              data-testid="checkbox-subscribe-emails"
-            />
-            <div className="space-y-1">
-              <Label 
-                htmlFor="subscribe" 
-                className="text-sm text-slate-200 cursor-pointer"
-              >
-                Subscribe to CyberSecure AI Updates
-              </Label>
-              <p className="text-xs text-slate-400">
-                Get the latest cybersecurity insights, reports, and product updates delivered to your inbox.
-              </p>
-            </div>
-          </div>
+            <form onSubmit={handleEmailSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white">Full Name *</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="ai-input"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
 
-          <div className="flex gap-3 pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onClose}
-              className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-800"
-              data-testid="button-cancel-download"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={subscribeMutation.isPending}
-              className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white"
-              data-testid="button-download-resource"
-            >
-              {subscribeMutation.isPending ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Download Resource
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-white">Email Address *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="ai-input"
+                  placeholder="Enter your email address"
+                  required
+                />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="subscribe"
+                  checked={subscribeToEmails}
+                  onCheckedChange={(checked) => setSubscribeToEmails(checked === true)}
+                  className="data-[state=checked]:bg-spring-500 data-[state=checked]:border-spring-500"
+                />
+                <Label 
+                  htmlFor="subscribe" 
+                  className="text-sm text-gray-300 cursor-pointer"
+                >
+                  Subscribe to our cybersecurity newsletter
+                </Label>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={handleClose}
+                  className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={generateCodeMutation.isPending}
+                  className="flex-1 bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                >
+                  {generateCodeMutation.isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Sending Code...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4 mr-2" />
+                      Send Confirmation Code
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </>
+        ) : (
+          <>
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-white">
+                <Lock className="w-5 h-5 text-spring-400" />
+                Enter Confirmation Code
+              </DialogTitle>
+              <DialogDescription className="text-gray-300">
+                We've sent a 6-digit code to <span className="font-semibold text-spring-400">{email}</span>
+              </DialogDescription>
+            </DialogHeader>
+
+            <form onSubmit={handleCodeSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="code" className="text-white">Confirmation Code *</Label>
+                <Input
+                  id="code"
+                  type="text"
+                  value={confirmationCode}
+                  onChange={(e) => setConfirmationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  className="ai-input text-center text-2xl tracking-widest"
+                  placeholder="000000"
+                  maxLength={6}
+                  required
+                />
+                <p className="text-xs text-gray-400">Check your email for the 6-digit confirmation code</p>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setStep('email')}
+                  className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                >
+                  Back
+                </Button>
+                <Button 
+                  type="submit" 
+                  disabled={verifyCodeMutation.isPending || confirmationCode.length !== 6}
+                  className="flex-1 bg-spring-500 hover:bg-spring-600 text-black font-semibold"
+                >
+                  {verifyCodeMutation.isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Verifying...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-4 h-4 mr-2" />
+                      Verify & Download
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

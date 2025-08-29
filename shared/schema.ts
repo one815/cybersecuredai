@@ -319,6 +319,19 @@ export const subscribers = pgTable("subscribers", {
   lastDownloadAt: timestamp("last_download_at"),
 });
 
+export const confirmationCodes = pgTable("confirmation_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").notNull(),
+  name: varchar("name").notNull(),
+  code: varchar("code").notNull(),
+  resourceTitle: varchar("resource_title").notNull(),
+  resourceId: varchar("resource_id").notNull(),
+  downloadUrl: varchar("download_url").notNull(),
+  verified: boolean("verified").default(false),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Compliance Milestones
 export const complianceMilestones = pgTable("compliance_milestones", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
