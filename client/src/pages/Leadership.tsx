@@ -2,6 +2,8 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useState } from "react";
 import { 
   Enhanced4DShieldIcon,
   Enhanced4DBrainIcon,
@@ -50,6 +52,27 @@ import ceciliaSimpsonImg from "@assets/Cecilia_1756502307221.png";
 // Import certification and award images
 import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
 import bcbsAwardImg from "@assets/BCBS North Carolina_1756499508608.jpg";
+import achieversLeagueAwardImg from "@assets/Achievers League_1756502961273.jpg";
+
+// Import certification images
+import azureSecurityCertImg from "@assets/Azure Security Engineer-1 2_1756499508608.pdf";
+import googleCloudCertImg from "@assets/Google Cloud 2_1756499508609.pdf";
+import pmpCertImg from "@assets/CMP_1756499508609.pdf";
+import azureDeveloperCertImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756499508609.pdf";
+// Use placeholder for missing certifications
+const vmwareCertImg = null;
+const digitalMarketingCertImg = null;
+
+// Create placeholder images for certifications (since PDFs can't be displayed directly)
+const certificationPlaceholder = "data:image/svg+xml;base64," + btoa(`
+<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="150" fill="#1a365d" stroke="#38a169" stroke-width="2" rx="8"/>
+  <text x="100" y="75" text-anchor="middle" fill="#38a169" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CERTIFICATION</text>
+  <text x="100" y="95" text-anchor="middle" fill="#68d391" font-family="Arial, sans-serif" font-size="10">Click to View Document</text>
+  <circle cx="100" cy="115" r="8" fill="#38a169" opacity="0.6"/>
+  <text x="100" y="119" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">PDF</text>
+</svg>
+`);
 
 export default function Leadership() {
   // Camtivates team adapted for CyberSecure AI
@@ -215,6 +238,12 @@ export default function Leadership() {
       subtitle: "BCBS North Carolina HCL Award", 
       description: "Achieved excellence in network data security and analytics for enterprise healthcare data protection systems.",
       image: bcbsAwardImg
+    },
+    {
+      title: "Achievers League Award",
+      subtitle: "Above Recognition Beyond Rewards",
+      description: "Distinguished achievement recognition for exceptional leadership and innovation in cybersecurity solutions and client success initiatives.",
+      image: achieversLeagueAwardImg
     }
   ];
 
@@ -224,21 +253,30 @@ export default function Leadership() {
       title: "Project Management Professional (PMP)®",
       organization: "Project Management Institute",
       description: "Global certification for project management excellence and organizational objective achievement.",
-      category: "Project Management"
+      category: "Project Management",
+      image: certificationPlaceholder,
+      documentUrl: pmpCertImg,
+      isDocument: true
     },
     {
       title: "Microsoft Certified: Azure Security Engineer Associate", 
       organization: "Microsoft",
       validUntil: "March 03, 2026",
       description: "Advanced certification in Azure security architecture and implementation.",
-      category: "Cloud Security"
+      category: "Cloud Security",
+      image: certificationPlaceholder,
+      documentUrl: azureSecurityCertImg,
+      isDocument: true
     },
     {
       title: "Microsoft Certified: Azure Developer Associate",
       organization: "Microsoft", 
       validUntil: "May 24, 2026",
       description: "Expert-level Azure development and cloud solution architecture.",
-      category: "Cloud Development"
+      category: "Cloud Development",
+      image: certificationPlaceholder,
+      documentUrl: azureDeveloperCertImg,
+      isDocument: true
     },
     {
       title: "Google Cloud Certified Professional Cloud Security Engineer",
@@ -246,20 +284,29 @@ export default function Leadership() {
       validUntil: "August 05, 2026", 
       certificationId: "90zcfz",
       description: "Advanced certification in Google Cloud security architecture and best practices.",
-      category: "Cloud Security"
+      category: "Cloud Security",
+      image: certificationPlaceholder,
+      documentUrl: googleCloudCertImg,
+      isDocument: true
     },
     {
       title: "VMware Certified Professional - Network Virtualization 2021",
       organization: "VMware",
       description: "Professional certification in network virtualization and VMware infrastructure.",
-      category: "Network Infrastructure"
+      category: "Network Infrastructure",
+      image: certificationPlaceholder,
+      documentUrl: vmwareCertImg,
+      isDocument: true
     },
     {
       title: "Certified Digital Marketing Professional",
       organization: "Digital Marketing Institute / American Marketing Association",
       graduateNo: "IE-DMI287777",
       description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
-      category: "Marketing & Strategy"
+      category: "Marketing & Strategy",
+      image: certificationPlaceholder,
+      documentUrl: digitalMarketingCertImg,
+      isDocument: true
     }
   ];
 
@@ -514,37 +561,123 @@ export default function Leadership() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {camiliasCertifications.map((cert, index) => (
-                <Card key={index} className="bg-midnight-800/40 border-midnight-600 hover:border-spring-400/50 transition-all duration-300 group">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <Badge variant="outline" className="bg-spring-500/10 border-spring-400/30 text-spring-400">
-                        {cert.category}
-                      </Badge>
-                      {cert.validUntil && (
-                        <Badge className="bg-cyber-blue-500/20 text-cyber-blue-400 border-cyber-blue-500/30 text-xs">
-                          Valid until {cert.validUntil}
-                        </Badge>
-                      )}
+                <Dialog key={index}>
+                  <DialogTrigger asChild>
+                    <Card className="bg-midnight-800/40 border-midnight-600 hover:border-spring-400/50 transition-all duration-300 group cursor-pointer" data-testid={`cert-card-${index}`}>
+                      <div className="relative p-4 bg-midnight-900/30">
+                        <div className="flex justify-center items-center h-24 mb-4">
+                          <img 
+                            src={cert.image} 
+                            alt={cert.title}
+                            className="max-h-16 object-contain group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="absolute top-2 right-2">
+                          <Enhanced4DEyeIcon className="glass-icon w-5 h-5 text-spring-400" size={20} />
+                        </div>
+                      </div>
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <Badge variant="outline" className="bg-spring-500/10 border-spring-400/30 text-spring-400">
+                            {cert.category}
+                          </Badge>
+                          {cert.validUntil && (
+                            <Badge className="bg-cyber-blue-500/20 text-cyber-blue-400 border-cyber-blue-500/30 text-xs">
+                              Valid until {cert.validUntil}
+                            </Badge>
+                          )}
+                        </div>
+                        <h3 className="text-lg font-bold text-white mb-2 group-hover:text-spring-400 transition-colors">
+                          {cert.title}
+                        </h3>
+                        <p className="text-spring-400 font-semibold text-sm mb-3">{cert.organization}</p>
+                        <p className="text-gray-300 text-sm leading-relaxed mb-4">{cert.description}</p>
+                        {cert.certificationId && (
+                          <div className="flex items-center gap-2 text-xs text-gray-400">
+                            <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
+                            <span>ID: {cert.certificationId}</span>
+                          </div>
+                        )}
+                        {cert.graduateNo && (
+                          <div className="flex items-center gap-2 text-xs text-gray-400">
+                            <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
+                            <span>Graduate #: {cert.graduateNo}</span>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl bg-midnight-800 border-cyber-blue-500/30">
+                    <DialogHeader>
+                      <DialogTitle className="text-xl font-bold text-white">
+                        {cert.title}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="grid md:grid-cols-2 gap-6 p-4">
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="text-lg font-semibold text-spring-400 mb-2">Organization</h4>
+                          <p className="text-white">{cert.organization}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-spring-400 mb-2">Category</h4>
+                          <Badge className="bg-cyber-blue-500/20 text-cyber-blue-400 border-cyber-blue-500/30">
+                            {cert.category}
+                          </Badge>
+                        </div>
+                        {cert.validUntil && (
+                          <div>
+                            <h4 className="text-lg font-semibold text-spring-400 mb-2">Valid Until</h4>
+                            <p className="text-white">{cert.validUntil}</p>
+                          </div>
+                        )}
+                        {cert.certificationId && (
+                          <div>
+                            <h4 className="text-lg font-semibold text-spring-400 mb-2">Certification ID</h4>
+                            <p className="text-white font-mono">{cert.certificationId}</p>
+                          </div>
+                        )}
+                        {cert.graduateNo && (
+                          <div>
+                            <h4 className="text-lg font-semibold text-spring-400 mb-2">Graduate Number</h4>
+                            <p className="text-white font-mono">{cert.graduateNo}</p>
+                          </div>
+                        )}
+                        <div>
+                          <h4 className="text-lg font-semibold text-spring-400 mb-2">Description</h4>
+                          <p className="text-gray-300 leading-relaxed">{cert.description}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center justify-center space-y-4">
+                        <div className="w-full bg-white/5 rounded-lg p-8 flex flex-col items-center justify-center min-h-[300px]">
+                          {cert.isDocument ? (
+                            <>
+                              <Enhanced4DExternalLinkIcon className="glass-icon w-16 h-16 text-spring-400 mb-4" size={64} />
+                              <p className="text-center text-gray-300 mb-4">PDF Certificate Document</p>
+                              <p className="text-xs text-gray-400 text-center mb-6">Click below to view the full certification document</p>
+                            </>
+                          ) : (
+                            <img 
+                              src={cert.image} 
+                              alt={cert.title}
+                              className="max-w-full max-h-64 object-contain rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-zoom-in"
+                              onClick={() => window.open(cert.image, '_blank')}
+                              data-testid={`cert-zoom-image-${index}`}
+                            />
+                          )}
+                        </div>
+                        <Button 
+                          onClick={() => window.open(cert.documentUrl || cert.image, '_blank')}
+                          className="bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold w-full"
+                          data-testid={`cert-view-full-${index}`}
+                        >
+                          <Enhanced4DExternalLinkIcon className="glass-icon w-4 h-4 mr-2" size={16} />
+                          {cert.isDocument ? 'View PDF Certificate' : 'View Full Size'}
+                        </Button>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-spring-400 transition-colors">
-                      {cert.title}
-                    </h3>
-                    <p className="text-spring-400 font-semibold text-sm mb-3">{cert.organization}</p>
-                    <p className="text-gray-300 text-sm leading-relaxed mb-4">{cert.description}</p>
-                    {cert.certificationId && (
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
-                        <span>Certification ID: {cert.certificationId}</span>
-                      </div>
-                    )}
-                    {cert.graduateNo && (
-                      <div className="flex items-center gap-2 text-xs text-gray-400">
-                        <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
-                        <span>Graduate No: {cert.graduateNo}</span>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
+                  </DialogContent>
+                </Dialog>
               ))}
             </div>
 
