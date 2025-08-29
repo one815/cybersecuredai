@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import { circlTools } from '../circl-tools.js';
 
 /**
  * MISP (Malware Information Sharing Platform) Threat Intelligence Engine
@@ -936,5 +937,127 @@ export class MISPThreatIntelligence extends EventEmitter {
       feed.enabled = enabled;
       console.log(`🔄 Updated feed ${feedName}: ${enabled ? 'enabled' : 'disabled'}`);
     }
+  }
+
+  /**
+   * Enhanced threat intelligence with CIRCL tools integration
+   */
+  public async getEnhancedThreatIntelligence(): Promise<any> {
+    try {
+      console.log('🔍 Fetching enhanced threat intelligence with CIRCL tools...');
+      
+      // Get PyMISP threat intelligence
+      const pyMispIntel = await circlTools.getPyMISPThreatIntelligence();
+      
+      // Combine with existing MISP data
+      const standardIntel = await this.fetchThreatIntelligence();
+      
+      const enhanced = {
+        timestamp: new Date().toISOString(),
+        sources: {
+          misp_official_feeds: standardIntel,
+          pymisp_circl: pyMispIntel,
+        },
+        circl_tools_status: await circlTools.constructor.name ? 'available' : 'unavailable',
+        combined_iocs: {
+          ips: [...new Set([
+            ...(standardIntel.iocs?.ips || []),
+            ...(pyMispIntel.iocs?.ips || [])
+          ])],
+          domains: [...new Set([
+            ...(standardIntel.iocs?.domains || []),
+            ...(pyMispIntel.iocs?.domains || [])
+          ])],
+          urls: [...new Set([
+            ...(standardIntel.iocs?.urls || []),
+            ...(pyMispIntel.iocs?.urls || [])
+          ])],
+          hashes: [...new Set([
+            ...(standardIntel.iocs?.hashes || [])
+          ])],
+          emails: standardIntel.iocs?.emails || []
+        },
+        threat_actors: standardIntel.threat_actors || [],
+        total_enhanced_indicators: 0
+      };
+
+      // Calculate totals
+      enhanced.total_enhanced_indicators = 
+        enhanced.combined_iocs.ips.length +
+        enhanced.combined_iocs.domains.length +
+        enhanced.combined_iocs.urls.length +
+        enhanced.combined_iocs.hashes.length +
+        enhanced.combined_iocs.emails.length;
+
+      console.log(`✅ Enhanced threat intelligence: ${enhanced.total_enhanced_indicators} total indicators`);
+      return enhanced;
+
+    } catch (error) {
+      console.error('Error fetching enhanced threat intelligence:', error);
+      return {
+        error: 'Failed to fetch enhanced threat intelligence',
+        details: error instanceof Error ? error.message : 'Unknown error',
+        fallback: await this.fetchThreatIntelligence()
+      };
+    }
+  }
+
+  /**
+   * Comprehensive threat assessment for a target
+   */
+  public async assessTarget(target: string, type: 'ip' | 'domain' | 'url' | 'asn'): Promise<any> {
+    try {
+      console.log(`🎯 Performing comprehensive assessment for ${type}: ${target}`);
+      
+      // Use CIRCL tools for comprehensive assessment
+      const assessment = await circlTools.comprehensiveThreatAssessment(target, type);
+      
+      // Add MISP-specific intelligence
+      const mispData = await this.searchInFeeds(target);
+      assessment.misp_matches = mispData;
+      
+      // Enhance risk scoring with MISP data
+      if (mispData.length > 0) {
+        assessment.risk_score += mispData.length * 5;
+        assessment.recommendations.push(`Found in ${mispData.length} MISP feed(s) - investigate immediately`);
+      }
+
+      return assessment;
+      
+    } catch (error) {
+      console.error(`Error assessing target ${target}:`, error);
+      return {
+        error: 'Assessment failed',
+        target,
+        type,
+        details: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  /**
+   * Search for a target in current feeds
+   */
+  private async searchInFeeds(target: string): Promise<any[]> {
+    const matches: any[] = [];
+    
+    // Search in aggregated data
+    if (this.lastAggregatedData) {
+      const { iocs } = this.lastAggregatedData;
+      
+      if (iocs.ips.includes(target) || 
+          iocs.domains.includes(target) || 
+          iocs.urls.includes(target) ||
+          iocs.emails.includes(target)) {
+        matches.push({
+          type: 'official_feed',
+          source: 'MISP Official Feeds',
+          confidence: 'high',
+          last_seen: new Date().toISOString()
+        });
+      }
+    }
+    
+    return matches;
   }
 }
