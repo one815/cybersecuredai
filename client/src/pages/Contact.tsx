@@ -123,6 +123,52 @@ export default function Contact() {
               })}
             </div>
 
+            {/* Schedule a Meeting Section */}
+            <div className="text-center mb-16">
+              <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 mb-6">
+                Schedule Consultation
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Book a <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-500">Security Consultation</span>
+              </h2>
+              <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                Schedule a personalized consultation with our cybersecurity experts. We'll assess your needs and design a custom security solution for your organization.
+              </p>
+              
+              {/* Yesware Meeting Scheduler */}
+              <Card className="bg-white/5 border-gray-700/50 max-w-4xl mx-auto">
+                <CardContent className="p-8">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-orange-500/20 rounded-lg flex items-center justify-center mr-4">
+                      <Clock className="w-8 h-8 text-orange-400" />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="text-2xl font-bold text-white">Schedule Your Meeting</h3>
+                      <p className="text-gray-400">Choose a time that works best for you</p>
+                    </div>
+                  </div>
+                  
+                  {/* Embedded Yesware Scheduler */}
+                  <div className="bg-slate-800 rounded-lg p-6 min-h-[400px] border border-gray-600">
+                    <iframe
+                      src="https://meetings.yesware.com/cybersecure-ai/consultation"
+                      width="100%"
+                      height="400"
+                      frameBorder="0"
+                      className="rounded-lg"
+                      title="Schedule Consultation with CyberSecure AI"
+                    />
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <p className="text-gray-400 text-sm">
+                      Can't find a suitable time? <a href="mailto:contact@cybersecure.ai" className="text-cyan-400 hover:text-cyan-300">Email us directly</a> to arrange a custom meeting time.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
             {/* Contact Form & Office Info */}
             <div className="grid lg:grid-cols-2 gap-12">
               {/* Contact Form */}
@@ -190,7 +236,12 @@ export default function Contact() {
                       />
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full bg-cyan-600 hover:bg-cyan-700" data-testid="button-submit">
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="button-4d w-full bg-cyan-600" 
+                      data-testid="button-submit"
+                    >
                       Send Message
                       <Send className="w-4 h-4 ml-2" />
                     </Button>

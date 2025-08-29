@@ -343,7 +343,11 @@ export default function Services() {
                           <div className="text-center mb-4">
                             <div className="text-orange-400 font-bold">{service.price}</div>
                           </div>
-                          <Button size="sm" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                          <Button 
+                            size="sm" 
+                            className="button-4d w-full"
+                            onClick={() => window.location.href = '/services'}
+                          >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
                           </Button>
@@ -378,7 +382,11 @@ export default function Services() {
                           <div className="text-center mb-4">
                             <div className="text-orange-400 font-bold">{service.price}</div>
                           </div>
-                          <Button size="sm" className="w-full bg-orange-600 hover:bg-orange-700 text-white">
+                          <Button 
+                            size="sm" 
+                            className="button-4d w-full"
+                            onClick={() => window.location.href = '/services'}
+                          >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
                           </Button>
@@ -432,7 +440,10 @@ export default function Services() {
                       <button className="px-6 py-2 rounded-md bg-green-500 text-white font-semibold">
                         🎓 Education
                       </button>
-                      <button className="px-6 py-2 rounded-md text-gray-300 hover:text-white">
+                      <button 
+                        className="px-6 py-2 rounded-md text-gray-300 hover:text-white transition-colors cursor-pointer"
+                        onClick={() => setSelectedCategory('government')}
+                      >
                         🏛️ Government
                       </button>
                     </div>
@@ -556,7 +567,10 @@ export default function Services() {
                             <span className="text-gray-300 text-sm">Dedicated success team</span>
                           </li>
                         </ul>
-                        <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                        <Button 
+                          className="button-4d w-full bg-yellow-600 text-white"
+                          onClick={() => window.location.href = '/contact'}
+                        >
                           Contact Enterprise
                         </Button>
                       </CardContent>
@@ -659,7 +673,11 @@ export default function Services() {
                         <Target className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
                         <h4 className="text-white font-semibold mb-2">Security Assessment</h4>
                         <p className="text-gray-300 text-sm mb-4">Comprehensive security evaluation</p>
-                        <Button variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
+                        <Button 
+                          variant="outline" 
+                          className="button-4d border-cyan-500 text-cyan-400"
+                          onClick={() => window.location.href = '/services'}
+                        >
                           Learn More
                         </Button>
                       </CardContent>
@@ -866,7 +884,11 @@ export default function Services() {
                       <span className="text-gray-300">Business hours response</span>
                     </li>
                   </ul>
-                  <Button variant="outline" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                  <Button 
+                    variant="outline" 
+                    className="button-4d w-full border-blue-500 text-blue-400"
+                    onClick={() => window.location.href = '/contact'}
+                  >
                     Get Started
                   </Button>
                 </CardContent>
@@ -901,7 +923,10 @@ export default function Services() {
                       <span className="text-gray-300">Custom training sessions</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button 
+                    className="button-4d w-full bg-purple-600 text-white"
+                    onClick={() => window.location.href = '/contact'}
+                  >
                     Contact Sales
                   </Button>
                 </CardContent>
@@ -933,7 +958,11 @@ export default function Services() {
                       <span className="text-gray-300">Executive briefings</span>
                     </li>
                   </ul>
-                  <Button variant="outline" className="w-full border-yellow-500 text-yellow-400 hover:bg-yellow-500/10">
+                  <Button 
+                    variant="outline" 
+                    className="button-4d w-full border-yellow-500 text-yellow-400"
+                    onClick={() => window.location.href = '/contact'}
+                  >
                     Contact Enterprise
                   </Button>
                 </CardContent>
@@ -956,7 +985,11 @@ export default function Services() {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/contact">
-                <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-4 text-lg">
+                <Button 
+                  size="lg" 
+                  className="button-4d bg-orange-600 text-white px-10 py-4 text-lg"
+                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                >
                   Schedule Consultation
                   <Phone className="ml-2 w-6 h-6" />
                 </Button>

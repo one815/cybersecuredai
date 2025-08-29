@@ -95,16 +95,7 @@ export default function Solutions() {
                 Enterprise-grade cybersecurity for ALL organizations.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-                <Link href="/trials">
-                  <Button 
-                    size="lg" 
-                    className="button-4d px-10 py-4 text-lg font-semibold"
-                    onClick={() => setLocation('/trials')}
-                  >
-                    Start for Free
-                  </Button>
-                </Link>
+              <div className="flex justify-center mb-16">
                 <Link href="/demo">
                   <Button 
                     size="lg" 
@@ -147,9 +138,13 @@ export default function Solutions() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <Card className="bg-slate-700/60 border border-red-500/30">
+              <Card className="bg-slate-800/80 border border-red-500/40 hover:border-red-400/60 transition-all duration-300">
                 <CardHeader className="p-6 text-center">
-                  <CustomBrainIcon className="w-12 h-12 text-red-400 mx-auto mb-4" size={48} />
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-red-500/30 to-orange-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-red-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-400/20 to-transparent rounded-xl"></div>
+                    <div className="absolute top-1 left-1 w-2 h-2 bg-red-300 rounded-full opacity-60 animate-pulse"></div>
+                    <Brain className="w-8 h-8 text-red-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(239, 68, 68, 0.7))'}} />
+                  </div>
                   <CardTitle className="text-lg text-white mb-3">AI-Powered Threat Detection</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -161,9 +156,13 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-orange-500/30">
+              <Card className="bg-slate-800/80 border border-orange-500/40 hover:border-orange-400/60 transition-all duration-300">
                 <CardHeader className="p-6 text-center">
-                  <CustomZapIcon className="w-12 h-12 text-orange-400 mx-auto mb-4" size={48} />
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-orange-500/30 to-yellow-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-orange-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-transparent rounded-xl"></div>
+                    <div className="absolute bottom-1 right-1 w-2 h-2 bg-orange-300 rounded-full opacity-60 animate-pulse"></div>
+                    <ArrowRight className="w-8 h-8 text-orange-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(251, 146, 60, 0.7))'}} />
+                  </div>
                   <CardTitle className="text-lg text-white mb-3">Automated Incident Response</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -175,9 +174,13 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-green-500/30">
+              <Card className="bg-slate-800/80 border border-green-500/40 hover:border-green-400/60 transition-all duration-300">
                 <CardHeader className="p-6 text-center">
-                  <CustomShieldIcon className="w-12 h-12 text-green-400 mx-auto mb-4" size={48} />
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-green-500/30 to-emerald-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-green-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-transparent rounded-xl"></div>
+                    <div className="absolute top-1 right-1 w-2 h-2 bg-green-300 rounded-full opacity-60 animate-pulse"></div>
+                    <Shield className="w-8 h-8 text-green-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))'}} />
+                  </div>
                   <CardTitle className="text-lg text-white mb-3">Compliance Automation</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -189,9 +192,13 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-purple-500/30">
+              <Card className="bg-slate-800/80 border border-purple-500/40 hover:border-purple-400/60 transition-all duration-300">
                 <CardHeader className="p-6 text-center">
-                  <CustomTargetIcon className="w-12 h-12 text-purple-400 mx-auto mb-4" size={48} />
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
+                    <div className="absolute bottom-1 left-1 w-2 h-2 bg-purple-300 rounded-full opacity-60 animate-pulse"></div>
+                    <Target className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                  </div>
                   <CardTitle className="text-lg text-white mb-3">Predictive Risk Analysis</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
@@ -1322,7 +1329,11 @@ export default function Solutions() {
                     <li>• Predictive threat modeling</li>
                     <li>• 8-minute mean response time</li>
                   </ul>
-                  <Button variant="outline" className="w-full border-red-500 text-red-400 hover:bg-red-500/10">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-red-500 text-red-400 hover:bg-red-500/10"
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -1344,7 +1355,11 @@ export default function Solutions() {
                     <li>• Identity threat detection</li>
                     <li>• Single sign-on integration</li>
                   </ul>
-                  <Button variant="outline" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10"
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -1366,7 +1381,11 @@ export default function Solutions() {
                     <li>• Policy enforcement</li>
                     <li>• Risk assessment dashboards</li>
                   </ul>
-                  <Button variant="outline" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-green-500 text-green-400 hover:bg-green-500/10"
+                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Learn More
                   </Button>
                 </CardContent>
@@ -1388,15 +1407,6 @@ export default function Solutions() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/trials">
-                <Button 
-                  size="lg" 
-                  className="button-4d px-10 py-4 text-lg"
-                  onClick={() => setLocation('/trials')}
-                >
-                  Start Free Trial
-                </Button>
-              </Link>
               <Link href="/demo">
                 <Button 
                   size="lg" 
