@@ -603,7 +603,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.png"}
+                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (3)_1756397271073.png"}
                       alt="SOC 2 TYPE II Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
