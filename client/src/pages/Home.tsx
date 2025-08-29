@@ -122,7 +122,7 @@ export default function Home() {
                 Named a Leader in AI-Powered Cybersecurity
               </Badge>
               <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 leading-tight">
-                Enhanced with CIRCL Intelligence,<br />
+                Enhanced with PyMISP Intelligence,<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
                   trusted by leaders worldwide.
                 </span>
@@ -497,25 +497,12 @@ export default function Home() {
               <Card className="holographic-card border-cyan-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   {/* 4D SSO Visual Element */}
-                  <div className="relative h-32 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-lg mb-6 overflow-hidden border border-cyan-500/20">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-400/20 via-transparent to-transparent"></div>
-                    <div className="absolute top-4 left-4 w-6 h-6 bg-cyan-400/60 rounded-full blur-sm animate-pulse"></div>
-                    <div className="absolute bottom-4 right-4 w-4 h-4 bg-blue-400/60 rounded-full blur-sm animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative transform-gpu hover:scale-110 transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/30 to-blue-600/30 rounded-2xl blur-xl"></div>
-                        <div className="relative p-6 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-2xl border border-cyan-400/40 shadow-2xl backdrop-blur-sm">
-                          <Shield className="w-12 h-12 text-cyan-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 15px rgba(34, 211, 238, 0.8))'}} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent"></div>
+                  <div className="p-3 bg-cyan-500/20 rounded-lg mb-4">
+                    <Shield className="w-8 h-8 text-cyan-400 glass-icon" />
                   </div>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <CardTitle className="text-cyan-300 font-bold text-xl">
-                      <span className="neon-glow">Single Sign-On (SSO)</span>
-                    </CardTitle>
-                  </div>
+                  <CardTitle className="text-cyan-300 font-bold">
+                    <span className="neon-glow">Single Sign-On (SSO)</span>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
@@ -543,26 +530,12 @@ export default function Home() {
               <Card className="holographic-card border-purple-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   {/* 4D AES-256 Visual Element */}
-                  <div className="relative h-32 bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-lg mb-6 overflow-hidden border border-purple-500/20">
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-400/20 via-transparent to-transparent"></div>
-                    <div className="absolute top-6 left-6 w-3 h-3 bg-purple-400/70 rounded-full blur-sm animate-bounce"></div>
-                    <div className="absolute bottom-6 left-6 w-2 h-2 bg-pink-400/70 rounded-full blur-sm animate-bounce" style={{animationDelay: '0.3s'}}></div>
-                    <div className="absolute top-6 right-6 w-2 h-2 bg-purple-300/70 rounded-full blur-sm animate-bounce" style={{animationDelay: '0.6s'}}></div>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative transform-gpu hover:scale-110 transition-all duration-300">
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-pink-600/30 rounded-2xl blur-xl"></div>
-                        <div className="relative p-6 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-2xl border border-purple-400/40 shadow-2xl backdrop-blur-sm">
-                          <Lock className="w-12 h-12 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 15px rgba(168, 85, 247, 0.8))'}} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent"></div>
+                  <div className="p-3 bg-purple-500/20 rounded-lg mb-4">
+                    <Lock className="w-8 h-8 text-purple-400 glass-icon" />
                   </div>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <CardTitle className="text-purple-300 font-bold text-xl">
-                      <span className="neon-glow">AES-256 Encryption</span>
-                    </CardTitle>
-                  </div>
+                  <CardTitle className="text-purple-300 font-bold">
+                    <span className="neon-glow">AES-256 Encryption</span>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
@@ -661,9 +634,12 @@ export default function Home() {
                   <div className="text-gray-400 text-xs text-center">Federal Security</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mb-3 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
-                    <Award className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/ISO 27001 (3)_1756397274502.png"}
+                      alt="ISO 27001 Certification Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
                   <div className="text-gray-400 text-xs text-center">Info Security Mgmt</div>
@@ -723,18 +699,68 @@ export default function Home() {
             {/* Educational Compliance Dashboard Visualization with 4D Visual */}
             <div className="max-w-5xl mx-auto mb-16">
               {/* Hero Visual - Educational Threat Intelligence */}
-              <div className="relative h-64 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-cyan-500/30 shadow-2xl mb-6">
+              {/* Live Platform Dashboard */}
+              <div className="relative h-96 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-cyan-500/30 shadow-2xl">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-400/10 via-transparent to-transparent"></div>
-                <img 
-                  src={import.meta.env.BASE_URL + "attached_assets/generated_images/Educational_Security_Guide_330f6e1c.png"}
-                  alt="Educational Threat Intelligence Dashboard"
-                  className="absolute inset-0 w-full h-full object-cover opacity-75 hover:opacity-90 transition-opacity duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
-                <div className="absolute bottom-6 left-8 right-8">
-                  <h4 className="text-2xl font-bold text-cyan-400 mb-2">Educational Threat Intelligence Dashboard</h4>
-                  <p className="text-gray-300">PyMISP & CIRCL-enhanced real-time compliance monitoring for CIPA, FERPA, and FISMA requirements</p>
+                
+                {/* Dashboard Header */}
+                <div className="absolute top-6 left-6 right-6 z-10">
+                  <div className="flex items-center justify-between bg-slate-800/90 rounded-lg p-3 border border-cyan-500/30">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-white font-semibold">Educational Threat Intelligence</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Badge className="bg-green-500/20 text-green-300 text-xs">FERPA Compliant</Badge>
+                      <Badge className="bg-blue-500/20 text-blue-300 text-xs">CIPA Active</Badge>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Threat Statistics */}
+                <div className="absolute top-20 left-6 right-6 z-10">
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="bg-slate-800/80 rounded-lg p-3 border border-red-500/30 text-center">
+                      <div className="text-red-400 text-2xl font-bold">247</div>
+                      <div className="text-gray-300 text-xs">Threats Blocked</div>
+                    </div>
+                    <div className="bg-slate-800/80 rounded-lg p-3 border border-yellow-500/30 text-center">
+                      <div className="text-yellow-400 text-2xl font-bold">12</div>
+                      <div className="text-gray-300 text-xs">Investigations</div>
+                    </div>
+                    <div className="bg-slate-800/80 rounded-lg p-3 border border-green-500/30 text-center">
+                      <div className="text-green-400 text-2xl font-bold">99.8%</div>
+                      <div className="text-gray-300 text-xs">Uptime</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Live Threat Feed */}
+                <div className="absolute bottom-6 left-6 right-6 z-10">
+                  <div className="bg-slate-800/90 rounded-lg p-4 border border-purple-500/30">
+                    <h4 className="text-purple-400 font-bold mb-2 flex items-center">
+                      <Activity className="w-4 h-4 mr-2" />
+                      Live Threat Feed
+                    </h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-gray-300">Malware attempt blocked</span>
+                        <span className="text-red-400 font-mono">08:54:12</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-gray-300">Suspicious login detected</span>
+                        <span className="text-yellow-400 font-mono">08:53:47</span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-gray-300">Compliance check passed</span>
+                        <span className="text-green-400 font-mono">08:53:22</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 to-transparent"></div>
               </div>
               
               <div className="relative bg-slate-800/80 rounded-xl p-8 border border-cyan-500/30 shadow-2xl">
