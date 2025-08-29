@@ -20,12 +20,24 @@ import {
   Database,
   Cloud,
   Network,
-  Monitor
+  Monitor,
+  Cpu,
+  Eye,
+  Lock,
+  Globe,
+  ShieldAlert,
+  Brain,
+  BookOpen,
+  UserCheck,
+  Activity,
+  Layers,
+  ShieldCheck
 } from "lucide-react";
 import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
 import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
 import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.png";
 import crowdStrikeImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.png";
+import awsLogo from "@assets/download-1_1756487272282.jpg";
 
 const categories = [
   "SIEM & Security Analytics",
@@ -130,8 +142,61 @@ const integrations = [
     featured: false,
     certified: true,
     image: integrationImg
+  },
+  {
+    title: "Amazon Web Services Security Hub",
+    vendor: "Amazon Web Services",
+    description: "Comprehensive AWS Security Hub integration for centralized security findings management, compliance status monitoring, and automated security standards assessment.",
+    category: "Cloud Security",
+    industry: "Cross-Industry",
+    type: "Native Integration",
+    features: ["Centralized security findings", "Compliance dashboard", "Security standards automation", "Multi-account management"],
+    setupTime: "< 25 minutes",
+    featured: true,
+    certified: true,
+    image: integrationImg
   }
 ];
+
+// Function to get brand logos for vendors
+const getBrandLogo = (vendor: string) => {
+  switch (vendor) {
+    case "Amazon Web Services":
+      return (
+        <img 
+          src={awsLogo} 
+          alt="AWS Logo" 
+          className="w-8 h-8 object-contain bg-white rounded p-1"
+        />
+      );
+    case "Microsoft":
+      return (
+        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-400 rounded flex items-center justify-center text-white font-bold text-xs">
+          MS
+        </div>
+      );
+    case "Google":
+      return (
+        <div className="w-8 h-8 bg-gradient-to-br from-red-500 via-yellow-500 to-green-500 rounded flex items-center justify-center text-white font-bold text-xs">
+          G
+        </div>
+      );
+    case "CrowdStrike":
+      return (
+        <div className="w-8 h-8 bg-gradient-to-br from-red-600 to-black rounded flex items-center justify-center text-white font-bold text-xs">
+          CS
+        </div>
+      );
+    case "Splunk":
+      return (
+        <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded flex items-center justify-center text-white font-bold text-xs">
+          SP
+        </div>
+      );
+    default:
+      return <Building className="w-4 h-4" />;
+  }
+};
 
 const getIndustryIcon = (industry: string) => {
   switch (industry) {
@@ -151,19 +216,56 @@ const getIndustryIcon = (industry: string) => {
 const getCategoryIcon = (category: string) => {
   switch (category) {
     case "SIEM & Security Analytics":
-      return <Shield className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Eye className="w-4 h-4" />
+          <Activity className="w-2 h-2 absolute -top-1 -right-1 text-spring-400" />
+        </div>
+      );
     case "Identity & Access Management":
-      return <Users className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <UserCheck className="w-4 h-4" />
+          <Lock className="w-2 h-2 absolute -bottom-1 -right-1 text-spring-400" />
+        </div>
+      );
     case "Endpoint Protection":
-      return <Monitor className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Monitor className="w-4 h-4" />
+          <ShieldCheck className="w-2 h-2 absolute -top-1 -right-1 text-green-400" />
+        </div>
+      );
     case "Network Security":
-      return <Network className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Network className="w-4 h-4" />
+          <ShieldAlert className="w-2 h-2 absolute -top-1 -right-1 text-orange-400" />
+        </div>
+      );
     case "Cloud Security":
-      return <Cloud className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Cloud className="w-4 h-4" />
+          <Layers className="w-2 h-2 absolute -bottom-1 -right-1 text-blue-400" />
+        </div>
+      );
     case "Database & Storage":
-      return <Database className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Database className="w-4 h-4" />
+          <Lock className="w-2 h-2 absolute -top-1 -right-1 text-purple-400" />
+        </div>
+      );
+    case "Communication & Collaboration":
+      return (
+        <div className="relative">
+          <Globe className="w-4 h-4" />
+          <Users className="w-2 h-2 absolute -bottom-1 -right-1 text-cyan-400" />
+        </div>
+      );
     default:
-      return <Zap className="w-4 h-4" />;
+      return <Brain className="w-4 h-4" />;
   }
 };
 
@@ -273,7 +375,7 @@ export default function Integrations() {
                       </div>
                       <div className="flex items-center gap-2">
                         {getCategoryIcon(integration.category)}
-                        <span className="text-xs text-gray-400">{integration.vendor}</span>
+                        {getBrandLogo(integration.vendor)}
                       </div>
                     </div>
                     <CardTitle className="text-white group-hover:text-spring-400 transition-colors">
@@ -546,7 +648,7 @@ export default function Integrations() {
                         {getIndustryIcon(integration.industry)}
                         <span className="text-xs text-spring-400">{integration.industry}</span>
                       </div>
-                      <span className="text-xs text-gray-400">{integration.vendor}</span>
+                      {getBrandLogo(integration.vendor)}
                     </div>
                     <CardTitle className="text-sm text-white group-hover:text-spring-400 transition-colors line-clamp-2">
                       {integration.title}

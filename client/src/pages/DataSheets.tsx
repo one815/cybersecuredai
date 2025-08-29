@@ -19,7 +19,18 @@ import {
   Building,
   GraduationCap,
   School,
-  Clock
+  Clock,
+  Brain,
+  BookOpen,
+  UserCheck,
+  Activity,
+  Layers,
+  ShieldCheck,
+  Lock,
+  Globe,
+  Network,
+  Monitor,
+  Database
 } from "lucide-react";
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
 import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
@@ -212,13 +223,33 @@ const datasheets = [
 const getIndustryIcon = (industry: string) => {
   switch (industry) {
     case "Federal Government":
-      return <Building className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Building className="w-4 h-4" />
+          <Shield className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" />
+        </div>
+      );
     case "Higher Education":
-      return <GraduationCap className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <GraduationCap className="w-4 h-4" />
+          <BookOpen className="w-2 h-2 absolute -bottom-1 -right-1 text-green-400" />
+        </div>
+      );
     case "K-12 Education":
-      return <School className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <School className="w-4 h-4" />
+          <UserCheck className="w-2 h-2 absolute -top-1 -right-1 text-purple-400" />
+        </div>
+      );
     case "Cross-Industry":
-      return <Users className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Users className="w-4 h-4" />
+          <Globe className="w-2 h-2 absolute -bottom-1 -right-1 text-cyan-400" />
+        </div>
+      );
     default:
       return <FileText className="w-4 h-4" />;
   }
@@ -227,9 +258,47 @@ const getIndustryIcon = (industry: string) => {
 const getCategoryIcon = (category: string) => {
   switch (category) {
     case "AI Security Tools":
-      return <Zap className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Brain className="w-4 h-4" />
+          <ShieldCheck className="w-2 h-2 absolute -top-1 -right-1 text-spring-400" />
+        </div>
+      );
     case "Compliance Features":
-      return <Shield className="w-4 h-4" />;
+      return (
+        <div className="relative">
+          <Shield className="w-4 h-4" />
+          <Eye className="w-2 h-2 absolute -bottom-1 -right-1 text-orange-400" />
+        </div>
+      );
+    case "Technical Specifications":
+      return (
+        <div className="relative">
+          <Monitor className="w-4 h-4" />
+          <Activity className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" />
+        </div>
+      );
+    case "Platform Overview":
+      return (
+        <div className="relative">
+          <Layers className="w-4 h-4" />
+          <Zap className="w-2 h-2 absolute -bottom-1 -right-1 text-yellow-400" />
+        </div>
+      );
+    case "Integration Capabilities":
+      return (
+        <div className="relative">
+          <Network className="w-4 h-4" />
+          <Globe className="w-2 h-2 absolute -top-1 -right-1 text-cyan-400" />
+        </div>
+      );
+    case "Monitoring & Analytics":
+      return (
+        <div className="relative">
+          <Eye className="w-4 h-4" />
+          <Activity className="w-2 h-2 absolute -bottom-1 -right-1 text-green-400" />
+        </div>
+      );
     default:
       return <FileText className="w-4 h-4" />;
   }
