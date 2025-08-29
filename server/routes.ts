@@ -4031,7 +4031,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log(`📧 Confirmation code for ${email}: ${code} (expires in 15 minutes)`);
       console.log(`📋 Resource: ${resourceTitle}`);
       
-      res.json({ success: true, message: "Confirmation code sent to your email" });
+      // Since email service isn't configured, return the code for display
+      res.json({ 
+        success: true, 
+        message: "Confirmation code generated (email service not configured)", 
+        code: code // For development/demo purposes
+      });
     } catch (error) {
       console.error("Error generating confirmation code:", error);
       res.status(500).json({ message: "Failed to generate confirmation code" });
