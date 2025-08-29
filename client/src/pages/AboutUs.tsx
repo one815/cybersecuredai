@@ -403,7 +403,7 @@ export default function AboutUs() {
                   </Button>
                   <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4">
                     View Case Studies
-                    <ExternalLink className="ml-2 w-5 h-5" />
+                    <Enhanced4DExternalLinkIcon className="ml-2 w-5 h-5" size={20} />
                   </Button>
                 </div>
               </div>

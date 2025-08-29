@@ -11,6 +11,7 @@ import {
   customComplianceFrameworks,
   customComplianceControls,
   subscribers,
+  confirmationCodes,
   type User, 
   type InsertUser,
   type Threat,
@@ -117,6 +118,10 @@ export interface IStorage {
   getSubscribers(): Promise<Subscriber[]>;
   createSubscriber(subscriber: InsertSubscriber): Promise<Subscriber>;
   updateSubscriberDownload(email: string, resourceId: string): Promise<void>;
+
+  // Confirmation code operations
+  createConfirmationCode(data: any): Promise<any>;
+  verifyConfirmationCode(email: string, code: string): Promise<any | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -132,6 +137,7 @@ export class MemStorage implements IStorage {
   private customComplianceFrameworks: Map<string, CustomComplianceFramework> = new Map();
   private customComplianceControls: Map<string, CustomComplianceControl> = new Map();
   private subscribers: Map<string, Subscriber> = new Map();
+  private confirmationCodes: Map<string, any> = new Map();
   private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
   private cypherReports: Map<string, any> = new Map();
 
@@ -1104,6 +1110,32 @@ export class MemStorage implements IStorage {
       };
       this.subscribers.set(subscriber.id, updatedSubscriber);
     }
+  }
+
+  // Confirmation code operations
+  async createConfirmationCode(data: any): Promise<any> {
+    const confirmationCode = {
+      id: randomUUID(),
+      ...data,
+      createdAt: new Date()
+    };
+    this.confirmationCodes.set(confirmationCode.id, confirmationCode);
+    return confirmationCode;
+  }
+
+  async verifyConfirmationCode(email: string, code: string): Promise<any | undefined> {
+    const confirmationCode = Array.from(this.confirmationCodes.values()).find(
+      c => c.email === email && c.code === code && !c.verified && new Date() < c.expiresAt
+    );
+    
+    if (confirmationCode) {
+      // Mark as verified
+      confirmationCode.verified = true;
+      this.confirmationCodes.set(confirmationCode.id, confirmationCode);
+      return confirmationCode;
+    }
+    
+    return undefined;
   }
 }
 
