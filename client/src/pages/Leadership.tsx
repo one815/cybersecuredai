@@ -371,7 +371,7 @@ export default function Leadership() {
                 <Enhanced4DUsersIcon className="glass-icon w-4 h-4 mr-2" size={16} />
                 Leadership Team
               </Badge>
-              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-spring-400 to-cyber-blue-400 bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold mb-6 text-white">
                 Executive Leadership
               </h1>
               <p className="text-xl text-gray-300 leading-relaxed mb-6">
