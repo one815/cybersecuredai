@@ -122,7 +122,7 @@ export default function Home() {
                 Named a Leader in AI-Powered Cybersecurity
               </Badge>
               <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 leading-tight">
-                Enhanced with PyMISP Intelligence,<br />
+                Enhanced with Multi Intelligence,<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
                   trusted by leaders worldwide.
                 </span>
@@ -605,7 +605,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756395725866.png"}
+                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.png"}
                       alt="SOC 2 TYPE II Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
