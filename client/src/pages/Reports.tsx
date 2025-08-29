@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { 
   ChartBar, 
   Download, 
@@ -123,34 +124,22 @@ export default function Reports() {
     }
   });
 
-  // Download report function
+  // Email capture modal state
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [emailModalResource, setEmailModalResource] = useState<{
+    title: string;
+    id: string;
+    downloadUrl: string;
+  } | null>(null);
+
+  // Download report function - now triggers email capture
   const downloadReport = async (reportId: string) => {
-    try {
-      const response = await fetch(`/api/reports/download/${reportId}`);
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${reportId}-report.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-        toast({
-          title: "Download Started",
-          description: "Report download has started."
-        });
-      } else {
-        throw new Error('Download failed');
-      }
-    } catch (error) {
-      toast({
-        title: "Download Failed", 
-        description: "Failed to download report. Please try again.",
-        variant: "destructive"
-      });
-    }
+    setEmailModalResource({
+      title: `${reportId} Report`,
+      id: reportId,
+      downloadUrl: `/api/reports/download/${reportId}`
+    });
+    setEmailModalOpen(true);
   };
 
   // State to track generated reports
@@ -579,6 +568,18 @@ export default function Reports() {
           </CardContent>
         </Card>
       </main>
+
+      {/* Email Capture Modal */}
+      <EmailCaptureModal
+        isOpen={emailModalOpen}
+        onClose={() => {
+          setEmailModalOpen(false);
+          setEmailModalResource(null);
+        }}
+        resourceTitle={emailModalResource?.title || ""}
+        resourceId={emailModalResource?.id || ""}
+        downloadUrl={emailModalResource?.downloadUrl || ""}
+      />
     </div>
   );
 }
