@@ -42,12 +42,20 @@ export function EmailCaptureModal({
     mutationFn: async (data: { name: string; email: string; resourceTitle: string; resourceId: string; downloadUrl: string }) => {
       return apiRequest("/api/generate-confirmation-code", "POST", data);
     },
-    onSuccess: () => {
+    onSuccess: (response: any) => {
       setStep('code');
-      toast({
-        title: "Code Sent!",
-        description: "Please check your email for the confirmation code.",
-      });
+      if (response.code) {
+        // Show code in toast for demo purposes when email service isn't configured
+        toast({
+          title: "Confirmation Code Generated!",
+          description: `Your code is: ${response.code} (normally sent via email)`,
+        });
+      } else {
+        toast({
+          title: "Code Sent!",
+          description: "Please check your email for the confirmation code.",
+        });
+      }
     },
     onError: (error: any) => {
       toast({
