@@ -346,7 +346,7 @@ export default function Services() {
                           <Button 
                             size="sm" 
                             className="button-4d w-full"
-                            onClick={() => window.location.href = '/services'}
+                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
@@ -385,7 +385,7 @@ export default function Services() {
                           <Button 
                             size="sm" 
                             className="button-4d w-full"
-                            onClick={() => window.location.href = '/services'}
+                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
@@ -579,7 +579,7 @@ export default function Services() {
                         </ul>
                         <Button 
                           className="button-4d w-full bg-yellow-600 text-white"
-                          onClick={() => window.location.href = '/contact'}
+                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                         >
                           Contact Enterprise
                         </Button>

@@ -373,7 +373,7 @@ export default function Home() {
                       size="lg" 
                       className="button-4d px-8 py-4 text-lg"
                       data-testid="button-learn-more"
-                      onClick={() => setLocation('/platform')}
+                      onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       <Target className="mr-2 w-5 h-5" />
                       Learn About Our Technology
@@ -382,7 +382,7 @@ export default function Home() {
                       size="lg" 
                       className="button-4d px-8 py-4 text-lg"
                       data-testid="link-demo"
-                      onClick={() => setLocation('/contact')}
+                      onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Request Demo
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -679,7 +679,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4 text-lg"
-                  onClick={() => setLocation('/about')}
+                  onClick={() => { window.location.href = '/about'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   See why
                   <ExternalLink className="ml-2 w-5 h-5" />
@@ -816,7 +816,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -837,7 +837,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -858,7 +858,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -879,7 +879,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -900,7 +900,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -921,7 +921,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { setLocation('/solutions'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn More
                   </Button>
@@ -1012,7 +1012,7 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     className="button-4d px-8 py-3"
-                    onClick={() => { setLocation('/platform'); setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Learn more
                   </Button>

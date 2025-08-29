@@ -100,7 +100,7 @@ export default function Solutions() {
                   <Button 
                     size="lg" 
                     className="button-4d px-10 py-4 text-lg font-semibold"
-                    onClick={() => setLocation('/contact')}
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Get a Demo
                     <ArrowRight className="ml-2 w-5 h-5" />
@@ -827,7 +827,7 @@ export default function Solutions() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4"
-                  onClick={() => setLocation('/client-stories')}
+                  onClick={() => { window.location.href = '/client-stories'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Learn More About Our Success
                   <ExternalLink className="ml-2 w-5 h-5" />
@@ -856,7 +856,7 @@ export default function Solutions() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4"
-                  onClick={() => setLocation('/resources/threat-report')}
+                  onClick={() => { window.location.href = '/resources/threat-report'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Download the Threat Report
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -1161,7 +1161,7 @@ export default function Solutions() {
                     <Button 
                       size="lg" 
                       className="button-4d px-8 py-4"
-                      onClick={() => setLocation('/solutions/education')}
+                      onClick={() => { window.location.href = '/solutions/education'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Explore Education Solutions
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -1214,7 +1214,7 @@ export default function Solutions() {
                     <Button 
                       size="lg" 
                       className="button-4d px-8 py-4"
-                      onClick={() => setLocation('/solutions/government')}
+                      onClick={() => { window.location.href = '/solutions/government'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Explore Government Solutions
                       <ArrowRight className="ml-2 w-5 h-5" />
@@ -1301,7 +1301,7 @@ export default function Solutions() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4"
-                  onClick={() => setLocation('/client-stories')}
+                  onClick={() => { window.location.href = '/client-stories'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Read Customer Reviews
                   <ArrowRight className="ml-2 w-5 h-5" />
