@@ -122,9 +122,9 @@ export default function Home() {
                 Named a Leader in AI-Powered Cybersecurity
               </Badge>
               <h1 className="text-6xl md:text-7xl font-bold text-white mb-8 leading-tight">
-                Recognized for innovation,<br />
+                Enhanced with CIRCL Intelligence,<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                  financial strength, and platform breadth.
+                  trusted by leaders worldwide.
                 </span>
               </h1>
               <div className="flex justify-center mb-12">
@@ -409,7 +409,7 @@ export default function Home() {
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
-                      <span className="text-gray-300">AI-powered threat assessment</span>
+                      <span className="text-gray-300">PyMISP & CIRCL enhanced threat intelligence</span>
                     </div>
                     <div className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />

@@ -88,12 +88,15 @@ export default function Solutions() {
                 </span>
               </h1>
               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
-                Purpose-built cybersecurity solutions for educational institutions and government agencies, 
-                all backed by our industry-proven, 24/7 AI-assisted SOC for continuous protection.
+                Purpose-built cybersecurity solutions enhanced with PyMISP and CIRCL intelligence for educational institutions 
+                and government agencies, backed by our industry-proven, 24/7 AI-assisted SOC with advanced threat correlation.
               </p>
-              <p className="text-xl text-cyan-400 font-semibold mb-16">
+              <p className="text-xl text-cyan-400 font-semibold mb-8">
                 Enterprise-grade cybersecurity for ALL organizations.
               </p>
+              <Badge className="mb-8 bg-blue-500/20 text-blue-300 border-blue-500/30 text-sm px-4 py-2">
+                Now Enhanced with PyMISP & CIRCL Intelligence Tools
+              </Badge>
               
               <div className="flex justify-center mb-16">
                 <Link href="/demo">
@@ -246,7 +249,7 @@ export default function Solutions() {
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">AI-powered threat detection</span>
+                      <span className="text-gray-300 text-sm">PyMISP & CIRCL-enhanced threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
