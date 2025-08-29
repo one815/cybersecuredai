@@ -1,0 +1,35 @@
+Add Certificiates - Security and Compliance Certifications
+
+Update Logos 
+
+Add geospatial map for live threat intelligence
+
+need to create a demo user account for live feeds and integrations for assessments
+
+Home page:
+
+- Single Sign On and AES 256 needs a 4D image in replace of its existing similar to Threat Protection
+- Security & Compliance Certifications - the images need to replaced with the badges previously shared in relation to SOC 2, FERPA Compliant, FISMA, ISO 27001, FedRamp and
+- Replace the image under “We Dont Just Compete” section to an image of our Threat Intelligence in relation to Education specific pages such as: Compliance and Threat Intelligence showing how our platform ensures education is in compliance with CIPA, FERPA, FISMA
+
+Solutions
+
+- Need 4D icons for card topics
+- Call-to-action buttons are still reverting to bottom of the page referred to vs. the top
+- If a card has an actual “brand name” please replace the text with the actual logo (ex. Amazon Web Services” should be replaced with the image below:
+
+![download.png](attachment:9edda3f0-45e3-4020-b73b-f96458b92d2c:download.png)
+
+- If a card has an item that can show us vs telling us such as “Student Records” it should have both text “Student Records” and a 4D icon that represents the name
+- All color to the sections of the pages arent visible. They have a lighter color and lighter text vs. the opposite
+- Remove all Start for Free buttons
+
+Services 
+
+- “Learn More” CTA buttons are not opening up a page
+- Protection Level with Education and Government tabs “Government” is not able to click on
+- Call to action buttons “Get Started” “Contact Sales” and “Contact Enterprise” have no route which it should
+- Schedule a Consultation button goes to contact bottom page in which it should go to the top
+    - Contact Page should have an embedded with https://meet.yesware.com/me/camilia/demo
+- The buttons arent updated on the “Service” page
+- “Learn More” in the “Managed Services” and “Professional Services” section buttons are not updated to the 4D similar to the Secured Authentication button

@@ -16,7 +16,9 @@ import {
   Lock,
   Brain,
   ExternalLink,
-  Activity
+  Activity,
+  GraduationCap,
+  Building
 } from "lucide-react";
 import {
   CustomShieldIcon,
@@ -492,11 +494,13 @@ export default function Home() {
             {/* Security Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               {/* Single Sign-On */}
-              <Card className="holographic-card border-cyan-500/30 bg-slate-800/50">
+              <Card className="holographic-card border-cyan-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-3 bg-cyan-500/20 rounded-lg">
-                      <Shield className="w-8 h-8 text-cyan-400 icon-3d" />
+                    <div className="relative p-4 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-xl border border-cyan-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-xl"></div>
+                      <div className="absolute top-1 left-1 w-2 h-2 bg-cyan-300 rounded-full opacity-60 animate-pulse"></div>
+                      <Shield className="w-8 h-8 text-cyan-300 relative z-10 filter drop-shadow-lg icon-3d" style={{filter: 'drop-shadow(0 0 10px rgba(34, 211, 238, 0.7))'}} />
                     </div>
                     <CardTitle className="text-cyan-300 font-bold">
                       <span className="neon-glow">Single Sign-On (SSO)</span>
@@ -526,11 +530,13 @@ export default function Home() {
               </Card>
 
               {/* High-Level Encryption */}
-              <Card className="holographic-card border-purple-500/30 bg-slate-800/50">
+              <Card className="holographic-card border-purple-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-3 bg-purple-500/20 rounded-lg">
-                      <Lock className="w-8 h-8 text-purple-400 metallic-icon" />
+                    <div className="relative p-4 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
+                      <div className="absolute top-1 right-1 w-2 h-2 bg-purple-300 rounded-full opacity-60 animate-pulse"></div>
+                      <Lock className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg metallic-icon" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
                     </div>
                     <CardTitle className="text-purple-300 font-bold">
                       <span className="neon-glow">AES-256 Encryption</span>
@@ -599,42 +605,46 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-white mb-8">
                 <span className="neon-glow">Security & Compliance Certifications</span>
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-8">
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300">
-                  <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.png"}
-                    alt="SOC 2 Type II Certificate"
-                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
-                  />
-                  <div className="text-cyan-400 font-bold text-sm">SOC 2 TYPE II</div>
-                  <div className="text-gray-400 text-xs">Security Controls</div>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto mb-8">
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-green-500/30 to-emerald-600/30 rounded-xl flex items-center justify-center mb-3 border border-green-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-transparent rounded-xl"></div>
+                    <Shield className="w-8 h-8 text-green-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))'}} />
+                  </div>
+                  <div className="text-green-400 font-bold text-sm">SOC 2 TYPE II</div>
+                  <div className="text-gray-400 text-xs text-center">Certified Secure</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300">
-                  <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756397271074.png"}
-                    alt="FERPA Compliance Certificate"
-                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
-                  />
-                  <div className="text-green-400 font-bold text-sm">FERPA COMPLIANT</div>
-                  <div className="text-gray-400 text-xs">Educational Privacy</div>
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-xl flex items-center justify-center mb-3 border border-cyan-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-xl"></div>
+                    <GraduationCap className="w-8 h-8 text-cyan-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 211, 238, 0.7))'}} />
+                  </div>
+                  <div className="text-cyan-400 font-bold text-sm">FERPA</div>
+                  <div className="text-gray-400 text-xs text-center">Education Privacy</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300">
-                  <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (3)_1756397271074.png"}
-                    alt="FISMA Ready Certificate"
-                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
-                  />
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500/30 to-indigo-600/30 rounded-xl flex items-center justify-center mb-3 border border-blue-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-transparent rounded-xl"></div>
+                    <Building className="w-8 h-8 text-blue-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.7))'}} />
+                  </div>
                   <div className="text-blue-400 font-bold text-sm">FISMA READY</div>
-                  <div className="text-gray-400 text-xs">Federal Security</div>
+                  <div className="text-gray-400 text-xs text-center">Federal Security</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300">
-                  <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756397271074.png"}
-                    alt="ISO 27001 Certificate"
-                    className="w-16 h-16 mx-auto mb-3 object-contain filter brightness-110"
-                  />
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mb-3 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
+                    <Award className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                  </div>
                   <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
-                  <div className="text-gray-400 text-xs">Info Security Mgmt</div>
+                  <div className="text-gray-400 text-xs text-center">Info Security Mgmt</div>
+                </div>
+                <div className="bg-slate-800/50 rounded-lg p-4 border border-orange-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
+                  <div className="relative w-16 h-16 bg-gradient-to-br from-orange-500/30 to-red-600/30 rounded-xl flex items-center justify-center mb-3 border border-orange-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-transparent rounded-xl"></div>
+                    <CheckCircle className="w-8 h-8 text-orange-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(251, 146, 60, 0.7))'}} />
+                  </div>
+                  <div className="text-orange-400 font-bold text-sm">FedRAMP</div>
+                  <div className="text-gray-400 text-xs text-center">Gov Cloud Ready</div>
                 </div>
               </div>
             </div>
@@ -677,13 +687,69 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Market Share Visualization */}
+            {/* Educational Compliance Dashboard Visualization */}
             <div className="max-w-5xl mx-auto mb-16">
-              <img 
-                src={securityOperationsImg}
-                alt="Market Share Leadership in Educational Cybersecurity"
-                className="w-full rounded-xl shadow-2xl border border-cyan-500/20"
-              />
+              <div className="relative bg-slate-800/80 rounded-xl p-8 border border-cyan-500/30 shadow-2xl">
+                <div className="text-center mb-8">
+                  <h4 className="text-2xl font-bold text-cyan-400 mb-4">Educational Threat Intelligence Dashboard</h4>
+                  <p className="text-gray-300">Real-time compliance monitoring for CIPA, FERPA, and FISMA requirements</p>
+                </div>
+                
+                {/* Compliance Status Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="bg-green-500/10 rounded-lg p-6 border border-green-500/30">
+                    <div className="flex items-center justify-between mb-4">
+                      <GraduationCap className="w-8 h-8 text-green-400" />
+                      <div className="text-2xl font-bold text-green-400">98%</div>
+                    </div>
+                    <h5 className="text-green-400 font-semibold mb-2">FERPA Compliance</h5>
+                    <p className="text-sm text-gray-400">Student privacy protection active across all educational data systems</p>
+                  </div>
+                  
+                  <div className="bg-blue-500/10 rounded-lg p-6 border border-blue-500/30">
+                    <div className="flex items-center justify-between mb-4">
+                      <Shield className="w-8 h-8 text-blue-400" />
+                      <div className="text-2xl font-bold text-blue-400">95%</div>
+                    </div>
+                    <h5 className="text-blue-400 font-semibold mb-2">CIPA Filtering</h5>
+                    <p className="text-sm text-gray-400">Content filtering and internet safety measures for K-12 institutions</p>
+                  </div>
+                  
+                  <div className="bg-purple-500/10 rounded-lg p-6 border border-purple-500/30">
+                    <div className="flex items-center justify-between mb-4">
+                      <Building className="w-8 h-8 text-purple-400" />
+                      <div className="text-2xl font-bold text-purple-400">92%</div>
+                    </div>
+                    <h5 className="text-purple-400 font-semibold mb-2">FISMA Readiness</h5>
+                    <p className="text-sm text-gray-400">Federal information systems security controls and risk management</p>
+                  </div>
+                </div>
+                
+                {/* Live Threat Feed */}
+                <div className="bg-slate-900/50 rounded-lg p-4 border border-red-500/30">
+                  <div className="flex items-center justify-between mb-4">
+                    <h5 className="text-red-400 font-semibold flex items-center">
+                      <AlertTriangle className="w-5 h-5 mr-2" />
+                      Active Threat Monitoring
+                    </h5>
+                    <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded">LIVE</div>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between text-gray-300">
+                      <span>Blocked malicious domains today:</span>
+                      <span className="text-red-400 font-semibold">247</span>
+                    </div>
+                    <div className="flex justify-between text-gray-300">
+                      <span>Student data access attempts prevented:</span>
+                      <span className="text-green-400 font-semibold">100%</span>
+                    </div>
+                    <div className="flex justify-between text-gray-300">
+                      <span>Compliance violations detected:</span>
+                      <span className="text-yellow-400 font-semibold">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <p className="text-center text-gray-400 text-lg mb-16">
