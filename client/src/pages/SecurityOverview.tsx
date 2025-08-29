@@ -26,6 +26,12 @@ import {
   Globe,
   Radar
 } from "lucide-react";
+import {
+  Enhanced4DBrainIcon,
+  Enhanced4DNetworkIcon,
+  CustomTargetIcon,
+  CustomShieldIcon
+} from "@/components/CustomIcons";
 import { useAuth } from "@/hooks/useAuth";
 
 interface SecurityMetric {
@@ -391,7 +397,7 @@ export default function SecurityOverview() {
                 Backup Config
               </Button>
               <Button variant="outline" className="border-purple-500/50 text-purple-400 hover:bg-purple-500/20" data-testid="button-ai-analysis">
-                <Brain className="w-4 h-4 mr-2" />
+                <Enhanced4DBrainIcon className="w-4 h-4 mr-2" size={16} />
                 AI Analysis
               </Button>
             </div>

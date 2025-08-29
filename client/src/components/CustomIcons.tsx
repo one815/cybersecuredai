@@ -179,12 +179,106 @@ export const CustomBot2Icon: React.FC<CustomIconProps> = ({ className, size = 24
 );
 
 export const CustomBrainIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <img 
-    src={BrainIcon} 
-    alt="AI Brain" 
-    className={className}
-    style={{ width: size, height: size }}
-  />
+  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
+    <img 
+      src={BrainIcon} 
+      alt="AI Brain" 
+      className="w-full h-full object-contain filter drop-shadow-lg"
+      style={{ 
+        filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' 
+      }}
+    />
+    <div 
+      className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full animate-pulse"
+      style={{ 
+        background: 'radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.3), transparent 70%)'
+      }}
+    />
+  </div>
+);
+
+// Enhanced 4D Network Icon Component
+export const Enhanced4DNetworkIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
+  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      className="filter drop-shadow-lg"
+      style={{ 
+        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.4))' 
+      }}
+    >
+      <circle cx="12" cy="5" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
+      <circle cx="5" cy="19" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
+      <circle cx="19" cy="19" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
+      <path d="M12 8l-7 8" stroke="currentColor" strokeWidth="2"/>
+      <path d="M12 8l7 8" stroke="currentColor" strokeWidth="2"/>
+      <path d="M8 19h8" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="12" cy="12" r="1.5" fill="rgba(34, 197, 94, 0.8)" className="animate-pulse"/>
+    </svg>
+    <div 
+      className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-cyan-400/20 rounded-full animate-pulse"
+      style={{ 
+        background: 'radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.3), transparent 70%)'
+      }}
+    />
+  </div>
+);
+
+// Enhanced 4D Brain Icon Component with neural network effects
+export const Enhanced4DBrainIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
+  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      className="filter drop-shadow-lg"
+      style={{ 
+        filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' 
+      }}
+    >
+      {/* Brain outline with gradient */}
+      <path 
+        d="M9.5 2a6.5 6.5 0 0 1 5 0 6.5 6.5 0 0 1 0 5 6.5 6.5 0 0 1-5 0 6.5 6.5 0 0 1 0-5z" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        fill="rgba(168, 85, 247, 0.2)"
+      />
+      
+      {/* Neural pathways */}
+      <path 
+        d="M6 8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8z" 
+        stroke="currentColor" 
+        strokeWidth="1.5" 
+        fill="none"
+        opacity="0.7"
+      />
+      
+      {/* Neural connection points */}
+      <circle cx="8" cy="10" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" />
+      <circle cx="12" cy="8" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.3s' }} />
+      <circle cx="16" cy="10" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
+      <circle cx="10" cy="14" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.9s' }} />
+      <circle cx="14" cy="14" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '1.2s' }} />
+      
+      {/* Connecting lines */}
+      <path 
+        d="M8 10l4-2m0 0l4 2m-4-2v6m-4-4l8 0" 
+        stroke="currentColor" 
+        strokeWidth="1" 
+        opacity="0.6"
+      />
+    </svg>
+    <div 
+      className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full animate-pulse"
+      style={{ 
+        background: 'radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.3), transparent 70%)'
+      }}
+    />
+  </div>
 );
 
 export const CustomEyeIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (

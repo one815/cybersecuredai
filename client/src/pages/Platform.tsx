@@ -22,6 +22,8 @@ import {
 import {
   CustomShieldIcon,
   CustomBrainIcon,
+  Enhanced4DNetworkIcon,
+  Enhanced4DBrainIcon,
   CustomTargetIcon,
   CustomEyeIcon,
   CustomZapIcon,
@@ -45,7 +47,7 @@ export default function Platform() {
     {
       title: "Advanced AI-Driven Threat Hunting",
       description: "Next-generation threat detection with 99.7% accuracy",
-      icon: <CustomBrainIcon className="w-8 h-8 text-red-400" size={32} />,
+      icon: <Enhanced4DBrainIcon className="w-8 h-8 text-red-400" size={32} />,
       color: "border-red-500/30",
       features: [
         "Real-time behavioral analytics",
@@ -129,7 +131,7 @@ export default function Platform() {
     {
       title: "Multi-State Security Coalition Platform",
       description: "Inter-agency cybersecurity coordination and threat sharing",
-      icon: <Network className="w-8 h-8 text-orange-400" />,
+      icon: <Enhanced4DNetworkIcon className="w-8 h-8 text-orange-400" size={32} />,
       color: "border-orange-500/30",
       features: [
         "Inter-state threat sharing",
@@ -436,7 +438,7 @@ export default function Platform() {
                   Security Core
                 </TabsTrigger>
                 <TabsTrigger value="intelligence" className="data-[state=active]:bg-cyan-600 text-lg py-4">
-                  <CustomBrainIcon className="w-6 h-6 mr-2" size={24} />
+                  <Enhanced4DBrainIcon className="w-6 h-6 mr-2" size={24} />
                   AI Intelligence
                 </TabsTrigger>
                 <TabsTrigger value="compliance" className="data-[state=active]:bg-green-600 text-lg py-4">
