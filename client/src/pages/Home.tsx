@@ -1,25 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  CheckCircle, 
-  Users, 
-  AlertTriangle,
-  Award,
-  ArrowRight,
-  Network,
-  Shield,
-  TrendingUp,
-  Star,
-  Target,
-  Globe,
-  Lock,
-  Brain,
-  ExternalLink,
-  Activity,
-  GraduationCap,
-  Building
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -38,7 +20,24 @@ import {
   CustomFileTextIcon,
   CustomTargetIcon,
   CustomDatabaseIcon,
-  CustomHeadphonesIcon
+  CustomHeadphonesIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DBotIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DUsersIcon,
+  Enhanced4DAlertTriangleIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DExternalLinkIcon,
+  Enhanced4DTrendingUpIcon,
+  Enhanced4DGlobeIcon,
+  Enhanced4DFileIcon,
+  Enhanced4DServerIcon,
+  Enhanced4DBuildingIcon
 } from "@/components/CustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -136,7 +135,7 @@ export default function Home() {
                   onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   See how we lead
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                 </Button>
               </div>
               
@@ -165,7 +164,7 @@ export default function Home() {
                         {/* Header with Real Platform Info */}
                         <div className="flex items-center justify-between mb-6">
                           <div className="flex items-center space-x-3">
-                            <Shield className="w-8 h-8 text-cyan-400 icon-3d" />
+                            <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400" size={32} />
                             <div>
                               <h1 className="text-2xl font-bold text-white neon-glow">CyberSecure AI Platform</h1>
                               <p className="text-gray-400 text-sm">Cambridge Intelligence Dashboard</p>
@@ -184,7 +183,7 @@ export default function Home() {
                         <Card className="holographic-card border-cyan-500/30 mb-6">
                           <CardHeader>
                             <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
-                              <Brain className="w-6 h-6 mr-3 text-cyan-400 icon-3d" />
+                              <Enhanced4DBrainIcon className="w-6 h-6 mr-3 text-cyan-400" size={24} />
                               <span className="neon-glow">INTELLIGENCE OVERVIEW</span>
                             </CardTitle>
                           </CardHeader>
@@ -230,7 +229,7 @@ export default function Home() {
                               <CardHeader>
                                 <CardTitle className="text-red-300 flex items-center justify-between font-bold tracking-wide">
                                   <div className="flex items-center">
-                                    <Globe className="w-6 h-6 mr-3 text-red-400 icon-3d" />
+                                    <Enhanced4DGlobeIcon className="w-6 h-6 mr-3 text-red-400" size={24} />
                                     <span className="neon-glow">GLOBAL THREAT MAP</span>
                                   </div>
                                   <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded holo-badge">LIVE</div>
@@ -270,7 +269,7 @@ export default function Home() {
                             <Card className="holographic-card border-purple-500/30">
                               <CardHeader className="pb-3">
                                 <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide text-sm">
-                                  <Brain className="w-5 h-5 mr-2 text-purple-400 metallic-icon" />
+                                  <Enhanced4DBrainIcon className="w-5 h-5 mr-2 text-purple-400" size={20} />
                                   <span className="neon-glow">CAMBRIDGE ANALYTICS</span>
                                 </CardTitle>
                               </CardHeader>
@@ -297,7 +296,7 @@ export default function Home() {
                             <Card className="holographic-card border-green-500/30">
                               <CardHeader className="pb-3">
                                 <CardTitle className="text-green-300 flex items-center font-bold tracking-wide text-sm">
-                                  <CheckCircle className="w-5 h-5 mr-2 text-green-400 glass-icon" />
+                                  <Enhanced4DCheckCircleIcon className="w-5 h-5 mr-2 text-green-400" size={20} />
                                   <span className="neon-glow">COMPLIANCE</span>
                                 </CardTitle>
                               </CardHeader>
@@ -377,7 +376,7 @@ export default function Home() {
                       data-testid="button-learn-more"
                       onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
-                      <Target className="mr-2 w-5 h-5" />
+                      <Enhanced4DTargetIcon className="mr-2 w-5 h-5" size={20} />
                       Learn About Our Technology
                     </Button>
                     <Button 
@@ -387,34 +386,34 @@ export default function Home() {
                       onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Request Demo
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                     </Button>
                   </div>
 
                   {/* Features List */}
                   <div className="space-y-3">
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">Enterprise Single Sign-On (SSO) with JWT security</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">AES-256 encryption for all sensitive data</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">Real-time facial recognition analysis</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">Advanced behavioral pattern detection</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">PyMISP & CIRCL enhanced threat intelligence</span>
                     </div>
                     <div className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                       <span className="text-gray-300">Instant security recommendations</span>
                     </div>
                   </div>
@@ -500,7 +499,7 @@ export default function Home() {
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="p-3 bg-cyan-500/20 rounded-lg">
-                      <Shield className="w-8 h-8 text-cyan-400 glass-icon" />
+                      <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400" size={32} />
                     </div>
                     <CardTitle className="text-cyan-300 font-bold">
                       <span className="neon-glow">Single Sign-On (SSO)</span>
@@ -510,19 +509,19 @@ export default function Home() {
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>JWT-based secure token authentication</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>24-hour access tokens with auto-refresh</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Role-based access control (RBAC)</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Seamless user experience</span>
                     </li>
                   </ul>
@@ -534,7 +533,7 @@ export default function Home() {
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="p-3 bg-purple-500/20 rounded-lg">
-                      <Lock className="w-8 h-8 text-purple-400 glass-icon" />
+                      <Enhanced4DLockIcon className="w-8 h-8 text-purple-400" size={32} />
                     </div>
                     <CardTitle className="text-purple-300 font-bold">
                       <span className="neon-glow">AES-256 Encryption</span>
@@ -544,19 +543,19 @@ export default function Home() {
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Military-grade AES-256 data encryption</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Bcrypt password hashing (12 salt rounds)</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Encrypted TOTP secrets & sensitive data</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Zero-knowledge data protection</span>
                     </li>
                   </ul>
@@ -568,7 +567,7 @@ export default function Home() {
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
                     <div className="p-3 bg-red-500/20 rounded-lg">
-                      <AlertTriangle className="w-8 h-8 text-red-400 glass-icon" />
+                      <Enhanced4DAlertTriangleIcon className="w-8 h-8 text-red-400" size={32} />
                     </div>
                     <CardTitle className="text-red-300 font-bold">
                       <span className="neon-glow">Threat Protection</span>
@@ -578,19 +577,19 @@ export default function Home() {
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Rate limiting & brute force protection</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Multi-factor authentication (MFA)</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Session management & token validation</span>
                     </li>
                     <li className="flex items-center space-x-3">
-                      <CheckCircle className="w-4 h-4 text-green-400 glass-icon" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span>Comprehensive security logging</span>
                     </li>
                   </ul>
@@ -670,7 +669,7 @@ export default function Home() {
                 onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
               >
                 Experience Secure Authentication
-                <Shield className="ml-2 w-5 h-5 icon-3d" />
+                <Enhanced4DShieldIcon className="ml-2 w-5 h-5" size={20} />
               </Button>
             </div>
           </div>
@@ -695,7 +694,7 @@ export default function Home() {
                   onClick={() => { window.location.href = '/about'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   See why
-                  <ExternalLink className="ml-2 w-5 h-5" />
+                  <Enhanced4DExternalLinkIcon className="ml-2 w-5 h-5" size={20} />
                 </Button>
               </div>
             </div>
@@ -743,7 +742,7 @@ export default function Home() {
                 <div className="absolute bottom-6 left-6 right-6 z-10">
                   <div className="bg-slate-800/90 rounded-lg p-4 border border-purple-500/30">
                     <h4 className="text-purple-400 font-bold mb-2 flex items-center">
-                      <Activity className="w-4 h-4 mr-2" />
+                      <Enhanced4DActivityIcon className="w-4 h-4 mr-2" size={16} />
                       Live Threat Feed
                     </h4>
                     <div className="space-y-2">
@@ -773,7 +772,7 @@ export default function Home() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <div className="bg-green-500/10 rounded-lg p-6 border border-green-500/30">
                     <div className="flex items-center justify-between mb-4">
-                      <GraduationCap className="w-8 h-8 text-green-400" />
+                      <CustomGraduationCapIcon className="w-8 h-8 text-green-400" size={32} />
                       <div className="text-2xl font-bold text-green-400">98%</div>
                     </div>
                     <h5 className="text-green-400 font-semibold mb-2">FERPA Compliance</h5>
@@ -782,7 +781,7 @@ export default function Home() {
                   
                   <div className="bg-blue-500/10 rounded-lg p-6 border border-blue-500/30">
                     <div className="flex items-center justify-between mb-4">
-                      <Shield className="w-8 h-8 text-blue-400" />
+                      <Enhanced4DShieldIcon className="w-8 h-8 text-blue-400" size={32} />
                       <div className="text-2xl font-bold text-blue-400">95%</div>
                     </div>
                     <h5 className="text-blue-400 font-semibold mb-2">CIPA Filtering</h5>
@@ -791,7 +790,7 @@ export default function Home() {
                   
                   <div className="bg-purple-500/10 rounded-lg p-6 border border-purple-500/30">
                     <div className="flex items-center justify-between mb-4">
-                      <Building className="w-8 h-8 text-purple-400" />
+                      <Enhanced4DBuildingIcon className="w-8 h-8 text-purple-400" size={32} />
                       <div className="text-2xl font-bold text-purple-400">92%</div>
                     </div>
                     <h5 className="text-purple-400 font-semibold mb-2">FISMA Readiness</h5>
@@ -803,7 +802,7 @@ export default function Home() {
                 <div className="bg-slate-900/50 rounded-lg p-4 border border-red-500/30">
                   <div className="flex items-center justify-between mb-4">
                     <h5 className="text-red-400 font-semibold flex items-center">
-                      <AlertTriangle className="w-5 h-5 mr-2" />
+                      <Enhanced4DAlertTriangleIcon className="w-5 h-5 mr-2" size={20} />
                       Active Threat Monitoring
                     </h5>
                     <div className="bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded">LIVE</div>
