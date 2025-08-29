@@ -638,7 +638,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-24 h-24 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/ISO certified_1756458882675.png"}
+                      src={import.meta.env.BASE_URL + "attached_assets/ISO certified 2_1756459077090.png"}
                       alt="ISO 27001 Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
