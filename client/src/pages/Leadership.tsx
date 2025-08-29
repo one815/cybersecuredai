@@ -34,18 +34,18 @@ import {
   Calendar
 } from "lucide-react";
 
-// Import actual team member images
-import camiliaAndersonImg from "@assets/Cam Anderson_1756499473679.png";
-import sarahChenImg from "@assets/sarah chen_1755570546394-4EiDD6VF_1756499473681.jpg";
-import aaliaZehadImg from "@assets/Aalia Zehad_1755637650860-tHJQ1e2o_1756499456528.png";
-import lucasLopezImg from "@assets/Lucas Lopez_1755637446828-M7ssez1M_1756499473681.png";
-import asalahMahmoudImg from "@assets/Asalah_1755637477390-DWaFAG2I_1756499456529.png";
-import brookeHoldenImg from "@assets/Brooke Holden_1755637604947-DoHXk2uj_1756499473679.png";
-import gregoriaNwagmeImg from "@assets/Gregoria Nwagme_1755637508727-rstyc_hQ_1756499473680.png";
-import hunterAndersonImg from "@assets/Hunter_1755637533530-DKmXNlKX_1756499473680.png";
-import brookeCarlisleImg from "@assets/Brooke Carlisle_1755637579700-CVlVgNk__1756499473677.png";
-import maureenDizonImg from "@assets/Maureen_1755638662476-meVEN9Za_1756499473681.png";
-import ceciliaSimpsonImg from "@assets/Cecilia Sampson_1756499473680.png";
+// Import circular team member images
+import camiliaAndersonImg from "@assets/Camilia_1756502307220.png";
+import sarahChenImg from "@assets/Sarah Chen_1756502307222.png";
+import aaliaZehadImg from "@assets/Aalia_1756502307219.png";
+import lucasLopezImg from "@assets/Lucas_1756502307222.png";
+import asalahMahmoudImg from "@assets/Asalah_1756502307219.png";
+import brookeHoldenImg from "@assets/Brooke Holden_1756502307220.png";
+import gregoriaNwagmeImg from "@assets/Gregoria_1756502307221.png";
+import hunterAndersonImg from "@assets/Hunter_1756502307221.png";
+import brookeCarlisleImg from "@assets/Brooke Carlisle_1756502307220.png";
+import maureenDizonImg from "@assets/Maureen_1756502307222.png";
+import ceciliaSimpsonImg from "@assets/Cecilia_1756502307221.png";
 
 // Import certification and award images
 import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
@@ -318,11 +318,11 @@ export default function Leadership() {
                 <div className="grid lg:grid-cols-2 gap-8 p-8">
                   <div className="flex flex-col justify-center">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-spring-400">
+                      <div className="relative w-20 h-20">
                         <img 
                           src={leader.image} 
                           alt={leader.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain"
                         />
                       </div>
                       <div>
@@ -420,11 +420,11 @@ export default function Leadership() {
               <Card key={index} className="bg-gradient-to-r from-cyber-blue-900/20 to-spring-900/20 border-cyber-blue-500/30 mb-8">
                 <CardContent className="p-8">
                   <div className="grid lg:grid-cols-3 gap-8 items-center">
-                    <div className="lg:col-span-1">
+                    <div className="lg:col-span-1 flex justify-center items-center">
                       <img 
                         src={leader.image} 
                         alt={leader.name}
-                        className="w-full h-64 object-cover rounded-lg border border-cyber-blue-500/30"
+                        className="w-64 h-64 object-contain"
                       />
                     </div>
                     <div className="lg:col-span-2">
@@ -460,11 +460,11 @@ export default function Leadership() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {leadershipTeam.map((member, index) => (
                 <Card key={index} className="bg-midnight-800/50 border-midnight-700 hover:border-spring-400/50 transition-all duration-300 group">
-                  <div className="relative overflow-hidden">
+                  <div className="relative flex justify-center items-center p-6 bg-midnight-900/30">
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-32 h-32 object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 right-4">
                       <Badge variant="outline" className="bg-midnight-900/90 border-midnight-600 text-white">
