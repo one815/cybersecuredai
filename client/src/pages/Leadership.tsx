@@ -71,8 +71,13 @@ import pmpPreviewImg from "@assets/pmp-certificate-v0-h4bdy6vnlmbc1-1_1756505280
 import azureDeveloperPreviewImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756505280919.pdf";
 import digitalMarketingPreviewImg from "@assets/CMP_1756505280918.pdf";
 
-// Import actual certificate screenshot preview images
-import pmpCertScreenshot from "@assets/Screen Shot 2025-08-29 at 5.10.16 PM_1756505437343.png";
+// Import specific certificate images
+import pmpCertImage from "@assets/Project Manager Professional_1756505874494.png";
+import azureSecurityCertImage from "@assets/Microsoft Certified Azure Security Engineer_1756505702422.png";
+import azureDeveloperCertImage from "@assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417.png";
+import googleCloudCertImage from "@assets/Google Cloud Professional Cloud Security Engineer_1756505748559.png";
+import vmwareCertImage from "@assets/Vmare Certified Professional_1756505901267.png";
+import digitalMarketingCertImage from "@assets/Certified Marketing Professional_1756505941955.png";
 
 // Create PDF preview placeholder since PDFs can't be displayed as images directly
 const createCertPreview = (title: string) => {
@@ -274,10 +279,9 @@ export default function Leadership() {
       organization: "Project Management Institute",
       description: "Global certification for project management excellence and organizational objective achievement.",
       category: "Project Management",
-      image: pmpCertScreenshot,
+      image: pmpCertImage,
       documentUrl: pmpPreviewImg,
-      isDocument: true,
-      cropStyle: "object-[0_0]" // Show PMP section
+      isDocument: true
     },
     {
       title: "Microsoft Certified: Azure Security Engineer Associate", 
@@ -285,10 +289,9 @@ export default function Leadership() {
       validUntil: "March 03, 2026",
       description: "Advanced certification in Azure security architecture and implementation.",
       category: "Cloud Security",
-      image: pmpCertScreenshot,
+      image: azureSecurityCertImage,
       documentUrl: azureSecurityPreviewImg,
-      isDocument: true,
-      cropStyle: "object-[33.3%_0]" // Show Azure Security section
+      isDocument: true
     },
     {
       title: "Microsoft Certified: Azure Developer Associate",
@@ -296,10 +299,9 @@ export default function Leadership() {
       validUntil: "May 24, 2026",
       description: "Expert-level Azure development and cloud solution architecture.",
       category: "Cloud Development",
-      image: pmpCertScreenshot,
+      image: azureDeveloperCertImage,
       documentUrl: azureDeveloperPreviewImg,
-      isDocument: true,
-      cropStyle: "object-[66.6%_0]" // Show Azure Developer section
+      isDocument: true
     },
     {
       title: "Google Cloud Certified Professional Cloud Security Engineer",
@@ -308,20 +310,18 @@ export default function Leadership() {
       certificationId: "90zcfz",
       description: "Advanced certification in Google Cloud security architecture and best practices.",
       category: "Cloud Security",
-      image: pmpCertScreenshot,
+      image: googleCloudCertImage,
       documentUrl: googleCloudPreviewImg,
-      isDocument: true,
-      cropStyle: "object-[0_50%]" // Show Google Cloud section
+      isDocument: true
     },
     {
       title: "VMware Certified Professional - Network Virtualization 2021",
       organization: "VMware",
       description: "Professional certification in network virtualization and VMware infrastructure.",
       category: "Network Infrastructure",
-      image: pmpCertScreenshot,
+      image: vmwareCertImage,
       documentUrl: vmwarePreviewImg,
-      isDocument: true,
-      cropStyle: "object-[33.3%_50%]" // Show VMware section
+      isDocument: true
     },
     {
       title: "Certified Digital Marketing Professional",
@@ -329,10 +329,9 @@ export default function Leadership() {
       graduateNo: "IE-DMI287777",
       description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
       category: "Marketing & Strategy",
-      image: pmpCertScreenshot,
+      image: digitalMarketingCertImage,
       documentUrl: digitalMarketingPreviewImg,
-      isDocument: true,
-      cropStyle: "object-[66.6%_50%]" // Show Digital Marketing section
+      isDocument: true
     }
   ];
 
@@ -595,7 +594,7 @@ export default function Leadership() {
                           <img 
                             src={cert.image} 
                             alt={cert.title}
-                            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ${cert.cropStyle || ''}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
                         </div>
                         <div className="absolute top-2 right-2">
