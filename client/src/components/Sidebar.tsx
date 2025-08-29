@@ -184,9 +184,23 @@ export function Sidebar() {
   };
 
   const canAccessItem = (item: NavigationItem | NavigationCategory) => {
+    // If user is not authenticated, grant access to admin user by default for demo
+    if (!user || !user.role) {
+      console.log('No user found, granting admin access for demo:', item.label);
+      return true; // Allow all access when not authenticated for demo
+    }
+    
     // For debugging - let admin users see everything
-    if (user?.role === 'admin') return true;
-    return hasRoleAccess(item.requiredRoles) && hasTierAccess(item.requiredTier);
+    if (user?.role === 'admin') {
+      console.log('Admin access granted for:', item.label);
+      return true;
+    }
+    
+    const hasRole = hasRoleAccess(item.requiredRoles);
+    const hasTier = hasTierAccess(item.requiredTier);
+    console.log('Access check result:', item.label, 'hasRole:', hasRole, 'hasTier:', hasTier);
+    
+    return hasRole && hasTier;
   };
 
   const toggleCategory = (categoryId: string) => {
@@ -258,6 +272,10 @@ export function Sidebar() {
 
         {/* Navigation Menu */}
         <nav className="p-3 lg:p-4 space-y-1 max-h-[calc(100vh-200px)] overflow-y-auto">
+          {/* Debug info */}
+          <div className="text-xs text-gray-500 mb-2">
+            User: {user?.role} | Plan: {user?.planType}
+          </div>
           {navigationCategories
             .filter(category => canAccessItem(category))
             .map((category) => {
