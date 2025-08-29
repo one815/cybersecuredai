@@ -590,7 +590,7 @@ export default function Leadership() {
                   <DialogTrigger asChild>
                     <Card className="bg-midnight-800/40 border-midnight-600 hover:border-spring-400/50 transition-all duration-300 group cursor-pointer" data-testid={`cert-card-${index}`}>
                       <div className="relative p-4 bg-midnight-900/30">
-                        <div className="flex justify-center items-center h-16 mb-4 overflow-hidden rounded-md bg-gray-50 dark:bg-gray-800">
+                        <div className="flex justify-center items-center h-16 mb-4 overflow-hidden rounded-md">
                           <img 
                             src={cert.image} 
                             alt={cert.title}
