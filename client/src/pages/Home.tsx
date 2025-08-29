@@ -496,13 +496,14 @@ export default function Home() {
               {/* Single Sign-On with 4D Visual */}
               <Card className="holographic-card border-cyan-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
-                  {/* 4D SSO Visual Element */}
-                  <div className="p-3 bg-cyan-500/20 rounded-lg mb-4">
-                    <Shield className="w-8 h-8 text-cyan-400 glass-icon" />
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-3 bg-cyan-500/20 rounded-lg">
+                      <Shield className="w-8 h-8 text-cyan-400 glass-icon" />
+                    </div>
+                    <CardTitle className="text-cyan-300 font-bold">
+                      <span className="neon-glow">Single Sign-On (SSO)</span>
+                    </CardTitle>
                   </div>
-                  <CardTitle className="text-cyan-300 font-bold">
-                    <span className="neon-glow">Single Sign-On (SSO)</span>
-                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
@@ -529,13 +530,14 @@ export default function Home() {
               {/* AES-256 Encryption with 4D Visual */}
               <Card className="holographic-card border-purple-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
-                  {/* 4D AES-256 Visual Element */}
-                  <div className="p-3 bg-purple-500/20 rounded-lg mb-4">
-                    <Lock className="w-8 h-8 text-purple-400 glass-icon" />
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-3 bg-purple-500/20 rounded-lg">
+                      <Lock className="w-8 h-8 text-purple-400 glass-icon" />
+                    </div>
+                    <CardTitle className="text-purple-300 font-bold">
+                      <span className="neon-glow">AES-256 Encryption</span>
+                    </CardTitle>
                   </div>
-                  <CardTitle className="text-purple-300 font-bold">
-                    <span className="neon-glow">AES-256 Encryption</span>
-                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-3 text-gray-300">
@@ -603,7 +605,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (3)_1756397271073.png"}
+                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756395725866.png"}
                       alt="SOC 2 TYPE II Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -634,12 +636,9 @@ export default function Home() {
                   <div className="text-gray-400 text-xs text-center">Federal Security</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
-                    <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/ISO 27001 (3)_1756397274502.png"}
-                      alt="ISO 27001 Certification Badge"
-                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
-                    />
+                  <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mb-3 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
+                    <Award className="w-10 h-10 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
                   </div>
                   <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
                   <div className="text-gray-400 text-xs text-center">Info Security Mgmt</div>
