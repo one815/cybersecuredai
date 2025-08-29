@@ -1595,7 +1595,7 @@ export default function Dashboard() {
                   ))}
 
                   {/* Files from API */}
-                  {recentFiles.slice(0, 3 - uploadedFiles.length).map((file: any, index: number) => {
+                  {(recentFiles as any[]).slice(0, 3 - uploadedFiles.length).map((file: any, index: number) => {
                     const getClassificationColor = (classification: string) => {
                       switch (classification?.toLowerCase()) {
                         case 'confidential':
@@ -1660,7 +1660,7 @@ export default function Dashboard() {
                   })}
 
                   {/* Show message if no files */}
-                  {uploadedFiles.length === 0 && recentFiles.length === 0 && (
+                  {uploadedFiles.length === 0 && (recentFiles as any[]).length === 0 && (
                     <div className="text-center py-6 text-gray-500">
                       <FileText className="w-8 h-8 mx-auto mb-2 opacity-50" />
                       <p className="text-sm">No files uploaded yet</p>
