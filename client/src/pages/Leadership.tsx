@@ -34,10 +34,22 @@ import {
   Calendar
 } from "lucide-react";
 
-// Import professional cybersecurity leadership images
-import leadershipImg from "@assets/generated_images/Cybersecurity_Podcast_Studio_526ffd72.png";
-import teamMeetingImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
-import innovationImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
+// Import actual team member images
+import camiliaAndersonImg from "@assets/Cam Anderson_1756499473679.png";
+import sarahChenImg from "@assets/sarah chen_1755570546394-4EiDD6VF_1756499473681.jpg";
+import aaliaZehadImg from "@assets/Aalia Zehad_1755637650860-tHJQ1e2o_1756499456528.png";
+import lucasLopezImg from "@assets/Lucas Lopez_1755637446828-M7ssez1M_1756499473681.png";
+import asalahMahmoudImg from "@assets/Asalah_1755637477390-DWaFAG2I_1756499456529.png";
+import brookeHoldenImg from "@assets/Brooke Holden_1755637604947-DoHXk2uj_1756499473679.png";
+import gregoriaNwagmeImg from "@assets/Gregoria Nwagme_1755637508727-rstyc_hQ_1756499473680.png";
+import hunterAndersonImg from "@assets/Hunter_1755637533530-DKmXNlKX_1756499473680.png";
+import brookeCarlisleImg from "@assets/Brooke Carlisle_1755637579700-CVlVgNk__1756499473677.png";
+import maureenDizonImg from "@assets/Maureen_1755638662476-meVEN9Za_1756499473681.png";
+import ceciliaSimpsonImg from "@assets/Cecilia Sampson_1756499473680.png";
+
+// Import certification and award images
+import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
+import bcbsAwardImg from "@assets/BCBS North Carolina_1756499508608.jpg";
 
 export default function Leadership() {
   // Camtivates team adapted for CyberSecure AI
@@ -65,7 +77,7 @@ export default function Leadership() {
         "Maintained 99.9% system uptime by optimizing security processes",
         "Secured $2.4M in cybersecurity funding for educational protection initiatives"
       ],
-      image: leadershipImg
+      image: camiliaAndersonImg
     }
   ];
 
@@ -76,7 +88,7 @@ export default function Leadership() {
       subtitle: "Former Google AI/ML Security Researcher",
       bio: "Bringing world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecure AI.",
       specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Google Security Alumni"],
-      image: innovationImg
+      image: sarahChenImg
     }
   ];
 
@@ -91,7 +103,7 @@ export default function Leadership() {
         "Ensures alignment with FERPA, FISMA, and CIPA standards", 
         "Formulates effective AI ethics strategies for educational security"
       ],
-      image: teamMeetingImg
+      image: aaliaZehadImg
     },
     {
       name: "L. Lucas Lopez, P.E.",
@@ -103,7 +115,7 @@ export default function Leadership() {
         "Ensuring cybersecurity project quality standards in AI development",
         "Translating complex security specifications into actionable defense systems"
       ],
-      image: innovationImg
+      image: lucasLopezImg
     },
     {
       name: "Dr. Asalah Mahmoud", 
@@ -115,7 +127,7 @@ export default function Leadership() {
         "Conducts research on machine learning applications in cybersecurity",
         "Focuses on ethical AI implications and societal impact in education"
       ],
-      image: leadershipImg
+      image: asalahMahmoudImg
     },
     {
       name: "Brooke Holden",
@@ -127,7 +139,7 @@ export default function Leadership() {
         "Oversee the visual identity of CyberSecure AI brand",
         "Maintain cohesive and easily identifiable security-focused image"
       ],
-      image: teamMeetingImg
+      image: brookeHoldenImg
     },
     {
       name: "Gregoria Nwagme",
@@ -139,7 +151,7 @@ export default function Leadership() {
         "Ensuring team adherence to security interface design quality standards",
         "Communicating client security specifications to development teams"
       ],
-      image: innovationImg
+      image: gregoriaNwagmeImg
     },
     {
       name: "Hunter Anderson",
@@ -151,7 +163,7 @@ export default function Leadership() {
         "Implement robust security controls and threat detection systems",
         "Maintain high-availability security infrastructure for educational institutions"
       ],
-      image: leadershipImg
+      image: hunterAndersonImg
     },
     {
       name: "Brooke Carlisle",
@@ -163,7 +175,7 @@ export default function Leadership() {
         "Ensuring team adherence to environmental and security standards",
         "Communicating sustainability goals in cybersecurity to development teams"
       ],
-      image: teamMeetingImg
+      image: brookeCarlisleImg
     },
     {
       name: "Maureen Dizon",
@@ -175,10 +187,10 @@ export default function Leadership() {
         "Ensure consistent security messaging across all channels in collaboration with IT and security teams",
         "Drive comprehensive cybersecurity marketing strategies for educational client success"
       ],
-      image: innovationImg
+      image: maureenDizonImg
     },
     {
-      name: "Ally Carson",
+      name: "Cecilia Simpson",
       title: "Cybersecurity Success Manager",
       experience: "8+ Years",
       education: "Business Administration - Customer Success", 
@@ -187,7 +199,7 @@ export default function Leadership() {
         "Managing client security onboarding and success workflows",
         "Building long-term cybersecurity relationships and driving client retention"
       ],
-      image: leadershipImg
+      image: ceciliaSimpsonImg
     }
   ];
 
@@ -196,19 +208,58 @@ export default function Leadership() {
       title: "Rising Star Award",
       subtitle: "Gold Winner - The Learning Awards",
       description: "Recognized for exceptional innovation in AI-powered cybersecurity solutions and outstanding leadership in driving digital security transformation for educational institutions.",
-      image: "🏆"
+      image: risingStarAwardImg
     },
     {
-      title: "Achievers' League", 
-      subtitle: "Above Recognition Beyond Rewards",
-      description: "Honored for exceptional performance in delivering measurable cybersecurity ROI and pioneering data-driven security strategies for enterprise educational clients.",
-      image: "🥇"
+      title: "Best Track Network - Data",
+      subtitle: "BCBS North Carolina HCL Award", 
+      description: "Achieved excellence in network data security and analytics for enterprise healthcare data protection systems.",
+      image: bcbsAwardImg
+    }
+  ];
+
+  // Camilia Anderson's Professional Certifications
+  const camiliasCertifications = [
+    {
+      title: "Project Management Professional (PMP)®",
+      organization: "Project Management Institute",
+      description: "Global certification for project management excellence and organizational objective achievement.",
+      category: "Project Management"
     },
     {
-      title: "Best Security Network",
-      subtitle: "Educational Institution Data Security Award",
-      description: "Achieved top performance in security data analytics and network optimization, delivering superior results in educational cybersecurity initiatives.",
-      image: "🛡️"
+      title: "Microsoft Certified: Azure Security Engineer Associate", 
+      organization: "Microsoft",
+      validUntil: "March 03, 2026",
+      description: "Advanced certification in Azure security architecture and implementation.",
+      category: "Cloud Security"
+    },
+    {
+      title: "Microsoft Certified: Azure Developer Associate",
+      organization: "Microsoft", 
+      validUntil: "May 24, 2026",
+      description: "Expert-level Azure development and cloud solution architecture.",
+      category: "Cloud Development"
+    },
+    {
+      title: "Google Cloud Certified Professional Cloud Security Engineer",
+      organization: "Google Cloud",
+      validUntil: "August 05, 2026", 
+      certificationId: "90zcfz",
+      description: "Advanced certification in Google Cloud security architecture and best practices.",
+      category: "Cloud Security"
+    },
+    {
+      title: "VMware Certified Professional - Network Virtualization 2021",
+      organization: "VMware",
+      description: "Professional certification in network virtualization and VMware infrastructure.",
+      category: "Network Infrastructure"
+    },
+    {
+      title: "Certified Digital Marketing Professional",
+      organization: "Digital Marketing Institute / American Marketing Association",
+      graduateNo: "IE-DMI287777",
+      description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
+      category: "Marketing & Strategy"
     }
   ];
 
@@ -447,6 +498,70 @@ export default function Leadership() {
           </div>
         </div>
 
+        {/* Camilia Anderson's Professional Certifications */}
+        <div className="py-20 bg-midnight-950/30">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <Badge className="bg-spring-500/20 text-spring-400 border-spring-500/30 mb-6">
+                <Enhanced4DStarIcon className="glass-icon w-4 h-4 mr-2" size={16} />
+                Professional Excellence
+              </Badge>
+              <h2 className="text-4xl font-bold mb-4 text-white">Camilia Anderson's Professional Certifications</h2>
+              <p className="text-gray-400 text-lg max-w-3xl mx-auto">
+                A comprehensive portfolio of industry-leading certifications spanning cybersecurity, cloud architecture, AI development, and strategic project management.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {camiliasCertifications.map((cert, index) => (
+                <Card key={index} className="bg-midnight-800/40 border-midnight-600 hover:border-spring-400/50 transition-all duration-300 group">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <Badge variant="outline" className="bg-spring-500/10 border-spring-400/30 text-spring-400">
+                        {cert.category}
+                      </Badge>
+                      {cert.validUntil && (
+                        <Badge className="bg-cyber-blue-500/20 text-cyber-blue-400 border-cyber-blue-500/30 text-xs">
+                          Valid until {cert.validUntil}
+                        </Badge>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-spring-400 transition-colors">
+                      {cert.title}
+                    </h3>
+                    <p className="text-spring-400 font-semibold text-sm mb-3">{cert.organization}</p>
+                    <p className="text-gray-300 text-sm leading-relaxed mb-4">{cert.description}</p>
+                    {cert.certificationId && (
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
+                        <span>Certification ID: {cert.certificationId}</span>
+                      </div>
+                    )}
+                    {cert.graduateNo && (
+                      <div className="flex items-center gap-2 text-xs text-gray-400">
+                        <Enhanced4DCheckCircleIcon className="glass-icon w-3 h-3" size={12} />
+                        <span>Graduate No: {cert.graduateNo}</span>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <Card className="bg-gradient-to-r from-spring-900/20 to-cyber-blue-900/20 border-spring-500/30 inline-block">
+                <CardContent className="p-8">
+                  <Enhanced4DStarIcon className="glass-icon mx-auto mb-4" size={48} />
+                  <h3 className="text-2xl font-bold text-white mb-2">Continuous Professional Development</h3>
+                  <p className="text-gray-300 max-w-2xl">
+                    Camilia maintains her expertise through ongoing certification renewals and advanced training programs, ensuring CyberSecure AI stays at the forefront of cybersecurity innovation.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+
         {/* Awards & Recognition */}
         <div className="py-16 bg-midnight-900/50">
           <div className="container mx-auto px-6">
@@ -457,14 +572,22 @@ export default function Leadership() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {awards.map((award, index) => (
-                <Card key={index} className="bg-gradient-to-br from-spring-900/20 to-cyber-blue-900/20 border-spring-500/30 text-center">
+                <Card key={index} className="bg-gradient-to-br from-spring-900/20 to-cyber-blue-900/20 border-spring-500/30">
                   <CardContent className="p-8">
-                    <div className="text-6xl mb-4">{award.image}</div>
-                    <h3 className="text-xl font-bold text-white mb-2">{award.title}</h3>
-                    <p className="text-spring-400 font-semibold mb-4">{award.subtitle}</p>
-                    <p className="text-gray-300 text-sm leading-relaxed">{award.description}</p>
+                    <div className="flex items-center justify-center mb-6">
+                      <img 
+                        src={award.image} 
+                        alt={award.title}
+                        className="max-h-32 w-auto object-contain"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <h3 className="text-xl font-bold text-white mb-2">{award.title}</h3>
+                      <p className="text-spring-400 font-semibold mb-4">{award.subtitle}</p>
+                      <p className="text-gray-300 text-sm leading-relaxed">{award.description}</p>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
