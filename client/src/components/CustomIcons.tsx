@@ -616,184 +616,107 @@ export const CustomLocationIcon: React.FC<CustomIconProps> = ({ className, size 
 
 // Enhanced 4D Lock Icon with glass morphism effects matching home page cards
 export const Enhanced4DLockIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' 
-      }}
-    >
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(168, 85, 247, 0.2)"/>
-      <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" fill="none"/>
-      <circle cx="12" cy="16" r="1.5" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(168, 85, 247, 0.2)"/>
+    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <circle cx="12" cy="16" r="1.5" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D Shield Icon with glass morphism effects
 export const Enhanced4DShieldIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.4))' 
-      }}
-    >
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
-      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none" className="animate-pulse"/>
-      <circle cx="12" cy="12" r="1" fill="rgba(34, 197, 94, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-cyan-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
+    <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none" className="animate-pulse"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D Bot Icon with glass morphism effects
 export const Enhanced4DBotIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 15px rgba(59, 130, 246, 0.4))' 
-      }}
-    >
-      <rect x="3" y="8" width="18" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(59, 130, 246, 0.2)"/>
-      <circle cx="12" cy="2" r="1" stroke="currentColor" strokeWidth="2" fill="rgba(59, 130, 246, 0.8)"/>
-      <path d="M9 16l2-2 2 2" stroke="currentColor" strokeWidth="2" fill="none"/>
-      <circle cx="8" cy="14" r="1" fill="rgba(59, 130, 246, 0.8)" className="animate-pulse"/>
-      <circle cx="16" cy="14" r="1" fill="rgba(59, 130, 246, 0.8)" className="animate-pulse" style={{ animationDelay: '0.5s' }}/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <rect x="3" y="8" width="18" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(59, 130, 246, 0.2)"/>
+    <circle cx="12" cy="2" r="1" stroke="currentColor" strokeWidth="2" fill="currentColor"/>
+    <path d="M9 16l2-2 2 2" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <circle cx="8" cy="14" r="1" fill="currentColor" className="animate-pulse"/>
+    <circle cx="16" cy="14" r="1" fill="currentColor" className="animate-pulse" style={{ animationDelay: '0.5s' }}/>
+  </svg>
 );
 
 // Enhanced 4D Eye Icon with glass morphism effects
 export const Enhanced4DEyeIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.4))' 
-      }}
-    >
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.1)"/>
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
-      <circle cx="12" cy="12" r="1" fill="rgba(34, 197, 94, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-cyan-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.1)"/>
+    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D Target Icon with glass morphism effects
 export const Enhanced4DTargetIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(239, 68, 68, 0.6)) drop-shadow(0 0 15px rgba(239, 68, 68, 0.4))' 
-      }}
-    >
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="rgba(239, 68, 68, 0.1)"/>
-      <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="2" fill="rgba(239, 68, 68, 0.2)"/>
-      <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="2" fill="rgba(239, 68, 68, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-red-400/20 to-orange-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(239, 68, 68, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="rgba(239, 68, 68, 0.1)"/>
+    <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="2" fill="rgba(239, 68, 68, 0.2)"/>
+    <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="2" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D Zap Icon with glass morphism effects
 export const Enhanced4DZapIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.6)) drop-shadow(0 0 15px rgba(245, 158, 11, 0.4))' 
-      }}
-    >
-      <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" stroke="currentColor" strokeWidth="2" fill="rgba(245, 158, 11, 0.2)"/>
-      <circle cx="12" cy="12" r="1" fill="rgba(245, 158, 11, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" stroke="currentColor" strokeWidth="2" fill="rgba(245, 158, 11, 0.2)"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D Activity Icon with glass morphism effects
 export const Enhanced4DActivityIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg glass-icon"
-      style={{ 
-        filter: 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.6)) drop-shadow(0 0 15px rgba(34, 197, 94, 0.4))' 
-      }}
-    >
-      <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" strokeWidth="2" fill="none"/>
-      <circle cx="12" cy="12" r="1" fill="rgba(34, 197, 94, 0.8)" className="animate-pulse"/>
-    </svg>
-    <div 
-      className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-cyan-400/20 rounded-lg animate-pulse"
-      style={{ 
-        background: 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.3), transparent 70%)'
-      }}
-    />
-  </div>
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    className={`glass-icon ${className}`}
+  >
+    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <circle cx="12" cy="12" r="1" fill="currentColor" className="animate-pulse"/>
+  </svg>
 );
 
 // Enhanced 4D File/Document Icon with glass morphism effects
