@@ -29,7 +29,11 @@ import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
   CustomTargetIcon,
-  CustomShieldIcon
+  CustomShieldIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DActivityIcon
 } from "@/components/CustomIcons";
 
 export default function ThreatIntelligence() {
@@ -146,7 +150,7 @@ export default function ThreatIntelligence() {
               <div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent flex items-center space-x-2">
                   <span>Threat Intelligence</span>
-                  <Shield className="w-6 h-6 text-red-400" />
+                  <Enhanced4DShieldIcon className="w-6 h-6 text-red-400" size={24} />
                   <AlertTriangle className="w-6 h-6 text-orange-400" />
                 </h2>
                 <p className="text-gray-400 flex items-center space-x-2">
@@ -223,7 +227,7 @@ export default function ThreatIntelligence() {
           <Card className="bg-surface/80 backdrop-blur-md border border-green-500/30 cyber-glow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <Shield className="w-8 h-8 text-green-400" />
+                <Enhanced4DShieldIcon className="w-8 h-8 text-green-400" size={32} />
                 <Badge className="bg-green-600">Protected</Badge>
               </div>
               <div className="text-3xl font-bold text-white mb-2">1,247</div>
@@ -240,7 +244,7 @@ export default function ThreatIntelligence() {
               Intelligence Feeds
             </TabsTrigger>
             <TabsTrigger value="threats" className="data-[state=active]:bg-orange-600">
-              <Target className="w-4 h-4 mr-2" />
+              <Enhanced4DTargetIcon className="w-4 h-4 mr-2" size={16} />
               Active Threats
             </TabsTrigger>
             <TabsTrigger value="analysis" className="data-[state=active]:bg-purple-600">
@@ -383,7 +387,7 @@ export default function ThreatIntelligence() {
                         <div className="flex justify-between items-center">
                           <div className="flex space-x-2">
                             <Button size="sm" className="bg-red-600 hover:bg-red-700">
-                              <Eye className="w-4 h-4 mr-2" />
+                              <Enhanced4DEyeIcon className="w-4 h-4 mr-2" size={16} />
                               Investigate
                             </Button>
                             <Button size="sm" variant="outline">
@@ -453,7 +457,7 @@ export default function ThreatIntelligence() {
               <Card className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-white flex items-center">
-                    <Activity className="w-5 h-5 mr-2 text-cyan-400" />
+                    <Enhanced4DActivityIcon className="w-5 h-5 mr-2 text-cyan-400" size={20} />
                     Intelligence Metrics
                   </CardTitle>
                 </CardHeader>

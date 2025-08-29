@@ -18,7 +18,10 @@ import {
   CustomBrainIcon,
   CustomGraduationCapIcon,
   CustomFlagIcon,
-  CustomZapIcon
+  CustomZapIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DBrainIcon,
+  Enhanced4DZapIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -363,7 +366,7 @@ export default function Pricing() {
                       <Card className="bg-slate-700/60 border border-cyan-500/30">
                         <CardContent className="p-6">
                           <div className="flex items-center mb-4">
-                            <Shield className="w-8 h-8 text-cyan-400 mr-3" />
+                            <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400 mr-3" size={32} />
                             <div>
                               <h4 className="text-white font-semibold">Government Community Cloud Integration</h4>
                               <p className="text-cyan-400 font-bold">Contact for Pricing</p>
@@ -466,12 +469,12 @@ export default function Pricing() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                   <div className="text-center">
-                    <CustomShieldIcon className="w-16 h-16 text-green-400 mx-auto mb-4" size={64} />
+                    <Enhanced4DShieldIcon className="w-16 h-16 text-green-400 mx-auto mb-4" size={64} />
                     <h4 className="text-xl font-bold text-white mb-2">Proven Protection</h4>
                     <p className="text-gray-300">99.7% threat detection accuracy with industry-leading response times</p>
                   </div>
                   <div className="text-center">
-                    <CustomBrainIcon className="w-16 h-16 text-purple-400 mx-auto mb-4" size={64} />
+                    <Enhanced4DBrainIcon className="w-16 h-16 text-purple-400 mx-auto mb-4" size={64} />
                     <h4 className="text-xl font-bold text-white mb-2">AI Innovation</h4>
                     <p className="text-gray-300">Eight core AI engines working together for maximum effectiveness</p>
                   </div>

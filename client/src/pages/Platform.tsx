@@ -28,7 +28,17 @@ import {
   CustomEyeIcon,
   CustomZapIcon,
   CustomDatabaseIcon,
-  CustomFileTextIcon
+  CustomFileTextIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DBotIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
+  Enhanced4DFileIcon,
+  Enhanced4DGlobeIcon,
+  Enhanced4DServerIcon
 } from "@/components/CustomIcons";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link, useLocation } from "wouter";
@@ -61,7 +71,7 @@ export default function Platform() {
     {
       title: "AI-Enhanced Predictive Risk Analysis",
       description: "Machine learning risk assessment and vulnerability prediction",
-      icon: <CustomTargetIcon className="w-8 h-8 text-cyan-400" size={32} />,
+      icon: <Enhanced4DTargetIcon className="w-8 h-8 text-cyan-400" size={32} />,
       color: "border-cyan-500/30",
       features: [
         "Continuous asset discovery",
@@ -75,7 +85,7 @@ export default function Platform() {
     {
       title: "AI-Based User Behavior Analytics",
       description: "Advanced insider threat detection and user monitoring",
-      icon: <CustomEyeIcon className="w-8 h-8 text-purple-400" size={32} />,
+      icon: <Enhanced4DEyeIcon className="w-8 h-8 text-purple-400" size={32} />,
       color: "border-purple-500/30",
       features: [
         "Real-time user monitoring",
@@ -89,7 +99,7 @@ export default function Platform() {
     {
       title: "Interactive 5D Security Visualization",
       description: "Immersive security data visualization and threat exploration",
-      icon: <Globe className="w-8 h-8 text-green-400" />,
+      icon: <Enhanced4DGlobeIcon className="w-8 h-8 text-green-400" size={32} />,
       color: "border-green-500/30",
       features: [
         "5D threat visualization",
@@ -103,7 +113,7 @@ export default function Platform() {
     {
       title: "Cloud Integration Engine",
       description: "Multi-provider cloud security with FedRAMP compliance",
-      icon: <Server className="w-8 h-8 text-blue-400" />,
+      icon: <Enhanced4DServerIcon className="w-8 h-8 text-blue-400" size={32} />,
       color: "border-blue-500/30",
       features: [
         "Multi-cloud monitoring",
@@ -117,7 +127,7 @@ export default function Platform() {
     {
       title: "AI-Based Compliance Automation",
       description: "Automated regulatory compliance with continuous monitoring",
-      icon: <CustomFileTextIcon className="w-8 h-8 text-yellow-400" size={32} />,
+      icon: <Enhanced4DFileIcon className="w-8 h-8 text-yellow-400" size={32} />,
       color: "border-yellow-500/30",
       features: [
         "FERPA/FISMA/CIPA automation", 
@@ -434,7 +444,7 @@ export default function Platform() {
             <Tabs defaultValue="security" className="max-w-6xl mx-auto">
               <TabsList className="grid w-full grid-cols-3 mb-12 bg-slate-700">
                 <TabsTrigger value="security" className="data-[state=active]:bg-red-600 text-lg py-4">
-                  <CustomShieldIcon className="w-6 h-6 mr-2" size={24} />
+                  <Enhanced4DShieldIcon className="w-6 h-6 mr-2" size={24} />
                   Security Core
                 </TabsTrigger>
                 <TabsTrigger value="intelligence" className="data-[state=active]:bg-cyan-600 text-lg py-4">
