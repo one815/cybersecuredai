@@ -131,7 +131,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4 text-lg"
-                  onClick={() => window.open('/platform', '_blank')}
+                  onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   See how we lead
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -654,7 +654,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="button-4d px-8 py-4 text-lg"
-                onClick={() => setLocation('/demos/biometric-authentication')}
+                onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
               >
                 Experience Secure Authentication
                 <Shield className="ml-2 w-5 h-5 icon-3d" />
@@ -935,7 +935,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-10 py-4 text-lg"
-                  onClick={() => setLocation('/platform-demo')}
+                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Watch Demo
                   <CustomActivityIcon className="ml-2 w-6 h-6" size={24} />
@@ -943,7 +943,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-10 py-4 text-lg"
-                  onClick={() => setLocation('/security-scanner')}
+                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Try Free Security Scan
                   <CustomTargetIcon className="ml-2 w-6 h-6" size={24} />
@@ -1019,7 +1019,7 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     className="button-4d px-8 py-3"
-                    onClick={() => setLocation('/platform-tour')}
+                    onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                   >
                     Take a product tour
                   </Button>
