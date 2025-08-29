@@ -50,9 +50,9 @@ export default function Services() {
       description: "Proactive AI-powered threat hunting that identifies potential threats before they manifest",
       icon: <CustomEyeIcon className="w-8 h-8 text-red-400" size={32} />,
       features: [
-        "Real-time threat detection and analysis",
-        "Behavioral analytics for anomaly detection",
-        "Automated threat intelligence integration",
+        "PyMISP-powered real-time threat detection and analysis",
+        "CIRCL-enhanced behavioral analytics for anomaly detection",
+        "Multi-source threat intelligence integration (CIRCL + MISP)",
         "Predictive threat modeling",
         "Continuous monitoring and response",
         "AI-enhanced investigation tools"
