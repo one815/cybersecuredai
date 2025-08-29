@@ -636,7 +636,7 @@ export default function Home() {
                   <div className="text-gray-400 text-xs text-center">Federal Security</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-24 h-24 flex items-center justify-center mb-3">
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
                       src={import.meta.env.BASE_URL + "attached_assets/ISO certified 2_1756459077090.png"}
                       alt="ISO 27001 Certification Badge"
