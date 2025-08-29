@@ -5,7 +5,7 @@ import path from "path";
 import multer from "multer";
 import { storage } from "./storage";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema } from "@shared/schema";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
 import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
 import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
 import { complianceAutomationEngine } from "./engines/compliance-automation";
@@ -3967,6 +3967,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     };
 
     res.json({ authEvents, policyPoints, networkTopology, metrics });
+  });
+
+  // Subscriber routes for email capture
+  app.post("/api/subscribers", async (req, res) => {
+    try {
+      const subscriberData = insertSubscriberSchema.parse(req.body);
+      const subscriber = await storage.createSubscriber(subscriberData);
+      res.status(201).json(subscriber);
+    } catch (error) {
+      console.error("Error creating subscriber:", error);
+      res.status(400).json({ message: "Invalid subscriber data" });
+    }
+  });
+
+  app.get("/api/subscribers", async (req, res) => {
+    try {
+      const subscribers = await storage.getSubscribers();
+      res.json(subscribers);
+    } catch (error) {
+      console.error("Error fetching subscribers:", error);
+      res.status(500).json({ message: "Failed to fetch subscribers" });
+    }
+  });
+
+  app.post("/api/send-resource-email", async (req, res) => {
+    try {
+      const { email, name, resourceTitle, resourceId } = req.body;
+      
+      // For now, just log the email send
+      console.log(`📧 Would send ${resourceTitle} to ${email} (${name})`);
+      
+      // Update subscriber's downloaded resources
+      await storage.updateSubscriberDownload(email, resourceId);
+      
+      res.json({ success: true, message: "Email sent successfully" });
+    } catch (error) {
+      console.error("Error sending resource email:", error);
+      res.status(500).json({ message: "Failed to send email" });
+    }
   });
 
   // Marketing document routes

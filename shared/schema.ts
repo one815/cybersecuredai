@@ -308,6 +308,17 @@ export const userAchievementStats = pgTable("user_achievement_stats", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Email subscribers for marketing resources
+export const subscribers = pgTable("subscribers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  email: varchar("email").notNull().unique(),
+  subscribedToEmails: boolean("subscribed_to_emails").notNull().default(true),
+  downloadedResources: jsonb("downloaded_resources").notNull().default('[]'), // Array of resource IDs
+  createdAt: timestamp("created_at").defaultNow(),
+  lastDownloadAt: timestamp("last_download_at"),
+});
+
 // Compliance Milestones
 export const complianceMilestones = pgTable("compliance_milestones", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -341,6 +352,11 @@ export const insertComplianceMilestoneSchema = createInsertSchema(complianceMile
   achievedAt: true,
 });
 
+export const insertSubscriberSchema = createInsertSchema(subscribers).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type AchievementBadge = typeof achievementBadges.$inferSelect;
 export type InsertAchievementBadge = z.infer<typeof insertAchievementBadgeSchema>;
 export type UserBadge = typeof userBadges.$inferSelect;
@@ -349,3 +365,5 @@ export type UserAchievementStats = typeof userAchievementStats.$inferSelect;
 export type InsertUserAchievementStats = z.infer<typeof insertUserAchievementStatsSchema>;
 export type ComplianceMilestone = typeof complianceMilestones.$inferSelect;
 export type InsertComplianceMilestone = z.infer<typeof insertComplianceMilestoneSchema>;
+export type Subscriber = typeof subscribers.$inferSelect;
+export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
