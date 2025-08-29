@@ -63,16 +63,13 @@ import azureDeveloperCertImg from "@assets/Microsoft Azure Dev 2_1755634405250-D
 const vmwareCertImg = null;
 const digitalMarketingCertImg = null;
 
-// Create placeholder images for certifications (since PDFs can't be displayed directly)
-const certificationPlaceholder = "data:image/svg+xml;base64," + btoa(`
-<svg width="200" height="150" xmlns="http://www.w3.org/2000/svg">
-  <rect width="200" height="150" fill="#1a365d" stroke="#38a169" stroke-width="2" rx="8"/>
-  <text x="100" y="75" text-anchor="middle" fill="#38a169" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CERTIFICATION</text>
-  <text x="100" y="95" text-anchor="middle" fill="#68d391" font-family="Arial, sans-serif" font-size="10">Click to View Document</text>
-  <circle cx="100" cy="115" r="8" fill="#38a169" opacity="0.6"/>
-  <text x="100" y="119" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8">PDF</text>
-</svg>
-`);
+// Import certification preview images
+import azureSecurityPreviewImg from "@assets/IMG_0355_1756165940504.png";
+import googleCloudPreviewImg from "@assets/IMG_0356_1756166020580.png";
+import vmwarePreviewImg from "@assets/IMG_0357_1756169617269.png";
+import pmpPreviewImg from "@assets/IMG_0358_1756171132593.png";
+import azureDeveloperPreviewImg from "@assets/IMG_0359_1756175262723.png";
+import digitalMarketingPreviewImg from "@assets/IMG_0360_1756175262723.png";
 
 export default function Leadership() {
   // Camtivates team adapted for CyberSecure AI
@@ -254,7 +251,7 @@ export default function Leadership() {
       organization: "Project Management Institute",
       description: "Global certification for project management excellence and organizational objective achievement.",
       category: "Project Management",
-      image: certificationPlaceholder,
+      image: pmpPreviewImg,
       documentUrl: pmpCertImg,
       isDocument: true
     },
@@ -264,7 +261,7 @@ export default function Leadership() {
       validUntil: "March 03, 2026",
       description: "Advanced certification in Azure security architecture and implementation.",
       category: "Cloud Security",
-      image: certificationPlaceholder,
+      image: azureSecurityPreviewImg,
       documentUrl: azureSecurityCertImg,
       isDocument: true
     },
@@ -274,7 +271,7 @@ export default function Leadership() {
       validUntil: "May 24, 2026",
       description: "Expert-level Azure development and cloud solution architecture.",
       category: "Cloud Development",
-      image: certificationPlaceholder,
+      image: azureDeveloperPreviewImg,
       documentUrl: azureDeveloperCertImg,
       isDocument: true
     },
@@ -285,7 +282,7 @@ export default function Leadership() {
       certificationId: "90zcfz",
       description: "Advanced certification in Google Cloud security architecture and best practices.",
       category: "Cloud Security",
-      image: certificationPlaceholder,
+      image: googleCloudPreviewImg,
       documentUrl: googleCloudCertImg,
       isDocument: true
     },
@@ -294,7 +291,7 @@ export default function Leadership() {
       organization: "VMware",
       description: "Professional certification in network virtualization and VMware infrastructure.",
       category: "Network Infrastructure",
-      image: certificationPlaceholder,
+      image: vmwarePreviewImg,
       documentUrl: vmwareCertImg,
       isDocument: true
     },
@@ -304,7 +301,7 @@ export default function Leadership() {
       graduateNo: "IE-DMI287777",
       description: "AMA Professional Certified Marketer (PCM) in Digital Marketing with SCQF accreditation.",
       category: "Marketing & Strategy",
-      image: certificationPlaceholder,
+      image: digitalMarketingPreviewImg,
       documentUrl: digitalMarketingCertImg,
       isDocument: true
     }
@@ -650,21 +647,13 @@ export default function Leadership() {
                       </div>
                       <div className="flex flex-col items-center justify-center space-y-4">
                         <div className="w-full bg-white/5 rounded-lg p-8 flex flex-col items-center justify-center min-h-[300px]">
-                          {cert.isDocument ? (
-                            <>
-                              <Enhanced4DExternalLinkIcon className="glass-icon w-16 h-16 text-spring-400 mb-4" size={64} />
-                              <p className="text-center text-gray-300 mb-4">PDF Certificate Document</p>
-                              <p className="text-xs text-gray-400 text-center mb-6">Click below to view the full certification document</p>
-                            </>
-                          ) : (
-                            <img 
-                              src={cert.image} 
-                              alt={cert.title}
-                              className="max-w-full max-h-64 object-contain rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 cursor-zoom-in"
-                              onClick={() => window.open(cert.image, '_blank')}
-                              data-testid={`cert-zoom-image-${index}`}
-                            />
-                          )}
+                          <img 
+                            src={cert.image} 
+                            alt={cert.title}
+                            className="max-w-full max-h-64 object-contain rounded-lg shadow-lg hover:scale-110 transition-transform duration-300 cursor-zoom-in border border-spring-400/30"
+                            onClick={() => window.open(cert.documentUrl || cert.image, '_blank')}
+                            data-testid={`cert-zoom-image-${index}`}
+                          />
                         </div>
                         <Button 
                           onClick={() => window.open(cert.documentUrl || cert.image, '_blank')}
