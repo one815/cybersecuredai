@@ -493,16 +493,26 @@ export default function Home() {
 
             {/* Security Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {/* Single Sign-On */}
+              {/* Single Sign-On with 4D Visual */}
               <Card className="holographic-card border-cyan-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="relative p-4 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-xl border border-cyan-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-xl"></div>
-                      <div className="absolute top-1 left-1 w-2 h-2 bg-cyan-300 rounded-full opacity-60 animate-pulse"></div>
-                      <Shield className="w-8 h-8 text-cyan-300 relative z-10 filter drop-shadow-lg icon-3d" style={{filter: 'drop-shadow(0 0 10px rgba(34, 211, 238, 0.7))'}} />
+                  {/* 4D SSO Visual Element */}
+                  <div className="relative h-32 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 rounded-lg mb-6 overflow-hidden border border-cyan-500/20">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-400/20 via-transparent to-transparent"></div>
+                    <div className="absolute top-4 left-4 w-6 h-6 bg-cyan-400/60 rounded-full blur-sm animate-pulse"></div>
+                    <div className="absolute bottom-4 right-4 w-4 h-4 bg-blue-400/60 rounded-full blur-sm animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative transform-gpu hover:scale-110 transition-all duration-300">
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/30 to-blue-600/30 rounded-2xl blur-xl"></div>
+                        <div className="relative p-6 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-2xl border border-cyan-400/40 shadow-2xl backdrop-blur-sm">
+                          <Shield className="w-12 h-12 text-cyan-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 15px rgba(34, 211, 238, 0.8))'}} />
+                        </div>
+                      </div>
                     </div>
-                    <CardTitle className="text-cyan-300 font-bold">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent"></div>
+                  </div>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <CardTitle className="text-cyan-300 font-bold text-xl">
                       <span className="neon-glow">Single Sign-On (SSO)</span>
                     </CardTitle>
                   </div>
@@ -529,16 +539,27 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              {/* High-Level Encryption */}
+              {/* AES-256 Encryption with 4D Visual */}
               <Card className="holographic-card border-purple-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="relative p-4 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
-                      <div className="absolute top-1 right-1 w-2 h-2 bg-purple-300 rounded-full opacity-60 animate-pulse"></div>
-                      <Lock className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg metallic-icon" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                  {/* 4D AES-256 Visual Element */}
+                  <div className="relative h-32 bg-gradient-to-br from-purple-500/10 to-pink-600/10 rounded-lg mb-6 overflow-hidden border border-purple-500/20">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-400/20 via-transparent to-transparent"></div>
+                    <div className="absolute top-6 left-6 w-3 h-3 bg-purple-400/70 rounded-full blur-sm animate-bounce"></div>
+                    <div className="absolute bottom-6 left-6 w-2 h-2 bg-pink-400/70 rounded-full blur-sm animate-bounce" style={{animationDelay: '0.3s'}}></div>
+                    <div className="absolute top-6 right-6 w-2 h-2 bg-purple-300/70 rounded-full blur-sm animate-bounce" style={{animationDelay: '0.6s'}}></div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="relative transform-gpu hover:scale-110 transition-all duration-300">
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-400/30 to-pink-600/30 rounded-2xl blur-xl"></div>
+                        <div className="relative p-6 bg-gradient-to-br from-purple-500/20 to-pink-600/20 rounded-2xl border border-purple-400/40 shadow-2xl backdrop-blur-sm">
+                          <Lock className="w-12 h-12 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 15px rgba(168, 85, 247, 0.8))'}} />
+                        </div>
+                      </div>
                     </div>
-                    <CardTitle className="text-purple-300 font-bold">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-800/60 to-transparent"></div>
+                  </div>
+                  <div className="flex items-center space-x-3 mb-4">
+                    <CardTitle className="text-purple-300 font-bold text-xl">
                       <span className="neon-glow">AES-256 Encryption</span>
                     </CardTitle>
                   </div>
@@ -607,25 +628,34 @@ export default function Home() {
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto mb-8">
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-green-500/30 to-emerald-600/30 rounded-xl flex items-center justify-center mb-3 border border-green-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-transparent rounded-xl"></div>
-                    <Shield className="w-8 h-8 text-green-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.png"}
+                      alt="SOC 2 TYPE II Certification Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-green-400 font-bold text-sm">SOC 2 TYPE II</div>
                   <div className="text-gray-400 text-xs text-center">Certified Secure</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-xl flex items-center justify-center mb-3 border border-cyan-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/20 to-transparent rounded-xl"></div>
-                    <GraduationCap className="w-8 h-8 text-cyan-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 211, 238, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/ferpa compliant_1755703343167.png"}
+                      alt="FERPA Compliant Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-cyan-400 font-bold text-sm">FERPA</div>
                   <div className="text-gray-400 text-xs text-center">Education Privacy</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500/30 to-indigo-600/30 rounded-xl flex items-center justify-center mb-3 border border-blue-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-transparent rounded-xl"></div>
-                    <Building className="w-8 h-8 text-blue-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/fisme compliant_1755703347744.webp"}
+                      alt="FISMA Compliant Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-blue-400 font-bold text-sm">FISMA READY</div>
                   <div className="text-gray-400 text-xs text-center">Federal Security</div>
@@ -639,9 +669,12 @@ export default function Home() {
                   <div className="text-gray-400 text-xs text-center">Info Security Mgmt</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-orange-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-16 h-16 bg-gradient-to-br from-orange-500/30 to-red-600/30 rounded-xl flex items-center justify-center mb-3 border border-orange-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-transparent rounded-xl"></div>
-                    <CheckCircle className="w-8 h-8 text-orange-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(251, 146, 60, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/fedramp authorized_1755703346268.png"}
+                      alt="FedRAMP Authorized Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-orange-400 font-bold text-sm">FedRAMP</div>
                   <div className="text-gray-400 text-xs text-center">Gov Cloud Ready</div>
@@ -687,13 +720,24 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Educational Compliance Dashboard Visualization */}
+            {/* Educational Compliance Dashboard Visualization with 4D Visual */}
             <div className="max-w-5xl mx-auto mb-16">
-              <div className="relative bg-slate-800/80 rounded-xl p-8 border border-cyan-500/30 shadow-2xl">
-                <div className="text-center mb-8">
-                  <h4 className="text-2xl font-bold text-cyan-400 mb-4">Educational Threat Intelligence Dashboard</h4>
-                  <p className="text-gray-300">Real-time compliance monitoring for CIPA, FERPA, and FISMA requirements</p>
+              {/* Hero Visual - Educational Threat Intelligence */}
+              <div className="relative h-64 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden border border-cyan-500/30 shadow-2xl mb-6">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-cyan-400/10 via-transparent to-transparent"></div>
+                <img 
+                  src={import.meta.env.BASE_URL + "attached_assets/generated_images/Educational_Security_Guide_330f6e1c.png"}
+                  alt="Educational Threat Intelligence Dashboard"
+                  className="absolute inset-0 w-full h-full object-cover opacity-75 hover:opacity-90 transition-opacity duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+                <div className="absolute bottom-6 left-8 right-8">
+                  <h4 className="text-2xl font-bold text-cyan-400 mb-2">Educational Threat Intelligence Dashboard</h4>
+                  <p className="text-gray-300">PyMISP & CIRCL-enhanced real-time compliance monitoring for CIPA, FERPA, and FISMA requirements</p>
                 </div>
+              </div>
+              
+              <div className="relative bg-slate-800/80 rounded-xl p-8 border border-cyan-500/30 shadow-2xl">
                 
                 {/* Compliance Status Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

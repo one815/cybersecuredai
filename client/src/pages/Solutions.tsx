@@ -87,7 +87,7 @@ export default function Solutions() {
                   Institutions Secured.
                 </span>
               </h1>
-              <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
+              <p className="text-2xl md:text-3xl text-gray-100 mb-12 max-w-5xl mx-auto leading-relaxed">
                 Purpose-built cybersecurity solutions enhanced with PyMISP and CIRCL intelligence for educational institutions 
                 and government agencies, backed by our industry-proven, 24/7 AI-assisted SOC with advanced threat correlation.
               </p>
@@ -117,7 +117,7 @@ export default function Solutions() {
                   <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-300 text-lg">
+              <p className="text-gray-100 text-lg">
                 <strong>4.9/5 based on hundreds of customer reviews</strong>
               </p>
             </div>
@@ -135,7 +135,7 @@ export default function Solutions() {
                 AI-Powered Security<br />
                 <span className="text-cyan-400">Platform</span>
               </h2>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-12">
+              <p className="text-xl text-gray-100 max-w-4xl mx-auto mb-12">
                 Comprehensive AI-driven cybersecurity platform with advanced threat detection, automated compliance, and predictive analytics.
               </p>
             </div>
@@ -151,7 +151,7 @@ export default function Solutions() {
                   <CardTitle className="text-lg text-white mb-3">AI-Powered Threat Detection</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300">
+                  <ul className="space-y-2 text-sm text-gray-100">
                     <li>• Real-time threat monitoring</li>
                     <li>• Machine learning-based analysis</li>
                     <li>• Behavioral anomaly detection</li>
@@ -169,7 +169,7 @@ export default function Solutions() {
                   <CardTitle className="text-lg text-white mb-3">Automated Incident Response</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300">
+                  <ul className="space-y-2 text-sm text-gray-100">
                     <li>• AI-powered response system</li>
                     <li>• Customizable playbooks</li>
                     <li>• Automated containment</li>
@@ -187,7 +187,7 @@ export default function Solutions() {
                   <CardTitle className="text-lg text-white mb-3">Compliance Automation</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300">
+                  <ul className="space-y-2 text-sm text-gray-100">
                     <li>• FERPA, COPPA, CIPA automation</li>
                     <li>• FedRAMP, FISMA compliance</li>
                     <li>• Automated reporting</li>
@@ -205,7 +205,7 @@ export default function Solutions() {
                   <CardTitle className="text-lg text-white mb-3">Predictive Risk Analysis</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300">
+                  <ul className="space-y-2 text-sm text-gray-100">
                     <li>• Vulnerability prediction</li>
                     <li>• Risk scoring and prioritization</li>
                     <li>• Trend analysis</li>
@@ -227,41 +227,41 @@ export default function Solutions() {
                 Protection Level<br />
                 <span className="text-blue-400">Solutions</span>
               </h2>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              <p className="text-xl text-gray-100 max-w-4xl mx-auto">
                 Comprehensive cloud security packages designed for modern infrastructure.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="bg-slate-700/60 border border-blue-500/30">
+              <Card className="bg-slate-800/90 border border-blue-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core</Badge>
                   <CardTitle className="text-xl text-white mb-4">Essential Protection</CardTitle>
                   <div className="text-2xl font-bold text-blue-400 mb-2">Essential Protection</div>
-                  <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                  <p className="text-gray-200 text-sm font-medium">Professional cybersecurity solution</p>
                   <Badge className="mt-2 bg-blue-500/20 text-blue-300">250 Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Up to 250 users</span>
+                      <span className="text-gray-200 text-sm font-medium">Up to 250 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">PyMISP & CIRCL-enhanced threat detection</span>
+                      <span className="text-gray-200 text-sm font-medium">PyMISP & CIRCL-enhanced threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Basic incident response</span>
+                      <span className="text-gray-200 text-sm font-medium">Basic incident response</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
+                      <span className="text-gray-200 text-sm font-medium">FERPA/CIPA compliance</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Email & chat support</span>
+                      <span className="text-gray-200 text-sm font-medium">Email & chat support</span>
                     </li>
                   </ul>
                   <Button 
@@ -273,7 +273,7 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+              <Card className="bg-slate-800/90 border border-purple-500/30 relative">
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                   <Badge className="bg-purple-600 text-white">Popular</Badge>
                 </div>
@@ -281,30 +281,30 @@ export default function Solutions() {
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-xl text-white mb-4">Advanced Security</CardTitle>
                   <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
-                  <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                  <p className="text-gray-200 text-sm font-medium">Professional cybersecurity solution</p>
                   <Badge className="mt-2 bg-purple-500/20 text-purple-300">1K Users Max</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Up to 1000 users</span>
+                      <span className="text-gray-200 text-sm font-medium">Up to 1000 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
+                      <span className="text-gray-200 text-sm font-medium">Advanced AI threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Automated incident response</span>
+                      <span className="text-gray-200 text-sm font-medium">Automated incident response</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Full compliance automation</span>
+                      <span className="text-gray-200 text-sm font-medium">Full compliance automation</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">24/7 priority support</span>
+                      <span className="text-gray-200 text-sm font-medium">24/7 priority support</span>
                     </li>
                   </ul>
                   <Button 
@@ -316,35 +316,35 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-yellow-500/30">
+              <Card className="bg-slate-800/90 border border-yellow-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-xl text-white mb-4">Enterprise Shield</CardTitle>
                   <div className="text-2xl font-bold text-yellow-400 mb-2">Enterprise Shield</div>
-                  <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                  <p className="text-gray-200 text-sm font-medium">Professional cybersecurity solution</p>
                   <Badge className="mt-2 bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Unlimited users</span>
+                      <span className="text-gray-200 text-sm font-medium">Unlimited users</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Premium AI models</span>
+                      <span className="text-gray-200 text-sm font-medium">Premium AI models</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Custom response playbooks</span>
+                      <span className="text-gray-200 text-sm font-medium">Custom response playbooks</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">White-glove compliance</span>
+                      <span className="text-gray-200 text-sm font-medium">White-glove compliance</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Dedicated success team</span>
+                      <span className="text-gray-200 text-sm font-medium">Dedicated success team</span>
                     </li>
                   </ul>
                   <Button 
@@ -373,26 +373,26 @@ export default function Solutions() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Card className="bg-slate-700/60 border border-blue-500/30">
+              <Card className="bg-slate-800/90 border border-blue-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300">Fundamental</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Fundamental</CardTitle>
                   <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Basic network security hardware foundation</p>
+                  <p className="text-gray-200 text-sm font-medium">Basic network security hardware foundation</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Basic network security hardware</span>
+                      <span className="text-gray-200 text-sm font-medium">Basic network security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Entry-level access control</span>
+                      <span className="text-gray-200 text-sm font-medium">Entry-level access control</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Standard encryption devices</span>
+                      <span className="text-gray-200 text-sm font-medium">Standard encryption devices</span>
                     </li>
                   </ul>
                   <Button 
@@ -404,26 +404,26 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-purple-500/30">
+              <Card className="bg-slate-800/90 border border-purple-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Advanced</CardTitle>
                   <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Enhanced hardware security infrastructure</p>
+                  <p className="text-gray-200 text-sm font-medium">Enhanced hardware security infrastructure</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Advanced network security hardware</span>
+                      <span className="text-gray-200 text-sm font-medium">Advanced network security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Comprehensive access control systems</span>
+                      <span className="text-gray-200 text-sm font-medium">Comprehensive access control systems</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Enhanced encryption solutions</span>
+                      <span className="text-gray-200 text-sm font-medium">Enhanced encryption solutions</span>
                     </li>
                   </ul>
                   <Button 
@@ -435,26 +435,26 @@ export default function Solutions() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-yellow-500/30">
+              <Card className="bg-slate-800/90 border border-yellow-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Enterprise</Badge>
                   <CardTitle className="text-xl text-white mb-4">Hardware Enterprise</CardTitle>
                   <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-sm">Complete enterprise hardware security</p>
+                  <p className="text-gray-200 text-sm font-medium">Complete enterprise hardware security</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Enterprise-grade security hardware</span>
+                      <span className="text-gray-200 text-sm font-medium">Enterprise-grade security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">Advanced biometric systems</span>
+                      <span className="text-gray-200 text-sm font-medium">Advanced biometric systems</span>
                     </li>
                     <li className="flex items-center space-x-2">
                       <CheckCircle className="w-4 h-4 text-green-400" />
-                      <span className="text-gray-300 text-sm">FIPS 140-2 certified encryption devices</span>
+                      <span className="text-gray-200 text-sm font-medium">FIPS 140-2 certified encryption devices</span>
                     </li>
                   </ul>
                   <Button 
@@ -480,7 +480,7 @@ export default function Solutions() {
                 Educational<br />
                 <span className="text-green-400">Security Solutions</span>
               </h2>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-12">
+              <p className="text-xl text-gray-100 max-w-4xl mx-auto mb-12">
                 Specialized cybersecurity packages designed for K-12 and Higher Education institutions with FERPA, COPPA, and CIPA compliance.
               </p>
             </div>
@@ -500,35 +500,38 @@ export default function Solutions() {
               <TabsContent value="k12" className="space-y-8">
                 <h3 className="text-2xl font-bold text-white text-center mb-8">K-12 Pilot Programs</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <Card className="bg-slate-700/60 border border-blue-500/30">
+                  <Card className="bg-slate-800/90 border border-blue-500/30">
                     <CardHeader className="p-6 text-center">
                       <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core EDU</CardTitle>
                       <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Classroom security solutions</span>
+                          <span className="text-gray-200 text-sm font-medium">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Student data protection</span>
+                          <div className="flex items-center space-x-2">
+                            <GraduationCap className="w-4 h-4 text-cyan-400" />
+                            <span className="text-gray-200 text-sm font-medium">Student data protection</span>
+                          </div>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Basic FERPA/COPPA/CIPA compliance</span>
+                          <span className="text-gray-200 text-sm font-medium">Basic FERPA/COPPA/CIPA compliance</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                      <Button className="w-full button-4d">
                         Get Quote
                       </Button>
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                  <Card className="bg-slate-800/90 border border-purple-500/30 relative">
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-purple-600 text-white">Popular</Badge>
                     </div>
@@ -536,52 +539,55 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-purple-500/20 text-purple-300">Core+ EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core+ EDU</CardTitle>
                       <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Classroom security solutions</span>
+                          <span className="text-gray-200 text-sm font-medium">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Student data protection</span>
+                          <div className="flex items-center space-x-2">
+                            <GraduationCap className="w-4 h-4 text-cyan-400" />
+                            <span className="text-gray-200 text-sm font-medium">Student data protection</span>
+                          </div>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Comprehensive FERPA/COPPA/CIPA compliance</span>
+                          <span className="text-gray-200 text-sm font-medium">Comprehensive FERPA/COPPA/CIPA compliance</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                      <Button className="w-full button-4d">
                         Get Quote
                       </Button>
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-yellow-500/30">
+                  <Card className="bg-slate-800/90 border border-yellow-500/30">
                     <CardHeader className="p-6 text-center">
                       <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Advanced EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core Advanced EDU</CardTitle>
                       <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple classrooms and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple classrooms and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Advanced classroom security solutions</span>
+                          <span className="text-gray-200 text-sm font-medium">Advanced classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Advanced student data protection</span>
+                          <span className="text-gray-200 text-sm font-medium">Advanced student data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Advanced FERPA/COPPA/CIPA automation</span>
+                          <span className="text-gray-200 text-sm font-medium">Advanced FERPA/COPPA/CIPA automation</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                      <Button className="w-full button-4d">
                         Contact Enterprise
                       </Button>
                     </CardContent>
@@ -592,35 +598,35 @@ export default function Solutions() {
               <TabsContent value="higher-ed" className="space-y-8">
                 <h3 className="text-2xl font-bold text-white text-center mb-8">Higher Education Pilot Programs</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <Card className="bg-slate-700/60 border border-blue-500/30">
+                  <Card className="bg-slate-800/90 border border-blue-500/30">
                     <CardHeader className="p-6 text-center">
                       <Badge className="mb-4 bg-blue-500/20 text-blue-300">Core HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Research network security</span>
+                          <span className="text-gray-200 text-sm font-medium">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Campus-wide protection</span>
+                          <span className="text-gray-200 text-sm font-medium">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Academic data security</span>
+                          <span className="text-gray-200 text-sm font-medium">Academic data security</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                      <Button className="w-full button-4d">
                         Get Quote
                       </Button>
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                  <Card className="bg-slate-800/90 border border-purple-500/30 relative">
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                       <Badge className="bg-purple-600 text-white">Popular</Badge>
                     </div>
@@ -628,52 +634,52 @@ export default function Solutions() {
                       <Badge className="mb-4 bg-purple-500/20 text-purple-300">Core+ HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core+ HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Research network security</span>
+                          <span className="text-gray-200 text-sm font-medium">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Campus-wide protection</span>
+                          <span className="text-gray-200 text-sm font-medium">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Academic data security</span>
+                          <span className="text-gray-200 text-sm font-medium">Academic data security</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                      <Button className="w-full button-4d">
                         Get Quote
                       </Button>
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-yellow-500/30">
+                  <Card className="bg-slate-800/90 border border-yellow-500/30">
                     <CardHeader className="p-6 text-center">
                       <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Advanced HI-EDU</Badge>
                       <CardTitle className="text-xl text-white mb-4">CyberSecured Core Advanced HI-EDU</CardTitle>
                       <div className="text-2xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                      <p className="text-gray-300 text-sm">Multiple departments, buildings, and students</p>
+                      <p className="text-gray-200 text-sm font-medium">Multiple departments, buildings, and students</p>
                     </CardHeader>
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Advanced research network security</span>
+                          <span className="text-gray-200 text-sm font-medium">Advanced research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Comprehensive campus-wide protection</span>
+                          <span className="text-gray-200 text-sm font-medium">Comprehensive campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300 text-sm">Advanced academic data security</span>
+                          <span className="text-gray-200 text-sm font-medium">Advanced academic data security</span>
                         </li>
                       </ul>
-                      <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                      <Button className="w-full button-4d">
                         Contact Enterprise
                       </Button>
                     </CardContent>
@@ -698,72 +704,72 @@ export default function Solutions() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-slate-700/60 border border-blue-500/30">
+              <Card className="bg-slate-800/90 border border-blue-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-blue-500/20 text-blue-300 text-xs">Core</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN - Core</CardTitle>
                   <div className="text-xl font-bold text-blue-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-xs">Core AI platform with basic hardware</p>
+                  <p className="text-gray-100 text-xs">Core AI platform with basic hardware</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-1 mb-4 text-xs text-gray-300">
+                  <ul className="space-y-1 mb-4 text-xs text-gray-100">
                     <li>• Core AI security platform</li>
                     <li>• Basic hardware components</li>
                     <li>• Initial security assessment</li>
                   </ul>
-                  <Button size="sm" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button size="sm" className="w-full button-4d">
                     Get Quote
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-purple-500/30">
+              <Card className="bg-slate-800/90 border border-purple-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-purple-500/20 text-purple-300 text-xs">Advanced</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN Advanced</CardTitle>
                   <div className="text-xl font-bold text-purple-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-xs">Enhanced platform with advanced hardware</p>
+                  <p className="text-gray-100 text-xs">Enhanced platform with advanced hardware</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-1 mb-4 text-xs text-gray-300">
+                  <ul className="space-y-1 mb-4 text-xs text-gray-100">
                     <li>• Enhanced AI platform</li>
                     <li>• Advanced hardware security</li>
                     <li>• 24/7 security monitoring</li>
                   </ul>
-                  <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button size="sm" className="w-full button-4d">
                     Get Quote
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-yellow-500/30">
+              <Card className="bg-slate-800/90 border border-yellow-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-yellow-500/20 text-yellow-300 text-xs">Enterprise</Badge>
                   <CardTitle className="text-lg text-white mb-3">CyberSecured ICN Enterprise</CardTitle>
                   <div className="text-xl font-bold text-yellow-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-xs">Complete enterprise solution (unlimited users)</p>
+                  <p className="text-gray-100 text-xs">Complete enterprise solution (unlimited users)</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-1 mb-4 text-xs text-gray-300">
+                  <ul className="space-y-1 mb-4 text-xs text-gray-100">
                     <li>• Enterprise AI platform (unlimited)</li>
                     <li>• Comprehensive hardware security</li>
                     <li>• Custom security solutions</li>
                   </ul>
-                  <Button size="sm" className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                  <Button size="sm" className="w-full button-4d">
                     Contact Enterprise
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-700/60 border border-red-500/30">
+              <Card className="bg-slate-800/90 border border-red-500/30">
                 <CardHeader className="p-6 text-center">
                   <Badge className="mb-4 bg-red-500/20 text-red-300 text-xs">Government</Badge>
                   <CardTitle className="text-lg text-white mb-3">Custom Government Package</CardTitle>
                   <div className="text-xl font-bold text-red-400 mb-2">Contact for Pricing</div>
-                  <p className="text-gray-300 text-xs">Government-specific security solutions</p>
+                  <p className="text-gray-100 text-xs">Government-specific security solutions</p>
                 </CardHeader>
                 <CardContent className="p-6 pt-0">
-                  <ul className="space-y-1 mb-4 text-xs text-gray-300">
+                  <ul className="space-y-1 mb-4 text-xs text-gray-100">
                     <li>• Government-specific solutions</li>
                     <li>• FedRAMP compliance</li>
                     <li>• Advanced threat protection</li>
@@ -785,7 +791,7 @@ export default function Solutions() {
                 Empowering the Educational<br />
                 <span className="text-cyan-400">and Government Sector</span>
               </h2>
-              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-16">
+              <p className="text-xl text-gray-100 max-w-4xl mx-auto mb-16">
                 CyberSecure AI is custom built for you. But don't take our word for it – 
                 hear directly from institutions like yours.
               </p>
@@ -852,7 +858,7 @@ export default function Solutions() {
                   CyberSecure AI 2025<br />
                   <span className="text-red-400">Cyber Threat Report</span>
                 </h2>
-                <p className="text-xl text-gray-300 mb-8">
+                <p className="text-xl text-gray-100 mb-8">
                   Get details on the cyberattacks we saw most last year, learn key industry insights, 
                   and build strategies to outsmart the most sophisticated threat actors.
                 </p>
@@ -901,11 +907,11 @@ export default function Solutions() {
               <TabsContent value="education" className="space-y-12">
                 {/* K-12 and Higher Ed Solutions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <Card className="bg-slate-700/60 border border-green-500/30">
+                  <Card className="bg-slate-800/90 border border-green-500/30">
                     <CardHeader className="p-8">
                       <CustomGraduationCapIcon className="w-12 h-12 text-green-400 mb-4" size={48} />
                       <CardTitle className="text-2xl text-white mb-4">K-12 Education Solutions</CardTitle>
-                      <p className="text-gray-300 mb-6">
+                      <p className="text-gray-100 mb-6">
                         Comprehensive cybersecurity tailored for K-12 educational institutions with FERPA compliance.
                       </p>
                     </CardHeader>
@@ -913,19 +919,19 @@ export default function Solutions() {
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Student device management</span>
+                          <span className="text-gray-100">Student device management</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Classroom security monitoring</span>
+                          <span className="text-gray-100">Classroom security monitoring</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">CIPA compliance automation</span>
+                          <span className="text-gray-100">CIPA compliance automation</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Parent portal security</span>
+                          <span className="text-gray-100">Parent portal security</span>
                         </li>
                       </ul>
                       <Link href="/solutions/k12">
@@ -937,11 +943,11 @@ export default function Solutions() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-purple-500/30">
+                  <Card className="bg-slate-800/90 border border-purple-500/30">
                     <CardHeader className="p-8">
                       <Building className="w-12 h-12 text-purple-400 mb-4" />
                       <CardTitle className="text-2xl text-white mb-4">Higher Education Solutions</CardTitle>
-                      <p className="text-gray-300 mb-6">
+                      <p className="text-gray-100 mb-6">
                         Advanced cybersecurity for universities and colleges with research network protection.
                       </p>
                     </CardHeader>
@@ -949,19 +955,19 @@ export default function Solutions() {
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Research data protection</span>
+                          <span className="text-gray-100">Research data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Campus-wide monitoring</span>
+                          <span className="text-gray-100">Campus-wide monitoring</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">BYOD security management</span>
+                          <span className="text-gray-100">BYOD security management</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Multi-campus coordination</span>
+                          <span className="text-gray-100">Multi-campus coordination</span>
                         </li>
                       </ul>
                       <Link href="/solutions/higher-ed">
@@ -978,7 +984,7 @@ export default function Solutions() {
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-6 text-center">Education-Specific Services</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                    <Card className="bg-slate-800/90 border border-cyan-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
                           <Network className="w-8 h-8 text-cyan-400 mr-3" />
@@ -987,11 +993,11 @@ export default function Solutions() {
                             <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-xs">Secure research data networks with advanced partitioning</p>
+                        <p className="text-gray-100 text-xs">Secure research data networks with advanced partitioning</p>
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-slate-700/60 border border-green-500/30">
+                    <Card className="bg-slate-800/90 border border-green-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
                           <Users className="w-8 h-8 text-green-400 mr-3" />
@@ -1000,11 +1006,11 @@ export default function Solutions() {
                             <p className="text-green-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-xs">Comprehensive classroom technology security management</p>
+                        <p className="text-gray-100 text-xs">Comprehensive classroom technology security management</p>
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-slate-700/60 border border-purple-500/30">
+                    <Card className="bg-slate-800/90 border border-purple-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
                           <Shield className="w-8 h-8 text-purple-400 mr-3" />
@@ -1013,7 +1019,7 @@ export default function Solutions() {
                             <p className="text-purple-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-xs">Secure bring-your-own-device policies and monitoring</p>
+                        <p className="text-gray-100 text-xs">Secure bring-your-own-device policies and monitoring</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -1023,11 +1029,11 @@ export default function Solutions() {
               <TabsContent value="government" className="space-y-12">
                 {/* Government Solutions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <Card className="bg-slate-700/60 border border-red-500/30">
+                  <Card className="bg-slate-800/90 border border-red-500/30">
                     <CardHeader className="p-8">
                       <CustomFlagIcon className="w-12 h-12 text-red-400 mb-4" size={48} />
                       <CardTitle className="text-2xl text-white mb-4">Federal Agency Solutions</CardTitle>
-                      <p className="text-gray-300 mb-6">
+                      <p className="text-gray-100 mb-6">
                         FedRAMP High compliant cybersecurity for federal agencies with advanced authentication.
                       </p>
                     </CardHeader>
@@ -1035,19 +1041,19 @@ export default function Solutions() {
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">PIV/CAC authentication</span>
+                          <span className="text-gray-100">PIV/CAC authentication</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">FedRAMP High compliance</span>
+                          <span className="text-gray-100">FedRAMP High compliance</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Multi-agency coordination</span>
+                          <span className="text-gray-100">Multi-agency coordination</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">FISMA compliance automation</span>
+                          <span className="text-gray-100">FISMA compliance automation</span>
                         </li>
                       </ul>
                       <Link href="/solutions/federal">
@@ -1059,11 +1065,11 @@ export default function Solutions() {
                     </CardContent>
                   </Card>
 
-                  <Card className="bg-slate-700/60 border border-blue-500/30">
+                  <Card className="bg-slate-800/90 border border-blue-500/30">
                     <CardHeader className="p-8">
                       <Building className="w-12 h-12 text-blue-400 mb-4" />
                       <CardTitle className="text-2xl text-white mb-4">Municipal Government Solutions</CardTitle>
-                      <p className="text-gray-300 mb-6">
+                      <p className="text-gray-100 mb-6">
                         Smart city cybersecurity with critical infrastructure protection and emergency coordination.
                       </p>
                     </CardHeader>
@@ -1071,19 +1077,19 @@ export default function Solutions() {
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Smart city infrastructure</span>
+                          <span className="text-gray-100">Smart city infrastructure</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Emergency services integration</span>
+                          <span className="text-gray-100">Emergency services integration</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Traffic system security</span>
+                          <span className="text-gray-100">Traffic system security</span>
                         </li>
                         <li className="flex items-center space-x-2">
                           <CheckCircle className="w-4 h-4 text-green-400" />
-                          <span className="text-gray-300">Utility grid monitoring</span>
+                          <span className="text-gray-100">Utility grid monitoring</span>
                         </li>
                       </ul>
                       <Link href="/solutions/municipal">
@@ -1100,7 +1106,7 @@ export default function Solutions() {
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-6 text-center">Specialized Government Services</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="bg-slate-700/60 border border-orange-500/30">
+                    <Card className="bg-slate-800/90 border border-orange-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
                           <Network className="w-8 h-8 text-orange-400 mr-3" />
@@ -1109,11 +1115,11 @@ export default function Solutions() {
                             <p className="text-orange-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-xs">Inter-agency cybersecurity coordination and threat sharing</p>
+                        <p className="text-gray-100 text-xs">Inter-agency cybersecurity coordination and threat sharing</p>
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-slate-700/60 border border-cyan-500/30">
+                    <Card className="bg-slate-800/90 border border-cyan-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
                           <Shield className="w-8 h-8 text-cyan-400 mr-3" />
@@ -1122,7 +1128,7 @@ export default function Solutions() {
                             <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
                           </div>
                         </div>
-                        <p className="text-gray-300 text-xs">Secure government community cloud deployment and management</p>
+                        <p className="text-gray-100 text-xs">Secure government community cloud deployment and management</p>
                       </CardContent>
                     </Card>
                   </div>
@@ -1137,7 +1143,7 @@ export default function Solutions() {
                       Protecting Student Data<br />
                       <span className="text-blue-400">& Academic Freedom</span>
                     </h3>
-                    <p className="text-lg text-gray-300 mb-8">
+                    <p className="text-lg text-gray-100 mb-8">
                       Purpose-built for educational institutions with FERPA compliance, 
                       student privacy protection, and academic research security.
                     </p>
@@ -1145,19 +1151,19 @@ export default function Solutions() {
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">FERPA & COPPA compliance automation</span>
+                        <span className="text-gray-100">FERPA & COPPA compliance automation</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Student data protection & privacy</span>
+                        <span className="text-gray-100">Student data protection & privacy</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Campus network security monitoring</span>
+                        <span className="text-gray-100">Campus network security monitoring</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Research data protection</span>
+                        <span className="text-gray-100">Research data protection</span>
                       </div>
                     </div>
 
@@ -1190,7 +1196,7 @@ export default function Solutions() {
                       Securing Critical<br />
                       <span className="text-red-400">Government Infrastructure</span>
                     </h3>
-                    <p className="text-lg text-gray-300 mb-8">
+                    <p className="text-lg text-gray-100 mb-8">
                       Built for government agencies with FISMA compliance, classified data protection, 
                       and multi-agency collaboration capabilities.
                     </p>
@@ -1198,19 +1204,19 @@ export default function Solutions() {
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">FISMA & FedRAMP compliance</span>
+                        <span className="text-gray-100">FISMA & FedRAMP compliance</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Classified data protection protocols</span>
+                        <span className="text-gray-100">Classified data protection protocols</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Inter-agency threat intelligence sharing</span>
+                        <span className="text-gray-100">Inter-agency threat intelligence sharing</span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <CheckCircle className="w-5 h-5 text-green-400" />
-                        <span className="text-gray-300">Critical infrastructure monitoring</span>
+                        <span className="text-gray-100">Critical infrastructure monitoring</span>
                       </div>
                     </div>
 
@@ -1255,7 +1261,7 @@ export default function Solutions() {
                         <Star key={star} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                       ))}
                     </div>
-                    <blockquote className="text-gray-300 italic mb-6 leading-relaxed">
+                    <blockquote className="text-gray-100 italic mb-6 leading-relaxed">
                       "{testimonial.quote}"
                     </blockquote>
                     <div className="flex items-center space-x-4">
@@ -1289,7 +1295,7 @@ export default function Solutions() {
                   Leading the Charge for<br />
                   <span className="text-purple-400">Managed Cybersecurity</span>
                 </h2>
-                <p className="text-xl text-gray-300 mb-8">
+                <p className="text-xl text-gray-100 mb-8">
                   See how CyberSecure AI Managed Security stacks up against enterprise-first platforms – 
                   reviewed by organizations just like yours.
                 </p>
@@ -1339,7 +1345,7 @@ export default function Solutions() {
                 <CardHeader className="p-8 text-center">
                   <CustomTargetIcon className="w-16 h-16 text-red-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">AI Threat Detection</CardTitle>
-                  <p className="text-gray-300">
+                  <p className="text-gray-100">
                     Advanced machine learning models for real-time threat identification and response
                   </p>
                 </CardHeader>
@@ -1365,7 +1371,7 @@ export default function Solutions() {
                 <CardHeader className="p-8 text-center">
                   <CustomShieldIcon className="w-16 h-16 text-blue-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">Identity Security</CardTitle>
-                  <p className="text-gray-300">
+                  <p className="text-gray-100">
                     Comprehensive identity and access management with multi-factor authentication
                   </p>
                 </CardHeader>
@@ -1391,7 +1397,7 @@ export default function Solutions() {
                 <CardHeader className="p-8 text-center">
                   <CustomFileTextIcon className="w-16 h-16 text-green-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">Compliance Automation</CardTitle>
-                  <p className="text-gray-300">
+                  <p className="text-gray-100">
                     Automated regulatory compliance with continuous monitoring and reporting
                   </p>
                 </CardHeader>
@@ -1422,7 +1428,7 @@ export default function Solutions() {
               Ready to Transform<br />
               <span className="text-cyan-400">Your Security?</span>
             </h2>
-            <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-100 mb-12 max-w-3xl mx-auto">
               Join hundreds of educational institutions and government agencies 
               who trust CyberSecure AI for enterprise-grade protection.
             </p>

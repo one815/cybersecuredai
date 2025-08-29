@@ -151,7 +151,7 @@ export default function Contact() {
                   {/* Embedded Yesware Scheduler */}
                   <div className="bg-slate-800 rounded-lg p-6 min-h-[400px] border border-gray-600">
                     <iframe
-                      src="https://meetings.yesware.com/cybersecure-ai/consultation"
+                      src="https://meet.yesware.com/me/camilia/demo"
                       width="100%"
                       height="400"
                       frameBorder="0"

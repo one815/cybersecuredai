@@ -346,7 +346,7 @@ export default function Services() {
                           <Button 
                             size="sm" 
                             className="button-4d w-full"
-                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
@@ -385,7 +385,7 @@ export default function Services() {
                           <Button 
                             size="sm" 
                             className="button-4d w-full"
-                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
@@ -424,7 +424,7 @@ export default function Services() {
                           <Button 
                             size="sm" 
                             className="button-4d w-full"
-                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
@@ -441,11 +441,18 @@ export default function Services() {
                   
                   <div className="flex justify-center mb-8">
                     <div className="flex bg-gray-800/50 rounded-lg p-1">
-                      <button className="px-6 py-2 rounded-md bg-green-500 text-white font-semibold">
+                      <button 
+                        className={`px-6 py-2 rounded-md font-semibold transition-colors ${
+                          selectedCategory === 'managed' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
+                        }`}
+                        onClick={() => setSelectedCategory('managed')}
+                      >
                         🎓 Education
                       </button>
                       <button 
-                        className="px-6 py-2 rounded-md text-gray-300 hover:text-white transition-colors cursor-pointer"
+                        className={`px-6 py-2 rounded-md font-semibold transition-colors ${
+                          selectedCategory === 'government' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
+                        }`}
                         onClick={() => setSelectedCategory('government')}
                       >
                         🏛️ Government
@@ -454,137 +461,279 @@ export default function Services() {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <Card className="bg-slate-700/60 border border-blue-500/30">
-                      <CardHeader className="p-6 text-center">
-                        <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
-                        <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Essential Protection</CardTitle>
-                        <div className="text-2xl font-bold text-blue-400 mb-2">Essential Protection</div>
-                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
-                        <div className="mt-2">
-                          <Badge className="bg-blue-500/20 text-blue-300">250 Users Max</Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="p-6 pt-0">
-                        <ul className="space-y-2 mb-6">
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Up to 250 users</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">AI-powered threat detection</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Basic incident response</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Email & chat support</span>
-                          </li>
-                        </ul>
-                        <Button 
-                          className="button-4d w-full"
-                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
-                        >
-                          Get Quote
-                        </Button>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-slate-700/60 border border-purple-500/30 relative">
-                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                        <Badge className="bg-purple-600 text-white">Popular</Badge>
-                      </div>
-                      <CardHeader className="p-6 text-center">
-                        <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                        <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Advanced Security</CardTitle>
-                        <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
-                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
-                        <div className="mt-2">
-                          <Badge className="bg-purple-500/20 text-purple-300">1K Users Max</Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="p-6 pt-0">
-                        <ul className="space-y-2 mb-6">
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Up to 1000 users</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Automated incident response</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Full compliance automation</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">24/7 priority support</span>
-                          </li>
-                        </ul>
-                        <Button 
-                          className="button-4d w-full"
-                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
-                        >
-                          Get Quote
-                        </Button>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-slate-700/60 border border-yellow-500/30">
-                      <CardHeader className="p-6 text-center">
-                        <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-                        <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
-                        <CardTitle className="text-xl text-white mb-3">Enterprise Shield</CardTitle>
-                        <div className="text-2xl font-bold text-yellow-400 mb-2">Enterprise Shield</div>
-                        <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
-                        <div className="mt-2">
-                          <Badge className="bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="p-6 pt-0">
-                        <ul className="space-y-2 mb-6">
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Unlimited users</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Premium AI models</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Custom response playbooks</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">White-glove compliance</span>
-                          </li>
-                          <li className="flex items-center space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-400" />
-                            <span className="text-gray-300 text-sm">Dedicated success team</span>
-                          </li>
-                        </ul>
-                        <Button 
-                          className="button-4d w-full bg-yellow-600 text-white"
-                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
-                        >
-                          Contact Enterprise
-                        </Button>
-                      </CardContent>
-                    </Card>
+                    {selectedCategory === 'managed' ? (
+                      // Education Protection Levels
+                      <>
+                        <Card className="bg-slate-700/60 border border-blue-500/30">
+                          <CardHeader className="p-6 text-center">
+                            <Server className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-blue-500/20 text-blue-300">Basic</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Essential Protection</CardTitle>
+                            <div className="text-2xl font-bold text-blue-400 mb-2">Essential Protection</div>
+                            <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                            <div className="mt-2">
+                              <Badge className="bg-blue-500/20 text-blue-300">250 Users Max</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Up to 250 users</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">AI-powered threat detection</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Basic incident response</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Email & chat support</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Get Quote
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </>
+                    ) : (
+                      // Government Protection Levels
+                      <>
+                        <Card className="bg-slate-700/60 border border-red-500/30">
+                          <CardHeader className="p-6 text-center">
+                            <Building className="w-12 h-12 text-red-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-red-500/20 text-red-300">Federal</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Federal Security</CardTitle>
+                            <div className="text-2xl font-bold text-red-400 mb-2">Federal Security</div>
+                            <p className="text-gray-300 text-sm">Government-grade cybersecurity solution</p>
+                            <div className="mt-2">
+                              <Badge className="bg-red-500/20 text-red-300">FISMA Ready</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">FISMA compliance framework</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">FedRAMP authorized infrastructure</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">PIV/CAC authentication</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Classified data handling</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">24/7 government SOC</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Contact Government Sales
+                            </Button>
+                          </CardContent>
+                        </Card>
+                        <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <Badge className="bg-purple-600 text-white">Recommended</Badge>
+                          </div>
+                          <CardHeader className="p-6 text-center">
+                            <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Multi-Agency Security</CardTitle>
+                            <div className="text-2xl font-bold text-purple-400 mb-2">Multi-Agency Security</div>
+                            <p className="text-gray-300 text-sm">Cross-jurisdiction collaboration platform</p>
+                            <div className="mt-2">
+                              <Badge className="bg-purple-500/20 text-purple-300">NIEM Compliant</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Multi-state coordination</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Secure information sharing</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Joint incident response</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Emergency coordination</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Advanced threat sharing</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Contact Government Sales
+                            </Button>
+                          </CardContent>
+                        </Card>
+                        <Card className="bg-slate-700/60 border border-yellow-500/30">
+                          <CardHeader className="p-6 text-center">
+                            <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Smart City Security</CardTitle>
+                            <div className="text-2xl font-bold text-yellow-400 mb-2">Smart City Security</div>
+                            <p className="text-gray-300 text-sm">IoT and smart infrastructure protection</p>
+                            <div className="mt-2">
+                              <Badge className="bg-yellow-500/20 text-yellow-300">IoT Specialized</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">IoT device security</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Traffic management protection</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Utility grid monitoring</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Public safety integration</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Emergency services security</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Contact Enterprise
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </>
+                    )}
+                    
+                    {selectedCategory === 'managed' && (
+                      <>
+                        <Card className="bg-slate-700/60 border border-purple-500/30 relative">
+                          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <Badge className="bg-purple-600 text-white">Popular</Badge>
+                          </div>
+                          <CardHeader className="p-6 text-center">
+                            <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Advanced Security</CardTitle>
+                            <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
+                            <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                            <div className="mt-2">
+                              <Badge className="bg-purple-500/20 text-purple-300">1K Users Max</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Up to 1000 users</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Automated incident response</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Full compliance automation</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">24/7 priority support</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Get Quote
+                            </Button>
+                          </CardContent>
+                        </Card>
+                        
+                        <Card className="bg-slate-700/60 border border-yellow-500/30">
+                          <CardHeader className="p-6 text-center">
+                            <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
+                            <Badge className="mb-4 bg-yellow-500/20 text-yellow-300">Premium</Badge>
+                            <CardTitle className="text-xl text-white mb-3">Enterprise Shield</CardTitle>
+                            <div className="text-2xl font-bold text-yellow-400 mb-2">Enterprise Shield</div>
+                            <p className="text-gray-300 text-sm">Professional cybersecurity solution</p>
+                            <div className="mt-2">
+                              <Badge className="bg-yellow-500/20 text-yellow-300">Unlimited Scale</Badge>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-6 pt-0">
+                            <ul className="space-y-2 mb-6">
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Unlimited users</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Premium AI models</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Custom response playbooks</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">White-glove compliance</span>
+                              </li>
+                              <li className="flex items-center space-x-2">
+                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <span className="text-gray-300 text-sm">Dedicated success team</span>
+                              </li>
+                            </ul>
+                            <Button 
+                              className="button-4d w-full"
+            onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                            >
+                              Contact Enterprise
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -685,8 +834,8 @@ export default function Services() {
                         <p className="text-gray-300 text-sm mb-4">Comprehensive security evaluation</p>
                         <Button 
                           variant="outline" 
-                          className="button-4d border-cyan-500 text-cyan-400"
-                          onClick={() => window.location.href = '/services'}
+className="button-4d border-cyan-500 text-cyan-400"
+                          onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                         >
                           Learn More
                         </Button>
@@ -697,7 +846,11 @@ export default function Services() {
                         <Server className="w-10 h-10 text-green-400 mx-auto mb-4" />
                         <h4 className="text-white font-semibold mb-2">IT Infrastructure Assessment</h4>
                         <p className="text-gray-300 text-sm mb-4">Complete infrastructure evaluation</p>
-                        <Button variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+                        <Button 
+                          variant="outline" 
+                          className="button-4d border-green-500 text-green-400"
+                          onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                        >
                           Learn More
                         </Button>
                       </CardContent>
@@ -707,7 +860,11 @@ export default function Services() {
                         <Shield className="w-10 h-10 text-purple-400 mx-auto mb-4" />
                         <h4 className="text-white font-semibold mb-2">Compliance Readiness Assessment</h4>
                         <p className="text-gray-300 text-sm mb-4">Regulatory compliance evaluation</p>
-                        <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                        <Button 
+                          variant="outline" 
+                          className="button-4d border-purple-500 text-purple-400"
+                          onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                        >
                           Learn More
                         </Button>
                       </CardContent>
@@ -998,7 +1155,7 @@ export default function Services() {
                 <Button 
                   size="lg" 
                   className="button-4d bg-orange-600 text-white px-10 py-4 text-lg"
-                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                 >
                   Schedule Consultation
                   <Phone className="ml-2 w-6 h-6" />
