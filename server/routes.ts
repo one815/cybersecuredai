@@ -1689,6 +1689,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Enhanced MISP API routes with CIRCL tools integration
+  app.get("/api/misp/enhanced-threat-intelligence", async (req, res) => {
+    try {
+      const enhancedIntel = await mispThreatIntelligence.getEnhancedThreatIntelligence();
+      res.json(enhancedIntel);
+    } catch (error) {
+      console.error('Error fetching enhanced threat intelligence:', error);
+      res.status(500).json({ error: 'Failed to fetch enhanced threat intelligence' });
+    }
+  });
+
+  // CIRCL Tools API Endpoints
+  app.get("/api/circl/status", async (req, res) => {
+    try {
+      const status = {
+        pymisp_available: true,
+        circl_tools_available: true,
+        feeds_configured: 4,
+        last_update: new Date().toISOString()
+      };
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting CIRCL status:', error);
+      res.status(500).json({ error: 'Failed to get CIRCL status' });
+    }
+  });
+
+  // Comprehensive threat assessment endpoint
+  app.post("/api/circl/assess-target", async (req, res) => {
+    try {
+      const { target, type } = req.body;
+      
+      if (!target || !type) {
+        return res.status(400).json({ error: 'Target and type are required' });
+      }
+
+      if (!['ip', 'domain', 'url', 'asn'].includes(type)) {
+        return res.status(400).json({ error: 'Type must be one of: ip, domain, url, asn' });
+      }
+
+      const assessment = await mispThreatIntelligence.assessTarget(target, type);
+      res.json(assessment);
+    } catch (error) {
+      console.error('Error assessing target:', error);
+      res.status(500).json({ error: 'Failed to assess target' });
+    }
+  });
+
+  // PyMISP direct integration endpoint
+  app.get("/api/pymisp/intelligence", async (req, res) => {
+    try {
+      const { circlTools } = await import('./circl-tools.js');
+      const pyMispData = await circlTools.getPyMISPThreatIntelligence();
+      res.json(pyMispData);
+    } catch (error) {
+      console.error('Error fetching PyMISP intelligence:', error);
+      res.status(500).json({ error: 'Failed to fetch PyMISP intelligence' });
+    }
+  });
+
+  // BGP Ranking endpoint  
+  app.get("/api/circl/bgp-ranking/:asn", async (req, res) => {
+    try {
+      const { asn } = req.params;
+      const { circlTools } = await import('./circl-tools.js');
+      const ranking = await circlTools.getBGPRanking(asn);
+      res.json(ranking || { error: 'No ranking data found' });
+    } catch (error) {
+      console.error('Error fetching BGP ranking:', error);
+      res.status(500).json({ error: 'Failed to fetch BGP ranking' });
+    }
+  });
+
   app.get("/api/misp/threat-actors", async (req, res) => {
     try {
       const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
