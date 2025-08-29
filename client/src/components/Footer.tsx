@@ -200,7 +200,7 @@ export function Footer() {
               <img 
                 src={isoCompliantImg} 
                 alt="ISO 27001 Certified" 
-                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+                className="h-20 w-auto hover:scale-105 transition-transform duration-200"
               />
             </div>
             <p className="text-xs text-gray-500">
