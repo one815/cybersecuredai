@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
+import { EmailCaptureModal } from "@/components/EmailCaptureModal";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -314,10 +315,16 @@ export default function DataSheets() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
+  const [selectedResource, setSelectedResource] = useState<any>(null);
 
   const handleDataSheetClick = (datasheet: any) => {
     if (datasheet.link) {
       setLocation(datasheet.link);
+    } else {
+      // For downloads, open email capture modal
+      setSelectedResource(datasheet);
+      setEmailModalOpen(true);
     }
   };
 
@@ -664,6 +671,20 @@ export default function DataSheets() {
           </div>
         </div>
       </div>
+
+      {/* Email Capture Modal */}
+      {selectedResource && (
+        <EmailCaptureModal
+          isOpen={emailModalOpen}
+          onClose={() => {
+            setEmailModalOpen(false);
+            setSelectedResource(null);
+          }}
+          resourceTitle={selectedResource.title}
+          resourceId={selectedResource.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}
+          downloadUrl={`/marketing/documents/datasheets/${selectedResource.title.toLowerCase().replace(/[^a-z0-9\s]/gi, '').replace(/\s+/g, '-')}.pdf`}
+        />
+      )}
     </MarketingLayout>
   );
 }

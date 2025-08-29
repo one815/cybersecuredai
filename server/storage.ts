@@ -131,6 +131,7 @@ export class MemStorage implements IStorage {
   private userSubscriptions: Map<string, UserSubscription> = new Map();
   private customComplianceFrameworks: Map<string, CustomComplianceFramework> = new Map();
   private customComplianceControls: Map<string, CustomComplianceControl> = new Map();
+  private subscribers: Map<string, Subscriber> = new Map();
   private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
   private cypherReports: Map<string, any> = new Map();
 
@@ -1071,6 +1072,38 @@ export class MemStorage implements IStorage {
     };
     this.cypherReports.set(newReport.id, newReport);
     return newReport;
+  }
+
+  // Subscriber operations
+  async getSubscribers(): Promise<Subscriber[]> {
+    return Array.from(this.subscribers.values());
+  }
+
+  async createSubscriber(insertSubscriber: InsertSubscriber): Promise<Subscriber> {
+    const subscriber: Subscriber = {
+      id: randomUUID(),
+      createdAt: new Date(),
+      lastDownloadAt: null,
+      ...insertSubscriber
+    };
+    this.subscribers.set(subscriber.id, subscriber);
+    return subscriber;
+  }
+
+  async updateSubscriberDownload(email: string, resourceId: string): Promise<void> {
+    const subscriber = Array.from(this.subscribers.values()).find(s => s.email === email);
+    if (subscriber) {
+      const currentResources = Array.isArray(subscriber.downloadedResources) 
+        ? subscriber.downloadedResources 
+        : [];
+      
+      const updatedSubscriber = {
+        ...subscriber,
+        downloadedResources: [...currentResources, resourceId],
+        lastDownloadAt: new Date()
+      };
+      this.subscribers.set(subscriber.id, updatedSubscriber);
+    }
   }
 }
 
