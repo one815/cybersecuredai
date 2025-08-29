@@ -261,7 +261,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">Email & chat support</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Get Quote
                   </Button>
                 </CardContent>
@@ -301,7 +304,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">24/7 priority support</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Get Quote
                   </Button>
                 </CardContent>
@@ -338,7 +344,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">Dedicated success team</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Contact Enterprise
                   </Button>
                 </CardContent>
@@ -383,7 +392,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">Standard encryption devices</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Get Quote
                   </Button>
                 </CardContent>
@@ -411,7 +423,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">Enhanced encryption solutions</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Get Quote
                   </Button>
                 </CardContent>
@@ -439,7 +454,10 @@ export default function Solutions() {
                       <span className="text-gray-300 text-sm">FIPS 140-2 certified encryption devices</span>
                     </li>
                   </ul>
-                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  >
                     Contact Enterprise
                   </Button>
                 </CardContent>

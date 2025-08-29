@@ -421,7 +421,11 @@ export default function Services() {
                           <div className="text-center mb-4">
                             <div className="text-cyan-400 font-bold">{service.price}</div>
                           </div>
-                          <Button size="sm" className="w-full bg-cyan-600 hover:bg-cyan-700 text-white">
+                          <Button 
+                            size="sm" 
+                            className="button-4d w-full"
+                            onClick={() => { window.location.href = '/services'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                          >
                             Learn More
                             <ArrowRight className="ml-2 w-3 h-3" />
                           </Button>
@@ -484,7 +488,10 @@ export default function Services() {
                             <span className="text-gray-300 text-sm">Email & chat support</span>
                           </li>
                         </ul>
-                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                        <Button 
+                          className="button-4d w-full"
+                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                        >
                           Get Quote
                         </Button>
                       </CardContent>
@@ -527,7 +534,10 @@ export default function Services() {
                             <span className="text-gray-300 text-sm">24/7 priority support</span>
                           </li>
                         </ul>
-                        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                        <Button 
+                          className="button-4d w-full"
+                          onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                        >
                           Get Quote
                         </Button>
                       </CardContent>
