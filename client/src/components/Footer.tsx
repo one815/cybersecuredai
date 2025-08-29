@@ -4,7 +4,8 @@ import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.png";
 import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
 import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";
 import nistCompliantImg from "@assets/NIST compliant_1755703344784.png";
-import soc2CompliantImg from "@assets/SOC 2_1755704176279.png";
+import soc2CompliantImg from "@assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.png";
+import isoCompliantImg from "@assets/ISO certified_1756458882675.png";
 
 export function Footer() {
   return (
@@ -194,6 +195,11 @@ export function Footer() {
               <img 
                 src={soc2CompliantImg} 
                 alt="SOC 2 Type II Compliant" 
+                className="h-16 w-auto hover:scale-105 transition-transform duration-200"
+              />
+              <img 
+                src={isoCompliantImg} 
+                alt="ISO 27001 Certified" 
                 className="h-16 w-auto hover:scale-105 transition-transform duration-200"
               />
             </div>

@@ -636,9 +636,12 @@ export default function Home() {
                   <div className="text-gray-400 text-xs text-center">Federal Security</div>
                 </div>
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
-                  <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mb-3 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
-                    <Award className="w-10 h-10 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                  <div className="relative w-20 h-20 flex items-center justify-center mb-3">
+                    <img 
+                      src={import.meta.env.BASE_URL + "attached_assets/ISO certified_1756458882675.png"}
+                      alt="ISO 27001 Certification Badge"
+                      className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                    />
                   </div>
                   <div className="text-purple-400 font-bold text-sm">ISO 27001</div>
                   <div className="text-gray-400 text-xs text-center">Info Security Mgmt</div>
