@@ -43,6 +43,7 @@ import supportImg from "@assets/generated_images/Success_Kit_Collection_aad5a657
 
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState("managed");
+  const [protectionLevel, setProtectionLevel] = useState("education");
 
   const enhancedAICapabilities = [
     {
@@ -443,17 +444,17 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                     <div className="flex bg-gray-800/50 rounded-lg p-1">
                       <button 
                         className={`px-6 py-2 rounded-md font-semibold transition-colors ${
-                          selectedCategory === 'managed' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
+                          protectionLevel === 'education' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
                         }`}
-                        onClick={() => setSelectedCategory('managed')}
+                        onClick={() => setProtectionLevel('education')}
                       >
                         🎓 Education
                       </button>
                       <button 
                         className={`px-6 py-2 rounded-md font-semibold transition-colors ${
-                          selectedCategory === 'government' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
+                          protectionLevel === 'government' ? 'bg-green-500 text-white' : 'text-gray-300 hover:text-white'
                         }`}
-                        onClick={() => setSelectedCategory('government')}
+                        onClick={() => setProtectionLevel('government')}
                       >
                         🏛️ Government
                       </button>
@@ -461,7 +462,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {selectedCategory === 'managed' ? (
+                    {protectionLevel === 'education' ? (
                       // Education Protection Levels
                       <>
                         <Card className="bg-slate-700/60 border border-blue-500/30">
@@ -642,7 +643,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                       </>
                     )}
                     
-                    {selectedCategory === 'managed' && (
+                    {protectionLevel === 'education' && (
                       <>
                         <Card className="bg-slate-700/60 border border-purple-500/30 relative">
                           <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
