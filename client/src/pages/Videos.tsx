@@ -12,12 +12,14 @@ import {
   Clock,
   Star,
   Filter,
-  Eye,
   Building,
   GraduationCap,
   School,
   Users
 } from "lucide-react";
+import {
+  Enhanced4DEyeIcon
+} from "@/components/CustomIcons";
 import govAIFundamentalsImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.png";
 import advThreatDetectionImg from "@assets/generated_images/Advanced_Threat_Detection_Video_03258c71.png";
 import ferpaComplianceVideoImg from "@assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.png";
@@ -203,7 +205,7 @@ export default function Videos() {
             {video.duration}
           </div>
           <div className="flex items-center">
-            <Eye className="w-4 h-4 mr-1" />
+            <Enhanced4DEyeIcon className="w-4 h-4 mr-1" size={16} />
             {video.viewCount} views
           </div>
         </div>

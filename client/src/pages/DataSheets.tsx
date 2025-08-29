@@ -10,25 +10,18 @@ import {
   Search,
   FileText,
   Download,
-  Eye,
   Star,
   Filter,
-  Shield,
-  Zap,
   Users,
   Building,
   GraduationCap,
   School,
   Clock,
-  Brain,
   BookOpen,
   UserCheck,
-  Activity,
   Layers,
   ShieldCheck,
-  Lock,
   Globe,
-  Network,
   Monitor,
   Database
 } from "lucide-react";
@@ -40,7 +33,8 @@ import {
   Enhanced4DShieldIcon,
   Enhanced4DEyeIcon,
   Enhanced4DZapIcon,
-  Enhanced4DActivityIcon
+  Enhanced4DActivityIcon,
+  Enhanced4DLockIcon
 } from "@/components/CustomIcons";
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
 import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
@@ -285,7 +279,7 @@ const getCategoryIcon = (category: string) => {
       return (
         <div className="relative">
           <Monitor className="w-4 h-4" />
-          <Activity className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" />
+          <Enhanced4DActivityIcon className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" size={8} />
         </div>
       );
     case "Platform Overview":

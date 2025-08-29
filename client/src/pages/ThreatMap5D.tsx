@@ -7,13 +7,15 @@ import {
   Globe, 
   Shield, 
   AlertTriangle, 
-  Activity,
-  Brain,
   Target,
   Filter,
   Settings
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import {
+  Enhanced4DActivityIcon,
+  Enhanced4DBrainIcon
+} from "@/components/CustomIcons";
 import { ThreatMap } from "@/components/ThreatMap";
 
 interface ThreatStats {
@@ -123,7 +125,7 @@ export default function ThreatMap5D() {
                 <CardTitle className="flex items-center justify-between">
                   <span>Global Threat Map - Real-Time</span>
                   <Badge variant="outline" className="border-green-500 text-green-400">
-                    <Activity className="w-3 h-3 mr-1" />
+                    <Enhanced4DActivityIcon className="w-3 h-3 mr-1" size={12} />
                     Live
                   </Badge>
                 </CardTitle>
@@ -209,7 +211,7 @@ export default function ThreatMap5D() {
         <Card className="mt-8 bg-gradient-to-r from-cyan-900/30 to-blue-900/30 border-cyan-500/30">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Brain className="w-5 h-5" />
+              <Enhanced4DBrainIcon className="w-5 h-5" size={20} />
               <span>Threat Intelligence Sources</span>
             </CardTitle>
           </CardHeader>

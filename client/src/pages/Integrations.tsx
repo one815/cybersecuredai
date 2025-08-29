@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Search,
-  Zap,
   ExternalLink,
   Star,
   Filter,
@@ -16,26 +15,25 @@ import {
   GraduationCap,
   School,
   Users,
-  Shield,
   Database,
   Cloud,
-  Network,
   Monitor,
   Cpu,
-  Eye,
-  Lock,
   Globe,
   ShieldAlert,
-  Brain,
   BookOpen,
   UserCheck,
-  Activity,
   Layers,
   ShieldCheck
 } from "lucide-react";
 import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
   CustomShieldIcon,
   CustomTargetIcon
 } from "@/components/CustomIcons";
@@ -215,7 +213,7 @@ const getIndustryIcon = (industry: string) => {
     case "Cross-Industry":
       return <Users className="w-4 h-4" />;
     default:
-      return <Zap className="w-4 h-4" />;
+      return <Enhanced4DZapIcon className="w-4 h-4" size={16} />;
   }
 };
 
@@ -224,15 +222,15 @@ const getCategoryIcon = (category: string) => {
     case "SIEM & Security Analytics":
       return (
         <div className="relative">
-          <Eye className="w-4 h-4" />
-          <Activity className="w-2 h-2 absolute -top-1 -right-1 text-spring-400" />
+          <Enhanced4DEyeIcon className="w-4 h-4" size={16} />
+          <Enhanced4DActivityIcon className="w-2 h-2 absolute -top-1 -right-1 text-spring-400" size={8} />
         </div>
       );
     case "Identity & Access Management":
       return (
         <div className="relative">
           <UserCheck className="w-4 h-4" />
-          <Lock className="w-2 h-2 absolute -bottom-1 -right-1 text-spring-400" />
+          <Enhanced4DLockIcon className="w-2 h-2 absolute -bottom-1 -right-1 text-spring-400" size={8} />
         </div>
       );
     case "Endpoint Protection":
@@ -260,7 +258,7 @@ const getCategoryIcon = (category: string) => {
       return (
         <div className="relative">
           <Database className="w-4 h-4" />
-          <Lock className="w-2 h-2 absolute -top-1 -right-1 text-purple-400" />
+          <Enhanced4DLockIcon className="w-2 h-2 absolute -top-1 -right-1 text-purple-400" size={8} />
         </div>
       );
     case "Communication & Collaboration":
@@ -330,7 +328,7 @@ export default function Integrations() {
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
+                  <Enhanced4DZapIcon className="w-4 h-4" size={16} />
                   {integrations.length}+ Certified Integrations
                 </span>
                 <span className="flex items-center gap-2">
@@ -695,7 +693,7 @@ export default function Integrations() {
 
             {filteredIntegrations.length === 0 && (
               <div className="text-center py-12">
-                <Zap className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                <Enhanced4DZapIcon className="w-16 h-16 text-gray-600 mx-auto mb-4" size={64} />
                 <h3 className="text-xl font-semibold text-gray-400 mb-2">No integrations found</h3>
                 <p className="text-gray-500">Try adjusting your filters or search terms</p>
               </div>
