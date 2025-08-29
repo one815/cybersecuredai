@@ -2,17 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  CheckCircle,
-  Star,
-  ArrowRight,
-  Crown,
-  Shield,
-  Brain,
-  Users,
-  Building,
-  Phone
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -21,7 +11,14 @@ import {
   CustomZapIcon,
   Enhanced4DShieldIcon,
   Enhanced4DBrainIcon,
-  Enhanced4DZapIcon
+  Enhanced4DZapIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DStarIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DUsersIcon,
+  Enhanced4DBuildingIcon,
+  Enhanced4DCrownIcon,
+  Enhanced4DPhoneIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -157,7 +154,7 @@ export default function Pricing() {
               
               <div className="flex items-center justify-center space-x-2 mb-8">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                  <Enhanced4DStarIcon key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" size={24} />
                 ))}
                 <span className="ml-4 text-white font-semibold text-lg">4.9/5 value rating from customers</span>
               </div>
@@ -224,14 +221,14 @@ export default function Pricing() {
                         <ul className="space-y-3 mb-8">
                           {plan.features.map((feature, fIndex) => (
                             <li key={fIndex} className="flex items-center space-x-2">
-                              <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                              <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400 flex-shrink-0" size={16} />
                               <span className="text-gray-300 text-sm">{feature}</span>
                             </li>
                           ))}
                         </ul>
                         <Button className={`w-full text-white ${plan.buttonClass}`}>
                           Get Started
-                          <ArrowRight className="ml-2 w-4 h-4" />
+                          <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
                         </Button>
                       </CardContent>
                     </Card>
@@ -283,7 +280,7 @@ export default function Pricing() {
 
                     <Card className="bg-slate-700/60 border border-purple-500/30">
                       <CardHeader className="p-6 text-center">
-                        <Building className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                        <Enhanced4DBuildingIcon className="w-12 h-12 text-purple-400 mx-auto mb-4" size={48} />
                         <CardTitle className="text-xl text-white mb-3">Higher Education Pilot Programs</CardTitle>
                         <p className="text-gray-300 text-sm mb-4">Advanced cybersecurity for colleges and universities</p>
                       </CardHeader>
@@ -332,14 +329,14 @@ export default function Pricing() {
                           <ul className="space-y-3 mb-8">
                             {plan.features.map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400 flex-shrink-0" size={16} />
                                 <span className="text-gray-300 text-sm">{feature}</span>
                               </li>
                             ))}
                           </ul>
                           <Button className={`w-full text-white ${plan.buttonClass}`}>
                             Contact Sales
-                            <Phone className="ml-2 w-4 h-4" />
+                            <Enhanced4DPhoneIcon className="ml-2 w-4 h-4" size={16} />
                           </Button>
                         </CardContent>
                       </Card>
@@ -353,7 +350,7 @@ export default function Pricing() {
                       <Card className="bg-slate-700/60 border border-purple-500/30">
                         <CardContent className="p-6">
                           <div className="flex items-center mb-4">
-                            <Building className="w-8 h-8 text-purple-400 mr-3" />
+                            <Enhanced4DBuildingIcon className="w-8 h-8 text-purple-400 mr-3" size={32} />
                             <div>
                               <h4 className="text-white font-semibold">Multi-State Security Coalition Platform</h4>
                               <p className="text-purple-400 font-bold">Contact for Pricing</p>
@@ -479,7 +476,7 @@ export default function Pricing() {
                     <p className="text-gray-300">Eight core AI engines working together for maximum effectiveness</p>
                   </div>
                   <div className="text-center">
-                    <Crown className="w-16 h-16 text-yellow-400 mx-auto mb-4" />
+                    <Enhanced4DCrownIcon className="w-16 h-16 text-yellow-400 mx-auto mb-4" size={64} />
                     <h4 className="text-xl font-bold text-white mb-2">Expert Support</h4>
                     <p className="text-gray-300">24/7 access to cybersecurity experts and managed SOC services</p>
                   </div>

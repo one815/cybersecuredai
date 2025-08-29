@@ -4,28 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MarketingLayout } from "@/components/MarketingLayout";
-import { 
-  Shield, 
-  Settings, 
-  Users, 
-  CheckCircle,
-  ArrowRight,
-  Star,
-  ExternalLink,
-  Clock,
-  Award,
-  Target,
-  Eye,
-  Phone,
-  Building,
-  Server,
-  Network,
-  HardDrive,
-  Cpu,
-  Database,
-  Crown,
-  Globe
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -44,7 +23,13 @@ import {
   Enhanced4DActivityIcon,
   Enhanced4DFileIcon,
   Enhanced4DGlobeIcon,
-  Enhanced4DServerIcon
+  Enhanced4DServerIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DUsersIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DExternalLinkIcon,
+  Enhanced4DBuildingIcon,
+  Enhanced4DSettingsIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 
@@ -121,7 +106,7 @@ export default function Services() {
     {
       title: "AI-Based User Behavior Analytics",
       description: "Advanced user behavior pattern analysis to detect anomalies and insider threats",
-      icon: <Users className="w-8 h-8 text-orange-400" />,
+      icon: <Enhanced4DUsersIcon className="w-8 h-8 text-orange-400" size={32} />,
       features: [
         "User activity profiling",
         "Anomaly detection and alerting",
@@ -291,7 +276,7 @@ export default function Services() {
                 <Link href="/contact">
                   <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white px-10 py-4 text-lg font-semibold">
                     Consult with Experts
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                   </Button>
                 </Link>
                 <Link href="/pricing">
@@ -348,7 +333,7 @@ export default function Services() {
                           <ul className="space-y-2 mb-4">
                             {service.features.slice(0, 4).map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center space-x-2">
-                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <Enhanced4DCheckCircleIcon className="w-3 h-3 text-green-400 flex-shrink-0" size={12} />
                                 <span className="text-gray-300 text-xs">{feature}</span>
                               </li>
                             ))}
@@ -362,7 +347,7 @@ export default function Services() {
 onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
-                            <ArrowRight className="ml-2 w-3 h-3" />
+                            <Enhanced4DArrowRightIcon className="ml-2 w-3 h-3" size={12} />
                           </Button>
                         </CardContent>
                       </Card>
@@ -387,7 +372,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <ul className="space-y-2 mb-4">
                             {service.features.slice(0, 4).map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center space-x-2">
-                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <Enhanced4DCheckCircleIcon className="w-3 h-3 text-green-400 flex-shrink-0" size={12} />
                                 <span className="text-gray-300 text-xs">{feature}</span>
                               </li>
                             ))}
@@ -401,7 +386,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
 onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
-                            <ArrowRight className="ml-2 w-3 h-3" />
+                            <Enhanced4DArrowRightIcon className="ml-2 w-3 h-3" size={12} />
                           </Button>
                         </CardContent>
                       </Card>
@@ -426,7 +411,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <ul className="space-y-2 mb-4">
                             {service.features.slice(0, 4).map((feature, fIndex) => (
                               <li key={fIndex} className="flex items-center space-x-2">
-                                <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                <Enhanced4DCheckCircleIcon className="w-3 h-3 text-green-400 flex-shrink-0" size={12} />
                                 <span className="text-gray-300 text-xs">{feature}</span>
                               </li>
                             ))}
@@ -440,7 +425,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
 onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
                           >
                             Learn More
-                            <ArrowRight className="ml-2 w-3 h-3" />
+                            <Enhanced4DArrowRightIcon className="ml-2 w-3 h-3" size={12} />
                           </Button>
                         </CardContent>
                       </Card>
@@ -491,23 +476,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Up to 250 users</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">AI-powered threat detection</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Basic incident response</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">FERPA/CIPA compliance</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Email & chat support</span>
                               </li>
                             </ul>
@@ -537,23 +522,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">FISMA compliance framework</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">FedRAMP authorized infrastructure</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">PIV/CAC authentication</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Classified data handling</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">24/7 government SOC</span>
                               </li>
                             </ul>
@@ -582,23 +567,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Multi-state coordination</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Secure information sharing</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Joint incident response</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Emergency coordination</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Advanced threat sharing</span>
                               </li>
                             </ul>
@@ -624,23 +609,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">IoT device security</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Traffic management protection</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Utility grid monitoring</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Public safety integration</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Emergency services security</span>
                               </li>
                             </ul>
@@ -674,23 +659,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Up to 1000 users</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Advanced AI threat detection</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Automated incident response</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Full compliance automation</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">24/7 priority support</span>
                               </li>
                             </ul>
@@ -717,23 +702,23 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                           <CardContent className="p-6 pt-0">
                             <ul className="space-y-2 mb-6">
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Unlimited users</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Premium AI models</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Custom response playbooks</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">White-glove compliance</span>
                               </li>
                               <li className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-green-400" />
+                                <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                                 <span className="text-gray-300 text-sm">Dedicated success team</span>
                               </li>
                             </ul>
@@ -917,7 +902,7 @@ className="button-4d border-cyan-500 text-cyan-400"
                                 <ul className="space-y-1">
                                   {service.deliverables.map((deliverable, dIndex) => (
                                     <li key={dIndex} className="flex items-center space-x-2">
-                                      <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                                      <Enhanced4DCheckCircleIcon className="w-3 h-3 text-green-400 flex-shrink-0" size={12} />
                                       <span className="text-gray-300 text-xs">{deliverable}</span>
                                     </li>
                                   ))}
@@ -925,7 +910,7 @@ className="button-4d border-cyan-500 text-cyan-400"
                               </div>
                               <Button variant="outline" className="w-full border-cyan-500 text-cyan-400 hover:bg-cyan-500/10">
                                 Get Quote
-                                <ArrowRight className="ml-2 w-3 h-3" />
+                                <Enhanced4DArrowRightIcon className="ml-2 w-3 h-3" size={12} />
                               </Button>
                             </CardContent>
                           </Card>
@@ -1048,19 +1033,19 @@ className="button-4d border-cyan-500 text-cyan-400"
                 <CardContent className="p-8 pt-0">
                   <ul className="space-y-3 mb-8">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Email support</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Knowledge base access</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Community forums</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Business hours response</span>
                     </li>
                   </ul>
@@ -1087,19 +1072,19 @@ className="button-4d border-cyan-500 text-cyan-400"
                 <CardContent className="p-8 pt-0">
                   <ul className="space-y-3 mb-8">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">24/7 priority support</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Dedicated success manager</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Phone & video support</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Custom training sessions</span>
                     </li>
                   </ul>
@@ -1122,19 +1107,19 @@ className="button-4d border-cyan-500 text-cyan-400"
                 <CardContent className="p-8 pt-0">
                   <ul className="space-y-3 mb-8">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Dedicated technical team</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">On-site consulting</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Custom integrations</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-300">Executive briefings</span>
                     </li>
                   </ul>
@@ -1177,7 +1162,7 @@ onClick={() => { window.location.href = '/contact#top'; setTimeout(() => window.
               <Link href="/pricing">
                 <Button size="lg" variant="outline" className="border-orange-500 text-orange-400 hover:bg-orange-500/10 px-10 py-4 text-lg">
                   View All Pricing
-                  <ArrowRight className="ml-2 w-6 h-6" />
+                  <Enhanced4DArrowRightIcon className="ml-2 w-6 h-6" size={24} />
                 </Button>
               </Link>
             </div>

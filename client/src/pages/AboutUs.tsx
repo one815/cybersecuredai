@@ -3,20 +3,7 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Shield, 
-  Brain, 
-  Users, 
-  Award, 
-  Target, 
-  CheckCircle,
-  TrendingUp,
-  Globe,
-  ArrowRight,
-  ExternalLink,
-  Star,
-  Building
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -26,7 +13,15 @@ import {
   CustomTargetIcon,
   Enhanced4DShieldIcon,
   Enhanced4DBrainIcon,
-  Enhanced4DTargetIcon
+  Enhanced4DTargetIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DTrendingUpIcon,
+  Enhanced4DGlobeIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DExternalLinkIcon,
+  Enhanced4DStarIcon,
+  Enhanced4DBuildingIcon,
+  Enhanced4DUsersIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 
@@ -174,7 +169,7 @@ export default function AboutUs() {
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                     </div>
                     <span className="text-gray-300">Regulatory compliance automation</span>
                   </div>
@@ -188,7 +183,7 @@ export default function AboutUs() {
 
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4">
                   Learn About Our Platform
-                  <ArrowRight className="ml-2 w-5 h-5" />
+                  <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                 </Button>
               </div>
 
@@ -404,7 +399,7 @@ export default function AboutUs() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4">
                     Explore Our Technology
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                   </Button>
                   <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-8 py-4">
                     View Case Studies
@@ -489,7 +484,7 @@ export default function AboutUs() {
               <Link href="/contact">
                 <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700 text-white px-10 py-4 text-lg">
                   Schedule a Demo
-                  <ArrowRight className="ml-2 w-6 h-6" />
+                  <Enhanced4DArrowRightIcon className="ml-2 w-6 h-6" size={24} />
                 </Button>
               </Link>
               <Link href="/security-scanner">

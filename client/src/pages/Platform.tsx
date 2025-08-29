@@ -2,23 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Shield, 
-  Brain, 
-  Network, 
-  Users, 
-  ArrowRight,
-  CheckCircle,
-  Eye,
-  Lock,
-  Server,
-  Star,
-  ExternalLink,
-  Target,
-  Globe,
-  Activity,
-  Building
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -38,7 +22,13 @@ import {
   Enhanced4DActivityIcon,
   Enhanced4DFileIcon,
   Enhanced4DGlobeIcon,
-  Enhanced4DServerIcon
+  Enhanced4DServerIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DUsersIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DExternalLinkIcon,
+  Enhanced4DBuildingIcon,
+  Enhanced4DStarIcon
 } from "@/components/CustomIcons";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link, useLocation } from "wouter";
@@ -155,7 +145,7 @@ export default function Platform() {
     {
       title: "Smart City Security Suite",
       description: "Critical infrastructure protection for smart cities",
-      icon: <Building className="w-8 h-8 text-pink-400" />,
+      icon: <Enhanced4DBuildingIcon className="w-8 h-8 text-pink-400" size={32} />,
       color: "border-pink-500/30",
       features: [
         "Traffic system security",
@@ -206,7 +196,7 @@ export default function Platform() {
                     onClick={() => setLocation('/platform-demo')}
                   >
                     Watch Platform Demo
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                    <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                   </Button>
                 </Link>
                 <Link href="/trials">
@@ -275,7 +265,7 @@ export default function Platform() {
                     <ul className="space-y-1 mb-4">
                       {engine.features.slice(0, 3).map((feature, fIndex) => (
                         <li key={fIndex} className="flex items-center space-x-2">
-                          <CheckCircle className="w-3 h-3 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-3 h-3 text-green-400" size={12} />
                           <span className="text-gray-300 text-xs">{feature}</span>
                         </li>
                       ))}
@@ -285,7 +275,7 @@ export default function Platform() {
                       onClick={() => setLocation('/solutions/threat-intelligence')}
                     >
                       Learn More
-                      <ArrowRight className="ml-2 w-3 h-3" />
+                      <Enhanced4DArrowRightIcon className="ml-2 w-3 h-3" size={12} />
                     </Button>
                   </CardContent>
                 </Card>
@@ -471,19 +461,19 @@ export default function Platform() {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">AES-256 encryption at rest and in transit</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">Zero-trust network architecture</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">SOC 2 Type II certified infrastructure</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">24/7 security monitoring and response</span>
                       </div>
                     </div>
@@ -494,7 +484,7 @@ export default function Platform() {
                       onClick={() => setLocation('/solutions/threat-intelligence')}
                     >
                       Explore Security Features
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                     </Button>
                   </div>
                   <div>
@@ -528,19 +518,19 @@ export default function Platform() {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">99.7% threat detection accuracy</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">73% reduction in false positives</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">Real-time behavioral analytics</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">Predictive vulnerability assessment</span>
                       </div>
                     </div>
@@ -551,7 +541,7 @@ export default function Platform() {
                       onClick={() => setLocation('/solutions/ai-security')}
                     >
                       Explore AI Features
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                     </Button>
                   </div>
                 </div>
@@ -571,19 +561,19 @@ export default function Platform() {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">FERPA, FISMA, CIPA certified</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">FedRAMP High authorization</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">Automated audit reporting</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-300">85% reduction in compliance overhead</span>
                       </div>
                     </div>
@@ -594,7 +584,7 @@ export default function Platform() {
                       onClick={() => setLocation('/solutions/compliance')}
                     >
                       Explore Compliance Features
-                      <ArrowRight className="ml-2 w-5 h-5" />
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
                     </Button>
                   </div>
                   <div>
@@ -666,7 +656,7 @@ export default function Platform() {
                   onClick={() => setLocation('/trials')}
                 >
                   Start Free Trial
-                  <ArrowRight className="ml-2 w-6 h-6" />
+                  <Enhanced4DArrowRightIcon className="ml-2 w-6 h-6" size={24} />
                 </Button>
               </Link>
             </div>

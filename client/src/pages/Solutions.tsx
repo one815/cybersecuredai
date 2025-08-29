@@ -2,27 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Brain, 
-  Shield, 
-  Users, 
-  CheckCircle,
-  ArrowRight,
-  Star,
-  ExternalLink,
-  Target,
-  Award,
-  Globe,
-  GraduationCap,
-  Flag,
-  Building,
-  Network,
-  Lock,
-  Eye,
-  FileText,
-  Server,
-  HardDrive
-} from "lucide-react";
+// All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -43,7 +23,14 @@ import {
   Enhanced4DZapIcon,
   Enhanced4DActivityIcon,
   Enhanced4DNetworkIcon,
-  Enhanced4DFileIcon
+  Enhanced4DFileIcon,
+  Enhanced4DCheckCircleIcon,
+  Enhanced4DUsersIcon,
+  Enhanced4DArrowRightIcon,
+  Enhanced4DExternalLinkIcon,
+  Enhanced4DGlobeIcon,
+  Enhanced4DServerIcon,
+  Enhanced4DBuildingIcon
 } from "@/components/CustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -254,23 +241,23 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Up to 250 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">PyMISP & CIRCL-enhanced threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Basic incident response</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">FERPA/CIPA compliance</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Email & chat support</span>
                     </li>
                   </ul>
@@ -297,23 +284,23 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Up to 1000 users</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Advanced AI threat detection</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Automated incident response</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Full compliance automation</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">24/7 priority support</span>
                     </li>
                   </ul>
@@ -337,23 +324,23 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Unlimited users</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Premium AI models</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Custom response playbooks</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">White-glove compliance</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Dedicated success team</span>
                     </li>
                   </ul>
@@ -393,15 +380,15 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Basic network security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Entry-level access control</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Standard encryption devices</span>
                     </li>
                   </ul>
@@ -424,15 +411,15 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Advanced network security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Comprehensive access control systems</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Enhanced encryption solutions</span>
                     </li>
                   </ul>
@@ -455,15 +442,15 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 mb-6">
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Enterprise-grade security hardware</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">Advanced biometric systems</span>
                     </li>
                     <li className="flex items-center space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                       <span className="text-gray-200 text-sm font-medium">FIPS 140-2 certified encryption devices</span>
                     </li>
                   </ul>
@@ -520,18 +507,18 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <div className="flex items-center space-x-2">
                             <GraduationCap className="w-4 h-4 text-cyan-400" />
                             <span className="text-gray-200 text-sm font-medium">Student data protection</span>
                           </div>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Basic FERPA/COPPA/CIPA compliance</span>
                         </li>
                       </ul>
@@ -554,18 +541,18 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <div className="flex items-center space-x-2">
                             <GraduationCap className="w-4 h-4 text-cyan-400" />
                             <span className="text-gray-200 text-sm font-medium">Student data protection</span>
                           </div>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Comprehensive FERPA/COPPA/CIPA compliance</span>
                         </li>
                       </ul>
@@ -585,15 +572,15 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Advanced classroom security solutions</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Advanced student data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Advanced FERPA/COPPA/CIPA automation</span>
                         </li>
                       </ul>
@@ -618,15 +605,15 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Academic data security</span>
                         </li>
                       </ul>
@@ -649,15 +636,15 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Academic data security</span>
                         </li>
                       </ul>
@@ -677,15 +664,15 @@ export default function Solutions() {
                     <CardContent className="p-6 pt-0">
                       <ul className="space-y-2 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Advanced research network security</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Comprehensive campus-wide protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-200 text-sm font-medium">Advanced academic data security</span>
                         </li>
                       </ul>
@@ -928,19 +915,19 @@ export default function Solutions() {
                     <CardContent className="p-8 pt-0">
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Student device management</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Classroom security monitoring</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">CIPA compliance automation</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Parent portal security</span>
                         </li>
                       </ul>
@@ -964,19 +951,19 @@ export default function Solutions() {
                     <CardContent className="p-8 pt-0">
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Research data protection</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Campus-wide monitoring</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">BYOD security management</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Multi-campus coordination</span>
                         </li>
                       </ul>
@@ -1050,19 +1037,19 @@ export default function Solutions() {
                     <CardContent className="p-8 pt-0">
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">PIV/CAC authentication</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">FedRAMP High compliance</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Multi-agency coordination</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">FISMA compliance automation</span>
                         </li>
                       </ul>
@@ -1086,19 +1073,19 @@ export default function Solutions() {
                     <CardContent className="p-8 pt-0">
                       <ul className="space-y-3 mb-6">
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Smart city infrastructure</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Emergency services integration</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Traffic system security</span>
                         </li>
                         <li className="flex items-center space-x-2">
-                          <CheckCircle className="w-4 h-4 text-green-400" />
+                          <Enhanced4DCheckCircleIcon className="w-4 h-4 text-green-400" size={16} />
                           <span className="text-gray-100">Utility grid monitoring</span>
                         </li>
                       </ul>
@@ -1160,19 +1147,19 @@ export default function Solutions() {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">FERPA & COPPA compliance automation</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Student data protection & privacy</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Campus network security monitoring</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Research data protection</span>
                       </div>
                     </div>
@@ -1213,19 +1200,19 @@ export default function Solutions() {
                     
                     <div className="space-y-4 mb-8">
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">FISMA & FedRAMP compliance</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Classified data protection protocols</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Inter-agency threat intelligence sharing</span>
                       </div>
                       <div className="flex items-center space-x-3">
-                        <CheckCircle className="w-5 h-5 text-green-400" />
+                        <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
                         <span className="text-gray-100">Critical infrastructure monitoring</span>
                       </div>
                     </div>
