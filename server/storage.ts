@@ -135,6 +135,7 @@ export class MemStorage implements IStorage {
     const adminUser: User = {
       id: "admin-1",
       email: "admin@cybersecure.ai",
+      passwordHash: null,
       firstName: "Alex",
       lastName: "Morgan",
       role: "admin",
@@ -415,7 +416,7 @@ export class MemStorage implements IStorage {
       hardwareKeyEnabled: insertUser.hardwareKeyEnabled ?? false,
       totpSecret: insertUser.totpSecret ?? null,
       totpBackupCodes: insertUser.totpBackupCodes ?? null,
-      planType: insertUser.planType ?? "standard",
+      planType: insertUser.planType ?? "cyber_cloud_enterprise",
       onboardingCompleted: insertUser.onboardingCompleted ?? false,
       securityPolicyAccepted: insertUser.securityPolicyAccepted ?? false,
       dataPolicyAccepted: insertUser.dataPolicyAccepted ?? false,
