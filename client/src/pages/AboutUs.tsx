@@ -23,7 +23,10 @@ import {
   CustomGlobeIcon,
   CustomGraduationCapIcon,
   CustomFlagIcon,
-  CustomTargetIcon
+  CustomTargetIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DBrainIcon,
+  Enhanced4DTargetIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 
@@ -165,7 +168,7 @@ export default function AboutUs() {
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center space-x-4">
                     <div className="w-8 h-8 bg-cyan-500/20 rounded-full flex items-center justify-center">
-                      <CustomShieldIcon className="w-4 h-4 text-cyan-400" size={16} />
+                      <Enhanced4DShieldIcon className="w-4 h-4 text-cyan-400" size={16} />
                     </div>
                     <span className="text-gray-300">Proactive threat prevention and response</span>
                   </div>
@@ -177,7 +180,7 @@ export default function AboutUs() {
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
-                      <CustomBrainIcon className="w-4 h-4 text-purple-400" size={16} />
+                      <Enhanced4DBrainIcon className="w-4 h-4 text-purple-400" size={16} />
                     </div>
                     <span className="text-gray-300">AI-driven security intelligence</span>
                   </div>
@@ -433,7 +436,7 @@ export default function AboutUs() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <Card className="bg-slate-800/60 border border-cyan-500/30">
                 <CardContent className="p-8 text-center">
-                  <CustomBrainIcon className="w-16 h-16 text-cyan-400 mx-auto mb-6" size={64} />
+                  <Enhanced4DBrainIcon className="w-16 h-16 text-cyan-400 mx-auto mb-6" size={64} />
                   <h3 className="text-xl font-bold text-white mb-4">AI Research Lab</h3>
                   <p className="text-gray-300 mb-6">
                     Advanced machine learning research for next-generation threat detection
@@ -492,7 +495,7 @@ export default function AboutUs() {
               <Link href="/security-scanner">
                 <Button size="lg" variant="outline" className="border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-10 py-4 text-lg">
                   Free Security Assessment
-                  <CustomTargetIcon className="ml-2 w-6 h-6" size={24} />
+                  <Enhanced4DTargetIcon className="ml-2 w-6 h-6" size={24} />
                 </Button>
               </Link>
             </div>

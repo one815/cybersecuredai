@@ -33,7 +33,17 @@ import {
   CustomZapIcon,
   CustomEyeIcon,
   CustomFileTextIcon,
-  CustomDatabaseIcon
+  CustomDatabaseIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DBrainIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DBotIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
+  Enhanced4DNetworkIcon,
+  Enhanced4DFileIcon
 } from "@/components/CustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
@@ -146,7 +156,7 @@ export default function Solutions() {
                   <div className="relative w-16 h-16 bg-gradient-to-br from-red-500/30 to-orange-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-red-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-red-400/20 to-transparent rounded-xl"></div>
                     <div className="absolute top-1 left-1 w-2 h-2 bg-red-300 rounded-full opacity-60 animate-pulse"></div>
-                    <Brain className="w-8 h-8 text-red-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(239, 68, 68, 0.7))'}} />
+                    <Enhanced4DBrainIcon className="w-8 h-8 text-red-300 relative z-10" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white mb-3">AI-Powered Threat Detection</CardTitle>
                 </CardHeader>
@@ -182,7 +192,7 @@ export default function Solutions() {
                   <div className="relative w-16 h-16 bg-gradient-to-br from-green-500/30 to-emerald-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-green-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-transparent rounded-xl"></div>
                     <div className="absolute top-1 right-1 w-2 h-2 bg-green-300 rounded-full opacity-60 animate-pulse"></div>
-                    <Shield className="w-8 h-8 text-green-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(34, 197, 94, 0.7))'}} />
+                    <Enhanced4DShieldIcon className="w-8 h-8 text-green-300 relative z-10" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white mb-3">Compliance Automation</CardTitle>
                 </CardHeader>
@@ -200,7 +210,7 @@ export default function Solutions() {
                   <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500/30 to-pink-600/30 rounded-xl flex items-center justify-center mx-auto mb-4 border border-purple-400/50 shadow-2xl transform-gpu hover:scale-110 transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-transparent rounded-xl"></div>
                     <div className="absolute bottom-1 left-1 w-2 h-2 bg-purple-300 rounded-full opacity-60 animate-pulse"></div>
-                    <Target className="w-8 h-8 text-purple-300 relative z-10 filter drop-shadow-lg" style={{filter: 'drop-shadow(0 0 10px rgba(168, 85, 247, 0.7))'}} />
+                    <Enhanced4DTargetIcon className="w-8 h-8 text-purple-300 relative z-10" size={32} />
                   </div>
                   <CardTitle className="text-lg text-white mb-3">Predictive Risk Analysis</CardTitle>
                 </CardHeader>
@@ -987,7 +997,7 @@ export default function Solutions() {
                     <Card className="bg-slate-800/90 border border-cyan-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Network className="w-8 h-8 text-cyan-400 mr-3" />
+                          <Enhanced4DNetworkIcon className="w-8 h-8 text-cyan-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Research Network Security Partitioning</h4>
                             <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
@@ -1013,7 +1023,7 @@ export default function Solutions() {
                     <Card className="bg-slate-800/90 border border-purple-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Shield className="w-8 h-8 text-purple-400 mr-3" />
+                          <Enhanced4DShieldIcon className="w-8 h-8 text-purple-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold text-sm">BYOD Security Management</h4>
                             <p className="text-purple-400 font-bold text-sm">Contact for Pricing</p>
@@ -1109,7 +1119,7 @@ export default function Solutions() {
                     <Card className="bg-slate-800/90 border border-orange-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Network className="w-8 h-8 text-orange-400 mr-3" />
+                          <Enhanced4DNetworkIcon className="w-8 h-8 text-orange-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Multi-State Security Coalition Platform</h4>
                             <p className="text-orange-400 font-bold text-sm">Contact for Pricing</p>
@@ -1122,7 +1132,7 @@ export default function Solutions() {
                     <Card className="bg-slate-800/90 border border-cyan-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Shield className="w-8 h-8 text-cyan-400 mr-3" />
+                          <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold text-sm">Government Community Cloud Integration</h4>
                             <p className="text-cyan-400 font-bold text-sm">Contact for Pricing</p>
@@ -1343,7 +1353,7 @@ export default function Solutions() {
               {/* Threat Detection */}
               <Card className="bg-slate-800/60 border border-red-500/30 hover:border-red-400/60 transition-colors">
                 <CardHeader className="p-8 text-center">
-                  <CustomTargetIcon className="w-16 h-16 text-red-400 mx-auto mb-6" size={64} />
+                  <Enhanced4DTargetIcon className="w-16 h-16 text-red-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">AI Threat Detection</CardTitle>
                   <p className="text-gray-100">
                     Advanced machine learning models for real-time threat identification and response
@@ -1369,7 +1379,7 @@ export default function Solutions() {
               {/* Identity Protection */}
               <Card className="bg-slate-800/60 border border-blue-500/30 hover:border-blue-400/60 transition-colors">
                 <CardHeader className="p-8 text-center">
-                  <CustomShieldIcon className="w-16 h-16 text-blue-400 mx-auto mb-6" size={64} />
+                  <Enhanced4DShieldIcon className="w-16 h-16 text-blue-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">Identity Security</CardTitle>
                   <p className="text-gray-100">
                     Comprehensive identity and access management with multi-factor authentication
@@ -1395,7 +1405,7 @@ export default function Solutions() {
               {/* Compliance Automation */}
               <Card className="bg-slate-800/60 border border-green-500/30 hover:border-green-400/60 transition-colors">
                 <CardHeader className="p-8 text-center">
-                  <CustomFileTextIcon className="w-16 h-16 text-green-400 mx-auto mb-6" size={64} />
+                  <Enhanced4DFileIcon className="w-16 h-16 text-green-400 mx-auto mb-6" size={64} />
                   <CardTitle className="text-2xl text-white mb-4">Compliance Automation</CardTitle>
                   <p className="text-gray-100">
                     Automated regulatory compliance with continuous monitoring and reporting

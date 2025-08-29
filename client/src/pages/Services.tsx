@@ -33,7 +33,18 @@ import {
   CustomTargetIcon,
   CustomEyeIcon,
   CustomHeadphonesIcon,
-  CustomSettingsIcon
+  CustomSettingsIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DBrainIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DBotIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
+  Enhanced4DFileIcon,
+  Enhanced4DGlobeIcon,
+  Enhanced4DServerIcon
 } from "@/components/CustomIcons";
 import { Link } from "wouter";
 
@@ -50,7 +61,7 @@ export default function Services() {
     {
       title: "Advanced AI-Driven Threat Hunting",
       description: "Proactive AI-powered threat hunting that identifies potential threats before they manifest",
-      icon: <CustomEyeIcon className="w-8 h-8 text-red-400" size={32} />,
+      icon: <Enhanced4DEyeIcon className="w-8 h-8 text-red-400" size={32} />,
       features: [
         "PyMISP-powered real-time threat detection and analysis",
         "CIRCL-enhanced behavioral analytics for anomaly detection",
@@ -65,7 +76,7 @@ export default function Services() {
     {
       title: "AI-Enhanced Predictive Risk Analysis",
       description: "Advanced machine learning models that predict potential vulnerabilities based on historical data",
-      icon: <CustomBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
+      icon: <Enhanced4DBrainIcon className="w-8 h-8 text-purple-400" size={32} />,
       features: [
         "Customized risk modeling for education/government",
         "Trend analysis and forecasting",
@@ -80,7 +91,7 @@ export default function Services() {
     {
       title: "AI-Powered Compliance Automation",
       description: "Sophisticated AI to streamline regulatory compliance across multiple frameworks",
-      icon: <CustomShieldIcon className="w-8 h-8 text-green-400" size={32} />,
+      icon: <Enhanced4DShieldIcon className="w-8 h-8 text-green-400" size={32} />,
       features: [
         "FERPA, COPPA, CIPA automation",
         "FedRAMP, FISMA compliance",
@@ -95,7 +106,7 @@ export default function Services() {
     {
       title: "Interactive Security Visualization",
       description: "5D security visualization environment for intuitive threat exploration",
-      icon: <Eye className="w-8 h-8 text-cyan-400" />,
+      icon: <Enhanced4DEyeIcon className="w-8 h-8 text-cyan-400" size={32} />,
       features: [
         "Real-time security dashboard",
         "Interactive threat maps",
@@ -172,7 +183,7 @@ export default function Services() {
   const professionalServices = [
     {
       category: "Strategic Consulting",
-      icon: <CustomTargetIcon className="w-6 h-6 text-cyan-400" size={24} />,
+      icon: <Enhanced4DTargetIcon className="w-6 h-6 text-cyan-400" size={24} />,
       services: [
         {
           name: "Cybersecurity Strategy Development",
@@ -304,7 +315,7 @@ export default function Services() {
                 </h2>
                 <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-2 bg-slate-700">
                   <TabsTrigger value="managed" className="data-[state=active]:bg-orange-600 text-lg py-4">
-                    <CustomEyeIcon className="w-6 h-6 mr-2" size={24} />
+                    <Enhanced4DEyeIcon className="w-6 h-6 mr-2" size={24} />
                     Managed Services
                   </TabsTrigger>
                   <TabsTrigger value="professional" className="data-[state=active]:bg-orange-600 text-lg py-4">
@@ -759,7 +770,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                     <Card className="bg-slate-700/60 border border-green-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Shield className="w-8 h-8 text-green-400 mr-3" />
+                          <Enhanced4DShieldIcon className="w-8 h-8 text-green-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold">Multi-Factor Authentication Hardware</h4>
                             <p className="text-green-400 font-bold">Contact for Pricing</p>
@@ -798,7 +809,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                     <Card className="bg-slate-700/60 border border-yellow-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Target className="w-8 h-8 text-yellow-400 mr-3" />
+                          <Enhanced4DTargetIcon className="w-8 h-8 text-yellow-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold">Advanced Security Assessment</h4>
                             <p className="text-yellow-400 font-bold">Contact for Pricing</p>
@@ -811,7 +822,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                     <Card className="bg-slate-700/60 border border-orange-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Eye className="w-8 h-8 text-orange-400 mr-3" />
+                          <Enhanced4DEyeIcon className="w-8 h-8 text-orange-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold">Penetration Testing</h4>
                             <p className="text-orange-400 font-bold">Contact for Pricing</p>
@@ -831,7 +842,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Card className="bg-slate-700/60 border border-cyan-500/30">
                       <CardContent className="p-6 text-center">
-                        <Target className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
+                        <Enhanced4DTargetIcon className="w-10 h-10 text-cyan-400 mx-auto mb-4" size={40} />
                         <h4 className="text-white font-semibold mb-2">Security Assessment</h4>
                         <p className="text-gray-300 text-sm mb-4">Comprehensive security evaluation</p>
                         <Button 
@@ -859,7 +870,7 @@ className="button-4d border-cyan-500 text-cyan-400"
                     </Card>
                     <Card className="bg-slate-700/60 border border-purple-500/30">
                       <CardContent className="p-6 text-center">
-                        <Shield className="w-10 h-10 text-purple-400 mx-auto mb-4" />
+                        <Enhanced4DShieldIcon className="w-10 h-10 text-purple-400 mx-auto mb-4" size={40} />
                         <h4 className="text-white font-semibold mb-2">Compliance Readiness Assessment</h4>
                         <p className="text-gray-300 text-sm mb-4">Regulatory compliance evaluation</p>
                         <Button 

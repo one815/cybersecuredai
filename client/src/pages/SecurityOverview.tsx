@@ -30,7 +30,10 @@ import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
   CustomTargetIcon,
-  CustomShieldIcon
+  CustomShieldIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DActivityIcon
 } from "@/components/CustomIcons";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -129,7 +132,7 @@ export default function SecurityOverview() {
   const getTrendIcon = (trend: string, change?: number) => {
     if (trend === "up") return <TrendingUp className="w-4 h-4 text-green-400" />;
     if (trend === "down") return <TrendingDown className="w-4 h-4 text-red-400" />;
-    return <Activity className="w-4 h-4 text-gray-400" />;
+    return <Enhanced4DActivityIcon className="w-4 h-4 text-gray-400" size={16} />;
   };
 
   return (
@@ -140,7 +143,7 @@ export default function SecurityOverview() {
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl lg:text-4xl font-bold text-white flex items-center">
-              <Shield className="w-8 h-8 mr-3 text-cyan-400" />
+              <Enhanced4DShieldIcon className="w-8 h-8 mr-3 text-cyan-400" size={32} />
               Security Overview
             </h1>
             <p className="text-gray-300 mt-2">Comprehensive security posture and threat landscape analysis</p>
@@ -219,7 +222,7 @@ export default function SecurityOverview() {
           <Card className="holographic-card border border-green-500/30">
             <CardHeader>
               <CardTitle className="text-white flex items-center">
-                <Activity className="w-5 h-5 mr-2 text-green-400" />
+                <Enhanced4DActivityIcon className="w-5 h-5 mr-2 text-green-400" size={20} />
                 System Health & Performance
               </CardTitle>
             </CardHeader>
@@ -385,7 +388,7 @@ export default function SecurityOverview() {
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <Button variant="outline" className="border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/20" data-testid="button-scan-threats">
-                <Eye className="w-4 h-4 mr-2" />
+                <Enhanced4DEyeIcon className="w-4 h-4 mr-2" size={16} />
                 Scan for Threats
               </Button>
               <Button variant="outline" className="border-blue-500/50 text-blue-400 hover:bg-blue-500/20" data-testid="button-generate-report">

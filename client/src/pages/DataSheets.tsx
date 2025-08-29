@@ -36,7 +36,11 @@ import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
   CustomShieldIcon,
-  CustomTargetIcon
+  CustomTargetIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon
 } from "@/components/CustomIcons";
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
 import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
@@ -232,7 +236,7 @@ const getIndustryIcon = (industry: string) => {
       return (
         <div className="relative">
           <Building className="w-4 h-4" />
-          <Shield className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" />
+          <Enhanced4DShieldIcon className="w-2 h-2 absolute -top-1 -right-1 text-blue-400" size={8} />
         </div>
       );
     case "Higher Education":
@@ -273,8 +277,8 @@ const getCategoryIcon = (category: string) => {
     case "Compliance Features":
       return (
         <div className="relative">
-          <Shield className="w-4 h-4" />
-          <Eye className="w-2 h-2 absolute -bottom-1 -right-1 text-orange-400" />
+          <Enhanced4DShieldIcon className="w-4 h-4" size={16} />
+          <Enhanced4DEyeIcon className="w-2 h-2 absolute -bottom-1 -right-1 text-orange-400" size={8} />
         </div>
       );
     case "Technical Specifications":
@@ -288,7 +292,7 @@ const getCategoryIcon = (category: string) => {
       return (
         <div className="relative">
           <Layers className="w-4 h-4" />
-          <Zap className="w-2 h-2 absolute -bottom-1 -right-1 text-yellow-400" />
+          <Enhanced4DZapIcon className="w-2 h-2 absolute -bottom-1 -right-1 text-yellow-400" size={8} />
         </div>
       );
     case "Integration Capabilities":
@@ -301,8 +305,8 @@ const getCategoryIcon = (category: string) => {
     case "Monitoring & Analytics":
       return (
         <div className="relative">
-          <Eye className="w-4 h-4" />
-          <Activity className="w-2 h-2 absolute -bottom-1 -right-1 text-green-400" />
+          <Enhanced4DEyeIcon className="w-4 h-4" size={16} />
+          <Enhanced4DActivityIcon className="w-2 h-2 absolute -bottom-1 -right-1 text-green-400" size={8} />
         </div>
       );
     default:
@@ -425,7 +429,7 @@ export default function DataSheets() {
                     >
                       {datasheet.link ? (
                         <>
-                          <Eye className="w-4 h-4 mr-2" />
+                          <Enhanced4DEyeIcon className="w-4 h-4 mr-2" size={16} />
                           View Details
                         </>
                       ) : (
@@ -641,7 +645,7 @@ export default function DataSheets() {
                     >
                       {datasheet.link ? (
                         <>
-                          <Eye className="w-3 h-3 mr-2" />
+                          <Enhanced4DEyeIcon className="w-3 h-3 mr-2" size={12} />
                           View Details
                         </>
                       ) : (

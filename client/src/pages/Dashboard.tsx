@@ -53,6 +53,13 @@ import {
 import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
+  Enhanced4DShieldIcon,
+  Enhanced4DLockIcon,
+  Enhanced4DTargetIcon,
+  Enhanced4DEyeIcon,
+  Enhanced4DBotIcon,
+  Enhanced4DZapIcon,
+  Enhanced4DActivityIcon,
   CustomTargetIcon,
   CustomShieldIcon
 } from "@/components/CustomIcons";
@@ -252,7 +259,7 @@ export default function Dashboard() {
           <div className="flex items-center space-x-3 sm:space-x-8">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg flex items-center justify-center floating-3d text-white text-xl sm:text-2xl">
-                <Shield className="w-5 h-5 sm:w-6 sm:h-6" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))'}} />
+                <Enhanced4DShieldIcon className="w-5 h-5 sm:w-6 sm:h-6" size={24} />
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-lg sm:text-xl lg:text-2xl font-bold geometric-text bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent flex items-center space-x-2">
@@ -288,7 +295,7 @@ export default function Dashboard() {
                   <div className="absolute inset-0 rounded-full border-2 border-blue-400/60 animate-pulse"></div>
                   <div className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping"></div>
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                    <Eye className="w-8 h-8 text-white" style={{filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.4))'}} />
+                    <Enhanced4DEyeIcon className="w-8 h-8 text-white" size={32} />
                   </div>
                 </div>
                 
@@ -443,7 +450,7 @@ export default function Dashboard() {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center p-6 bg-background/20 rounded-lg border border-cyan-500/20">
-                  <Shield className="w-12 h-12 mx-auto mb-4 text-cyan-400" />
+                  <Enhanced4DShieldIcon className="w-12 h-12 mx-auto mb-4 text-cyan-400" size={48} />
                   <h3 className="text-lg font-bold text-white mb-2">AI-Powered Security</h3>
                   <p className="text-sm text-gray-400">Advanced threat detection and response using machine learning algorithms</p>
                 </div>
@@ -483,7 +490,7 @@ export default function Dashboard() {
                     className="cyber-button border border-red-500/50 hover:bg-red-500/20"
                     onClick={() => setLocation('/threat-map-5d')}
                   >
-                    <Target className="w-4 h-4 mr-2" />
+                    <Enhanced4DTargetIcon className="w-4 h-4 mr-2" size={16} />
                     5D View
                   </Button>
                 </div>
@@ -585,7 +592,7 @@ export default function Dashboard() {
               {/* Recent Threat Activity */}
               <div className="bg-background/20 rounded-lg p-4 border border-red-500/20">
                 <h4 className="text-red-300 font-bold mb-3 flex items-center">
-                  <Activity className="w-4 h-4 mr-2" />
+                  <Enhanced4DActivityIcon className="w-4 h-4 mr-2" size={16} />
                   Recent Threat Activity
                 </h4>
                 <div className="space-y-3">
@@ -627,7 +634,7 @@ export default function Dashboard() {
               <CardContent>
                 <div className="bg-gray-900/50 rounded-lg p-4 min-h-[150px] flex items-center justify-center">
                   <div className="text-center text-gray-400">
-                    <Activity className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <Enhanced4DActivityIcon className="w-12 h-12 mx-auto mb-2 opacity-50" size={48} />
                     <p>Real-time network monitoring</p>
                   </div>
                 </div>
@@ -654,7 +661,7 @@ export default function Dashboard() {
         {/* Vulnerability Management Section */}
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-            <Target className="w-7 h-7 mr-3 text-orange-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.5))'}} />
+            <Enhanced4DTargetIcon className="w-7 h-7 mr-3 text-orange-400" size={28} />
             Vulnerability Management
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -715,7 +722,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <Bot className="w-6 h-6 text-white" style={{filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.3))'}} />
+                      <Enhanced4DBotIcon className="w-6 h-6 text-white" size={24} />
                     </div>
                     <div>
                       <CardTitle className="text-white text-lg group-hover:text-blue-300 transition-colors">
@@ -964,7 +971,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                    <Enhanced4DLockIcon className="w-4 h-4 text-green-400" size={16} />
                     <span className="text-sm text-gray-400">Password</span>
                   </div>
                 </div>
@@ -1075,7 +1082,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Database Encryption</span>
-                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                    <Enhanced4DLockIcon className="w-4 h-4 text-green-400" size={16} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">AES-256 Active</div>
                   <Progress value={100} className="h-1" />
@@ -1084,7 +1091,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">File System Encryption</span>
-                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                    <Enhanced4DLockIcon className="w-4 h-4 text-green-400" size={16} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">BitLocker Active</div>
                   <Progress value={100} className="h-1" />
@@ -1093,7 +1100,7 @@ export default function Dashboard() {
                 <div className="bg-background/50 rounded-lg p-3 sm:p-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm text-white font-medium">Network Encryption</span>
-                    <Lock className="w-4 h-4 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
+                    <Enhanced4DLockIcon className="w-4 h-4 text-green-400" size={16} />
                   </div>
                   <div className="text-xs text-gray-400 mb-2">TLS 1.3 Active</div>
                   <Progress value={100} className="h-1" />
@@ -1265,7 +1272,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <Zap className="w-4 h-4 text-orange-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 146, 60, 0.4))'}} />
+                    <Enhanced4DZapIcon className="w-4 h-4 text-orange-400" size={16} />
                     <span className="text-white">Network Gateway</span>
                   </div>
                   <span className="text-gray-400">{resolvedAlerts.has('critical-update') ? 'Today, 12:55 PM' : '3 days ago'}</span>
@@ -1283,7 +1290,7 @@ export default function Dashboard() {
                 
                 <div className="grid grid-cols-6 gap-2 text-xs items-center">
                   <div className="flex items-center space-x-2">
-                    <Activity className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
+                    <Enhanced4DActivityIcon className="w-4 h-4 text-cyan-400" size={16} />
                     <span className="text-white">Cloud Storage</span>
                   </div>
                   <span className="text-gray-400">Today, 10:15 AM</span>
@@ -1327,7 +1334,7 @@ export default function Dashboard() {
               {/* MFA Not Configured Alert */}
               {!resolvedAlerts.has('mfa-not-configured') && (
                 <div className="flex items-start space-x-3 p-3 bg-yellow-900/20 rounded-lg border border-yellow-700/50">
-                  <Shield className="w-5 h-5 text-yellow-400 mt-0.5" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
+                  <Enhanced4DShieldIcon className="w-5 h-5 text-yellow-400 mt-0.5" size={20} />
                   <div className="flex-1">
                     <div className="text-sm font-medium text-yellow-400">MFA Not Configured</div>
                     <div className="text-xs text-gray-300 mt-1">4 users have not enabled multi-factor authentication</div>
@@ -1382,7 +1389,7 @@ export default function Dashboard() {
                   onClick={() => setLocation('/threat-detection')}
                   data-testid="button-view-threat-detection"
                 >
-                  <Eye className="w-4 h-4 text-cyan-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.4))'}} />
+                  <Enhanced4DEyeIcon className="w-4 h-4 text-cyan-400" size={16} />
                 </Button>
               </div>
             </CardHeader>
