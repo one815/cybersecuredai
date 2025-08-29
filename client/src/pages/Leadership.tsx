@@ -388,7 +388,7 @@ export default function Leadership() {
         <div className="py-20 bg-midnight-950/50">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-4 text-white">Executive Leadership</h2>
+              <h2 className="text-4xl font-bold mb-4 text-white">Meet Our Founder & CEO</h2>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto">
                 Meet our founder and CEO who drives strategic cybersecurity innovation with proven expertise.
               </p>
