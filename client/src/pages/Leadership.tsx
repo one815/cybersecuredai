@@ -257,26 +257,6 @@ export default function Leadership() {
     }
   ];
 
-  const awards = [
-    {
-      title: "Rising Star Award",
-      subtitle: "Gold Winner - The Learning Awards",
-      description: "Recognized for exceptional innovation in AI-powered cybersecurity solutions and outstanding leadership in driving digital security transformation for educational institutions.",
-      image: risingStarAwardImg
-    },
-    {
-      title: "Best Track Network - Data",
-      subtitle: "BCBS North Carolina HCL Award", 
-      description: "Achieved excellence in network data security and analytics for enterprise healthcare data protection systems.",
-      image: bcbsAwardImg
-    },
-    {
-      title: "Achievers League Award",
-      subtitle: "Above Recognition Beyond Rewards",
-      description: "Distinguished achievement recognition for exceptional leadership and innovation in cybersecurity solutions and client success initiatives.",
-      image: achieversLeagueAwardImg
-    }
-  ];
 
   // Camilia Anderson's Professional Certifications
   const camiliasCertifications = [
@@ -721,38 +701,6 @@ export default function Leadership() {
           </div>
         </div>
 
-        {/* Awards & Recognition */}
-        <div className="py-16 bg-midnight-900/50">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4 text-white">Awards & Recognition</h2>
-              <p className="text-gray-400 text-lg">
-                Celebrating excellence and achievements in cybersecurity innovation and leadership.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {awards.map((award, index) => (
-                <Card key={index} className="bg-gradient-to-br from-spring-900/20 to-cyber-blue-900/20 border-spring-500/30">
-                  <CardContent className="p-8">
-                    <div className="flex items-center justify-center mb-6">
-                      <img 
-                        src={award.image} 
-                        alt={award.title}
-                        className="max-h-32 w-auto object-contain"
-                      />
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold text-white mb-2">{award.title}</h3>
-                      <p className="text-spring-400 font-semibold mb-4">{award.subtitle}</p>
-                      <p className="text-gray-300 text-sm leading-relaxed">{award.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* Our Values */}
         <div className="py-16 bg-midnight-950/50">

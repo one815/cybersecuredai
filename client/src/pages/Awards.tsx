@@ -7,58 +7,25 @@ import { Award, Star, Trophy, Medal, ExternalLink, Calendar, ArrowRight } from "
 export default function Awards() {
   const awards = [
     {
+      year: "2024",
+      title: "Rising Star Award",
+      subtitle: "Gold Winner - The Learning Awards",
+      description: "Recognized for exceptional innovation in AI-powered cybersecurity solutions and outstanding leadership in driving digital security transformation for educational institutions.",
+      image: "/attached_assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png"
+    },
+    {
+      year: "2024",
+      title: "Best Track Network - Data",
+      subtitle: "BCBS North Carolina HCL Award", 
+      description: "Achieved excellence in network data security and analytics for enterprise healthcare data protection systems.",
+      image: "/attached_assets/BCBS North Carolina_1756499508608.jpg"
+    },
+    {
       year: "2025",
-      title: "Gartner Magic Quadrant Leader",
-      organization: "Gartner Inc.",
-      category: "AI-Powered Cybersecurity Platforms", 
-      description: "Named a leader for the third consecutive year in Gartner's Magic Quadrant for AI-Powered Cybersecurity Platforms",
-      icon: Trophy,
-      link: "#"
-    },
-    {
-      year: "2024", 
-      title: "Forrester Wave Leader",
-      organization: "Forrester Research",
-      category: "AI Security Solutions",
-      description: "Ranked #1 in Forrester's AI Security Solutions Wave report for education and government sectors",
-      icon: Award,
-      link: "#"
-    },
-    {
-      year: "2024",
-      title: "IDC MarketScape Leader", 
-      organization: "IDC",
-      category: "Worldwide AI-Based Cybersecurity",
-      description: "Positioned as a leader in IDC MarketScape for Worldwide AI-Based Cybersecurity Software 2024",
-      icon: Star,
-      link: "#"
-    },
-    {
-      year: "2024",
-      title: "MITRE ATT&CK Evaluation",
-      organization: "MITRE Corporation", 
-      category: "Threat Detection",
-      description: "Achieved 98% detection rate in MITRE ATT&CK evaluation, highest among all vendors",
-      icon: Medal,
-      link: "#"
-    },
-    {
-      year: "2023",
-      title: "Cybersecurity Excellence Awards",
-      organization: "Cybersecurity Breakthrough",
-      category: "AI Security Innovation",
-      description: "Winner of Best AI Security Innovation for education sector protection",
-      icon: Award,
-      link: "#"
-    },
-    {
-      year: "2023", 
-      title: "SC Awards Winner",
-      organization: "SC Media",
-      category: "Best Government Solution",
-      description: "Recognized as the best cybersecurity solution for government agencies",
-      icon: Trophy,
-      link: "#"
+      title: "Achievers League Award",
+      subtitle: "Above Recognition Beyond Rewards",
+      description: "Distinguished achievement recognition for exceptional leadership and innovation in cybersecurity solutions and client success initiatives.",
+      image: "/attached_assets/Achievers League_1756502961273.jpg"
     }
   ];
 
@@ -116,35 +83,28 @@ export default function Awards() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {awards.map((award, index) => {
-                const IconComponent = award.icon;
-                return (
-                  <Card key={index} className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300 group">
-                    <CardContent className="p-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center">
-                          <IconComponent className="w-6 h-6 text-cyan-400" />
-                        </div>
-                        <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
-                          <Calendar className="w-3 h-3 mr-1" />
-                          {award.year}
-                        </Badge>
+              {awards.map((award, index) => (
+                <Card key={index} className="bg-white/5 border-gray-700/50 hover:bg-white/10 transition-all duration-300 group">
+                  <CardContent className="p-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img 
+                          src={award.image} 
+                          alt={award.title}
+                          className="w-full h-full object-contain"
+                        />
                       </div>
-                      <h3 className="text-lg font-bold text-white mb-2">{award.title}</h3>
-                      <p className="text-cyan-400 font-semibold text-sm mb-3">{award.organization}</p>
-                      <p className="text-gray-400 text-sm mb-4 leading-relaxed">{award.description}</p>
-                      <Button 
-                        variant="link" 
-                        size="sm" 
-                        className="text-cyan-400 p-0 h-auto group-hover:text-cyan-300"
-                      >
-                        View details
-                        <ExternalLink className="w-3 h-3 ml-1" />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                      <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">
+                        <Calendar className="w-3 h-3 mr-1" />
+                        {award.year}
+                      </Badge>
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">{award.title}</h3>
+                    <p className="text-cyan-400 font-semibold text-sm mb-3">{award.subtitle}</p>
+                    <p className="text-gray-400 text-sm mb-4 leading-relaxed">{award.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
