@@ -58,6 +58,7 @@ import LocationIcon from '@assets/Location.png';
 interface CustomIconProps {
   className?: string;
   size?: number;
+  style?: React.CSSProperties;
 }
 
 export const CustomCheckIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
@@ -615,13 +616,14 @@ export const CustomLocationIcon: React.FC<CustomIconProps> = ({ className, size 
 );
 
 // Enhanced 4D Lock Icon with glass morphism effects matching home page cards
-export const Enhanced4DLockIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
+export const Enhanced4DLockIcon: React.FC<CustomIconProps> = ({ className, size = 24, style }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none" 
     className={`glass-icon ${className}`}
+    style={style}
   >
     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(168, 85, 247, 0.2)"/>
     <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -630,13 +632,14 @@ export const Enhanced4DLockIcon: React.FC<CustomIconProps> = ({ className, size 
 );
 
 // Enhanced 4D Shield Icon with glass morphism effects
-export const Enhanced4DShieldIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
+export const Enhanced4DShieldIcon: React.FC<CustomIconProps> = ({ className, size = 24, style }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none" 
     className={`glass-icon ${className}`}
+    style={style}
   >
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>
     <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" fill="none" className="animate-pulse"/>
@@ -662,13 +665,14 @@ export const Enhanced4DBotIcon: React.FC<CustomIconProps> = ({ className, size =
 );
 
 // Enhanced 4D Eye Icon with glass morphism effects
-export const Enhanced4DEyeIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
+export const Enhanced4DEyeIcon: React.FC<CustomIconProps> = ({ className, size = 24, style }) => (
   <svg 
     width={size} 
     height={size} 
     viewBox="0 0 24 24" 
     fill="none" 
     className={`glass-icon ${className}`}
+    style={style}
   >
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.1)"/>
     <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="rgba(34, 197, 94, 0.2)"/>

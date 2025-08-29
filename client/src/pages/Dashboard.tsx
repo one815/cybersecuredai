@@ -858,7 +858,7 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="flex items-center space-x-2">
-                  <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
+                  <Enhanced4DShieldIcon className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
                   <span className="text-xs sm:text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
@@ -919,7 +919,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Lock className="w-6 h-6 text-green-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 197, 94, 0.5))'}} />
+                  <Enhanced4DLockIcon className="w-6 h-6 text-green-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(34, 197, 94, 0.5))'}} />
                   <span className="text-sm text-gray-400 tech-font">SYSTEM SECURITY</span>
                 </div>
                 <CheckCircle className="w-5 h-5 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
@@ -949,7 +949,7 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Eye className="w-6 h-6 text-cyan-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
+                  <Enhanced4DEyeIcon className="w-6 h-6 text-cyan-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
                   <span className="text-sm text-gray-400 tech-font">AUTHENTICATION</span>
                 </div>
                 <div className="mfa-badge">
@@ -1616,7 +1616,7 @@ export default function Dashboard() {
                         case 'restricted':
                           return <AlertTriangle className="w-4 h-4 text-red-400" />;
                         case 'internal':
-                          return <Lock className="w-4 h-4 text-yellow-400" />;
+                          return <Enhanced4DLockIcon className="w-4 h-4 text-yellow-400" size={16} />;
                         case 'public':
                           return <CheckCircle className="w-4 h-4 text-green-400" />;
                         default:
