@@ -29,6 +29,7 @@ import {
 import {
   CustomShieldIcon,
   CustomBrainIcon,
+  Enhanced4DNetworkIcon,
   CustomTargetIcon,
   CustomEyeIcon,
   CustomHeadphonesIcon,
@@ -127,7 +128,7 @@ export default function Services() {
     {
       title: "Advanced Threat Intelligence Integration",
       description: "Comprehensive threat intelligence with education and government-specific data",
-      icon: <Network className="w-8 h-8 text-blue-400" />,
+      icon: <Enhanced4DNetworkIcon className="w-8 h-8 text-blue-400" size={32} />,
       features: [
         "Sector-specific threat feeds",
         "Integration with national security databases",
@@ -558,7 +559,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                             <Badge className="bg-purple-600 text-white">Recommended</Badge>
                           </div>
                           <CardHeader className="p-6 text-center">
-                            <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                            <Enhanced4DNetworkIcon className="w-12 h-12 text-purple-400 mx-auto mb-4" size={48} />
                             <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                             <CardTitle className="text-xl text-white mb-3">Multi-Agency Security</CardTitle>
                             <div className="text-2xl font-bold text-purple-400 mb-2">Multi-Agency Security</div>
@@ -650,7 +651,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                             <Badge className="bg-purple-600 text-white">Popular</Badge>
                           </div>
                           <CardHeader className="p-6 text-center">
-                            <Network className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                            <Enhanced4DNetworkIcon className="w-12 h-12 text-purple-400 mx-auto mb-4" size={48} />
                             <Badge className="mb-4 bg-purple-500/20 text-purple-300">Advanced</Badge>
                             <CardTitle className="text-xl text-white mb-3">Advanced Security</CardTitle>
                             <div className="text-2xl font-bold text-purple-400 mb-2">Advanced Security</div>
@@ -771,7 +772,7 @@ onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.sc
                     <Card className="bg-slate-700/60 border border-purple-500/30">
                       <CardContent className="p-6">
                         <div className="flex items-center mb-4">
-                          <Network className="w-8 h-8 text-purple-400 mr-3" />
+                          <Enhanced4DNetworkIcon className="w-8 h-8 text-purple-400 mr-3" size={32} />
                           <div>
                             <h4 className="text-white font-semibold">Network Segmentation Bundle</h4>
                             <p className="text-purple-400 font-bold">Contact for Pricing</p>

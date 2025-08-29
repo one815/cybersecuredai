@@ -25,6 +25,12 @@ import {
   Clock,
   MapPin
 } from "lucide-react";
+import {
+  Enhanced4DBrainIcon,
+  Enhanced4DNetworkIcon,
+  CustomTargetIcon,
+  CustomShieldIcon
+} from "@/components/CustomIcons";
 
 export default function ThreatIntelligence() {
   const [threatFeeds] = useState([
@@ -135,7 +141,7 @@ export default function ThreatIntelligence() {
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-red-400 to-pink-500 rounded-lg flex items-center justify-center">
-                <Brain className="w-5 h-5 text-white" />
+                <Enhanced4DBrainIcon className="w-5 h-5 text-white" size={20} />
               </div>
               <div>
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent flex items-center space-x-2">
@@ -181,7 +187,7 @@ export default function ThreatIntelligence() {
           <Card className="bg-surface/80 backdrop-blur-md border border-red-500/30 cyber-glow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <Brain className="w-8 h-8 text-red-400" />
+                <Enhanced4DBrainIcon className="w-8 h-8 text-red-400" size={32} />
                 <Badge className="bg-red-600">Live</Badge>
               </div>
               <div className="text-3xl font-bold text-white mb-2">12,847</div>
@@ -238,7 +244,7 @@ export default function ThreatIntelligence() {
               Active Threats
             </TabsTrigger>
             <TabsTrigger value="analysis" className="data-[state=active]:bg-purple-600">
-              <Brain className="w-4 h-4 mr-2" />
+              <Enhanced4DBrainIcon className="w-4 h-4 mr-2" size={16} />
               AI Analysis
             </TabsTrigger>
             <TabsTrigger value="geography" className="data-[state=active]:bg-blue-600">
@@ -402,7 +408,7 @@ export default function ThreatIntelligence() {
               <Card className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
                 <CardHeader>
                   <CardTitle className="text-lg font-bold text-white flex items-center">
-                    <Brain className="w-5 h-5 mr-2 text-purple-400" />
+                    <Enhanced4DBrainIcon className="w-5 h-5 mr-2 text-purple-400" size={20} />
                     AI Threat Correlation
                   </CardTitle>
                 </CardHeader>

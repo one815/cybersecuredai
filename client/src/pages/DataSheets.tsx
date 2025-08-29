@@ -32,6 +32,12 @@ import {
   Monitor,
   Database
 } from "lucide-react";
+import {
+  Enhanced4DBrainIcon,
+  Enhanced4DNetworkIcon,
+  CustomShieldIcon,
+  CustomTargetIcon
+} from "@/components/CustomIcons";
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
 import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
 import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
@@ -260,7 +266,7 @@ const getCategoryIcon = (category: string) => {
     case "AI Security Tools":
       return (
         <div className="relative">
-          <Brain className="w-4 h-4" />
+          <Enhanced4DBrainIcon className="w-4 h-4" size={16} />
           <ShieldCheck className="w-2 h-2 absolute -top-1 -right-1 text-spring-400" />
         </div>
       );
@@ -288,7 +294,7 @@ const getCategoryIcon = (category: string) => {
     case "Integration Capabilities":
       return (
         <div className="relative">
-          <Network className="w-4 h-4" />
+          <Enhanced4DNetworkIcon className="w-4 h-4" size={16} />
           <Globe className="w-2 h-2 absolute -top-1 -right-1 text-cyan-400" />
         </div>
       );

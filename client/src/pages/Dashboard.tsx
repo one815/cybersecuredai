@@ -47,8 +47,15 @@ import {
   Target,
   Bot,
   Monitor,
-  Globe
+  Globe,
+  Network
 } from "lucide-react";
+import {
+  Enhanced4DBrainIcon,
+  Enhanced4DNetworkIcon,
+  CustomTargetIcon,
+  CustomShieldIcon
+} from "@/components/CustomIcons";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -441,7 +448,7 @@ export default function Dashboard() {
                   <p className="text-sm text-gray-400">Advanced threat detection and response using machine learning algorithms</p>
                 </div>
                 <div className="text-center p-6 bg-background/20 rounded-lg border border-purple-500/20">
-                  <Brain className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                  <Enhanced4DBrainIcon className="w-12 h-12 mx-auto mb-4 text-purple-400" size={48} />
                   <h3 className="text-lg font-bold text-white mb-2">Intelligence Analytics</h3>
                   <p className="text-sm text-gray-400">Cambridge-style analytical insights for strategic security planning</p>
                 </div>
@@ -635,7 +642,7 @@ export default function Dashboard() {
               <CardContent>
                 <div className="bg-gray-900/50 rounded-lg p-4 min-h-[150px] flex items-center justify-center">
                   <div className="text-center text-gray-400">
-                    <Brain className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <Enhanced4DBrainIcon className="w-12 h-12 mx-auto mb-2 opacity-50" size={48} />
                     <p>AI-powered threat analysis</p>
                   </div>
                 </div>
@@ -753,7 +760,7 @@ export default function Dashboard() {
             <Card className="holographic-card border border-cyan-500/30 chart-glow">
               <CardHeader>
                 <CardTitle className="text-white text-xl flex items-center">
-                  <Brain className="w-6 h-6 mr-3 text-cyan-400" style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
+                  <Enhanced4DBrainIcon className="w-6 h-6 mr-3 text-cyan-400" size={24} />
                   AI THREAT DETECTION ENGINE STATUS
                 </CardTitle>
               </CardHeader>

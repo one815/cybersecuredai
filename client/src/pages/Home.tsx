@@ -23,6 +23,8 @@ import {
 import {
   CustomShieldIcon,
   CustomBrainIcon,
+  Enhanced4DNetworkIcon,
+  Enhanced4DBrainIcon,
   CustomLockIcon,
   CustomTrendingUpIcon,
   CustomGlobeIcon,
@@ -962,7 +964,7 @@ export default function Home() {
               <Card className="bg-slate-800/80 border border-orange-500/30 hover:border-orange-400/60 transition-all duration-300 group cursor-pointer">
                 <CardHeader className="text-center p-8">
                   <div className="w-20 h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-orange-500/30 transition-colors">
-                    <Network className="w-10 h-10 text-orange-400" />
+                    <Enhanced4DNetworkIcon className="w-10 h-10 text-orange-400" size={40} />
                   </div>
                   <CardTitle className="text-2xl text-white mb-4">Network Security</CardTitle>
                   <p className="text-gray-300">

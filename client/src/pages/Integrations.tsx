@@ -33,6 +33,12 @@ import {
   Layers,
   ShieldCheck
 } from "lucide-react";
+import {
+  Enhanced4DBrainIcon,
+  Enhanced4DNetworkIcon,
+  CustomShieldIcon,
+  CustomTargetIcon
+} from "@/components/CustomIcons";
 import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
 import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
 import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.png";
@@ -239,7 +245,7 @@ const getCategoryIcon = (category: string) => {
     case "Network Security":
       return (
         <div className="relative">
-          <Network className="w-4 h-4" />
+          <Enhanced4DNetworkIcon className="w-4 h-4" size={16} />
           <ShieldAlert className="w-2 h-2 absolute -top-1 -right-1 text-orange-400" />
         </div>
       );
@@ -265,7 +271,7 @@ const getCategoryIcon = (category: string) => {
         </div>
       );
     default:
-      return <Brain className="w-4 h-4" />;
+      return <Enhanced4DBrainIcon className="w-4 h-4" size={16} />;
   }
 };
 
