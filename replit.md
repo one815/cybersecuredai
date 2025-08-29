@@ -64,8 +64,18 @@ Preferred communication style: Simple, everyday language.
 - **TypeScript**: Static type checking across frontend, backend, and shared schemas
 - **ESBuild**: Fast bundling for production server deployment
 
+### Enhanced Threat Intelligence with PyMISP and CIRCL Tools
+- **PyMISP Integration**: Python service bridge providing direct access to MISP instances and advanced threat intelligence
+- **CIRCL Tools Suite**: Comprehensive integration with CIRCL cybersecurity services including:
+  - **BGP Ranking**: ASN security assessments and infrastructure analysis
+  - **Passive DNS**: Domain investigation and historical DNS data analysis  
+  - **AIL Framework**: Information leak detection and data breach monitoring
+  - **CIRCL OSINT Feeds**: High-quality curated indicators of compromise
+- **Multi-Source Intelligence**: Aggregates threat data from 4+ CIRCL feeds plus standard MISP feeds
+- **Comprehensive Assessment**: Advanced target analysis combining multiple CIRCL tools for risk scoring
+
 ### Security and Compliance
 - **Encryption**: Built-in file encryption status tracking
 - **Audit Logging**: Comprehensive activity tracking for compliance requirements
-- **Threat Detection**: Real-time security monitoring with severity classification
+- **Threat Detection**: Real-time security monitoring with severity classification enhanced by CIRCL intelligence
 - **Compliance Frameworks**: FERPA, FISMA, and CIPA compliance reporting and tracking
