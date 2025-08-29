@@ -371,12 +371,12 @@ export default function Leadership() {
                 <Enhanced4DUsersIcon className="glass-icon w-4 h-4 mr-2" size={16} />
                 Executive Leadership
               </Badge>
+              <p className="text-xl text-gray-300 leading-relaxed mb-6">
+                Visionary leadership driving cybersecurity innovation with proven expertise and measurable results.
+              </p>
               <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-spring-400 to-cyber-blue-400 bg-clip-text text-transparent">
                 Leading the Future of AI-Powered Cybersecurity
               </h1>
-              <p className="text-xl text-gray-300 leading-relaxed mb-4">
-                Visionary leadership driving cybersecurity innovation with proven expertise and measurable results.
-              </p>
               <p className="text-lg text-gray-400 leading-relaxed">
                 Our expert team combines decades of cybersecurity expertise with cutting-edge AI innovation to protect educational institutions and government agencies worldwide.
               </p>
@@ -390,7 +390,7 @@ export default function Leadership() {
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-4 text-white">Executive Leadership</h2>
               <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                Visionary leadership driving cybersecurity innovation with proven expertise and measurable results.
+                Meet our founder and CEO who drives strategic cybersecurity innovation with proven expertise.
               </p>
             </div>
 
