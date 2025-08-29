@@ -151,9 +151,9 @@ export class MemStorage implements IStorage {
       totpSecret: null,
       totpBackupCodes: null,
       planType: "cyber_cloud_enterprise",
-      onboardingCompleted: false,
-      securityPolicyAccepted: false,
-      dataPolicyAccepted: false,
+      onboardingCompleted: true,
+      securityPolicyAccepted: true,
+      dataPolicyAccepted: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
