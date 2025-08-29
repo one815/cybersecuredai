@@ -160,7 +160,7 @@ export function Sidebar() {
   const [location] = useLocation();
   const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['overview', 'threat-operations']));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['overview', 'threat-operations', 'infrastructure', 'compliance', 'learning', 'knowledge', 'administration', 'support']));
 
   // Helper functions for access control
   const hasRoleAccess = (requiredRoles?: UserRole[]) => {
