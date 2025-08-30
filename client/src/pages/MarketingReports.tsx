@@ -52,7 +52,7 @@ const reports = [
     publishDate: "January 2025",
     featured: true,
     image: aiSecurityThreatImg,
-    fileUrl: "/reports/2025-ai-security-threat-report.md"
+    fileUrl: "/reports/2025-ai-security-threat-report.html"
   },
   {
     title: "CyberSecure AI named Leader in Cybersecurity",
