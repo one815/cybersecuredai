@@ -54,7 +54,6 @@ export function Navigation() {
       href: "/resources",
       dropdown: [
         { label: "Resource Center", href: "/resources#center", isHeader: true },
-        { label: "MISP Threat Intelligence", href: "/misp-benefits" },
         { label: "Use Cases", href: "/use-cases" },
         { label: "Client Stories", href: "/resources/client-stories" },
         { label: "Datasheets", href: "/resources/datasheets" },
