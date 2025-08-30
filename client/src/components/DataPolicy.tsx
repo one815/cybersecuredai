@@ -274,13 +274,13 @@ export function DataPolicy({ onAccept, onDecline }: DataPolicyProps) {
                   This data policy is reviewed annually and updated as needed to reflect changes in our practices or applicable law. Significant changes will be communicated to users with 30 days advance notice.
                 </p>
                 <p>
-                  <strong>Data Protection Officer:</strong> privacy@cybersecure.ai<br />
-                  <strong>Privacy Requests:</strong> privacy-requests@cybersecure.ai<br />
-                  <strong>General Inquiries:</strong> support@cybersecure.ai
+                  <strong>Data Protection Officer:</strong> info@cybersecuredai.com<br />
+                  <strong>Privacy Requests:</strong> info@cybersecuredai.com<br />
+                  <strong>General Inquiries:</strong> info@cybersecuredai.com
                 </p>
                 <p>
                   <strong>Mailing Address:</strong><br />
-                  CyberSecure AI Privacy Team<br />
+                  CyberSecured AI Privacy Team<br />
                   1234 Security Boulevard<br />
                   Cyber City, CC 12345<br />
                   United States

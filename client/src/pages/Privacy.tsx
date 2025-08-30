@@ -117,7 +117,7 @@ export default function Privacy() {
                     <li>Port your data to another service</li>
                     <li>Opt out of non-essential communications</li>
                   </ul>
-                  <p className="mt-4">Contact us at privacy@cybersecure.ai to exercise your rights.</p>
+                  <p className="mt-4">Contact us at info@cybersecuredai.com to exercise your rights.</p>
                 </CardContent>
               </Card>
 
@@ -128,9 +128,9 @@ export default function Privacy() {
                     If you have any questions or concerns about our privacy practices, please contact our Data Protection Officer.
                   </p>
                   <p className="text-cyan-400">
-                    Email: privacy@cybersecure.ai<br />
-                    Phone: 1-800-CYBER-AI<br />
-                    Mail: CyberSecure AI, 123 Security Blvd, Austin, TX 78701
+                    Email: info@cybersecuredai.com<br />
+                    Phone: (800) 608-1030<br />
+                    Website: www.cybersecuredai.com
                   </p>
                 </CardContent>
               </Card>

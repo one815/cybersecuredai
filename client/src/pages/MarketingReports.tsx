@@ -55,7 +55,7 @@ const reports = [
     fileUrl: "/reports/2025-ai-security-threat-report.html"
   },
   {
-    title: "CyberSecure AI named Leader in Cybersecurity",
+    title: "CyberSecured AI named Leader in Cybersecurity",
     description: "Leading the way in AI-powered cybersecurity solutions for educational institutions and government.",
     category: "Industry Analysis",
     industry: "Cross-Industry",
@@ -67,7 +67,7 @@ const reports = [
     fileUrl: "/reports/cybersecure-ai-leader-in-cybersecurity.html"
   },
   {
-    title: "CyberSecure AI 2025 Global Security Report",
+    title: "CyberSecured AI 2025 Global Security Report",
     description: "Get your copy of the must-read cybersecurity report of the year - comprehensive threat landscape, attack trends, and security recommendations.",
     category: "Annual Security Reports",
     industry: "Cross-Industry",

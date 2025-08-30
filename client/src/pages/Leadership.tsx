@@ -110,7 +110,7 @@ export default function Leadership() {
       experience: "17+ Years",
       specialties: ["AI/ML Expert", "Strategic Cybersecurity", "Executive Leadership"],
       location: "Aledo, TX",
-      email: "cam@cybersecuredai.com",
+      email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/camilia-anderson",
       bio: "Chief Executive Officer with over 17 years of extensive expertise in strategic cybersecurity, AI development, and operational efficiency. Demonstrates a visionary approach to enhancing security investments and optimizing performance, with a proven track record of driving sustained growth and innovation in cybersecurity solutions for educational institutions and government agencies.",
       education: [
@@ -138,7 +138,7 @@ export default function Leadership() {
       subtitle: "Former Google AI/ML Security Researcher",
       bio: "Bringing world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecure AI.",
       specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Google Security Alumni"],
-      email: "sarah.chen@cybersecuredai.com",
+      email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/dr-sarah-chen",
       image: sarahChenImg
     }
@@ -155,7 +155,7 @@ export default function Leadership() {
         "Ensures alignment with FERPA, FISMA, and CIPA standards", 
         "Formulates effective AI ethics strategies for educational security"
       ],
-      email: "aalia.zehad@cybersecuredai.com",
+      email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/aalia-zehad",
       image: aaliaZehadImg
     },

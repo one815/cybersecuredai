@@ -263,7 +263,7 @@ export function Sidebar() {
           <div className="flex justify-center items-center">
             <img 
               src={cyberSecureLogo} 
-              alt="CyberSecure AI Logo" 
+              alt="CyberSecured AI Logo" 
               className="h-16 lg:h-20 w-auto object-contain max-w-full scale-150"
               style={{ filter: 'brightness(1.1) contrast(1.1)' }}
             />

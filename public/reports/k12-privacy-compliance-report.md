@@ -444,7 +444,7 @@ The districts that invest in comprehensive privacy programs will protect student
 
 **About the K-12 Privacy Compliance Program**
 
-This report was developed by CyberSecure AI's K-12 Education Privacy Team in collaboration with school district privacy officers, education attorneys, and student privacy advocacy organizations.
+This report was developed by CyberSecured AI's K-12 Education Privacy Team in collaboration with school district privacy officers, education attorneys, and student privacy advocacy organizations.
 
 **Expert Contributors:**
 - **Maria Gonzalez, JD** - Student Privacy Attorney and Former Department of Education Official
@@ -453,11 +453,11 @@ This report was developed by CyberSecure AI's K-12 Education Privacy Team in col
 - **Michael Chen** - Former School District CTO and Privacy Officer
 
 **Contact Information:**
-- K-12 Privacy Team: k12privacy@cybersecure-ai.com
-- Compliance Consulting: compliance@cybersecure-ai.com
-- Website: https://cybersecure-ai.com/k12-privacy
-- Phone: 1-800-CYBER-AI ext. 3
+- K-12 Privacy Team: info@cybersecuredai.com
+- Compliance Consulting: info@cybersecuredai.com
+- Website: www.cybersecuredai.com
+- Phone: (800) 608-1030
 
 ---
 
-*© 2024 CyberSecure AI. All rights reserved. This report may be distributed for educational and compliance planning purposes.*
+*© 2024 CyberSecured AI. All rights reserved. This report may be distributed for educational and compliance planning purposes.*

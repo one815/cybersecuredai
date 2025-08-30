@@ -90,7 +90,7 @@ export default function WhyCyberSecuredAI() {
     {
       organization: "Texas Department of Education",
       sector: "State Government",
-      quote: "CyberSecure AI reduced our security incidents by 95% while ensuring full FERPA compliance across all 1,200 school districts.",
+      quote: "CyberSecured AI reduced our security incidents by 95% while ensuring full FERPA compliance across all 1,200 school districts.",
       name: "Sarah Chen",
       title: "Chief Information Security Officer",
       results: ["95% reduction in security incidents", "100% FERPA compliance", "60% cost savings"]
@@ -261,7 +261,7 @@ export default function WhyCyberSecuredAI() {
                 One Unified Platform. Built to Secure the AI Revolution.
               </h2>
               <p className="text-xl text-gray-400 max-w-4xl mx-auto">
-                AI is the new attack surface. Secure your organization with CyberSecure AI's unified, AI-native platform 
+                AI is the new attack surface. Secure your organization with CyberSecured AI's unified, AI-native platform 
                 that accelerates detection and response with autonomous reasoning and action.
               </p>
             </div>
@@ -326,7 +326,7 @@ export default function WhyCyberSecuredAI() {
         {/* Competitive Advantages */}
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">CyberSecure AI vs The Competition</h2>
+            <h2 className="text-4xl font-bold text-white text-center mb-12">CyberSecured AI vs The Competition</h2>
             <div className="space-y-6">
               {competitiveAdvantages.map((advantage, index) => (
                 <Card key={index} className="bg-surface/80 backdrop-blur-md border border-cyan-500/30 cyber-glow">
@@ -341,7 +341,7 @@ export default function WhyCyberSecuredAI() {
                       <div className="space-y-4">
                         <div>
                           <div className="flex justify-between text-sm mb-2">
-                            <span className="text-white">CyberSecure AI</span>
+                            <span className="text-white">CyberSecured AI</span>
                             <span className="text-cyan-400 font-bold">{advantage.cyberSecureAI}/10</span>
                           </div>
                           <Progress value={advantage.cyberSecureAI * 10} className="h-3 bg-cyan-600" />
@@ -370,10 +370,10 @@ export default function WhyCyberSecuredAI() {
           </div>
         </section>
 
-        {/* Why CyberSecure AI */}
+        {/* Why CyberSecured AI */}
         <section className="py-16 px-6 bg-gradient-to-r from-cyan-900/30 to-blue-900/30">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-4xl font-bold text-white text-center mb-12">Why CyberSecure AI</h2>
+            <h2 className="text-4xl font-bold text-white text-center mb-12">Why CyberSecured AI</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {whyCyberSecureAI.map((reason, index) => (
                 <Card key={index} className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">
@@ -397,7 +397,7 @@ export default function WhyCyberSecuredAI() {
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-5xl font-bold text-white mb-8 geometric-text">Ready to Lead Cybersecurity into the AI Era?</h2>
             <p className="text-xl text-gray-400 mb-10 max-w-3xl mx-auto">
-              Join thousands of organizations who trust CyberSecure AI to protect their most critical assets. 
+              Join thousands of organizations who trust CyberSecured AI to protect their most critical assets. 
               Experience the future of cybersecurity today.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">

@@ -131,7 +131,7 @@ export function Footer() {
             <div className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 rounded-lg p-4 border border-purple-500/20">
               <h4 className="text-white font-semibold mb-2">Compare Solutions</h4>
               <p className="text-gray-400 text-sm mb-3">
-                See how CyberSecure AI compares to other cybersecurity platforms in the market.
+                See how CyberSecured AI compares to other cybersecurity platforms in the market.
               </p>
               <Link href="/compare">
                 <span className="text-purple-400 text-sm hover:text-purple-300 transition-colors cursor-pointer">View Comparisons →</span>
@@ -155,11 +155,11 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <Mail className="w-5 h-5 text-cyan-400" />
-              <span className="text-gray-400 text-sm">contact@cybersecure.ai</span>
+              <span className="text-gray-400 text-sm">info@cybersecuredai.com</span>
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="w-5 h-5 text-cyan-400" />
-              <span className="text-gray-400 text-sm">1-800-CYBER-AI</span>
+              <span className="text-gray-400 text-sm">(800) 608-1030</span>
             </div>
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-cyan-400" />
@@ -204,7 +204,7 @@ export function Footer() {
               />
             </div>
             <p className="text-xs text-gray-500">
-              © 2024 CyberSecure AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link>
+              © 2024 CyberSecured AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link>
             </p>
           </div>
         </div>

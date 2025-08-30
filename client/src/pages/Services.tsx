@@ -199,7 +199,7 @@ export default function Services() {
       services: [
         {
           name: "Platform Implementation", 
-          description: "Expert deployment and configuration of CyberSecure AI platform",
+          description: "Expert deployment and configuration of CyberSecured AI platform",
           deliverables: ["Platform setup", "Custom configuration", "Integration testing", "User training"],
           timeline: "2-4 weeks",
           price: "Contact for Pricing"
@@ -987,7 +987,7 @@ className="button-4d border-cyan-500 text-cyan-400"
                       ))}
                     </div>
                     <blockquote className="text-2xl font-bold text-white mb-8 leading-relaxed italic">
-                      "With the CyberSecure AI SOC, we have some of the best minds in cybersecurity at our disposal. 
+                      "With the CyberSecured AI SOC, we have some of the best minds in cybersecurity at our disposal. 
                       They help us validate incidents, handle them and also level up our own knowledge."
                     </blockquote>
                     <div className="text-gray-300">

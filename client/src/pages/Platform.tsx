@@ -183,7 +183,7 @@ export default function Platform() {
               
               <div className="flex items-center justify-center space-x-2 mb-8">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                  <Enhanced4DStarIcon key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" size={24} />
                 ))}
                 <span className="ml-4 text-white font-semibold text-lg">4.9/5 from 500+ organizations</span>
               </div>
@@ -215,7 +215,7 @@ export default function Platform() {
             <div className="max-w-5xl mx-auto">
               <img 
                 src={platformOverviewImg}
-                alt="CyberSecure AI Platform Overview"
+                alt="CyberSecured AI Platform Overview"
                 className="w-full rounded-2xl shadow-2xl border border-red-500/30"
               />
             </div>
@@ -337,7 +337,7 @@ export default function Platform() {
                       onClick={() => { setLocation('/contact'); setTimeout(() => window.scrollTo(0, 0), 100); }}
                     >
                       Talk to an Expert
-                      <ExternalLink className="ml-2 w-5 h-5" />
+                      <Enhanced4DExternalLinkIcon className="ml-2 w-5 h-5" size={20} />
                     </Button>
                   </Link>
                 </div>
@@ -364,7 +364,7 @@ export default function Platform() {
                 <span className="text-cyan-400">& Government Organizations</span>
               </h2>
               <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-16">
-                CyberSecure AI is purpose-built for your sector. But don't take our word for it – 
+                CyberSecured AI is purpose-built for your sector. But don't take our word for it – 
                 see the results from organizations like yours.
               </p>
             </div>
@@ -608,11 +608,11 @@ export default function Platform() {
                 <div className="text-center mb-8">
                   <div className="flex items-center justify-center space-x-1 mb-6">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" />
+                      <Enhanced4DStarIcon key={star} className="w-6 h-6 text-yellow-400 fill-yellow-400" size={24} />
                     ))}
                   </div>
                   <blockquote className="text-2xl md:text-3xl font-bold text-white mb-8 leading-relaxed italic">
-                    "We pushed CyberSecure AI out to four different campuses. What we found was that one site was clean, 
+                    "We pushed CyberSecured AI out to four different campuses. What we found was that one site was clean, 
                     two sites had remnants, and one site had an active threat. That was eye-opening to us, 
                     and we knew we needed to install this for every one of our institutions."
                   </blockquote>
