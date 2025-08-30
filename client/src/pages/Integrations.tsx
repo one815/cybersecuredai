@@ -323,7 +323,7 @@ export default function Integrations() {
                 Security Integrations
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Seamlessly connect CyberSecure AI with your existing security tools and infrastructure. 
+                Seamlessly connect CyberSecured AI with your existing security tools and infrastructure. 
                 Our extensive integration library ensures compatibility with leading enterprise solutions.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">

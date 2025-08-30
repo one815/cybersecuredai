@@ -51,8 +51,8 @@ const demoTypes = [
 
 const demos = [
   {
-    title: "CyberSecure AI Platform Complete Walkthrough",
-    description: "Comprehensive 45-minute demonstration of the entire CyberSecure AI platform, including threat detection, incident response, and compliance management features.",
+    title: "CyberSecured AI Platform Complete Walkthrough",
+    description: "Comprehensive 45-minute demonstration of the entire CyberSecured AI platform, including threat detection, incident response, and compliance management features.",
     category: "Platform Overview",
     industry: "Cross-Industry",
     type: "On-Demand Video",
@@ -184,7 +184,7 @@ export default function Demos() {
                 Platform Demos
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Experience CyberSecure AI in action through live demonstrations, interactive tutorials, 
+                Experience CyberSecured AI in action through live demonstrations, interactive tutorials, 
                 and comprehensive platform walkthroughs tailored to your industry.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">

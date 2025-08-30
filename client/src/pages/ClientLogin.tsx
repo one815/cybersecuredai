@@ -77,7 +77,7 @@ export function ClientLogin() {
               <Bot className="w-7 h-7 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              CyberSecure AI
+              CyberSecured AI
             </span>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Client Portal</h1>
@@ -232,7 +232,7 @@ export function ClientLogin() {
         </Card>
 
         <div className="mt-8 text-center text-xs text-gray-500">
-          <p>© 2024 CyberSecure AI. All rights reserved.</p>
+          <p>© 2024 CyberSecured AI. All rights reserved.</p>
           <p className="mt-1">
             Protected by enterprise-grade security protocols
           </p>

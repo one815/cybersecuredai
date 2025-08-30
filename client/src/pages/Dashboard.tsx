@@ -263,7 +263,7 @@ export default function Dashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <h1 className="text-lg sm:text-xl lg:text-2xl font-bold geometric-text bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent flex items-center space-x-2">
-                  <span className="truncate">CyberSecure AI SOC</span>
+                  <span className="truncate">CyberSecured AI SOC</span>
                 </h1>
                 <div className="text-gray-400 text-xs sm:text-sm cyber-font">
                   <span className="truncate">Security Operations Center</span>

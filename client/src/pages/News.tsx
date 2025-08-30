@@ -43,7 +43,7 @@ export default function News() {
     {
       id: "industry-leadership",
       title: "Named a Leader in 2025 Gartner Magic Quadrant for AI-Powered Cybersecurity",
-      excerpt: "CyberSecure AI recognized for innovation, financial strength, and platform breadth in comprehensive industry analysis covering execution and vision.",
+      excerpt: "CyberSecured AI recognized for innovation, financial strength, and platform breadth in comprehensive industry analysis covering execution and vision.",
       date: "January 15, 2025", 
       category: "Industry Leadership",
       type: "recognition",
@@ -53,7 +53,7 @@ export default function News() {
     },
     {
       id: "threat-report-2025",
-      title: "CyberSecure AI 2025 Cyber Threat Report: Educational Sector Under Siege",
+      title: "CyberSecured AI 2025 Cyber Threat Report: Educational Sector Under Siege",
       excerpt: "Comprehensive analysis reveals 340% increase in ransomware attacks targeting educational institutions, with AI-powered defenses proving critical for protection.",
       date: "January 8, 2025",
       category: "Industry Leadership", 
@@ -84,7 +84,7 @@ export default function News() {
     },
     {
       id: "state-partnership",
-      title: "Multi-State Coalition Adopts CyberSecure AI for K-12 Protection",
+      title: "Multi-State Coalition Adopts CyberSecured AI for K-12 Protection",
       excerpt: "15 state education departments form unprecedented partnership to deploy unified cybersecurity infrastructure protecting over 2.3 million students.",
       date: "December 12, 2024",
       category: "Partnerships",
@@ -95,7 +95,7 @@ export default function News() {
     {
       id: "compliance-automation",
       title: "Automated Compliance Reduces Administrative Burden by 85%",
-      excerpt: "New study shows CyberSecure AI's automated compliance features dramatically reduce manual oversight requirements while improving audit readiness.",
+      excerpt: "New study shows CyberSecured AI's automated compliance features dramatically reduce manual oversight requirements while improving audit readiness.",
       date: "December 5, 2024",
       category: "Product Innovation",
       type: "report",
@@ -138,7 +138,7 @@ export default function News() {
               </h1>
               <p className="text-2xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
                 Stay informed with the latest cybersecurity innovations, industry recognition, 
-                and breakthrough developments from CyberSecure AI.
+                and breakthrough developments from CyberSecured AI.
               </p>
             </div>
 

@@ -617,7 +617,7 @@ export default function ArticleViewer() {
   useEffect(() => {
     if (article) {
       // Update title
-      document.title = `${article.title} | CyberSecure AI`;
+      document.title = `${article.title} | CyberSecured AI`;
       
       // Update meta description
       const metaDescription = document.querySelector('meta[name="description"]');
@@ -670,7 +670,7 @@ export default function ArticleViewer() {
         },
         "publisher": {
           "@type": "Organization",
-          "name": "CyberSecure AI"
+          "name": "CyberSecured AI"
         },
         "datePublished": article.publishDate,
         "articleSection": "Cybersecurity",
@@ -692,7 +692,7 @@ export default function ArticleViewer() {
     
     // Cleanup function to restore original meta tags
     return () => {
-      document.title = 'CyberSecure AI - Advanced Security Platform';
+      document.title = 'CyberSecured AI - Advanced Security Platform';
       const metaDescription = document.querySelector('meta[name="description"]');
       if (metaDescription) {
         metaDescription.setAttribute('content', 'Enterprise-grade cybersecurity platform for education and government sectors with AI-powered threat monitoring, compliance management, and real-time security automation.');

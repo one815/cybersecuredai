@@ -52,7 +52,7 @@ export function SecurityPolicy({ onAccept, onDecline }: SecurityPolicyProps) {
             <div className="flex items-center gap-3">
               <Shield className="w-8 h-8 text-blue-400" />
               <div>
-                <CardTitle className="text-2xl text-white">CyberSecure AI Security Policy</CardTitle>
+                <CardTitle className="text-2xl text-white">CyberSecured AI Security Policy</CardTitle>
                 <p className="text-blue-200 mt-1">Effective Date: August 2025 | Version 2.1</p>
               </div>
             </div>
@@ -79,7 +79,7 @@ export function SecurityPolicy({ onAccept, onDecline }: SecurityPolicyProps) {
               </h2>
               <div className="space-y-3 text-gray-700 dark:text-gray-300">
                 <p>
-                  <strong>End-to-End Encryption:</strong> All data transmitted through the CyberSecure AI platform is protected using AES-256 encryption standards. This includes all communications, file transfers, and data storage operations.
+                  <strong>End-to-End Encryption:</strong> All data transmitted through the CyberSecured AI platform is protected using AES-256 encryption standards. This includes all communications, file transfers, and data storage operations.
                 </p>
                 <p>
                   <strong>Data at Rest:</strong> Your information is stored in encrypted databases using industry-standard encryption protocols. Access to encrypted data is strictly controlled through multi-layered authentication systems.
@@ -256,7 +256,7 @@ export function SecurityPolicy({ onAccept, onDecline }: SecurityPolicyProps) {
               />
               <div>
                 <p className="font-medium text-green-800 dark:text-green-200">
-                  I have read and understand the CyberSecure AI Security Policy
+                  I have read and understand the CyberSecured AI Security Policy
                 </p>
                 <p className="text-sm text-green-600 dark:text-green-300 mt-1">
                   By checking this box, I acknowledge that I have read the complete security policy and agree to comply with all stated requirements and responsibilities.

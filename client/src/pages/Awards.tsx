@@ -138,7 +138,7 @@ export default function Awards() {
           <div className="container mx-auto max-w-4xl px-4 text-center">
             <h2 className="text-4xl font-bold text-white mb-6">Ready to Experience Award-Winning Security?</h2>
             <p className="text-xl text-gray-300 mb-8">
-              Join thousands of educational institutions and government agencies who trust CyberSecure AI.
+              Join thousands of educational institutions and government agencies who trust CyberSecured AI.
             </p>
             <Button size="lg" className="bg-cyan-600 hover:bg-cyan-700">
               Contact Our Team

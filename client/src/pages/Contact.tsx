@@ -156,7 +156,7 @@ export default function Contact() {
                       height="400"
                       frameBorder="0"
                       className="rounded-lg"
-                      title="Schedule Consultation with CyberSecure AI"
+                      title="Schedule Consultation with CyberSecured AI"
                     />
                   </div>
                   

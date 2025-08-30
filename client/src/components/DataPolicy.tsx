@@ -52,7 +52,7 @@ export function DataPolicy({ onAccept, onDecline }: DataPolicyProps) {
             <div className="flex items-center gap-3">
               <Database className="w-8 h-8 text-green-400" />
               <div>
-                <CardTitle className="text-2xl text-white">CyberSecure AI Data Policy</CardTitle>
+                <CardTitle className="text-2xl text-white">CyberSecured AI Data Policy</CardTitle>
                 <p className="text-green-200 mt-1">Effective Date: August 2025 | Version 2.1</p>
               </div>
             </div>
@@ -320,7 +320,7 @@ export function DataPolicy({ onAccept, onDecline }: DataPolicyProps) {
               />
               <div>
                 <p className="font-medium text-green-800 dark:text-green-200">
-                  I have read and understand the CyberSecure AI Data Policy
+                  I have read and understand the CyberSecured AI Data Policy
                 </p>
                 <p className="text-sm text-green-600 dark:text-green-300 mt-1">
                   By checking this box, I acknowledge that I have read the complete data policy and consent to the collection, processing, and storage of my data as described.

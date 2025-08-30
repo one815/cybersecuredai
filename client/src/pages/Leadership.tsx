@@ -101,7 +101,7 @@ const createCertPreview = (title: string) => {
 };
 
 export default function Leadership() {
-  // Camtivates team adapted for CyberSecure AI
+  // Camtivates team adapted for CyberSecured AI
   const executiveTeam = [
     {
       name: "Camilia Anderson",
@@ -136,7 +136,7 @@ export default function Leadership() {
       name: "Dr. Sarah Chen",
       title: "Head of AI Security Strategy",
       subtitle: "Former Google AI/ML Security Researcher",
-      bio: "Bringing world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecure AI.",
+      bio: "Bringing world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecured AI.",
       specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Google Security Alumni"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/dr-sarah-chen",
@@ -190,7 +190,7 @@ export default function Leadership() {
       education: "Harvard Business School Online - B.A. in International Marketing",
       highlights: [
         "Maintain consistent cybersecurity brand messaging across all channels",
-        "Oversee the visual identity of CyberSecure AI brand",
+        "Oversee the visual identity of CyberSecured AI brand",
         "Maintain cohesive and easily identifiable security-focused image"
       ],
       image: brookeHoldenImg
@@ -693,7 +693,7 @@ export default function Leadership() {
                   <Enhanced4DStarIcon className="glass-icon mx-auto mb-4" size={48} />
                   <h3 className="text-2xl font-bold text-white mb-2">Continuous Professional Development</h3>
                   <p className="text-gray-300 max-w-2xl">
-                    Camilia maintains her expertise through ongoing certification renewals and advanced training programs, ensuring CyberSecure AI stays at the forefront of cybersecurity innovation.
+                    Camilia maintains her expertise through ongoing certification renewals and advanced training programs, ensuring CyberSecured AI stays at the forefront of cybersecurity innovation.
                   </p>
                 </CardContent>
               </Card>

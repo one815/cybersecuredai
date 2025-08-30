@@ -166,7 +166,7 @@ export default function Home() {
                           <div className="flex items-center space-x-3">
                             <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400" size={32} />
                             <div>
-                              <h1 className="text-2xl font-bold text-white neon-glow">CyberSecure AI Platform</h1>
+                              <h1 className="text-2xl font-bold text-white neon-glow">CyberSecured AI Platform</h1>
                               <p className="text-gray-400 text-sm">Cambridge Intelligence Dashboard</p>
                             </div>
                           </div>
@@ -684,7 +684,7 @@ export default function Home() {
                 <span className="text-cyan-400">We Change the Game.</span>
               </h2>
               <p className="text-2xl text-gray-300 mb-12 max-w-4xl mx-auto">
-                CyberSecure AI Threat Intelligence is the #1 leader in educational cybersecurity 
+                CyberSecured AI Threat Intelligence is the #1 leader in educational cybersecurity 
                 for 5+ years - with <span className="text-cyan-400 font-bold">87% market share*</span>
               </p>
               <div className="flex justify-center mb-12">
@@ -1036,7 +1036,7 @@ export default function Home() {
                 </Badge>
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
                   Strengthen every aspect of your security with 
-                  <span className="text-cyan-400"> CyberSecure AI™</span>
+                  <span className="text-cyan-400"> CyberSecured AI™</span>
                 </h2>
                 
                 <div className="space-y-6 mb-8">

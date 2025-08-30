@@ -279,7 +279,7 @@ K-12 educational institutions face an increasingly complex landscape of student 
 - Breach detection and response coordination
 
 **Leading Privacy Technology Vendors:**
-- CyberSecure AI Education Privacy Suite
+- CyberSecured AI Education Privacy Suite
 - Microsoft Education Compliance Manager
 - Google for Education Privacy Tools
 - Specialized K-12 privacy management platforms

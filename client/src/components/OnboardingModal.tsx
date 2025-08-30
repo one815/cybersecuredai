@@ -22,7 +22,7 @@ const onboardingSteps: OnboardingStep[] = [
   {
     id: 1,
     title: "Platform Introduction",
-    description: "Welcome to CyberSecure AI - your intelligent security companion",
+    description: "Welcome to CyberSecured AI - your intelligent security companion",
     icon: "rocket",
     completed: false,
   },
@@ -163,7 +163,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
               <Shield className="text-white text-3xl" />
             </div>
             
-            <h2 className="text-3xl font-bold mb-4">Welcome to CyberSecure AI</h2>
+            <h2 className="text-3xl font-bold mb-4">Welcome to CyberSecured AI</h2>
             <p className="text-gray-300 mb-8">Your intelligent security companion for the digital age</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -459,7 +459,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
             </div>
             
             <h2 className="text-3xl font-bold mb-4 text-white">Setup Complete!</h2>
-            <p className="text-gray-300 mb-8">Your CyberSecure AI dashboard is ready for action</p>
+            <p className="text-gray-300 mb-8">Your CyberSecured AI dashboard is ready for action</p>
             
             <Card className="bg-gradient-to-br from-green-900/50 to-green-800/30 border-green-700/50 mb-8">
               <CardContent className="p-6">

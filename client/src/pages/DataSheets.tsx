@@ -66,8 +66,8 @@ const industries = [
 
 const datasheets = [
   {
-    title: "CyberSecure AI Platform Overview",
-    description: "Complete technical specifications and feature overview of the CyberSecure AI cybersecurity platform. Includes architecture diagrams, deployment options, and system requirements.",
+    title: "CyberSecured AI Platform Overview",
+    description: "Complete technical specifications and feature overview of the CyberSecured AI cybersecurity platform. Includes architecture diagrams, deployment options, and system requirements.",
     category: "Platform Overview",
     industry: "Cross-Industry",
     pages: "6 pages",
@@ -100,7 +100,7 @@ const datasheets = [
   },
   {
     title: "University Network Integration",
-    description: "Technical guide for integrating CyberSecure AI with existing university IT infrastructure. Covers LDAP, SSO, and academic system compatibility.",
+    description: "Technical guide for integrating CyberSecured AI with existing university IT infrastructure. Covers LDAP, SSO, and academic system compatibility.",
     category: "Integration Capabilities",
     industry: "Higher Education",
     pages: "5 pages",
@@ -133,7 +133,7 @@ const datasheets = [
   },
   {
     title: "Zero Trust Architecture Implementation",
-    description: "Technical specifications for implementing zero trust security models using CyberSecure AI. Covers micro-segmentation and identity verification.",
+    description: "Technical specifications for implementing zero trust security models using CyberSecured AI. Covers micro-segmentation and identity verification.",
     category: "Technical Specifications",
     industry: "Federal Government",
     pages: "9 pages",
@@ -144,7 +144,7 @@ const datasheets = [
   },
   {
     title: "Campus-Wide Deployment Guide",
-    description: "Technical requirements and deployment architecture for university-wide CyberSecure AI implementation. Includes scalability and performance metrics.",
+    description: "Technical requirements and deployment architecture for university-wide CyberSecured AI implementation. Includes scalability and performance metrics.",
     category: "Technical Specifications",
     industry: "Higher Education",
     pages: "10 pages",
@@ -353,7 +353,7 @@ export default function DataSheets() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Technical specifications, compliance documentation, and feature overviews to help you 
-                understand and implement CyberSecure AI solutions.
+                understand and implement CyberSecured AI solutions.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">

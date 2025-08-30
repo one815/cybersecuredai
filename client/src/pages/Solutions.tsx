@@ -47,21 +47,21 @@ export default function Solutions() {
   const [, setLocation] = useLocation();
   const customerTestimonials = [
     {
-      quote: "We pushed CyberSecure AI out to four different campuses. What we found was that one site was clean, two sites had remnants, and one site had an active threat. That was eye-opening to us, and we knew we needed to install this for every one of our institutions.",
+      quote: "We pushed CyberSecured AI out to four different campuses. What we found was that one site was clean, two sites had remnants, and one site had an active threat. That was eye-opening to us, and we knew we needed to install this for every one of our institutions.",
       name: "Dr. Sarah Chen",
       title: "University System Chancellor",
       company: "State University System",
       image: educationImg
     },
     {
-      quote: "We rolled out CyberSecure AI to our entire network of 90+ agencies over 30 days. We wanted to ensure every endpoint was protected as remote work became dominant. Today, we can rest assured knowing CyberSecure AI plays a vital role in our security infrastructure.",
+      quote: "We rolled out CyberSecured AI to our entire network of 90+ agencies over 30 days. We wanted to ensure every endpoint was protected as remote work became dominant. Today, we can rest assured knowing CyberSecured AI plays a vital role in our security infrastructure.",
       name: "General Patricia Martinez",
       title: "Chief Information Officer", 
       company: "Federal Agency Alliance",
       image: governmentImg
     },
     {
-      quote: "The alert from CyberSecure AI gave us clear understanding of the threat we were dealing with and which users were affected, making it easy to respond immediately. The platform truly delivered - we contained the breach within twenty minutes.",
+      quote: "The alert from CyberSecured AI gave us clear understanding of the threat we were dealing with and which users were affected, making it easy to respond immediately. The platform truly delivered - we contained the breach within twenty minutes.",
       name: "Marcus Rodriguez",
       title: "Director of IT Security",
       company: "Metropolitan School District",
@@ -121,12 +121,12 @@ export default function Solutions() {
           </div>
         </section>
 
-        {/* CyberSecure AI Core Platform */}
+        {/* CyberSecured AI Core Platform */}
         <section className="py-20 px-6 bg-slate-800">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
-                CyberSecure AI Core Platform
+                CyberSecured AI Core Platform
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
                 AI-Powered Security<br />
@@ -789,7 +789,7 @@ export default function Solutions() {
                 <span className="text-cyan-400">and Government Sector</span>
               </h2>
               <p className="text-xl text-gray-100 max-w-4xl mx-auto mb-16">
-                CyberSecure AI is custom built for you. But don't take our word for it – 
+                CyberSecured AI is custom built for you. But don't take our word for it – 
                 hear directly from institutions like yours.
               </p>
             </div>
@@ -852,7 +852,7 @@ export default function Solutions() {
                   Latest Intelligence
                 </Badge>
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                  CyberSecure AI 2025<br />
+                  CyberSecured AI 2025<br />
                   <span className="text-red-400">Cyber Threat Report</span>
                 </h2>
                 <p className="text-xl text-gray-100 mb-8">
@@ -1293,7 +1293,7 @@ export default function Solutions() {
                   <span className="text-purple-400">Managed Cybersecurity</span>
                 </h2>
                 <p className="text-xl text-gray-100 mb-8">
-                  See how CyberSecure AI Managed Security stacks up against enterprise-first platforms – 
+                  See how CyberSecured AI Managed Security stacks up against enterprise-first platforms – 
                   reviewed by organizations just like yours.
                 </p>
                 
@@ -1427,7 +1427,7 @@ export default function Solutions() {
             </h2>
             <p className="text-xl text-gray-100 mb-12 max-w-3xl mx-auto">
               Join hundreds of educational institutions and government agencies 
-              who trust CyberSecure AI for enterprise-grade protection.
+              who trust CyberSecured AI for enterprise-grade protection.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">

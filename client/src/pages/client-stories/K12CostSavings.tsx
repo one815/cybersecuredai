@@ -248,7 +248,7 @@ export default function K12CostSavings() {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex justify-between">
-                        <span className="text-gray-300">CyberSecure AI platform license</span>
+                        <span className="text-gray-300">CyberSecured AI platform license</span>
                         <span className="text-green-400">$950,000</span>
                       </div>
                       <div className="flex justify-between">

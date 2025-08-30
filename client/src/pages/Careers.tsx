@@ -116,7 +116,7 @@ export default function Careers() {
       location: "Washington, DC",
       type: "Full-time",
       salary: "$90,000 - $120,000",
-      description: "Ensure CyberSecure AI platforms meet all regulatory requirements for education and government sectors, managing compliance frameworks and audit processes.",
+      description: "Ensure CyberSecured AI platforms meet all regulatory requirements for education and government sectors, managing compliance frameworks and audit processes.",
       requirements: [
         "Bachelor's degree in relevant field or equivalent experience",
         "3+ years experience with FERPA, FISMA, FedRAMP compliance",
@@ -215,7 +215,7 @@ export default function Careers() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-white flex items-center space-x-2">
-                <span>Careers at CyberSecure AI</span>
+                <span>Careers at CyberSecured AI</span>
                 <Users className="w-8 h-8 text-blue-400" />
                 <Building className="w-8 h-8 text-green-400" />
               </h1>
@@ -231,7 +231,7 @@ export default function Careers() {
           <section className="text-center mb-16">
             <h2 className="text-4xl font-bold text-white mb-6">Shape the Future of Cybersecurity</h2>
             <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-              At CyberSecure AI, you'll work on cutting-edge AI and cybersecurity technologies that protect 
+              At CyberSecured AI, you'll work on cutting-edge AI and cybersecurity technologies that protect 
               critical infrastructure for schools, universities, and government agencies across the country. 
               Join a team of passionate experts making a real impact on national security and educational safety.
             </p>
@@ -345,7 +345,7 @@ export default function Careers() {
 
           {/* Benefits */}
           <section className="mb-16">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Why Work at CyberSecure AI?</h2>
+            <h2 className="text-3xl font-bold text-white text-center mb-12">Why Work at CyberSecured AI?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {benefits.map((benefit, index) => (
                 <Card key={index} className="bg-surface/80 backdrop-blur-md border border-purple-500/30 cyber-glow">

@@ -518,7 +518,7 @@ The path forward requires sustained commitment, adequate funding, and cross-agen
 
 **About the Assessment Team**
 
-This assessment was conducted by CyberSecure AI's Government Security Division in collaboration with federal cybersecurity professionals and independent security experts. The team includes former government cybersecurity leaders, industry experts, and certified security assessors.
+This assessment was conducted by CyberSecured AI's Government Security Division in collaboration with federal cybersecurity professionals and independent security experts. The team includes former government cybersecurity leaders, industry experts, and certified security assessors.
 
 **Assessment Team Leadership:**
 - **Dr. Sarah Chen, CISSP** - Former NSA Cybersecurity Director
@@ -534,4 +534,4 @@ This assessment was conducted by CyberSecure AI's Government Security Division i
 
 ---
 
-*This assessment report is approved for public release and distribution. Classification: UNCLASSIFIED//FOR OFFICIAL USE ONLY. © 2024 CyberSecure AI. All rights reserved.*
+*This assessment report is approved for public release and distribution. Classification: UNCLASSIFIED//FOR OFFICIAL USE ONLY. © 2024 CyberSecured AI. All rights reserved.*
