@@ -51,7 +51,8 @@ const reports = [
     downloadCount: "15,400",
     publishDate: "January 2025",
     featured: true,
-    image: aiSecurityThreatImg
+    image: aiSecurityThreatImg,
+    fileUrl: "/reports/2025-ai-security-threat-report.md"
   },
   {
     title: "CyberSecure AI named Leader in Cybersecurity",
@@ -62,7 +63,8 @@ const reports = [
     downloadCount: "8,900",
     publishDate: "December 2024",
     featured: true,
-    image: leadershipAwardImg
+    image: leadershipAwardImg,
+    fileUrl: "/reports/cybersecure-ai-leader-in-cybersecurity.md"
   },
   {
     title: "CyberSecure AI 2025 Global Security Report",
@@ -73,7 +75,8 @@ const reports = [
     downloadCount: "22,100", 
     publishDate: "January 2025",
     featured: true,
-    image: globalSecurityImg
+    image: globalSecurityImg,
+    fileUrl: "/reports/cybersecure-ai-2025-global-security-report.md"
   },
   {
     title: "Federal Government Security Assessment 2024",
@@ -84,7 +87,8 @@ const reports = [
     downloadCount: "5,200",
     publishDate: "November 2024",
     featured: false,
-    image: federalAssessmentImg
+    image: federalAssessmentImg,
+    fileUrl: "/reports/federal-government-security-assessment-2024.md"
   },
   {
     title: "Higher Education Cybersecurity Market Analysis",
@@ -95,7 +99,8 @@ const reports = [
     downloadCount: "3,800",
     publishDate: "October 2024",
     featured: false,
-    image: higherEducationImg
+    image: higherEducationImg,
+    fileUrl: "/reports/higher-education-cybersecurity-market-analysis.md"
   },
   {
     title: "K-12 Privacy Compliance Report",
@@ -106,7 +111,8 @@ const reports = [
     downloadCount: "6,700",
     publishDate: "September 2024",
     featured: false,
-    image: k12ComplianceImg
+    image: k12ComplianceImg,
+    fileUrl: "/reports/k12-privacy-compliance-report.md"
   }
 ];
 
@@ -228,6 +234,8 @@ export default function MarketingReports() {
                     <Button 
                       size="sm" 
                       className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold"
+                      onClick={() => window.open(report.fileUrl, '_blank')}
+                      data-testid={`button-featured-download-${report.title.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download Report
@@ -431,6 +439,8 @@ export default function MarketingReports() {
                       size="sm" 
                       variant="outline"
                       className="w-full bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold text-xs"
+                      onClick={() => window.open(report.fileUrl, '_blank')}
+                      data-testid={`button-download-${report.title.toLowerCase().replace(/\s+/g, '-')}`}
                     >
                       <Download className="w-3 h-3 mr-2" />
                       Download
