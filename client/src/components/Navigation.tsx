@@ -95,15 +95,15 @@ export function Navigation() {
 
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-surface sticky top-0 z-50">
-      <div className="w-full px-6">
-        <div className="flex items-center justify-between h-28">
+      <div className="w-full px-4 md:px-6">
+        <div className="flex items-center justify-between h-20 md:h-28">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 mr-16">
+          <Link href="/" className="flex-shrink-0 mr-4 md:mr-16">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
                 src="/attached_assets/2_1756557992421.png" 
                 alt="CyberSecured AI" 
-                className="h-24 w-auto"
+                className="h-16 md:h-24 w-auto"
                 data-testid="logo-home-link"
               />
             </div>
@@ -398,10 +398,11 @@ export function Navigation() {
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2"
             >
               {isMobileMenuOpen ? 
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} /> : 
-                <div className="w-5 h-5 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} /> : 
+                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
               }
             </Button>
           </div>
@@ -409,8 +410,8 @@ export function Navigation() {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-surface">
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+          <div className="lg:hidden py-4 border-t border-surface bg-background/98 backdrop-blur-lg">
+            <div className="space-y-2 max-h-[80vh] overflow-y-auto px-2">
               {navItems.map((item) => (
                 <div key={item.href}>
                   {item.dropdown ? (
