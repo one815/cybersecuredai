@@ -36,13 +36,13 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email",
-      value: "contact@cybersecure.ai",
+      value: "info@cybersecuredai.com",
       description: "Send us a message anytime"
     },
     {
       icon: Phone,
       title: "Phone",
-      value: "+1 (555) 123-4567",
+      value: "(800) 608-1030",
       description: "Mon-Fri 8AM-6PM EST"
     },
     {
@@ -63,19 +63,19 @@ export default function Contact() {
     {
       city: "Washington, DC",
       address: "123 Security Blvd, Suite 100",
-      phone: "+1 (555) 123-4567",
+      phone: "(800) 608-1030",
       type: "Headquarters"
     },
     {
       city: "Austin, TX", 
       address: "456 Innovation Dr, Suite 200",
-      phone: "+1 (555) 234-5678",
+      phone: "(800) 608-1030",
       type: "Operations Center"
     },
     {
       city: "Denver, CO",
       address: "789 Cyber Ave, Suite 300", 
-      phone: "+1 (555) 345-6789",
+      phone: "(800) 608-1030",
       type: "Research Center"
     }
   ];
@@ -162,7 +162,7 @@ export default function Contact() {
                   
                   <div className="mt-6 text-center">
                     <p className="text-gray-400 text-sm">
-                      Can't find a suitable time? <a href="mailto:contact@cybersecure.ai" className="text-cyan-400 hover:text-cyan-300">Email us directly</a> to arrange a custom meeting time.
+                      Can't find a suitable time? <a href="mailto:info@cybersecuredai.com" className="text-cyan-400 hover:text-cyan-300">Email us directly</a> to arrange a custom meeting time.
                     </p>
                   </div>
                 </CardContent>

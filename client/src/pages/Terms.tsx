@@ -47,7 +47,7 @@ export default function Terms() {
                   </div>
                 </CardHeader>
                 <CardContent className="text-gray-300 space-y-4">
-                  <p>By accessing and using CyberSecure AI services, you agree to:</p>
+                  <p>By accessing and using CyberSecured AI services, you agree to:</p>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>Use our platform in compliance with applicable laws and regulations</li>
                     <li>Maintain the confidentiality of your account credentials</li>
@@ -68,7 +68,7 @@ export default function Terms() {
                   </div>
                 </CardHeader>
                 <CardContent className="text-gray-300 space-y-4">
-                  <p>CyberSecure AI retains all rights to:</p>
+                  <p>CyberSecured AI retains all rights to:</p>
                   <ul className="list-disc pl-6 space-y-2">
                     <li>Proprietary AI algorithms and threat detection models</li>
                     <li>Platform software, interfaces, and documentation</li>
@@ -110,7 +110,7 @@ export default function Terms() {
                 </CardHeader>
                 <CardContent className="text-gray-300 space-y-4">
                   <p>
-                    CyberSecure AI provides cybersecurity services on an "as is" basis. While we implement 
+                    CyberSecured AI provides cybersecurity services on an "as is" basis. While we implement 
                     industry-leading security measures, no security system is 100% foolproof. We are not 
                     liable for security breaches resulting from factors outside our reasonable control.
                   </p>
@@ -129,8 +129,8 @@ export default function Terms() {
                   </p>
                   <p className="text-cyan-400">
                     Email: legal@cybersecure.ai<br />
-                    Phone: 1-800-CYBER-AI<br />
-                    Mail: CyberSecure AI Legal Dept, 123 Security Blvd, Austin, TX 78701
+                    Phone: (800) 608-1030<br />
+                    Website: www.cybersecuredai.com
                   </p>
                 </CardContent>
               </Card>

@@ -47,7 +47,7 @@ export default function AboutUs() {
             <div className="max-w-4xl mx-auto text-center">
               <Badge className="bg-spring-500/20 text-spring-400 border-spring-500/30 mb-6">
                 <Enhanced4DShieldIcon className="glass-icon w-4 h-4 mr-2" size={16} />
-                About CyberSecure AI
+                About CyberSecured AI
               </Badge>
               <h1 className="text-5xl font-bold mb-6 text-white">
                 Our Story

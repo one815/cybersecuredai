@@ -102,7 +102,7 @@ export function Navigation() {
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
                 src="/attached_assets/CyberSecure AI (1)_1756164301031.png" 
-                alt="CyberSecure AI" 
+                alt="CyberSecured AI" 
                 className="h-24 w-auto"
                 data-testid="logo-home-link"
               />
@@ -131,7 +131,7 @@ export function Navigation() {
                         item.label === 'Resources' ? 'w-96' : 
                         item.label === 'Solutions' ? 'w-80' : 
                         item.label === 'Platform' ? 'w-[900px]' :
-                        item.label === 'Why CyberSecure AI' ? 'w-80' : 
+                        item.label === 'Why CyberSecured AI' ? 'w-80' : 
                         'w-72'
                       } bg-slate-800/95 backdrop-blur-xl border-2 border-cyan-400/50 rounded-xl shadow-2xl cyber-glow-strong z-50 animate-in fade-in-0 zoom-in-95 duration-200`}>
                         
@@ -304,7 +304,7 @@ export function Navigation() {
                               </div>
                             </div>
                           </div>
-                        ) : item.label === 'Why CyberSecure AI' ? (
+                        ) : item.label === 'Why CyberSecured AI' ? (
                           <div className="py-3">
                             {item.dropdown.map((dropdownItem, index) => (
                               <Link key={index} href={dropdownItem.href}>
