@@ -18,7 +18,12 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import marketingReportImg from "@assets/generated_images/Market_Research_Report_f84a91b6.png";
+import aiSecurityThreatImg from "@assets/generated_images/AI_Security_Threat_Report_9243f47f.png";
+import leadershipAwardImg from "@assets/generated_images/Cybersecurity_Leadership_Award_64e0bf84.png";
+import globalSecurityImg from "@assets/generated_images/Global_Security_Report_15483828.png";
+import federalAssessmentImg from "@assets/generated_images/Federal_Security_Assessment_79814cb2.png";
+import higherEducationImg from "@assets/generated_images/Higher_Education_Security_26849194.png";
+import k12ComplianceImg from "@assets/generated_images/K-12_Privacy_Compliance_14461732.png";
 
 const categories = [
   "Threat Reports",
@@ -46,7 +51,7 @@ const reports = [
     downloadCount: "15,400",
     publishDate: "January 2025",
     featured: true,
-    image: marketingReportImg
+    image: aiSecurityThreatImg
   },
   {
     title: "CyberSecure AI named Leader in Cybersecurity",
@@ -57,7 +62,7 @@ const reports = [
     downloadCount: "8,900",
     publishDate: "December 2024",
     featured: true,
-    image: marketingReportImg
+    image: leadershipAwardImg
   },
   {
     title: "CyberSecure AI 2025 Global Security Report",
@@ -68,7 +73,7 @@ const reports = [
     downloadCount: "22,100", 
     publishDate: "January 2025",
     featured: true,
-    image: marketingReportImg
+    image: globalSecurityImg
   },
   {
     title: "Federal Government Security Assessment 2024",
@@ -79,7 +84,7 @@ const reports = [
     downloadCount: "5,200",
     publishDate: "November 2024",
     featured: false,
-    image: marketingReportImg
+    image: federalAssessmentImg
   },
   {
     title: "Higher Education Cybersecurity Market Analysis",
@@ -90,7 +95,7 @@ const reports = [
     downloadCount: "3,800",
     publishDate: "October 2024",
     featured: false,
-    image: marketingReportImg
+    image: higherEducationImg
   },
   {
     title: "K-12 Privacy Compliance Report",
@@ -101,7 +106,7 @@ const reports = [
     downloadCount: "6,700",
     publishDate: "September 2024",
     featured: false,
-    image: marketingReportImg
+    image: k12ComplianceImg
   }
 ];
 
