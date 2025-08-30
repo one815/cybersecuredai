@@ -411,7 +411,7 @@ export default function Platform() {
                   onClick={() => setLocation('/client-stories')}
                 >
                   Learn More About Our Success
-                  <ExternalLink className="ml-2 w-5 h-5" />
+                  <Enhanced4DExternalLinkIcon className="ml-2 w-5 h-5" size={20} />
                 </Button>
               </Link>
             </div>
