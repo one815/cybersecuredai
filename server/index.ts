@@ -53,6 +53,9 @@ app.use((req, res, next) => {
       }
     });
 
+    // Serve static report files before Vite middleware
+    app.use('/reports', express.static('public/reports'));
+
     // importantly only setup vite in development and after
     // setting up all the other routes so the catch-all route
     // doesn't interfere with the other routes

@@ -64,7 +64,7 @@ const reports = [
     publishDate: "December 2024",
     featured: true,
     image: leadershipAwardImg,
-    fileUrl: "/reports/cybersecure-ai-leader-in-cybersecurity.md"
+    fileUrl: "/reports/cybersecure-ai-leader-in-cybersecurity.html"
   },
   {
     title: "CyberSecure AI 2025 Global Security Report",
@@ -76,7 +76,7 @@ const reports = [
     publishDate: "January 2025",
     featured: true,
     image: globalSecurityImg,
-    fileUrl: "/reports/cybersecure-ai-2025-global-security-report.md"
+    fileUrl: "/reports/cybersecure-ai-2025-global-security-report.html"
   },
   {
     title: "Federal Government Security Assessment 2024",
@@ -88,7 +88,7 @@ const reports = [
     publishDate: "November 2024",
     featured: false,
     image: federalAssessmentImg,
-    fileUrl: "/reports/federal-government-security-assessment-2024.md"
+    fileUrl: "/reports/federal-government-security-assessment-2024.html"
   },
   {
     title: "Higher Education Cybersecurity Market Analysis",
@@ -100,7 +100,7 @@ const reports = [
     publishDate: "October 2024",
     featured: false,
     image: higherEducationImg,
-    fileUrl: "/reports/higher-education-cybersecurity-market-analysis.md"
+    fileUrl: "/reports/higher-education-cybersecurity-market-analysis.html"
   },
   {
     title: "K-12 Privacy Compliance Report",
@@ -112,7 +112,7 @@ const reports = [
     publishDate: "September 2024",
     featured: false,
     image: k12ComplianceImg,
-    fileUrl: "/reports/k12-privacy-compliance-report.md"
+    fileUrl: "/reports/k12-privacy-compliance-report.html"
   }
 ];
 
