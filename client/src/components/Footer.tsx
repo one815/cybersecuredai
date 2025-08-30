@@ -16,7 +16,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <div className="flex items-center mb-4">
               <img 
-                src="/attached_assets/CyberSecured AI (1)_1756164301031.png" 
+                src="/attached_assets/CyberSecure Shield Badge.png" 
                 alt="CyberSecured AI" 
                 className="h-24 w-auto"
               />
