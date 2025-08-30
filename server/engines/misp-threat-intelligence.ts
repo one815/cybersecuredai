@@ -211,6 +211,7 @@ export class MISPThreatIntelligence extends EventEmitter {
   private fetchInterval: number = 300000; // 5 minutes
   private initialized: boolean = false;
   private officialFeeds: MISPFeedConfig[] = [];
+  private lastAggregatedData: ThreatIntelligenceData | null = null;
 
   constructor(config: MISPConfig) {
     super();
@@ -653,7 +654,7 @@ export class MISPThreatIntelligence extends EventEmitter {
         name: "CIRCL OSINT Feed",
         provider: "CIRCL",
         url: "https://www.circl.lu/doc/misp/feed-osint",
-        enabled: true,
+        enabled: false, // Disabled due to HTML response instead of JSON
         distribution: "3",
         source_format: "misp",
         fixed_event: false,
@@ -667,7 +668,7 @@ export class MISPThreatIntelligence extends EventEmitter {
         name: "The Botvrij.eu Data",
         provider: "Botvrij.eu",
         url: "https://www.botvrij.eu/data/feed-osint",
-        enabled: true,
+        enabled: false, // Disabled due to HTML response instead of JSON
         distribution: "3",
         source_format: "misp",
         fixed_event: false,
@@ -696,7 +697,7 @@ export class MISPThreatIntelligence extends EventEmitter {
         name: "Tor exit nodes",
         provider: "TOR Node List from dan.me.uk",
         url: "https://www.dan.me.uk/torlist/?exit",
-        enabled: true,
+        enabled: false, // Disabled due to 403 Forbidden error
         distribution: "0",
         source_format: "csv",
         fixed_event: true,
@@ -794,7 +795,8 @@ export class MISPThreatIntelligence extends EventEmitter {
       headers: {
         'Accept': 'text/plain,application/json',
         'User-Agent': 'MISP-ThreatIntelligence/1.0'
-      }
+      },
+      timeout: this.config.timeout || 30000
     });
 
     if (!response.ok) {
@@ -802,12 +804,21 @@ export class MISPThreatIntelligence extends EventEmitter {
     }
 
     const contentType = response.headers.get('content-type') || '';
+    const text = await response.text();
+    
+    // Check if response looks like HTML (common error when feeds return web pages)
+    if (text.trim().toLowerCase().startsWith('<!doctype') || text.trim().toLowerCase().startsWith('<html')) {
+      throw new Error(`Feed returned HTML page instead of data - feed may be misconfigured`);
+    }
     
     if (feed.source_format === 'misp' || contentType.includes('application/json')) {
-      return await response.json();
+      try {
+        return JSON.parse(text);
+      } catch (jsonError) {
+        throw new Error(`Invalid JSON response from feed: ${jsonError}`);
+      }
     } else {
       // Handle CSV and freetext formats
-      const text = await response.text();
       return this.parseFeedText(text, feed);
     }
   }
@@ -960,24 +971,24 @@ export class MISPThreatIntelligence extends EventEmitter {
         },
         circl_tools_status: await circlTools.constructor.name ? 'available' : 'unavailable',
         combined_iocs: {
-          ips: [...new Set([
+          ips: Array.from(new Set([
             ...(standardIntel.iocs?.ips || []),
             ...(pyMispIntel.iocs?.ips || [])
-          ])],
-          domains: [...new Set([
+          ])),
+          domains: Array.from(new Set([
             ...(standardIntel.iocs?.domains || []),
             ...(pyMispIntel.iocs?.domains || [])
-          ])],
-          urls: [...new Set([
+          ])),
+          urls: Array.from(new Set([
             ...(standardIntel.iocs?.urls || []),
             ...(pyMispIntel.iocs?.urls || [])
-          ])],
-          hashes: [...new Set([
+          ])),
+          hashes: Array.from(new Set([
             ...(standardIntel.iocs?.hashes || [])
-          ])],
+          ])),
           emails: standardIntel.iocs?.emails || []
         },
-        threat_actors: standardIntel.threat_actors || [],
+        threatActors: standardIntel.threatActors || [],
         total_enhanced_indicators: 0
       };
 
@@ -1014,7 +1025,7 @@ export class MISPThreatIntelligence extends EventEmitter {
       
       // Add MISP-specific intelligence
       const mispData = await this.searchInFeeds(target);
-      assessment.misp_matches = mispData;
+      (assessment as any).mispMatches = mispData;
       
       // Enhance risk scoring with MISP data
       if (mispData.length > 0) {
