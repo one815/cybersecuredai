@@ -336,7 +336,7 @@ export default function ThreatReport2025() {
                   This report analyzes cybersecurity incidents from January 2024 to December 2024, 
                   using advanced AI algorithms to identify patterns, predict trends, and provide 
                   actionable insights for educational institutions and government organizations. 
-                  Data was collected from CyberSecure AI's threat intelligence network, 
+                  Data was collected from CyberSecured AI's threat intelligence network, 
                   industry partnerships, and government cybersecurity agencies.
                 </p>
               </div>

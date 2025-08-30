@@ -155,7 +155,7 @@ export default function MISPBenefits() {
             Real-Time Threat Intelligence for Critical Organizations
           </h1>
           <p className="text-xl text-slate-300 mb-8 max-w-3xl mx-auto">
-            CyberSecure AI's MISP Live Dashboard provides government agencies, educational institutions, and critical infrastructure with real-time threat intelligence from official feeds worldwide.
+            CyberSecured AI's MISP Live Dashboard provides government agencies, educational institutions, and critical infrastructure with real-time threat intelligence from official feeds worldwide.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/misp-live">
@@ -350,7 +350,7 @@ export default function MISPBenefits() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-6">Ready to Enhance Your Threat Intelligence?</h2>
           <p className="text-xl text-slate-400 mb-8">
-            Join leading government agencies, educational institutions, and critical infrastructure organizations using CyberSecure AI's MISP Live Dashboard.
+            Join leading government agencies, educational institutions, and critical infrastructure organizations using CyberSecured AI's MISP Live Dashboard.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/misp-live">

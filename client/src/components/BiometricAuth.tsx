@@ -128,7 +128,7 @@ export function BiometricAuth({ onSuccess, onError, planType = "standard" }: Bio
       const publicKeyCredentialCreationOptions = {
         challenge: new Uint8Array(32),
         rp: {
-          name: "CyberSecure AI",
+          name: "CyberSecured AI",
           id: window.location.hostname,
         },
         user: {

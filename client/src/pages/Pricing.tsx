@@ -239,7 +239,7 @@ export default function Pricing() {
                 <div className="mt-16">
                   <div className="text-center mb-12">
                     <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
-                      CyberSecure AI-EDU Pilot Programs
+                      CyberSecured AI-EDU Pilot Programs
                     </Badge>
                     <h3 className="text-3xl font-bold text-white mb-4">
                       Educational<br />
@@ -461,7 +461,7 @@ export default function Pricing() {
               <CardContent className="p-12 text-center">
                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-8">
                   Why Organizations Choose<br />
-                  <span className="text-green-400">CyberSecure AI</span>
+                  <span className="text-green-400">CyberSecured AI</span>
                 </h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">

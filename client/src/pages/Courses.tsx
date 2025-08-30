@@ -357,7 +357,7 @@ export default function Courses() {
           <div className="container mx-auto px-6 relative">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-spring-400 to-cyber-blue-400 bg-clip-text text-transparent">
-                CyberSecure AI Training
+                CyberSecured AI Training
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Comprehensive cybersecurity education designed for Federal Government, Higher Education, and K-12 institutions. 
@@ -368,7 +368,7 @@ export default function Courses() {
               <div className="bg-midnight-800/50 border border-spring-400/30 rounded-lg p-8 mb-8">
                 <h2 className="text-2xl font-bold text-spring-400 mb-4">Access Training Through Our Platform</h2>
                 <p className="text-gray-300 mb-6">
-                  All courses are available exclusively through the CyberSecure AI platform. Sign up to access our 
+                  All courses are available exclusively through the CyberSecured AI platform. Sign up to access our 
                   comprehensive training library with personalized learning paths and real-time progress tracking.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -56,7 +56,7 @@ export default function FederalEducationSecurity() {
               </h1>
               
               <p className="text-xl text-gray-300 mb-6">
-                How the U.S. Department of Education transformed their cybersecurity posture using CyberSecure AI's comprehensive platform, achieving unprecedented threat detection and response capabilities.
+                How the U.S. Department of Education transformed their cybersecurity posture using CyberSecured AI's comprehensive platform, achieving unprecedented threat detection and response capabilities.
               </p>
               
               <div className="flex flex-wrap gap-4 text-sm text-gray-400">
@@ -206,7 +206,7 @@ export default function FederalEducationSecurity() {
         <div className="py-16 bg-midnight-950/50">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">CyberSecure AI Solution</h2>
+              <h2 className="text-3xl font-bold mb-8 text-center">CyberSecured AI Solution</h2>
               
               <div className="grid md:grid-cols-2 gap-8 mb-12">
                 <Card className="bg-midnight-800/50 border-midnight-700">
@@ -395,7 +395,7 @@ export default function FederalEducationSecurity() {
                 <CardContent className="p-8 text-center">
                   <div className="text-4xl text-spring-400 mb-4">"</div>
                   <p className="text-xl text-gray-200 mb-6 leading-relaxed italic">
-                    CyberSecure AI has transformed our security operations from reactive firefighting to proactive threat prevention. The platform's AI capabilities have given us visibility we never had before, and the reduction in false positives has allowed our team to focus on real threats.
+                    CyberSecured AI has transformed our security operations from reactive firefighting to proactive threat prevention. The platform's AI capabilities have given us visibility we never had before, and the reduction in false positives has allowed our team to focus on real threats.
                   </p>
                   <div className="flex items-center justify-center gap-4">
                     <div className="w-12 h-12 bg-spring-400/20 rounded-full flex items-center justify-center">
@@ -419,7 +419,7 @@ export default function FederalEducationSecurity() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Security Posture?</h2>
               <p className="text-xl text-gray-300 mb-8">
-                See how CyberSecure AI can help your organization achieve similar results.
+                See how CyberSecured AI can help your organization achieve similar results.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-spring-500 hover:bg-spring-600 text-midnight-900 font-semibold">

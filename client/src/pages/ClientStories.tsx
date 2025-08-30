@@ -46,7 +46,7 @@ const clientStories = [
   {
     title: "Federal Agency Reduces Security Incidents by 89%",
     client: "U.S. Department of Education",
-    description: "How a major federal agency transformed their cybersecurity posture using CyberSecure AI's comprehensive platform, achieving unprecedented threat detection and response capabilities.",
+    description: "How a major federal agency transformed their cybersecurity posture using CyberSecured AI's comprehensive platform, achieving unprecedented threat detection and response capabilities.",
     category: "Threat Prevention",
     industry: "Federal Government",
     results: ["89% reduction in security incidents", "$2.3M annual savings", "50% faster incident response"],
@@ -168,7 +168,7 @@ export default function ClientStories() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Real success stories from government agencies and educational institutions who have 
-                transformed their cybersecurity posture with CyberSecure AI.
+                transformed their cybersecurity posture with CyberSecured AI.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">

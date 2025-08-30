@@ -29,8 +29,20 @@ import {
   Enhanced4DArrowRightIcon,
   Enhanced4DExternalLinkIcon,
   Enhanced4DBuildingIcon,
-  Enhanced4DSettingsIcon
+  Enhanced4DSettingsIcon,
+  Enhanced4DStarIcon
 } from "@/components/CustomIcons";
+import { 
+  Globe, 
+  Building, 
+  Star, 
+  Server, 
+  Database, 
+  Crown, 
+  Clock, 
+  Award, 
+  Phone 
+} from "lucide-react";
 import { Link } from "wouter";
 
 // Professional services images

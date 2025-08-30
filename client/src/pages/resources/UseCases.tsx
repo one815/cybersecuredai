@@ -44,8 +44,8 @@ const useCases = [
   // Federal Government Use Cases
   {
     title: "Zero Trust Architecture Implementation",
-    description: "How Federal Agencies Achieve 47% Reduction in Security Incidents with CyberSecure AI's Zero Trust Architecture",
-    fullUseCase: "The Department of Defense implemented CyberSecure AI's Zero Trust Architecture (ZTA) solution across its digital infrastructure, moving beyond traditional perimeter-based security. Following Executive Order 14028, the agency needed to verify every user, device, and application attempting to access resources, regardless of location. CyberSecure AI's implementation provided continuous verification of all access requests using AI-driven behavioral analysis, micro-segmentation of network resources to contain potential breaches, policy enforcement points that authenticate and authorize based on multiple factors, and real-time monitoring with automated threat response. Results: The agency documented a 47% reduction in security incidents within the first year, while maintaining compliance with federal mandates and NIST standards for secure AI implementation.",
+    description: "How Federal Agencies Achieve 47% Reduction in Security Incidents with CyberSecured AI's Zero Trust Architecture",
+    fullUseCase: "The Department of Defense implemented CyberSecured AI's Zero Trust Architecture (ZTA) solution across its digital infrastructure, moving beyond traditional perimeter-based security. Following Executive Order 14028, the agency needed to verify every user, device, and application attempting to access resources, regardless of location. CyberSecured AI's implementation provided continuous verification of all access requests using AI-driven behavioral analysis, micro-segmentation of network resources to contain potential breaches, policy enforcement points that authenticate and authorize based on multiple factors, and real-time monitoring with automated threat response. Results: The agency documented a 47% reduction in security incidents within the first year, while maintaining compliance with federal mandates and NIST standards for secure AI implementation.",
     industry: "Federal Government",
     results: "47% reduction in security incidents",
     downloadCount: "1,900",
@@ -55,8 +55,8 @@ const useCases = [
   },
   {
     title: "Executive Order Compliance",
-    description: "CyberSecure AI: Enabling Rapid Federal Compliance with Executive Orders on AI Security",
-    fullUseCase: "Following new Executive Orders mandating secure AI development practices, the Department of Energy faced the challenge of quickly assessing and upgrading its AI systems across 17 national laboratories. With limited time and resources, the department needed a standardized approach to ensure compliance. CyberSecure AI provided automated compliance assessment tools mapped directly to Executive Order requirements, pre-configured security templates aligned with federal AI security frameworks, continuous monitoring for regulatory changes with implementation roadmaps, and cross-department collaboration tools to standardize security practices. Results: The Department achieved full compliance within 90 days, avoiding potential penalties while establishing a sustainable framework for adapting to future executive orders.",
+    description: "CyberSecured AI: Enabling Rapid Federal Compliance with Executive Orders on AI Security",
+    fullUseCase: "Following new Executive Orders mandating secure AI development practices, the Department of Energy faced the challenge of quickly assessing and upgrading its AI systems across 17 national laboratories. With limited time and resources, the department needed a standardized approach to ensure compliance. CyberSecured AI provided automated compliance assessment tools mapped directly to Executive Order requirements, pre-configured security templates aligned with federal AI security frameworks, continuous monitoring for regulatory changes with implementation roadmaps, and cross-department collaboration tools to standardize security practices. Results: The Department achieved full compliance within 90 days, avoiding potential penalties while establishing a sustainable framework for adapting to future executive orders.",
     industry: "Federal Government",
     results: "Full compliance within 90 days",
     downloadCount: "1,400",
@@ -66,8 +66,8 @@ const useCases = [
   },
   {
     title: "Critical Infrastructure Protection",
-    description: "Protecting National Security: How Federal Agencies Detect and Mitigate Nation-State Attacks with CyberSecure AI",
-    fullUseCase: "The Department of Homeland Security identified sophisticated nation-state actors targeting AI systems controlling power grid operations. These attacks exploited vulnerabilities in machine learning models to manipulate critical infrastructure functionality. CyberSecure AI deployment included advanced threat intelligence specifically focused on AI-targeting attack vectors, real-time anomaly detection in AI model behavior and outputs, secure model architecture with built-in resistance to adversarial attacks, and automated containment and remediation protocols. Results: Federal agencies successfully identified and neutralized 23 sophisticated attack attempts, maintaining continuous operation of critical infrastructure while providing valuable intelligence on emerging threats.",
+    description: "Protecting National Security: How Federal Agencies Detect and Mitigate Nation-State Attacks with CyberSecured AI",
+    fullUseCase: "The Department of Homeland Security identified sophisticated nation-state actors targeting AI systems controlling power grid operations. These attacks exploited vulnerabilities in machine learning models to manipulate critical infrastructure functionality. CyberSecured AI deployment included advanced threat intelligence specifically focused on AI-targeting attack vectors, real-time anomaly detection in AI model behavior and outputs, secure model architecture with built-in resistance to adversarial attacks, and automated containment and remediation protocols. Results: Federal agencies successfully identified and neutralized 23 sophisticated attack attempts, maintaining continuous operation of critical infrastructure while providing valuable intelligence on emerging threats.",
     industry: "Federal Government",
     results: "23 attacks neutralized, continuous operations maintained",
     downloadCount: "2,100",
@@ -78,8 +78,8 @@ const useCases = [
   // State Government Use Cases
   {
     title: "Multi-State Security Coalition",
-    description: "Building Resilience Through Collaboration: CyberSecure AI's Multi-State Security Coalition Framework",
-    fullUseCase: "Following a series of coordinated attacks targeting state-level AI systems, seven Midwestern states formed a security coalition to share resources and threat intelligence. Previously, each state operated independently, creating security gaps and duplicating efforts. CyberSecure AI enabled secure, cross-state threat intelligence sharing platform with automated analysis, pooled security resources providing 24/7 monitoring capabilities, standardized incident response protocols across state boundaries, and collaborative training and simulation exercises. Results: The coalition identified 34% more threats than individual state efforts, while reducing security costs by 28% through resource sharing and eliminating duplicate efforts.",
+    description: "Building Resilience Through Collaboration: CyberSecured AI's Multi-State Security Coalition Framework",
+    fullUseCase: "Following a series of coordinated attacks targeting state-level AI systems, seven Midwestern states formed a security coalition to share resources and threat intelligence. Previously, each state operated independently, creating security gaps and duplicating efforts. CyberSecured AI enabled secure, cross-state threat intelligence sharing platform with automated analysis, pooled security resources providing 24/7 monitoring capabilities, standardized incident response protocols across state boundaries, and collaborative training and simulation exercises. Results: The coalition identified 34% more threats than individual state efforts, while reducing security costs by 28% through resource sharing and eliminating duplicate efforts.",
     industry: "State Government",
     results: "34% more threats detected, 28% cost reduction",
     downloadCount: "980",
@@ -89,8 +89,8 @@ const useCases = [
   },
   {
     title: "State-wide AI Security Standards",
-    description: "Eliminating Security Fragmentation: How State IT Departments Standardize AI Protection with CyberSecure AI",
-    fullUseCase: "The California Department of Technology faced significant challenges with inconsistent AI security practices across 137 state agencies. This fragmentation created vulnerabilities, compliance issues, and inefficient resource allocation. CyberSecure AI provided centralized security policy management with agency-specific customizations, automated compliance monitoring and reporting across all state entities, standardized security implementation templates for common AI applications, and cross-agency visibility with unified security dashboards. Results: Within 12 months, the state achieved 94% standardization across agencies, eliminated critical security gaps, and reduced redundant security spending by $3.7 million annually.",
+    description: "Eliminating Security Fragmentation: How State IT Departments Standardize AI Protection with CyberSecured AI",
+    fullUseCase: "The California Department of Technology faced significant challenges with inconsistent AI security practices across 137 state agencies. This fragmentation created vulnerabilities, compliance issues, and inefficient resource allocation. CyberSecured AI provided centralized security policy management with agency-specific customizations, automated compliance monitoring and reporting across all state entities, standardized security implementation templates for common AI applications, and cross-agency visibility with unified security dashboards. Results: Within 12 months, the state achieved 94% standardization across agencies, eliminated critical security gaps, and reduced redundant security spending by $3.7 million annually.",
     industry: "State Government",
     results: "94% standardization, $3.7M cost savings",
     downloadCount: "1,150",
@@ -101,8 +101,8 @@ const useCases = [
   // Municipal Government Use Cases
   {
     title: "City System Vulnerability Assessment",
-    description: "Securing Municipal Infrastructure: How CyberSecure AI Helps Cities Reduce Vulnerabilities by 78%",
-    fullUseCase: "The City of Lakewood faced increasing challenges with its aging digital infrastructure as AI-powered threats emerged. With limited cybersecurity personnel and budget constraints, the city needed a comprehensive approach to identify and address vulnerabilities across all municipal systems. CyberSecure AI provided automated vulnerability scanning specifically calibrated for municipal systems, risk prioritization based on threat severity and system criticality, remediation roadmaps tailored to budget constraints, and continuous monitoring with early detection capabilities. Results: Within 6 months, Lakewood identified and remediated 78% of previously unknown vulnerabilities, preventing three potential breaches and maintaining essential city services without interruption.",
+    description: "Securing Municipal Infrastructure: How CyberSecured AI Helps Cities Reduce Vulnerabilities by 78%",
+    fullUseCase: "The City of Lakewood faced increasing challenges with its aging digital infrastructure as AI-powered threats emerged. With limited cybersecurity personnel and budget constraints, the city needed a comprehensive approach to identify and address vulnerabilities across all municipal systems. CyberSecured AI provided automated vulnerability scanning specifically calibrated for municipal systems, risk prioritization based on threat severity and system criticality, remediation roadmaps tailored to budget constraints, and continuous monitoring with early detection capabilities. Results: Within 6 months, Lakewood identified and remediated 78% of previously unknown vulnerabilities, preventing three potential breaches and maintaining essential city services without interruption.",
     industry: "Municipal Government",
     results: "78% vulnerability reduction",
     downloadCount: "1,250",
@@ -159,7 +159,7 @@ export default function UseCases() {
             <div className="text-center mb-16">
               <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30 text-lg px-4 py-2">
                 <Target className="w-4 h-4 mr-2" />
-                CyberSecure AI Use Cases
+                CyberSecured AI Use Cases
               </Badge>
               <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
                 Real-World Success
@@ -168,7 +168,7 @@ export default function UseCases() {
                 </span>
               </h1>
               <p className="text-xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-                Comprehensive case studies showcasing how government agencies and educational institutions achieve measurable security improvements with CyberSecure AI solutions.
+                Comprehensive case studies showcasing how government agencies and educational institutions achieve measurable security improvements with CyberSecured AI solutions.
               </p>
               <div className="flex items-center justify-center gap-6">
                 <div className="flex items-center gap-2 text-blue-400">
@@ -372,7 +372,7 @@ export default function UseCases() {
               Ready to Achieve Similar Results?
             </h2>
             <p className="text-lg text-gray-300 mb-8">
-              Explore how CyberSecure AI can help your organization implement proven security solutions with measurable outcomes.
+              Explore how CyberSecured AI can help your organization implement proven security solutions with measurable outcomes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

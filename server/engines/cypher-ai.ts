@@ -42,7 +42,7 @@ export interface SecurityAnalysis {
 /**
  * Cypher AI Cyber Tech Assistant
  * Advanced AI-powered cybersecurity assistant providing intelligent guidance,
- * threat analysis, and remediation recommendations for the CyberSecure AI platform.
+ * threat analysis, and remediation recommendations for the CyberSecured AI platform.
  */
 export class CypherAI extends EventEmitter {
   private conversationHistory: Map<string, CypherMessage[]> = new Map();

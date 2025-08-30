@@ -61,7 +61,7 @@ export default function Authentication() {
       const publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions = {
         challenge: crypto.getRandomValues(new Uint8Array(32)),
         rp: {
-          name: "CyberSecure AI",
+          name: "CyberSecured AI",
           id: window.location.hostname.includes('localhost') ? 'localhost' : window.location.hostname,
         },
         user: {

@@ -238,8 +238,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Generate a secure random secret
       const secret = speakeasy.default.generateSecret({
-        name: 'CyberSecure AI',
-        issuer: 'CyberSecure AI',
+        name: 'CyberSecured AI',
+        issuer: 'CyberSecured AI',
         length: 32
       });
       
@@ -2205,7 +2205,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add title and header
       doc.setFontSize(20);
       doc.setTextColor(0, 51, 102); // Dark blue
-      doc.text('CyberSecure AI', 20, 30);
+      doc.text('CyberSecured AI', 20, 30);
       
       doc.setFontSize(16);
       doc.setTextColor(0, 0, 0);
@@ -2268,7 +2268,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       doc.setFontSize(8);
       doc.setTextColor(150, 150, 150);
       doc.text('This report is confidential and intended for authorized personnel only.', 20, 285);
-      doc.text(`CyberSecure AI Security Platform - ${currentDate}`, 20, 292);
+      doc.text(`CyberSecured AI Security Platform - ${currentDate}`, 20, 292);
       
       // Generate PDF buffer
       const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
@@ -4213,7 +4213,7 @@ BT
 (${resourceTitle}) Tj
 0 -30 Td
 /F2 12 Tf
-(CyberSecure AI - Advanced Cybersecurity Platform) Tj
+(CyberSecured AI - Advanced Cybersecurity Platform) Tj
 0 -40 Td
 ${specificContent}
 0 -30 Td
@@ -4225,7 +4225,7 @@ ${specificContent}
 0 -15 Td
 (Website: www.cybersecuredai.com) Tj
 0 -30 Td
-(© 2025 CyberSecure AI. All rights reserved.) Tj
+(© 2025 CyberSecured AI. All rights reserved.) Tj
 ET
 endstream
 endobj

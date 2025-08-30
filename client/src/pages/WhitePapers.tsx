@@ -34,7 +34,7 @@ const whitepapers = [
     downloadType: "PDF",
     downloadCount: "3,200",
     publishDate: "2025-01-15",
-    authors: "CyberSecure AI Research Team",
+    authors: "CyberSecured AI Research Team",
     featured: true,
     image: aiSecROIWhitePaperImg
   },

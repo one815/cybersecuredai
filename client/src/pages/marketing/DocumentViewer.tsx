@@ -22,7 +22,7 @@ const documentDatabase = {
     pages: '150+',
     downloadCount: '2,400',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Compliance Team',
+    authors: 'CyberSecured AI Compliance Team',
     downloadUrl: '/marketing/documents/success-kits/federal-ai-security-compliance-kit.pdf',
     previewContent: 'Complete FISMA compliance templates and implementation guides for federal agencies.'
   },
@@ -33,7 +33,7 @@ const documentDatabase = {
     pages: '200+',
     downloadCount: '1,800',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI National Security Team',
+    authors: 'CyberSecured AI National Security Team',
     downloadUrl: '/marketing/documents/success-kits/national-security-ai-protection-kit.pdf',
     previewContent: 'Classified data handling procedures and multi-level security protocols.'
   },
@@ -47,7 +47,7 @@ const documentDatabase = {
     version: '2025 Edition',
     downloadCount: '8,900',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Research Team',
+    authors: 'CyberSecured AI Research Team',
     downloadUrl: '/marketing/documents/handbooks/the-definitive-ai-security-handbook.pdf',
     previewContent: `
       This comprehensive handbook covers:
@@ -76,7 +76,7 @@ const documentDatabase = {
     version: '2025 Edition',
     downloadCount: '5,600',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Architecture Team',
+    authors: 'CyberSecured AI Architecture Team',
     downloadUrl: '/marketing/documents/handbooks/zero-trust-security-implementation-guide.pdf',
     previewContent: 'Complete implementation guide for zero trust architecture in educational and government environments.'
   },
@@ -90,7 +90,7 @@ const documentDatabase = {
     downloadType: 'PDF',
     downloadCount: '3,200',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Research Team',
+    authors: 'CyberSecured AI Research Team',
     downloadUrl: '/marketing/documents/white-papers/quantifying-ai-security-roi.pdf',
     previewContent: `
       Executive Summary:
@@ -113,7 +113,7 @@ const documentDatabase = {
     pages: '160',
     downloadCount: '3,800',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Federal Compliance Team',
+    authors: 'CyberSecured AI Federal Compliance Team',
     downloadUrl: '/marketing/documents/ebooks/federal-ai-security-compliance-guide-fisma-fedramp.pdf',
     previewContent: 'Comprehensive guide for federal agencies implementing AI security solutions under FISMA and FedRAMP.'
   },
@@ -124,7 +124,7 @@ const documentDatabase = {
     pages: '195',
     downloadCount: '5,400',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Education Team',
+    authors: 'CyberSecured AI Education Team',
     downloadUrl: '/marketing/documents/ebooks/complete-guide-to-university-ai-security-research-protection.pdf',
     previewContent: 'Comprehensive 195-page guide covering all aspects of AI security for educational institutions.'
   },
@@ -137,7 +137,7 @@ const documentDatabase = {
     pages: '25',
     downloadCount: '2,100',
     publishDate: '2025-01-15',
-    authors: 'CyberSecure AI Federal Solutions Team',
+    authors: 'CyberSecured AI Federal Solutions Team',
     downloadUrl: '/marketing/documents/use-cases/federal-agency-threat-detection-enhancement.pdf',
     previewContent: 'Advanced AI algorithms identifying sophisticated attack patterns with 99.7% accuracy in federal environments.'
   }

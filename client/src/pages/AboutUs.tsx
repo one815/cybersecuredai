@@ -92,7 +92,7 @@ export default function AboutUs() {
               <div>
                 <h2 className="text-3xl font-bold mb-6 text-white">Our Mission</h2>
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  CyberSecure AI exists to provide educational institutions and government agencies with the most advanced, AI-powered cybersecurity platform available. We combine cutting-edge artificial intelligence with deep cybersecurity expertise to create solutions that not only protect against current threats but anticipate and prevent future attacks.
+                  CyberSecured AI exists to provide educational institutions and government agencies with the most advanced, AI-powered cybersecurity platform available. We combine cutting-edge artificial intelligence with deep cybersecurity expertise to create solutions that not only protect against current threats but anticipate and prevent future attacks.
                 </p>
                 <p className="text-gray-300 text-lg leading-relaxed">
                   Our platform is specifically designed to meet the unique compliance requirements of educational environments, ensuring FERPA, FISMA, and CIPA compliance while providing real-time threat detection and automated incident response.
@@ -101,7 +101,7 @@ export default function AboutUs() {
               <div className="relative">
                 <img 
                   src={platformImg} 
-                  alt="CyberSecure AI Platform"
+                  alt="CyberSecured AI Platform"
                   className="w-full h-96 object-cover rounded-lg border border-spring-500/30"
                 />
               </div>
@@ -208,7 +208,7 @@ export default function AboutUs() {
               <CardContent className="p-12 text-center">
                 <h2 className="text-3xl font-bold mb-4 text-white">Ready to Secure Your Institution?</h2>
                 <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-                  Join hundreds of educational institutions and government agencies that trust CyberSecure AI to protect their most valuable assets.
+                  Join hundreds of educational institutions and government agencies that trust CyberSecured AI to protect their most valuable assets.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/contact">

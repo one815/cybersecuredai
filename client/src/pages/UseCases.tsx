@@ -49,7 +49,7 @@ const industries = [
 const useCases = [
   {
     title: "Zero Trust Architecture Implementation",
-    description: "Federal agencies deploy CyberSecure AI to establish and maintain zero trust frameworks, resulting in a 47% reduction in security incidents while ensuring AI systems remain secure and compliant with federal mandates.",
+    description: "Federal agencies deploy CyberSecured AI to establish and maintain zero trust frameworks, resulting in a 47% reduction in security incidents while ensuring AI systems remain secure and compliant with federal mandates.",
     industry: "Federal Government",
     results: "47% reduction in security incidents",
     downloadCount: "1,900",
@@ -58,7 +58,7 @@ const useCases = [
   },
   {
     title: "Executive Order Compliance",
-    description: "Government departments leverage CyberSecure AI to rapidly adapt to new White House executive orders on secure AI development, ensuring all federal systems meet the latest security requirements.",
+    description: "Government departments leverage CyberSecured AI to rapidly adapt to new White House executive orders on secure AI development, ensuring all federal systems meet the latest security requirements.",
     industry: "Federal Government",
     results: "Rapid compliance adaptation",
     downloadCount: "1,400",
@@ -67,7 +67,7 @@ const useCases = [
   },
   {
     title: "Critical Infrastructure Protection",
-    description: "Federal agencies use CyberSecure AI to detect and mitigate nation-state attacks targeting AI systems in critical infrastructure, enabling real-time threat assessment and response.",
+    description: "Federal agencies use CyberSecured AI to detect and mitigate nation-state attacks targeting AI systems in critical infrastructure, enabling real-time threat assessment and response.",
     industry: "Federal Government",
     results: "Real-time threat mitigation",
     downloadCount: "2,100",
@@ -76,7 +76,7 @@ const useCases = [
   },
   {
     title: "Multi-State Security Coalition",
-    description: "State governments implement CyberSecure AI's collaborative platform to share resources and threat intelligence across state lines, creating a unified defense against evolving AI threats.",
+    description: "State governments implement CyberSecured AI's collaborative platform to share resources and threat intelligence across state lines, creating a unified defense against evolving AI threats.",
     industry: "State Government",
     results: "Unified multi-state defense",
     downloadCount: "980",
@@ -85,7 +85,7 @@ const useCases = [
   },
   {
     title: "State-wide AI Security Standards",
-    description: "State IT departments utilize CyberSecure AI to develop and enforce consistent security standards across all state agencies, reducing fragmentation and security gaps.",
+    description: "State IT departments utilize CyberSecured AI to develop and enforce consistent security standards across all state agencies, reducing fragmentation and security gaps.",
     industry: "State Government",
     results: "Consistent statewide standards",
     downloadCount: "1,150",
@@ -94,7 +94,7 @@ const useCases = [
   },
   {
     title: "City System Vulnerability Assessment",
-    description: "Municipal governments deploy CyberSecure AI's gap analysis tools to identify and remediate the 78% of city systems vulnerable to emerging AI threats.",
+    description: "Municipal governments deploy CyberSecured AI's gap analysis tools to identify and remediate the 78% of city systems vulnerable to emerging AI threats.",
     industry: "Municipal Government",
     results: "78% vulnerability reduction",
     downloadCount: "1,250",
@@ -103,7 +103,7 @@ const useCases = [
   },
   {
     title: "Smart City Security",
-    description: "Local governments secure IoT and AI-powered smart city initiatives using CyberSecure AI's specialized urban infrastructure protection suite.",
+    description: "Local governments secure IoT and AI-powered smart city initiatives using CyberSecured AI's specialized urban infrastructure protection suite.",
     industry: "Municipal Government",
     results: "Complete IoT protection",
     downloadCount: "1,600",
@@ -112,7 +112,7 @@ const useCases = [
   },
   {
     title: "Research Collaboration Security",
-    description: "Universities implement CyberSecure AI to establish shared security standards for multi-institution research projects, protecting valuable intellectual property and sensitive data.",
+    description: "Universities implement CyberSecured AI to establish shared security standards for multi-institution research projects, protecting valuable intellectual property and sensitive data.",
     industry: "Higher Education",
     results: "Protected intellectual property",
     downloadCount: "1,800",
@@ -121,7 +121,7 @@ const useCases = [
   },
   {
     title: "Campus Access Control",
-    description: "Higher education institutions deploy CyberSecure AI's detection systems, achieving a 92% improvement in identifying unauthorized access attempts to campus AI systems.",
+    description: "Higher education institutions deploy CyberSecured AI's detection systems, achieving a 92% improvement in identifying unauthorized access attempts to campus AI systems.",
     industry: "Higher Education",
     results: "92% improvement in access detection",
     downloadCount: "1,450",
@@ -130,7 +130,7 @@ const useCases = [
   },
   {
     title: "Academic Security Framework",
-    description: "Colleges adopt CyberSecure AI's comprehensive protection framework specifically designed for academic environments with complex access needs and collaborative workflows.",
+    description: "Colleges adopt CyberSecured AI's comprehensive protection framework specifically designed for academic environments with complex access needs and collaborative workflows.",
     industry: "Higher Education",
     results: "Comprehensive academic protection",
     downloadCount: "2,200",
@@ -139,7 +139,7 @@ const useCases = [
   },
   {
     title: "School Security Assessment",
-    description: "K-12 districts utilize CyberSecure AI's assessment toolkit to evaluate and strengthen AI protection measures, ensuring student data remains secure.",
+    description: "K-12 districts utilize CyberSecured AI's assessment toolkit to evaluate and strengthen AI protection measures, ensuring student data remains secure.",
     industry: "K-12 Education",
     results: "Strengthened student data protection",
     downloadCount: "2,800",
@@ -148,7 +148,7 @@ const useCases = [
   },
   {
     title: "Technology Administrator Training",
-    description: "School IT staff receive mandated CyberSecure AI security training to meet state compliance requirements while developing practical skills for educational environments.",
+    description: "School IT staff receive mandated CyberSecured AI security training to meet state compliance requirements while developing practical skills for educational environments.",
     industry: "K-12 Education",
     results: "State compliance achieved",
     downloadCount: "1,900",
@@ -157,7 +157,7 @@ const useCases = [
   },
   {
     title: "Shared Security Operations",
-    description: "Rural and small school districts implement CyberSecure AI's resource-pooling solution to create shared security operations centers, making enterprise-grade protection affordable.",
+    description: "Rural and small school districts implement CyberSecured AI's resource-pooling solution to create shared security operations centers, making enterprise-grade protection affordable.",
     industry: "K-12 Education",
     results: "Affordable enterprise protection",
     downloadCount: "1,650",
@@ -166,7 +166,7 @@ const useCases = [
   },
   {
     title: "Shadow AI Detection",
-    description: "Organizations across sectors use CyberSecure AI to identify and secure unauthorized AI deployments, addressing the emerging 'Shadow AI' problem before it creates security vulnerabilities.",
+    description: "Organizations across sectors use CyberSecured AI to identify and secure unauthorized AI deployments, addressing the emerging 'Shadow AI' problem before it creates security vulnerabilities.",
     industry: "Cross-Industry",
     results: "Eliminated Shadow AI risks",
     downloadCount: "3,200",
@@ -175,7 +175,7 @@ const useCases = [
   },
   {
     title: "Simplified Security Framework",
-    description: "Companies implement CyberSecure AI's streamlined security approach to overcome the #1 barrier to AI adoption while maintaining robust protection.",
+    description: "Companies implement CyberSecured AI's streamlined security approach to overcome the #1 barrier to AI adoption while maintaining robust protection.",
     industry: "Cross-Industry",
     results: "Streamlined AI adoption",
     downloadCount: "2,900",
@@ -237,7 +237,7 @@ export default function UseCases() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Discover how organizations across government and education sectors are successfully implementing 
-                CyberSecure AI to protect their critical systems and achieve measurable security outcomes.
+                CyberSecured AI to protect their critical systems and achieve measurable security outcomes.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">
