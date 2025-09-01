@@ -104,6 +104,7 @@ import BiometricAuthentication from "@/pages/platform/BiometricAuthentication";
 import EnhancedThreatIntelligence from "@/pages/platform/EnhancedThreatIntelligence";
 import SecurityInfrastructureMonitoring from "@/pages/platform/SecurityInfrastructureMonitoring";
 import EnterpriseIAM from "@/pages/platform/EnterpriseIAM";
+import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
 import DataSheetFederalZeroTrust from "@/pages/resources/DataSheetFederalZeroTrust";
@@ -273,6 +274,11 @@ function Router() {
       <Route path="/security-integrations">
         <Layout>
           <SecurityIntegrations />
+        </Layout>
+      </Route>
+      <Route path="/enterprise-security">
+        <Layout>
+          <EnterpriseSecurity />
         </Layout>
       </Route>
       <Route path="/it-management">
