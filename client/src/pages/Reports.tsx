@@ -525,9 +525,9 @@ export default function Reports() {
                 data-testid="platform-status-report"
                 onClick={async () => {
                   try {
-                    // Add to recent downloads first
+                    // Add to recent downloads first with unique ID
                     const platformReport = {
-                      id: 'platform-status',
+                      id: `platform-status-${Date.now()}`,
                       title: 'Platform Status Report',
                       type: 'platform-status',
                       generatedAt: new Date().toISOString(),
