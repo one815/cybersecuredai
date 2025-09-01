@@ -525,6 +525,21 @@ export default function Reports() {
                 data-testid="platform-status-report"
                 onClick={async () => {
                   try {
+                    // Add to recent downloads first
+                    const platformReport = {
+                      id: 'platform-status',
+                      title: 'Platform Status Report',
+                      type: 'platform-status',
+                      generatedAt: new Date().toISOString(),
+                      downloadUrl: '/api/reports/platform-status'
+                    };
+                    
+                    setGeneratedReports(prev => {
+                      const newReports = [platformReport, ...prev.slice(0, 4)]; // Keep last 5 reports
+                      return newReports;
+                    });
+
+                    // Download the PDF
                     const response = await fetch('/api/reports/platform-status');
                     const blob = await response.blob();
                     const url = window.URL.createObjectURL(blob);
