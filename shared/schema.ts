@@ -26,13 +26,24 @@ export const users = pgTable("users", {
   isActive: boolean("is_active").default(true),
   lastLogin: timestamp("last_login"),
   mfaEnabled: boolean("mfa_enabled").default(false),
-  mfaMethod: varchar("mfa_method").default("none"), // none, totp, biometric, hardware_key, digital_key
+  mfaMethod: varchar("mfa_method").default("none"), // none, totp, biometric, hardware_key, digital_key, yubikey, facial, voice, periocular, 3d_face
   biometricEnabled: boolean("biometric_enabled").default(false),
   digitalKeyEnabled: boolean("digital_key_enabled").default(false),
   totpEnabled: boolean("totp_enabled").default(false),
   hardwareKeyEnabled: boolean("hardware_key_enabled").default(false),
+  yubikeyEnabled: boolean("yubikey_enabled").default(false),
+  facialRecognitionEnabled: boolean("facial_recognition_enabled").default(false),
+  voiceRecognitionEnabled: boolean("voice_recognition_enabled").default(false),
+  periocularEnabled: boolean("periocular_enabled").default(false),
+  face3dEnabled: boolean("face_3d_enabled").default(false),
   totpSecret: varchar("totp_secret"), // Encrypted TOTP secret
   totpBackupCodes: jsonb("totp_backup_codes"), // Array of backup codes
+  biometricData: jsonb("biometric_data"), // Encrypted biometric templates
+  hardwareKeyData: jsonb("hardware_key_data"), // Hardware key registration data
+  iamProvider: varchar("iam_provider").default("internal"), // internal, okta, azure_ad, onelogin
+  iamProviderId: varchar("iam_provider_id"), // External IAM provider user ID
+  hsmEnabled: boolean("hsm_enabled").default(false),
+  hsmType: varchar("hsm_type"), // thales_luna, yubihsm2, aws_cloud_hsm
   planType: varchar("plan_type").default("standard"), // standard, enterprise, cyber_cloud_essential, cyber_cloud_advanced, cyber_cloud_enterprise, k12_pilot_small, k12_pilot_medium, k12_pilot_large, higher_ed_pilot_small, higher_ed_pilot_medium, higher_ed_pilot_large, hardware_essential, hardware_advanced, hardware_enterprise
   onboardingCompleted: boolean("onboarding_completed").default(false),
   securityPolicyAccepted: boolean("security_policy_accepted").default(false),
@@ -308,6 +319,87 @@ export const userAchievementStats = pgTable("user_achievement_stats", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Hardware Security Integration
+export const hardwareSecurityDevices = pgTable("hardware_security_devices", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  deviceType: varchar("device_type").notNull(), // hsm, yubikey, biometric_scanner, firewall, ips, waf
+  deviceModel: varchar("device_model").notNull(), // thales_luna, yubihsm2, aws_cloud_hsm, palo_alto_5220, cisco_firepower_2130, f5_bigip_asm
+  serialNumber: varchar("serial_number"),
+  firmwareVersion: varchar("firmware_version"),
+  status: varchar("status").notNull().default("active"), // active, inactive, maintenance, failed
+  lastHealthCheck: timestamp("last_health_check"),
+  configuration: jsonb("configuration"), // Device-specific configuration
+  credentials: jsonb("credentials"), // Encrypted device credentials
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Biometric Authentication Records
+export const biometricAuthRecords = pgTable("biometric_auth_records", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  biometricType: varchar("biometric_type").notNull(), // facial, voice, periocular, 3d_face, fingerprint
+  provider: varchar("provider").notNull(), // auth0, bioid, facetec, internal
+  templateId: varchar("template_id").notNull(), // External provider template ID
+  templateData: jsonb("template_data"), // Encrypted biometric template
+  confidence: integer("confidence"), // Authentication confidence score
+  enrollmentDate: timestamp("enrollment_date").defaultNow(),
+  lastUsed: timestamp("last_used"),
+  isActive: boolean("is_active").default(true),
+});
+
+// IAM Integration Records
+export const iamIntegrations = pgTable("iam_integrations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  organizationId: varchar("organization_id").notNull(),
+  provider: varchar("provider").notNull(), // okta, azure_ad, onelogin
+  tenantId: varchar("tenant_id").notNull(),
+  clientId: varchar("client_id").notNull(),
+  configuration: jsonb("configuration"), // Provider-specific config
+  credentials: jsonb("credentials"), // Encrypted provider credentials
+  syncEnabled: boolean("sync_enabled").default(true),
+  lastSync: timestamp("last_sync"),
+  status: varchar("status").notNull().default("active"), // active, inactive, error
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Security Infrastructure Monitoring
+export const securityInfrastructure = pgTable("security_infrastructure", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  organizationId: varchar("organization_id").notNull(),
+  deviceType: varchar("device_type").notNull(), // firewall, ips, waf, switch, router
+  deviceModel: varchar("device_model").notNull(),
+  ipAddress: varchar("ip_address"),
+  location: varchar("location"),
+  status: varchar("status").notNull().default("active"), // active, inactive, maintenance, failed
+  lastHeartbeat: timestamp("last_heartbeat"),
+  configuration: jsonb("configuration"),
+  metrics: jsonb("metrics"), // Performance and security metrics
+  alerts: jsonb("alerts"), // Active alerts and notifications
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Enhanced Threat Intelligence Sources
+export const threatIntelligenceSources = pgTable("threat_intelligence_sources", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  provider: varchar("provider").notNull(), // misp, virustotal, otx, crowdstrike, ibm_xforce
+  apiEndpoint: varchar("api_endpoint"),
+  credentialsId: varchar("credentials_id"), // Reference to encrypted credentials
+  feedType: varchar("feed_type").notNull(), // ioc, malware, vulnerability, reputation
+  dataFormat: varchar("data_format").notNull(), // json, xml, csv, stix
+  updateFrequency: integer("update_frequency").default(3600), // Seconds between updates
+  isActive: boolean("is_active").default(true),
+  lastUpdate: timestamp("last_update"),
+  recordsProcessed: integer("records_processed").default(0),
+  status: varchar("status").notNull().default("healthy"), // healthy, error, rate_limited
+  configuration: jsonb("configuration"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Email subscribers for marketing resources
 export const subscribers = pgTable("subscribers", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -380,3 +472,43 @@ export type ComplianceMilestone = typeof complianceMilestones.$inferSelect;
 export type InsertComplianceMilestone = z.infer<typeof insertComplianceMilestoneSchema>;
 export type Subscriber = typeof subscribers.$inferSelect;
 export type InsertSubscriber = z.infer<typeof insertSubscriberSchema>;
+export type HardwareSecurityDevice = typeof hardwareSecurityDevices.$inferSelect;
+export type BiometricAuthRecord = typeof biometricAuthRecords.$inferSelect;
+export type IamIntegration = typeof iamIntegrations.$inferSelect;
+export type SecurityInfrastructure = typeof securityInfrastructure.$inferSelect;
+export type ThreatIntelligenceSource = typeof threatIntelligenceSources.$inferSelect;
+
+// Insert schemas for new tables
+export const insertHardwareSecurityDeviceSchema = createInsertSchema(hardwareSecurityDevices).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertBiometricAuthRecordSchema = createInsertSchema(biometricAuthRecords).omit({
+  id: true,
+  enrollmentDate: true,
+});
+
+export const insertIamIntegrationSchema = createInsertSchema(iamIntegrations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertSecurityInfrastructureSchema = createInsertSchema(securityInfrastructure).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertThreatIntelligenceSourceSchema = createInsertSchema(threatIntelligenceSources).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertHardwareSecurityDevice = z.infer<typeof insertHardwareSecurityDeviceSchema>;
+export type InsertBiometricAuthRecord = z.infer<typeof insertBiometricAuthRecordSchema>;
+export type InsertIamIntegration = z.infer<typeof insertIamIntegrationSchema>;
+export type InsertSecurityInfrastructure = z.infer<typeof insertSecurityInfrastructureSchema>;
+export type InsertThreatIntelligenceSource = z.infer<typeof insertThreatIntelligenceSourceSchema>;

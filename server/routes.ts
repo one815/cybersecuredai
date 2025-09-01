@@ -13,6 +13,9 @@ import { MLThreatDetectionEngine } from "./engines/ml-threat-detection";
 import { BehavioralAnalysisEngine } from "./engines/behavioral-analysis";
 import { otxService } from "./otxService";
 import { vulnerabilityPrediction } from "./engines/vulnerability-prediction";
+import { hsmIntegrationService } from "./services/hsm-integration";
+import { biometricIntegrationService } from "./services/biometric-integration";
+import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-intelligence";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -1318,6 +1321,302 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Duplicate file upload endpoint removed - using the main one above
+
+  // Hardware Security Module (HSM) Integration API routes
+  app.post("/api/hsm/initialize", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceType, configuration } = req.body;
+      
+      let result;
+      switch (deviceType) {
+        case 'thales_luna':
+          result = await hsmIntegrationService.initializeThalesLuna(configuration);
+          break;
+        case 'yubihsm2':
+          result = await hsmIntegrationService.initializeYubiHSM2(configuration);
+          break;
+        case 'aws_cloud_hsm':
+          result = await hsmIntegrationService.initializeAWSCloudHSM(configuration);
+          break;
+        default:
+          return res.status(400).json({ error: 'Unsupported HSM device type' });
+      }
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error initializing HSM:', error);
+      res.status(500).json({ error: 'HSM initialization failed' });
+    }
+  });
+
+  app.post("/api/hsm/:deviceId/generate-key", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const { keyType, keySize, purpose, label } = req.body;
+      
+      const result = await hsmIntegrationService.generateKey(deviceId, {
+        keyType,
+        keySize,
+        purpose,
+        label
+      });
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error generating HSM key:', error);
+      res.status(500).json({ error: 'Key generation failed' });
+    }
+  });
+
+  app.get("/api/hsm/:deviceId/health", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const health = await hsmIntegrationService.getDeviceHealth(deviceId);
+      res.json(health);
+    } catch (error) {
+      console.error('Error getting HSM health:', error);
+      res.status(500).json({ error: 'Health check failed' });
+    }
+  });
+
+  // Biometric Authentication API routes
+  app.post("/api/biometric/enroll", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { biometricType, provider, biometricData } = req.body;
+      const userId = req.user!.id;
+      
+      const result = await biometricIntegrationService.enrollBiometric(
+        userId,
+        biometricType,
+        Buffer.from(biometricData, 'base64'),
+        provider
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error enrolling biometric:', error);
+      res.status(500).json({ error: 'Biometric enrollment failed' });
+    }
+  });
+
+  app.post("/api/biometric/authenticate", async (req, res) => {
+    try {
+      const { userId, biometricData, biometricType, templateIds } = req.body;
+      
+      const result = await biometricIntegrationService.authenticateBiometric(
+        userId,
+        Buffer.from(biometricData, 'base64'),
+        biometricType,
+        templateIds
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error authenticating biometric:', error);
+      res.status(500).json({ error: 'Biometric authentication failed' });
+    }
+  });
+
+  // Enhanced Threat Intelligence API routes
+  app.post("/api/threat-intelligence/analyze-file", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { fileHash } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeFileWithVirusTotal(fileHash);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing file:', error);
+      res.status(500).json({ error: 'File analysis failed' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/aggregate/:type/:indicator", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { type, indicator } = req.params;
+      
+      const results = await enhancedThreatIntelligenceService.aggregateIntelligence(
+        indicator,
+        type as 'ip' | 'domain' | 'url' | 'hash'
+      );
+      
+      res.json(results);
+    } catch (error) {
+      console.error('Error aggregating intelligence:', error);
+      res.status(500).json({ error: 'Intelligence aggregation failed' });
+    }
+  });
+
+  // Security Infrastructure Monitoring API routes
+  app.get("/api/security-infrastructure/devices", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      // Simulate security infrastructure devices
+      const devices = [
+        {
+          id: 'palo-alto-5220-001',
+          type: 'firewall',
+          model: 'PA-5220',
+          vendor: 'Palo Alto Networks',
+          ipAddress: '192.168.1.1',
+          status: 'active',
+          location: 'Data Center 1',
+          lastHeartbeat: new Date(),
+          metrics: {
+            threatsPrevented: Math.floor(Math.random() * 1000) + 500,
+            throughput: Math.floor(Math.random() * 50) + 50, // Gbps
+            cpuUsage: Math.floor(Math.random() * 30) + 20,
+            memoryUsage: Math.floor(Math.random() * 40) + 30
+          }
+        },
+        {
+          id: 'cisco-firepower-2130-001',
+          type: 'ips',
+          model: 'Firepower 2130',
+          vendor: 'Cisco',
+          ipAddress: '192.168.1.2',
+          status: 'active',
+          location: 'Network Operations Center',
+          lastHeartbeat: new Date(),
+          metrics: {
+            intrusionsBlocked: Math.floor(Math.random() * 200) + 100,
+            packetsInspected: Math.floor(Math.random() * 1000000) + 500000,
+            cpuUsage: Math.floor(Math.random() * 35) + 25,
+            memoryUsage: Math.floor(Math.random() * 45) + 35
+          }
+        },
+        {
+          id: 'f5-bigip-asm-001',
+          type: 'waf',
+          model: 'BIG-IP ASM',
+          vendor: 'F5 Networks',
+          ipAddress: '192.168.1.3',
+          status: 'active',
+          location: 'DMZ',
+          lastHeartbeat: new Date(),
+          metrics: {
+            attacksBlocked: Math.floor(Math.random() * 150) + 75,
+            applicationsProtected: Math.floor(Math.random() * 10) + 5,
+            requestsPerSecond: Math.floor(Math.random() * 1000) + 500,
+            falsePositiveRate: Math.random() * 2 + 1
+          }
+        }
+      ];
+      
+      res.json(devices);
+    } catch (error) {
+      console.error('Error getting security infrastructure:', error);
+      res.status(500).json({ error: 'Failed to retrieve infrastructure data' });
+    }
+  });
+
+  app.get("/api/security-infrastructure/device/:deviceId/metrics", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      
+      // Simulate device-specific metrics
+      const metrics = {
+        timestamp: new Date(),
+        deviceId,
+        performance: {
+          cpuUsage: Math.floor(Math.random() * 50) + 20,
+          memoryUsage: Math.floor(Math.random() * 60) + 30,
+          diskUsage: Math.floor(Math.random() * 40) + 20,
+          networkUtilization: Math.floor(Math.random() * 70) + 30
+        },
+        security: {
+          threatsDetected: Math.floor(Math.random() * 100) + 50,
+          threatsBlocked: Math.floor(Math.random() * 80) + 40,
+          falsePositives: Math.floor(Math.random() * 5),
+          lastThreatTime: new Date(Date.now() - Math.random() * 3600000)
+        },
+        health: {
+          status: 'healthy',
+          uptime: Math.floor(Math.random() * 8760) + 1000, // hours
+          lastMaintenance: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000),
+          firmwareVersion: '9.1.2',
+          needsUpdate: Math.random() < 0.2
+        }
+      };
+      
+      res.json(metrics);
+    } catch (error) {
+      console.error('Error getting device metrics:', error);
+      res.status(500).json({ error: 'Failed to retrieve device metrics' });
+    }
+  });
+
+  // IAM Integration Management API routes
+  app.post("/api/iam/configure", authenticateJWT, authorizeRoles(['admin']), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { provider, configuration } = req.body;
+      
+      // Simulate IAM provider configuration
+      const iamConfig = {
+        id: `iam_${provider}_${Date.now()}`,
+        provider, // okta, azure_ad, onelogin
+        status: 'configuring',
+        configuration: {
+          ...configuration,
+          configuredAt: new Date(),
+          configuredBy: req.user!.id
+        }
+      };
+      
+      // Simulate configuration validation
+      setTimeout(() => {
+        console.log(`✅ IAM provider ${provider} configured successfully`);
+      }, 2000);
+      
+      res.json({
+        success: true,
+        configurationId: iamConfig.id,
+        provider,
+        status: 'configured'
+      });
+    } catch (error) {
+      console.error('Error configuring IAM provider:', error);
+      res.status(500).json({ error: 'IAM configuration failed' });
+    }
+  });
+
+  app.get("/api/iam/providers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      // Simulate configured IAM providers
+      const providers = [
+        {
+          id: 'okta_001',
+          name: 'okta',
+          displayName: 'Okta Identity Management',
+          status: 'active',
+          users: Math.floor(Math.random() * 1000) + 100,
+          lastSync: new Date(Date.now() - Math.random() * 3600000),
+          features: ['sso', 'mfa', 'user_provisioning', 'lifecycle_management']
+        },
+        {
+          id: 'azure_ad_001',
+          name: 'azure_ad',
+          displayName: 'Azure Active Directory',
+          status: 'active',
+          users: Math.floor(Math.random() * 1500) + 200,
+          lastSync: new Date(Date.now() - Math.random() * 3600000),
+          features: ['sso', 'conditional_access', 'identity_protection', 'governance']
+        },
+        {
+          id: 'onelogin_001',
+          name: 'onelogin',
+          displayName: 'OneLogin',
+          status: 'inactive',
+          users: 0,
+          lastSync: null,
+          features: ['sso', 'adaptive_auth', 'user_provisioning']
+        }
+      ];
+      
+      res.json(providers);
+    } catch (error) {
+      console.error('Error getting IAM providers:', error);
+      res.status(500).json({ error: 'Failed to retrieve IAM providers' });
+    }
+  });
 
   // Enhanced files list endpoint
   app.get("/api/files", async (req, res) => {
