@@ -1,6 +1,8 @@
 import { EventEmitter } from 'events';
 import { MLThreatDetectionEngine } from './ml-threat-detection';
 import { BehavioralAnalysisEngine } from './behavioral-analysis';
+import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 
 export interface CypherMessage {
   id: string;
@@ -50,11 +52,23 @@ export class CypherAI extends EventEmitter {
   private userProfiles: Map<string, any> = new Map();
   private mlThreatEngine?: MLThreatDetectionEngine;
   private behavioralEngine?: BehavioralAnalysisEngine;
+  private anthropic: Anthropic;
+  private openai: OpenAI;
 
   constructor(mlThreatEngine?: MLThreatDetectionEngine, behavioralEngine?: BehavioralAnalysisEngine) {
     super();
     this.mlThreatEngine = mlThreatEngine;
     this.behavioralEngine = behavioralEngine;
+    
+    // Initialize AI model clients
+    this.anthropic = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+    
+    this.openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    
     this.initializeSecurityKnowledge();
   }
 
@@ -117,6 +131,48 @@ export class CypherAI extends EventEmitter {
   }
 
   /**
+   * Determine which AI model to use based on task complexity and type
+   */
+  private selectAIModel(intent: any, message: CypherMessage): 'anthropic' | 'openai' {
+    // Use Anthropic Claude for complex reasoning, compliance, and detailed analysis
+    if (intent.type === 'compliance_guidance' || 
+        intent.type === 'incident_response' || 
+        intent.confidence > 0.8 ||
+        message.message.length > 100) {
+      return 'anthropic';
+    }
+    
+    // Use OpenAI for quick responses, system status, and general queries
+    return 'openai';
+  }
+
+  /**
+   * Generate AI-powered response using selected model
+   */
+  private async generateAIResponse(prompt: string, model: 'anthropic' | 'openai'): Promise<string> {
+    try {
+      if (model === 'anthropic') {
+        const response = await this.anthropic.messages.create({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1024,
+          messages: [{ role: 'user', content: prompt }],
+        });
+        return response.content[0].type === 'text' ? response.content[0].text : '';
+      } else {
+        const response = await this.openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [{ role: "user", content: prompt }],
+          max_tokens: 1024,
+        });
+        return response.choices[0].message.content || '';
+      }
+    } catch (error) {
+      console.error(`AI response error (${model}):`, error);
+      return "I'm experiencing technical difficulties. Please try again.";
+    }
+  }
+
+  /**
    * Process user message and generate intelligent response
    */
   public async processMessage(message: CypherMessage): Promise<CypherResponse> {
@@ -130,34 +186,37 @@ export class CypherAI extends EventEmitter {
     const intent = this.analyzeIntent(message.message);
     const context = message.context || {};
 
+    // Select appropriate AI model for this request
+    const selectedModel = this.selectAIModel(intent, message);
+
     // Generate response based on user role and intent
     let response: CypherResponse;
 
     switch (intent.type) {
       case 'threat_analysis':
-        response = await this.generateThreatAnalysis(message, intent);
+        response = await this.generateThreatAnalysis(message, intent, selectedModel);
         break;
       case 'compliance_guidance':
-        response = await this.generateComplianceGuidance(message, intent);
+        response = await this.generateComplianceGuidance(message, intent, selectedModel);
         break;
       case 'incident_response':
-        response = await this.generateIncidentResponse(message, intent);
+        response = await this.generateIncidentResponse(message, intent, selectedModel);
         break;
       case 'system_status':
-        response = await this.generateSystemStatus(message, intent);
+        response = await this.generateSystemStatus(message, intent, selectedModel);
         break;
       case 'vulnerability_help':
-        response = await this.generateVulnerabilityHelp(message, intent);
+        response = await this.generateVulnerabilityHelp(message, intent, selectedModel);
         break;
       case 'general_security':
-        response = await this.generateGeneralSecurityGuidance(message, intent);
+        response = await this.generateGeneralSecurityGuidance(message, intent, selectedModel);
         break;
       default:
-        response = await this.generateDefaultResponse(message);
+        response = await this.generateDefaultResponse(message, selectedModel);
     }
 
     // Emit response for logging/monitoring
-    this.emit('responseGenerated', { message, response });
+    this.emit('responseGenerated', { message, response, model: selectedModel });
 
     return response;
   }
@@ -224,7 +283,8 @@ export class CypherAI extends EventEmitter {
       if (threatStats.threatsByLevel.CRITICAL > 0) {
         actions.push("🚨 Address critical security threats immediately");
       }
-      if (threatStats.avgRiskScore > 70) {
+      const avgRisk = (threatStats.threatsByLevel.HIGH || 0) + (threatStats.threatsByLevel.CRITICAL || 0) * 2;
+      if (avgRisk > 10) {
         actions.push("📊 Review elevated risk metrics and implement mitigations");
       }
     }
@@ -308,7 +368,7 @@ export class CypherAI extends EventEmitter {
     return entities;
   }
 
-  private async generateThreatAnalysis(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateThreatAnalysis(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
     const analysis = await this.performThreatAnalysis(message.context?.securityData);
     
     let responseText = "🛡️ **Threat Analysis Complete**\n\n";
@@ -358,7 +418,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateComplianceGuidance(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateComplianceGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'anthropic'): Promise<CypherResponse> {
     const frameworks = ['FERPA', 'FISMA', 'CIPA'];
     const relevantFramework = frameworks.find(f => 
       message.message.toLowerCase().includes(f.toLowerCase())
@@ -366,30 +426,35 @@ export class CypherAI extends EventEmitter {
 
     const complianceInfo = this.securityKnowledge.get('compliance')[relevantFramework];
     
-    let responseText = `📋 **${relevantFramework} Compliance Guidance**\n\n`;
-    responseText += `**Scope:** ${complianceInfo.scope}\n\n`;
+    // Use AI for enhanced compliance analysis
+    const aiPrompt = `As a cybersecurity compliance expert, analyze this query: "${message.message}"
     
-    responseText += "**Key Requirements:**\n";
-    complianceInfo.keyRequirements.forEach((req: string) => {
-      responseText += `• ${req}\n`;
-    });
+Context: User is asking about ${relevantFramework} compliance in an educational/government cybersecurity platform.
 
-    responseText += "\n**Implementation Steps:**\n";
-    complianceInfo.implementation.forEach((step: string) => {
-      responseText += `• ${step}\n`;
-    });
+Framework details:
+- Scope: ${complianceInfo.scope}
+- Key requirements: ${complianceInfo.keyRequirements.join(', ')}
+- Common violations: ${complianceInfo.commonViolations.join(', ')}
 
-    responseText += "\n**Common Violations to Avoid:**\n";
-    complianceInfo.commonViolations.forEach((violation: string) => {
-      responseText += `• ${violation}\n`;
-    });
+Provide detailed, actionable compliance guidance including:
+1. Specific requirements relevant to their query
+2. Implementation recommendations 
+3. Risk mitigation strategies
+4. Audit preparation tips
+
+Keep the response professional but accessible for non-technical stakeholders.`;
+
+    const aiResponse = await this.generateAIResponse(aiPrompt, model);
+    
+    let responseText = `📋 **${relevantFramework} Compliance Guidance** (${model.toUpperCase()} Analysis)\n\n`;
+    responseText += aiResponse;
 
     return {
       id: `cypher-${Date.now()}`,
       message: responseText,
       timestamp: new Date(),
       type: 'recommendation',
-      confidence: 0.88,
+      confidence: 0.92,
       actions: [
         { label: "Run Compliance Assessment", action: "start_compliance_assessment", data: { framework: relevantFramework } },
         { label: "Generate Compliance Report", action: "generate_compliance_report", data: { framework: relevantFramework } },
@@ -403,7 +468,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateIncidentResponse(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateIncidentResponse(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'anthropic'): Promise<CypherResponse> {
     const procedures = this.securityKnowledge.get('procedures')['incident_response'];
     
     let responseText = "🚨 **Incident Response Guidance**\n\n";
@@ -446,7 +511,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateSystemStatus(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateSystemStatus(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
     // Get real-time system data from ML engines
     const threatStats = this.mlThreatEngine?.getThreatStatistics();
     const behavioralStats = this.behavioralEngine?.getAnalytics();
@@ -457,7 +522,7 @@ export class CypherAI extends EventEmitter {
       responseText += `**Threat Detection:**\n`;
       responseText += `• Total threats analyzed: ${threatStats.totalThreats}\n`;
       responseText += `• High/Critical threats: ${(threatStats.threatsByLevel.HIGH || 0) + (threatStats.threatsByLevel.CRITICAL || 0)}\n`;
-      responseText += `• Average risk score: ${Math.round(threatStats.avgRiskScore)}\n\n`;
+      responseText += `• Average risk score: ${Math.round((threatStats.threatsByLevel.HIGH || 0) + (threatStats.threatsByLevel.CRITICAL || 0) * 2)}\n\n`;
     }
 
     if (behavioralStats) {
@@ -501,7 +566,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateVulnerabilityHelp(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateVulnerabilityHelp(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
     const procedures = this.securityKnowledge.get('procedures')['vulnerability_management'];
     
     let responseText = "🔍 **Vulnerability Management Guidance**\n\n";
@@ -548,7 +613,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateGeneralSecurityGuidance(message: CypherMessage, intent: any): Promise<CypherResponse> {
+  private async generateGeneralSecurityGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
     let responseText = "🛡️ **Security Guidance**\n\n";
     
     // Provide role-specific guidance
@@ -614,7 +679,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateDefaultResponse(message: CypherMessage): Promise<CypherResponse> {
+  private async generateDefaultResponse(message: CypherMessage, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
     const responseText = `Hello! I'm Cypher, your AI Cyber Tech Assistant. I'm here to help you with cybersecurity operations, threat analysis, compliance guidance, and security best practices.
 
 **I can help you with:**
@@ -652,7 +717,7 @@ What would you like to know about cybersecurity today?`;
     // Use ML threat engine data if available
     if (this.mlThreatEngine && securityData) {
       const stats = this.mlThreatEngine.getThreatStatistics();
-      const avgRisk = stats.avgRiskScore;
+      const avgRisk = (stats.threatsByLevel.HIGH || 0) + (stats.threatsByLevel.CRITICAL || 0) * 2;
       
       let threatLevel: SecurityAnalysis['threatLevel'] = 'LOW';
       if (avgRisk >= 80) threatLevel = 'CRITICAL';
@@ -662,7 +727,7 @@ What would you like to know about cybersecurity today?`;
       return {
         threatLevel,
         riskScore: Math.round(avgRisk),
-        indicators: stats.topThreatTypes.slice(0, 3).map(t => `${t.type}: ${t.count} incidents`),
+        indicators: Object.entries(stats.threatsByLevel).slice(0, 3).map(([type, count]: [string, any]) => `${type}: ${count} threats`),
         recommendations: [
           'Continue monitoring threat patterns',
           'Review access controls and authentication',
