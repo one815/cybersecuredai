@@ -3,6 +3,7 @@ import { MLThreatDetectionEngine } from './ml-threat-detection';
 import { BehavioralAnalysisEngine } from './behavioral-analysis';
 import Anthropic from '@anthropic-ai/sdk';
 import OpenAI from 'openai';
+import { GoogleGenAI } from '@google/genai';
 
 export interface CypherMessage {
   id: string;
@@ -54,6 +55,7 @@ export class CypherAI extends EventEmitter {
   private behavioralEngine?: BehavioralAnalysisEngine;
   private anthropic: Anthropic;
   private openai: OpenAI;
+  private gemini: GoogleGenAI;
 
   constructor(mlThreatEngine?: MLThreatDetectionEngine, behavioralEngine?: BehavioralAnalysisEngine) {
     super();
@@ -67,6 +69,10 @@ export class CypherAI extends EventEmitter {
     
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
+    });
+
+    this.gemini = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY || '',
     });
     
     this.initializeSecurityKnowledge();
@@ -133,7 +139,17 @@ export class CypherAI extends EventEmitter {
   /**
    * Determine which AI model to use based on task complexity and type
    */
-  private selectAIModel(intent: any, message: CypherMessage): 'anthropic' | 'openai' {
+  private selectAIModel(intent: any, message: CypherMessage): 'anthropic' | 'openai' | 'gemini' {
+    // Use Gemini for multimodal analysis, document processing, and advanced reasoning
+    if (intent.type === 'document_analysis' || 
+        intent.type === 'image_analysis' ||
+        intent.type === 'vulnerability_assessment' ||
+        message.message.includes('analyze') ||
+        message.message.includes('document') ||
+        message.message.includes('image')) {
+      return 'gemini';
+    }
+    
     // Use Anthropic Claude for complex reasoning, compliance, and detailed analysis
     if (intent.type === 'compliance_guidance' || 
         intent.type === 'incident_response' || 
@@ -149,7 +165,7 @@ export class CypherAI extends EventEmitter {
   /**
    * Generate AI-powered response using selected model
    */
-  private async generateAIResponse(prompt: string, model: 'anthropic' | 'openai'): Promise<string> {
+  private async generateAIResponse(prompt: string, model: 'anthropic' | 'openai' | 'gemini'): Promise<string> {
     try {
       if (model === 'anthropic') {
         const response = await this.anthropic.messages.create({
@@ -158,6 +174,12 @@ export class CypherAI extends EventEmitter {
           messages: [{ role: 'user', content: prompt }],
         });
         return response.content[0].type === 'text' ? response.content[0].text : '';
+      } else if (model === 'gemini') {
+        const response = await this.gemini.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt,
+        });
+        return response.text || '';
       } else {
         const response = await this.openai.chat.completions.create({
           model: "gpt-4o",
@@ -210,6 +232,15 @@ export class CypherAI extends EventEmitter {
         break;
       case 'general_security':
         response = await this.generateGeneralSecurityGuidance(message, intent, selectedModel);
+        break;
+      case 'document_analysis':
+        response = await this.generateDocumentAnalysis(message, intent, selectedModel);
+        break;
+      case 'image_analysis':
+        response = await this.generateImageAnalysis(message, intent, selectedModel);
+        break;
+      case 'vulnerability_assessment':
+        response = await this.generateVulnerabilityAssessment(message, intent, selectedModel);
         break;
       default:
         response = await this.generateDefaultResponse(message, selectedModel);
@@ -339,6 +370,21 @@ export class CypherAI extends EventEmitter {
       return { type: 'system_status', confidence: 0.8, entities: this.extractEntities(message) };
     }
 
+    // Document analysis keywords (Gemini specialization)
+    if (/(document|pdf|file|report|scan|review|analyze.*document)/i.test(message)) {
+      return { type: 'document_analysis', confidence: 0.87, entities: this.extractEntities(message) };
+    }
+
+    // Image analysis keywords (Gemini multimodal)
+    if (/(image|photo|picture|screenshot|visual|analyze.*image)/i.test(message)) {
+      return { type: 'image_analysis', confidence: 0.89, entities: this.extractEntities(message) };
+    }
+
+    // Advanced vulnerability assessment (Gemini reasoning)
+    if (/(assess|evaluation|comprehensive.*analysis|risk.*assessment|security.*assessment)/i.test(message)) {
+      return { type: 'vulnerability_assessment', confidence: 0.91, entities: this.extractEntities(message) };
+    }
+
     // Vulnerability management keywords
     if (/(vulnerability|patch|update|fix|security hole|weakness)/i.test(message)) {
       return { type: 'vulnerability_help', confidence: 0.82, entities: this.extractEntities(message) };
@@ -368,7 +414,7 @@ export class CypherAI extends EventEmitter {
     return entities;
   }
 
-  private async generateThreatAnalysis(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
+  private async generateThreatAnalysis(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'openai'): Promise<CypherResponse> {
     const analysis = await this.performThreatAnalysis(message.context?.securityData);
     
     let responseText = "🛡️ **Threat Analysis Complete**\n\n";
@@ -418,7 +464,7 @@ export class CypherAI extends EventEmitter {
     };
   }
 
-  private async generateComplianceGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'anthropic'): Promise<CypherResponse> {
+  private async generateComplianceGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'anthropic'): Promise<CypherResponse> {
     const frameworks = ['FERPA', 'FISMA', 'CIPA'];
     const relevantFramework = frameworks.find(f => 
       message.message.toLowerCase().includes(f.toLowerCase())
@@ -468,7 +514,7 @@ Keep the response professional but accessible for non-technical stakeholders.`;
     };
   }
 
-  private async generateIncidentResponse(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'anthropic'): Promise<CypherResponse> {
+  private async generateIncidentResponse(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'anthropic'): Promise<CypherResponse> {
     const procedures = this.securityKnowledge.get('procedures')['incident_response'];
     
     let responseText = "🚨 **Incident Response Guidance**\n\n";
@@ -511,7 +557,7 @@ Keep the response professional but accessible for non-technical stakeholders.`;
     };
   }
 
-  private async generateSystemStatus(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
+  private async generateSystemStatus(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'openai'): Promise<CypherResponse> {
     // Get real-time system data from ML engines
     const threatStats = this.mlThreatEngine?.getThreatStatistics();
     const behavioralStats = this.behavioralEngine?.getAnalytics();
@@ -566,7 +612,7 @@ Keep the response professional but accessible for non-technical stakeholders.`;
     };
   }
 
-  private async generateVulnerabilityHelp(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
+  private async generateVulnerabilityHelp(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'openai'): Promise<CypherResponse> {
     const procedures = this.securityKnowledge.get('procedures')['vulnerability_management'];
     
     let responseText = "🔍 **Vulnerability Management Guidance**\n\n";
@@ -613,7 +659,7 @@ Keep the response professional but accessible for non-technical stakeholders.`;
     };
   }
 
-  private async generateGeneralSecurityGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
+  private async generateGeneralSecurityGuidance(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini' = 'openai'): Promise<CypherResponse> {
     let responseText = "🛡️ **Security Guidance**\n\n";
     
     // Provide role-specific guidance
@@ -679,7 +725,7 @@ Keep the response professional but accessible for non-technical stakeholders.`;
     };
   }
 
-  private async generateDefaultResponse(message: CypherMessage, model: 'anthropic' | 'openai' = 'openai'): Promise<CypherResponse> {
+  private async generateDefaultResponse(message: CypherMessage, model: 'anthropic' | 'openai' | 'gemini' = 'openai'): Promise<CypherResponse> {
     const responseText = `Hello! I'm Cypher, your AI Cyber Tech Assistant. I'm here to help you with cybersecurity operations, threat analysis, compliance guidance, and security best practices.
 
 **I can help you with:**
@@ -838,5 +884,125 @@ What would you like to know about cybersecurity today?`;
     }
 
     return { insights, urgentActions, trends };
+  }
+
+  /**
+   * Generate document analysis using Gemini's advanced reasoning
+   */
+  private async generateDocumentAnalysis(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini'): Promise<CypherResponse> {
+    const aiResponse = await this.generateAIResponse(
+      `🔍 **Document Security Analysis** (GEMINI Powered)
+
+Analyze the following request for document security assessment: "${message.message}"
+
+Provide a comprehensive security analysis including:
+1. **Document Classification** - Identify document type and sensitivity level
+2. **Security Risks** - Potential vulnerabilities and exposure risks  
+3. **Compliance Requirements** - Relevant regulatory frameworks (FERPA/FISMA/CIPA)
+4. **Access Controls** - Recommended permission and sharing policies
+5. **Encryption Requirements** - Data protection recommendations
+6. **Audit Trail** - Monitoring and logging requirements
+
+Format as professional cybersecurity guidance for ${message.userRole} role.`,
+      model
+    );
+
+    return {
+      id: `cypher-${Date.now()}`,
+      message: `🔍 **Document Security Analysis** (GEMINI Powered)\n\n${aiResponse}`,
+      timestamp: new Date(),
+      type: 'analysis',
+      confidence: 0.94,
+      actions: [
+        { label: "Classify Document", action: "classify_document", data: { type: "security_assessment" } },
+        { label: "Set Access Controls", action: "set_access_controls", data: { level: "restricted" } },
+        { label: "Enable Encryption", action: "enable_encryption", data: { algorithm: "AES-256" } }
+      ],
+      followUpSuggestions: [
+        "How do I implement document encryption?",
+        "Show me access control templates",
+        "What are the audit requirements?"
+      ]
+    };
+  }
+
+  /**
+   * Generate image analysis using Gemini's multimodal capabilities
+   */
+  private async generateImageAnalysis(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini'): Promise<CypherResponse> {
+    const aiResponse = await this.generateAIResponse(
+      `🖼️ **Image Security Analysis** (GEMINI Multimodal)
+
+Analyze the following image-related security request: "${message.message}"
+
+Provide comprehensive analysis covering:
+1. **Visual Threat Detection** - Identify potential security indicators in images
+2. **Metadata Analysis** - EXIF data and privacy concerns
+3. **Content Classification** - Determine image sensitivity and handling requirements
+4. **Compliance Considerations** - Privacy and regulatory implications
+5. **Storage Security** - Encryption and access control recommendations
+6. **Monitoring Requirements** - Ongoing security assessments
+
+Focus on cybersecurity implications for educational and government environments.`,
+      model
+    );
+
+    return {
+      id: `cypher-${Date.now()}`,
+      message: `🖼️ **Image Security Analysis** (GEMINI Multimodal)\n\n${aiResponse}`,
+      timestamp: new Date(),
+      type: 'analysis',
+      confidence: 0.93,
+      actions: [
+        { label: "Scan Image Metadata", action: "scan_image_metadata", data: { analysis_type: "security" } },
+        { label: "Classify Content", action: "classify_image_content", data: { sensitivity: "high" } },
+        { label: "Set Privacy Controls", action: "set_privacy_controls", data: { level: "restricted" } }
+      ],
+      followUpSuggestions: [
+        "How do I remove metadata from images?",
+        "What are the privacy requirements?",
+        "Show me content filtering options"
+      ]
+    };
+  }
+
+  /**
+   * Generate vulnerability assessment using Gemini's advanced analysis
+   */
+  private async generateVulnerabilityAssessment(message: CypherMessage, intent: any, model: 'anthropic' | 'openai' | 'gemini'): Promise<CypherResponse> {
+    const aiResponse = await this.generateAIResponse(
+      `🔍 **Advanced Vulnerability Assessment** (GEMINI Analysis)
+
+Conduct comprehensive vulnerability analysis for: "${message.message}"
+
+Provide detailed assessment including:
+1. **Threat Landscape Analysis** - Current attack vectors and emerging threats
+2. **System Weakness Identification** - Technical vulnerabilities and configuration issues
+3. **Risk Prioritization Matrix** - CVSS scoring and business impact assessment
+4. **Remediation Roadmap** - Phased approach with timelines and resource requirements
+5. **Preventive Measures** - Proactive security controls and monitoring
+6. **Compliance Alignment** - Regulatory requirements and audit considerations
+
+Tailor recommendations for ${message.userRole} in educational/government cybersecurity context.`,
+      model
+    );
+
+    return {
+      id: `cypher-${Date.now()}`,
+      message: `🔍 **Advanced Vulnerability Assessment** (GEMINI Analysis)\n\n${aiResponse}`,
+      timestamp: new Date(),
+      type: 'analysis',
+      confidence: 0.95,
+      actions: [
+        { label: "Run Full System Scan", action: "run_vulnerability_scan", data: { scope: "comprehensive" } },
+        { label: "Generate Risk Report", action: "generate_risk_report", data: { format: "executive" } },
+        { label: "Create Remediation Plan", action: "create_remediation_plan", data: { priority: "high" } }
+      ],
+      followUpSuggestions: [
+        "Show me the highest priority vulnerabilities",
+        "How do I implement the remediation plan?",
+        "What are the compliance implications?"
+      ]
+    };
   }
 }
