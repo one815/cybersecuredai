@@ -218,11 +218,6 @@ function Router() {
       <Route path="/platform/zero-trust" component={ZeroTrustArchitecture} />
       <Route path="/platform/iam" component={IdentityAccessManagement} />
       <Route path="/platform/system-administration" component={SystemAdministration} />
-      <Route path="/platform/hardware-security-modules" component={HardwareSecurityModules} />
-      <Route path="/platform/biometric-authentication" component={BiometricAuthentication} />
-      <Route path="/platform/enhanced-threat-intelligence" component={EnhancedThreatIntelligence} />
-      <Route path="/platform/security-infrastructure-monitoring" component={SecurityInfrastructureMonitoring} />
-      <Route path="/platform/enterprise-iam" component={EnterpriseIAM} />
       <Route path="/platform/monitoring-vulnerability">
         <Layout>
           <MonitoringVulnerability />
@@ -283,6 +278,31 @@ function Router() {
       <Route path="/it-management">
         <Layout>
           <ITManagement />
+        </Layout>
+      </Route>
+      <Route path="/hardware-security-modules">
+        <Layout>
+          <HardwareSecurityModules />
+        </Layout>
+      </Route>
+      <Route path="/biometric-authentication">
+        <Layout>
+          <BiometricAuthentication />
+        </Layout>
+      </Route>
+      <Route path="/enhanced-threat-intelligence">
+        <Layout>
+          <EnhancedThreatIntelligence />
+        </Layout>
+      </Route>
+      <Route path="/security-infrastructure-monitoring">
+        <Layout>
+          <SecurityInfrastructureMonitoring />
+        </Layout>
+      </Route>
+      <Route path="/enterprise-iam">
+        <Layout>
+          <EnterpriseIAM />
         </Layout>
       </Route>
       <Route path="/training">

@@ -10,7 +10,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { MarketingLayout } from "@/components/MarketingLayout";
 import { 
   Shield, 
   Key,
@@ -217,9 +216,7 @@ export default function HardwareSecurityModules() {
   };
 
   return (
-    <MarketingLayout>
-      <div className="ai-dashboard-bg min-h-screen">
-        <div className="container mx-auto px-4 py-8">
+    <div className="space-y-6">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
@@ -631,8 +628,6 @@ export default function HardwareSecurityModules() {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
-      </div>
-    </MarketingLayout>
+    </div>
   );
 }
