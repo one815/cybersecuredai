@@ -2611,6 +2611,233 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Platform Status PDF Report endpoint
+  app.get("/api/reports/platform-status", async (req, res) => {
+    try {
+      console.log('📊 Generating Platform Status PDF Report...');
+      
+      // Import jsPDF dynamically
+      const { jsPDF } = await import('jspdf');
+      
+      // Create new PDF document
+      const doc = new jsPDF();
+      const currentDate = new Date().toLocaleString();
+      
+      // Add title and header
+      doc.setFontSize(20);
+      doc.setTextColor(0, 51, 102); // Dark blue
+      doc.text('CyberSecured AI', 20, 30);
+      
+      doc.setFontSize(16);
+      doc.setTextColor(0, 0, 0);
+      doc.text('PLATFORM STATUS REPORT', 20, 45);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated: ${currentDate}`, 20, 55);
+      doc.text('Classification: Internal Use Only', 20, 62);
+      
+      // Add line separator
+      doc.setDrawColor(200, 200, 200);
+      doc.line(20, 70, 190, 70);
+      
+      let yPosition = 85;
+      
+      // Platform Core Status
+      doc.setFontSize(14);
+      doc.setTextColor(0, 120, 0);
+      doc.text('🟢 PLATFORM CORE STATUS: OPERATIONAL', 20, yPosition);
+      yPosition += 15;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      doc.text('• Frontend and backend running on port 5000', 25, yPosition);
+      yPosition += 8;
+      doc.text('• PostgreSQL database connected and operational', 25, yPosition);
+      yPosition += 8;
+      doc.text('• User authentication and authorization active', 25, yPosition);
+      yPosition += 8;
+      doc.text('• Role-based access control implemented', 25, yPosition);
+      yPosition += 15;
+      
+      // Currently Integrated APIs
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text('CURRENTLY INTEGRATED APIs', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(12);
+      doc.setTextColor(0, 120, 0);
+      doc.text('✅ Fully Operational:', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      doc.text('• Google Maps JavaScript API - Threat geolocation mapping', 25, yPosition);
+      yPosition += 8;
+      doc.text('• PostgreSQL Database (Neon) - Data storage and management', 25, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(12);
+      doc.setTextColor(255, 140, 0);
+      doc.text('🟡 Implemented but Awaiting API Keys:', 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      doc.text('• PyMISP/MISP Platform Integration - Using fallback feeds', 25, yPosition);
+      yPosition += 8;
+      doc.text('• Enhanced Threat Intelligence Suite - Simulation mode', 25, yPosition);
+      yPosition += 8;
+      doc.text('• Hardware Security Module (HSM) Integration - Framework ready', 25, yPosition);
+      yPosition += 8;
+      doc.text('• Biometric Authentication Services - Frameworks built', 25, yPosition);
+      yPosition += 15;
+
+      // Add new page for detailed API status
+      doc.addPage();
+      yPosition = 30;
+      
+      doc.setFontSize(16);
+      doc.setTextColor(0, 0, 0);
+      doc.text('DETAILED API STATUS', 20, yPosition);
+      yPosition += 20;
+      
+      // Critical Priority APIs
+      doc.setFontSize(14);
+      doc.setTextColor(200, 0, 0);
+      doc.text('🔴 CRITICAL PRIORITY - Phase 1 (0-30 days)', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      const criticalApis = [
+        'MISP_API_KEY & MISP_BASE_URL - Essential threat intelligence',
+        'OPENAI_API_KEY - Core AI functionality enhancement',
+        'VIRUSTOTAL_API_KEY - Enhanced file scanning security',
+        'TWILIO_ACCOUNT_SID & TWILIO_AUTH_TOKEN - Emergency communications',
+        'JWT_SECRET & ENCRYPTION_KEY - Security configuration'
+      ];
+      
+      criticalApis.forEach(api => {
+        doc.text(`• ${api}`, 25, yPosition);
+        yPosition += 8;
+      });
+      yPosition += 10;
+      
+      // High Priority APIs
+      doc.setFontSize(14);
+      doc.setTextColor(255, 140, 0);
+      doc.text('🟡 HIGH PRIORITY - Phase 2 (30-60 days)', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(10);
+      const highPriorityApis = [
+        'ANTHROPIC_API_KEY - Advanced compliance analysis',
+        'IBM_XFORCE_API_KEY - Enterprise threat intelligence',
+        'OKTA_API_KEY - Comprehensive IAM',
+        'AZURE_AD_CLIENT_ID - Microsoft environment integration',
+        'CROWDSTRIKE_API_KEY - Premium APT detection',
+        'SENDGRID_API_KEY - Email communications'
+      ];
+      
+      highPriorityApis.forEach(api => {
+        doc.text(`• ${api}`, 25, yPosition);
+        yPosition += 8;
+      });
+      yPosition += 10;
+      
+      // Medium Priority APIs
+      doc.setFontSize(14);
+      doc.setTextColor(0, 100, 200);
+      doc.text('🔵 MEDIUM PRIORITY - Phase 3 (60-90 days)', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(10);
+      const mediumPriorityApis = [
+        'AUTH0_BIOMETRIC_API_KEY - Facial recognition',
+        'BIOID_API_KEY - Multi-modal biometric systems',
+        'FACETEC_API_KEY - 3D face recognition',
+        'THALES_HSM_API_KEY - Hardware security modules',
+        'AWS_CLOUDHSM_API_KEY - Cloud-based HSM',
+        'PALO_ALTO_API_KEY - Next-gen firewall integration',
+        'CISCO_FIREPOWER_API_KEY - IPS integration',
+        'F5_BIGIP_API_KEY - Web application firewall'
+      ];
+      
+      mediumPriorityApis.forEach(api => {
+        doc.text(`• ${api}`, 25, yPosition);
+        yPosition += 8;
+      });
+
+      // Add third page for current issues and capabilities
+      doc.addPage();
+      yPosition = 30;
+      
+      doc.setFontSize(16);
+      doc.setTextColor(0, 0, 0);
+      doc.text('CURRENT ISSUES & CAPABILITIES', 20, yPosition);
+      yPosition += 20;
+      
+      // Current Issues
+      doc.setFontSize(14);
+      doc.setTextColor(200, 0, 0);
+      doc.text('🚨 CURRENT ISSUES REQUIRING ATTENTION', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      doc.text('• Google Maps Billing Error - Maps functionality limited', 25, yPosition);
+      yPosition += 8;
+      doc.text('• MISP Feed Configuration - One feed returning HTML instead of data', 25, yPosition);
+      yPosition += 8;
+      doc.text('• API Key Dependencies - Most advanced features in simulation mode', 25, yPosition);
+      yPosition += 15;
+      
+      // Active Capabilities
+      doc.setFontSize(14);
+      doc.setTextColor(0, 120, 0);
+      doc.text('📊 PLATFORM CAPABILITIES CURRENTLY ACTIVE', 20, yPosition);
+      yPosition += 12;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      const activeCapabilities = [
+        'User registration and authentication',
+        'Role-based dashboard access',
+        'Basic threat monitoring (using public feeds)',
+        'File upload and management',
+        'Compliance tracking framework',
+        'Audit logging',
+        'Real-time threat geolocation (limited by Maps billing)',
+        'Multi-factor authentication framework'
+      ];
+      
+      activeCapabilities.forEach(capability => {
+        doc.text(`✅ ${capability}`, 25, yPosition);
+        yPosition += 8;
+      });
+      
+      // Footer
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('CyberSecured AI Security Platform - Confidential', 20, 285);
+      doc.text(`Report generated: ${currentDate}`, 20, 292);
+      
+      // Generate PDF buffer
+      const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="cybersecured-platform-status-report.pdf"');
+      res.send(pdfBuffer);
+      
+      console.log('✅ Platform Status PDF report generated successfully');
+    } catch (error) {
+      console.error("Error generating platform status PDF:", error);  
+      res.status(500).json({ error: "Failed to generate platform status PDF report" });
+    }
+  });
+
   // Security update endpoint
   app.post("/api/security/apply-update", async (req, res) => {
     try {
