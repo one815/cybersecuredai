@@ -518,7 +518,25 @@ export default function Reports() {
             <CardTitle>Report Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="justify-start h-auto p-4 border-surface-light bg-blue-500/10 hover:bg-blue-500/20" 
+                data-testid="platform-status-report"
+                onClick={() => {
+                  window.open('/api/reports/platform-status', '_blank');
+                  toast({ title: "Downloading Platform Status Report", description: "Your comprehensive platform status PDF is being generated." });
+                }}
+              >
+                <div className="flex items-center space-x-3">
+                  <FileText className="w-5 h-5 text-blue-400" />
+                  <div className="text-left">
+                    <div className="font-medium text-blue-400">Platform Status Report</div>
+                    <div className="text-xs text-gray-400">Complete API & integration status</div>
+                  </div>
+                </div>
+              </Button>
+
               <Button 
                 variant="outline" 
                 className="justify-start h-auto p-4 border-surface-light" 
