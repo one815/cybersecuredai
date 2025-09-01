@@ -83,7 +83,7 @@ export default function Reports() {
   // Report generation mutation
   const generateReportMutation = useMutation({
     mutationFn: async (reportType: string) => {
-      const response = await apiRequest('POST', `/api/reports/generate/${reportType}`);
+      const response = await apiRequest(`/api/reports/generate/${reportType}`, 'POST');
       return await response.json();
     },
     onSuccess: (data, reportType) => {
@@ -239,13 +239,13 @@ export default function Reports() {
       <header className="bg-surface border-b border-surface-light p-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold flex items-center space-x-2">
+            <h2 className="text-2xl font-bold flex items-center space-x-2 text-white">
               <span>Reports & Analytics</span>
               <ChartBar className="w-6 h-6 text-blue-400" />
               <FileText className="w-6 h-6 text-green-400" />
               <TrendingUp className="w-6 h-6 text-purple-400" />
             </h2>
-            <p className="text-gray-400">Generate comprehensive security and compliance reports</p>
+            <p className="text-gray-300">Generate comprehensive security and compliance reports</p>
           </div>
           <div className="flex items-center space-x-4">
             <Button variant="outline" className="border-surface-light" data-testid="filter-reports">
@@ -268,13 +268,13 @@ export default function Reports() {
       {/* Main Content */}
       <main className="p-6">
         {/* Executive Summary */}
-        <Card className="bg-surface glow-border mb-8">
+        <Card className="bg-gray-800/50 border border-gray-600/30 mb-8">
           <CardHeader>
             <CardTitle>Executive Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-background rounded-lg p-4">
+              <div className="bg-gray-700/40 rounded-lg p-4 border border-gray-600/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm">Security Posture</span>
                   <Shield className="w-5 h-5 text-success" />
@@ -285,7 +285,7 @@ export default function Reports() {
                 </div>
               </div>
 
-              <div className="bg-background rounded-lg p-4">
+              <div className="bg-gray-700/40 rounded-lg p-4 border border-gray-600/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm">Compliance Status</span>
                   <FileText className="w-5 h-5 text-success" />
@@ -296,7 +296,7 @@ export default function Reports() {
                 </div>
               </div>
 
-              <div className="bg-background rounded-lg p-4">
+              <div className="bg-gray-700/40 rounded-lg p-4 border border-gray-600/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm">User Engagement</span>
                   <Users className="w-5 h-5 text-interactive" />
@@ -307,7 +307,7 @@ export default function Reports() {
                 </div>
               </div>
 
-              <div className="bg-background rounded-lg p-4">
+              <div className="bg-gray-700/40 rounded-lg p-4 border border-gray-600/20">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-400 text-sm">System Health</span>
                   <Server className="w-5 h-5 text-success" />
@@ -364,7 +364,7 @@ export default function Reports() {
         {/* Report Categories */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {reportCategories.map((category) => (
-            <Card key={category.id} className="bg-surface glow-border">
+            <Card key={category.id} className="bg-gray-800/50 border border-gray-600/30">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -433,7 +433,7 @@ export default function Reports() {
         </div>
 
         {/* Detailed Analytics */}
-        <Card className="bg-surface glow-border mb-8">
+        <Card className="bg-gray-800/50 border border-gray-600/30 mb-8">
           <CardHeader>
             <CardTitle>Security Analytics Overview</CardTitle>
           </CardHeader>
@@ -513,7 +513,7 @@ export default function Reports() {
         </Card>
 
         {/* Report Actions */}
-        <Card className="bg-surface glow-border">
+        <Card className="bg-gray-800/50 border border-gray-600/30">
           <CardHeader>
             <CardTitle>Report Actions</CardTitle>
           </CardHeader>
@@ -523,9 +523,23 @@ export default function Reports() {
                 variant="outline" 
                 className="justify-start h-auto p-4 border-surface-light bg-blue-500/10 hover:bg-blue-500/20" 
                 data-testid="platform-status-report"
-                onClick={() => {
-                  window.open('/api/reports/platform-status', '_blank');
-                  toast({ title: "Downloading Platform Status Report", description: "Your comprehensive platform status PDF is being generated." });
+                onClick={async () => {
+                  try {
+                    const response = await fetch('/api/reports/platform-status');
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'platform-status-report.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+                    toast({ title: "Platform Status Report Downloaded", description: "Your comprehensive platform status PDF has been downloaded." });
+                  } catch (error) {
+                    console.error('Download error:', error);
+                    toast({ title: "Download Failed", description: "Failed to download the platform status report. Please try again.", variant: "destructive" });
+                  }
                 }}
               >
                 <div className="flex items-center space-x-3">
