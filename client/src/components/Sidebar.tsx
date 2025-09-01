@@ -36,7 +36,9 @@ import {
   BookOpen,
   Video,
   FileText,
-  Star
+  Star,
+  Monitor,
+  Users
 } from "lucide-react";
 import { useState } from "react";
 
@@ -101,6 +103,21 @@ const navigationCategories: NavigationCategory[] = [
     ]
   },
   {
+    id: "enterprise-security",
+    label: "Enterprise Security",
+    icon: Shield,
+    requiredTier: 'enterprise',
+    isPremium: true,
+    requiredRoles: ['admin', 'security_officer'],
+    items: [
+      { id: "hardware-security-modules", label: "Hardware Security Modules", icon: () => <CustomSettingsIcon size={16} />, path: "/platform/hardware-security-modules", requiredTier: 'enterprise', isPremium: true },
+      { id: "biometric-authentication", label: "Biometric Authentication", icon: () => <CustomUserIcon size={16} />, path: "/platform/biometric-authentication", requiredTier: 'enterprise', isPremium: true },
+      { id: "enhanced-threat-intelligence", label: "Enhanced Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/platform/enhanced-threat-intelligence", requiredTier: 'enterprise', isPremium: true },
+      { id: "security-infrastructure-monitoring", label: "Security Infrastructure", icon: Monitor, path: "/platform/security-infrastructure-monitoring", requiredTier: 'enterprise', isPremium: true },
+      { id: "enterprise-iam", label: "Enterprise IAM", icon: Users, path: "/platform/enterprise-iam", requiredTier: 'enterprise', isPremium: true },
+    ]
+  },
+  {
     id: "compliance",
     label: "Compliance & Risk",
     icon: () => <CustomClipboardCheckIcon size={20} />,
@@ -160,7 +177,7 @@ export function Sidebar() {
   const [location] = useLocation();
   const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['overview', 'threat-operations', 'infrastructure', 'compliance', 'learning', 'knowledge', 'administration', 'support']));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['overview', 'threat-operations', 'infrastructure', 'enterprise-security', 'compliance', 'learning', 'knowledge', 'administration', 'support']));
 
   // Helper functions for access control
   const hasRoleAccess = (requiredRoles?: UserRole[]) => {

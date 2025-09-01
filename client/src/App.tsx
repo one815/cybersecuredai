@@ -99,6 +99,11 @@ import NetworkMonitoring from "@/pages/platform/NetworkMonitoring";
 import ZeroTrustArchitecture from "@/pages/platform/ZeroTrustArchitecture";
 import IdentityAccessManagement from "@/pages/platform/IdentityAccessManagement";
 import SystemAdministration from "@/pages/platform/SystemAdministration";
+import HardwareSecurityModules from "@/pages/platform/HardwareSecurityModules";
+import BiometricAuthentication from "@/pages/platform/BiometricAuthentication";
+import EnhancedThreatIntelligence from "@/pages/platform/EnhancedThreatIntelligence";
+import SecurityInfrastructureMonitoring from "@/pages/platform/SecurityInfrastructureMonitoring";
+import EnterpriseIAM from "@/pages/platform/EnterpriseIAM";
 
 // Resource Pages
 import DataSheetFederalZeroTrust from "@/pages/resources/DataSheetFederalZeroTrust";
@@ -213,6 +218,11 @@ function Router() {
       <Route path="/platform/zero-trust" component={ZeroTrustArchitecture} />
       <Route path="/platform/iam" component={IdentityAccessManagement} />
       <Route path="/platform/system-administration" component={SystemAdministration} />
+      <Route path="/platform/hardware-security-modules" component={HardwareSecurityModules} />
+      <Route path="/platform/biometric-authentication" component={BiometricAuthentication} />
+      <Route path="/platform/enhanced-threat-intelligence" component={EnhancedThreatIntelligence} />
+      <Route path="/platform/security-infrastructure-monitoring" component={SecurityInfrastructureMonitoring} />
+      <Route path="/platform/enterprise-iam" component={EnterpriseIAM} />
       <Route path="/platform/monitoring-vulnerability">
         <Layout>
           <MonitoringVulnerability />
