@@ -2660,38 +2660,93 @@ export async function registerRoutes(app: Express): Promise<Server> {
       doc.text('• Role-based access control implemented', 25, yPosition);
       yPosition += 15;
       
-      // Currently Integrated APIs
+      // Check API key status in real-time
+      const apiKeyStatus = {
+        configured: [] as string[],
+        missing: [] as string[]
+      };
+      
+      // Define all API integrations with their status
+      const apiIntegrations = [
+        { name: 'OpenAI API', env: 'OPENAI_API_KEY', description: 'AI-powered threat analysis and natural language processing' },
+        { name: 'Google Maps API', env: 'GOOGLE_MAPS_API_KEY', description: 'Threat geolocation mapping and visualization' },
+        { name: 'MISP API', env: 'MISP_API_KEY', description: 'Malware Information Sharing Platform integration' },
+        { name: 'VirusTotal API', env: 'VIRUSTOTAL_API_KEY', description: 'File and URL security scanning' },
+        { name: 'CrowdStrike API', env: 'CROWDSTRIKE_API_KEY', description: 'Advanced threat hunting and intelligence' },
+        { name: 'SendGrid API', env: 'SENDGRID_API_KEY', description: 'Email notifications and alerts' },
+        { name: 'Twilio API', env: 'TWILIO_ACCOUNT_SID', description: 'SMS notifications and alerts' },
+        { name: 'IBM X-Force API', env: 'IBM_XFORCE_API_KEY', description: 'Threat intelligence and vulnerability data' },
+        { name: 'AlienVault OTX API', env: 'ALIENVAULT_OTX_API_KEY', description: 'Open Threat Exchange intelligence feeds' }
+      ];
+      
+      // Check which API keys are actually configured
+      apiIntegrations.forEach(api => {
+        if (process.env[api.env]) {
+          apiKeyStatus.configured.push(`${api.name} - ${api.description}`);
+        } else {
+          apiKeyStatus.missing.push(`${api.name} - ${api.description}`);
+        }
+      });
+
+      // API Integration Status Section
       doc.setFontSize(14);
       doc.setTextColor(0, 0, 0);
-      doc.text('CURRENTLY INTEGRATED APIs', 20, yPosition);
-      yPosition += 12;
+      doc.text('API INTEGRATION STATUS', 20, yPosition);
+      yPosition += 15;
       
+      // Core Platform Services (Always Available)
       doc.setFontSize(12);
       doc.setTextColor(0, 120, 0);
-      doc.text('✅ Fully Operational:', 20, yPosition);
+      doc.text('✅ Core Platform Services:', 20, yPosition);
       yPosition += 10;
       
       doc.setFontSize(10);
       doc.setTextColor(50, 50, 50);
-      doc.text('• Google Maps JavaScript API - Threat geolocation mapping', 25, yPosition);
-      yPosition += 8;
       doc.text('• PostgreSQL Database (Neon) - Data storage and management', 25, yPosition);
+      yPosition += 8;
+      doc.text('• React Frontend Application - User interface and dashboard', 25, yPosition);
+      yPosition += 8;
+      doc.text('• Express.js Backend API - Server-side processing', 25, yPosition);
       yPosition += 12;
       
+      // Configured API Keys
       doc.setFontSize(12);
-      doc.setTextColor(255, 140, 0);
-      doc.text('🟡 Implemented but Awaiting API Keys:', 20, yPosition);
+      doc.setTextColor(0, 120, 0);
+      doc.text(`✅ Configured APIs (${apiKeyStatus.configured.length}/${apiIntegrations.length}):`, 20, yPosition);
       yPosition += 10;
       
       doc.setFontSize(10);
       doc.setTextColor(50, 50, 50);
-      doc.text('• PyMISP/MISP Platform Integration - Using fallback feeds', 25, yPosition);
-      yPosition += 8;
-      doc.text('• Enhanced Threat Intelligence Suite - Simulation mode', 25, yPosition);
-      yPosition += 8;
-      doc.text('• Hardware Security Module (HSM) Integration - Framework ready', 25, yPosition);
-      yPosition += 8;
-      doc.text('• Biometric Authentication Services - Frameworks built', 25, yPosition);
+      
+      if (apiKeyStatus.configured.length > 0) {
+        apiKeyStatus.configured.forEach(api => {
+          doc.text(`• ${api}`, 25, yPosition);
+          yPosition += 8;
+        });
+      } else {
+        doc.text('• No external API keys currently configured', 25, yPosition);
+        yPosition += 8;
+      }
+      yPosition += 10;
+
+      // Missing API Keys
+      doc.setFontSize(12);
+      doc.setTextColor(255, 140, 0);
+      doc.text(`🟡 Missing API Keys (${apiKeyStatus.missing.length}/${apiIntegrations.length}):`, 20, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(10);
+      doc.setTextColor(50, 50, 50);
+      
+      if (apiKeyStatus.missing.length > 0) {
+        apiKeyStatus.missing.forEach(api => {
+          doc.text(`• ${api}`, 25, yPosition);
+          yPosition += 8;
+        });
+      } else {
+        doc.text('• All API keys are configured', 25, yPosition);
+        yPosition += 8;
+      }
       yPosition += 15;
 
       // Add new page for detailed API status
