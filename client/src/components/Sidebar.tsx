@@ -110,11 +110,7 @@ const navigationCategories: NavigationCategory[] = [
     isPremium: true,
     requiredRoles: ['admin', 'security_officer'],
     items: [
-      { id: "hardware-security-modules", label: "Hardware Security Modules", icon: () => <CustomSettingsIcon size={16} />, path: "/platform/hardware-security-modules", requiredTier: 'enterprise', isPremium: true },
-      { id: "biometric-authentication", label: "Biometric Authentication", icon: () => <CustomUserIcon size={16} />, path: "/platform/biometric-authentication", requiredTier: 'enterprise', isPremium: true },
-      { id: "enhanced-threat-intelligence", label: "Enhanced Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/platform/enhanced-threat-intelligence", requiredTier: 'enterprise', isPremium: true },
-      { id: "security-infrastructure-monitoring", label: "Security Infrastructure", icon: Monitor, path: "/platform/security-infrastructure-monitoring", requiredTier: 'enterprise', isPremium: true },
-      { id: "enterprise-iam", label: "Enterprise IAM", icon: Users, path: "/platform/enterprise-iam", requiredTier: 'enterprise', isPremium: true },
+      { id: "enterprise-security-main", label: "Enterprise Security", icon: Shield, path: "/enterprise-security", requiredTier: 'enterprise', isPremium: true },
     ]
   },
   {
