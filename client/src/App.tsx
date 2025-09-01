@@ -280,27 +280,27 @@ function Router() {
           <ITManagement />
         </Layout>
       </Route>
-      <Route path="/hardware-security-modules">
+      <Route path="/platform/hardware-security-modules">
         <Layout>
           <HardwareSecurityModules />
         </Layout>
       </Route>
-      <Route path="/biometric-authentication">
+      <Route path="/platform/biometric-authentication">
         <Layout>
           <BiometricAuthentication />
         </Layout>
       </Route>
-      <Route path="/enhanced-threat-intelligence">
+      <Route path="/platform/enhanced-threat-intelligence">
         <Layout>
           <EnhancedThreatIntelligence />
         </Layout>
       </Route>
-      <Route path="/security-infrastructure-monitoring">
+      <Route path="/platform/security-infrastructure-monitoring">
         <Layout>
           <SecurityInfrastructureMonitoring />
         </Layout>
       </Route>
-      <Route path="/enterprise-iam">
+      <Route path="/platform/enterprise-iam">
         <Layout>
           <EnterpriseIAM />
         </Layout>
@@ -338,7 +338,6 @@ function Router() {
       <Route path="/client-stories" component={ClientStories} />
       <Route path="/demos" component={Demos} />
       <Route path="/integrations" component={Integrations} />
-      <Route path="/reports" component={MarketingReports} />
       <Route path="/blog-posts">
         <Layout>
           <BlogPosts />
