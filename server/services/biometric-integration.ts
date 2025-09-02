@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 
 export interface BiometricProvider {
-  name: 'auth0' | 'bioid' | 'facetec';
+  name: 'auth0' | 'nec_corporation' | 'portal_guard_biokey';
   apiKey: string;
   endpoint: string;
   configuration: any;
@@ -9,7 +9,7 @@ export interface BiometricProvider {
 
 export interface BiometricTemplate {
   templateId: string;
-  biometricType: 'facial' | 'voice' | 'periocular' | '3d_face' | 'fingerprint';
+  biometricType: 'facial' | 'voice' | 'periocular' | 'fingerprint' | 'iris' | 'palm_vein';
   provider: string;
   confidence: number;
   templateData: string; // Encrypted biometric data
@@ -51,29 +51,36 @@ export class BiometricIntegrationService {
       });
     }
 
-    // Initialize BioID Multi-Modal
-    if (process.env.BIOID_API_KEY) {
-      this.providers.set('bioid', {
-        name: 'bioid',
-        apiKey: process.env.BIOID_API_KEY,
-        endpoint: 'https://api.bioid.com/v1',
+    // Initialize NEC Corporation Advanced Biometrics
+    if (process.env.NEC_BIOMETRIC_API_KEY) {
+      this.providers.set('nec_corporation', {
+        name: 'nec_corporation',
+        apiKey: process.env.NEC_BIOMETRIC_API_KEY,
+        endpoint: 'https://api.nec.com/biometric/v2',
         configuration: {
-          payPerUse: true,
-          modes: ['facial', 'voice', 'periocular']
+          enterpriseGrade: true,
+          modes: ['facial', 'iris', 'fingerprint', 'palm_vein'],
+          accuracy: 99.9,
+          antiSpoofing: true,
+          livenessDetection: true,
+          governmentCertified: true
         }
       });
     }
 
-    // Initialize FaceTec 3D Face
-    if (process.env.FACETEC_API_KEY) {
-      this.providers.set('facetec', {
-        name: 'facetec',
-        apiKey: process.env.FACETEC_API_KEY,
-        endpoint: 'https://api.facetec.com/v3',
+    // Initialize Portal Guard Bio-Key Enterprise
+    if (process.env.PORTAL_GUARD_API_KEY) {
+      this.providers.set('portal_guard_biokey', {
+        name: 'portal_guard_biokey',
+        apiKey: process.env.PORTAL_GUARD_API_KEY,
+        endpoint: 'https://api.portalguard.com/biokey/v3',
         configuration: {
-          livenessDetection: true,
-          antiSpoofing: true,
-          format: '3d'
+          enterpriseSSO: true,
+          modes: ['fingerprint', 'facial', 'voice'],
+          fido2Compliant: true,
+          activeDirectory: true,
+          singleSignOn: true,
+          governmentReady: true
         }
       });
     }
@@ -84,9 +91,9 @@ export class BiometricIntegrationService {
    */
   async enrollBiometric(
     userId: string,
-    biometricType: 'facial' | 'voice' | 'periocular' | '3d_face',
+    biometricType: 'facial' | 'voice' | 'periocular' | 'fingerprint' | 'iris' | 'palm_vein',
     biometricData: Buffer,
-    provider: 'auth0' | 'bioid' | 'facetec'
+    provider: 'auth0' | 'nec_corporation' | 'portal_guard_biokey'
   ): Promise<{ success: boolean; templateId?: string; error?: string }> {
     try {
       console.log(`🔐 Enrolling ${biometricType} biometric for user ${userId} with ${provider}...`);
@@ -136,7 +143,7 @@ export class BiometricIntegrationService {
   async authenticateBiometric(
     userId: string,
     biometricData: Buffer,
-    biometricType: 'facial' | 'voice' | 'periocular' | '3d_face',
+    biometricType: 'facial' | 'voice' | 'periocular' | 'fingerprint' | 'iris' | 'palm_vein',
     templateIds: string[]
   ): Promise<BiometricAuthResult> {
     try {
@@ -210,55 +217,64 @@ export class BiometricIntegrationService {
   }
 
   /**
-   * Process BioID multi-modal authentication
+   * Process NEC Corporation advanced biometric authentication
    */
-  private async processBioIDMultiModal(
+  private async processNECBiometric(
     operation: 'enroll' | 'authenticate',
     biometricType: string,
     biometricData: Buffer,
     templateId?: string
   ): Promise<any> {
-    // Simulate BioID API call
+    // Simulate NEC Corporation API call
     if (operation === 'enroll') {
       return {
-        templateId: `bioid_${biometricType}_${Date.now()}`,
-        confidence: 92,
+        templateId: `nec_${biometricType}_${Date.now()}`,
+        confidence: 99.9, // Enterprise grade accuracy
+        governmentCertified: true,
+        antiSpoofingPassed: true,
         success: true
       };
     } else {
       return {
-        confidence: Math.random() * 25 + 75, // 75-100% confidence
+        confidence: Math.random() * 5 + 95, // 95-100% confidence
         matchedTemplateId: templateId,
         biometricType,
-        payPerUseCharge: 0.02, // $0.02 per authentication
+        enterpriseGrade: true,
+        livenessScore: Math.random() * 5 + 95,
+        spoofingDetected: Math.random() < 0.001, // 0.1% spoof detection rate
         success: true
       };
     }
   }
 
   /**
-   * Process FaceTec 3D face authentication
+   * Process Portal Guard Bio-Key enterprise authentication
    */
-  private async processFaceTec3D(
+  private async processPortalGuardBioKey(
     operation: 'enroll' | 'authenticate',
+    biometricType: string,
     biometricData: Buffer,
     templateId?: string
   ): Promise<any> {
-    // Simulate FaceTec API call
+    // Simulate Portal Guard Bio-Key API call
     if (operation === 'enroll') {
       return {
-        templateId: `facetec_3d_${Date.now()}`,
-        confidence: 98,
-        livenessScore: 95,
-        antiSpoofingPassed: true,
+        templateId: `portal_guard_${biometricType}_${Date.now()}`,
+        confidence: 99.5,
+        fido2Compliant: true,
+        ssoIntegrated: true,
+        activeDirectoryReady: true,
         success: true
       };
     } else {
       return {
-        confidence: Math.random() * 20 + 80, // 80-100% confidence
+        confidence: Math.random() * 5 + 95, // 95-100% confidence
         matchedTemplateId: templateId,
-        livenessScore: Math.random() * 20 + 80,
-        spoofingDetected: Math.random() < 0.02, // 2% spoof detection rate
+        biometricType,
+        ssoEnabled: true,
+        fido2Authenticated: true,
+        adIntegrated: true,
+        spoofingDetected: Math.random() < 0.005, // 0.5% spoof detection rate
         success: true
       };
     }
@@ -268,7 +284,7 @@ export class BiometricIntegrationService {
    * Process enrollment with specific provider
    */
   private async processEnrollment(
-    provider: 'auth0' | 'bioid' | 'facetec',
+    provider: 'auth0' | 'nec_corporation' | 'portal_guard_biokey',
     biometricType: string,
     biometricData: Buffer
   ): Promise<string | null> {
@@ -281,16 +297,16 @@ export class BiometricIntegrationService {
           }
           break;
         
-        case 'bioid':
-          if (['facial', 'voice', 'periocular'].includes(biometricType)) {
-            const result = await this.processBioIDMultiModal('enroll', biometricType, biometricData);
+        case 'nec_corporation':
+          if (['facial', 'iris', 'fingerprint', 'palm_vein'].includes(biometricType)) {
+            const result = await this.processNECBiometric('enroll', biometricType, biometricData);
             return result.success ? result.templateId : null;
           }
           break;
         
-        case 'facetec':
-          if (biometricType === '3d_face') {
-            const result = await this.processFaceTec3D('enroll', biometricData);
+        case 'portal_guard_biokey':
+          if (['fingerprint', 'facial', 'voice'].includes(biometricType)) {
+            const result = await this.processPortalGuardBioKey('enroll', biometricType, biometricData);
             return result.success ? result.templateId : null;
           }
           break;
@@ -325,11 +341,11 @@ export class BiometricIntegrationService {
         case 'auth0':
           return await this.processAuth0Facial('authenticate', biometricData, relevantTemplate);
         
-        case 'bioid':
-          return await this.processBioIDMultiModal('authenticate', biometricType, biometricData, relevantTemplate);
+        case 'nec_corporation':
+          return await this.processNECBiometric('authenticate', biometricType, biometricData, relevantTemplate);
         
-        case 'facetec':
-          return await this.processFaceTec3D('authenticate', biometricData, relevantTemplate);
+        case 'portal_guard_biokey':
+          return await this.processPortalGuardBioKey('authenticate', biometricType, biometricData, relevantTemplate);
         
         default:
           return { confidence: 0 };
@@ -419,10 +435,10 @@ export class BiometricIntegrationService {
     switch (provider.name) {
       case 'auth0':
         return ['facial_recognition', 'government_ready', 'free_tier'];
-      case 'bioid':
-        return ['facial', 'voice', 'periocular', 'pay_per_use'];
-      case 'facetec':
-        return ['3d_face', 'liveness_detection', 'anti_spoofing'];
+      case 'nec_corporation':
+        return ['facial', 'iris', 'fingerprint', 'palm_vein', 'enterprise_grade', 'government_certified'];
+      case 'portal_guard_biokey':
+        return ['fingerprint', 'facial', 'voice', 'fido2_compliant', 'enterprise_sso', 'active_directory'];
       default:
         return [];
     }
