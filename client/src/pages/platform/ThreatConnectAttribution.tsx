@@ -102,10 +102,11 @@ export default function ThreatConnectAttribution() {
   });
 
   // Fetch OTX threat pulses
-  const { data: otxPulses = [], isLoading: loadingOTX } = useQuery({
+  const { data: otxPulsesData, isLoading: loadingOTX } = useQuery({
     queryKey: ['/api/otx/pulses'],
     refetchInterval: 600000 // Refresh every 10 minutes
   });
+  const otxPulses = otxPulsesData?.pulses || [];
 
   // Fetch APT intelligence from OTX
   const { data: otxAPTIntel = [], isLoading: loadingAPTIntel } = useQuery({
