@@ -105,6 +105,7 @@ import EnhancedThreatIntelligence from "@/pages/platform/EnhancedThreatIntellige
 import SecurityInfrastructureMonitoring from "@/pages/platform/SecurityInfrastructureMonitoring";
 import EnterpriseIAM from "@/pages/platform/EnterpriseIAM";
 import MLAnalytics from "@/pages/platform/MLAnalytics";
+import ThreatConnectAttribution from "@/pages/platform/ThreatConnectAttribution";
 import IBMXForceIntelligence from "@/pages/platform/IBMXForceIntelligence";
 import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
@@ -317,6 +318,11 @@ function Router() {
       <Route path="/platform/ml-analytics">
         <Layout>
           <MLAnalytics />
+        </Layout>
+      </Route>
+      <Route path="/platform/threatconnect-attribution">
+        <Layout>
+          <ThreatConnectAttribution />
         </Layout>
       </Route>
       <Route path="/platform/ibm-xforce-intelligence">
