@@ -20,6 +20,8 @@ import { emailNotificationService } from "./services/email-notification.js";
 import { awsMachineLearningService } from "./services/aws-sagemaker-service";
 import { ibmXForceService } from "./services/ibm-xforce-service";
 import { alternativeThreatFeedsService } from "./services/alternative-threat-feeds";
+import { threatConnectService } from "./services/threatconnect-service";
+import { attOTXService } from "./services/att-otx-service";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -5196,6 +5198,102 @@ startxref
     } catch (error) {
       console.error('Error getting alternative feeds status:', error);
       res.status(500).json({ error: 'Failed to get service status' });
+    }
+  });
+
+  // ThreatConnect TI Ops API endpoints
+  app.get("/api/threatconnect/apt-groups", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const aptGroups = await threatConnectService.getAPTGroups();
+      res.json(aptGroups);
+    } catch (error) {
+      console.error("Error fetching APT groups:", error);
+      res.status(500).json({ error: "Failed to fetch APT groups" });
+    }
+  });
+
+  app.get("/api/threatconnect/apt-groups/:groupId", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { groupId } = req.params;
+      const aptGroup = await threatConnectService.getAPTGroupDetails(groupId);
+      res.json(aptGroup);
+    } catch (error) {
+      console.error("Error fetching APT group details:", error);
+      res.status(500).json({ error: "Failed to fetch APT group details" });
+    }
+  });
+
+  app.get("/api/threatconnect/indicators/search", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { q: query, type } = req.query;
+      if (!query) {
+        return res.status(400).json({ error: "Query parameter required" });
+      }
+      
+      const indicators = await threatConnectService.searchIndicators(query as string, type as string);
+      res.json(indicators);
+    } catch (error) {
+      console.error("Error searching indicators:", error);
+      res.status(500).json({ error: "Failed to search indicators" });
+    }
+  });
+
+  app.get("/api/threatconnect/campaigns", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const campaigns = await threatConnectService.getActiveCampaigns();
+      res.json(campaigns);
+    } catch (error) {
+      console.error("Error fetching campaigns:", error);
+      res.status(500).json({ error: "Failed to fetch campaigns" });
+    }
+  });
+
+  app.post("/api/threatconnect/attribution/submit", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { indicator, type, context } = req.body;
+      if (!indicator || !type) {
+        return res.status(400).json({ error: "Indicator and type are required" });
+      }
+      
+      const result = await threatConnectService.submitForAttribution(indicator, type, context);
+      res.json(result);
+    } catch (error) {
+      console.error("Error submitting for attribution:", error);
+      res.status(500).json({ error: "Failed to submit for attribution" });
+    }
+  });
+
+  // AT&T OTX (Alien Labs) API endpoints
+  app.get("/api/otx/pulses", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { limit = 20 } = req.query;
+      const pulses = await attOTXService.getSubscribedPulses(parseInt(limit as string));
+      res.json(pulses);
+    } catch (error) {
+      console.error("Error fetching OTX pulses:", error);
+      res.status(500).json({ error: "Failed to fetch OTX pulses" });
+    }
+  });
+
+  app.get("/api/otx/indicators/:indicator", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { indicator } = req.params;
+      const { type = 'IPv4' } = req.query;
+      const intelligence = await attOTXService.getIndicatorIntelligence(indicator, type as string);
+      res.json(intelligence);
+    } catch (error) {
+      console.error("Error fetching OTX indicator intelligence:", error);
+      res.status(500).json({ error: "Failed to fetch indicator intelligence" });
+    }
+  });
+
+  app.get("/api/otx/apt-intelligence", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const aptIntelligence = await attOTXService.getAPTIntelligence();
+      res.json(aptIntelligence);
+    } catch (error) {
+      console.error("Error fetching APT intelligence:", error);
+      res.status(500).json({ error: "Failed to fetch APT intelligence" });
     }
   });
 
