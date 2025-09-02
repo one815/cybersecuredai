@@ -1,0 +1,347 @@
+AWS SageMaker REST API Specification for CyberSecured AI Platform
+=================================================================
+
+API Gateway Configuration for AWS SageMaker Integration
+Service: CyberSecured AI Platform - ML Threat Detection API
+Version: 1.0
+Protocol: REST
+Authentication: AWS IAM / API Key
+
+Base URL: https://api.cybersecured-ai.com/ml
+AWS SageMaker Runtime Endpoint: https://runtime.sagemaker.{region}.amazonaws.com
+
+=================================================================
+REQUIRED AWS ENVIRONMENT VARIABLES
+=================================================================
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=us-east-1
+SAGEMAKER_THREAT_DETECTION_ENDPOINT=cybersecured-threat-detection-v1
+SAGEMAKER_BEHAVIORAL_ANALYSIS_ENDPOINT=cybersecured-behavioral-analysis-v1
+SAGEMAKER_DOCUMENT_CLASSIFIER_ENDPOINT=cybersecured-document-classifier-v1
+SAGEMAKER_ANOMALY_DETECTION_ENDPOINT=cybersecured-anomaly-detection-v1
+
+=================================================================
+API ENDPOINTS SPECIFICATION
+=================================================================
+
+1. THREAT DETECTION INFERENCE
+   Method: POST
+   Path: /ml/threat-detection/predict
+   Content-Type: application/json
+   
+   Request Body:
+   {
+     "network_traffic": {
+       "source_ip": "192.168.1.100",
+       "destination_ip": "10.0.0.50",
+       "port": 443,
+       "protocol": "HTTPS",
+       "packet_size": 1024,
+       "connection_duration": 30.5,
+       "data_volume": 2048576
+     },
+     "features": [0.1, 0.3, 0.7, 0.2, 0.9],
+     "metadata": {
+       "timestamp": "2025-09-02T13:49:00Z",
+       "source": "network_monitor"
+     }
+   }
+   
+   Response:
+   {
+     "prediction": "malicious",
+     "confidence": 0.87,
+     "threat_type": "malware_communication",
+     "severity": "high",
+     "recommendations": ["block_ip", "quarantine_host"],
+     "model_version": "v1.2.3",
+     "inference_time_ms": 45
+   }
+
+2. BEHAVIORAL ANALYSIS INFERENCE
+   Method: POST
+   Path: /ml/behavioral-analysis/predict
+   Content-Type: application/json
+   
+   Request Body:
+   {
+     "user_behavior": {
+       "user_id": "user_12345",
+       "login_time": "2025-09-02T08:30:00Z",
+       "login_location": "New York, NY",
+       "device_fingerprint": "abc123def456",
+       "access_patterns": [
+         {"resource": "/admin/users", "frequency": 5},
+         {"resource": "/compliance/reports", "frequency": 12}
+       ],
+       "session_duration": 3600
+     },
+     "historical_baseline": {
+       "avg_session_duration": 2400,
+       "typical_locations": ["New York, NY", "Boston, MA"],
+       "usual_access_times": ["08:00-17:00"]
+     }
+   }
+   
+   Response:
+   {
+     "anomaly_score": 0.23,
+     "risk_level": "low",
+     "behavioral_flags": [],
+     "user_classification": "normal_pattern",
+     "recommendations": ["continue_monitoring"],
+     "baseline_deviation": 0.15
+   }
+
+3. DOCUMENT CLASSIFICATION INFERENCE
+   Method: POST
+   Path: /ml/document-classification/predict
+   Content-Type: application/json
+   
+   Request Body:
+   {
+     "document": {
+       "content": "Base64EncodedDocumentContent",
+       "file_type": "pdf",
+       "file_size": 1048576,
+       "file_name": "security_policy_2025.pdf"
+     },
+     "classification_context": {
+       "organization_type": "educational",
+       "compliance_frameworks": ["FERPA", "FISMA"]
+     }
+   }
+   
+   Response:
+   {
+     "classification": "security_policy",
+     "confidence": 0.92,
+     "sensitivity_level": "confidential",
+     "compliance_tags": ["FERPA_applicable", "requires_encryption"],
+     "content_categories": ["cybersecurity", "data_protection"],
+     "retention_period": "7_years"
+   }
+
+4. ANOMALY DETECTION INFERENCE
+   Method: POST
+   Path: /ml/anomaly-detection/predict
+   Content-Type: application/json
+   
+   Request Body:
+   {
+     "system_metrics": {
+       "cpu_usage": 85.2,
+       "memory_usage": 76.8,
+       "network_io": 1024000,
+       "disk_io": 512000,
+       "active_connections": 1250,
+       "failed_logins": 3,
+       "error_rate": 0.02
+     },
+     "time_window": "5_minutes",
+     "baseline_period": "24_hours"
+   }
+   
+   Response:
+   {
+     "anomaly_detected": true,
+     "anomaly_score": 0.78,
+     "anomaly_type": "resource_exhaustion",
+     "affected_metrics": ["cpu_usage", "active_connections"],
+     "severity": "medium",
+     "recommendations": ["investigate_processes", "check_ddos"]
+   }
+
+=================================================================
+BATCH PREDICTION ENDPOINTS
+=================================================================
+
+5. BATCH THREAT ANALYSIS
+   Method: POST
+   Path: /ml/batch/threat-analysis
+   Content-Type: application/json
+   
+   Request Body:
+   {
+     "batch_id": "batch_20250902_001",
+     "data_source": "s3://cybersecured-data/network-logs/2025/09/02/",
+     "analysis_type": "threat_detection",
+     "notification_callback": "https://api.cybersecured-ai.com/webhooks/batch-complete"
+   }
+   
+   Response:
+   {
+     "batch_job_id": "sagemaker-batch-001",
+     "status": "processing",
+     "estimated_completion": "2025-09-02T14:30:00Z",
+     "result_location": "s3://cybersecured-results/batch_20250902_001/"
+   }
+
+=================================================================
+MODEL MANAGEMENT ENDPOINTS
+=================================================================
+
+6. MODEL STATUS CHECK
+   Method: GET
+   Path: /ml/models/status
+   
+   Response:
+   {
+     "models": [
+       {
+         "endpoint_name": "cybersecured-threat-detection-v1",
+         "status": "InService",
+         "instance_type": "ml.m5.large",
+         "instance_count": 2,
+         "model_version": "1.2.3",
+         "last_updated": "2025-09-01T10:00:00Z"
+       }
+     ]
+   }
+
+7. MODEL PERFORMANCE METRICS
+   Method: GET
+   Path: /ml/models/{endpoint_name}/metrics
+   
+   Response:
+   {
+     "endpoint_name": "cybersecured-threat-detection-v1",
+     "metrics": {
+       "average_latency_ms": 45,
+       "error_rate": 0.001,
+       "throughput_per_minute": 1200,
+       "accuracy": 0.94,
+       "f1_score": 0.91
+     },
+     "time_period": "24_hours"
+   }
+
+=================================================================
+ERROR HANDLING
+=================================================================
+
+Standard HTTP Status Codes:
+200 - Success
+400 - Bad Request (Invalid input data)
+401 - Unauthorized (Invalid API key/credentials)
+403 - Forbidden (Insufficient permissions)
+404 - Not Found (Model endpoint not found)
+429 - Too Many Requests (Rate limit exceeded)
+500 - Internal Server Error (SageMaker service error)
+503 - Service Unavailable (Model endpoint unavailable)
+
+Error Response Format:
+{
+  "error": {
+    "code": "INVALID_INPUT",
+    "message": "Required field 'features' is missing",
+    "details": {
+      "field": "features",
+      "expected_type": "array"
+    },
+    "request_id": "req_12345"
+  }
+}
+
+=================================================================
+RATE LIMITING
+=================================================================
+
+Per API Key Limits:
+- Real-time inference: 1000 requests/minute
+- Batch processing: 10 jobs/hour
+- Model management: 100 requests/minute
+
+Response Headers:
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 987
+X-RateLimit-Reset: 1693656000
+
+=================================================================
+SECURITY REQUIREMENTS
+=================================================================
+
+1. AWS IAM Role Configuration:
+   - SageMaker:InvokeEndpoint permission
+   - CloudWatch:PutMetricData permission
+   - S3 access for batch processing
+
+2. API Gateway Configuration:
+   - AWS IAM authentication
+   - API key validation
+   - Request/response transformation
+   - CloudWatch logging enabled
+
+3. Data Encryption:
+   - TLS 1.2+ for all API calls
+   - Data encrypted in transit and at rest
+   - Model artifacts encrypted in S3
+
+=================================================================
+DEPLOYMENT CONFIGURATION
+=================================================================
+
+AWS Services Required:
+- Amazon SageMaker (Model hosting)
+- API Gateway (REST API management)
+- AWS Lambda (Custom logic/transformations)
+- CloudWatch (Monitoring and logging)
+- S3 (Batch processing data storage)
+- IAM (Authentication and authorization)
+
+Terraform/CloudFormation Template Variables:
+STACK_NAME=cybersecured-ai-ml-api
+ENVIRONMENT=production
+MODEL_INSTANCE_TYPE=ml.m5.large
+MIN_CAPACITY=1
+MAX_CAPACITY=10
+TARGET_UTILIZATION=70
+
+=================================================================
+INTEGRATION ENDPOINTS FOR CYBERSECURED AI PLATFORM
+=================================================================
+
+1. Threat Intelligence Enhancement:
+   POST /api/threats/ml-analysis
+   - Integrates with existing threat detection engine
+   - Enhances AlienVault OTX and VirusTotal data
+
+2. User Behavior Analytics:
+   POST /api/users/behavior-analysis
+   - Integrates with authentication system
+   - Enhances zero-trust security engine
+
+3. Document Security Classification:
+   POST /api/files/ml-classification
+   - Integrates with file upload system
+   - Enhances compliance framework
+
+4. System Anomaly Detection:
+   POST /api/monitoring/anomaly-detection
+   - Integrates with infrastructure monitoring
+   - Enhances incident response system
+
+=================================================================
+SAMPLE CURL COMMANDS FOR TESTING
+=================================================================
+
+# Threat Detection
+curl -X POST https://api.cybersecured-ai.com/ml/threat-detection/predict \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"network_traffic":{"source_ip":"192.168.1.100","destination_ip":"10.0.0.50","port":443},"features":[0.1,0.3,0.7]}'
+
+# Behavioral Analysis  
+curl -X POST https://api.cybersecured-ai.com/ml/behavioral-analysis/predict \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{"user_behavior":{"user_id":"user_12345","login_time":"2025-09-02T08:30:00Z"}}'
+
+# Model Status
+curl -X GET https://api.cybersecured-ai.com/ml/models/status \
+  -H "Authorization: Bearer YOUR_API_KEY"
+
+=================================================================
+END OF SPECIFICATION
+=================================================================
