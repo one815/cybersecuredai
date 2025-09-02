@@ -19,6 +19,7 @@ import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-in
 import { emailNotificationService } from "./services/email-notification.js";
 import { awsMachineLearningService } from "./services/aws-sagemaker-service";
 import { ibmXForceService } from "./services/ibm-xforce-service";
+import { alternativeThreatFeedsService } from "./services/alternative-threat-feeds";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -5104,6 +5105,96 @@ startxref
       res.json(status);
     } catch (error) {
       console.error('Error getting IBM X-Force status:', error);
+      res.status(500).json({ error: 'Failed to get service status' });
+    }
+  });
+
+  // Alternative Threat Feeds (CISA alternatives) routes
+  app.get("/api/alternative-feeds/aggregated", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const data = await alternativeThreatFeedsService.getAggregatedThreatIntelligence();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching aggregated threat data:', error);
+      res.status(500).json({ error: 'Failed to fetch threat intelligence' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/indicators/:type", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { type } = req.params;
+      if (!['ip', 'domain', 'url', 'hash'].includes(type)) {
+        return res.status(400).json({ error: 'Invalid indicator type' });
+      }
+      const indicators = await alternativeThreatFeedsService.getThreatIndicatorsByType(type as any);
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error fetching indicators by type:', error);
+      res.status(500).json({ error: 'Failed to fetch indicators' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/search", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { q } = req.query;
+      if (!q || typeof q !== 'string') {
+        return res.status(400).json({ error: 'Search query is required' });
+      }
+      const results = await alternativeThreatFeedsService.searchIndicator(q);
+      res.json(results);
+    } catch (error) {
+      console.error('Error searching indicators:', error);
+      res.status(500).json({ error: 'Failed to search indicators' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/sans", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const data = await alternativeThreatFeedsService.getSANSThreatData();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching SANS data:', error);
+      res.status(500).json({ error: 'Failed to fetch SANS threat data' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/otx", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { type = 'IPv4' } = req.query;
+      const data = await alternativeThreatFeedsService.getOTXThreatData(type as string);
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching OTX data:', error);
+      res.status(500).json({ error: 'Failed to fetch OTX threat data' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/openphish", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const data = await alternativeThreatFeedsService.getOpenPhishData();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching OpenPhish data:', error);
+      res.status(500).json({ error: 'Failed to fetch phishing URLs' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/spamhaus", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const data = await alternativeThreatFeedsService.getSpamhausDROPList();
+      res.json(data);
+    } catch (error) {
+      console.error('Error fetching Spamhaus data:', error);
+      res.status(500).json({ error: 'Failed to fetch Spamhaus data' });
+    }
+  });
+
+  app.get("/api/alternative-feeds/status", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const status = alternativeThreatFeedsService.getServiceStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting alternative feeds status:', error);
       res.status(500).json({ error: 'Failed to get service status' });
     }
   });
