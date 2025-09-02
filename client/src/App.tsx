@@ -104,6 +104,9 @@ import BiometricAuthentication from "@/pages/platform/BiometricAuthentication";
 import EnhancedThreatIntelligence from "@/pages/platform/EnhancedThreatIntelligence";
 import SecurityInfrastructureMonitoring from "@/pages/platform/SecurityInfrastructureMonitoring";
 import EnterpriseIAM from "@/pages/platform/EnterpriseIAM";
+import MLAnalytics from "@/pages/platform/MLAnalytics";
+import IBMXForceIntelligence from "@/pages/platform/IBMXForceIntelligence";
+import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -309,6 +312,21 @@ function Router() {
       <Route path="/platform/enterprise-iam">
         <Layout>
           <EnterpriseIAM />
+        </Layout>
+      </Route>
+      <Route path="/platform/ml-analytics">
+        <Layout>
+          <MLAnalytics />
+        </Layout>
+      </Route>
+      <Route path="/platform/ibm-xforce-intelligence">
+        <Layout>
+          <IBMXForceIntelligence />
+        </Layout>
+      </Route>
+      <Route path="/platform/alternative-threat-feeds">
+        <Layout>
+          <AlternativeThreatFeeds />
         </Layout>
       </Route>
       <Route path="/training">
