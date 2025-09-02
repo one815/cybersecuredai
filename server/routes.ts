@@ -17,6 +17,7 @@ import { hsmIntegrationService } from "./services/hsm-integration";
 import { biometricIntegrationService } from "./services/biometric-integration";
 import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-intelligence";
 import { emailNotificationService } from "./services/email-notification.js";
+import { awsMachineLearningService } from "./services/aws-sagemaker-service";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -4930,6 +4931,75 @@ startxref
     } catch (error) {
       console.error("Error updating email config:", error);
       res.status(500).json({ message: "Failed to update email configuration" });
+    }
+  });
+
+  // AWS SageMaker ML API routes
+  app.post("/api/ml/threat-detection/predict", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const threatData = req.body;
+      
+      const result = await awsMachineLearningService.invokeThreatDetection(threatData);
+      res.json(result);
+    } catch (error) {
+      console.error('Error in threat detection:', error);
+      res.status(500).json({ error: 'Threat detection failed' });
+    }
+  });
+
+  app.post("/api/ml/behavioral-analysis/predict", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const behavioralData = req.body;
+      
+      const result = await awsMachineLearningService.invokeBehavioralAnalysis(behavioralData);
+      res.json(result);
+    } catch (error) {
+      console.error('Error in behavioral analysis:', error);
+      res.status(500).json({ error: 'Behavioral analysis failed' });
+    }
+  });
+
+  app.post("/api/ml/document-classification/predict", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const documentData = req.body;
+      
+      const result = await awsMachineLearningService.invokeDocumentClassification(documentData);
+      res.json(result);
+    } catch (error) {
+      console.error('Error in document classification:', error);
+      res.status(500).json({ error: 'Document classification failed' });
+    }
+  });
+
+  app.post("/api/ml/anomaly-detection/predict", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const anomalyData = req.body;
+      
+      const result = await awsMachineLearningService.invokeAnomalyDetection(anomalyData);
+      res.json(result);
+    } catch (error) {
+      console.error('Error in anomaly detection:', error);
+      res.status(500).json({ error: 'Anomaly detection failed' });
+    }
+  });
+
+  app.get("/api/ml/models/status", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const status = await awsMachineLearningService.getModelStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting model status:', error);
+      res.status(500).json({ error: 'Failed to retrieve model status' });
+    }
+  });
+
+  app.get("/api/ml/service/status", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const status = awsMachineLearningService.getServiceStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting service status:', error);
+      res.status(500).json({ error: 'Failed to retrieve service status' });
     }
   });
 
