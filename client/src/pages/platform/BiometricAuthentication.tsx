@@ -84,31 +84,37 @@ export default function BiometricAuthentication() {
       }
     },
     {
-      id: 'bioid_multimodal',
-      name: 'BioID Multi-Modal',
+      id: 'nec_corporation',
+      name: 'NEC Corporation Advanced Biometrics',
       type: 'multimodal',
       status: 'active',
       accuracy: 99.9,
-      enrolledUsers: 892,
-      lastVerification: new Date(Date.now() - 120000),
+      enrolledUsers: 1456,
+      lastVerification: new Date(Date.now() - 60000),
       configuration: {
+        enterpriseGrade: true,
         facialRecognition: true,
-        voiceRecognition: true,
-        periocularRecognition: true
+        irisRecognition: true,
+        fingerprintRecognition: true,
+        palmVeinRecognition: true,
+        governmentCertified: true
       }
     },
     {
-      id: 'facetec_3d',
-      name: 'FaceTec 3D Face Recognition',
-      type: 'facial',
+      id: 'portal_guard_biokey',
+      name: 'Portal Guard Bio-Key Enterprise',
+      type: 'multimodal',
       status: 'active',
-      accuracy: 99.8,
-      enrolledUsers: 634,
-      lastVerification: new Date(Date.now() - 300000),
+      accuracy: 99.5,
+      enrolledUsers: 987,
+      lastVerification: new Date(Date.now() - 180000),
       configuration: {
-        threeDLiveness: true,
-        antiSpoofing: true,
-        motionDetection: true
+        enterpriseSSO: true,
+        fingerprintScanning: true,
+        facialRecognition: true,
+        voiceRecognition: true,
+        fido2Compliant: true,
+        activeDirectoryIntegration: true
       }
     }
   ]);
@@ -130,13 +136,25 @@ export default function BiometricAuthentication() {
       id: 'enroll_002',
       userId: 'user_002', 
       userName: 'Mike Davidson',
-      providerId: 'bioid_multimodal',
-      biometricType: 'multimodal',
+      providerId: 'nec_corporation',
+      biometricType: 'iris',
       enrollmentDate: new Date('2024-01-20'),
-      lastUsed: new Date(Date.now() - 3600000),
-      verificationCount: 23,
+      lastUsed: new Date(Date.now() - 1800000),
+      verificationCount: 34,
       status: 'active',
       accuracy: 99.9
+    },
+    {
+      id: 'enroll_003',
+      userId: 'user_003', 
+      userName: 'Emily Chen',
+      providerId: 'portal_guard_biokey',
+      biometricType: 'fingerprint',
+      enrollmentDate: new Date('2024-01-25'),
+      lastUsed: new Date(Date.now() - 900000),
+      verificationCount: 18,
+      status: 'active',
+      accuracy: 99.5
     }
   ]);
 
@@ -442,7 +460,7 @@ export default function BiometricAuthentication() {
                                 {key.replace(/([A-Z])/g, ' $1').toLowerCase()}:
                               </span>
                               <span className="text-white">
-                                {typeof value === 'boolean' ? (value ? 'Enabled' : 'Disabled') : value}
+                                {typeof value === 'boolean' ? (value ? 'Enabled' : 'Disabled') : String(value)}
                               </span>
                             </div>
                           ))}

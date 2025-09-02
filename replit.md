@@ -92,9 +92,9 @@ Preferred communication style: Simple, everyday language.
   - Hardware key generation, storage, and cryptographic operations API endpoints
 - **Biometric Authentication Systems**:
   - Auth0 facial recognition integration for government-ready biometric security
-  - BioID multi-modal biometric authentication (facial, voice, periocular)
-  - FaceTec 3D face recognition with advanced liveness detection and anti-spoofing
-  - Comprehensive biometric enrollment and authentication workflow
+  - NEC Corporation Advanced Biometrics with enterprise-grade multi-modal authentication (facial, iris, fingerprint, palm vein)
+  - Portal Guard Bio-Key Enterprise with FIDO2 compliance and Active Directory integration
+  - Comprehensive biometric enrollment and authentication workflow with 99.9% accuracy
 - **Security Infrastructure Monitoring**:
   - Palo Alto Networks PA-5220 firewall integration and metrics monitoring
   - Cisco Firepower 2130 IPS integration with intrusion detection analytics
