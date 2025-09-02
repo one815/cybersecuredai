@@ -36,13 +36,16 @@ import {
   Lock,
   Unlock,
   Bug,
-  Crown
+  Crown,
+  Brain,
+  ExternalLink
 } from "lucide-react";
+import { Link } from "wouter";
 
 interface ThreatFeed {
   id: string;
   name: string;
-  provider: 'virustotal' | 'otx' | 'crowdstrike' | 'ibm_xforce' | 'misp' | 'shodan';
+  provider: 'virustotal' | 'otx' | 'crowdstrike' | 'ibm_xforce' | 'misp' | 'shodan' | 'aws_sagemaker' | 'alternative_feeds';
   status: 'active' | 'inactive' | 'error' | 'limited';
   lastUpdate: Date;
   threatCount: number;
@@ -133,6 +136,30 @@ export default function EnhancedThreatIntelligence() {
       accuracy: 94.2,
       subscription: 'free',
       apiCalls: 9876,
+      apiLimit: 10000
+    },
+    {
+      id: 'aws_sagemaker',
+      name: 'AWS SageMaker ML',
+      provider: 'aws_sagemaker',
+      status: 'active',
+      lastUpdate: new Date(Date.now() - 60000),
+      threatCount: 8945,
+      accuracy: 96.7,
+      subscription: 'enterprise',
+      apiCalls: 1234,
+      apiLimit: 50000
+    },
+    {
+      id: 'alternative_feeds',
+      name: 'Alternative Threat Feeds',
+      provider: 'alternative_feeds',
+      status: 'active',
+      lastUpdate: new Date(Date.now() - 120000),
+      threatCount: 15678,
+      accuracy: 93.4,
+      subscription: 'free',
+      apiCalls: 5678,
       apiLimit: 10000
     },
     {
@@ -248,6 +275,8 @@ export default function EnhancedThreatIntelligence() {
       case 'ibm_xforce': return <Database className="w-5 h-5 text-purple-500" />;
       case 'misp': return <Eye className="w-5 h-5 text-red-500" />;
       case 'shodan': return <Search className="w-5 h-5 text-cyan-500" />;
+      case 'aws_sagemaker': return <Brain className="w-5 h-5 text-orange-400" />;
+      case 'alternative_feeds': return <Shield className="w-5 h-5 text-green-400" />;
       default: return <Server className="w-5 h-5 text-gray-500" />;
     }
   };
@@ -306,6 +335,27 @@ export default function EnhancedThreatIntelligence() {
                 </p>
               </div>
               <div className="flex space-x-2">
+                <Link href="/platform/ml-analytics" className="no-underline">
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Brain className="w-4 h-4" />
+                    ML Analytics
+                    <ExternalLink className="w-3 h-3" />
+                  </Button>
+                </Link>
+                <Link href="/platform/ibm-xforce-intelligence" className="no-underline">
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Crown className="w-4 h-4" />
+                    IBM X-Force
+                    <ExternalLink className="w-3 h-3" />
+                  </Button>
+                </Link>
+                <Link href="/platform/alternative-threat-feeds" className="no-underline">
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    Alternative Feeds
+                    <ExternalLink className="w-3 h-3" />
+                  </Button>
+                </Link>
                 <Button variant="outline">
                   <Download className="w-4 h-4 mr-2" />
                   Export Report
