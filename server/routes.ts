@@ -18,6 +18,7 @@ import { biometricIntegrationService } from "./services/biometric-integration";
 import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-intelligence";
 import { emailNotificationService } from "./services/email-notification.js";
 import { awsMachineLearningService } from "./services/aws-sagemaker-service";
+import { ibmXForceService } from "./services/ibm-xforce-service";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -5000,6 +5001,110 @@ startxref
     } catch (error) {
       console.error('Error getting service status:', error);
       res.status(500).json({ error: 'Failed to retrieve service status' });
+    }
+  });
+
+  // IBM X-Force Exchange threat intelligence routes
+  app.get("/api/threat-intelligence/ip/:ip", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { ip } = req.params;
+      const report = await ibmXForceService.getIPReport(ip);
+      res.json(report);
+    } catch (error) {
+      console.error('Error fetching IP report:', error);
+      res.status(500).json({ error: 'Failed to fetch IP threat intelligence' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/url", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { url } = req.query;
+      if (!url || typeof url !== 'string') {
+        return res.status(400).json({ error: 'URL parameter is required' });
+      }
+      const report = await ibmXForceService.getURLReport(url);
+      res.json(report);
+    } catch (error) {
+      console.error('Error fetching URL report:', error);
+      res.status(500).json({ error: 'Failed to fetch URL threat intelligence' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/domain/:domain", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { domain } = req.params;
+      const report = await ibmXForceService.getDomainReport(domain);
+      res.json(report);
+    } catch (error) {
+      console.error('Error fetching domain report:', error);
+      res.status(500).json({ error: 'Failed to fetch domain threat intelligence' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/vulnerability/:cve", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { cve } = req.params;
+      const report = await ibmXForceService.getVulnerabilityReport(cve);
+      res.json(report);
+    } catch (error) {
+      console.error('Error fetching vulnerability report:', error);
+      res.status(500).json({ error: 'Failed to fetch vulnerability information' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/malware/:hash", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { hash } = req.params;
+      const report = await ibmXForceService.searchMalware(hash);
+      res.json(report);
+    } catch (error) {
+      console.error('Error searching malware:', error);
+      res.status(500).json({ error: 'Failed to search malware intelligence' });
+    }
+  });
+
+  app.post("/api/threat-intelligence/bulk", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { indicators } = req.body;
+      if (!Array.isArray(indicators)) {
+        return res.status(400).json({ error: 'Indicators array is required' });
+      }
+      const reports = await ibmXForceService.getThreatIntelligence(indicators);
+      res.json(reports);
+    } catch (error) {
+      console.error('Error fetching bulk threat intelligence:', error);
+      res.status(500).json({ error: 'Failed to fetch bulk threat intelligence' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/collections", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const collections = await ibmXForceService.getCollections();
+      res.json(collections);
+    } catch (error) {
+      console.error('Error fetching threat collections:', error);
+      res.status(500).json({ error: 'Failed to fetch threat collections' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/collections/:id", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { id } = req.params;
+      const collection = await ibmXForceService.getCollection(id);
+      res.json(collection);
+    } catch (error) {
+      console.error('Error fetching threat collection:', error);
+      res.status(500).json({ error: 'Failed to fetch threat collection' });
+    }
+  });
+
+  app.get("/api/threat-intelligence/status", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const status = ibmXForceService.getServiceStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting IBM X-Force status:', error);
+      res.status(500).json({ error: 'Failed to get service status' });
     }
   });
 
