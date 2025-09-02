@@ -16,6 +16,7 @@ import { vulnerabilityPrediction } from "./engines/vulnerability-prediction";
 import { hsmIntegrationService } from "./services/hsm-integration";
 import { biometricIntegrationService } from "./services/biometric-integration";
 import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-intelligence";
+import { emailNotificationService } from "./services/email-notification.js";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -4828,6 +4829,108 @@ startxref
 %%EOF`;
     
     res.send(pdfContent);
+  });
+
+  // Email Notification Routes for Compliance
+  app.post("/api/notifications/test", async (req, res) => {
+    try {
+      const success = await emailNotificationService.testEmailService();
+      res.json({ success, message: success ? "Test email sent successfully" : "Failed to send test email" });
+    } catch (error) {
+      console.error("Error testing email service:", error);
+      res.status(500).json({ message: "Failed to test email service" });
+    }
+  });
+
+  app.post("/api/notifications/incident", async (req, res) => {
+    try {
+      const { incidentId, severity, title, description, affectedSystems, nistControls, recommendedActions } = req.body;
+      
+      const incident = {
+        incidentId,
+        severity,
+        title,
+        description,
+        affectedSystems: affectedSystems || [],
+        detectedAt: new Date(),
+        nistControls: nistControls || [],
+        recommendedActions: recommendedActions || []
+      };
+
+      const success = await emailNotificationService.sendIncidentNotification(incident);
+      res.json({ success, message: success ? "Incident notification sent" : "Failed to send notification" });
+    } catch (error) {
+      console.error("Error sending incident notification:", error);
+      res.status(500).json({ message: "Failed to send incident notification" });
+    }
+  });
+
+  app.post("/api/notifications/assessment", async (req, res) => {
+    try {
+      const { assessmentId, frameworkId, frameworkName, overallScore, complianceStatus, criticalFindings, highFindings, nextAssessmentDue, reportUrl } = req.body;
+      
+      const assessment = {
+        assessmentId,
+        frameworkId,
+        frameworkName,
+        overallScore,
+        complianceStatus,
+        criticalFindings: criticalFindings || 0,
+        highFindings: highFindings || 0,
+        completedAt: new Date(),
+        nextAssessmentDue: new Date(nextAssessmentDue || Date.now() + 90 * 24 * 60 * 60 * 1000), // 90 days default
+        reportUrl
+      };
+
+      const success = await emailNotificationService.sendComplianceAssessmentNotification(assessment);
+      res.json({ success, message: success ? "Assessment notification sent" : "Failed to send notification" });
+    } catch (error) {
+      console.error("Error sending assessment notification:", error);
+      res.status(500).json({ message: "Failed to send assessment notification" });
+    }
+  });
+
+  app.post("/api/notifications/threat-alert", async (req, res) => {
+    try {
+      const { alertId, threatType, severity, indicators, description, sourceFeeds, recommendedActions } = req.body;
+      
+      const alert = {
+        alertId,
+        threatType,
+        severity,
+        indicators: indicators || [],
+        description,
+        sourceFeeds: sourceFeeds || [],
+        detectedAt: new Date(),
+        recommendedActions: recommendedActions || []
+      };
+
+      const success = await emailNotificationService.sendThreatIntelligenceAlert(alert);
+      res.json({ success, message: success ? "Threat alert sent" : "Failed to send alert" });
+    } catch (error) {
+      console.error("Error sending threat alert:", error);
+      res.status(500).json({ message: "Failed to send threat alert" });
+    }
+  });
+
+  app.get("/api/notifications/config", async (req, res) => {
+    try {
+      const config = emailNotificationService.getConfiguration();
+      res.json(config);
+    } catch (error) {
+      console.error("Error getting email config:", error);
+      res.status(500).json({ message: "Failed to get email configuration" });
+    }
+  });
+
+  app.put("/api/notifications/config", async (req, res) => {
+    try {
+      emailNotificationService.updateConfiguration(req.body);
+      res.json({ message: "Email configuration updated successfully" });
+    } catch (error) {
+      console.error("Error updating email config:", error);
+      res.status(500).json({ message: "Failed to update email configuration" });
+    }
   });
 
   const httpServer = createServer(app);

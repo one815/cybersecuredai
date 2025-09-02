@@ -1,4 +1,5 @@
 import { randomBytes } from "crypto";
+import { emailNotificationService } from '../services/email-notification.js';
 
 export interface ComplianceFramework {
   id: string;
