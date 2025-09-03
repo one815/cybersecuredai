@@ -128,7 +128,7 @@ export function GeospatialIntelligenceMap({
     refetchInterval: 10000,
   });
 
-  // Load Google Maps with enhanced 3D features and photorealistic tiles
+  // Load Google Maps with photorealistic 3D tiles support
   useEffect(() => {
     const loadGoogleMaps = () => {
       if (window.google?.maps) {
@@ -137,12 +137,13 @@ export function GeospatialIntelligenceMap({
       }
 
       const script = document.createElement('script');
-      // Enhanced Google Maps with 3D Maps, photorealistic tiles, advanced markers
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry&callback=initGeospatialMap&v=beta`;
+      // Load Google Maps with all required libraries for photorealistic 3D
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=3.56&map_ids=YOUR_MAP_ID`;
       script.async = true;
       script.defer = true;
       
       (window as any).initGeospatialMap = () => {
+        console.log('✅ Google Maps API loaded with 3D support');
         setIsMapReady(true);
       };
       
@@ -159,77 +160,110 @@ export function GeospatialIntelligenceMap({
     const initializeMap = async () => {
       try {
         if (mapMode === '3d') {
-          // Use Google's 3D Maps with photorealistic tiles
-          const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
-          
-          const map3D = new Map3DElement({
-            center: { lat: 37.4239163, lng: -122.0947209, altitude: 0 },
-            tilt: 67.5,
-            range: 2000,
-            heading: 0,
-            roll: 0,
-            mode: 'SATELLITE',
-            defaultLabelsDisabled: false,
-            backgroundColor: '#000000'
-          });
-          
-          mapRef.current.appendChild(map3D);
-          setMap(map3D);
+          try {
+            // Use Google's photorealistic 3D Maps 
+            const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+            console.log('✅ 3D Maps library loaded successfully');
+            
+            const map3D = new Map3DElement({
+              center: { lat: 37.4239163, lng: -122.0947209, altitude: 0 },
+              tilt: 67.5,
+              range: 1500,
+              heading: 0,
+              roll: 0,
+              // This enables photorealistic 3D tiles
+              renderingType: '3D_TILES', 
+              backgroundColor: '#000814',
+              defaultLabelsDisabled: false
+            });
+            
+            // Add required attribution for photorealistic tiles
+            map3D.addEventListener('gmp-load', () => {
+              console.log('🌍 Photorealistic 3D map loaded successfully');
+              // Enable photorealistic mode
+              if (map3D.setRenderingType) {
+                map3D.setRenderingType('3D_TILES');
+              }
+            });
+            
+            mapRef.current.appendChild(map3D);
+            setMap(map3D);
+          } catch (error) {
+            console.error('❌ Failed to load 3D Maps:', error);
+            console.log('ℹ️ Falling back to 2D map with satellite view');
+            // Fallback to enhanced satellite view
+            const { Map } = await window.google.maps.importLibrary("maps");
+            const googleMap = new Map(mapRef.current, {
+              center: { lat: 37.4239163, lng: -122.0947209 },
+              zoom: 16,
+              mapTypeId: 'satellite',
+              tilt: 45,
+              heading: 0,
+              mapId: 'DEMO_MAP_ID'
+            });
+            setMap(googleMap);
+          }
         } else {
           // Standard 2D map with advanced markers
           const { Map } = await window.google.maps.importLibrary("maps");
           
+          // Enhanced 2D map configuration
           const googleMap = new Map(mapRef.current, {
             center: { lat: 20, lng: 0 },
             zoom: 2,
-            mapId: 'DEMO_MAP_ID', // Required for advanced markers
-            mapTypeId: mapMode === 'satellite' ? 'satellite' : 'roadmap',
-            tilt: 0,
+            mapId: mapMode === 'satellite' ? undefined : 'DEMO_MAP_ID', // Use mapId only for styled maps
+            mapTypeId: mapMode === 'satellite' ? 'hybrid' : 'roadmap', // hybrid shows labels on satellite
+            tilt: mapMode === 'satellite' ? 45 : 0,
             heading: 0,
-            styles: mapMode === 'standard' ? [
-              {
-                "featureType": "all",
-                "elementType": "geometry",
-                "stylers": [{ "color": "#1a1a1a" }]
-              },
-              {
-                "featureType": "all",
-                "elementType": "labels.text.fill",
-                "stylers": [{ "color": "#ffffff" }]
-              },
-              {
-                "featureType": "all",
-                "elementType": "labels.text.stroke",
-                "stylers": [{ "color": "#000000" }]
-              },
-              {
-                "featureType": "water",
-                "elementType": "geometry",
-                "stylers": [{ "color": "#000000" }]
-              },
-              {
-                "featureType": "administrative",
-                "elementType": "geometry.stroke",
-                "stylers": [{ "color": "#144973" }, { "lightness": 14 }, { "weight": 1.3 }]
-              }
-            ] : [],
+            // Only apply custom styles for standard mode, not when mapId is used
+            ...(mapMode === 'standard' && !('DEMO_MAP_ID') ? {
+              styles: [
+                {
+                  "featureType": "all",
+                  "elementType": "geometry",
+                  "stylers": [{ "color": "#1a1a1a" }]
+                },
+                {
+                  "featureType": "all",
+                  "elementType": "labels.text.fill",
+                  "stylers": [{ "color": "#ffffff" }]
+                },
+                {
+                  "featureType": "water",
+                  "elementType": "geometry",
+                  "stylers": [{ "color": "#000000" }]
+                }
+              ]
+            } : {}),
             zoomControl: true,
-            mapTypeControl: false,
+            mapTypeControl: true,
             scaleControl: true,
-            streetViewControl: false,
-            rotateControl: false,
-            fullscreenControl: true
+            streetViewControl: mapMode === 'satellite',
+            rotateControl: mapMode === 'satellite',
+            fullscreenControl: true,
+            // Enhanced controls for better UX
+            gestureHandling: 'greedy',
+            clickableIcons: true
           });
           
           setMap(googleMap);
         }
       } catch (error) {
-        console.error('Error initializing map:', error);
-        // Fallback to standard map
+        console.error('❌ Error initializing map:', error);
+        console.log('ℹ️ For photorealistic 3D maps, ensure:');
+        console.log('1. Map Tiles API is enabled in Google Cloud Console');
+        console.log('2. Billing is set up (required for 3D tiles)');
+        console.log('3. API key has proper permissions');
+        
+        // Fallback to enhanced standard map
         const googleMap = new window.google.maps.Map(mapRef.current, {
           center: { lat: 20, lng: 0 },
           zoom: 2,
-          mapTypeId: 'roadmap'
+          mapTypeId: 'hybrid',
+          zoomControl: true,
+          mapTypeControl: true,
+          streetViewControl: true,
+          fullscreenControl: true
         });
         setMap(googleMap);
       }
@@ -872,6 +906,14 @@ export function GeospatialIntelligenceMap({
               <div className="text-xs text-gray-300 mt-1">
                 Layer: {activeLayer.toUpperCase()} | Mode: {mapMode === '3d' ? 'PHOTOREALISTIC 3D' : mapMode.toUpperCase()}
               </div>
+              {mapMode === '3d' && (
+                <div className="text-xs text-orange-400 mt-2 p-2 bg-orange-900/20 rounded border border-orange-500/30">
+                  ℹ️ To enable photorealistic 3D tiles:
+                  <br />1. Enable "Map Tiles API" in Google Cloud Console
+                  <br />2. Add billing account (required for 3D tiles)
+                  <br />3. Accept 3D Tiles terms of service
+                </div>
+              )}
             </div>
             
             <div className="absolute top-4 right-4 bg-black/80 rounded px-3 py-2 flex items-center z-10">
