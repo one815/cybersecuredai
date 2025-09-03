@@ -103,7 +103,7 @@ Preferred communication style: Simple, everyday language.
 - **Premium Threat Intelligence Enhancement**:
   - VirusTotal integration with vt-py library for enhanced malware analysis
   - AlienVault OTX (Open Threat Exchange) community threat intelligence
-  - CrowdStrike Falcon premium APT attribution and advanced threat hunting
+  - Mandiant premium APT attribution and advanced threat hunting
   - IBM X-Force threat intelligence with vulnerability correlation and risk scoring
 - **Enterprise Identity and Access Management (IAM)**:
   - Okta identity management integration with SSO and MFA capabilities

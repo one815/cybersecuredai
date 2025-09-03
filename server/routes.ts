@@ -2955,7 +2955,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         { name: 'Google Maps API', env: 'GOOGLE_MAPS_API_KEY', description: 'Threat geolocation mapping and visualization' },
         { name: 'MISP API', env: 'MISP_API_KEY', description: 'Malware Information Sharing Platform integration' },
         { name: 'VirusTotal API', env: 'VIRUSTOTAL_API_KEY', description: 'File and URL security scanning' },
-        { name: 'CrowdStrike API', env: 'CROWDSTRIKE_API_KEY', description: 'Advanced threat hunting and intelligence' },
+        { name: 'Mandiant API', env: 'MANDIANT_API_KEY', description: 'Advanced threat hunting and intelligence' },
         { name: 'SendGrid API', env: 'SENDGRID_API_KEY', description: 'Email notifications and alerts' },
         { name: 'Twilio API', env: 'TWILIO_ACCOUNT_SID', description: 'SMS notifications and alerts' },
         { name: 'IBM X-Force API', env: 'IBM_XFORCE_API_KEY', description: 'Threat intelligence and vulnerability data' },

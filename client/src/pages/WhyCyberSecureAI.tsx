@@ -229,7 +229,7 @@ export default function WhyCyberSecuredAI() {
           </div>
         </section>
 
-        {/* Industry Recognition - CrowdStrike Style */}
+        {/* Industry Recognition - Mandiant Style */}
         <section className="py-16 px-6 bg-surface/50">
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-4xl font-bold text-white text-center mb-12">Industry Recognition</h2>
@@ -253,7 +253,7 @@ export default function WhyCyberSecuredAI() {
           </div>
         </section>
 
-        {/* Platform Capabilities - CrowdStrike Style */}
+        {/* Platform Capabilities - Mandiant Style */}
         <section className="py-16 px-6">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16">

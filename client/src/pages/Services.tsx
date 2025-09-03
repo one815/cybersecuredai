@@ -139,7 +139,7 @@ export default function Services() {
       icon: <Enhanced4DNetworkIcon className="w-8 h-8 text-blue-400" size={32} />,
       features: [
         "PyMISP & CIRCL OSINT feeds integration",
-        "VirusTotal & CrowdStrike Falcon APT",
+        "VirusTotal & Mandiant Falcon APT",
         "IBM X-Force & AlienVault OTX feeds",
         "BGP Ranking & Passive DNS analysis",
         "AIL Framework leak detection",
