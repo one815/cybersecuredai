@@ -497,7 +497,7 @@ export default function Dashboard() {
               </div>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="h-[500px] overflow-hidden">
+              <div className="h-[700px] overflow-hidden">
                 <GeospatialIntelligenceMap className="w-full h-full" />
               </div>
             </CardContent>
