@@ -142,7 +142,7 @@ export function GeospatialIntelligenceMap({
 
       const script = document.createElement('script');
       // Load Google Maps with latest version and advanced marker support
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly&loading=async`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly`;
       script.async = true;
       script.defer = true;
       
@@ -165,11 +165,8 @@ export function GeospatialIntelligenceMap({
       try {
         if (mapMode === '3d') {
           try {
-            // Use standard 2D Maps with enhanced 3D-like satellite view
-            const { Map } = await window.google.maps.importLibrary("maps");
-            console.log('✅ Enhanced satellite view initialized for 3D-like experience');
-            
-            const googleMap = new Map(mapRef.current, {
+            // Use standard Maps library for reliable satellite view
+            const googleMap = new window.google.maps.Map(mapRef.current, {
               center: { lat: 37.4239163, lng: -122.0947209 },
               zoom: 16,
               mapTypeId: 'satellite',
@@ -177,22 +174,10 @@ export function GeospatialIntelligenceMap({
               heading: 0,
               clickableIcons: true,
               gestureHandling: 'greedy',
-              keyboardShortcuts: true,
-              styles: [
-                {
-                  "featureType": "all",
-                  "elementType": "geometry",
-                  "stylers": [{ "saturation": -80 }]
-                },
-                {
-                  "featureType": "poi",
-                  "elementType": "labels",
-                  "stylers": [{ "visibility": "off" }]
-                }
-              ]
+              keyboardShortcuts: true
             });
             
-            console.log('🌍 Enhanced 3D-style satellite map loaded successfully');
+            console.log('🌍 3D-style satellite map loaded successfully');
             setMap(googleMap);
           } catch (error) {
             console.error('❌ Failed to load 3D Maps:', error);
@@ -205,7 +190,6 @@ export function GeospatialIntelligenceMap({
               mapTypeId: 'hybrid', // Better than satellite for infrastructure
               tilt: 45,
               heading: 0,
-              mapId: 'DEMO_MAP_ID', // Map ID for enhanced markers
               clickableIcons: true,
               gestureHandling: 'greedy',
               keyboardShortcuts: true
@@ -213,15 +197,11 @@ export function GeospatialIntelligenceMap({
             setMap(googleMap);
           }
         } else {
-          // Standard 2D map with advanced markers
-          const { Map } = await window.google.maps.importLibrary("maps");
-          
-          // Enhanced 2D map configuration
-          const googleMap = new Map(mapRef.current, {
+          // Standard 2D map 
+          const googleMap = new window.google.maps.Map(mapRef.current, {
             center: { lat: 30, lng: 0 },
             zoom: 3,
-            mapId: mapMode === 'satellite' ? undefined : 'DEMO_MAP_ID', // Use mapId only for styled maps
-            mapTypeId: mapMode === 'satellite' ? 'hybrid' : 'roadmap', // hybrid shows labels on satellite
+            mapTypeId: mapMode === 'satellite' ? 'hybrid' : 'roadmap',
             tilt: mapMode === 'satellite' ? 45 : 0,
             heading: 0,
             // Only apply custom styles for standard mode, not when mapId is used
