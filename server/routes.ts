@@ -27,7 +27,8 @@ import { mandiantService } from "./services/mandiant-intelligence";
 import { 
   getGeospatialOverview, 
   getThreatLandscape, 
-  getInfrastructureMap, 
+  getInfrastructureMap,
+  getDeviceDetails,
   getComplianceMap, 
   getIncidentMap 
 } from "./services/geospatial-intelligence";
@@ -1724,6 +1725,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/geospatial/overview", getGeospatialOverview);
   app.get("/api/geospatial/threats", getThreatLandscape);
   app.get("/api/geospatial/infrastructure", getInfrastructureMap);
+  app.get("/api/geospatial/infrastructure/:deviceId", getDeviceDetails);
   app.get("/api/geospatial/compliance", getComplianceMap);
   app.get("/api/geospatial/incidents", getIncidentMap);
 
