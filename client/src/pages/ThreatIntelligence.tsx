@@ -39,7 +39,7 @@ import {
 export default function ThreatIntelligence() {
   const [threatFeeds] = useState([
     {
-      source: "Mandiant",
+      source: "Palo Alto Cortex XDR",
       type: "APT Intelligence",
       severity: "critical",
       indicators: 847,
