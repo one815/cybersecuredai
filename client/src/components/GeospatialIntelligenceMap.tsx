@@ -165,34 +165,35 @@ export function GeospatialIntelligenceMap({
       try {
         if (mapMode === '3d') {
           try {
-            // Use Google's latest 3D Maps with photorealistic tiles
-            const { Map3DElement } = await window.google.maps.importLibrary("maps3d") as google.maps.Maps3DLibrary;
-            console.log('✅ 3D Maps library loaded successfully');
+            // Use standard 2D Maps with enhanced 3D-like satellite view
+            const { Map } = await window.google.maps.importLibrary("maps");
+            console.log('✅ Enhanced satellite view initialized for 3D-like experience');
             
-            const map3D = new Map3DElement({
-              center: { lat: 37.4239163, lng: -122.0947209, altitude: 0 },
-              tilt: 67.5,
-              range: 1500,
+            const googleMap = new Map(mapRef.current, {
+              center: { lat: 37.4239163, lng: -122.0947209 },
+              zoom: 16,
+              mapTypeId: 'satellite',
+              tilt: 45, // 3D tilt effect
               heading: 0,
-              roll: 0,
-              backgroundColor: '#001122',
-              defaultLabelsDisabled: false,
-              mapId: 'PHOTOREALISTIC_3D_MAP' // Required for 3D tiles
+              clickableIcons: true,
+              gestureHandling: 'greedy',
+              keyboardShortcuts: true,
+              styles: [
+                {
+                  "featureType": "all",
+                  "elementType": "geometry",
+                  "stylers": [{ "saturation": -80 }]
+                },
+                {
+                  "featureType": "poi",
+                  "elementType": "labels",
+                  "stylers": [{ "visibility": "off" }]
+                }
+              ]
             });
             
-            // Enhanced event handling for photorealistic 3D
-            map3D.addEventListener('gmp-load', () => {
-              console.log('🌍 Photorealistic 3D map loaded successfully');
-              console.log('📊 Map Tiles API enabled - showing photorealistic imagery');
-            });
-            
-            map3D.addEventListener('gmp-error', (error) => {
-              console.warn('⚠️ 3D Maps error:', error);
-              console.log('💡 Ensure Map Tiles API is enabled and billing is set up');
-            });
-            
-            mapRef.current.appendChild(map3D);
-            setMap(map3D);
+            console.log('🌍 Enhanced 3D-style satellite map loaded successfully');
+            setMap(googleMap);
           } catch (error) {
             console.error('❌ Failed to load 3D Maps:', error);
             console.log('ℹ️ Falling back to enhanced 2D map with advanced markers');
@@ -217,8 +218,8 @@ export function GeospatialIntelligenceMap({
           
           // Enhanced 2D map configuration
           const googleMap = new Map(mapRef.current, {
-            center: { lat: 20, lng: 0 },
-            zoom: 2,
+            center: { lat: 30, lng: 0 },
+            zoom: 3,
             mapId: mapMode === 'satellite' ? undefined : 'DEMO_MAP_ID', // Use mapId only for styled maps
             mapTypeId: mapMode === 'satellite' ? 'hybrid' : 'roadmap', // hybrid shows labels on satellite
             tilt: mapMode === 'satellite' ? 45 : 0,
