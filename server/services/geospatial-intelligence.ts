@@ -656,8 +656,8 @@ export const getInfrastructureMap = async (req: Request, res: Response) => {
       devices: assets,
       metadata: {
         totalDevices: assets.length,
-        deviceTypes: [...new Set(assets.map(a => a.type))],
-        locations: [...new Set(assets.map(a => a.location))],
+        deviceTypes: Array.from(new Set(assets.map(a => a.type))),
+        locations: Array.from(new Set(assets.map(a => a.location))),
         healthyDevices: assets.filter(a => a.status === 'healthy').length,
         warningDevices: assets.filter(a => a.status === 'warning').length,
         criticalDevices: assets.filter(a => a.status === 'critical').length,
