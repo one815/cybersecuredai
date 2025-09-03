@@ -183,7 +183,7 @@ export default function FileSharing() {
       // Critical risk for top secret classification or identity documents
       if (classification === "top_secret" || sensitivity === "top_secret" || 
           dataTypes.some(type => 
-        ["identity_document", "credentials", "social_security_card", "passport", "drivers_license", "birth_certificate", "military_id", "green_card", "naturalization", "citizenship"].includes(type.toLowerCase())
+        ["identity_document", "credentials", "social_security_card", "passport", "drivers_license", "birth_certificate", "military_id", "green_card", "naturalization", "citizenship", "student_id", "employee_id", "government_id", "business_license", "ein", "corporate_documents", "legal_documents", "academic_records", "employment_records", "security_clearance", "personnel_records", "payroll", "transcript", "diploma", "background_check"].includes(type.toLowerCase())
       )) {
         console.log(`Returning CRITICAL risk for ${fileName}:`, { classification, sensitivity, dataTypes });
         return "Critical";
