@@ -109,6 +109,19 @@ const integrations = [
     image: cortexXdrImg
   },
   {
+    title: "Mandiant Threat Intelligence",
+    vendor: "Google Cloud",
+    description: "Optional premium threat intelligence integration for advanced APT attribution and specialized threat hunting capabilities.",
+    category: "Endpoint Protection",
+    industry: "Federal Government",
+    type: "API Integration", 
+    features: ["APT attribution", "Advanced threat hunting", "Incident response intelligence", "Custom threat analysis"],
+    setupTime: "< 60 minutes",
+    featured: false,
+    certified: true,
+    image: integrationImg
+  },
+  {
     title: "Canvas LMS Security Integration",
     vendor: "Instructure",
     description: "Specialized integration for Canvas Learning Management System providing student data protection and educational compliance monitoring.",
