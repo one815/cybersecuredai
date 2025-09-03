@@ -103,7 +103,7 @@ export default function ThreatConnectAttribution() {
   const aptGroups = Array.isArray(aptGroupsData) ? aptGroupsData : [];
 
   // Fetch OTX threat pulses
-  const { data: otxPulsesData = { pulses: [] }, isLoading: loadingOTX } = useQuery({
+  const { data: otxPulsesData = { pulses: [] }, isLoading: loadingOTX } = useQuery<{ pulses: OTXPulse[] }>({
     queryKey: ['/api/otx/pulses'],
     refetchInterval: 600000 // Refresh every 10 minutes
   });
@@ -120,7 +120,7 @@ export default function ThreatConnectAttribution() {
     mutationFn: async (params: { query: string; type?: string }) => {
       const queryParams = new URLSearchParams({ q: params.query });
       if (params.type && params.type !== 'all') queryParams.append('type', params.type);
-      return apiRequest(`/api/threatconnect/indicators/search?${queryParams}`, { method: 'GET' });
+      return await fetch(`/api/threatconnect/indicators/search?${queryParams}`, { method: 'GET' }).then(res => res.json());
     },
     onSuccess: () => {
       toast({
@@ -133,9 +133,11 @@ export default function ThreatConnectAttribution() {
   // Submit for attribution mutation
   const attributionMutation = useMutation({
     mutationFn: async (data: { indicator: string; type: string; context?: string }) => {
-      return apiRequest('/api/threatconnect/attribution/submit', {
-        method: 'POST'
-      }, data);
+      return await fetch('/api/threatconnect/attribution/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(res => res.json());
     },
     onSuccess: () => {
       toast({
@@ -481,7 +483,7 @@ export default function ThreatConnectAttribution() {
                         <div className="bg-red-900/20 border border-red-700/30 rounded-lg p-3">
                           <h5 className="text-red-400 font-medium mb-2">Associated APT Groups</h5>
                           <div className="flex flex-wrap gap-2">
-                            {indicator.associatedGroups.map((group) => (
+                            {indicator.associatedGroups.map((group: string) => (
                               <Badge key={group} className="bg-red-800/30 text-red-300 border-red-700">
                                 {group.toUpperCase()}
                               </Badge>
@@ -560,7 +562,7 @@ export default function ThreatConnectAttribution() {
                         <div className="mb-4">
                           <p className="text-gray-400 text-xs mb-2">Tags</p>
                           <div className="flex flex-wrap gap-1">
-                            {pulse.tags.slice(0, 4).map((tag) => (
+                            {pulse.tags.slice(0, 4).map((tag: string) => (
                               <Badge key={tag} variant="outline" className="text-xs text-gray-300 border-gray-500">
                                 {tag}
                               </Badge>
@@ -574,7 +576,7 @@ export default function ThreatConnectAttribution() {
                         </div>
                       )}
                       
-                      {pulse.targetedCountries.length > 0 && (
+                      {pulse.targetedCountries && pulse.targetedCountries.length > 0 && (
                         <div className="bg-orange-900/20 border border-orange-700/30 rounded-lg p-3">
                           <div className="flex items-center space-x-2 mb-2">
                             <Flag className="w-4 h-4 text-orange-400" />
