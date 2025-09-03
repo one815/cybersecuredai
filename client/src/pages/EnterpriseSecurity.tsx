@@ -40,8 +40,8 @@ export default function EnterpriseSecurity() {
 
   const [biometricSystems] = useState([
     { name: "Auth0 Facial Recognition", status: "active", users: 1247, accuracy: 99.7, lastUpdate: "2 min ago" },
-    { name: "BioID Multi-Modal", status: "active", users: 894, accuracy: 99.2, lastUpdate: "5 min ago" },
-    { name: "FaceTec 3D Recognition", status: "maintenance", users: 0, accuracy: 99.9, lastUpdate: "1 hour ago" }
+    { name: "NEC Corporation Advanced Biometrics", status: "active", users: 1456, accuracy: 99.9, lastUpdate: "3 min ago" },
+    { name: "Portal Guard Bio-Key Enterprise", status: "active", users: 987, accuracy: 99.5, lastUpdate: "8 min ago" }
   ]);
 
   const [threatIntelSources] = useState([
