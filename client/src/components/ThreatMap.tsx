@@ -27,6 +27,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [isMapReady, setIsMapReady] = useState(false);
+  const [mapMode, setMapMode] = useState('3d'); // Set to 3D by default for marketing demo
   
   // Fetch threat locations with geolocation data
   const { data: threatLocations, isLoading } = useQuery({
@@ -43,7 +44,8 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&callback=initMap`;
+      // Load with enhanced features for 3D satellite view
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=marker,visualization,geometry,places&callback=initMap&v=weekly`;
       script.async = true;
       script.defer = true;
       
@@ -63,51 +65,39 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
     if (!isMapReady || !mapRef.current || map) return;
 
     const googleMap = new window.google.maps.Map(mapRef.current, {
-      center: { lat: 20, lng: 0 },
-      zoom: 2,
+      center: { lat: 39.8283, lng: -98.5795 }, // Center on US for better marketing demo
+      zoom: 4,
+      mapTypeId: 'satellite', // Use satellite view for 3D effect
+      tilt: 45, // Enhanced 3D perspective
+      heading: 0,
       styles: [
+        // Enhanced satellite styling for 3D marketing demo
         {
-          "elementType": "geometry",
-          "stylers": [{ "color": "#212121" }]
-        },
-        {
-          "elementType": "labels.icon",
-          "stylers": [{ "visibility": "off" }]
-        },
-        {
-          "elementType": "labels.text.fill",
-          "stylers": [{ "color": "#757575" }]
-        },
-        {
-          "elementType": "labels.text.stroke",
-          "stylers": [{ "color": "#212121" }]
+          "featureType": "all",
+          "elementType": "labels",
+          "stylers": [{ "visibility": "on" }]
         },
         {
           "featureType": "administrative",
-          "elementType": "geometry",
-          "stylers": [{ "color": "#757575" }]
-        },
-        {
-          "featureType": "administrative.country",
           "elementType": "labels.text.fill",
-          "stylers": [{ "color": "#9ca5b3" }]
-        },
-        {
-          "featureType": "water",
-          "elementType": "geometry",
-          "stylers": [{ "color": "#000000" }]
+          "stylers": [{ "color": "#00ff88" }, { "weight": 1.2 }]
         },
         {
           "featureType": "water",
           "elementType": "labels.text.fill",
-          "stylers": [{ "color": "#3d3d3d" }]
+          "stylers": [{ "color": "#00d4ff" }]
         }
       ],
       disableDefaultUI: true,
       zoomControl: true,
       zoomControlOptions: {
         position: window.google.maps.ControlPosition.RIGHT_CENTER
-      }
+      },
+      // Enhanced controls for 3D demo
+      rotateControl: true,
+      tiltControl: true,
+      fullscreenControl: false,
+      streetViewControl: false
     });
 
     setMap(googleMap);
