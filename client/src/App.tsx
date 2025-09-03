@@ -108,6 +108,7 @@ import MLAnalytics from "@/pages/platform/MLAnalytics";
 import ThreatConnectAttribution from "@/pages/platform/ThreatConnectAttribution";
 import IBMXForceIntelligence from "@/pages/platform/IBMXForceIntelligence";
 import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
+import TaxiiStixManagement from "@/pages/platform/TaxiiStixManagement";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -333,6 +334,11 @@ function Router() {
       <Route path="/platform/alternative-threat-feeds">
         <Layout>
           <AlternativeThreatFeeds />
+        </Layout>
+      </Route>
+      <Route path="/platform/taxii-stix-management">
+        <Layout>
+          <TaxiiStixManagement />
         </Layout>
       </Route>
       <Route path="/training">
