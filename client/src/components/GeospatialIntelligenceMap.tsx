@@ -943,14 +943,6 @@ export function GeospatialIntelligenceMap({
               <div className="text-xs text-gray-300 mt-1">
                 Layer: {activeLayer.toUpperCase()} | Mode: {mapMode === '3d' ? 'PHOTOREALISTIC 3D' : mapMode.toUpperCase()}
               </div>
-              {mapMode === '3d' && (
-                <div className="text-xs text-orange-400 mt-2 p-2 bg-orange-900/20 rounded border border-orange-500/30">
-                  ℹ️ To enable photorealistic 3D tiles:
-                  <br />1. Enable "Map Tiles API" in Google Cloud Console
-                  <br />2. Add billing account (required for 3D tiles)
-                  <br />3. Accept 3D Tiles terms of service
-                </div>
-              )}
             </div>
             
             <div className="absolute top-4 right-4 bg-black/80 rounded px-3 py-2 flex items-center z-10">
