@@ -92,7 +92,7 @@ export class DataClassificationEngine {
           { field: "content", operator: "regex", value: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b" } // Email
         ],
         actions: [
-          { type: "label", parameters: { classification: "confidential", dataType: "pii" } },
+          { type: "label", parameters: { classification: "restricted", dataType: "pii" } },
           { type: "encrypt", parameters: { method: "aes-256" } },
           { type: "restrict_access", parameters: { level: "restricted" } }
         ],
@@ -114,6 +114,27 @@ export class DataClassificationEngine {
           { type: "label", parameters: { classification: "restricted", dataType: "ferpa_protected" } },
           { type: "encrypt", parameters: { method: "aes-256" } },
           { type: "notify", parameters: { compliance_team: true, framework: "FERPA" } }
+        ],
+        enabled: true,
+        createdDate: new Date(),
+        lastModified: new Date()
+      },
+      {
+        id: "rule-social-security-card",
+        name: "Social Security Card Detection",
+        description: "Detects social security cards and identity documents - CRITICAL SECURITY RISK",
+        priority: 150,
+        conditions: [
+          { field: "filename", operator: "regex", value: "(?i)(social.security|ssn|ss.card|identity.card)" },
+          { field: "content", operator: "regex", value: "(?i)(social.security.card|social.security.administration)" },
+          { field: "content", operator: "regex", value: "\\b\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{4}\\b" }
+        ],
+        actions: [
+          { type: "label", parameters: { classification: "top_secret", dataType: "identity_document" } },
+          { type: "quarantine", parameters: { immediate: true } },
+          { type: "encrypt", parameters: { method: "aes-256-gcm" } },
+          { type: "restrict_access", parameters: { level: "admin_only" } },
+          { type: "notify", parameters: { security_team: true, urgent: true } }
         ],
         enabled: true,
         createdDate: new Date(),

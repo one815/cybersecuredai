@@ -96,17 +96,18 @@ export default function ThreatConnectAttribution() {
   const [attributionContext, setAttributionContext] = useState("");
 
   // Fetch APT groups from ThreatConnect
-  const { data: aptGroups = [], isLoading: loadingAPTs } = useQuery({
+  const { data: aptGroupsData = [], isLoading: loadingAPTs } = useQuery({
     queryKey: ['/api/threatconnect/apt-groups'],
     refetchInterval: 300000 // Refresh every 5 minutes
   });
+  const aptGroups = Array.isArray(aptGroupsData) ? aptGroupsData : [];
 
   // Fetch OTX threat pulses
-  const { data: otxPulsesData, isLoading: loadingOTX } = useQuery({
+  const { data: otxPulsesData = { pulses: [] }, isLoading: loadingOTX } = useQuery({
     queryKey: ['/api/otx/pulses'],
     refetchInterval: 600000 // Refresh every 10 minutes
   });
-  const otxPulses = otxPulsesData?.pulses || [];
+  const otxPulses = Array.isArray(otxPulsesData?.pulses) ? otxPulsesData.pulses : [];
 
   // Fetch APT intelligence from OTX
   const { data: otxAPTIntel = [], isLoading: loadingAPTIntel } = useQuery({
@@ -119,7 +120,7 @@ export default function ThreatConnectAttribution() {
     mutationFn: async (params: { query: string; type?: string }) => {
       const queryParams = new URLSearchParams({ q: params.query });
       if (params.type && params.type !== 'all') queryParams.append('type', params.type);
-      return apiRequest(`/api/threatconnect/indicators/search?${queryParams}`);
+      return apiRequest(`/api/threatconnect/indicators/search?${queryParams}`, { method: 'GET' });
     },
     onSuccess: () => {
       toast({
@@ -133,9 +134,8 @@ export default function ThreatConnectAttribution() {
   const attributionMutation = useMutation({
     mutationFn: async (data: { indicator: string; type: string; context?: string }) => {
       return apiRequest('/api/threatconnect/attribution/submit', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      });
+        method: 'POST'
+      }, data);
     },
     onSuccess: () => {
       toast({
@@ -418,7 +418,7 @@ export default function ThreatConnectAttribution() {
               <div className="flex items-center space-x-2">
                 <Badge variant="outline" className="text-spring-green border-spring-green">
                   <Activity className="w-3 h-3 mr-1" />
-                  {searchMutation.data?.length || 0} Results
+                  {(Array.isArray(searchMutation.data) ? searchMutation.data.length : 0)} Results
                 </Badge>
               </div>
             </div>
@@ -430,9 +430,9 @@ export default function ThreatConnectAttribution() {
               </div>
             )}
             
-            {searchMutation.data && (
+            {searchMutation.data && Array.isArray(searchMutation.data) && (
               <div className="space-y-4">
-                {searchMutation.data.map((indicator: ThreatIndicator) => (
+                {searchMutation.data.map((indicator: any) => (
                   <Card 
                     key={indicator.id} 
                     className="bg-midnight-blue/60 border-gray-700/30"
@@ -495,7 +495,7 @@ export default function ThreatConnectAttribution() {
               </div>
             )}
             
-            {searchMutation.data && searchMutation.data.length === 0 && (
+            {searchMutation.data && Array.isArray(searchMutation.data) && searchMutation.data.length === 0 && (
               <div className="text-center py-8">
                 <Target className="w-12 h-12 text-gray-500 mx-auto mb-4" />
                 <p className="text-gray-400">No threat indicators found for your search.</p>
@@ -536,7 +536,7 @@ export default function ThreatConnectAttribution() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {otxPulses.map((pulse: OTXPulse) => (
+                {otxPulses.map((pulse: any) => (
                   <Card 
                     key={pulse.id} 
                     className="bg-midnight-blue/60 border-gray-700/30 hover:border-neon-orange/50 transition-colors"
