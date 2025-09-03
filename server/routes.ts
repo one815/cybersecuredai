@@ -5632,6 +5632,63 @@ startxref
     }
   });
 
+  // API Integration Requirements Report PDF endpoint
+  app.get("/api/reports/api-integration", async (req, res) => {
+    try {
+      console.log('📋 Generating API Integration Requirements PDF Report...');
+      
+      // Import html-pdf-node
+      const htmlPdf = require('html-pdf-node');
+      const fs = require('fs').promises;
+      
+      // Read the HTML template
+      const htmlContent = await fs.readFile('CyberSecured-AI-API-Integration-Report.html', 'utf8');
+      
+      const options = {
+        format: 'A4',
+        margin: {
+          top: '0.75in',
+          bottom: '0.75in',
+          left: '0.75in',
+          right: '0.75in'
+        },
+        printBackground: true,
+        displayHeaderFooter: true,
+        headerTemplate: `
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+            CyberSecured AI - API Integration Requirements & Cost Analysis
+          </div>
+        `,
+        footerTemplate: `
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+            Page <span class="pageNumber"></span> of <span class="totalPages"></span> | Contact: one@cybersecuredai.com | Sept 3, 2025
+          </div>
+        `
+      };
+
+      const file = { content: htmlContent };
+      
+      // Generate PDF buffer
+      const pdfBuffer = await htmlPdf.generatePdf(file, options);
+      
+      // Set response headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="CyberSecured-AI-API-Integration-Requirements-Report.pdf"');
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      // Send PDF buffer
+      res.send(pdfBuffer);
+      
+      console.log('✅ API Integration Requirements PDF Report generated successfully');
+    } catch (error) {
+      console.error("❌ Error generating API Integration PDF:", error);
+      res.status(500).json({ 
+        error: "Failed to generate API integration requirements PDF report",
+        details: error.message 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
