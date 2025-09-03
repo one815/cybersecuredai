@@ -1423,6 +1423,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Biometric provider testing endpoints
+  app.post("/api/biometric/:providerId/test", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { providerId } = req.params;
+      const { testType } = req.body;
+      
+      const health = await biometricIntegrationService.getProvidersHealth();
+      const providerHealth = health[providerId];
+      
+      if (!providerHealth) {
+        return res.status(404).json({ error: 'Provider not found' });
+      }
+      
+      // Simulate test results
+      const testResult = {
+        providerId,
+        testType,
+        success: providerHealth.status === 'healthy',
+        responseTime: providerHealth.responseTime,
+        features: providerHealth.features,
+        timestamp: new Date()
+      };
+      
+      res.json(testResult);
+    } catch (error) {
+      console.error('Error testing biometric provider:', error);
+      res.status(500).json({ error: 'Provider test failed' });
+    }
+  });
+
+  // Get biometric provider health status
+  app.get("/api/biometric/providers/health", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const health = await biometricIntegrationService.getProvidersHealth();
+      res.json(health);
+    } catch (error) {
+      console.error('Error getting provider health:', error);
+      res.status(500).json({ error: 'Failed to get provider health' });
+    }
+  });
+
   // Enhanced Threat Intelligence API routes
   app.post("/api/threat-intelligence/analyze-file", authenticateJWT, async (req: AuthenticatedRequest, res) => {
     try {
@@ -2817,8 +2858,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       doc.setFontSize(10);
       const mediumPriorityApis = [
         'AUTH0_BIOMETRIC_API_KEY - Facial recognition',
-        'BIOID_API_KEY - Multi-modal biometric systems',
-        'FACETEC_API_KEY - 3D face recognition',
+        'NEC_BIOMETRIC_API_KEY - NEC Corporation advanced biometrics',
+        'PORTAL_GUARD_API_KEY - Portal Guard Bio-Key Enterprise',
         'THALES_HSM_API_KEY - Hardware security modules',
         'AWS_CLOUDHSM_API_KEY - Cloud-based HSM',
         'PALO_ALTO_API_KEY - Next-gen firewall integration',

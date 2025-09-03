@@ -365,11 +365,11 @@ export class BiometricIntegrationService {
       if (templateId.includes('auth0') && this.providers.has('auth0')) {
         return this.providers.get('auth0')!;
       }
-      if (templateId.includes('bioid') && this.providers.has('bioid')) {
-        return this.providers.get('bioid')!;
+      if (templateId.includes('nec') && this.providers.has('nec_corporation')) {
+        return this.providers.get('nec_corporation')!;
       }
-      if (templateId.includes('facetec') && this.providers.has('facetec')) {
-        return this.providers.get('facetec')!;
+      if (templateId.includes('portal_guard') && this.providers.has('portal_guard_biokey')) {
+        return this.providers.get('portal_guard_biokey')!;
       }
     }
     
@@ -434,11 +434,11 @@ export class BiometricIntegrationService {
   private getProviderFeatures(provider: BiometricProvider): string[] {
     switch (provider.name) {
       case 'auth0':
-        return ['facial_recognition', 'government_ready', 'free_tier'];
+        return ['facial_recognition', 'government_ready', 'liveness_detection', 'spoofing_prevention', 'cloud_based'];
       case 'nec_corporation':
-        return ['facial', 'iris', 'fingerprint', 'palm_vein', 'enterprise_grade', 'government_certified'];
+        return ['facial', 'iris', 'fingerprint', 'palm_vein', 'enterprise_grade', 'government_certified', 'multi_modal', 'anti_spoofing', '99.9_accuracy'];
       case 'portal_guard_biokey':
-        return ['fingerprint', 'facial', 'voice', 'fido2_compliant', 'enterprise_sso', 'active_directory'];
+        return ['fingerprint', 'facial', 'voice', 'fido2_compliant', 'enterprise_sso', 'active_directory', 'government_ready', 'zero_trust'];
       default:
         return [];
     }
