@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>VM-Series Deployment Configuration Guide</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6; 
+            color: #333;
+        }
+        h1 { 
+            color: #2c3e50; 
+            border-bottom: 3px solid #3498db; 
+            padding-bottom: 10px; 
+            page-break-after: avoid;
+        }
+        h2 { 
+            color: #34495e; 
+            margin-top: 30px; 
+            page-break-after: avoid;
+        }
+        h3 { 
+            color: #7f8c8d; 
+            page-break-after: avoid;
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 20px 0; 
+            page-break-inside: avoid;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #f2f2f2; 
+            font-weight: bold;
+        }
+        code { 
+            background-color: #f8f9fa; 
+            padding: 2px 6px; 
+            border-radius: 3px; 
+            font-family: 'Courier New', monospace;
+        }
+        pre { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        .network-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .step-box {
+            border: 1px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #ecf0f1;
+        }
+    </style>
+</head>
+<body>
+
+<h1>VM-Series Next Generation Firewall Bundle 2</h1>
+<h2>Deployment Configuration Guide for CyberSecured AI Platform</h2>
+
+<hr>
+
+<h2>Prerequisites Setup</h2>
+
+<div class="step-box">
+<h3>Step 1: VPC Networks Configuration</h3>
+
+<div class="network-box">
+<h4>Network 1: Management Network</h4>
+<ul>
+    <li><strong>Network Name:</strong> <code>cybersecured-ai-mgmt-network</code></li>
+    <li><strong>Description:</strong> Management network for VM-Series firewall administration</li>
+    <li><strong>Subnet Mode:</strong> Custom</li>
+</ul>
+
+<strong>Subnets:</strong>
+<ul>
+    <li><strong>Primary Subnet:</strong> <code>cybersecured-ai-mgmt-subnet-primary</code>
+        <ul>
+            <li>Region: <code>us-central1</code></li>
+            <li>IP Range: <code>192.168.100.0/25</code></li>
+        </ul>
+    </li>
+    <li><strong>Secondary Subnet:</strong> <code>cybersecured-ai-mgmt-subnet-secondary</code>
+        <ul>
+            <li>Region: <code>us-east1</code></li>
+            <li>IP Range: <code>192.168.100.128/25</code></li>
+        </ul>
+    </li>
+</ul>
+</div>
+
+<div class="network-box">
+<h4>Network 2: Untrust Network (Internet-Facing)</h4>
+<ul>
+    <li><strong>Network Name:</strong> <code>cybersecured-ai-untrust-network</code></li>
+    <li><strong>Description:</strong> Untrust network for internet-facing traffic</li>
+    <li><strong>Subnet Mode:</strong> Custom</li>
+</ul>
+
+<strong>Subnets:</strong>
+<ul>
+    <li><strong>Primary Subnet:</strong> <code>cybersecured-ai-untrust-subnet-primary</code>
+        <ul>
+            <li>Region: <code>us-central1</code></li>
+            <li>IP Range: <code>10.0.1.0/25</code></li>
+            <li>Flow Logs: On</li>
+        </ul>
+    </li>
+    <li><strong>Secondary Subnet:</strong> <code>cybersecured-ai-untrust-subnet-secondary</code>
+        <ul>
+            <li>Region: <code>us-east1</code></li>
+            <li>IP Range: <code>10.0.1.128/25</code></li>
+            <li>Flow Logs: On</li>
+        </ul>
+    </li>
+</ul>
+</div>
+
+<div class="network-box">
+<h4>Network 3: Trust Network (Internal)</h4>
+<ul>
+    <li><strong>Network Name:</strong> <code>cybersecured-ai-trust-network</code></li>
+    <li><strong>Description:</strong> Trust network for internal application traffic</li>
+    <li><strong>Subnet Mode:</strong> Custom</li>
+</ul>
+
+<strong>Subnets:</strong>
+<ul>
+    <li><strong>Primary Subnet:</strong> <code>cybersecured-ai-trust-subnet-primary</code>
+        <ul>
+            <li>Region: <code>us-central1</code></li>
+            <li>IP Range: <code>10.0.2.0/25</code></li>
+            <li>Private Google Access: On</li>
+            <li>Flow Logs: On</li>
+        </ul>
+    </li>
+    <li><strong>Secondary Subnet:</strong> <code>cybersecured-ai-trust-subnet-secondary</code>
+        <ul>
+            <li>Region: <code>us-east1</code></li>
+            <li>IP Range: <code>10.0.2.128/25</code></li>
+            <li>Private Google Access: On</li>
+            <li>Flow Logs: On</li>
+        </ul>
+    </li>
+</ul>
+</div>
+</div>
+
+<div class="step-box">
+<h3>Step 2: Firewall Rules</h3>
+
+<h4>Rule 1: Management Access</h4>
+<ul>
+    <li><strong>Name:</strong> <code>allow-mgmt-cybersecured-ai</code></li>
+    <li><strong>Direction:</strong> Ingress</li>
+    <li><strong>Action:</strong> Allow</li>
+    <li><strong>Network:</strong> <code>cybersecured-ai-mgmt-network</code></li>
+    <li><strong>Source IP ranges:</strong> <code>0.0.0.0/0</code></li>
+    <li><strong>Protocols:</strong> TCP ports 22, 443, 3978</li>
+</ul>
+
+<h4>Rule 2: Web Application Traffic</h4>
+<ul>
+    <li><strong>Name:</strong> <code>allow-web-cybersecured-ai</code></li>
+    <li><strong>Direction:</strong> Ingress</li>
+    <li><strong>Action:</strong> Allow</li>
+    <li><strong>Network:</strong> <code>cybersecured-ai-untrust-network</code></li>
+    <li><strong>Source IP ranges:</strong> <code>0.0.0.0/0</code></li>
+    <li><strong>Protocols:</strong> TCP ports 80, 443, 5000</li>
+</ul>
+
+<h4>Rule 3: Internal Communication</h4>
+<ul>
+    <li><strong>Name:</strong> <code>allow-internal-cybersecured-ai</code></li>
+    <li><strong>Direction:</strong> Ingress</li>
+    <li><strong>Action:</strong> Allow</li>
+    <li><strong>Network:</strong> <code>cybersecured-ai-trust-network</code></li>
+    <li><strong>Source IP ranges:</strong> <code>10.0.2.0/24</code></li>
+    <li><strong>Protocols:</strong> TCP 1-65535, UDP 1-65535</li>
+</ul>
+</div>
+
+<div class="step-box">
+<h3>Step 3: SSH Key Generation</h3>
+
+<p><strong>Command:</strong></p>
+<pre><code>ssh-keygen -t rsa -b 2048 -f ~/.ssh/cybersecured-ai-one -C "one@cybersecuredai.com"</code></pre>
+
+<p><strong>To display public key:</strong></p>
+<pre><code>cat ~/.ssh/cybersecured-ai-one.pub</code></pre>
+</div>
+
+<div class="step-box">
+<h3>Step 4: Reserve Static IP Addresses</h3>
+
+<p><strong>Navigation:</strong> Google Cloud Console → VPC network → IP addresses</p>
+
+<h4>Management IP</h4>
+<ul>
+    <li><strong>Name:</strong> <code>cybersecured-ai-mgmt-ip</code></li>
+    <li><strong>Type:</strong> Regional</li>
+    <li><strong>Region:</strong> <code>us-central1</code></li>
+</ul>
+
+<h4>Untrust IP</h4>
+<ul>
+    <li><strong>Name:</strong> <code>cybersecured-ai-untrust-ip</code></li>
+    <li><strong>Type:</strong> Regional</li>
+    <li><strong>Region:</strong> <code>us-central1</code></li>
+</ul>
+</div>
+
+<hr>
+
+<h2>VM-Series Deployment Configuration</h2>
+
+<div class="step-box">
+<h3>Basic Configuration</h3>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>Deployment name</td>
+        <td><code>cybersecured-ai-firewall</code></td>
+    </tr>
+    <tr>
+        <td>Zone</td>
+        <td><code>us-central1-a</code></td>
+    </tr>
+    <tr>
+        <td>Machine type</td>
+        <td><code>n1-standard-4</code></td>
+    </tr>
+    <tr>
+        <td>Series</td>
+        <td>VM-Series (pre-selected)</td>
+    </tr>
+    <tr>
+        <td>VM Series instance count</td>
+        <td><code>1</code></td>
+    </tr>
+</table>
+</div>
+
+<div class="step-box">
+<h3>SSH Configuration</h3>
+<p><strong>SSH Keys:</strong> Paste the complete public key output from Step 3</p>
+</div>
+
+<div class="step-box">
+<h3>Network Interface Configuration</h3>
+
+<h4>Interface nic0 (Management)</h4>
+<ul>
+    <li><strong>Network:</strong> <code>cybersecured-ai-mgmt-network</code></li>
+    <li><strong>Subnetwork:</strong> <code>cybersecured-ai-mgmt-subnet-primary</code></li>
+    <li><strong>External IP:</strong> Select reserved <code>cybersecured-ai-mgmt-ip</code></li>
+</ul>
+
+<h4>Interface nic1 (Untrust)</h4>
+<ul>
+    <li><strong>Network:</strong> <code>cybersecured-ai-untrust-network</code></li>
+    <li><strong>Subnetwork:</strong> <code>cybersecured-ai-untrust-subnet-primary</code></li>
+    <li><strong>External IP:</strong> Select reserved <code>cybersecured-ai-untrust-ip</code></li>
+</ul>
+
+<h4>Interface nic2 (Trust)</h4>
+<ul>
+    <li><strong>Network:</strong> <code>cybersecured-ai-trust-network</code></li>
+    <li><strong>Subnetwork:</strong> <code>cybersecured-ai-trust-subnet-primary</code></li>
+    <li><strong>External IP:</strong> None (unchecked)</li>
+</ul>
+</div>
+
+<div class="step-box">
+<h3>Boot Disk Configuration</h3>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>Boot disk type</td>
+        <td>SSD persistent disk</td>
+    </tr>
+    <tr>
+        <td>Boot disk size</td>
+        <td>60 GB</td>
+    </tr>
+</table>
+</div>
+
+<hr>
+
+<h2>Post-Deployment Steps</h2>
+
+<div class="step-box">
+<h3>Step 1: Verify Deployment</h3>
+<ul>
+    <li>Check VM instance in Compute Engine</li>
+    <li>Note management IP address</li>
+    <li>Confirm all network interfaces are attached</li>
+</ul>
+</div>
+
+<div class="step-box">
+<h3>Step 2: Access VM-Series Management</h3>
+<ol>
+    <li>Navigate to: <code>https://[MANAGEMENT-IP]</code></li>
+    <li>Default credentials: <code>admin</code> / <code>admin</code></li>
+    <li>Change password on first login</li>
+    <li>Complete setup wizard</li>
+</ol>
+</div>
+
+<div class="step-box">
+<h3>Step 3: License Configuration</h3>
+<ol>
+    <li>Go to Device → Licenses</li>
+    <li>Enter BYOL license key</li>
+    <li>Commit changes</li>
+</ol>
+</div>
+
+<div class="step-box">
+<h3>Step 4: Deploy Application Server</h3>
+<pre><code>gcloud compute instances create cybersecured-ai-app \
+    --zone=us-central1-a \
+    --machine-type=e2-standard-2 \
+    --subnet=cybersecured-ai-trust-subnet-primary \
+    --no-address \
+    --image-family=ubuntu-2004-lts \
+    --image-project=ubuntu-os-cloud</code></pre>
+</div>
+
+<hr>
+
+<h2>Security Architecture Overview</h2>
+
+<div class="step-box">
+<p><strong>Traffic Flow:</strong></p>
+<pre>Internet → VM-Series Firewall → Load Balancer → CyberSecured AI SaaS (Port 5000)</pre>
+
+<h3>Three-Tier Network Security:</h3>
+<ul>
+    <li><strong>Management Network:</strong> Firewall administration</li>
+    <li><strong>Untrust Network:</strong> Internet-facing traffic filtering</li>
+    <li><strong>Trust Network:</strong> Protected application environment</li>
+</ul>
+
+<h3>Integration Benefits:</h3>
+<ul>
+    <li>Enterprise-grade network security</li>
+    <li>Real-time threat intelligence integration</li>
+    <li>Automated policy management</li>
+    <li>Compliance reporting capabilities</li>
+</ul>
+</div>
+
+<hr>
+
+<h2>Contact Information</h2>
+
+<table>
+    <tr>
+        <td><strong>Email:</strong></td>
+        <td>one@cybersecuredai.com</td>
+    </tr>
+    <tr>
+        <td><strong>Platform:</strong></td>
+        <td>CyberSecured AI Security Platform</td>
+    </tr>
+    <tr>
+        <td><strong>Deployment Date:</strong></td>
+        <td>September 2025</td>
+    </tr>
+</table>
+
+<hr>
+
+<p><em>This document provides complete deployment instructions for VM-Series Next Generation Firewall Bundle 2 protecting the CyberSecured AI cybersecurity platform.</em></p>
+
+</body>
+</html>
