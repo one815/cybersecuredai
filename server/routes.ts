@@ -22,6 +22,7 @@ import { ibmXForceService } from "./services/ibm-xforce-service";
 import { alternativeThreatFeedsService } from "./services/alternative-threat-feeds";
 import { threatConnectService } from "./services/threatconnect-service";
 import { attOTXService } from "./services/att-otx-service";
+import { taxiiStixService } from "./services/taxii-stix-service";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -1490,6 +1491,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error aggregating intelligence:', error);
       res.status(500).json({ error: 'Intelligence aggregation failed' });
+    }
+  });
+
+  // TAXII/STIX 2.1 API routes for CISA compliance
+  app.get("/api/taxii/servers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const servers = taxiiStixService.getAllServers();
+      res.json(servers);
+    } catch (error) {
+      console.error('Error getting TAXII servers:', error);
+      res.status(500).json({ error: 'Failed to get TAXII servers' });
+    }
+  });
+
+  app.post("/api/taxii/servers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const serverData = req.body;
+      await taxiiStixService.addTaxiiServer(serverData);
+      res.json({ success: true, message: 'TAXII server added successfully' });
+    } catch (error) {
+      console.error('Error adding TAXII server:', error);
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Failed to add TAXII server' });
+    }
+  });
+
+  app.get("/api/taxii/servers/:serverId/discovery", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { serverId } = req.params;
+      const discovery = await taxiiStixService.getDiscovery(serverId);
+      res.json(discovery);
+    } catch (error) {
+      console.error('Error getting TAXII discovery:', error);
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Failed to get discovery info' });
+    }
+  });
+
+  app.get("/api/taxii/servers/:serverId/collections/:collectionId/objects", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { serverId, collectionId } = req.params;
+      const { type, added_after, limit } = req.query;
+      
+      const filters = {
+        type: type as string,
+        added_after: added_after as string,
+        limit: limit ? parseInt(limit as string) : undefined
+      };
+
+      const objects = await taxiiStixService.getStixObjects(serverId, collectionId, filters);
+      res.json({ objects });
+    } catch (error) {
+      console.error('Error getting STIX objects:', error);
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Failed to get STIX objects' });
+    }
+  });
+
+  app.post("/api/taxii/sync", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const results = await taxiiStixService.syncAllServers();
+      res.json(results);
+    } catch (error) {
+      console.error('Error syncing TAXII servers:', error);
+      res.status(500).json({ error: 'Failed to sync TAXII servers' });
+    }
+  });
+
+  app.get("/api/taxii/cisa-compliance", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const stats = await taxiiStixService.getCisaComplianceStats();
+      res.json(stats);
+    } catch (error) {
+      console.error('Error getting CISA compliance stats:', error);
+      res.status(500).json({ error: 'Failed to get CISA compliance stats' });
+    }
+  });
+
+  app.get("/api/taxii/cisa-servers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cisaServers = taxiiStixService.getCisaCompliantServers();
+      res.json(cisaServers);
+    } catch (error) {
+      console.error('Error getting CISA compliant servers:', error);
+      res.status(500).json({ error: 'Failed to get CISA compliant servers' });
     }
   });
 
