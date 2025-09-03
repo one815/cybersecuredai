@@ -86,6 +86,7 @@ const navigationCategories: NavigationCategory[] = [
       { id: "threat-analysis", label: "Advanced Analytics", icon: Activity, path: "/threat-analysis", requiredTier: 'advanced', isPremium: true },
       { id: "threat-intelligence", label: "Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/threat-intelligence" },
       { id: "threatconnect-attribution", label: "ThreatConnect Attribution", icon: Brain, path: "/platform/threatconnect-attribution", requiredTier: 'enterprise', isPremium: true },
+      { id: "taxii-stix-management", label: "TAXII/STIX Management", icon: Shield, path: "/platform/taxii-stix-management", requiredTier: 'enterprise', isPremium: true },
       { id: "threat-map-5d", label: "5D Threat Map", icon: Brain, path: "/threat-map-5d", requiredTier: 'enterprise', isPremium: true },
       { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
       { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
