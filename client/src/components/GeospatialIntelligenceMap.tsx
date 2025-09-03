@@ -113,10 +113,14 @@ export function GeospatialIntelligenceMap({
     refetchInterval: 15000,
   });
 
-  const { data: infrastructure } = useQuery({
+  const { data: infrastructureResponse } = useQuery({
     queryKey: ['/api/geospatial/infrastructure'],
-    refetchInterval: 30000,
+    queryFn: () => fetch('/api/geospatial/infrastructure?realtime=true').then(res => res.json()),
+    refetchInterval: 15000, // Faster updates for real-time monitoring
   });
+  
+  // Extract devices from the enhanced response
+  const infrastructure = infrastructureResponse?.devices || infrastructureResponse;
 
   const { data: complianceRegions } = useQuery({
     queryKey: ['/api/geospatial/compliance'],
@@ -137,8 +141,8 @@ export function GeospatialIntelligenceMap({
       }
 
       const script = document.createElement('script');
-      // Load Google Maps with all required libraries for photorealistic 3D
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=3.56&map_ids=YOUR_MAP_ID`;
+      // Load Google Maps with latest version and advanced marker support
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly&loading=async`;
       script.async = true;
       script.defer = true;
       
@@ -161,8 +165,8 @@ export function GeospatialIntelligenceMap({
       try {
         if (mapMode === '3d') {
           try {
-            // Use Google's photorealistic 3D Maps 
-            const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+            // Use Google's latest 3D Maps with photorealistic tiles
+            const { Map3DElement } = await window.google.maps.importLibrary("maps3d") as google.maps.Maps3DLibrary;
             console.log('✅ 3D Maps library loaded successfully');
             
             const map3D = new Map3DElement({
@@ -171,35 +175,38 @@ export function GeospatialIntelligenceMap({
               range: 1500,
               heading: 0,
               roll: 0,
-              // This enables photorealistic 3D tiles
-              renderingType: '3D_TILES', 
               backgroundColor: '#000814',
               defaultLabelsDisabled: false
             });
             
-            // Add required attribution for photorealistic tiles
+            // Enhanced event handling for photorealistic 3D
             map3D.addEventListener('gmp-load', () => {
               console.log('🌍 Photorealistic 3D map loaded successfully');
-              // Enable photorealistic mode
-              if (map3D.setRenderingType) {
-                map3D.setRenderingType('3D_TILES');
-              }
+              console.log('📊 Map Tiles API enabled - showing photorealistic imagery');
+            });
+            
+            map3D.addEventListener('gmp-error', (error) => {
+              console.warn('⚠️ 3D Maps error:', error);
+              console.log('💡 Ensure Map Tiles API is enabled and billing is set up');
             });
             
             mapRef.current.appendChild(map3D);
             setMap(map3D);
           } catch (error) {
             console.error('❌ Failed to load 3D Maps:', error);
-            console.log('ℹ️ Falling back to 2D map with satellite view');
-            // Fallback to enhanced satellite view
-            const { Map } = await window.google.maps.importLibrary("maps");
+            console.log('ℹ️ Falling back to enhanced 2D map with advanced markers');
+            // Fallback to enhanced satellite view with latest features
+            const { Map } = await window.google.maps.importLibrary("maps") as google.maps.MapsLibrary;
             const googleMap = new Map(mapRef.current, {
               center: { lat: 37.4239163, lng: -122.0947209 },
               zoom: 16,
-              mapTypeId: 'satellite',
+              mapTypeId: 'hybrid', // Better than satellite for infrastructure
               tilt: 45,
               heading: 0,
-              mapId: 'DEMO_MAP_ID'
+              mapId: '8e0a97af9386fef', // Updated map ID for vector maps
+              clickableIcons: true,
+              gestureHandling: 'greedy',
+              keyboardShortcuts: true
             });
             setMap(googleMap);
           }
