@@ -905,7 +905,7 @@ export default function Solutions() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 text-sm text-gray-300 mb-6">
                     <li>• PyMISP & CIRCL integration</li>
-                    <li>• VirusTotal & Mandiant APT</li>
+                    <li>• VirusTotal & Palo Alto Cortex XDR</li>
                     <li>• IBM X-Force intelligence</li>
                     <li>• AlienVault OTX feeds</li>
                     <li>• BGP Ranking analysis</li>

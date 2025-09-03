@@ -46,7 +46,7 @@ export default function EnterpriseSecurity() {
 
   const [threatIntelSources] = useState([
     { name: "VirusTotal", status: "configured", indicators: "2.1M", confidence: "High", lastUpdate: "Real-time" },
-    { name: "Mandiant Falcon", status: "pending", indicators: "45K", confidence: "High", lastUpdate: "Awaiting API Key" },
+    { name: "Palo Alto Cortex XDR", status: "pending", indicators: "45K", confidence: "High", lastUpdate: "Awaiting API Key" },
     { name: "IBM X-Force", status: "pending", indicators: "38K", confidence: "High", lastUpdate: "Awaiting API Key" },
     { name: "AlienVault OTX", status: "active", indicators: "120K", confidence: "Medium", lastUpdate: "30 min ago" }
   ]);
