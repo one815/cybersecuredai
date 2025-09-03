@@ -29,6 +29,7 @@ interface ThreatStats {
 export default function ThreatMap5D() {
   const [selectedDimension, setSelectedDimension] = useState('global');
   const [threatFilter, setThreatFilter] = useState('all');
+  const [mapMode, setMapMode] = useState('3d'); // Default to 3D photorealistic mode
 
   // Fetch threat statistics
   const { data: threatStats = { totalThreats: 3496, blockedThreats: 3204, realTimeRate: 127, topThreatTypes: [], topCountries: [] } } = useQuery<ThreatStats>({
