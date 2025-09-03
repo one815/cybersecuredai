@@ -120,7 +120,7 @@ export function GeospatialIntelligenceMap({
   });
   
   // Extract devices from the enhanced response with proper fallback
-  const infrastructure = infrastructureResponse?.devices || (Array.isArray(infrastructureResponse) ? infrastructureResponse : []);
+  const infrastructure = infrastructureResponse?.devices || [];
 
   const { data: complianceRegions } = useQuery({
     queryKey: ['/api/geospatial/compliance'],
@@ -445,10 +445,24 @@ export function GeospatialIntelligenceMap({
 
   // Render advanced infrastructure assets with 3D capabilities
   const renderInfrastructureAssets = async () => {
+    console.log('🔧 Attempting to render infrastructure:', { 
+      map: !!map, 
+      infrastructure: !!infrastructure, 
+      isArray: Array.isArray(infrastructure),
+      length: infrastructure?.length 
+    });
+    
     if (!map || !infrastructure || !Array.isArray(infrastructure)) {
-      console.log('🔧 Infrastructure data not ready:', { map: !!map, infrastructure: !!infrastructure, isArray: Array.isArray(infrastructure) });
+      console.log('❌ Infrastructure data not ready:', { map: !!map, infrastructure: !!infrastructure, isArray: Array.isArray(infrastructure) });
       return;
     }
+    
+    if (infrastructure.length === 0) {
+      console.log('⚠️ No infrastructure devices to display');
+      return;
+    }
+    
+    console.log('✅ Rendering', infrastructure.length, 'infrastructure devices');
 
     const newOverlays: any[] = [];
 
