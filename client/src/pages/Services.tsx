@@ -134,16 +134,16 @@ export default function Services() {
 
   const additionalSpecializedOfferings = [
     {
-      title: "Advanced Threat Intelligence Integration",
-      description: "Comprehensive threat intelligence with education and government-specific data",
+      title: "Premium Threat Intelligence Integration",
+      description: "Enterprise-grade threat intelligence with PyMISP, CIRCL, and premium vendor integration",
       icon: <Enhanced4DNetworkIcon className="w-8 h-8 text-blue-400" size={32} />,
       features: [
-        "Sector-specific threat feeds",
-        "Integration with national security databases",
-        "Customized threat intelligence reporting",
-        "Multi-source intelligence aggregation",
-        "Real-time threat correlation",
-        "Government threat data access"
+        "PyMISP & CIRCL OSINT feeds integration",
+        "VirusTotal & CrowdStrike Falcon APT",
+        "IBM X-Force & AlienVault OTX feeds",
+        "BGP Ranking & Passive DNS analysis",
+        "AIL Framework leak detection",
+        "Government & sector-specific intelligence"
       ],
       price: "Contact for Pricing"
     },
@@ -186,6 +186,34 @@ export default function Services() {
         "System health analytics",
         "Remote administration tools",
         "24/7 infrastructure support"
+      ],
+      price: "Contact for Pricing"
+    },
+    {
+      title: "Enterprise Hardware Security Integration",
+      description: "Hardware security modules and biometric authentication for maximum security",
+      icon: <Enhanced4DLockIcon className="w-8 h-8 text-yellow-400" size={32} />,
+      features: [
+        "Thales Luna HSM integration",
+        "YubiHSM 2 & AWS Cloud HSM",
+        "Auth0 facial recognition",
+        "NEC multi-modal biometrics",
+        "FIDO2 compliance",
+        "Hardware key management"
+      ],
+      price: "Contact for Pricing"
+    },
+    {
+      title: "Enterprise Security Infrastructure",
+      description: "Integration with leading security infrastructure vendors and monitoring",
+      icon: <Enhanced4DShieldIcon className="w-8 h-8 text-red-400" size={32} />,
+      features: [
+        "Palo Alto PA-5220 firewall integration",
+        "Cisco Firepower 2130 IPS monitoring",
+        "F5 BIG-IP ASM WAF protection",
+        "Real-time device health analytics",
+        "Enterprise-grade performance monitoring",
+        "Security device optimization"
       ],
       price: "Contact for Pricing"
     }
@@ -249,6 +277,13 @@ export default function Services() {
           description: "Complete IT infrastructure management and system administration",
           deliverables: ["Workstation management", "Network monitoring", "Patch management", "System optimization"],
           timeline: "2-3 weeks",
+          price: "Contact for Pricing"
+        },
+        {
+          name: "Enterprise IAM Integration Services",
+          description: "Identity and access management with premium vendor integration",
+          deliverables: ["Okta SSO setup", "Azure AD integration", "OneLogin configuration", "User provisioning automation"],
+          timeline: "3-4 weeks",
           price: "Contact for Pricing"
         }
       ]
