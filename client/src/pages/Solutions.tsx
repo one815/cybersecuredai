@@ -879,6 +879,147 @@ export default function Solutions() {
           </div>
         </section>
 
+        {/* Enterprise Security Integrations */}
+        <section className="py-20 px-6 bg-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                Enterprise Security Integrations
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Premium Vendor<br />
+                <span className="text-purple-400">& Threat Intelligence</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-16">
+                Comprehensive integration with industry-leading security vendors, threat intelligence feeds,
+                and enterprise authentication systems for maximum protection coverage.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+              <Card className="bg-slate-800/90 border border-blue-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DNetworkIcon className="w-12 h-12 text-blue-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Premium Threat Intelligence</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• PyMISP & CIRCL integration</li>
+                    <li>• VirusTotal & CrowdStrike APT</li>
+                    <li>• IBM X-Force intelligence</li>
+                    <li>• AlienVault OTX feeds</li>
+                    <li>• BGP Ranking analysis</li>
+                    <li>• Passive DNS investigation</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/90 border border-yellow-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DLockIcon className="w-12 h-12 text-yellow-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Hardware Security Modules</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• Thales Luna HSM</li>
+                    <li>• YubiHSM 2 integration</li>
+                    <li>• AWS Cloud HSM</li>
+                    <li>• Hardware key management</li>
+                    <li>• Cryptographic operations</li>
+                    <li>• Secure key storage</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-yellow-500 text-yellow-400 hover:bg-yellow-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/90 border border-purple-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DEyeIcon className="w-12 h-12 text-purple-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Biometric Authentication</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• Auth0 facial recognition</li>
+                    <li>• NEC multi-modal biometrics</li>
+                    <li>• Portal Guard Bio-Key</li>
+                    <li>• FIDO2 compliance</li>
+                    <li>• 99.9% accuracy</li>
+                    <li>• Multi-factor authentication</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/90 border border-green-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DShieldIcon className="w-12 h-12 text-green-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Security Infrastructure</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• Palo Alto PA-5220 firewall</li>
+                    <li>• Cisco Firepower 2130 IPS</li>
+                    <li>• F5 BIG-IP ASM WAF</li>
+                    <li>• Real-time monitoring</li>
+                    <li>• Device health analytics</li>
+                    <li>• Performance optimization</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/90 border border-red-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DUsersIcon className="w-12 h-12 text-red-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Enterprise IAM</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• Okta SSO & MFA</li>
+                    <li>• Azure Active Directory</li>
+                    <li>• OneLogin adaptive auth</li>
+                    <li>• User provisioning</li>
+                    <li>• Conditional access</li>
+                    <li>• Lifecycle management</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-red-500 text-red-400 hover:bg-red-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-800/90 border border-emerald-500/30">
+                <CardHeader className="p-6">
+                  <Enhanced4DFileIcon className="w-12 h-12 text-emerald-400 mb-4" size={48} />
+                  <CardTitle className="text-xl text-white mb-3">Compliance & Notifications</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 pt-0">
+                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
+                    <li>• SendGrid email integration</li>
+                    <li>• NIST IR-6 compliance</li>
+                    <li>• Automated incident alerts</li>
+                    <li>• Role-based distribution</li>
+                    <li>• Professional templates</li>
+                    <li>• Configuration management</li>
+                  </ul>
+                  <Button variant="outline" size="sm" className="w-full border-emerald-500 text-emerald-400 hover:bg-emerald-500/10">
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Industry-Specific Solutions */}
         <section className="py-20 px-6 bg-slate-800">
           <div className="container mx-auto max-w-7xl">
