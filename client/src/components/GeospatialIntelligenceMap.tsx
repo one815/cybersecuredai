@@ -73,6 +73,9 @@ interface IncidentLocation {
 
 interface GeospatialMapProps {
   className?: string;
+  mapMode?: string;
+  threatFilter?: string;
+  dimension?: string;
 }
 
 declare global {
@@ -81,13 +84,23 @@ declare global {
   }
 }
 
-export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps) {
+export function GeospatialIntelligenceMap({ 
+  className = "", 
+  mapMode: externalMapMode = 'standard',
+  threatFilter = 'all',
+  dimension = 'global'
+}: GeospatialMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [activeLayer, setActiveLayer] = useState<string>('threats');
-  const [mapMode, setMapMode] = useState<'standard' | '3d' | 'satellite'>('standard');
+  const [mapMode, setMapMode] = useState<'standard' | '3d' | 'satellite'>(externalMapMode as 'standard' | '3d' | 'satellite');
   const [isMapReady, setIsMapReady] = useState(false);
   const [overlays, setOverlays] = useState<any[]>([]);
+
+  // Sync external props with internal state
+  useEffect(() => {
+    setMapMode(externalMapMode as 'standard' | '3d' | 'satellite');
+  }, [externalMapMode]);
 
   // Fetch comprehensive geospatial data
   const { data: geospatialData, isLoading } = useQuery({
@@ -115,7 +128,7 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
     refetchInterval: 10000,
   });
 
-  // Load Google Maps with enhanced features
+  // Load Google Maps with enhanced 3D features and photorealistic tiles
   useEffect(() => {
     const loadGoogleMaps = () => {
       if (window.google?.maps) {
@@ -124,8 +137,8 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
       }
 
       const script = document.createElement('script');
-      // Enhanced Google Maps with 3D tiles and advanced features
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=visualization,geometry&callback=initGeospatialMap&v=3.55`;
+      // Enhanced Google Maps with 3D Maps, photorealistic tiles, advanced markers
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry&callback=initGeospatialMap&v=beta`;
       script.async = true;
       script.defer = true;
       
@@ -139,52 +152,90 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
     loadGoogleMaps();
   }, []);
 
-  // Initialize enhanced map with 3D capabilities
+  // Initialize enhanced map with photorealistic 3D capabilities
   useEffect(() => {
     if (!isMapReady || !mapRef.current || map) return;
 
-    const googleMap = new window.google.maps.Map(mapRef.current, {
-      center: { lat: 20, lng: 0 },
-      zoom: 2,
-      mapTypeId: mapMode === 'satellite' ? 'satellite' : 'roadmap',
-      tilt: mapMode === '3d' ? 45 : 0,
-      heading: 0,
-      styles: mapMode === 'standard' ? [
-        {
-          "featureType": "all",
-          "elementType": "geometry",
-          "stylers": [{ "color": "#1a1a1a" }]
-        },
-        {
-          "featureType": "all",
-          "elementType": "labels.text.fill",
-          "stylers": [{ "color": "#ffffff" }]
-        },
-        {
-          "featureType": "all",
-          "elementType": "labels.text.stroke",
-          "stylers": [{ "color": "#000000" }]
-        },
-        {
-          "featureType": "water",
-          "elementType": "geometry",
-          "stylers": [{ "color": "#000000" }]
-        },
-        {
-          "featureType": "administrative",
-          "elementType": "geometry.stroke",
-          "stylers": [{ "color": "#144973" }, { "lightness": 14 }, { "weight": 1.3 }]
+    const initializeMap = async () => {
+      try {
+        if (mapMode === '3d') {
+          // Use Google's 3D Maps with photorealistic tiles
+          const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+          
+          const map3D = new Map3DElement({
+            center: { lat: 37.4239163, lng: -122.0947209, altitude: 0 },
+            tilt: 67.5,
+            range: 2000,
+            heading: 0,
+            roll: 0,
+            mode: 'SATELLITE',
+            defaultLabelsDisabled: false,
+            backgroundColor: '#000000'
+          });
+          
+          mapRef.current.appendChild(map3D);
+          setMap(map3D);
+        } else {
+          // Standard 2D map with advanced markers
+          const { Map } = await window.google.maps.importLibrary("maps");
+          
+          const googleMap = new Map(mapRef.current, {
+            center: { lat: 20, lng: 0 },
+            zoom: 2,
+            mapId: 'DEMO_MAP_ID', // Required for advanced markers
+            mapTypeId: mapMode === 'satellite' ? 'satellite' : 'roadmap',
+            tilt: 0,
+            heading: 0,
+            styles: mapMode === 'standard' ? [
+              {
+                "featureType": "all",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#1a1a1a" }]
+              },
+              {
+                "featureType": "all",
+                "elementType": "labels.text.fill",
+                "stylers": [{ "color": "#ffffff" }]
+              },
+              {
+                "featureType": "all",
+                "elementType": "labels.text.stroke",
+                "stylers": [{ "color": "#000000" }]
+              },
+              {
+                "featureType": "water",
+                "elementType": "geometry",
+                "stylers": [{ "color": "#000000" }]
+              },
+              {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [{ "color": "#144973" }, { "lightness": 14 }, { "weight": 1.3 }]
+              }
+            ] : [],
+            zoomControl: true,
+            mapTypeControl: false,
+            scaleControl: true,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: true
+          });
+          
+          setMap(googleMap);
         }
-      ] : [],
-      zoomControl: true,
-      mapTypeControl: false,
-      scaleControl: true,
-      streetViewControl: false,
-      rotateControl: mapMode === '3d',
-      fullscreenControl: true
-    });
+      } catch (error) {
+        console.error('Error initializing map:', error);
+        // Fallback to standard map
+        const googleMap = new window.google.maps.Map(mapRef.current, {
+          center: { lat: 20, lng: 0 },
+          zoom: 2,
+          mapTypeId: 'roadmap'
+        });
+        setMap(googleMap);
+      }
+    };
 
-    setMap(googleMap);
+    initializeMap();
   }, [isMapReady, mapMode]);
 
   // Clear existing overlays
@@ -196,125 +247,339 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
     setOverlays([]);
   };
 
-  // Render threat markers
-  const renderThreatMarkers = () => {
+  // Render advanced threat markers with 3D capabilities
+  const renderThreatMarkers = async () => {
     if (!map || !threats) return;
 
     const newOverlays: any[] = [];
 
-    threats.forEach((threat: GeospatialThreat) => {
-      const color = threat.severity === 'critical' ? '#ef4444' : 
-                   threat.severity === 'high' ? '#f97316' : 
-                   threat.severity === 'medium' ? '#eab308' : '#22c55e';
+    try {
+      if (mapMode === '3d') {
+        // 3D Markers for photorealistic map
+        const { Marker3DInteractiveElement } = await window.google.maps.importLibrary("maps3d");
+        
+        threats.forEach((threat: GeospatialThreat) => {
+          const color = threat.severity === 'critical' ? '#ef4444' : 
+                       threat.severity === 'high' ? '#f97316' : 
+                       threat.severity === 'medium' ? '#eab308' : '#22c55e';
+          
+          const altitude = threat.severity === 'critical' ? 200 : 
+                          threat.severity === 'high' ? 150 : 
+                          threat.severity === 'medium' ? 100 : 50;
 
-      const marker = new window.google.maps.Marker({
-        position: { lat: threat.latitude, lng: threat.longitude },
-        map: map,
-        icon: {
-          path: window.google.maps.SymbolPath.CIRCLE,
-          fillColor: color,
-          fillOpacity: 0.8,
-          strokeColor: color,
-          strokeOpacity: 1,
-          strokeWeight: 2,
-          scale: threat.severity === 'critical' ? 12 : 
-                 threat.severity === 'high' ? 10 : 
-                 threat.severity === 'medium' ? 8 : 6
-        },
-        title: `${threat.threatType} - ${threat.city}, ${threat.country}`,
-        animation: threat.mitigated ? null : window.google.maps.Animation.BOUNCE
-      });
+          const marker3D = new Marker3DInteractiveElement({
+            position: { lat: threat.latitude, lng: threat.longitude, altitude: altitude },
+            altitudeMode: "ABSOLUTE",
+            extruded: true,
+            label: `${threat.threatType.toUpperCase()}`,
+            collisionBehavior: "REQUIRED"
+          });
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="color: #333; font-size: 14px; max-width: 300px;">
-            <div style="font-weight: bold; margin-bottom: 8px; color: ${color};">
-              ${threat.threatType.toUpperCase()} THREAT
+          // Custom 3D marker styling
+          marker3D.style.backgroundColor = color;
+          marker3D.style.borderColor = '#ffffff';
+          marker3D.style.color = '#ffffff';
+          marker3D.style.fontWeight = 'bold';
+          marker3D.style.fontSize = '12px';
+          marker3D.style.padding = '8px';
+          marker3D.style.borderRadius = '8px';
+          marker3D.style.boxShadow = `0 0 20px ${color}`;
+
+          marker3D.addEventListener('click', () => {
+            console.log('3D Threat marker clicked:', threat);
+            // Custom 3D interaction logic
+          });
+
+          map.append(marker3D);
+          newOverlays.push(marker3D);
+        });
+      } else {
+        // Advanced 2D markers
+        const { AdvancedMarkerElement, PinElement } = await window.google.maps.importLibrary("marker");
+        
+        threats.forEach((threat: GeospatialThreat) => {
+          const color = threat.severity === 'critical' ? '#ef4444' : 
+                       threat.severity === 'high' ? '#f97316' : 
+                       threat.severity === 'medium' ? '#eab308' : '#22c55e';
+          
+          // Create custom HTML content for advanced marker
+          const content = document.createElement('div');
+          content.className = 'threat-marker';
+          content.innerHTML = `
+            <div style="
+              background: ${color};
+              color: white;
+              padding: 8px 12px;
+              border-radius: 20px;
+              font-size: 12px;
+              font-weight: bold;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+              border: 2px solid #ffffff;
+              animation: pulse 2s infinite;
+              position: relative;
+            ">
+              🚨 ${threat.threatType.toUpperCase()}
+              <div style="
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-top: 8px solid ${color};
+              "></div>
             </div>
-            <div style="margin-bottom: 4px;"><strong>Source:</strong> ${threat.source.toUpperCase()}</div>
-            <div style="margin-bottom: 4px;"><strong>Location:</strong> ${threat.city}, ${threat.country}</div>
-            <div style="margin-bottom: 4px;"><strong>IP:</strong> ${threat.ip}</div>
-            <div style="margin-bottom: 4px;"><strong>Severity:</strong> ${threat.severity.toUpperCase()}</div>
-            <div style="margin-bottom: 4px;"><strong>Confidence:</strong> ${threat.confidence}%</div>
-            <div style="margin-bottom: 4px;"><strong>Status:</strong> ${threat.mitigated ? 'MITIGATED' : 'ACTIVE'}</div>
-            <div style="margin-bottom: 8px;"><strong>Description:</strong> ${threat.description}</div>
-            <div style="font-size: 12px; color: #666;">
-              Detected: ${new Date(threat.timestamp).toLocaleString()}
-            </div>
-          </div>
-        `
-      });
+          `;
 
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-      });
+          const advancedMarker = new AdvancedMarkerElement({
+            map: map,
+            position: { lat: threat.latitude, lng: threat.longitude },
+            content: content,
+            title: `${threat.threatType} - ${threat.city}, ${threat.country}`
+          });
 
-      newOverlays.push(marker);
-    });
+          const infoWindow = new window.google.maps.InfoWindow({
+            content: `
+              <div style="color: #333; font-size: 14px; max-width: 350px; font-family: 'Segoe UI', sans-serif;">
+                <div style="font-weight: bold; margin-bottom: 12px; color: ${color}; font-size: 16px; text-align: center; text-transform: uppercase;">
+                  🚨 ${threat.threatType} THREAT
+                </div>
+                <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                  <div style="margin-bottom: 6px;"><strong>Source:</strong> ${threat.source.toUpperCase()}</div>
+                  <div style="margin-bottom: 6px;"><strong>Location:</strong> ${threat.city}, ${threat.country}</div>
+                  <div style="margin-bottom: 6px;"><strong>IP Address:</strong> <code>${threat.ip}</code></div>
+                  <div style="margin-bottom: 6px;"><strong>Severity:</strong> <span style="color: ${color}; font-weight: bold;">${threat.severity.toUpperCase()}</span></div>
+                  <div style="margin-bottom: 6px;"><strong>Confidence:</strong> <span style="color: #28a745; font-weight: bold;">${threat.confidence}%</span></div>
+                  <div style="margin-bottom: 6px;"><strong>Status:</strong> <span style="color: ${threat.mitigated ? '#28a745' : '#dc3545'}; font-weight: bold;">${threat.mitigated ? '✅ MITIGATED' : '⚠️ ACTIVE'}</span></div>
+                </div>
+                <div style="margin-bottom: 12px; padding: 8px; background: #e8f4f8; border-radius: 6px;">
+                  <strong>Description:</strong> ${threat.description}
+                </div>
+                <div style="font-size: 11px; color: #666; text-align: center; border-top: 1px solid #eee; padding-top: 8px;">
+                  🕒 Detected: ${new Date(threat.timestamp).toLocaleString()}
+                </div>
+              </div>
+            `
+          });
+
+          advancedMarker.addListener('click', () => {
+            infoWindow.open(map, advancedMarker);
+          });
+
+          newOverlays.push(advancedMarker);
+        });
+      }
+    } catch (error) {
+      console.error('Error creating markers:', error);
+      // Fallback to basic markers
+      threats.forEach((threat: GeospatialThreat) => {
+        const color = threat.severity === 'critical' ? '#ef4444' : 
+                     threat.severity === 'high' ? '#f97316' : 
+                     threat.severity === 'medium' ? '#eab308' : '#22c55e';
+
+        const marker = new window.google.maps.Marker({
+          position: { lat: threat.latitude, lng: threat.longitude },
+          map: map,
+          icon: {
+            path: window.google.maps.SymbolPath.CIRCLE,
+            fillColor: color,
+            fillOpacity: 0.8,
+            strokeColor: '#ffffff',
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            scale: 12
+          },
+          title: `${threat.threatType} - ${threat.city}, ${threat.country}`
+        });
+
+        newOverlays.push(marker);
+      });
+    }
 
     setOverlays(newOverlays);
   };
 
-  // Render infrastructure assets
-  const renderInfrastructureAssets = () => {
+  // Render advanced infrastructure assets with 3D capabilities
+  const renderInfrastructureAssets = async () => {
     if (!map || !infrastructure) return;
 
     const newOverlays: any[] = [];
 
-    infrastructure.forEach((asset: InfrastructureAsset) => {
-      const color = asset.status === 'healthy' ? '#22c55e' : 
-                   asset.status === 'warning' ? '#eab308' : 
-                   asset.status === 'critical' ? '#ef4444' : '#6b7280';
+    try {
+      if (mapMode === '3d') {
+        // 3D Infrastructure markers for photorealistic map
+        const { Marker3DInteractiveElement } = await window.google.maps.importLibrary("maps3d");
+        
+        infrastructure.forEach((asset: InfrastructureAsset) => {
+          const color = asset.status === 'healthy' ? '#22c55e' : 
+                       asset.status === 'warning' ? '#eab308' : 
+                       asset.status === 'critical' ? '#ef4444' : '#6b7280';
+          
+          const altitude = asset.criticality === 'critical' ? 300 : 
+                          asset.criticality === 'high' ? 200 : 
+                          asset.criticality === 'medium' ? 100 : 50;
+          
+          const icon = asset.type === 'server' ? '🖥️' :
+                       asset.type === 'firewall' ? '🛡️' :
+                       asset.type === 'database' ? '🗄️' :
+                       asset.type === 'router' ? '📡' : '⚙️';
 
-      const icon = asset.type === 'server' ? '🖥️' :
-                   asset.type === 'firewall' ? '🛡️' :
-                   asset.type === 'database' ? '🗄️' :
-                   asset.type === 'router' ? '📡' : '⚙️';
+          const marker3D = new Marker3DInteractiveElement({
+            position: { lat: asset.latitude, lng: asset.longitude, altitude: altitude },
+            altitudeMode: "ABSOLUTE",
+            extruded: true,
+            label: `${icon} ${asset.name}`,
+            collisionBehavior: "REQUIRED"
+          });
 
-      const marker = new window.google.maps.Marker({
-        position: { lat: asset.latitude, lng: asset.longitude },
-        map: map,
-        icon: {
-          path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          fillColor: color,
-          fillOpacity: 0.8,
-          strokeColor: '#ffffff',
-          strokeOpacity: 1,
-          strokeWeight: 2,
-          scale: asset.criticality === 'critical' ? 8 : 6,
-          rotation: 0
-        },
-        title: `${asset.name} - ${asset.location}`,
-        animation: asset.status === 'critical' ? window.google.maps.Animation.BOUNCE : null
-      });
+          // Custom 3D infrastructure styling
+          marker3D.style.backgroundColor = color;
+          marker3D.style.borderColor = '#ffffff';
+          marker3D.style.color = '#ffffff';
+          marker3D.style.fontWeight = 'bold';
+          marker3D.style.fontSize = '11px';
+          marker3D.style.padding = '6px 10px';
+          marker3D.style.borderRadius = '12px';
+          marker3D.style.boxShadow = `0 0 15px ${color}`;
+          marker3D.style.minWidth = '120px';
+          marker3D.style.textAlign = 'center';
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="color: #333; font-size: 14px; max-width: 300px;">
-            <div style="font-weight: bold; margin-bottom: 8px; display: flex; align-items: center;">
-              <span style="margin-right: 8px;">${icon}</span>
-              ${asset.name}
+          marker3D.addEventListener('click', () => {
+            console.log('3D Infrastructure asset clicked:', asset);
+          });
+
+          map.append(marker3D);
+          newOverlays.push(marker3D);
+        });
+      } else {
+        // Advanced 2D infrastructure markers
+        const { AdvancedMarkerElement } = await window.google.maps.importLibrary("marker");
+        
+        infrastructure.forEach((asset: InfrastructureAsset) => {
+          const color = asset.status === 'healthy' ? '#22c55e' : 
+                       asset.status === 'warning' ? '#eab308' : 
+                       asset.status === 'critical' ? '#ef4444' : '#6b7280';
+          
+          const icon = asset.type === 'server' ? '🖥️' :
+                       asset.type === 'firewall' ? '🛡️' :
+                       asset.type === 'database' ? '🗄️' :
+                       asset.type === 'router' ? '📡' : '⚙️';
+          
+          // Create custom HTML content for infrastructure marker
+          const content = document.createElement('div');
+          content.className = 'infrastructure-marker';
+          content.innerHTML = `
+            <div style="
+              background: linear-gradient(135deg, ${color}, ${color}cc);
+              color: white;
+              padding: 10px 14px;
+              border-radius: 25px;
+              font-size: 12px;
+              font-weight: bold;
+              box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+              border: 2px solid #ffffff;
+              position: relative;
+              min-width: 140px;
+              text-align: center;
+              backdrop-filter: blur(5px);
+            ">
+              <div style="font-size: 16px; margin-bottom: 2px;">${icon}</div>
+              <div style="font-size: 10px; text-transform: uppercase;">${asset.name}</div>
+              <div style="
+                position: absolute;
+                bottom: -10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 10px solid ${color};
+              "></div>
             </div>
-            <div style="margin-bottom: 4px;"><strong>Type:</strong> ${asset.type.toUpperCase()}</div>
-            <div style="margin-bottom: 4px;"><strong>Status:</strong> 
-              <span style="color: ${color}; font-weight: bold;">${asset.status.toUpperCase()}</span>
-            </div>
-            <div style="margin-bottom: 4px;"><strong>IP:</strong> ${asset.ipAddress}</div>
-            <div style="margin-bottom: 4px;"><strong>Location:</strong> ${asset.location}</div>
-            <div style="margin-bottom: 4px;"><strong>Criticality:</strong> ${asset.criticality.toUpperCase()}</div>
-            <div style="margin-bottom: 4px;"><strong>Vulnerabilities:</strong> ${asset.vulnerabilities}</div>
-            <div style="margin-bottom: 4px;"><strong>Compliance Score:</strong> ${asset.complianceScore}%</div>
-            <div style="margin-bottom: 4px;"><strong>Open Incidents:</strong> ${asset.incidents}</div>
-          </div>
-        `
-      });
+          `;
 
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-      });
+          const advancedMarker = new AdvancedMarkerElement({
+            map: map,
+            position: { lat: asset.latitude, lng: asset.longitude },
+            content: content,
+            title: `${asset.name} - ${asset.location}`
+          });
 
-      newOverlays.push(marker);
-    });
+          const infoWindow = new window.google.maps.InfoWindow({
+            content: `
+              <div style="color: #333; font-size: 14px; max-width: 400px; font-family: 'Segoe UI', sans-serif;">
+                <div style="font-weight: bold; margin-bottom: 12px; color: ${color}; font-size: 16px; text-align: center; display: flex; align-items: center; justify-content: center;">
+                  <span style="margin-right: 8px; font-size: 20px;">${icon}</span>
+                  ${asset.name}
+                </div>
+                <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                  <div style="margin-bottom: 6px;"><strong>Type:</strong> <span style="text-transform: uppercase; color: #007bff;">${asset.type}</span></div>
+                  <div style="margin-bottom: 6px;"><strong>Status:</strong> 
+                    <span style="color: ${color}; font-weight: bold; text-transform: uppercase;">
+                      ${asset.status === 'healthy' ? '✅' : asset.status === 'warning' ? '⚠️' : '❌'} ${asset.status}
+                    </span>
+                  </div>
+                  <div style="margin-bottom: 6px;"><strong>IP Address:</strong> <code style="background: #e9ecef; padding: 2px 6px; border-radius: 4px;">${asset.ipAddress}</code></div>
+                  <div style="margin-bottom: 6px;"><strong>Location:</strong> ${asset.location}</div>
+                  <div style="margin-bottom: 6px;"><strong>Criticality:</strong> <span style="color: ${asset.criticality === 'critical' ? '#dc3545' : '#6c757d'}; font-weight: bold; text-transform: uppercase;">${asset.criticality}</span></div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                  <div style="text-align: center; padding: 8px; background: #fff3cd; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #856404;">${asset.vulnerabilities}</div>
+                    <div style="font-size: 11px; color: #856404;">Vulnerabilities</div>
+                  </div>
+                  <div style="text-align: center; padding: 8px; background: #d1ecf1; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #0c5460;">${asset.complianceScore}%</div>
+                    <div style="font-size: 11px; color: #0c5460;">Compliance</div>
+                  </div>
+                  <div style="text-align: center; padding: 8px; background: #f8d7da; border-radius: 6px;">
+                    <div style="font-weight: bold; color: #721c24;">${asset.incidents}</div>
+                    <div style="font-size: 11px; color: #721c24;">Incidents</div>
+                  </div>
+                </div>
+                <div style="font-size: 11px; color: #666; text-align: center; border-top: 1px solid #eee; padding-top: 8px;">
+                  🏢 Infrastructure Asset Monitoring
+                </div>
+              </div>
+            `
+          });
+
+          advancedMarker.addListener('click', () => {
+            infoWindow.open(map, advancedMarker);
+          });
+
+          newOverlays.push(advancedMarker);
+        });
+      }
+    } catch (error) {
+      console.error('Error creating infrastructure markers:', error);
+      // Fallback to basic markers
+      infrastructure.forEach((asset: InfrastructureAsset) => {
+        const color = asset.status === 'healthy' ? '#22c55e' : 
+                     asset.status === 'warning' ? '#eab308' : 
+                     asset.status === 'critical' ? '#ef4444' : '#6b7280';
+
+        const marker = new window.google.maps.Marker({
+          position: { lat: asset.latitude, lng: asset.longitude },
+          map: map,
+          icon: {
+            path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            fillColor: color,
+            fillOpacity: 0.8,
+            strokeColor: '#ffffff',
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            scale: 8
+          },
+          title: `${asset.name} - ${asset.location}`
+        });
+
+        newOverlays.push(marker);
+      });
+    }
 
     setOverlays(newOverlays);
   };
@@ -450,12 +715,31 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
     }
   }, [map, activeLayer, threats, infrastructure, complianceRegions, incidents]);
 
-  const resetView = () => {
+  const resetView = async () => {
     if (map) {
-      map.setCenter({ lat: 20, lng: 0 });
-      map.setZoom(2);
-      map.setTilt(0);
-      map.setHeading(0);
+      if (mapMode === '3d') {
+        // Reset 3D view with smooth animation
+        try {
+          await map.flyCameraTo({
+            endCamera: {
+              center: { lat: 37.4239163, lng: -122.0947209, altitude: 0 },
+              tilt: 67.5,
+              range: 2000,
+              heading: 0,
+              roll: 0
+            },
+            durationMillis: 2000
+          });
+        } catch (error) {
+          console.error('Error resetting 3D view:', error);
+        }
+      } else {
+        // Reset 2D view
+        map.setCenter({ lat: 20, lng: 0 });
+        map.setZoom(2);
+        if (map.setTilt) map.setTilt(0);
+        if (map.setHeading) map.setHeading(0);
+      }
     }
   };
 
@@ -583,10 +867,10 @@ export function GeospatialIntelligenceMap({ className = "" }: GeospatialMapProps
             {/* Map Overlay Controls */}
             <div className="absolute top-4 left-4 bg-black/80 rounded px-3 py-2 z-10">
               <div className="text-xs text-cyan-400 font-mono font-bold">
-                LIVE GEOSPATIAL INTELLIGENCE
+                {mapMode === '3d' ? 'PHOTOREALISTIC 3D INTELLIGENCE' : 'LIVE GEOSPATIAL INTELLIGENCE'}
               </div>
               <div className="text-xs text-gray-300 mt-1">
-                Layer: {activeLayer.toUpperCase()} | Mode: {mapMode.toUpperCase()}
+                Layer: {activeLayer.toUpperCase()} | Mode: {mapMode === '3d' ? 'PHOTOREALISTIC 3D' : mapMode.toUpperCase()}
               </div>
             </div>
             
