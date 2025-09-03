@@ -103,7 +103,8 @@ Preferred communication style: Simple, everyday language.
 - **Premium Threat Intelligence Enhancement**:
   - VirusTotal integration with vt-py library for enhanced malware analysis
   - AlienVault OTX (Open Threat Exchange) community threat intelligence
-  - Mandiant premium APT attribution and advanced threat hunting
+  - Palo Alto Cortex XDR for primary endpoint detection and response
+  - Mandiant premium APT attribution and advanced threat hunting (optional)
   - IBM X-Force threat intelligence with vulnerability correlation and risk scoring
 - **Enterprise Identity and Access Management (IAM)**:
   - Okta identity management integration with SSO and MFA capabilities

@@ -140,6 +140,7 @@ export default function Services() {
       features: [
         "PyMISP & CIRCL OSINT feeds integration",
         "VirusTotal & Palo Alto Cortex XDR",
+        "Mandiant threat intelligence (optional)",
         "IBM X-Force & AlienVault OTX feeds",
         "BGP Ranking & Passive DNS analysis",
         "AIL Framework leak detection",

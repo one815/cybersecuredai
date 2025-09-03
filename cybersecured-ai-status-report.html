@@ -311,11 +311,18 @@
                     <td>HIGH</td>
                 </tr>
                 <tr>
-                    <td>Mandiant</td>
-                    <td>Google Cloud</td>
-                    <td>APT detection, attribution analysis</td>
+                    <td>Palo Alto Cortex XDR</td>
+                    <td>Palo Alto Networks</td>
+                    <td>Primary endpoint detection and response</td>
                     <td>Enterprise</td>
                     <td>HIGH</td>
+                </tr>
+                <tr>
+                    <td>Mandiant</td>
+                    <td>Google Cloud</td>
+                    <td>Optional APT detection, attribution analysis</td>
+                    <td>Enterprise</td>
+                    <td>MEDIUM</td>
                 </tr>
                 <tr>
                     <td>IBM X-Force</td>
@@ -738,7 +745,7 @@
         <div class="recommendation">
             <h4>📋 Configuration Recommendations</h4>
             <ol>
-                <li><strong>High Priority:</strong> Configure MISP and Mandiant APIs for enhanced threat intelligence (60% capability increase)</li>
+                <li><strong>High Priority:</strong> Configure MISP and Palo Alto Cortex XDR APIs for enhanced threat intelligence (60% capability increase)</li>
                 <li><strong>Security:</strong> Set up ENCRYPTION_KEY for secure credential storage</li>
                 <li><strong>Enterprise Features:</strong> Configure Okta and biometric APIs for government/education clients</li>
                 <li><strong>Infrastructure:</strong> Activate security device monitoring for enterprise packages</li>
@@ -768,7 +775,8 @@
 
         <h3>Additional for Enterprise Package ($100,000-$250,000)</h3>
         <ul>
-            <li>❌ <strong>Mandiant API Key</strong> - APT detection and attribution (MISSING)</li>
+            <li>❌ <strong>Palo Alto Cortex XDR API Key</strong> - Primary endpoint detection and response (MISSING)</li>
+            <li>❌ <strong>Mandiant API Key</strong> - Optional APT detection and attribution (MISSING)</li>
             <li>❌ <strong>IBM X-Force API Key</strong> - Corporate threat intelligence (MISSING)</li>
             <li>❌ <strong>Auth0 Biometric API Key</strong> - Facial recognition (MISSING)</li>
             <li>❌ <strong>FaceTec API Key</strong> - 3D face authentication (MISSING)</li>

@@ -445,6 +445,7 @@ export default function Platform() {
                   <ul className="space-y-2 text-sm text-gray-300">
                     <li>• VirusTotal integration</li>
                     <li>• Palo Alto Cortex XDR</li>
+                    <li>• Mandiant integration (optional)</li>
                     <li>• IBM X-Force intelligence</li>
                     <li>• AlienVault OTX feeds</li>
                   </ul>
