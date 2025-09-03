@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VM-Series Network Interface Fix Guide</title>
+    <style>
+        @page {
+            margin: 0.75in;
+            size: A4;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background: #fff;
+            font-size: 12px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #dc2626;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            color: #dc2626;
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .header .subtitle {
+            color: #6b7280;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+        
+        .error-box {
+            background: #fef2f2;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .error-box h3 {
+            color: #dc2626;
+            margin-top: 0;
+            font-size: 16px;
+        }
+        
+        .solution-box {
+            background: #f0fdf4;
+            border: 2px solid #16a34a;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .solution-box h3 {
+            color: #16a34a;
+            margin-top: 0;
+            font-size: 16px;
+        }
+        
+        .warning-box {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning-box h3 {
+            color: #f59e0b;
+            margin-top: 0;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #1e40af;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 6px;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .command {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11px;
+        }
+        
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .step {
+            background: #f8fafc;
+            border-left: 4px solid #1e40af;
+            padding: 12px;
+            margin: 10px 0;
+        }
+        
+        .step-number {
+            background: #1e40af;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .network-diagram {
+            background: #f9fafb;
+            border: 2px solid #6b7280;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 11px;
+        }
+        
+        ul, ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        li {
+            margin: 6px 0;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        @media print {
+            body { 
+                margin: 0; 
+                padding: 0;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔧 VM-Series Network Interface Fix Guide</h1>
+        <div class="subtitle">CyberSecured AI Platform - Google Cloud Deployment</div>
+        <div style="color: #6b7280; font-size: 12px;">Generated: September 3, 2025</div>
+    </div>
+
+    <div class="error-box">
+        <h3>❌ Current Error Analysis</h3>
+        <p><strong>Error Code:</strong> 400 - Invalid value for field 'resource.networkInterfaces[1].subnetwork'</p>
+        <p><strong>Root Cause:</strong> VM-Series deployment is attempting to use the same subnet (<code>cybersecured-ai-mgmt-subnet</code>) for multiple network interfaces, which violates Google Cloud's requirement that each VM network interface must use a distinct subnet.</p>
+        <p><strong>Failed Instance:</strong> <code>cybersecured-ai-firewall-0</code> in deployment <code>vmseries-test1</code></p>
+    </div>
+
+    <div class="solution-box">
+        <h3>✅ Complete Solution Overview</h3>
+        <p>VM-Series firewalls require 3 distinct network interfaces for proper operation:</p>
+        <ul>
+            <li><strong>nic0 (Management):</strong> Firewall administration and logging</li>
+            <li><strong>nic1 (Untrust):</strong> External/Internet-facing traffic</li>
+            <li><strong>nic2 (Trust):</strong> Internal/Protected network traffic</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Required Network Architecture</h2>
+        
+        <div class="network-diagram">
+cybersecured-ai-firewall-network
+├── cybersecured-ai-mgmt-subnet     (10.0.0.0/24) → nic0: Management
+├── cybersecured-ai-untrust-subnet  (10.0.1.0/24) → nic1: External/Internet  
+└── cybersecured-ai-trust-subnet    (10.0.2.0/24) → nic2: Internal/Protected
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Interface</th>
+                    <th>Subnet Name</th>
+                    <th>IP Range</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>nic0</strong></td>
+                    <td>cybersecured-ai-mgmt-subnet</td>
+                    <td>10.0.0.0/24</td>
+                    <td>Management interface for admin access</td>
+                    <td style="color: #16a34a;">✅ EXISTS</td>
+                </tr>
+                <tr>
+                    <td><strong>nic1</strong></td>
+                    <td>cybersecured-ai-untrust-subnet</td>
+                    <td>10.0.1.0/24</td>
+                    <td>External/Internet-facing interface</td>
+                    <td style="color: #dc2626;">❌ MISSING</td>
+                </tr>
+                <tr>
+                    <td><strong>nic2</strong></td>
+                    <td>cybersecured-ai-trust-subnet</td>
+                    <td>10.0.2.0/24</td>
+                    <td>Internal/Protected network interface</td>
+                    <td style="color: #dc2626;">❌ MISSING</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Step-by-Step Fix Instructions</h2>
+
+        <div class="step">
+            <span class="step-number">1</span><strong>Delete Failed Deployment</strong>
+            <div class="command">gcloud deployment-manager deployments delete vmseries-test1</div>
+            <p>This removes the failed deployment and cleans up any partial resources.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span><strong>Create Missing Untrust Subnet</strong>
+            <div class="command">gcloud compute networks subnets create cybersecured-ai-untrust-subnet \
+    --network=cybersecured-ai-firewall-network \
+    --range=10.0.1.0/24 \
+    --region=us-central1</div>
+            <p>Creates the external-facing subnet for Internet traffic.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span><strong>Create Missing Trust Subnet</strong>
+            <div class="command">gcloud compute networks subnets create cybersecured-ai-trust-subnet \
+    --network=cybersecured-ai-firewall-network \
+    --range=10.0.2.0/24 \
+    --region=us-central1</div>
+            <p>Creates the internal subnet for protected network traffic.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span><strong>Verify All Subnets Exist</strong>
+            <div class="command">gcloud compute networks subnets list --filter="network:cybersecured-ai-firewall-network"</div>
+            <p>Confirms all three required subnets are properly created.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span><strong>Update VM-Series Configuration</strong>
+            <p>Update your deployment YAML with the corrected network interfaces:</p>
+            <div class="code-block">networkInterfaces:
+  # nic0: Management interface
+  - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-mgmt-subnet
+    accessConfigs:
+      - name: "Management Access"
+        type: "ONE_TO_ONE_NAT"
+  
+  # nic1: Untrust interface (external)
+  - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-untrust-subnet
+    accessConfigs:
+      - name: "External Access"
+        type: "ONE_TO_ONE_NAT"
+  
+  # nic2: Trust interface (internal)
+  - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-trust-subnet</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">6</span><strong>Deploy Fixed Configuration</strong>
+            <div class="command">gcloud deployment-manager deployments create vmseries-fixed \
+    --config vm-series-config.yaml</div>
+            <p>Deploys the VM-Series with corrected network configuration.</p>
+        </div>
+    </div>
+
+    <div class="section page-break">
+        <h2>VM-Series Labeling System (Values 1-5)</h2>
+
+        <div class="warning-box">
+            <h3>⚠️ Important Labeling Guidelines</h3>
+            <p>Google Cloud labels help organize resources for billing, compliance, and management. Each VM-Series firewall should be properly labeled for tracking and automation.</p>
+        </div>
+
+        <h3>Standard Label Categories</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Label Key</th>
+                    <th>Value Range</th>
+                    <th>Purpose</th>
+                    <th>Example Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>security-tier</strong></td>
+                    <td>1-5</td>
+                    <td>Security importance ranking</td>
+                    <td>1=critical, 2=high, 3=medium, 4=low, 5=dev</td>
+                </tr>
+                <tr>
+                    <td><strong>deployment-priority</strong></td>
+                    <td>1-5</td>
+                    <td>Deployment urgency level</td>
+                    <td>1=critical, 2=high, 3=medium, 4=low, 5=maintenance</td>
+                </tr>
+                <tr>
+                    <td><strong>compliance-level</strong></td>
+                    <td>1-5</td>
+                    <td>Regulatory requirement level</td>
+                    <td>1=fisma, 2=ferpa, 3=cipa, 4=iso27001, 5=internal</td>
+                </tr>
+                <tr>
+                    <td><strong>cost-center</strong></td>
+                    <td>1-5</td>
+                    <td>Budget allocation category</td>
+                    <td>1=cybersecurity, 2=infrastructure, 3=operations, 4=development, 5=testing</td>
+                </tr>
+                <tr>
+                    <td><strong>environment</strong></td>
+                    <td>1-5</td>
+                    <td>Environment classification</td>
+                    <td>1=production, 2=staging, 3=development, 4=test, 5=sandbox</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Labeling Commands for cybersecured-ai-firewall-0</h3>
+
+        <div class="step">
+            <span class="step-number">Primary</span><strong>Production Firewall (Recommended Labels)</strong>
+            <div class="command">gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=1,deployment-priority=1,compliance-level=1,cost-center=1,environment=1</div>
+            <p>This labels the firewall as critical production infrastructure with highest security requirements.</p>
+        </div>
+
+        <div class="step">
+            <span class="step-number">Alt 1</span><strong>High-Priority Production</strong>
+            <div class="command">gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=1,deployment-priority=2,compliance-level=1,cost-center=1,environment=1</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">Alt 2</span><strong>Medium Security Level</strong>
+            <div class="command">gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=2,deployment-priority=2,compliance-level=2,cost-center=1,environment=1</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">Alt 3</span><strong>Development/Testing Environment</strong>
+            <div class="command">gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=3,deployment-priority=3,compliance-level=3,cost-center=4,environment=3</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">Alt 4</span><strong>Staging Environment</strong>
+            <div class="command">gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=2,deployment-priority=2,compliance-level=2,cost-center=2,environment=2</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Additional Firewall Instances (If Needed)</h2>
+
+        <h3>Multiple Firewall Deployment Pattern</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Instance Name</th>
+                    <th>Zone</th>
+                    <th>Purpose</th>
+                    <th>Recommended Labels (1-5)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>cybersecured-ai-firewall-0</code></td>
+                    <td>us-central1-a</td>
+                    <td>Primary production firewall</td>
+                    <td>security-tier=1, priority=1, compliance=1</td>
+                </tr>
+                <tr>
+                    <td><code>cybersecured-ai-firewall-1</code></td>
+                    <td>us-central1-b</td>
+                    <td>Secondary/HA production firewall</td>
+                    <td>security-tier=1, priority=2, compliance=1</td>
+                </tr>
+                <tr>
+                    <td><code>cybersecured-ai-firewall-2</code></td>
+                    <td>us-central1-c</td>
+                    <td>Development/testing firewall</td>
+                    <td>security-tier=3, priority=3, compliance=3</td>
+                </tr>
+                <tr>
+                    <td><code>cybersecured-ai-firewall-3</code></td>
+                    <td>us-east1-a</td>
+                    <td>Disaster recovery firewall</td>
+                    <td>security-tier=2, priority=4, compliance=2</td>
+                </tr>
+                <tr>
+                    <td><code>cybersecured-ai-firewall-4</code></td>
+                    <td>us-west1-a</td>
+                    <td>Regional expansion firewall</td>
+                    <td>security-tier=2, priority=5, compliance=2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section page-break">
+        <h2>Complete Deployment Script</h2>
+
+        <h3>Full Network Setup Commands</h3>
+        <div class="code-block"># Step 1: Clean up failed deployment
+gcloud deployment-manager deployments delete vmseries-test1
+
+# Step 2: Create required subnets
+gcloud compute networks subnets create cybersecured-ai-untrust-subnet \
+    --network=cybersecured-ai-firewall-network \
+    --range=10.0.1.0/24 \
+    --region=us-central1
+
+gcloud compute networks subnets create cybersecured-ai-trust-subnet \
+    --network=cybersecured-ai-firewall-network \
+    --range=10.0.2.0/24 \
+    --region=us-central1
+
+# Step 3: Verify subnets
+gcloud compute networks subnets list --filter="network:cybersecured-ai-firewall-network"
+
+# Step 4: Deploy VM-Series with fixed configuration
+gcloud deployment-manager deployments create vmseries-fixed \
+    --config vm-series-config.yaml
+
+# Step 5: Label the firewall instance
+gcloud compute instances add-labels cybersecured-ai-firewall-0 \
+    --zone=us-central1-a \
+    --labels=security-tier=1,deployment-priority=1,compliance-level=1,cost-center=1,environment=1</div>
+    </div>
+
+    <div class="section">
+        <h2>VM-Series Configuration Template</h2>
+
+        <h3>Corrected YAML Configuration</h3>
+        <div class="code-block">resources:
+  - name: cybersecured-ai-firewall-0
+    type: compute.v1.instance
+    properties:
+      zone: us-central1-a
+      machineType: zones/us-central1-a/machineTypes/n1-standard-4
+      
+      # Corrected network interfaces - each uses distinct subnet
+      networkInterfaces:
+        # Management interface (nic0)
+        - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-mgmt-subnet
+          accessConfigs:
+            - name: "Management Access"
+              type: "ONE_TO_ONE_NAT"
+        
+        # Untrust interface (nic1) - FIXED
+        - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-untrust-subnet
+          accessConfigs:
+            - name: "External Access"
+              type: "ONE_TO_ONE_NAT"
+        
+        # Trust interface (nic2) - NEW
+        - subnetwork: projects/pacific-diode-471015-r7/regions/us-central1/subnetworks/cybersecured-ai-trust-subnet
+      
+      disks:
+        - boot: true
+          autoDelete: true
+          initializeParams:
+            sourceImage: projects/paloaltonetworksgcp-public/global/images/vmseries-bundle2-1014
+      
+      metadata:
+        items:
+          - key: ssh-keys
+            value: "admin-user:ssh-rsa AAAAB3NzaC1yc2E... one@cybersecuredai.com"
+          - key: mgmt-interface-swap
+            value: "enable"</div>
+    </div>
+
+    <div class="section">
+        <h2>Post-Deployment Verification</h2>
+
+        <h3>Validation Commands</h3>
+        <ol>
+            <li><strong>Check instance status:</strong>
+                <div class="command">gcloud compute instances describe cybersecured-ai-firewall-0 --zone=us-central1-a</div>
+            </li>
+            <li><strong>Verify network interfaces:</strong>
+                <div class="command">gcloud compute instances describe cybersecured-ai-firewall-0 --zone=us-central1-a --format="value(networkInterfaces[].subnetwork)"</div>
+            </li>
+            <li><strong>Check labels applied:</strong>
+                <div class="command">gcloud compute instances describe cybersecured-ai-firewall-0 --zone=us-central1-a --format="value(labels)"</div>
+            </li>
+            <li><strong>Test management access:</strong>
+                <div class="command">gcloud compute ssh cybersecured-ai-firewall-0 --zone=us-central1-a</div>
+            </li>
+        </ol>
+
+        <h3>Expected Results After Fix</h3>
+        <ul>
+            <li>✅ VM-Series instance successfully deployed</li>
+            <li>✅ Three distinct network interfaces operational</li>
+            <li>✅ Management interface accessible via SSH</li>
+            <li>✅ All labels properly applied for resource management</li>
+            <li>✅ Network traffic flow configured for security inspection</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Troubleshooting Common Issues</h2>
+
+        <h3>If Subnet Creation Fails</h3>
+        <div class="code-block"># Check if network exists
+gcloud compute networks describe cybersecured-ai-firewall-network
+
+# If network doesn't exist, create it first
+gcloud compute networks create cybersecured-ai-firewall-network \
+    --subnet-mode=custom \
+    --description="Network for VM-Series firewall deployment"</div>
+
+        <h3>If Deployment Still Fails</h3>
+        <div class="code-block"># Check quotas
+gcloud compute project-info describe --format="value(quotas.limit,quotas.usage,quotas.metric)"
+
+# Check IAM permissions
+gcloud projects get-iam-policy pacific-diode-471015-r7</div>
+
+        <h3>If Labels Don't Apply</h3>
+        <div class="code-block"># Check instance exists first
+gcloud compute instances list --filter="name:cybersecured-ai-firewall-0"
+
+# Apply labels one at a time if batch fails
+gcloud compute instances add-labels cybersecured-ai-firewall-0 --zone=us-central1-a --labels=security-tier=1
+gcloud compute instances add-labels cybersecured-ai-firewall-0 --zone=us-central1-a --labels=deployment-priority=1</div>
+    </div>
+
+    <div class="section">
+        <h2>Next Steps After Successful Deployment</h2>
+        <ol>
+            <li><strong>Configure VM-Series Management:</strong> Set up admin passwords and licensing</li>
+            <li><strong>Security Policies:</strong> Configure firewall rules and threat prevention</li>
+            <li><strong>Monitoring Setup:</strong> Enable logging and integrate with CyberSecured AI platform</li>
+            <li><strong>High Availability:</strong> Deploy secondary firewall in different zone</li>
+            <li><strong>API Integration:</strong> Connect VM-Series management API to platform dashboard</li>
+        </ol>
+    </div>
+
+</body>
+</html>
