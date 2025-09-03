@@ -174,6 +174,20 @@ export default function Services() {
         "Emergency services integration"
       ],
       price: "Contact for Pricing"
+    },
+    {
+      title: "IT Management & Infrastructure",
+      description: "Comprehensive system administration and infrastructure management services",
+      icon: <Enhanced4DServerIcon className="w-8 h-8 text-orange-400" size={32} />,
+      features: [
+        "Complete workstation management",
+        "Network infrastructure monitoring",
+        "Automated patch management",
+        "System health analytics",
+        "Remote administration tools",
+        "24/7 infrastructure support"
+      ],
+      price: "Contact for Pricing"
     }
   ];
 
@@ -228,6 +242,13 @@ export default function Services() {
           description: "FIDO2/WebAuthn, PIV/CAC, and hardware security key integration",
           deliverables: ["Multi-factor authentication", "Hardware key provisioning", "Government authentication"],
           timeline: "3-5 weeks",
+          price: "Contact for Pricing"
+        },
+        {
+          name: "IT Management & Infrastructure Services",
+          description: "Complete IT infrastructure management and system administration",
+          deliverables: ["Workstation management", "Network monitoring", "Patch management", "System optimization"],
+          timeline: "2-3 weeks",
           price: "Contact for Pricing"
         }
       ]
