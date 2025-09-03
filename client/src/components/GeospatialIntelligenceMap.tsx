@@ -142,7 +142,7 @@ export function GeospatialIntelligenceMap({
 
       const script = document.createElement('script');
       // Load Google Maps with latest version and advanced marker support
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly&loading=async`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=maps3d,marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly&loading=async`;
       script.async = true;
       script.defer = true;
       
@@ -614,15 +614,18 @@ export function GeospatialIntelligenceMap({
         });
       }
     } catch (error) {
-      console.error('❌ Error creating infrastructure markers:', error);
-      console.log('📊 Infrastructure data:', infrastructure);
-      console.log('🔧 Falling back to basic markers for compatibility...');
+      console.error('❌ Error creating advanced markers, using basic markers:', error);
+      
+      // Clear any partial overlays from failed attempt
+      newOverlays.length = 0;
       
       // Ensure we have valid data before fallback
-      if (!Array.isArray(infrastructure)) {
-        console.warn('⚠️ Infrastructure data is not an array, skipping fallback');
+      if (!Array.isArray(infrastructure) || infrastructure.length === 0) {
+        console.warn('⚠️ No valid infrastructure data for fallback');
         return;
       }
+      
+      console.log('🔧 Creating basic markers for', infrastructure.length, 'devices');
       
       // Fallback to basic markers
       infrastructure.forEach((asset: InfrastructureAsset) => {
@@ -630,22 +633,41 @@ export function GeospatialIntelligenceMap({
                      asset.status === 'warning' ? '#eab308' : 
                      asset.status === 'critical' ? '#ef4444' : '#6b7280';
 
-        const marker = new window.google.maps.Marker({
-          position: { lat: asset.latitude, lng: asset.longitude },
-          map: map,
-          icon: {
-            path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            fillColor: color,
-            fillOpacity: 0.8,
-            strokeColor: '#ffffff',
-            strokeOpacity: 1,
-            strokeWeight: 2,
-            scale: 8
-          },
-          title: `${asset.name} - ${asset.location}`
-        });
+        try {
+          const marker = new window.google.maps.Marker({
+            position: { lat: asset.latitude, lng: asset.longitude },
+            map: map,
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              fillColor: color,
+              fillOpacity: 0.8,
+              strokeColor: '#ffffff',
+              strokeOpacity: 1,
+              strokeWeight: 2,
+              scale: 12
+            },
+            title: `${asset.name} - ${asset.location}`
+          });
+          
+          const infoWindow = new window.google.maps.InfoWindow({
+            content: `
+              <div style="color: #333; max-width: 250px;">
+                <h4 style="margin: 0 0 8px 0; color: ${color};">${asset.name}</h4>
+                <p style="margin: 0; font-size: 12px;"><strong>Type:</strong> ${asset.type}</p>
+                <p style="margin: 0; font-size: 12px;"><strong>Status:</strong> ${asset.status}</p>
+                <p style="margin: 0; font-size: 12px;"><strong>Location:</strong> ${asset.location}</p>
+              </div>
+            `
+          });
+          
+          marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+          });
 
-        newOverlays.push(marker);
+          newOverlays.push(marker);
+        } catch (markerError) {
+          console.warn('⚠️ Failed to create marker for device:', asset.id, markerError);
+        }
       });
     }
 
