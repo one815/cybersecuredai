@@ -67,106 +67,112 @@ interface NavigationCategory {
 }
 
 const navigationCategories: NavigationCategory[] = [
+  // CORE SECURITY - Available to all users
   {
-    id: "overview",
-    label: "Security Overview",
+    id: "core-security",
+    label: "Security Dashboard",
     icon: LayoutDashboard,
     items: [
-      { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-      { id: "reports", label: "Security Reports", icon: BarChart3, path: "/reports", requiredTier: 'advanced' },
+      { id: "dashboard", label: "Overview", icon: LayoutDashboard, path: "/dashboard" },
+      { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
+      { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
+      { id: "files", label: "Secure File Sharing", icon: Share2, path: "/files" },
     ]
   },
+
+  // THREAT INTELLIGENCE - Progressive from Basic to Enterprise
   {
-    id: "threat-operations",
-    label: "Threat Operations",
-    icon: Shield,
-    requiredTier: 'essential',
+    id: "threat-intelligence",
+    label: "Threat Intelligence",
+    icon: () => <CustomTargetIcon size={20} />,
     items: [
-      { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
+      { id: "threat-intelligence-basic", label: "Basic Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/threat-intelligence" },
       { id: "threat-analysis", label: "Advanced Analytics", icon: Activity, path: "/threat-analysis", requiredTier: 'advanced', isPremium: true },
-      { id: "threat-intelligence", label: "Threat Intelligence", icon: () => <CustomTargetIcon size={16} />, path: "/threat-intelligence" },
+      { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
+      { id: "threat-map-5d", label: "5D Threat Visualization", icon: Brain, path: "/threat-map-5d", requiredTier: 'enterprise', isPremium: true },
+    ]
+  },
+
+  // ENTERPRISE THREAT OPERATIONS - Enterprise Only
+  {
+    id: "enterprise-threat-ops",
+    label: "Enterprise Threat Ops",
+    icon: Crown,
+    requiredTier: 'enterprise',
+    isPremium: true,
+    requiredRoles: ['admin', 'security_officer'],
+    items: [
+      { id: "mandiant-intelligence", label: "Mandiant Intelligence", icon: Brain, path: "/platform/mandiant-intelligence", requiredTier: 'enterprise', isPremium: true },
       { id: "threatconnect-attribution", label: "ThreatConnect Attribution", icon: Brain, path: "/platform/threatconnect-attribution", requiredTier: 'enterprise', isPremium: true },
       { id: "taxii-stix-management", label: "TAXII/STIX Management", icon: Shield, path: "/platform/taxii-stix-management", requiredTier: 'enterprise', isPremium: true },
-      { id: "mandiant-intelligence", label: "Mandiant Intelligence", icon: Brain, path: "/platform/mandiant-intelligence", requiredTier: 'enterprise', isPremium: true },
-      { id: "threat-map-5d", label: "5D Threat Map", icon: Brain, path: "/threat-map-5d", requiredTier: 'enterprise', isPremium: true },
-      { id: "vulnerability-trends", label: "Vulnerability Prediction", icon: TrendingUp, path: "/vulnerability-trends", requiredTier: 'advanced', isPremium: true },
-      { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
-      { id: "security-integrations", label: "Security Integrations", icon: Zap, path: "/security-integrations", requiredTier: 'enterprise', isPremium: true },
+      { id: "enterprise-security-main", label: "Security Infrastructure", icon: Monitor, path: "/enterprise-security", requiredTier: 'enterprise', isPremium: true },
+      { id: "security-integrations", label: "Premium Integrations", icon: Zap, path: "/security-integrations", requiredTier: 'enterprise', isPremium: true },
     ]
   },
+
+  // COMPLIANCE & GOVERNANCE - Compliance officers and admins
   {
-    id: "infrastructure",
-    label: "IT Infrastructure",
+    id: "compliance-governance",
+    label: "Compliance & Risk",
+    icon: () => <CustomClipboardCheckIcon size={20} />,
+    requiredRoles: ['admin', 'compliance_officer', 'security_officer'],
+    items: [
+      { id: "compliance", label: "Compliance Center", icon: () => <CustomClipboardCheckIcon size={16} />, path: "/compliance" },
+      { id: "reports", label: "Security Reports", icon: BarChart3, path: "/reports", requiredTier: 'advanced' },
+      { id: "custom-compliance", label: "Custom Frameworks", icon: () => <CustomSettingsIcon size={16} />, path: "/custom-compliance", requiredTier: 'enterprise', isPremium: true },
+    ]
+  },
+
+  // SECURITY OPERATIONS - IT staff and security teams
+  {
+    id: "security-operations",
+    label: "Security Operations",
     icon: Wrench,
     requiredRoles: ['admin', 'security_officer'],
     items: [
       { id: "it-management", label: "IT Management", icon: Wrench, path: "/it-management" },
       { id: "auth", label: "Authentication", icon: Lock, path: "/authentication" },
-      { id: "files", label: "Secure File Sharing", icon: Share2, path: "/files" },
+      { id: "users", label: "User Management", icon: () => <CustomUserIcon size={16} />, path: "/users", requiredRoles: ['admin'] },
+      { id: "admin", label: "System Administration", icon: () => <CustomSettingsIcon size={16} />, path: "/admin", requiredRoles: ['admin'] },
+      { id: "ai-config", label: "AI Configuration", icon: Brain, path: "/ai-config", requiredTier: 'enterprise', requiredRoles: ['admin'] },
     ]
   },
+
+  // TRAINING & EDUCATION - Available to all users with role-based content
   {
-    id: "enterprise-security",
-    label: "Enterprise Security",
-    icon: Shield,
-    requiredTier: 'enterprise',
-    isPremium: true,
-    requiredRoles: ['admin', 'security_officer'],
-    items: [
-      { id: "enterprise-security-main", label: "Enterprise Security", icon: Shield, path: "/enterprise-security", requiredTier: 'enterprise', isPremium: true },
-    ]
-  },
-  {
-    id: "compliance",
-    label: "Compliance & Risk",
-    icon: () => <CustomClipboardCheckIcon size={20} />,
-    items: [
-      { id: "compliance", label: "Compliance Center", icon: () => <CustomClipboardCheckIcon size={16} />, path: "/compliance" },
-      { id: "custom-compliance", label: "Custom Frameworks", icon: () => <CustomSettingsIcon size={16} />, path: "/custom-compliance", requiredTier: 'enterprise', isPremium: true },
-    ]
-  },
-  {
-    id: "learning",
-    label: "Learning & Development",
+    id: "education",
+    label: "Security Training",
     icon: GraduationCap,
     items: [
       { id: "training", label: "Security Training", icon: GraduationCap, path: "/training" },
-      { id: "courses", label: "Courses", icon: GraduationCap, path: "/courses" },
-      { id: "webinars", label: "Webinars", icon: () => <Video size={16} />, path: "/webinars" },
-      { id: "resources", label: "All Resources", icon: BookOpen, path: "/resources" },
-      { id: "achievements", label: "Achievements", icon: Trophy, path: "/achievements" },
+      { id: "courses", label: "Courses", icon: BookOpen, path: "/courses" },
       { id: "simulator", label: "Playbook Simulator", icon: Brain, path: "/simulator", requiredTier: 'advanced', isPremium: true },
+      { id: "achievements", label: "Achievements", icon: Trophy, path: "/achievements" },
     ]
   },
+
+  // KNOWLEDGE & RESOURCES - Organized by user type
   {
-    id: "knowledge",
-    label: "Knowledge Base",
+    id: "knowledge-resources",
+    label: "Knowledge Hub",
     icon: BookOpen,
     items: [
-      { id: "blog-posts", label: "Blog Posts", icon: () => <FileText size={16} />, path: "/blog-posts" },
-      { id: "handbooks", label: "Handbooks", icon: BookOpen, path: "/handbooks" },
-      { id: "whitepapers", label: "White Papers", icon: () => <FileText size={16} />, path: "/whitepapers" },
-      { id: "use-cases", label: "Use Cases", icon: () => <Star size={16} />, path: "/use-cases" },
+      { id: "resources", label: "Resource Library", icon: BookOpen, path: "/resources" },
+      { id: "whitepapers", label: "Technical Papers", icon: () => <FileText size={16} />, path: "/whitepapers" },
+      { id: "use-cases", label: "Implementation Guides", icon: () => <Star size={16} />, path: "/use-cases" },
+      { id: "webinars", label: "Expert Webinars", icon: () => <Video size={16} />, path: "/webinars" },
+      { id: "blog-posts", label: "Security Insights", icon: () => <FileText size={16} />, path: "/blog-posts" },
     ]
   },
+
+  // SUPPORT - Always accessible
   {
-    id: "administration",
-    label: "System Administration",
-    icon: () => <CustomSettingsIcon size={20} />,
-    requiredRoles: ['admin'],
-    isPremium: true,
-    items: [
-      { id: "users", label: "User Management", icon: () => <CustomUserIcon size={16} />, path: "/users" },
-      { id: "admin", label: "Admin Panel", icon: () => <CustomSettingsIcon size={16} />, path: "/admin" },
-      { id: "ai-config", label: "AI Configuration", icon: Brain, path: "/ai-config", requiredTier: 'enterprise' },
-    ]
-  },
-  {
-    id: "support",
-    label: "Support & Resources",
+    id: "support-help",
+    label: "Help & Support",
     icon: () => <CustomHeadphonesIcon size={20} />,
     items: [
       { id: "support", label: "Help Desk", icon: () => <CustomHeadphonesIcon size={16} />, path: "/support" },
+      { id: "handbooks", label: "User Guides", icon: BookOpen, path: "/handbooks" },
     ]
   }
 ];
@@ -176,7 +182,7 @@ export function Sidebar() {
   const [location] = useLocation();
   const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['overview', 'threat-operations', 'infrastructure', 'enterprise-security', 'compliance', 'learning', 'knowledge', 'administration', 'support']));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['core-security', 'threat-intelligence', 'enterprise-threat-ops', 'compliance-governance', 'security-operations', 'education', 'knowledge-resources', 'support-help']));
 
   // Helper functions for access control
   const hasRoleAccess = (requiredRoles?: UserRole[]) => {
@@ -240,6 +246,21 @@ export function Sidebar() {
       return <StarIcon className="w-3 h-3 text-purple-400 ml-1" />;
     }
     return null;
+  };
+
+  const getUpgradePrompt = (requiredTier?: SubscriptionTier) => {
+    const userTier = user?.planType as SubscriptionTier;
+    if (!requiredTier || hasTierAccess(requiredTier)) return null;
+
+    const upgradeMessage = requiredTier === 'enterprise' ? 
+      'Upgrade to Enterprise for advanced threat intelligence' :
+      'Upgrade to Advanced for enhanced security features';
+
+    return (
+      <div className="text-xs text-muted-foreground mt-1 px-2 py-1 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded border border-blue-500/20">
+        {upgradeMessage}
+      </div>
+    );
   };
 
   return (
@@ -344,47 +365,50 @@ export function Sidebar() {
                           const hasAccess = canAccessItem(item);
                           
                           return (
-                            <Link key={item.id} href={item.path}>
-                              <div 
-                                className={`flex items-center justify-between p-2 lg:p-2.5 rounded-lg font-medium transition-all duration-300 cursor-pointer group ${
-                                  isActive 
-                                    ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-300 shadow-lg shadow-cyan-500/20" 
-                                    : hasAccess
-                                      ? "hover:bg-gradient-to-r hover:from-gray-700/30 hover:to-gray-600/30 text-gray-300 hover:text-white hover:border hover:border-gray-500/30"
-                                      : "text-gray-500 opacity-50 cursor-not-allowed"
-                                }`}
-                                data-testid={`nav-${item.id}`}
-                                onClick={() => hasAccess && setIsMobileMenuOpen(false)}
-                              >
-                                <div className="flex items-center space-x-2 lg:space-x-3 flex-1">
-                                  <ItemIcon 
-                                    className={`w-3.5 h-3.5 lg:w-4 lg:h-4 transition-all duration-300 flex-shrink-0 ${
-                                      isActive 
-                                        ? "text-cyan-300 drop-shadow-sm filter" 
-                                        : hasAccess
-                                          ? "text-gray-400 group-hover:text-white"
-                                          : "text-gray-600"
-                                    }`}
-                                    style={{
-                                      filter: isActive ? 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.4))' : 'none'
-                                    }}
-                                  />
-                                  <span className="transition-all duration-300 text-sm truncate">
-                                    {item.label}
-                                  </span>
+                            <div key={item.id}>
+                              <Link href={item.path}>
+                                <div 
+                                  className={`flex items-center justify-between p-2 lg:p-2.5 rounded-lg font-medium transition-all duration-300 cursor-pointer group ${
+                                    isActive 
+                                      ? "bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/30 text-cyan-300 shadow-lg shadow-cyan-500/20" 
+                                      : hasAccess
+                                        ? "hover:bg-gradient-to-r hover:from-gray-700/30 hover:to-gray-600/30 text-gray-300 hover:text-white hover:border hover:border-gray-500/30"
+                                        : "text-gray-500 opacity-50 cursor-not-allowed"
+                                  }`}
+                                  data-testid={`nav-${item.id}`}
+                                  onClick={() => hasAccess && setIsMobileMenuOpen(false)}
+                                >
+                                  <div className="flex items-center space-x-2 lg:space-x-3 flex-1">
+                                    <ItemIcon 
+                                      className={`w-3.5 h-3.5 lg:w-4 lg:h-4 transition-all duration-300 flex-shrink-0 ${
+                                        isActive 
+                                          ? "text-cyan-300 drop-shadow-sm filter" 
+                                          : hasAccess
+                                            ? "text-gray-400 group-hover:text-white"
+                                            : "text-gray-600"
+                                      }`}
+                                      style={{
+                                        filter: isActive ? 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.4))' : 'none'
+                                      }}
+                                    />
+                                    <span className="transition-all duration-300 text-sm truncate">
+                                      {item.label}
+                                    </span>
+                                  </div>
+                                  
+                                  <div className="flex items-center space-x-1">
+                                    {!hasAccess && item.requiredTier && (
+                                      <div className="text-xs text-red-400 uppercase font-bold px-1 py-0.5 rounded bg-red-900/20 border border-red-700/50">
+                                        {item.requiredTier.includes('enterprise') ? 'ENT' : 
+                                         item.requiredTier.includes('advanced') ? 'ADV' : 'PRO'}
+                                      </div>
+                                    )}
+                                    {getPremiumBadge(item.isPremium, item.requiredTier)}
+                                  </div>
                                 </div>
-                                
-                                <div className="flex items-center space-x-1">
-                                  {!hasAccess && item.requiredTier && (
-                                    <div className="text-xs text-red-400 uppercase font-bold px-1 py-0.5 rounded bg-red-900/20 border border-red-700/50">
-                                      {item.requiredTier.includes('enterprise') ? 'ENT' : 
-                                       item.requiredTier.includes('advanced') ? 'ADV' : 'PRO'}
-                                    </div>
-                                  )}
-                                  {getPremiumBadge(item.isPremium, item.requiredTier)}
-                                </div>
-                              </div>
-                            </Link>
+                              </Link>
+                              {!canAccessItem(item) && getUpgradePrompt(item.requiredTier)}
+                            </div>
                           );
                         })}
                     </div>
