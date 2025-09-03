@@ -120,14 +120,17 @@ export class DataClassificationEngine {
         lastModified: new Date()
       },
       {
-        id: "rule-social-security-card",
-        name: "Social Security Card Detection",
-        description: "Detects social security cards and identity documents - CRITICAL SECURITY RISK",
+        id: "rule-comprehensive-identity-documents",
+        name: "Comprehensive Identity Document Detection",
+        description: "Detects all forms of identity documents including government IDs, vital records, and immigration documents - CRITICAL SECURITY RISK",
         priority: 150,
         conditions: [
-          { field: "filename", operator: "regex", value: "(?i)(social.security|ssn|ss.card|identity.card)" },
-          { field: "content", operator: "regex", value: "(?i)(social.security.card|social.security.administration)" },
-          { field: "content", operator: "regex", value: "\\b\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{4}\\b" }
+          { field: "filename", operator: "regex", value: "(?i)(social.security|ssn|ss.card|passport|driver.license|drivers.license|dl|id.card|identity|birth.certificate|death.certificate|marriage.certificate|divorce.certificate|adoption.certificate|naturalization|citizenship|visa|green.card|military.id|cac.card|common.access|veterans.id|state.id|federal.id|immigration|i94|i797|w2|1099|tax.return)" },
+          { field: "content", operator: "regex", value: "(?i)(social.security.card|social.security.administration|passport.number|driver.license.number|state.issued.id|birth.certificate|marriage.certificate|naturalization.certificate|certificate.of.citizenship|permanent.resident|green.card|military.identification|common.access.card|veterans.affairs)" },
+          { field: "content", operator: "regex", value: "\\b\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{4}\\b" }, // SSN
+          { field: "content", operator: "regex", value: "(?i)(passport.no|passport.number|dl.no|license.no|id.no|certificate.no|alien.no|uscis.no)" },
+          { field: "content", operator: "regex", value: "(?i)(date.of.birth|place.of.birth|full.legal.name|maiden.name|spouse.name|parent.name|emergency.contact)" },
+          { field: "content", operator: "regex", value: "(?i)(department.of.homeland.security|immigration.and.customs|citizenship.and.immigration|department.of.defense|department.of.veterans)" }
         ],
         actions: [
           { type: "label", parameters: { classification: "top_secret", dataType: "identity_document" } },
@@ -266,12 +269,41 @@ export class DataClassificationEngine {
       ["export_control", /\b(itar|ear|export\s+control|dual\s+use|technology\s+transfer)\b/gi],
       ["sanctions", /\b(ofac|sanctions|embarg|blocked\s+person)\b/gi],
       
-      // Enhanced SSN and Identity Document Detection
+      // Comprehensive Identity Document Detection
       ["ssn_document_filename", /\b(social\s*security|ssn|identity|drivers?\s*license|passport|id\s*card)\b/gi],
       ["government_id", /\b(government\s*id|federal\s*id|state\s*id|identification\s*card)\b/gi],
       ["drivers_license_content", /\b(driver.{0,2}s?\s*licen[sc]e|dl\s*no|license\s*no|real\s*id)\b/gi],
       ["social_security_card", /\b(social\s*security\s*(card|administration)|ssn\s*card)\b/gi],
-      ["identity_document_indicators", /\b(date\s*of\s*birth|dob|full\s*name|address)\b/gi]
+      
+      // Passport and Travel Documents
+      ["passport_content", /\b(passport\s*(number|no)|us\s*passport|passport\s*book|passport\s*card)\b/gi],
+      ["visa_content", /\b(visa\s*(number|no)|entry\s*visa|tourist\s*visa|work\s*visa|student\s*visa)\b/gi],
+      ["immigration_docs", /\b(green\s*card|permanent\s*resident|i-94|i-797|uscis|immigration|naturalization)\b/gi],
+      
+      // Vital Records and Certificates
+      ["birth_certificate", /\b(birth\s*certificate|certificate\s*of\s*birth|born\s*on|place\s*of\s*birth)\b/gi],
+      ["marriage_certificate", /\b(marriage\s*certificate|certificate\s*of\s*marriage|married\s*on|spouse\s*name)\b/gi],
+      ["death_certificate", /\b(death\s*certificate|certificate\s*of\s*death|deceased\s*on|cause\s*of\s*death)\b/gi],
+      ["divorce_certificate", /\b(divorce\s*certificate|divorce\s*decree|dissolution\s*of\s*marriage)\b/gi],
+      ["adoption_certificate", /\b(adoption\s*certificate|certificate\s*of\s*adoption|adopted\s*child)\b/gi],
+      
+      // Military and Veteran Documents
+      ["military_id", /\b(military\s*id|cac\s*card|common\s*access\s*card|dd\s*214|service\s*record)\b/gi],
+      ["veterans_id", /\b(veterans?\s*id|va\s*card|department\s*of\s*veterans|veterans?\s*affairs)\b/gi],
+      ["military_discharge", /\b(discharge\s*papers|honorable\s*discharge|dd\s*form|service\s*member)\b/gi],
+      
+      // Citizenship and Naturalization
+      ["citizenship_docs", /\b(citizenship\s*certificate|naturalization\s*certificate|oath\s*of\s*allegiance)\b/gi],
+      ["naturalization_content", /\b(naturalized\s*citizen|certificate\s*of\s*naturalization|alien\s*registration)\b/gi],
+      
+      // Tax and Financial Identity Documents
+      ["tax_documents", /\b(w-2|w2|1099|tax\s*return|irs\s*form|social\s*security\s*statement)\b/gi],
+      ["employment_auth", /\b(employment\s*authorization|work\s*permit|i-765|ead\s*card)\b/gi],
+      
+      // Generic Identity Document Indicators
+      ["identity_document_indicators", /\b(date\s*of\s*birth|dob|full\s*legal\s*name|maiden\s*name|address|emergency\s*contact)\b/gi],
+      ["document_numbers", /\b(document\s*(number|no)|certificate\s*(number|no)|id\s*(number|no)|registration\s*(number|no))\b/gi],
+      ["issuing_authority", /\b(issued\s*by|department\s*of|bureau\s*of|office\s*of|state\s*of|county\s*of|city\s*of)\b/gi]
     ]);
 
     patterns.forEach((regex, key) => {
