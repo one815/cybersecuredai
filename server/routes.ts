@@ -2894,6 +2894,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // VM-Series Deployment Guide PDF endpoint
+  app.get("/api/reports/vm-series-guide", async (req, res) => {
+    try {
+      console.log('📄 Generating VM-Series Deployment Guide PDF...');
+      
+      // Import html-pdf-node
+      const htmlPdf = require('html-pdf-node');
+      const fs = require('fs').promises;
+      
+      // Read the HTML template
+      const htmlContent = await fs.readFile('VM-Series-Deployment-Guide.html', 'utf8');
+      
+      const options = {
+        format: 'A4',
+        margin: {
+          top: '0.75in',
+          bottom: '0.75in',
+          left: '0.75in',
+          right: '0.75in'
+        },
+        printBackground: true,
+        displayHeaderFooter: true,
+        headerTemplate: `
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+            VM-Series Deployment Guide - CyberSecured AI Platform
+          </div>
+        `,
+        footerTemplate: `
+          <div style="font-size: 10px; width: 100%; text-align: center; color: #666;">
+            Page <span class="pageNumber"></span> of <span class="totalPages"></span> | one@cybersecuredai.com
+          </div>
+        `
+      };
+
+      const file = { content: htmlContent };
+      
+      // Generate PDF buffer
+      const pdfBuffer = await htmlPdf.generatePdf(file, options);
+      
+      // Set response headers for PDF download
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename="VM-Series-Deployment-Guide.pdf"');
+      res.setHeader('Content-Length', pdfBuffer.length);
+      
+      // Send PDF buffer
+      res.send(pdfBuffer);
+      
+      console.log('✅ VM-Series Deployment Guide PDF generated successfully');
+    } catch (error) {
+      console.error("❌ Error generating VM-Series PDF:", error);
+      res.status(500).json({ 
+        error: "Failed to generate VM-Series deployment guide PDF",
+        details: error.message 
+      });
+    }
+  });
+
   // Platform Status PDF Report endpoint
   app.get("/api/reports/platform-status", async (req, res) => {
     try {
