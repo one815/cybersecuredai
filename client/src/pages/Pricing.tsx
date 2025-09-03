@@ -491,7 +491,7 @@ export default function Pricing() {
                   <Link href="/contact">
                     <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 px-10 py-4 text-lg">
                       Talk to Sales
-                      <Phone className="ml-2 w-6 h-6" />
+                      <Enhanced4DPhoneIcon className="ml-2 w-6 h-6" size={24} />
                     </Button>
                   </Link>
                 </div>
