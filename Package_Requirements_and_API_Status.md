@@ -15,7 +15,7 @@
 
 ### ❌ MISSING API CONFIGURATIONS
 1. **MISP Platform** - Advanced threat intelligence sharing
-2. **CrowdStrike Falcon** - APT detection and attribution  
+2. **Mandiant** - APT detection and attribution  
 3. **IBM X-Force** - Corporate threat intelligence
 4. **Auth0 Biometric** - Facial recognition authentication
 5. **BioID Multi-Modal** - Facial, voice, periocular biometrics
@@ -55,7 +55,7 @@
 **Target:** Large universities, state education departments, federal agencies
 
 **Additional Premium Requirements:**
-- ❌ **CrowdStrike Falcon API Key** - APT detection and attribution (MISSING)
+- ❌ **Mandiant API Key** - APT detection and attribution (MISSING)
 - ❌ **IBM X-Force API Key** - Corporate threat intelligence (MISSING)  
 - ❌ **Auth0 Biometric API Key** - Facial recognition (MISSING)
 - ❌ **FaceTec API Key** - 3D face authentication (MISSING)

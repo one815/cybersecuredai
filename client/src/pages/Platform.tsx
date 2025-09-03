@@ -444,7 +444,7 @@ export default function Platform() {
                 <CardContent className="p-6 pt-0">
                   <ul className="space-y-2 text-sm text-gray-300">
                     <li>• VirusTotal integration</li>
-                    <li>• CrowdStrike Falcon APT</li>
+                    <li>• Mandiant Falcon APT</li>
                     <li>• IBM X-Force intelligence</li>
                     <li>• AlienVault OTX feeds</li>
                   </ul>

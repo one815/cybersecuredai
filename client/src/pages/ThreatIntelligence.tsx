@@ -39,7 +39,7 @@ import {
 export default function ThreatIntelligence() {
   const [threatFeeds] = useState([
     {
-      source: "CrowdStrike Falcon",
+      source: "Mandiant",
       type: "APT Intelligence",
       severity: "critical",
       indicators: 847,

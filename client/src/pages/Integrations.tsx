@@ -40,7 +40,7 @@ import {
 import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
 import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
 import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.png";
-import crowdStrikeImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.png";
+import mandiantImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.png";
 import awsLogo from "@assets/download-1_1756487272282.jpg";
 
 const categories = [
@@ -96,8 +96,8 @@ const integrations = [
     image: azureAdImg
   },
   {
-    title: "CrowdStrike Falcon Integration",
-    vendor: "CrowdStrike",
+    title: "Mandiant Integration",
+    vendor: "Google Cloud",
     description: "Advanced endpoint detection and response integration providing comprehensive threat visibility and automated incident response capabilities.",
     category: "Endpoint Protection",
     industry: "Cross-Industry",
@@ -106,7 +106,7 @@ const integrations = [
     setupTime: "< 45 minutes",
     featured: true,
     certified: true,
-    image: crowdStrikeImg
+    image: mandiantImg
   },
   {
     title: "Canvas LMS Security Integration",
@@ -185,10 +185,10 @@ const getBrandLogo = (vendor: string) => {
           G
         </div>
       );
-    case "CrowdStrike":
+    case "Google Cloud":
       return (
         <div className="w-8 h-8 bg-gradient-to-br from-red-600 to-black rounded flex items-center justify-center text-white font-bold text-xs">
-          CS
+          M
         </div>
       );
     case "Splunk":
