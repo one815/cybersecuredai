@@ -119,8 +119,8 @@ export function GeospatialIntelligenceMap({
     refetchInterval: 15000, // Faster updates for real-time monitoring
   });
   
-  // Extract devices from the enhanced response
-  const infrastructure = infrastructureResponse?.devices || infrastructureResponse;
+  // Extract devices from the enhanced response with proper fallback
+  const infrastructure = infrastructureResponse?.devices || (Array.isArray(infrastructureResponse) ? infrastructureResponse : []);
 
   const { data: complianceRegions } = useQuery({
     queryKey: ['/api/geospatial/compliance'],
@@ -175,8 +175,9 @@ export function GeospatialIntelligenceMap({
               range: 1500,
               heading: 0,
               roll: 0,
-              backgroundColor: '#000814',
-              defaultLabelsDisabled: false
+              backgroundColor: '#001122',
+              defaultLabelsDisabled: false,
+              mapId: 'PHOTOREALISTIC_3D_MAP' // Required for 3D tiles
             });
             
             // Enhanced event handling for photorealistic 3D
@@ -203,7 +204,7 @@ export function GeospatialIntelligenceMap({
               mapTypeId: 'hybrid', // Better than satellite for infrastructure
               tilt: 45,
               heading: 0,
-              mapId: '8e0a97af9386fef', // Updated map ID for vector maps
+              mapId: 'DEMO_MAP_ID', // Map ID for enhanced markers
               clickableIcons: true,
               gestureHandling: 'greedy',
               keyboardShortcuts: true
@@ -444,7 +445,10 @@ export function GeospatialIntelligenceMap({
 
   // Render advanced infrastructure assets with 3D capabilities
   const renderInfrastructureAssets = async () => {
-    if (!map || !infrastructure) return;
+    if (!map || !infrastructure || !Array.isArray(infrastructure)) {
+      console.log('🔧 Infrastructure data not ready:', { map: !!map, infrastructure: !!infrastructure, isArray: Array.isArray(infrastructure) });
+      return;
+    }
 
     const newOverlays: any[] = [];
 
@@ -596,7 +600,16 @@ export function GeospatialIntelligenceMap({
         });
       }
     } catch (error) {
-      console.error('Error creating infrastructure markers:', error);
+      console.error('❌ Error creating infrastructure markers:', error);
+      console.log('📊 Infrastructure data:', infrastructure);
+      console.log('🔧 Falling back to basic markers for compatibility...');
+      
+      // Ensure we have valid data before fallback
+      if (!Array.isArray(infrastructure)) {
+        console.warn('⚠️ Infrastructure data is not an array, skipping fallback');
+        return;
+      }
+      
       // Fallback to basic markers
       infrastructure.forEach((asset: InfrastructureAsset) => {
         const color = asset.status === 'healthy' ? '#22c55e' : 
