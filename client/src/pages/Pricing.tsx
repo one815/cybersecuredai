@@ -40,6 +40,7 @@ export default function Pricing() {
         "FERPA/CIPA compliance",
         "Email & chat support",
         "Cloud security monitoring",
+        "Basic IT infrastructure monitoring",
         "Basic user training",
         "Monthly security reports"
       ],
@@ -61,6 +62,7 @@ export default function Pricing() {
         "Full compliance automation",
         "24/7 priority support",
         "Advanced threat intelligence",
+        "Complete IT management suite",
         "Security awareness training",
         "Weekly executive briefings"
       ],
@@ -81,6 +83,7 @@ export default function Pricing() {
         "White-glove compliance",
         "Dedicated success team",
         "Custom threat intelligence",
+        "Enterprise IT infrastructure management",
         "On-site training programs",
         "Real-time executive dashboards"
       ],
@@ -103,6 +106,7 @@ export default function Pricing() {
         "Classified data protection",
         "Inter-agency intelligence sharing",
         "Dedicated government SOC",
+        "Government IT infrastructure management",
         "Security clearance requirements",
         "On-premises deployment options",
         "Government-specific training"
@@ -122,6 +126,7 @@ export default function Pricing() {
         "Citizen data protection",
         "Emergency response protocols",
         "Regional threat intelligence",
+        "Municipal IT system management",
         "Government compliance automation",
         "Public sector training programs",
         "Crisis communication tools"

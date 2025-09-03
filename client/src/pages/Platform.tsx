@@ -155,6 +155,20 @@ export default function Platform() {
       ],
       image: platformOverviewImg,
       status: "Infrastructure Monitoring"
+    },
+    {
+      title: "IT Management & Infrastructure",
+      description: "Complete system administration and infrastructure oversight",
+      icon: <Enhanced4DServerIcon className="w-8 h-8 text-emerald-400" size={32} />,
+      color: "border-emerald-500/30",
+      features: [
+        "Workstation management & monitoring",
+        "Server health analytics",
+        "Automated patch deployment",
+        "System performance optimization"
+      ],
+      image: socDashboardImg,
+      status: "System Management Active"
     }
   ];
 
