@@ -24,6 +24,13 @@ import { threatConnectService } from "./services/threatconnect-service";
 import { attOTXService } from "./services/att-otx-service";
 import { taxiiStixService } from "./services/taxii-stix-service";
 import { mandiantService } from "./services/mandiant-intelligence";
+import { 
+  getGeospatialOverview, 
+  getThreatLandscape, 
+  getInfrastructureMap, 
+  getComplianceMap, 
+  getIncidentMap 
+} from "./services/geospatial-intelligence";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -1712,6 +1719,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: 'Failed to get Mandiant analytics' });
     }
   });
+
+  // Geospatial Intelligence API routes - Live server and infrastructure mapping
+  app.get("/api/geospatial/overview", getGeospatialOverview);
+  app.get("/api/geospatial/threats", getThreatLandscape);
+  app.get("/api/geospatial/infrastructure", getInfrastructureMap);
+  app.get("/api/geospatial/compliance", getComplianceMap);
+  app.get("/api/geospatial/incidents", getIncidentMap);
 
   // Security Infrastructure Monitoring API routes
   app.get("/api/security-infrastructure/devices", authenticateJWT, async (req: AuthenticatedRequest, res) => {

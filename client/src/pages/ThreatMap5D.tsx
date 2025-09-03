@@ -16,7 +16,7 @@ import {
   Enhanced4DActivityIcon,
   Enhanced4DBrainIcon
 } from "@/components/CustomIcons";
-import { ThreatMap } from "@/components/ThreatMap";
+import { GeospatialIntelligenceMap } from "@/components/GeospatialIntelligenceMap";
 
 interface ThreatStats {
   totalThreats: number;
@@ -131,7 +131,7 @@ export default function ThreatMap5D() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0 h-full">
-                <ThreatMap className="w-full h-full rounded-b-lg" />
+                <GeospatialIntelligenceMap className="w-full h-full rounded-b-lg" />
               </CardContent>
             </Card>
           </div>
