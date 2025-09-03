@@ -180,10 +180,19 @@ export default function FileSharing() {
     const getRiskLevel = (sensitivity: string, classification: string, fileName: string = "", dataTypes: string[] = []) => {
       console.log(`Risk calculation for ${fileName}:`, { sensitivity, classification, dataTypes });
       
+      // Critical risk for top secret classification or identity documents
+      if (classification === "top_secret" || sensitivity === "top_secret" || 
+          dataTypes.some(type => 
+        ["identity_document", "credentials", "social_security_card", "passport", "drivers_license", "birth_certificate", "military_id", "green_card", "naturalization", "citizenship"].includes(type.toLowerCase())
+      )) {
+        console.log(`Returning CRITICAL risk for ${fileName}:`, { classification, sensitivity, dataTypes });
+        return "Critical";
+      }
+      
       // High risk for restricted classification or sensitive data types
       if (classification === "restricted" || sensitivity === "restricted" || 
           dataTypes.some(type => 
-        ["ssn", "credit_card", "api_key", "aws_key", "private_key", "pii", "sensitive"].includes(type.toLowerCase())
+        ["ssn", "credit_card", "api_key", "aws_key", "private_key", "pii", "financial", "sensitive"].includes(type.toLowerCase())
       )) {
         console.log(`Returning HIGH risk for ${fileName}:`, { classification, sensitivity, dataTypes });
         return "High";
@@ -236,12 +245,14 @@ export default function FileSharing() {
       case 'internal': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'confidential': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
       case 'restricted': return 'bg-red-500/20 text-red-400 border-red-500/30';
+      case 'top_secret': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
       default: return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
     }
   };
 
   const getSensitivityIcon = (level: string) => {
     switch (level.toLowerCase()) {
+      case 'critical': return '🚨';
       case 'high': return '🔴';
       case 'medium': return '🟡';
       case 'low': return '🟢';
