@@ -230,15 +230,18 @@ export default function Home() {
                                 <CardTitle className="text-red-300 flex items-center justify-between font-bold tracking-wide text-sm md:text-base">
                                   <div className="flex items-center">
                                     <Enhanced4DGlobeIcon className="w-4 md:w-6 h-4 md:h-6 mr-2 md:mr-3 text-red-400" size={24} />
-                                    <span className="neon-glow">GLOBAL THREAT MAP</span>
+                                    <span className="neon-glow">3D GEOSPATIAL INTELLIGENCE</span>
                                   </div>
                                   <div className="bg-red-500/20 text-red-400 text-xs px-2 md:px-3 py-1 rounded holo-badge">LIVE</div>
                                 </CardTitle>
                               </CardHeader>
                               <CardContent>
-                                {/* Real Geospatial Threat Map */}
+                                {/* Live 3D Geospatial Intelligence Map */}
                                 <div className="h-48 md:h-64 relative overflow-hidden mb-2 md:mb-4">
                                   <ThreatMap className="w-full h-full rounded-lg border border-red-500/30" />
+                                  <div className="absolute top-2 left-2 bg-black/80 rounded px-2 py-1 text-xs text-cyan-400 font-mono border border-cyan-500/30">
+                                    3D SATELLITE VIEW
+                                  </div>
                                 </div>
                                 
                                 {/* Threat Statistics */}
