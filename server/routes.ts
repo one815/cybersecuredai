@@ -23,6 +23,7 @@ import { alternativeThreatFeedsService } from "./services/alternative-threat-fee
 import { threatConnectService } from "./services/threatconnect-service";
 import { attOTXService } from "./services/att-otx-service";
 import { taxiiStixService } from "./services/taxii-stix-service";
+import { mandiantService } from "./services/mandiant-intelligence";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -1573,6 +1574,142 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error getting CISA compliant servers:', error);
       res.status(500).json({ error: 'Failed to get CISA compliant servers' });
+    }
+  });
+
+  // Mandiant Threat Intelligence API routes
+  app.get("/api/mandiant/indicators", async (req, res) => {
+    try {
+      const indicators = await mandiantService.getIndicators();
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error getting Mandiant indicators:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant indicators' });
+    }
+  });
+
+  app.get("/api/mandiant/indicators/search", async (req, res) => {
+    try {
+      const { query, limit } = req.query;
+      const indicators = await mandiantService.searchIndicators(
+        query as string || '',
+        limit ? parseInt(limit as string) : 50
+      );
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error searching Mandiant indicators:', error);
+      res.status(500).json({ error: 'Failed to search Mandiant indicators' });
+    }
+  });
+
+  app.get("/api/mandiant/indicators/type/:type", async (req, res) => {
+    try {
+      const { type } = req.params;
+      const indicators = await mandiantService.getIndicatorsByType(type);
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error getting Mandiant indicators by type:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant indicators by type' });
+    }
+  });
+
+  app.get("/api/mandiant/indicators/severity/:severity", async (req, res) => {
+    try {
+      const { severity } = req.params;
+      const indicators = await mandiantService.getIndicatorsBySeverity(severity);
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error getting Mandiant indicators by severity:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant indicators by severity' });
+    }
+  });
+
+  app.get("/api/mandiant/indicators/recent", async (req, res) => {
+    try {
+      const { days } = req.query;
+      const indicators = await mandiantService.getRecentIndicators(
+        days ? parseInt(days as string) : 30
+      );
+      res.json(indicators);
+    } catch (error) {
+      console.error('Error getting recent Mandiant indicators:', error);
+      res.status(500).json({ error: 'Failed to get recent Mandiant indicators' });
+    }
+  });
+
+  app.get("/api/mandiant/threat-actors", async (req, res) => {
+    try {
+      const actors = await mandiantService.getThreatActors();
+      res.json(actors);
+    } catch (error) {
+      console.error('Error getting Mandiant threat actors:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant threat actors' });
+    }
+  });
+
+  app.get("/api/mandiant/threat-actors/:name", async (req, res) => {
+    try {
+      const { name } = req.params;
+      const actor = await mandiantService.getThreatActorByName(name);
+      if (!actor) {
+        return res.status(404).json({ error: 'Threat actor not found' });
+      }
+      res.json(actor);
+    } catch (error) {
+      console.error('Error getting Mandiant threat actor:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant threat actor' });
+    }
+  });
+
+  app.get("/api/mandiant/campaigns", async (req, res) => {
+    try {
+      const campaigns = await mandiantService.getCampaigns();
+      res.json(campaigns);
+    } catch (error) {
+      console.error('Error getting Mandiant campaigns:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant campaigns' });
+    }
+  });
+
+  app.get("/api/mandiant/campaigns/actor/:actorName", async (req, res) => {
+    try {
+      const { actorName } = req.params;
+      const campaigns = await mandiantService.getCampaignsByActor(actorName);
+      res.json(campaigns);
+    } catch (error) {
+      console.error('Error getting Mandiant campaigns by actor:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant campaigns by actor' });
+    }
+  });
+
+  app.get("/api/mandiant/vulnerabilities", async (req, res) => {
+    try {
+      const vulnerabilities = await mandiantService.getVulnerabilities();
+      res.json(vulnerabilities);
+    } catch (error) {
+      console.error('Error getting Mandiant vulnerabilities:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant vulnerabilities' });
+    }
+  });
+
+  app.get("/api/mandiant/vulnerabilities/severity/:severity", async (req, res) => {
+    try {
+      const { severity } = req.params;
+      const vulnerabilities = await mandiantService.getVulnerabilitiesBySeverity(severity);
+      res.json(vulnerabilities);
+    } catch (error) {
+      console.error('Error getting Mandiant vulnerabilities by severity:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant vulnerabilities by severity' });
+    }
+  });
+
+  app.get("/api/mandiant/analytics", async (req, res) => {
+    try {
+      const analytics = await mandiantService.getAnalyticsSummary();
+      res.json(analytics);
+    } catch (error) {
+      console.error('Error getting Mandiant analytics:', error);
+      res.status(500).json({ error: 'Failed to get Mandiant analytics' });
     }
   });
 
