@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   CustomShieldIcon,
   CustomBrainIcon,
+  CustomHeadphonesIcon,
   Enhanced4DNetworkIcon,
   Enhanced4DBrainIcon,
   CustomTargetIcon,
@@ -115,6 +116,20 @@ export default function Platform() {
       status: "Multi-Provider Support"
     },
     {
+      title: "AI-Enhanced Support Operations",
+      description: "Enterprise-grade support with automated incident management",
+      icon: <CustomHeadphonesIcon className="w-8 h-8 text-spring-400" size={32} />,
+      color: "border-spring-500/30",
+      features: [
+        "PagerDuty-integrated incident response",
+        "Real-time API monitoring",
+        "Sub-20ms threat intelligence processing",
+        "15-minute average response time"
+      ],
+      image: socDashboardImg,
+      status: "24/7 Operations"
+    },
+    {
       title: "AI-Based Compliance Automation",
       description: "Automated regulatory compliance with continuous monitoring",
       icon: <Enhanced4DFileIcon className="w-8 h-8 text-yellow-400" size={32} />,
@@ -191,8 +206,8 @@ export default function Platform() {
                 </span>
               </h1>
               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
-                Purpose-built cybersecurity platform for educational institutions and government agencies, 
-                all backed by our industry-proven, 24/7 AI-assisted SOC.
+                Purpose-built cybersecurity platform with enterprise-grade support operations, 
+                24/7 AI-assisted SOC, and automated incident management for educational institutions and government agencies.
               </p>
               
               <div className="flex items-center justify-center space-x-2 mb-8">
