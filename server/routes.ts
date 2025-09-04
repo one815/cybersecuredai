@@ -1503,6 +1503,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // VirusTotal URL Analysis
+  app.post("/api/virustotal/analyze-url", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { url } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeUrlWithVirusTotal(url);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing URL:', error);
+      res.status(500).json({ error: 'URL analysis failed' });
+    }
+  });
+
+  // VirusTotal IP Analysis
+  app.post("/api/virustotal/analyze-ip", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { ip } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeIpWithVirusTotal(ip);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing IP:', error);
+      res.status(500).json({ error: 'IP analysis failed' });
+    }
+  });
+
+  // VirusTotal Domain Analysis
+  app.post("/api/virustotal/analyze-domain", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { domain } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeDomainWithVirusTotal(domain);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing domain:', error);
+      res.status(500).json({ error: 'Domain analysis failed' });
+    }
+  });
+
+  // Public VirusTotal test endpoints (no auth required for testing)
+  app.post("/api/public/virustotal/test-hash", async (req, res) => {
+    try {
+      const { hash } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeFileWithVirusTotal(hash);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing hash:', error);
+      res.status(500).json({ error: 'Hash analysis failed' });
+    }
+  });
+
+  app.post("/api/public/virustotal/test-domain", async (req, res) => {
+    try {
+      const { domain } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeDomainWithVirusTotal(domain);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing domain:', error);
+      res.status(500).json({ error: 'Domain analysis failed' });
+    }
+  });
+
   // TAXII/STIX 2.1 API routes for CISA compliance
   app.get("/api/taxii/servers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
     try {

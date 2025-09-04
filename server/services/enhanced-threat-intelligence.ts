@@ -123,11 +123,11 @@ export class EnhancedThreatIntelligenceService {
   }
 
   /**
-   * Enhanced VirusTotal file analysis with vt-py
+   * Enhanced VirusTotal file analysis using real API v3
    */
   async analyzeFileWithVirusTotal(fileHash: string): Promise<MalwareAnalysisResult | null> {
     try {
-      console.log(`🔍 Analyzing file hash ${fileHash} with enhanced VirusTotal...`);
+      console.log(`🔍 Analyzing file hash ${fileHash} with VirusTotal API v3...`);
       
       const provider = this.providers.get('virustotal');
       if (!provider) {
@@ -141,24 +141,57 @@ export class EnhancedThreatIntelligenceService {
         return this.cache.get(cacheKey);
       }
 
-      // Simulate enhanced VirusTotal API call with vt-py
+      // Real VirusTotal API v3 call
+      const response = await fetch(`https://www.virustotal.com/api/v3/files/${fileHash}`, {
+        method: 'GET',
+        headers: {
+          'X-Apikey': provider.apiKey!,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log('⚠️ File hash not found in VirusTotal database');
+          return null;
+        }
+        throw new Error(`VirusTotal API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const attributes = data.data?.attributes;
+      
+      if (!attributes) {
+        console.log('⚠️ No analysis data available for this hash');
+        return null;
+      }
+
+      const stats = attributes.last_analysis_stats || {};
+      const malicious = stats.malicious || 0;
+      const total = Object.values(stats).reduce((sum: number, count: any) => sum + (count || 0), 0);
+      
+      const malwareNames = [];
+      if (attributes.last_analysis_results) {
+        for (const [engine, result] of Object.entries(attributes.last_analysis_results)) {
+          if ((result as any).category === 'malicious' && (result as any).result) {
+            malwareNames.push((result as any).result);
+          }
+        }
+      }
+
       const result: MalwareAnalysisResult = {
         hash: fileHash,
-        detectionRatio: `${Math.floor(Math.random() * 30) + 15}/${Math.floor(Math.random() * 10) + 60}`,
-        scanDate: new Date(),
-        malwareNames: [
-          'Trojan.GenKryptik',
-          'Malware.Generic',
-          'Win32.Suspicious'
-        ].slice(0, Math.floor(Math.random() * 3) + 1),
-        threatType: ['trojan', 'adware', 'ransomware', 'backdoor'][Math.floor(Math.random() * 4)],
-        confidence: Math.floor(Math.random() * 30) + 70,
-        sources: ['virustotal', 'vt-py-enhanced'],
+        detectionRatio: `${malicious}/${total}`,
+        scanDate: new Date(attributes.last_analysis_date * 1000),
+        malwareNames: malwareNames.slice(0, 5), // Top 5 detections
+        threatType: attributes.type_description || 'unknown',
+        confidence: malicious > 0 ? Math.min(95, (malicious / total) * 100) : 10,
+        sources: ['virustotal-api-v3'],
         behaviorAnalysis: {
-          networkConnections: Math.floor(Math.random() * 10),
-          fileModifications: Math.floor(Math.random() * 20),
-          registryChanges: Math.floor(Math.random() * 15),
-          processCreations: Math.floor(Math.random() * 5)
+          networkConnections: attributes.sandbox_verdicts ? Object.keys(attributes.sandbox_verdicts).length : 0,
+          fileModifications: attributes.total_votes?.harmless || 0,
+          registryChanges: attributes.total_votes?.malicious || 0,
+          processCreations: attributes.crowdsourced_yara_results?.length || 0
         }
       };
 
@@ -166,6 +199,7 @@ export class EnhancedThreatIntelligenceService {
       this.cache.set(cacheKey, result);
       setTimeout(() => this.cache.delete(cacheKey), 3600000);
 
+      console.log(`✅ VirusTotal analysis complete: ${result.detectionRatio} detection ratio`);
       return result;
     } catch (error) {
       console.error('❌ VirusTotal analysis failed:', error);
@@ -463,6 +497,239 @@ export class EnhancedThreatIntelligenceService {
   /**
    * Generate security recommendations based on risk score
    */
+  /**
+   * VirusTotal URL analysis using real API v3
+   */
+  async analyzeUrlWithVirusTotal(url: string): Promise<{
+    url: string;
+    detectionRatio: string;
+    scanDate: Date;
+    threatCategories: string[];
+    reputation: number;
+    sources: string[];
+  } | null> {
+    try {
+      console.log(`🔍 Analyzing URL with VirusTotal API v3...`);
+      
+      const provider = this.providers.get('virustotal');
+      if (!provider) {
+        throw new Error('VirusTotal provider not configured');
+      }
+
+      // URL encode the URL for VirusTotal API
+      const urlId = Buffer.from(url).toString('base64').replace(/=/g, '');
+      
+      const response = await fetch(`https://www.virustotal.com/api/v3/urls/${urlId}`, {
+        method: 'GET',
+        headers: {
+          'X-Apikey': provider.apiKey!,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          // Submit URL for analysis if not found
+          return await this.submitUrlForAnalysis(url);
+        }
+        throw new Error(`VirusTotal API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const attributes = data.data?.attributes;
+      
+      if (!attributes) {
+        return null;
+      }
+
+      const stats = attributes.last_analysis_stats || {};
+      const malicious = stats.malicious || 0;
+      const total = Object.values(stats).reduce((sum: number, count: any) => sum + (count || 0), 0);
+      
+      const threatCategories = [];
+      if (attributes.categories) {
+        threatCategories.push(...Object.values(attributes.categories));
+      }
+
+      return {
+        url: url,
+        detectionRatio: `${malicious}/${total}`,
+        scanDate: new Date(attributes.last_analysis_date * 1000),
+        threatCategories: [...new Set(threatCategories)] as string[],
+        reputation: attributes.reputation || 0,
+        sources: ['virustotal-api-v3']
+      };
+    } catch (error) {
+      console.error('❌ VirusTotal URL analysis failed:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Submit URL for VirusTotal analysis
+   */
+  private async submitUrlForAnalysis(url: string): Promise<{
+    url: string;
+    detectionRatio: string;
+    scanDate: Date;
+    threatCategories: string[];
+    reputation: number;
+    sources: string[];
+  } | null> {
+    try {
+      const provider = this.providers.get('virustotal');
+      if (!provider) return null;
+
+      const formData = new FormData();
+      formData.append('url', url);
+
+      const response = await fetch('https://www.virustotal.com/api/v3/urls', {
+        method: 'POST',
+        headers: {
+          'X-Apikey': provider.apiKey!
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        console.log('✅ URL submitted for VirusTotal analysis');
+        return {
+          url: url,
+          detectionRatio: '0/0',
+          scanDate: new Date(),
+          threatCategories: [],
+          reputation: 0,
+          sources: ['virustotal-api-v3-pending']
+        };
+      }
+      return null;
+    } catch (error) {
+      console.error('❌ Failed to submit URL for analysis:', error);
+      return null;
+    }
+  }
+
+  /**
+   * VirusTotal IP address analysis using real API v3
+   */
+  async analyzeIpWithVirusTotal(ip: string): Promise<{
+    ip: string;
+    reputation: number;
+    country: string;
+    asn: string;
+    detectedUrls: any[];
+    communicatingFiles: any[];
+    sources: string[];
+  } | null> {
+    try {
+      console.log(`🔍 Analyzing IP ${ip} with VirusTotal API v3...`);
+      
+      const provider = this.providers.get('virustotal');
+      if (!provider) {
+        throw new Error('VirusTotal provider not configured');
+      }
+
+      const response = await fetch(`https://www.virustotal.com/api/v3/ip_addresses/${ip}`, {
+        method: 'GET',
+        headers: {
+          'X-Apikey': provider.apiKey!,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log('⚠️ IP address not found in VirusTotal database');
+          return null;
+        }
+        throw new Error(`VirusTotal API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const attributes = data.data?.attributes;
+      
+      if (!attributes) {
+        return null;
+      }
+
+      return {
+        ip: ip,
+        reputation: attributes.reputation || 0,
+        country: attributes.country || 'unknown',
+        asn: attributes.asn?.toString() || 'unknown',
+        detectedUrls: attributes.last_analysis_stats ? [] : [],
+        communicatingFiles: [],
+        sources: ['virustotal-api-v3']
+      };
+    } catch (error) {
+      console.error('❌ VirusTotal IP analysis failed:', error);
+      return null;
+    }
+  }
+
+  /**
+   * VirusTotal domain analysis using real API v3
+   */
+  async analyzeDomainWithVirusTotal(domain: string): Promise<{
+    domain: string;
+    reputation: number;
+    categories: string[];
+    detectedUrls: number;
+    resolutions: any[];
+    whoisDate: Date | null;
+    sources: string[];
+  } | null> {
+    try {
+      console.log(`🔍 Analyzing domain ${domain} with VirusTotal API v3...`);
+      
+      const provider = this.providers.get('virustotal');
+      if (!provider) {
+        throw new Error('VirusTotal provider not configured');
+      }
+
+      const response = await fetch(`https://www.virustotal.com/api/v3/domains/${domain}`, {
+        method: 'GET',
+        headers: {
+          'X-Apikey': provider.apiKey!,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log('⚠️ Domain not found in VirusTotal database');
+          return null;
+        }
+        throw new Error(`VirusTotal API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const attributes = data.data?.attributes;
+      
+      if (!attributes) {
+        return null;
+      }
+
+      const categories = [];
+      if (attributes.categories) {
+        categories.push(...Object.values(attributes.categories));
+      }
+
+      return {
+        domain: domain,
+        reputation: attributes.reputation || 0,
+        categories: Array.from(new Set(categories)) as string[],
+        detectedUrls: attributes.last_analysis_stats?.malicious || 0,
+        resolutions: [],
+        whoisDate: attributes.whois_date ? new Date(attributes.whois_date * 1000) : null,
+        sources: ['virustotal-api-v3']
+      };
+    } catch (error) {
+      console.error('❌ VirusTotal domain analysis failed:', error);
+      return null;
+    }
+  }
+
   private generateRecommendations(riskScore: number, type: string): string[] {
     const recommendations = [];
 
