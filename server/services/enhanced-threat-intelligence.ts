@@ -730,6 +730,184 @@ export class EnhancedThreatIntelligenceService {
     }
   }
 
+  // IBM X-Force API Integration Methods
+  async analyzeUrlWithIBMXForce(url: string): Promise<any> {
+    const apiKey = process.env.IBM_XFORCE_API_KEY;
+    const password = process.env.IBM_XFORCE_PASSWORD;
+    
+    if (!apiKey || !password) {
+      throw new Error('IBM X-Force API credentials not configured');
+    }
+
+    const auth = Buffer.from(`${apiKey}:${password}`).toString('base64');
+    
+    try {
+      console.log(`🔍 Analyzing URL ${url} with IBM X-Force API...`);
+      
+      const encodedUrl = encodeURIComponent(url);
+      const response = await fetch(`https://api.xforce.ibmcloud.com/url/${encodedUrl}`, {
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Accept': 'application/json',
+          'User-Agent': 'CyberSecured-AI-Platform/1.0'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`IBM X-Force API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        url: url,
+        reputation: data.score || 0,
+        categories: data.cats || {},
+        riskScore: data.score,
+        malware: data.malware || {},
+        applicationData: data.application || {},
+        sources: ['ibm-xforce-api'],
+        analysisDate: new Date(),
+        scanId: data.uuid || null
+      };
+    } catch (error) {
+      console.error('❌ IBM X-Force URL analysis failed:', error);
+      throw error;
+    }
+  }
+
+  async analyzeIpWithIBMXForce(ip: string): Promise<any> {
+    const apiKey = process.env.IBM_XFORCE_API_KEY;
+    const password = process.env.IBM_XFORCE_PASSWORD;
+    
+    if (!apiKey || !password) {
+      throw new Error('IBM X-Force API credentials not configured');
+    }
+
+    const auth = Buffer.from(`${apiKey}:${password}`).toString('base64');
+    
+    try {
+      console.log(`🔍 Analyzing IP ${ip} with IBM X-Force API...`);
+      
+      const response = await fetch(`https://api.xforce.ibmcloud.com/ipr/${ip}`, {
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Accept': 'application/json',
+          'User-Agent': 'CyberSecured-AI-Platform/1.0'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`IBM X-Force API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        ip: ip,
+        reputation: data.score || 0,
+        categories: data.cats || {},
+        riskScore: data.score,
+        geo: data.geo || {},
+        history: data.history || [],
+        malware: data.malware || {},
+        sources: ['ibm-xforce-api'],
+        analysisDate: new Date()
+      };
+    } catch (error) {
+      console.error('❌ IBM X-Force IP analysis failed:', error);
+      throw error;
+    }
+  }
+
+  async analyzeHashWithIBMXForce(hash: string): Promise<any> {
+    const apiKey = process.env.IBM_XFORCE_API_KEY;
+    const password = process.env.IBM_XFORCE_PASSWORD;
+    
+    if (!apiKey || !password) {
+      throw new Error('IBM X-Force API credentials not configured');
+    }
+
+    const auth = Buffer.from(`${apiKey}:${password}`).toString('base64');
+    
+    try {
+      console.log(`🔍 Analyzing hash ${hash} with IBM X-Force API...`);
+      
+      const response = await fetch(`https://api.xforce.ibmcloud.com/malware/${hash}`, {
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Accept': 'application/json',
+          'User-Agent': 'CyberSecured-AI-Platform/1.0'
+        }
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log('⚠️ Hash not found in IBM X-Force database');
+          return null;
+        }
+        throw new Error(`IBM X-Force API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        hash: hash,
+        malware: data.malware || {},
+        family: data.malware?.family || 'Unknown',
+        riskScore: data.malware?.risk || 0,
+        origins: data.malware?.origins || {},
+        created: data.malware?.created,
+        sources: ['ibm-xforce-api'],
+        analysisDate: new Date()
+      };
+    } catch (error) {
+      console.error('❌ IBM X-Force hash analysis failed:', error);
+      throw error;
+    }
+  }
+
+  async getVulnerabilitiesFromIBMXForce(query: string): Promise<any> {
+    const apiKey = process.env.IBM_XFORCE_API_KEY;
+    const password = process.env.IBM_XFORCE_PASSWORD;
+    
+    if (!apiKey || !password) {
+      throw new Error('IBM X-Force API credentials not configured');
+    }
+
+    const auth = Buffer.from(`${apiKey}:${password}`).toString('base64');
+    
+    try {
+      console.log(`🔍 Searching vulnerabilities for "${query}" with IBM X-Force API...`);
+      
+      const encodedQuery = encodeURIComponent(query);
+      const response = await fetch(`https://api.xforce.ibmcloud.com/vulnerabilities/search/${encodedQuery}`, {
+        headers: {
+          'Authorization': `Basic ${auth}`,
+          'Accept': 'application/json',
+          'User-Agent': 'CyberSecured-AI-Platform/1.0'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`IBM X-Force API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        query: query,
+        vulnerabilities: data,
+        totalRows: data.total_rows || 0,
+        sources: ['ibm-xforce-api'],
+        searchDate: new Date()
+      };
+    } catch (error) {
+      console.error('❌ IBM X-Force vulnerability search failed:', error);
+      throw error;
+    }
+  }
+
   private generateRecommendations(riskScore: number, type: string): string[] {
     const recommendations = [];
 

@@ -1567,6 +1567,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // IBM X-Force API endpoints
+  app.post("/api/ibm-xforce/analyze-url", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { url } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeUrlWithIBMXForce(url);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing URL with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force URL analysis failed' });
+    }
+  });
+
+  app.post("/api/ibm-xforce/analyze-ip", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { ip } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeIpWithIBMXForce(ip);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing IP with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force IP analysis failed' });
+    }
+  });
+
+  app.post("/api/ibm-xforce/analyze-hash", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { hash } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeHashWithIBMXForce(hash);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing hash with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force hash analysis failed' });
+    }
+  });
+
+  app.post("/api/ibm-xforce/vulnerabilities", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { query } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.getVulnerabilitiesFromIBMXForce(query);
+      res.json(result);
+    } catch (error) {
+      console.error('Error searching vulnerabilities with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force vulnerability search failed' });
+    }
+  });
+
+  // Public IBM X-Force test endpoints (no auth required for testing)
+  app.post("/api/public/ibm-xforce/test-url", async (req, res) => {
+    try {
+      const { url } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeUrlWithIBMXForce(url);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing URL with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force URL analysis failed' });
+    }
+  });
+
+  app.post("/api/public/ibm-xforce/test-ip", async (req, res) => {
+    try {
+      const { ip } = req.body;
+      
+      const result = await enhancedThreatIntelligenceService.analyzeIpWithIBMXForce(ip);
+      res.json(result);
+    } catch (error) {
+      console.error('Error analyzing IP with IBM X-Force:', error);
+      res.status(500).json({ error: 'IBM X-Force IP analysis failed' });
+    }
+  });
+
   // TAXII/STIX 2.1 API routes for CISA compliance
   app.get("/api/taxii/servers", authenticateJWT, async (req: AuthenticatedRequest, res) => {
     try {
