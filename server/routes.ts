@@ -19,6 +19,7 @@ import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-in
 import { emailNotificationService } from "./services/email-notification.js";
 import { awsMachineLearningService } from "./services/aws-sagemaker-service";
 import { ibmXForceService } from "./services/ibm-xforce-service";
+import { pagerDutyIntegrationService } from "./services/pagerduty-integration";
 import { alternativeThreatFeedsService } from "./services/alternative-threat-feeds";
 import { threatConnectService } from "./services/threatconnect-service";
 import { attOTXService } from "./services/att-otx-service";
@@ -1638,6 +1639,158 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error analyzing IP with IBM X-Force:', error);
       res.status(500).json({ error: 'IBM X-Force IP analysis failed' });
+    }
+  });
+
+  // PagerDuty Integration API endpoints
+  app.get("/api/pagerduty/auth", async (req, res) => {
+    try {
+      const state = `state_${Date.now()}`;
+      const authUrl = pagerDutyIntegrationService.generateAuthUrl(state);
+      
+      res.json({
+        authUrl: authUrl,
+        state: state,
+        redirectUri: 'https://cybersecuredai.com/api/auth/pagerduty/callback'
+      });
+    } catch (error) {
+      console.error('Error generating PagerDuty auth URL:', error);
+      res.status(500).json({ error: 'Failed to generate authorization URL' });
+    }
+  });
+
+  app.post("/api/auth/pagerduty/callback", async (req, res) => {
+    try {
+      const { code, state } = req.body;
+      
+      if (!code) {
+        return res.status(400).json({ error: 'Authorization code is required' });
+      }
+
+      const tokenData = await pagerDutyIntegrationService.exchangeCodeForToken(code);
+      
+      res.json({
+        success: true,
+        message: 'PagerDuty integration authorized successfully',
+        tokenExpiry: new Date(Date.now() + (tokenData.expires_in * 1000))
+      });
+    } catch (error) {
+      console.error('Error handling PagerDuty OAuth callback:', error);
+      res.status(500).json({ error: 'OAuth authorization failed' });
+    }
+  });
+
+  app.get("/api/pagerduty/services", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const services = await pagerDutyIntegrationService.getServices();
+      res.json(services);
+    } catch (error) {
+      console.error('Error fetching PagerDuty services:', error);
+      res.status(500).json({ error: 'Failed to fetch PagerDuty services' });
+    }
+  });
+
+  app.post("/api/pagerduty/incident", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { integrationKey, incident } = req.body;
+      
+      if (!integrationKey || !incident) {
+        return res.status(400).json({ error: 'Integration key and incident details are required' });
+      }
+
+      const result = await pagerDutyIntegrationService.createSecurityIncident(integrationKey, incident);
+      res.json(result);
+    } catch (error) {
+      console.error('Error creating PagerDuty incident:', error);
+      res.status(500).json({ error: 'Failed to create PagerDuty incident' });
+    }
+  });
+
+  app.post("/api/pagerduty/threat-alert", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { integrationKey, threatType, severity, indicators, sourceFeeds } = req.body;
+      
+      if (!integrationKey || !threatType || !severity) {
+        return res.status(400).json({ error: 'Integration key, threat type, and severity are required' });
+      }
+
+      const result = await pagerDutyIntegrationService.createThreatAlert(
+        integrationKey,
+        threatType,
+        severity,
+        indicators || [],
+        sourceFeeds || []
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error creating PagerDuty threat alert:', error);
+      res.status(500).json({ error: 'Failed to create PagerDuty threat alert' });
+    }
+  });
+
+  app.post("/api/pagerduty/compliance-alert", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { integrationKey, framework, controlId, severity, description } = req.body;
+      
+      if (!integrationKey || !framework || !controlId || !severity) {
+        return res.status(400).json({ error: 'Integration key, framework, control ID, and severity are required' });
+      }
+
+      const result = await pagerDutyIntegrationService.createComplianceAlert(
+        integrationKey,
+        framework,
+        controlId,
+        severity,
+        description
+      );
+      
+      res.json(result);
+    } catch (error) {
+      console.error('Error creating PagerDuty compliance alert:', error);
+      res.status(500).json({ error: 'Failed to create PagerDuty compliance alert' });
+    }
+  });
+
+  app.get("/api/pagerduty/status", async (req, res) => {
+    try {
+      const status = pagerDutyIntegrationService.getStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting PagerDuty status:', error);
+      res.status(500).json({ error: 'Failed to get PagerDuty status' });
+    }
+  });
+
+  // Public PagerDuty test endpoints (no auth required for testing)
+  app.post("/api/public/pagerduty/test-incident", async (req, res) => {
+    try {
+      const { integrationKey } = req.body;
+      
+      if (!integrationKey) {
+        return res.status(400).json({ error: 'Integration key is required for testing' });
+      }
+
+      const testIncident = {
+        eventAction: 'trigger' as const,
+        summary: '🧪 CyberSecured AI Test Incident',
+        source: 'CyberSecured AI Test Suite',
+        severity: 'info' as const,
+        component: 'Test Integration',
+        group: 'Testing',
+        class: 'test_incident',
+        customDetails: {
+          test_type: 'integration_test',
+          platform: 'CyberSecured AI',
+          timestamp: new Date().toISOString()
+        }
+      };
+
+      const result = await pagerDutyIntegrationService.createSecurityIncident(integrationKey, testIncident);
+      res.json(result);
+    } catch (error) {
+      console.error('Error creating test PagerDuty incident:', error);
+      res.status(500).json({ error: 'Failed to create test incident' });
     }
   });
 
