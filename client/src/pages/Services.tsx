@@ -134,17 +134,17 @@ export default function Services() {
 
   const additionalSpecializedOfferings = [
     {
-      title: "Enterprise Platform Support",
-      description: "24/7 enterprise-grade support with automated incident management and government-compliant operations",
-      icon: <CustomHeadphonesIcon className="w-8 h-8 text-spring-400" size={32} />,
+      title: "Advanced Behavioral Analytics Platform",
+      description: "AI-powered user behavior analysis with real-time anomaly detection and insider threat prevention",
+      icon: <Enhanced4DEyeIcon className="w-8 h-8 text-spring-400" size={32} />,
       features: [
-        "24/7 PagerDuty-integrated incident response",
-        "Real-time threat intelligence operations",
-        "Sub-20ms API monitoring and alerting",
-        "15-minute average response time SLA",
-        "FISMA-compliant support workflows",
-        "Automated security workflow management",
-        "Government-grade operational excellence"
+        "Real-time user behavior monitoring",
+        "ML-powered anomaly detection",
+        "Insider threat identification",
+        "Behavioral baseline establishment",
+        "Advanced pattern recognition",
+        "Automated risk scoring",
+        "Government-grade privacy compliance"
       ],
       price: "Contact for Pricing"
     },
@@ -345,8 +345,8 @@ export default function Services() {
                 </span>
               </h1>
               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
-                Expert-led cybersecurity services with enterprise-grade platform support, 
-                24/7 AI-assisted SOC, and automated incident management for continuous protection.
+                Expert-led cybersecurity services with advanced AI capabilities, 
+                comprehensive threat intelligence, and automated security operations for continuous protection.
               </p>
               
               <div className="flex items-center justify-center space-x-2 mb-8">

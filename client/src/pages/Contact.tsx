@@ -14,7 +14,13 @@ import {
   Send,
   Shield,
   Users,
-  Building
+  Building,
+  Headphones,
+  AlertTriangle,
+  CheckCircle,
+  MessageSquare,
+  Monitor,
+  Zap
 } from "lucide-react";
 import { useState } from "react";
 
@@ -168,6 +174,158 @@ export default function Contact() {
                 </CardContent>
               </Card>
             </div>
+
+            {/* Support Services Section */}
+            <section className="mb-20">
+              <div className="text-center mb-12">
+                <Badge className="bg-spring-500/20 text-spring-400 border-spring-500/30 mb-4">
+                  Enterprise Support
+                </Badge>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  Comprehensive <span className="text-transparent bg-clip-text bg-gradient-to-r from-spring-400 to-cyan-400">Platform Support</span>
+                </h2>
+                <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                  Enterprise-grade support operations with automated incident management, 
+                  real-time monitoring, and government-compliant service levels.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <Card className="bg-white/5 border-spring-500/30 hover:bg-white/10 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-spring-500/20 rounded-lg flex items-center justify-center mb-4">
+                      <Headphones className="w-6 h-6 text-spring-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">24/7 Support Operations</h3>
+                    <p className="text-gray-300 text-sm mb-3">
+                      Round-the-clock support with PagerDuty-integrated incident response and 15-minute average response times.
+                    </p>
+                    <div className="space-y-1">
+                      <div className="flex items-center text-xs text-spring-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        PagerDuty Integration
+                      </div>
+                      <div className="flex items-center text-xs text-spring-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        15-min Response SLA
+                      </div>
+                      <div className="flex items-center text-xs text-spring-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        FISMA-Compliant
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/5 border-cyan-500/30 hover:bg-white/10 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
+                      <Monitor className="w-6 h-6 text-cyan-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Real-time API Monitoring</h3>
+                    <p className="text-gray-300 text-sm mb-3">
+                      Sub-20ms API monitoring with automated alerting for threat intelligence and security operations.
+                    </p>
+                    <div className="space-y-1">
+                      <div className="flex items-center text-xs text-cyan-400">
+                        <Zap className="w-3 h-3 mr-2" />
+                        Sub-20ms Performance
+                      </div>
+                      <div className="flex items-center text-xs text-cyan-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        Automated Monitoring
+                      </div>
+                      <div className="flex items-center text-xs text-cyan-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        Real-time Alerts
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/5 border-orange-500/30 hover:bg-white/10 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center mb-4">
+                      <AlertTriangle className="w-6 h-6 text-orange-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Automated Incident Management</h3>
+                    <p className="text-gray-300 text-sm mb-3">
+                      Automated security workflow management with compliance tracking and audit trails.
+                    </p>
+                    <div className="space-y-1">
+                      <div className="flex items-center text-xs text-orange-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        Automated Workflows
+                      </div>
+                      <div className="flex items-center text-xs text-orange-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        Compliance Tracking
+                      </div>
+                      <div className="flex items-center text-xs text-orange-400">
+                        <CheckCircle className="w-3 h-3 mr-2" />
+                        Audit Trail Management
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="bg-white/5 border-gray-700/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <MessageSquare className="w-6 h-6 text-blue-400 mr-3" />
+                      <h3 className="text-xl font-bold text-white">Support Channels</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Email Support</span>
+                        <span className="text-blue-400 text-sm">&lt; 30 min response</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Phone Support</span>
+                        <span className="text-green-400 text-sm">&lt; 5 min response</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Live Chat</span>
+                        <span className="text-spring-400 text-sm">&lt; 2 min response</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Remote Support</span>
+                        <span className="text-orange-400 text-sm">&lt; 15 min response</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-white/5 border-gray-700/50">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Shield className="w-6 h-6 text-green-400 mr-3" />
+                      <h3 className="text-xl font-bold text-white">Enterprise SLAs</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Critical Issues</span>
+                        <span className="text-red-400 text-sm">15 min</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">High Priority</span>
+                        <span className="text-orange-400 text-sm">4 hours</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Standard</span>
+                        <span className="text-blue-400 text-sm">24 hours</span>
+                      </div>
+                      <div className="flex justify-between items-center p-3 bg-slate-800/50 rounded-lg">
+                        <span className="text-gray-300">Uptime SLA</span>
+                        <span className="text-green-400 text-sm">99.9%</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
 
             {/* Contact Form & Office Info */}
             <div className="grid lg:grid-cols-2 gap-12">
