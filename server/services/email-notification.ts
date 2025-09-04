@@ -66,11 +66,12 @@ export class EmailNotificationService {
 
   private async initialize() {
     try {
-      if (!process.env.SENDGRID_API_KEY) {
-        throw new Error("SENDGRID_API_KEY environment variable must be set");
+      const apiKey = process.env.TWILIO_SENDGRID_API_KEY || process.env.SENDGRID_API_KEY;
+      if (!apiKey) {
+        throw new Error("TWILIO_SENDGRID_API_KEY or SENDGRID_API_KEY environment variable must be set");
       }
 
-      this.mailService.setApiKey(process.env.SENDGRID_API_KEY);
+      this.mailService.setApiKey(apiKey);
       this.isInitialized = true;
       console.log('✅ SendGrid Email Notification Service initialized successfully');
       
