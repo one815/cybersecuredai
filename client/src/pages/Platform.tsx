@@ -116,18 +116,18 @@ export default function Platform() {
       status: "Multi-Provider Support"
     },
     {
-      title: "AI-Enhanced Support Operations",
-      description: "Enterprise-grade support with automated incident management",
-      icon: <CustomHeadphonesIcon className="w-8 h-8 text-spring-400" size={32} />,
+      title: "Advanced Threat Intelligence Processing",
+      description: "Multi-source threat intelligence with real-time analysis",
+      icon: <Enhanced4DBrainIcon className="w-8 h-8 text-spring-400" size={32} />,
       color: "border-spring-500/30",
       features: [
-        "PagerDuty-integrated incident response",
-        "Real-time API monitoring",
-        "Sub-20ms threat intelligence processing",
-        "15-minute average response time"
+        "VirusTotal & IBM X-Force integration",
+        "PyMISP & CIRCL threat feeds",
+        "Real-time threat correlation",
+        "Sub-20ms intelligence processing"
       ],
       image: socDashboardImg,
-      status: "24/7 Operations"
+      status: "Multi-Source Active"
     },
     {
       title: "AI-Based Compliance Automation",
@@ -206,8 +206,8 @@ export default function Platform() {
                 </span>
               </h1>
               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-5xl mx-auto leading-relaxed">
-                Purpose-built cybersecurity platform with enterprise-grade support operations, 
-                24/7 AI-assisted SOC, and automated incident management for educational institutions and government agencies.
+                Purpose-built cybersecurity platform with advanced AI engines, 
+                real-time threat intelligence, and automated compliance management for educational institutions and government agencies.
               </p>
               
               <div className="flex items-center justify-center space-x-2 mb-8">

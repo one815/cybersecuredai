@@ -125,7 +125,7 @@ export default function Home() {
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight px-2">
                 Enhanced with Multi Intelligence,<br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                  Enterprise Support Operations.
+                  Advanced Threat Detection.
                 </span>
               </h1>
               <div className="flex justify-center mb-6 md:mb-12">

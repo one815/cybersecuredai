@@ -338,7 +338,7 @@ export default function Integrations() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Seamlessly connect CyberSecured AI with your existing security tools and infrastructure. 
-                Our extensive integration library with enterprise-grade support operations ensures compatibility with leading enterprise solutions.
+                Our extensive integration library ensures compatibility with leading enterprise solutions and advanced security workflows.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">
@@ -350,8 +350,8 @@ export default function Integrations() {
                   Enterprise Ready
                 </span>
                 <span className="flex items-center gap-2">
-                  <CustomHeadphonesIcon className="w-4 h-4" size={16} />
-                  24/7 Support Operations
+                  <Enhanced4DBrainIcon className="w-4 h-4" size={16} />
+                  AI-Powered Workflows
                 </span>
               </div>
             </div>
