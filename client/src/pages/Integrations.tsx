@@ -35,7 +35,8 @@ import {
   Enhanced4DZapIcon,
   Enhanced4DActivityIcon,
   CustomShieldIcon,
-  CustomTargetIcon
+  CustomTargetIcon,
+  CustomHeadphonesIcon
 } from "@/components/CustomIcons";
 import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
 import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
@@ -337,7 +338,7 @@ export default function Integrations() {
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
                 Seamlessly connect CyberSecured AI with your existing security tools and infrastructure. 
-                Our extensive integration library ensures compatibility with leading enterprise solutions.
+                Our extensive integration library with enterprise-grade support operations ensures compatibility with leading enterprise solutions.
               </p>
               <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
                 <span className="flex items-center gap-2">
@@ -347,6 +348,10 @@ export default function Integrations() {
                 <span className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4" />
                   Enterprise Ready
+                </span>
+                <span className="flex items-center gap-2">
+                  <CustomHeadphonesIcon className="w-4 h-4" size={16} />
+                  24/7 Support Operations
                 </span>
               </div>
             </div>
