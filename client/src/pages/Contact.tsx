@@ -54,7 +54,7 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Address", 
-      value: "123 Security Blvd, Tech City, TC 12345",
+      value: "395 Pitchfork Trail, Suite 902, Willow Park, TX 76087",
       description: "Visit our headquarters"
     },
     {
@@ -67,22 +67,22 @@ export default function Contact() {
 
   const offices = [
     {
-      city: "Washington, DC",
-      address: "123 Security Blvd, Suite 100",
+      city: "Willow Park, TX",
+      address: "395 Pitchfork Trail, Suite 902",
       phone: "(800) 608-1030",
       type: "Headquarters"
     },
     {
-      city: "Austin, TX", 
-      address: "456 Innovation Dr, Suite 200",
+      city: "Washington, DC", 
+      address: "1717 Pennsylvania Avenue NW, Suite 1025",
       phone: "(800) 608-1030",
       type: "Operations Center"
     },
     {
-      city: "Denver, CO",
-      address: "789 Cyber Ave, Suite 300", 
+      city: "Wilmington, DE",
+      address: "1313 N. Market, 12th FL", 
       phone: "(800) 608-1030",
-      type: "Research Center"
+      type: "Operations Center"
     }
   ];
 
