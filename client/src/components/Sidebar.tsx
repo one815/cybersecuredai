@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 // CyberSecure logo
 import cyberSecureLogo from "@assets/CyberSecure AI (1)_1756164301031.png";
 import { useAuth } from "@/hooks/useAuth";
+import { useAuth as useAuth0 } from "@/contexts/AuthContext";
 // Custom cybersecurity icons
 import { 
   CustomClipboardCheckIcon, 
@@ -177,6 +178,64 @@ const navigationCategories: NavigationCategory[] = [
   }
 ];
 
+
+// Auth0 User Profile Component
+function AuthUserProfile() {
+  const { user, isAuthenticated, isLoading, login, logout } = useAuth0();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30">
+        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-700 rounded-full animate-pulse"></div>
+        <div className="flex-1">
+          <div className="h-3 bg-gray-700 rounded mb-1"></div>
+          <div className="h-2 bg-gray-700 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <button
+        onClick={login}
+        className="w-full flex items-center justify-center space-x-2 p-3 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300 text-white font-medium"
+        data-testid="login-button"
+      >
+        <LogOut className="w-4 h-4 rotate-180" />
+        <span>Login with Auth0</span>
+      </button>
+    );
+  }
+
+  return (
+    <div className="flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30 hover:border-gray-500/50 transition-all duration-300">
+      {user?.picture ? (
+        <img 
+          src={user.picture} 
+          alt={user.name || 'User'} 
+          className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border-2 border-cyan-400/30"
+        />
+      ) : (
+        <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xs lg:text-sm font-semibold shadow-lg flex-shrink-0">
+          {user?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'}
+        </div>
+      )}
+      <div className="flex-1 min-w-0">
+        <p className="text-xs lg:text-sm font-medium text-white truncate">{user?.name || 'Auth0 User'}</p>
+        <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+      </div>
+      <button 
+        onClick={logout}
+        className="text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110 group flex-shrink-0" 
+        data-testid="logout-button"
+        title="Logout"
+      >
+        <LogOut className="w-3 h-3 lg:w-4 lg:h-4 transition-all duration-300 group-hover:drop-shadow-sm" style={{filter: 'drop-shadow(0 0 4px rgba(239, 68, 68, 0.3))'}} />
+      </button>
+    </div>
+  );
+}
 
 export function Sidebar() {
   const [location] = useLocation();
@@ -420,18 +479,7 @@ export function Sidebar() {
 
         {/* User Profile */}
         <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-4 border-t border-surface-light">
-          <div className="flex items-center space-x-2 lg:space-x-3 p-2 lg:p-3 rounded-lg bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30 hover:border-gray-500/50 transition-all duration-300">
-            <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white text-xs lg:text-sm font-semibold shadow-lg flex-shrink-0">
-              {user?.email?.charAt(0).toUpperCase() || 'A'}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs lg:text-sm font-medium text-white truncate">Admin User</p>
-              <p className="text-xs text-gray-400 truncate">{user?.email || 'admin@cybersecure.ai'}</p>
-            </div>
-            <button className="text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110 group flex-shrink-0" data-testid="user-settings">
-              <LogOut className="w-3 h-3 lg:w-4 lg:h-4 transition-all duration-300 group-hover:drop-shadow-sm" style={{filter: 'drop-shadow(0 0 4px rgba(239, 68, 68, 0.3))'}} />
-            </button>
-          </div>
+          <AuthUserProfile />
         </div>
       </div>
     </>
