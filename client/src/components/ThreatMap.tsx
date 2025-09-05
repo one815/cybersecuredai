@@ -105,6 +105,14 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
 
   // Update markers when threat locations change
   useEffect(() => {
+    console.log('🗺️ ThreatMap: Received data:', { 
+      hasMap: !!map, 
+      hasData: !!threatLocations, 
+      isArray: Array.isArray(threatLocations),
+      dataCount: threatLocations?.length,
+      data: threatLocations 
+    });
+
     if (!map || !threatLocations || !Array.isArray(threatLocations)) return;
 
     // Clear existing markers
