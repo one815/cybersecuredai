@@ -76,7 +76,7 @@ export default function Contact() {
       city: "Washington, DC", 
       address: "1717 Pennsylvania Avenue NW, Suite 1025",
       phone: "(800) 608-1030",
-      type: "Operations Center"
+      type: "Research Center"
     },
     {
       city: "Wilmington, DE",
