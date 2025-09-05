@@ -142,7 +142,8 @@ export function GeospatialIntelligenceMap({
 
       const script = document.createElement('script');
       // Load Google Maps with latest version and advanced marker support
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly`;
+      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8';
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly`;
       script.async = true;
       script.defer = true;
       
@@ -170,6 +171,7 @@ export function GeospatialIntelligenceMap({
               center: { lat: 37.4239163, lng: -122.0947209 },
               zoom: 16,
               mapTypeId: 'satellite',
+              mapId: 'DEMO_MAP_ID', // Add Map ID for Advanced Markers
               tilt: 45, // 3D tilt effect
               heading: 0,
               clickableIcons: true,
@@ -202,6 +204,7 @@ export function GeospatialIntelligenceMap({
             center: { lat: 30, lng: 0 },
             zoom: 3,
             mapTypeId: mapMode === 'satellite' ? 'hybrid' : 'roadmap',
+            mapId: 'DEMO_MAP_ID', // Add Map ID for Advanced Markers
             tilt: mapMode === 'satellite' ? 45 : 0,
             heading: 0,
             // Only apply custom styles for standard mode, not when mapId is used
@@ -249,6 +252,7 @@ export function GeospatialIntelligenceMap({
           center: { lat: 20, lng: 0 },
           zoom: 2,
           mapTypeId: 'hybrid',
+          mapId: 'DEMO_MAP_ID', // Add Map ID for Advanced Markers
           zoomControl: true,
           mapTypeControl: true,
           streetViewControl: true,
@@ -282,6 +286,13 @@ export function GeospatialIntelligenceMap({
         const { Marker3DInteractiveElement } = await window.google.maps.importLibrary("maps3d");
         
         threats.forEach((threat: GeospatialThreat) => {
+          // Validate coordinates before creating marker
+          if (typeof threat.latitude !== 'number' || typeof threat.longitude !== 'number' || 
+              isNaN(threat.latitude) || isNaN(threat.longitude)) {
+            console.warn('Invalid coordinates for threat:', threat);
+            return;
+          }
+
           const color = threat.severity === 'critical' ? '#ef4444' : 
                        threat.severity === 'high' ? '#f97316' : 
                        threat.severity === 'medium' ? '#eab308' : '#22c55e';
