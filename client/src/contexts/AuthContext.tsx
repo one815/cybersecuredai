@@ -27,12 +27,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     queryKey: ['/api/auth/status'],
     refetchInterval: 30000, // Check every 30 seconds
     staleTime: 25000,
-  });
+  }) as { data: { isAuthenticated: boolean; user: User | null } | undefined; isLoading: boolean; refetch: () => void };
 
   useEffect(() => {
     if (authStatus) {
-      setIsAuthenticated(authStatus.isAuthenticated);
-      setUser(authStatus.user);
+      setIsAuthenticated(authStatus.isAuthenticated || false);
+      setUser(authStatus.user || null);
     }
   }, [authStatus]);
 
