@@ -44,8 +44,9 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       }
 
       const script = document.createElement('script');
-      // Load with enhanced features for 3D satellite view
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8&libraries=marker,visualization,geometry,places&callback=initMap&v=weekly`;
+      // Load with enhanced features for 3D satellite view - using environment variable
+      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8';
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker,visualization,geometry,places&callback=initMap&v=weekly`;
       script.async = true;
       script.defer = true;
       
@@ -68,6 +69,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       center: { lat: 39.8283, lng: -98.5795 }, // Center on US for better marketing demo
       zoom: 4,
       mapTypeId: 'satellite', // Use satellite view for 3D effect
+      mapId: 'DEMO_MAP_ID', // Add Map ID for Advanced Markers
       tilt: 45, // Enhanced 3D perspective
       heading: 0,
       styles: [
