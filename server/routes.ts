@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import express from "express";
 import path from "path";
 import multer from "multer";
+import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
@@ -79,6 +80,37 @@ behavioralEngine.on('anomalyDetected', (anomaly) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static files from attached_assets directory
   app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "attached_assets")));
+  
+  // Auth0 configuration
+  const authConfig = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: process.env.AUTH0_CLIENT_SECRET,
+    baseURL: process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000',
+    clientID: process.env.AUTH0_CLIENT_ID,
+    issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
+    routes: {
+      login: '/auth/login',
+      logout: '/auth/logout',
+      callback: '/auth/callback'
+    }
+  };
+
+  // Configure Auth0 middleware
+  app.use(auth(authConfig));
+
+  // Auth0 user info endpoint
+  app.get('/api/auth/user', (req, res) => {
+    res.json(req.oidc?.user || null);
+  });
+
+  // Auth0 login status endpoint
+  app.get('/api/auth/status', (req, res) => {
+    res.json({
+      isAuthenticated: req.oidc?.isAuthenticated() || false,
+      user: req.oidc?.user || null
+    });
+  });
   
   // Initialize Cypher AI Assistant
   const { CypherAI } = await import('./engines/cypher-ai');
