@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search, TrendingUp, BarChart3, Zap, Settings, RefreshCw, Download, Layers, Cpu, Cloud, Brain } from "lucide-react";
+import { ThreatMap } from "@/components/ThreatMap";
 
 // Extend window interface for Google Maps
 declare global {
@@ -887,14 +888,10 @@ export default function ThreatMonitoring() {
               </div>
             </CardHeader>
             <CardContent>
-              {/* Enhanced Threat Map */}
-              {import.meta.env.VITE_GOOGLE_MAPS_API_KEY ? (
-                <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY} render={renderMap} libraries={["places"]} />
-              ) : (
-                <div className="w-full h-80 bg-gray-900 rounded-lg overflow-hidden">
-                  <FallbackMap locations={threatLocations} />
-                </div>
-              )}
+              {/* Live Threat Map */}
+              <div className="w-full h-96 bg-gray-900 rounded-lg overflow-hidden">
+                <ThreatMap className="w-full h-full" />
+              </div>
               
               {/* Real-time Processing Stats */}
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
