@@ -111,6 +111,7 @@ import IBMXForceIntelligence from "@/pages/platform/IBMXForceIntelligence";
 import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
 import TaxiiStixManagement from "@/pages/platform/TaxiiStixManagement";
 import { MandiantIntelligence } from "@/pages/platform/MandiantIntelligence";
+import { TheHiveIntegration } from "@/pages/TheHiveIntegration";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -346,6 +347,12 @@ function Router() {
       <Route path="/platform/mandiant-intelligence">
         <Layout>
           <MandiantIntelligence />
+        </Layout>
+      </Route>
+
+      <Route path="/platform/thehive-integration">
+        <Layout>
+          <TheHiveIntegration />
         </Layout>
       </Route>
       <Route path="/training">

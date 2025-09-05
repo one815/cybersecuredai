@@ -104,6 +104,7 @@ const navigationCategories: NavigationCategory[] = [
     requiredRoles: ['admin', 'security_officer'],
     items: [
       { id: "mandiant-intelligence", label: "Mandiant Intelligence", icon: Brain, path: "/platform/mandiant-intelligence", requiredTier: 'enterprise', isPremium: true },
+      { id: "thehive-integration", label: "TheHive Case Management", icon: Shield, path: "/platform/thehive-integration", requiredTier: 'enterprise', isPremium: true },
       { id: "threatconnect-attribution", label: "ThreatConnect Attribution", icon: Brain, path: "/platform/threatconnect-attribution", requiredTier: 'enterprise', isPremium: true },
       { id: "taxii-stix-management", label: "TAXII/STIX Management", icon: Shield, path: "/platform/taxii-stix-management", requiredTier: 'enterprise', isPremium: true },
       { id: "enterprise-security-main", label: "Security Infrastructure", icon: Monitor, path: "/enterprise-security", requiredTier: 'enterprise', isPremium: true },

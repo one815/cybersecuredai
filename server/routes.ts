@@ -26,6 +26,7 @@ import { threatConnectService } from "./services/threatconnect-service";
 import { attOTXService } from "./services/att-otx-service";
 import { taxiiStixService } from "./services/taxii-stix-service";
 import { mandiantService } from "./services/mandiant-intelligence";
+import { theHiveIntegration } from "./engines/thehive-integration.js";
 import { 
   getGeospatialOverview, 
   getThreatLandscape, 
@@ -2041,6 +2042,171 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error getting Mandiant analytics:', error);
       res.status(500).json({ error: 'Failed to get Mandiant analytics' });
+    }
+  });
+
+  // ===============================
+  // TheHive Integration API Routes
+  // ===============================
+  
+  // Initialize TheHive integration
+  theHiveIntegration.initialize().catch(err => 
+    console.error('Failed to initialize TheHive integration:', err)
+  );
+
+  // Get TheHive status and configuration
+  app.get("/api/thehive/status", async (req, res) => {
+    try {
+      const status = theHiveIntegration.getStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting TheHive status:', error);
+      res.status(500).json({ error: 'Failed to get TheHive status' });
+    }
+  });
+
+  // Get recent cases from TheHive
+  app.get("/api/thehive/cases", async (req, res) => {
+    try {
+      const { limit } = req.query;
+      const cases = await theHiveIntegration.getRecentCases(
+        limit ? parseInt(limit as string) : 20
+      );
+      res.json(cases);
+    } catch (error) {
+      console.error('Error getting TheHive cases:', error);
+      res.status(500).json({ error: 'Failed to get TheHive cases' });
+    }
+  });
+
+  // Get critical cases from TheHive
+  app.get("/api/thehive/cases/critical", async (req, res) => {
+    try {
+      const cases = await theHiveIntegration.getCriticalCases();
+      res.json(cases);
+    } catch (error) {
+      console.error('Error getting critical TheHive cases:', error);
+      res.status(500).json({ error: 'Failed to get critical TheHive cases' });
+    }
+  });
+
+  // Get active alerts from TheHive
+  app.get("/api/thehive/alerts", async (req, res) => {
+    try {
+      const { limit } = req.query;
+      const alerts = await theHiveIntegration.getActiveAlerts(
+        limit ? parseInt(limit as string) : 50
+      );
+      res.json(alerts);
+    } catch (error) {
+      console.error('Error getting TheHive alerts:', error);
+      res.status(500).json({ error: 'Failed to get TheHive alerts' });
+    }
+  });
+
+  // Get observables from TheHive
+  app.get("/api/thehive/observables", async (req, res) => {
+    try {
+      const { limit, caseId } = req.query;
+      
+      let observables;
+      if (caseId) {
+        observables = await theHiveIntegration.getObservablesByCase(caseId as string);
+      } else {
+        observables = await theHiveIntegration.getRecentObservables(
+          limit ? parseInt(limit as string) : 100
+        );
+      }
+      
+      res.json(observables);
+    } catch (error) {
+      console.error('Error getting TheHive observables:', error);
+      res.status(500).json({ error: 'Failed to get TheHive observables' });
+    }
+  });
+
+  // Get IOCs (Indicators of Compromise) from TheHive
+  app.get("/api/thehive/iocs", async (req, res) => {
+    try {
+      const iocs = await theHiveIntegration.getIOCs();
+      res.json(iocs);
+    } catch (error) {
+      console.error('Error getting TheHive IOCs:', error);
+      res.status(500).json({ error: 'Failed to get TheHive IOCs' });
+    }
+  });
+
+  // Get case timeline from TheHive
+  app.get("/api/thehive/cases/:caseId/timeline", async (req, res) => {
+    try {
+      const { caseId } = req.params;
+      const timeline = await theHiveIntegration.getCaseTimeline(caseId);
+      res.json(timeline);
+    } catch (error) {
+      console.error('Error getting TheHive case timeline:', error);
+      res.status(500).json({ error: 'Failed to get TheHive case timeline' });
+    }
+  });
+
+  // Create new alert in TheHive
+  app.post("/api/thehive/alerts", async (req, res) => {
+    try {
+      const alert = await theHiveIntegration.createAlert(req.body);
+      if (alert) {
+        res.status(201).json(alert);
+      } else {
+        res.status(503).json({ error: 'TheHive not configured - alert not created' });
+      }
+    } catch (error) {
+      console.error('Error creating TheHive alert:', error);
+      res.status(500).json({ error: 'Failed to create TheHive alert' });
+    }
+  });
+
+  // Promote alert to case in TheHive
+  app.post("/api/thehive/alerts/:alertId/promote", async (req, res) => {
+    try {
+      const { alertId } = req.params;
+      const { caseTemplate } = req.body;
+      
+      const caseData = await theHiveIntegration.promoteAlertToCase(alertId, caseTemplate);
+      if (caseData) {
+        res.status(201).json(caseData);
+      } else {
+        res.status(503).json({ error: 'TheHive not configured - alert not promoted' });
+      }
+    } catch (error) {
+      console.error('Error promoting TheHive alert to case:', error);
+      res.status(500).json({ error: 'Failed to promote TheHive alert to case' });
+    }
+  });
+
+  // TheHive dashboard summary
+  app.get("/api/thehive/summary", async (req, res) => {
+    try {
+      const [cases, alerts, iocs] = await Promise.all([
+        theHiveIntegration.getRecentCases(10),
+        theHiveIntegration.getActiveAlerts(10),
+        theHiveIntegration.getIOCs()
+      ]);
+
+      const summary = {
+        totalCases: cases.length,
+        totalAlerts: alerts.length,
+        totalIOCs: iocs.length,
+        criticalCases: cases.filter(c => c.severity >= 4).length,
+        highSeverityAlerts: alerts.filter(a => a.severity >= 3).length,
+        activeIOCs: iocs.filter(i => i.sighted).length,
+        recentActivity: {
+          cases: cases.slice(0, 5),
+          alerts: alerts.slice(0, 5)
+        }
+      };
+
+      res.json(summary);
+    } catch (error) {
+      console.error('Error getting TheHive summary:', error);
+      res.status(500).json({ error: 'Failed to get TheHive summary' });
     }
   });
 
