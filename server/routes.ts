@@ -35,6 +35,7 @@ import {
   getComplianceMap, 
   getIncidentMap 
 } from "./services/geospatial-intelligence";
+import { oneLoginIntegrationService } from "./services/onelogin-integration";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -6387,6 +6388,262 @@ startxref
       res.status(500).json({ 
         error: "Failed to generate API integration requirements PDF report",
         details: error.message 
+      });
+    }
+  });
+
+  // OneLogin Enterprise IAM Integration API Endpoints
+  
+  // Test OneLogin connection
+  app.get("/api/onelogin/test", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const result = await oneLoginIntegrationService.testConnection();
+      res.json(result);
+    } catch (error: any) {
+      console.error("❌ OneLogin test connection error:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Failed to test OneLogin connection",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get OneLogin users (paginated)
+  app.get("/api/onelogin/users", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const page = parseInt(req.query.page as string) || 1;
+      const limit = Math.min(parseInt(req.query.limit as string) || 50, 100); // Max 100 users per request
+      
+      const result = await oneLoginIntegrationService.getUsers(page, limit);
+      res.json(result);
+    } catch (error: any) {
+      console.error("❌ OneLogin get users error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve OneLogin users",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get specific OneLogin user by ID
+  app.get("/api/onelogin/users/:userId", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const user = await oneLoginIntegrationService.getUser(userId);
+      res.json(user);
+    } catch (error: any) {
+      console.error("❌ OneLogin get user error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve OneLogin user",
+        error: error.message 
+      });
+    }
+  });
+
+  // Search OneLogin users by email
+  app.get("/api/onelogin/users/search/:email", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const email = decodeURIComponent(req.params.email);
+      const user = await oneLoginIntegrationService.getUserByEmail(email);
+      
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ message: "User not found in OneLogin" });
+      }
+    } catch (error: any) {
+      console.error("❌ OneLogin search user error:", error);
+      res.status(500).json({ 
+        message: "Failed to search OneLogin user",
+        error: error.message 
+      });
+    }
+  });
+
+  // Sync OneLogin user to platform
+  app.post("/api/onelogin/users/:userId/sync", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const oneLoginUser = await oneLoginIntegrationService.getUser(userId);
+      const syncedUser = await oneLoginIntegrationService.syncUserToPlatform(oneLoginUser);
+      
+      if (syncedUser) {
+        res.json({ 
+          success: true, 
+          message: "User synced successfully",
+          user: syncedUser 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to sync user to platform" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ OneLogin sync user error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to sync OneLogin user",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get OneLogin roles
+  app.get("/api/onelogin/roles", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const roles = await oneLoginIntegrationService.getRoles();
+      res.json(roles);
+    } catch (error: any) {
+      console.error("❌ OneLogin get roles error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve OneLogin roles",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get user roles
+  app.get("/api/onelogin/users/:userId/roles", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const roles = await oneLoginIntegrationService.getUserRoles(userId);
+      res.json(roles);
+    } catch (error: any) {
+      console.error("❌ OneLogin get user roles error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve user roles",
+        error: error.message 
+      });
+    }
+  });
+
+  // Assign roles to user
+  app.post("/api/onelogin/users/:userId/roles", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const { roleIds } = req.body;
+      if (!Array.isArray(roleIds) || roleIds.length === 0) {
+        return res.status(400).json({ message: "Role IDs array is required" });
+      }
+
+      const success = await oneLoginIntegrationService.assignRoleToUser(userId, roleIds);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Roles assigned successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to assign roles" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ OneLogin assign roles error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to assign roles to user",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get security events for audit and compliance
+  app.get("/api/onelogin/events", authenticateJWT, authorizeRoles("admin", "compliance_officer"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const since = req.query.since ? new Date(req.query.since as string) : undefined;
+      const until = req.query.until ? new Date(req.query.until as string) : undefined;
+      const eventTypeId = req.query.eventTypeId ? parseInt(req.query.eventTypeId as string) : undefined;
+      const userId = req.query.userId ? parseInt(req.query.userId as string) : undefined;
+      const limit = Math.min(parseInt(req.query.limit as string) || 100, 1000); // Max 1000 events
+
+      const events = await oneLoginIntegrationService.getSecurityEvents(since, until, eventTypeId, userId, limit);
+      res.json(events);
+    } catch (error: any) {
+      console.error("❌ OneLogin get events error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve security events",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get user sessions for security monitoring
+  app.get("/api/onelogin/users/:userId/sessions", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const sessions = await oneLoginIntegrationService.getUserSessions(userId);
+      res.json(sessions);
+    } catch (error: any) {
+      console.error("❌ OneLogin get sessions error:", error);
+      res.status(500).json({ 
+        message: "Failed to retrieve user sessions",
+        error: error.message 
+      });
+    }
+  });
+
+  // OneLogin SSO authentication endpoint
+  app.post("/api/auth/onelogin/sso", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email is required for SSO authentication" });
+      }
+
+      const authResult = await oneLoginIntegrationService.authenticateSSO(email);
+      
+      if (authResult) {
+        res.json({
+          success: true,
+          message: "OneLogin SSO authentication successful",
+          user: {
+            id: authResult.user.id,
+            email: authResult.user.email,
+            firstName: authResult.user.firstName,
+            lastName: authResult.user.lastName,
+            role: authResult.user.role,
+            organization: authResult.user.organization
+          },
+          token: authResult.token,
+          refreshToken: authResult.refreshToken
+        });
+      } else {
+        res.status(401).json({ 
+          success: false, 
+          message: "OneLogin SSO authentication failed" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ OneLogin SSO authentication error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "OneLogin SSO authentication error",
+        error: error.message 
       });
     }
   });
