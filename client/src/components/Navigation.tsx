@@ -84,7 +84,8 @@ export function Navigation() {
         { label: "Latest News", href: "/news" },
         { label: "Awards", href: "/about/awards" },
         { label: "Careers", href: "/careers" },
-        { label: "Contact Us", href: "/contact" }
+        { label: "Contact Us", href: "/contact" },
+        { label: "Legal", href: "/legal" }
       ]
     }
   ];
