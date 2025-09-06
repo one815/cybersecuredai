@@ -144,15 +144,16 @@ export default function LegalNew() {
                 <p>• SOC 2 certification</p>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="border-orange-400 text-orange-400 hover:bg-orange-400/10"
-                  onClick={() => window.open('/legal/FERPA_Compliance.html', '_blank')}
-                >
-                  <ExternalLink className="h-3 w-3 mr-1" />
-                  FERPA
-                </Button>
+                <Link href="/legal/ferpa-compliance">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="border-orange-400 text-orange-400 hover:bg-orange-400/10"
+                  >
+                    <FileText className="h-3 w-3 mr-1" />
+                    FERPA
+                  </Button>
+                </Link>
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -241,15 +242,16 @@ export default function LegalNew() {
                 <p className="mb-4">
                   Violations may result in account suspension or termination.
                 </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                  onClick={() => window.open('/legal/Acceptable_Use_Policy.html', '_blank')}
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  View Full Acceptable Use Policy
-                </Button>
+                <Link href="/legal/acceptable-use-policy">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    View Full Acceptable Use Policy
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
@@ -323,24 +325,26 @@ export default function LegalNew() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className="space-y-3">
                   <h4 className="font-semibold text-white mb-2">Core Policies</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/Cookie_Policy.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Cookie Policy
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/Data_Security_Policy.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Data Security Policy
-                  </Button>
+                  <Link href="/legal/cookie-policy">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      Cookie Policy
+                    </Button>
+                  </Link>
+                  <Link href="/legal/data-security-policy">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      Data Security Policy
+                    </Button>
+                  </Link>
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -354,24 +358,26 @@ export default function LegalNew() {
 
                 <div className="space-y-3">
                   <h4 className="font-semibold text-white mb-2">Privacy & Data Protection</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/GDPR_Compliance.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    GDPR Compliance
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/CCPA_Compliance.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    CCPA/CPRA Compliance
-                  </Button>
+                  <Link href="/legal/gdpr-compliance">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      GDPR Compliance
+                    </Button>
+                  </Link>
+                  <Link href="/legal/ccpa-compliance">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      CCPA/CPRA Compliance
+                    </Button>
+                  </Link>
                   <Button 
                     variant="ghost" 
                     size="sm" 
@@ -394,24 +400,26 @@ export default function LegalNew() {
 
                 <div className="space-y-3">
                   <h4 className="font-semibold text-white mb-2">Business & Service Terms</h4>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/Service_Level_Agreement.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Service Level Agreement
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/Refund_Policy.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Refund & Cancellation Policy
-                  </Button>
+                  <Link href="/legal/service-level-agreement">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      Service Level Agreement
+                    </Button>
+                  </Link>
+                  <Link href="/legal/refund-policy">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      Refund & Cancellation Policy
+                    </Button>
+                  </Link>
                   <Button 
                     variant="ghost" 
                     size="sm" 
