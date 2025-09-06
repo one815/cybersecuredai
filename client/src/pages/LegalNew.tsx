@@ -1,6 +1,7 @@
-import { Shield, FileText, Users, Scale } from "lucide-react";
+import { Shield, FileText, Users, Scale, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function LegalNew() {
   return (
@@ -41,12 +42,21 @@ export default function LegalNew() {
               <p className="text-gray-300 text-sm mb-4">
                 Our Terms of Service outline the rights, responsibilities, and obligations when using our cybersecurity platform.
               </p>
-              <div className="space-y-2 text-sm text-gray-400">
+              <div className="space-y-2 text-sm text-gray-400 mb-4">
                 <p>• Platform usage guidelines</p>
                 <p>• Service level agreements</p>
                 <p>• User responsibilities</p>
                 <p>• Limitation of liability</p>
               </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                onClick={() => window.open('/legal/Terms_of_Service.html', '_blank')}
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                View Full Terms of Service
+              </Button>
             </CardContent>
           </Card>
 
@@ -65,12 +75,21 @@ export default function LegalNew() {
               <p className="text-gray-300 text-sm mb-4">
                 We are committed to protecting your privacy and maintaining the highest standards of data security.
               </p>
-              <div className="space-y-2 text-sm text-gray-400">
+              <div className="space-y-2 text-sm text-gray-400 mb-4">
                 <p>• Data collection practices</p>
                 <p>• Information usage policies</p>
                 <p>• Third-party integrations</p>
                 <p>• User control options</p>
               </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full border-green-400 text-green-400 hover:bg-green-400/10"
+                onClick={() => window.open('/legal/Privacy_Policy.html', '_blank')}
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                View Full Privacy Policy
+              </Button>
             </CardContent>
           </Card>
 
@@ -89,11 +108,31 @@ export default function LegalNew() {
               <p className="text-gray-300 text-sm mb-4">
                 CyberSecured AI complies with major regulatory frameworks and industry standards.
               </p>
-              <div className="space-y-2 text-sm text-gray-400">
+              <div className="space-y-2 text-sm text-gray-400 mb-4">
                 <p>• FERPA compliance</p>
                 <p>• FISMA requirements</p>
                 <p>• CIPA standards</p>
                 <p>• SOC 2 certification</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-orange-400 text-orange-400 hover:bg-orange-400/10"
+                  onClick={() => window.open('/legal/FERPA_Compliance.html', '_blank')}
+                >
+                  <ExternalLink className="h-3 w-3 mr-1" />
+                  FERPA
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="border-orange-400 text-orange-400 hover:bg-orange-400/10"
+                  onClick={() => window.open('/legal/FedRAMP_Compliance.html', '_blank')}
+                >
+                  <ExternalLink className="h-3 w-3 mr-1" />
+                  FedRAMP
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -120,9 +159,18 @@ export default function LegalNew() {
                   <li>Interference with service operations</li>
                   <li>Violation of applicable laws and regulations</li>
                 </ul>
-                <p>
+                <p className="mb-4">
                   Violations may result in account suspension or termination.
                 </p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                  onClick={() => window.open('/legal/Acceptable_Use_Policy.html', '_blank')}
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Full Acceptable Use Policy
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -149,6 +197,132 @@ export default function LegalNew() {
                 <p>
                   We ensure your data is processed lawfully, fairly, and transparently.
                 </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Comprehensive Legal Documents */}
+        <div className="mt-12">
+          <Card className="bg-slate-800/50 border-cyan-500/30">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5 text-cyan-400" />
+                Complete Legal Documentation Suite
+              </CardTitle>
+              <CardDescription>
+                Access all comprehensive legal documents, compliance statements, and policy documentation.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-white mb-2">Core Policies</h4>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/Cookie_Policy.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Cookie Policy
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/Data_Security_Policy.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Data Security Policy
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/Vulnerability_Disclosure_Policy.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Vulnerability Disclosure
+                  </Button>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-white mb-2">Privacy & Data Protection</h4>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/GDPR_Compliance.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    GDPR Compliance
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/CCPA_Compliance.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    CCPA/CPRA Compliance
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/COPPA_Compliance.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    COPPA Compliance
+                  </Button>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="font-semibold text-white mb-2">Business & Service Terms</h4>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/Service_Level_Agreement.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Service Level Agreement
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/Refund_Policy.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    Refund & Cancellation Policy
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/AI_Ethics_Statement.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    AI Ethics Statement
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <Shield className="h-5 w-5 text-cyan-400" />
+                  <div>
+                    <p className="text-sm text-cyan-300 font-semibold">
+                      Enterprise-Ready Legal Framework
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      All documents are professionally formatted, legally compliant, and ready for government and educational sector deployment.
+                      Last updated: September 6, 2025
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
