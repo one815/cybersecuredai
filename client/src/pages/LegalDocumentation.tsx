@@ -120,14 +120,18 @@ export default function LegalDocumentation() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="bg-white text-black p-8 rounded-lg font-mono text-sm leading-relaxed">
+                <div className="bg-white text-black p-8 rounded-lg text-sm leading-relaxed" style={{ fontFamily: "'Nata Sans', 'Noto Sans', sans-serif" }}>
                   <div className="text-center mb-8">
-                    <div className="mx-auto mb-4 p-4 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg inline-block">
-                      <div className="text-2xl font-bold text-white">🛡️ CYBERSECURED AI</div>
+                    <div className="mx-auto mb-4">
+                      <img 
+                        src={import.meta.env.BASE_URL + "attached_assets/5_1757170718777.png"}
+                        alt="CyberSecured AI Logo" 
+                        className="h-20 mx-auto"
+                      />
                     </div>
                     <div className="text-lg font-bold">CYBERSECURED AI</div>
                     <div>Enterprise Cybersecurity Platform</div>
-                    <div>Willow Park, TX | one@cybersecuredai.com</div>
+                    <div>395 Pitchfork Trail Suite 902, Willow Park, TX 76087 | legal@cybersecuredai.com</div>
                   </div>
 
                   <div className="mb-6">
@@ -147,22 +151,22 @@ export default function LegalDocumentation() {
                   </div>
 
                   <div className="mb-6">
-                    This letter is to confirm that we, <strong>CyberSecured AI</strong> are giving permission to file a campaign to Twilio for program <strong>"CyberSecured AI Security Alerts & Threat Notifications"</strong>.
+                    This letter is to confirm that we, <strong>CyberSecured AI</strong> are giving permission to file a campaign to Twilio for program <strong>"CyberSecured AI Security Alerts, Threat Notifications & Multi-Factor Authentication (M2FA)"</strong>.
                   </div>
 
                   <div className="mb-6">
                     <strong>Program Details:</strong>
                     <ul className="list-disc ml-6 mt-2">
                       <li>Company: CyberSecured AI</li>
-                      <li>Program Name: Security Alerts & Threat Notifications</li>
-                      <li>Use Case: Critical security alerts, threat intelligence updates, and compliance notifications</li>
+                      <li>Program Name: Security Alerts, Threat Notifications & Multi-Factor Authentication</li>
+                      <li>Use Case: Critical security alerts, threat intelligence updates, compliance notifications, and multi-factor authentication login codes</li>
                       <li>Target Audience: Educational institutions, government organizations, and enterprise clients</li>
-                      <li>Message Types: Security alerts, system notifications, compliance reminders</li>
+                      <li>Message Types: Security alerts, system notifications, compliance reminders, M2FA authentication codes</li>
                     </ul>
                   </div>
 
                   <div className="mb-8">
-                    If additional information is needed, please contact shortcodes@twilio.com or one@cybersecuredai.com
+                    If additional information is needed, please contact shortcodes@twilio.com or legal@cybersecuredai.com
                   </div>
 
                   <div className="mb-4">
@@ -171,19 +175,26 @@ export default function LegalDocumentation() {
 
                   <div className="grid grid-cols-2 gap-8">
                     <div>
-                      <strong>Name & Title:</strong><br />
-                      Chief Executive Officer<br />
+                      <strong>Authorized Signer:</strong><br />
+                      Camilia Anderson, CEO<br />
                       CyberSecured AI<br /><br />
                       <strong>Date:</strong> {new Date().toLocaleDateString()}<br /><br />
-                      <strong>Signature:</strong> _________________________
+                      <strong>Signature:</strong><br />
+                      <img 
+                        src={import.meta.env.BASE_URL + "attached_assets/sig-CAM_1757171427620.PNG"}
+                        alt="Camilia Anderson Signature" 
+                        className="h-16 mt-2"
+                      />
                     </div>
                     <div>
                       <strong>Contact Information:</strong><br />
-                      Email: one@cybersecuredai.com<br />
+                      Email: legal@cybersecuredai.com<br />
                       Website: cybersecuredai.com<br />
-                      Address: Willow Park, TX<br /><br />
+                      Address: 395 Pitchfork Trail Suite 902<br />
+                      Willow Park, TX 76087<br /><br />
                       <strong>Business Registration:</strong><br />
-                      Enterprise Cybersecurity Solutions
+                      CyberSecure AI Ltd.<br />
+                      TX SOS: 806180900
                     </div>
                   </div>
                 </div>
@@ -455,16 +466,114 @@ export default function LegalDocumentation() {
                   </div>
                 </div>
 
-                <div className="bg-slate-700/50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-4 text-cyan-400">Verbal Opt-in Script</h3>
-                  <div className="bg-slate-800 p-4 rounded-lg">
-                    <p className="text-gray-300 italic">
-                      "Would you like to receive SMS security alerts from CyberSecured AI? You'll get critical 
-                      threat notifications and system updates sent directly to your phone. You can receive up 
-                      to 10 messages per month during normal operations, with additional alerts during security 
-                      incidents. Standard message and data rates apply. You can opt-out anytime by texting STOP. 
-                      You must be 18 or older to subscribe. Do you consent to receive these SMS alerts?"
-                    </p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* M2FA Login Mockup */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400">M2FA Login Flow</h3>
+                    
+                    <div className="bg-slate-900 p-4 rounded-lg border border-green-500/30">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                        <div className="text-xs text-gray-400 ml-2">cybersecuredai.com/login</div>
+                      </div>
+                      
+                      <div className="bg-slate-800 p-4 rounded border border-green-400">
+                        <div className="flex items-center gap-2 mb-3">
+                          <Shield className="h-5 w-5 text-green-400" />
+                          <h4 className="font-semibold text-green-400">Multi-Factor Authentication</h4>
+                        </div>
+                        <p className="text-sm text-gray-300 mb-4">
+                          Enter the 6-digit code sent to your mobile device to complete login.
+                        </p>
+                        
+                        <div className="space-y-3">
+                          <div className="bg-slate-900 p-3 rounded">
+                            <div className="text-xs text-green-400 mb-1">SMS Code Sent</div>
+                            <div className="flex gap-2">
+                              {[...Array(6)].map((_, i) => (
+                                <div key={i} className="w-8 h-8 bg-slate-700 border border-green-400 rounded text-center flex items-center justify-center text-white">
+                                  {i < 3 ? Math.floor(Math.random() * 10) : ''}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <Button className="w-full bg-green-600 hover:bg-green-700 text-sm">
+                            Verify & Login
+                          </Button>
+                          <p className="text-xs text-gray-400 text-center">
+                            Didn't receive code? <span className="text-green-400">Resend SMS</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* M2FA Sample Messages */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400">M2FA SMS Messages</h3>
+                    
+                    <div className="space-y-4">
+                      <div className="bg-slate-900 p-3 rounded-lg">
+                        <div className="text-xs text-gray-400 mb-1">Authentication Code</div>
+                        <p className="text-sm text-white">
+                          Your CyberSecured AI login code: 847392. Valid for 5 minutes. 
+                          Do not share this code. Reply STOP to opt-out.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-slate-900 p-3 rounded-lg">
+                        <div className="text-xs text-gray-400 mb-1">Login Alert</div>
+                        <p className="text-sm text-white">
+                          New login to your CyberSecured AI account from Chrome on Windows. 
+                          If this wasn't you, secure your account immediately.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-amber-900/30 p-3 rounded-lg border border-amber-500/30">
+                        <div className="text-xs text-amber-400 mb-1">Security Notice</div>
+                        <p className="text-sm text-white">
+                          ⚠️ Multiple failed login attempts detected. Your account has been 
+                          temporarily locked. Contact support if needed.
+                        </p>
+                      </div>
+                      
+                      <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-500/30">
+                        <div className="text-xs text-blue-400 mb-1">Account Recovery</div>
+                        <p className="text-sm text-white">
+                          Password reset requested. Your verification code: 293847. 
+                          Valid for 10 minutes. CyberSecured AI
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-slate-700/50 p-6 rounded-lg mt-6">
+                  <h3 className="text-lg font-semibold mb-4 text-cyan-400">Verbal Opt-in Scripts</h3>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-slate-800 p-4 rounded-lg">
+                      <h4 className="font-semibold text-white mb-2">Security Alerts Script</h4>
+                      <p className="text-gray-300 italic text-sm">
+                        "Would you like to receive SMS security alerts from CyberSecured AI? You'll get critical 
+                        threat notifications and system updates sent directly to your phone. You can receive up 
+                        to 10 messages per month during normal operations, with additional alerts during security 
+                        incidents. Standard message and data rates apply. You can opt-out anytime by texting STOP. 
+                        You must be 18 or older to subscribe. Do you consent to receive these SMS alerts?"
+                      </p>
+                    </div>
+                    
+                    <div className="bg-slate-800 p-4 rounded-lg">
+                      <h4 className="font-semibold text-white mb-2">M2FA Authentication Script</h4>
+                      <p className="text-gray-300 italic text-sm">
+                        "Would you like to enable SMS-based multi-factor authentication for your CyberSecured AI account? 
+                        You'll receive verification codes for secure login. Message frequency varies with your login activity. 
+                        Standard message and data rates apply. You can disable this feature anytime in your account settings 
+                        or by texting STOP. You must be 18 or older to enable this feature. Do you consent to receive M2FA codes via SMS?"
+                      </p>
+                    </div>
                   </div>
                 </div>
 
