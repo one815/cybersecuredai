@@ -116,6 +116,14 @@ import LegalDocumentation from "@/pages/LegalDocumentation";
 import LegalNew from "@/pages/LegalNew";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import AcceptableUsePolicy from "@/pages/AcceptableUsePolicy";
+import CookiePolicy from "@/pages/CookiePolicy";
+import DataSecurityPolicy from "@/pages/DataSecurityPolicy";
+import RefundPolicy from "@/pages/RefundPolicy";
+import ServiceLevelAgreement from "@/pages/ServiceLevelAgreement";
+import GDPRCompliance from "@/pages/GDPRCompliance";
+import FERPACompliance from "@/pages/FERPACompliance";
+import CCPACompliance from "@/pages/CCPACompliance";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -196,6 +204,14 @@ function Router() {
       <Route path="/legal" component={LegalNew} />
       <Route path="/legal/terms-of-service" component={TermsOfService} />
       <Route path="/legal/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/legal/acceptable-use-policy" component={AcceptableUsePolicy} />
+      <Route path="/legal/cookie-policy" component={CookiePolicy} />
+      <Route path="/legal/data-security-policy" component={DataSecurityPolicy} />
+      <Route path="/legal/refund-policy" component={RefundPolicy} />
+      <Route path="/legal/service-level-agreement" component={ServiceLevelAgreement} />
+      <Route path="/legal/gdpr-compliance" component={GDPRCompliance} />
+      <Route path="/legal/ferpa-compliance" component={FERPACompliance} />
+      <Route path="/legal/ccpa-compliance" component={CCPACompliance} />
       <Route path="/legaldocumentation" component={LegalDocumentation} />
       <Route path="/blog" component={Blogs} />
       <Route path="/blogs" component={Blogs} />
