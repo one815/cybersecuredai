@@ -37,6 +37,7 @@ import {
 } from "./services/geospatial-intelligence";
 import { oneLoginIntegrationService } from "./services/onelogin-integration";
 import TwilioVoiceService from "./services/twilio-voice";
+import TwilioSMSService from "./services/twilio-sms";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -6756,6 +6757,234 @@ startxref
       res.status(500).json({ 
         success: false,
         message: "Failed to send security alert",
+        error: error.message 
+      });
+    }
+  });
+
+  // Twilio SMS Integration API Endpoints
+  
+  // Main SMS webhook for incoming messages
+  app.post("/api/twilio/sms", (req, res) => {
+    TwilioSMSService.handleIncomingSMS(req, res);
+  });
+
+  // SMS status callback handler
+  app.post("/api/twilio/sms/status", (req, res) => {
+    TwilioSMSService.handleSMSStatus(req, res);
+  });
+
+  // Send authentication code via SMS
+  app.post("/api/twilio/sms/send-auth", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, code } = req.body;
+      
+      if (!phoneNumber || !code) {
+        return res.status(400).json({ message: "Phone number and authentication code are required" });
+      }
+
+      // Validate and format phone number
+      const formattedPhone = TwilioSMSService.formatPhoneNumber(phoneNumber);
+      if (!TwilioSMSService.validatePhoneNumber(formattedPhone)) {
+        return res.status(400).json({ message: "Invalid phone number format" });
+      }
+
+      const success = await TwilioSMSService.sendAuthCode(formattedPhone, code);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Authentication code sent successfully via SMS" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send authentication code via SMS" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send SMS auth code error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send SMS authentication code",
+        error: error.message 
+      });
+    }
+  });
+
+  // Send security alert via SMS
+  app.post("/api/twilio/sms/send-alert", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, alertType, message } = req.body;
+      
+      if (!phoneNumber || !alertType || !message) {
+        return res.status(400).json({ message: "Phone number, alert type, and message are required" });
+      }
+
+      const formattedPhone = TwilioSMSService.formatPhoneNumber(phoneNumber);
+      if (!TwilioSMSService.validatePhoneNumber(formattedPhone)) {
+        return res.status(400).json({ message: "Invalid phone number format" });
+      }
+
+      const success = await TwilioSMSService.sendSecurityAlert(formattedPhone, alertType, message);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Security alert SMS sent successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send security alert SMS" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send SMS security alert error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send SMS security alert",
+        error: error.message 
+      });
+    }
+  });
+
+  // Send compliance notification via SMS
+  app.post("/api/twilio/sms/send-compliance", authenticateJWT, authorizeRoles("admin", "compliance_officer"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, framework, status } = req.body;
+      
+      if (!phoneNumber || !framework || !status) {
+        return res.status(400).json({ message: "Phone number, framework, and status are required" });
+      }
+
+      const formattedPhone = TwilioSMSService.formatPhoneNumber(phoneNumber);
+      if (!TwilioSMSService.validatePhoneNumber(formattedPhone)) {
+        return res.status(400).json({ message: "Invalid phone number format" });
+      }
+
+      const success = await TwilioSMSService.sendComplianceNotification(formattedPhone, framework, status);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Compliance notification SMS sent successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send compliance notification SMS" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send SMS compliance notification error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send SMS compliance notification",
+        error: error.message 
+      });
+    }
+  });
+
+  // Send incident notification via SMS
+  app.post("/api/twilio/sms/send-incident", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, incidentId, severity, title } = req.body;
+      
+      if (!phoneNumber || !incidentId || !severity || !title) {
+        return res.status(400).json({ message: "Phone number, incident ID, severity, and title are required" });
+      }
+
+      const formattedPhone = TwilioSMSService.formatPhoneNumber(phoneNumber);
+      if (!TwilioSMSService.validatePhoneNumber(formattedPhone)) {
+        return res.status(400).json({ message: "Invalid phone number format" });
+      }
+
+      const success = await TwilioSMSService.sendIncidentNotification(formattedPhone, incidentId, severity, title);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Incident notification SMS sent successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send incident notification SMS" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send SMS incident notification error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send SMS incident notification",
+        error: error.message 
+      });
+    }
+  });
+
+  // Send bulk security alerts via SMS
+  app.post("/api/twilio/sms/send-bulk-alert", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumbers, alertType, message } = req.body;
+      
+      if (!Array.isArray(phoneNumbers) || phoneNumbers.length === 0 || !alertType || !message) {
+        return res.status(400).json({ message: "Phone numbers array, alert type, and message are required" });
+      }
+
+      if (phoneNumbers.length > 100) {
+        return res.status(400).json({ message: "Maximum 100 phone numbers allowed per bulk request" });
+      }
+
+      // Validate and format all phone numbers
+      const formattedPhones = phoneNumbers.map(phone => TwilioSMSService.formatPhoneNumber(phone));
+      const invalidPhones = formattedPhones.filter(phone => !TwilioSMSService.validatePhoneNumber(phone));
+      
+      if (invalidPhones.length > 0) {
+        return res.status(400).json({ 
+          message: "Invalid phone number format detected",
+          invalidPhones: invalidPhones
+        });
+      }
+
+      const result = await TwilioSMSService.sendBulkSecurityAlert(formattedPhones, alertType, message);
+      
+      res.json({ 
+        success: true, 
+        message: "Bulk security alert SMS completed",
+        results: result
+      });
+    } catch (error: any) {
+      console.error("❌ Send bulk SMS alert error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send bulk SMS alert",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get SMS message statistics
+  app.get("/api/twilio/sms/stats", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const dateFrom = req.query.from ? new Date(req.query.from as string) : undefined;
+      const dateTo = req.query.to ? new Date(req.query.to as string) : undefined;
+
+      const stats = await TwilioSMSService.getMessageStats(dateFrom, dateTo);
+      
+      if (stats) {
+        res.json(stats);
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to retrieve SMS statistics" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Get SMS stats error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to get SMS statistics",
         error: error.message 
       });
     }
