@@ -2,6 +2,7 @@ import { Shield, FileText, Users, Scale, ExternalLink } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function LegalNew() {
   return (
@@ -28,10 +29,18 @@ export default function LegalNew() {
       <div className="container mx-auto px-6 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {/* Terms of Service */}
-          <Card className="bg-slate-800/50 border-cyan-500/30 hover:border-cyan-400/50 transition-colors">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-cyan-400" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 group-hover:shadow-lg group-hover:shadow-cyan-400/20 transition-all duration-300">
+                  <FileText className="h-5 w-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                </div>
                 Terms of Service
               </CardTitle>
               <CardDescription>
@@ -61,10 +70,18 @@ export default function LegalNew() {
           </Card>
 
           {/* Privacy Policy */}
-          <Card className="bg-slate-800/50 border-cyan-500/30 hover:border-cyan-400/50 transition-colors">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-green-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5 text-green-400" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-green-400/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30 group-hover:shadow-lg group-hover:shadow-green-400/20 transition-all duration-300">
+                  <Shield className="h-5 w-5 text-green-400 group-hover:text-green-300 transition-colors" />
+                </div>
                 Privacy Policy
               </CardTitle>
               <CardDescription>
@@ -94,10 +111,18 @@ export default function LegalNew() {
           </Card>
 
           {/* Compliance & Regulations */}
-          <Card className="bg-slate-800/50 border-cyan-500/30 hover:border-cyan-400/50 transition-colors">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-orange-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-orange-400" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-orange-400/20 to-amber-500/20 backdrop-blur-sm border border-orange-400/30 group-hover:shadow-lg group-hover:shadow-orange-400/20 transition-all duration-300">
+                  <Users className="h-5 w-5 text-orange-400 group-hover:text-orange-300 transition-colors" />
+                </div>
                 Compliance
               </CardTitle>
               <CardDescription>
@@ -140,9 +165,20 @@ export default function LegalNew() {
 
         {/* Additional Legal Information */}
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="bg-slate-800/50 border-cyan-500/30">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
-              <CardTitle>Acceptable Use Policy</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 group-hover:shadow-lg group-hover:shadow-cyan-400/20 transition-all duration-300">
+                  <Shield className="h-5 w-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                </div>
+                Acceptable Use Policy
+              </CardTitle>
               <CardDescription>
                 Guidelines for appropriate use of our platform and services.
               </CardDescription>
@@ -175,9 +211,20 @@ export default function LegalNew() {
             </CardContent>
           </Card>
 
-          <Card className="bg-slate-800/50 border-cyan-500/30">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-purple-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
-              <CardTitle>Data Processing Agreement</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400/20 to-violet-500/20 backdrop-blur-sm border border-purple-400/30 group-hover:shadow-lg group-hover:shadow-purple-400/20 transition-all duration-300">
+                  <Scale className="h-5 w-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                </div>
+                Data Processing Agreement
+              </CardTitle>
               <CardDescription>
                 Information about how we process and handle your data.
               </CardDescription>
@@ -204,10 +251,18 @@ export default function LegalNew() {
 
         {/* Comprehensive Legal Documents */}
         <div className="mt-12">
-          <Card className="bg-slate-800/50 border-cyan-500/30">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-cyan-400" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-400/20 transition-all duration-300">
+                  <FileText className="h-5 w-5 text-cyan-400 hover:text-cyan-300 transition-colors" />
+                </div>
                 Complete Legal Documentation Suite
               </CardTitle>
               <CardDescription>
@@ -330,9 +385,20 @@ export default function LegalNew() {
 
         {/* Contact Information */}
         <div className="mt-12 text-center">
-          <Card className="bg-slate-800/50 border-cyan-500/30 max-w-2xl mx-auto">
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 max-w-2xl mx-auto group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
             <CardHeader>
-              <CardTitle>Legal Contact</CardTitle>
+              <CardTitle className="flex items-center justify-center gap-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm border border-cyan-400/30 group-hover:shadow-lg group-hover:shadow-cyan-400/20 transition-all duration-300">
+                  <Scale className="h-5 w-5 text-cyan-400 group-hover:text-cyan-300 transition-colors" />
+                </div>
+                Legal Contact
+              </CardTitle>
               <CardDescription>
                 Questions about our legal policies or need assistance?
               </CardDescription>
@@ -345,12 +411,14 @@ export default function LegalNew() {
                 <p>
                   <strong>General Contact:</strong> one@cybersecuredai.com
                 </p>
-                <p>
-                  <strong>Address:</strong> Willow Park, TX
-                </p>
                 <p className="text-sm text-gray-400 mt-4">
-                  For urgent legal matters, please contact us directly via email. 
-                  We typically respond to legal inquiries within 2-3 business days.
+                  For urgent legal matters, please visit our{' '}
+                  <Link href="/contact">
+                    <Button variant="link" className="p-0 h-auto text-cyan-400 hover:text-cyan-300">
+                      Contact page
+                    </Button>
+                  </Link>
+                  {' '}to submit a support ticket. We typically respond to legal inquiries within 2-3 business days.
                 </p>
               </div>
             </CardContent>
