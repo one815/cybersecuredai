@@ -86,7 +86,7 @@ export default function RefundPolicy() {
                       <li>• Cancel anytime before next billing cycle</li>
                       <li>• No refund for current month's usage</li>
                       <li>• Service continues until period end</li>
-                      <li>• Prorated refunds for service outages >24 hours</li>
+                      <li>• Prorated refunds for service outages {">"} 24 hours</li>
                     </ul>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ export default function RefundPolicy() {
                     <ul className="text-gray-300 text-sm space-y-1">
                       <li>• 30-day full refund window from purchase date</li>
                       <li>• Prorated refunds for cancellation after 30 days</li>
-                      <li>• Full refund for service outages >72 hours</li>
+                      <li>• Full refund for service outages {">"} 72 hours</li>
                       <li>• Educational discounts non-refundable after 60 days</li>
                     </ul>
                   </div>
