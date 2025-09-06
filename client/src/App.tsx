@@ -124,6 +124,11 @@ import ServiceLevelAgreement from "@/pages/ServiceLevelAgreement";
 import GDPRCompliance from "@/pages/GDPRCompliance";
 import FERPACompliance from "@/pages/FERPACompliance";
 import CCPACompliance from "@/pages/CCPACompliance";
+import TermsOfUse from "@/pages/TermsOfUse";
+import VulnerabilityDisclosure from "@/pages/VulnerabilityDisclosure";
+import COPPACompliance from "@/pages/COPPACompliance";
+import SMSMessagingPolicy from "@/pages/SMSMessagingPolicy";
+import AIEthicsStatement from "@/pages/AIEthicsStatement";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -212,6 +217,11 @@ function Router() {
       <Route path="/legal/gdpr-compliance" component={GDPRCompliance} />
       <Route path="/legal/ferpa-compliance" component={FERPACompliance} />
       <Route path="/legal/ccpa-compliance" component={CCPACompliance} />
+      <Route path="/legal/terms-of-use" component={TermsOfUse} />
+      <Route path="/legal/vulnerability-disclosure" component={VulnerabilityDisclosure} />
+      <Route path="/legal/coppa-compliance" component={COPPACompliance} />
+      <Route path="/legal/sms-messaging-policy" component={SMSMessagingPolicy} />
+      <Route path="/legal/ai-ethics-statement" component={AIEthicsStatement} />
       <Route path="/legaldocumentation" component={LegalDocumentation} />
       <Route path="/blog" component={Blogs} />
       <Route path="/blogs" component={Blogs} />
