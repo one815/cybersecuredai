@@ -4,12 +4,71 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, FileText, MessageSquare, Shield, CheckCircle, AlertCircle, Lock } from "lucide-react";
+import { Download, FileText, MessageSquare, Shield, CheckCircle, AlertCircle, Lock, Printer, X } from "lucide-react";
 
 export default function LegalDocumentation() {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("authorization");
+
+  const downloadAsPDF = (content: string, filename: string) => {
+    // Create a new window with the content for PDF generation
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${filename}</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+            body { font-family: 'Noto Sans', sans-serif; margin: 40px; line-height: 1.6; }
+            .logo { text-align: center; margin-bottom: 20px; }
+            .signature { margin-top: 10px; }
+            @media print {
+              body { margin: 20px; }
+              .no-print { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          ${content}
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 250);
+    }
+  };
+
+  const printDocument = (content: string) => {
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>CyberSecured AI Legal Document</title>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+            body { font-family: 'Noto Sans', sans-serif; margin: 40px; line-height: 1.6; }
+            .logo { text-align: center; margin-bottom: 20px; }
+            .signature { margin-top: 10px; }
+          </style>
+        </head>
+        <body>
+          ${content}
+          <script>window.print(); window.close();</script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+  };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,12 +259,24 @@ export default function LegalDocumentation() {
                 </div>
 
                 <div className="mt-6 flex gap-4">
-                  <Button className="bg-cyan-600 hover:bg-cyan-700">
+                  <Button 
+                    className="bg-cyan-600 hover:bg-cyan-700"
+                    onClick={() => downloadAsPDF(
+                      document.querySelector('.bg-white.text-black')?.outerHTML || '',
+                      'CyberSecured_AI_Letter_of_Authorization.pdf'
+                    )}
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Download PDF
                   </Button>
-                  <Button variant="outline" className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10">
-                    <FileText className="h-4 w-4 mr-2" />
+                  <Button 
+                    variant="outline" 
+                    className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                    onClick={() => printDocument(
+                      document.querySelector('.bg-white.text-black')?.outerHTML || ''
+                    )}
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
                     Print Version
                   </Button>
                 </div>
@@ -278,12 +349,35 @@ export default function LegalDocumentation() {
                     These terms comply with Twilio's industry standards for US Short Code Terms of Service
                   </p>
                 </div>
+
+                <div className="mt-6 flex gap-4">
+                  <Button 
+                    className="bg-cyan-600 hover:bg-cyan-700"
+                    onClick={() => downloadAsPDF(
+                      document.querySelector('[data-tab="terms"] .bg-slate-700\\/50')?.outerHTML || '',
+                      'CyberSecured_AI_SMS_Terms_of_Service.pdf'
+                    )}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                    onClick={() => printDocument(
+                      document.querySelector('[data-tab="terms"] .bg-slate-700\\/50')?.outerHTML || ''
+                    )}
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    Print Version
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
           {/* Opt-in Requirements */}
-          <TabsContent value="optin">
+          <TabsContent value="optin" data-tab="optin">
             <Card className="bg-slate-800/50 border-cyan-500/30">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -366,12 +460,35 @@ export default function LegalDocumentation() {
                     All disclaimers comply with Twilio's opt-in requirements for US Short Codes
                   </p>
                 </div>
+
+                <div className="mt-6 flex gap-4">
+                  <Button 
+                    className="bg-cyan-600 hover:bg-cyan-700"
+                    onClick={() => downloadAsPDF(
+                      document.querySelector('[data-tab="optin"]')?.innerHTML || '',
+                      'CyberSecured_AI_Opt_In_Requirements.pdf'
+                    )}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                    onClick={() => printDocument(
+                      document.querySelector('[data-tab="optin"]')?.innerHTML || ''
+                    )}
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    Print Version
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
           {/* Campaign Mockup */}
-          <TabsContent value="campaign">
+          <TabsContent value="campaign" data-tab="campaign">
             <Card className="bg-slate-800/50 border-cyan-500/30">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -577,11 +694,97 @@ export default function LegalDocumentation() {
                   </div>
                 </div>
 
+                <div className="bg-slate-700/50 p-6 rounded-lg mt-6">
+                  <h3 className="text-lg font-semibold mb-4 text-cyan-400">Opt-Out Flows</h3>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Security Alerts Opt-Out */}
+                    <div className="bg-slate-800/50 p-4 rounded-lg">
+                      <h4 className="font-semibold text-red-400 mb-3">Security Alerts Opt-Out Process</h4>
+                      
+                      <div className="space-y-3">
+                        <div className="bg-red-900/20 p-3 rounded border border-red-500/30">
+                          <div className="text-xs text-red-400 mb-1">User Sends</div>
+                          <p className="text-sm text-white">STOP</p>
+                        </div>
+                        
+                        <div className="bg-slate-900 p-3 rounded">
+                          <div className="text-xs text-gray-400 mb-1">Auto-Reply</div>
+                          <p className="text-sm text-white">
+                            You have been unsubscribed from CyberSecured AI security alerts. 
+                            You will no longer receive threat notifications. Reply START to resubscribe.
+                          </p>
+                        </div>
+                        
+                        <div className="bg-green-900/20 p-3 rounded border border-green-500/30">
+                          <div className="text-xs text-green-400 mb-1">Confirmation</div>
+                          <p className="text-sm text-white">
+                            ✅ Successfully opted out of security alerts. Account updated.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* M2FA Opt-Out */}
+                    <div className="bg-slate-800/50 p-4 rounded-lg">
+                      <h4 className="font-semibold text-orange-400 mb-3">M2FA Opt-Out Process</h4>
+                      
+                      <div className="space-y-3">
+                        <div className="bg-orange-900/20 p-3 rounded border border-orange-500/30">
+                          <div className="text-xs text-orange-400 mb-1">Dashboard Setting</div>
+                          <p className="text-sm text-white">
+                            User disables SMS M2FA in account settings or texts STOP to opt-out
+                          </p>
+                        </div>
+                        
+                        <div className="bg-slate-900 p-3 rounded">
+                          <div className="text-xs text-gray-400 mb-1">Auto-Reply</div>
+                          <p className="text-sm text-white">
+                            SMS Multi-Factor Authentication disabled. You will no longer receive 
+                            login codes via SMS. Enable in account settings if needed.
+                          </p>
+                        </div>
+                        
+                        <div className="bg-amber-900/20 p-3 rounded border border-amber-500/30">
+                          <div className="text-xs text-amber-400 mb-1">Security Notice</div>
+                          <p className="text-sm text-white">
+                            ⚠️ Important: Your account security is reduced without M2FA enabled. 
+                            Consider alternative authentication methods.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="flex items-center gap-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
                   <CheckCircle className="h-5 w-5 text-green-400" />
                   <p className="text-sm text-green-300">
                     Campaign mockup meets all Twilio US Short Code advertising and consent collection requirements
                   </p>
+                </div>
+
+                <div className="mt-6 flex gap-4">
+                  <Button 
+                    className="bg-cyan-600 hover:bg-cyan-700"
+                    onClick={() => downloadAsPDF(
+                      document.querySelector('[data-tab="campaign"]')?.innerHTML || '',
+                      'CyberSecured_AI_Campaign_Mockup.pdf'
+                    )}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                    onClick={() => printDocument(
+                      document.querySelector('[data-tab="campaign"]')?.innerHTML || ''
+                    )}
+                  >
+                    <Printer className="h-4 w-4 mr-2" />
+                    Print Version
+                  </Button>
                 </div>
               </CardContent>
             </Card>
