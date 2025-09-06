@@ -204,7 +204,7 @@ export function Footer() {
               />
             </div>
             <p className="text-xs text-gray-500">
-              © 2024 CyberSecured AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link>
+              © 2024 CyberSecured AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link> | <Link href="/legal"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Legal</span></Link>
             </p>
           </div>
         </div>
