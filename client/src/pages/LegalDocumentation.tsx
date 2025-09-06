@@ -1,12 +1,60 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, FileText, MessageSquare, Shield, CheckCircle, AlertCircle } from "lucide-react";
+import { Download, FileText, MessageSquare, Shield, CheckCircle, AlertCircle, Lock } from "lucide-react";
 
-export default function Legal() {
+export default function LegalDocumentation() {
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("authorization");
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "CyberCypher101819") {
+      setIsAuthenticated(true);
+    } else {
+      alert("Incorrect password. Please try again.");
+      setPassword("");
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white flex items-center justify-center">
+        <Card className="bg-slate-800/50 border-cyan-500/30 w-full max-w-md">
+          <CardHeader className="text-center">
+            <div className="mx-auto mb-4 p-3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full w-fit">
+              <Lock className="h-8 w-8 text-white" />
+            </div>
+            <CardTitle className="text-2xl">Protected Legal Documentation</CardTitle>
+            <CardDescription>
+              Enter the password to access confidential legal documents and compliance materials.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <div>
+                <Input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-slate-700/50 border-cyan-500/30 text-white placeholder-gray-400"
+                />
+              </div>
+              <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700">
+                <Shield className="h-4 w-4 mr-2" />
+                Access Documentation
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white marketing-website">
@@ -16,7 +64,7 @@ export default function Legal() {
           <div className="text-center">
             <Badge variant="outline" className="mb-4 border-cyan-400 text-cyan-400">
               <Shield className="h-4 w-4 mr-2" />
-              Legal Documentation
+              Confidential Legal Documentation
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-cyan-400 bg-clip-text text-transparent">
               Legal Documentation
@@ -25,6 +73,14 @@ export default function Legal() {
               Comprehensive legal documentation for Twilio SMS services, including authorization letters, 
               terms of service, and compliance requirements for short code setup.
             </p>
+            <Button 
+              onClick={() => setIsAuthenticated(false)} 
+              variant="outline" 
+              className="mt-4 border-red-400 text-red-400 hover:bg-red-400/10"
+            >
+              <Lock className="h-4 w-4 mr-2" />
+              Lock Documentation
+            </Button>
           </div>
         </div>
       </div>
