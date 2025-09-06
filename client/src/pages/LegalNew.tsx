@@ -59,15 +59,16 @@ export default function LegalNew() {
                 <p>• User responsibilities</p>
                 <p>• Limitation of liability</p>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                onClick={() => window.open('/legal/Terms_of_Service.html', '_blank')}
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                View Full Terms of Service
-              </Button>
+              <Link href="/legal/terms-of-service">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  View Full Terms of Service
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
@@ -100,15 +101,16 @@ export default function LegalNew() {
                 <p>• Third-party integrations</p>
                 <p>• User control options</p>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full border-green-400 text-green-400 hover:bg-green-400/10"
-                onClick={() => window.open('/legal/Privacy_Policy.html', '_blank')}
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                View Full Privacy Policy
-              </Button>
+              <Link href="/legal/privacy-policy">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-green-400 text-green-400 hover:bg-green-400/10"
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  View Full Privacy Policy
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
