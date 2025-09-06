@@ -161,10 +161,49 @@ export default function LegalNew() {
               </div>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Additional Legal Information */}
-        <div className="grid md:grid-cols-2 gap-8">
+          {/* Terms of Use */}
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-purple-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 group"
+                style={{
+                  background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                }}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400/20 to-indigo-500/20 backdrop-blur-sm border border-purple-400/30 group-hover:shadow-lg group-hover:shadow-purple-400/20 transition-all duration-300">
+                  <FileText className="h-5 w-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                </div>
+                Terms of Use
+              </CardTitle>
+              <CardDescription>
+                End-user license agreement and usage terms for CyberSecured AI platform.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-300 text-sm mb-4">
+                Our Terms of Use define the legal relationship between users and our cybersecurity platform.
+              </p>
+              <div className="space-y-2 text-sm text-gray-400 mb-4">
+                <p>• Software licensing terms</p>
+                <p>• End-user agreements</p>
+                <p>• Intellectual property rights</p>
+                <p>• Usage restrictions</p>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full border-purple-400 text-purple-400 hover:bg-purple-400/10"
+                onClick={() => window.open('/legal/Terms_of_Use.html', '_blank')}
+              >
+                <ExternalLink className="h-4 w-4 mr-2" />
+                View Full Terms of Use
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Acceptable Use Policy */}
           <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 group"
                 style={{
                   background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
@@ -211,7 +250,8 @@ export default function LegalNew() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-purple-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 group"
+          {/* Data Processing Agreement */}
+          <Card className="bg-gradient-to-br from-slate-800/40 to-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-teal-400/30 transition-all duration-300 hover:shadow-2xl hover:shadow-teal-500/20 group"
                 style={{
                   background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)',
                   backdropFilter: 'blur(16px)',
@@ -220,8 +260,8 @@ export default function LegalNew() {
                 }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-gradient-to-br from-purple-400/20 to-violet-500/20 backdrop-blur-sm border border-purple-400/30 group-hover:shadow-lg group-hover:shadow-purple-400/20 transition-all duration-300">
-                  <Scale className="h-5 w-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                <div className="p-2 rounded-lg bg-gradient-to-br from-teal-400/20 to-cyan-500/20 backdrop-blur-sm border border-teal-400/30 group-hover:shadow-lg group-hover:shadow-teal-400/20 transition-all duration-300">
+                  <Scale className="h-5 w-5 text-teal-400 group-hover:text-teal-300 transition-colors" />
                 </div>
                 Data Processing Agreement
               </CardTitle>
@@ -232,18 +272,24 @@ export default function LegalNew() {
             <CardContent>
               <div className="space-y-4 text-gray-300 text-sm">
                 <p>
-                  Our Data Processing Agreement outlines our commitment to data protection 
-                  and compliance with privacy regulations:
+                  Our Data Processing Agreement outlines the specific terms under which 
+                  we process personal and organizational data in compliance with applicable regulations.
                 </p>
                 <ul className="list-disc list-inside space-y-1 text-gray-400">
-                  <li>Data minimization principles</li>
-                  <li>Purpose limitation and retention</li>
-                  <li>Security measures and encryption</li>
-                  <li>International data transfer safeguards</li>
+                  <li>Data processing purposes and lawful basis</li>
+                  <li>Data retention and deletion policies</li>
+                  <li>International data transfers</li>
+                  <li>Security measures and breach procedures</li>
                 </ul>
-                <p>
-                  We ensure your data is processed lawfully, fairly, and transparently.
-                </p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-teal-400 text-teal-400 hover:bg-teal-400/10 mt-4"
+                  onClick={() => window.open('/legal/Data_Processing_Agreement.html', '_blank')}
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Full Data Processing Agreement
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -330,6 +376,15 @@ export default function LegalNew() {
                   >
                     <ExternalLink className="h-3 w-3 mr-2" />
                     COPPA Compliance
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    onClick={() => window.open('/legal/SMS_Messaging_Policy.html', '_blank')}
+                  >
+                    <ExternalLink className="h-3 w-3 mr-2" />
+                    SMS Messaging Policy
                   </Button>
                 </div>
 
