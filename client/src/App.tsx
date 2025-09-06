@@ -112,6 +112,7 @@ import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
 import TaxiiStixManagement from "@/pages/platform/TaxiiStixManagement";
 import { MandiantIntelligence } from "@/pages/platform/MandiantIntelligence";
 import { TheHiveIntegration } from "@/pages/TheHiveIntegration";
+import Legal from "@/pages/Legal";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -189,6 +190,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/careers" component={Careers} />
+      <Route path="/legal" component={Legal} />
       <Route path="/blog" component={Blogs} />
       <Route path="/blogs" component={Blogs} />
       <Route path="/video-topics" component={Videos} />
