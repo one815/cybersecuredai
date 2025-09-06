@@ -345,15 +345,16 @@ export default function LegalNew() {
                       Data Security Policy
                     </Button>
                   </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/Vulnerability_Disclosure_Policy.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    Vulnerability Disclosure
-                  </Button>
+                  <Link href="/legal/vulnerability-disclosure">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      Vulnerability Disclosure
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="space-y-3">
@@ -378,24 +379,26 @@ export default function LegalNew() {
                       CCPA/CPRA Compliance
                     </Button>
                   </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/COPPA_Compliance.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    COPPA Compliance
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/SMS_Messaging_Policy.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    SMS Messaging Policy
-                  </Button>
+                  <Link href="/legal/coppa-compliance">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      COPPA Compliance
+                    </Button>
+                  </Link>
+                  <Link href="/legal/sms-messaging-policy">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      SMS Messaging Policy
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="space-y-3">
@@ -420,15 +423,16 @@ export default function LegalNew() {
                       Refund & Cancellation Policy
                     </Button>
                   </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
-                    onClick={() => window.open('/legal/AI_Ethics_Statement.html', '_blank')}
-                  >
-                    <ExternalLink className="h-3 w-3 mr-2" />
-                    AI Ethics Statement
-                  </Button>
+                  <Link href="/legal/ai-ethics-statement">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-gray-300 hover:text-white hover:bg-slate-700/50"
+                    >
+                      <FileText className="h-3 w-3 mr-2" />
+                      AI Ethics Statement
+                    </Button>
+                  </Link>
                 </div>
               </div>
 
