@@ -196,15 +196,16 @@ export default function LegalNew() {
                 <p>• Intellectual property rights</p>
                 <p>• Usage restrictions</p>
               </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full border-purple-400 text-purple-400 hover:bg-purple-400/10"
-                onClick={() => window.open('/legal/Terms_of_Use.html', '_blank')}
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                View Full Terms of Use
-              </Button>
+              <Link href="/legal/terms-of-use">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full border-purple-400 text-purple-400 hover:bg-purple-400/10"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  View Full Terms of Use
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 
