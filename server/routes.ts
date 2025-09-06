@@ -6121,6 +6121,219 @@ startxref
     }
   });
 
+  // Dynamic Auth0 Login Background Image API
+  app.get("/api/auth/background-image", async (req, res) => {
+    try {
+      const { createCanvas } = await import('canvas');
+      
+      // Create canvas
+      const width = 1920;
+      const height = 1080;
+      const canvas = createCanvas(width, height);
+      const ctx = canvas.getContext('2d');
+
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, '#0a0b14'); // Deep space blue
+      gradient.addColorStop(0.5, '#1a202c'); // Dark blue
+      gradient.addColorStop(1, '#2d3748'); // Slate blue
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      // Add cybersecurity grid pattern
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.1)';
+      ctx.lineWidth = 1;
+      const gridSize = 50;
+      
+      for (let x = 0; x <= width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      
+      for (let y = 0; y <= height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      // Add glowing orbs
+      const orbPositions = [
+        { x: width * 0.2, y: height * 0.3, color: 'rgba(59, 130, 246, 0.3)' },
+        { x: width * 0.8, y: height * 0.7, color: 'rgba(34, 197, 94, 0.3)' },
+        { x: width * 0.6, y: height * 0.2, color: 'rgba(168, 85, 247, 0.3)' },
+      ];
+
+      orbPositions.forEach(orb => {
+        const orbGradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, 200);
+        orbGradient.addColorStop(0, orb.color);
+        orbGradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = orbGradient;
+        ctx.fillRect(0, 0, width, height);
+      });
+
+      // Add circuit-like connections
+      ctx.strokeStyle = 'rgba(0, 255, 255, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(width * 0.1, height * 0.5);
+      ctx.bezierCurveTo(width * 0.3, height * 0.2, width * 0.7, height * 0.8, width * 0.9, height * 0.4);
+      ctx.stroke();
+
+      // Add security shield icon in corner
+      ctx.fillStyle = 'rgba(34, 197, 94, 0.8)';
+      ctx.font = 'bold 60px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('🛡️', width - 100, 100);
+
+      // Add company branding
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.font = 'bold 32px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('CyberSecured AI', 50, height - 50);
+
+      // Add timestamp for cache busting
+      const timestamp = new Date().getHours();
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.font = '12px Arial';
+      ctx.textAlign = 'right';
+      ctx.fillText(`Generated: ${new Date().toISOString()}`, width - 50, height - 20);
+
+      // Convert to buffer
+      const buffer = canvas.toBuffer('image/png');
+
+      // Set response headers
+      res.setHeader('Content-Type', 'image/png');
+      res.setHeader('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
+      res.setHeader('Content-Length', buffer.length);
+      
+      // Send image
+      res.send(buffer);
+      
+      console.log('✅ Dynamic Auth0 background image generated successfully');
+    } catch (error) {
+      console.error("❌ Error generating background image:", error);
+      
+      // Fallback - serve a solid color background
+      res.setHeader('Content-Type', 'text/css');
+      res.send(`
+        body { 
+          background: linear-gradient(135deg, #0a0b14 0%, #1a202c 50%, #2d3748 100%);
+          background-attachment: fixed;
+        }
+      `);
+    }
+  });
+
+  // Auth0 Login Page Customization CSS
+  app.get("/api/auth/login-styles", async (req, res) => {
+    try {
+      const customCSS = `
+        /* Auth0 Universal Login Customization */
+        body {
+          background-image: url('${req.protocol}://${req.get('host')}/api/auth/background-image');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+        }
+
+        .auth0-lock-widget {
+          background: rgba(15, 23, 42, 0.9) !important;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(59, 130, 246, 0.3);
+          border-radius: 12px;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .auth0-lock-header {
+          background: transparent !important;
+        }
+
+        .auth0-lock-header-logo {
+          filter: brightness(1.2);
+        }
+
+        .auth0-lock-input {
+          background: rgba(30, 41, 59, 0.8) !important;
+          border: 1px solid rgba(59, 130, 246, 0.3) !important;
+          color: #ffffff !important;
+          border-radius: 6px;
+        }
+
+        .auth0-lock-input:focus {
+          border-color: rgba(34, 197, 94, 0.8) !important;
+          box-shadow: 0 0 10px rgba(34, 197, 94, 0.3) !important;
+        }
+
+        .auth0-lock-submit {
+          background: linear-gradient(135deg, #3b82f6, #22c55e) !important;
+          border: none !important;
+          border-radius: 6px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .auth0-lock-submit:hover {
+          background: linear-gradient(135deg, #22c55e, #3b82f6) !important;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .auth0-lock-tabs {
+          background: transparent !important;
+        }
+
+        .auth0-lock-tabs .auth0-lock-tabs-current {
+          background: rgba(59, 130, 246, 0.2) !important;
+          color: #00ffff !important;
+        }
+
+        .auth0-lock-body {
+          background: transparent !important;
+        }
+
+        .auth0-lock-error-msg {
+          background: rgba(239, 68, 68, 0.1) !important;
+          border: 1px solid rgba(239, 68, 68, 0.3) !important;
+          color: #fca5a5 !important;
+        }
+
+        /* Cybersecurity theme animations */
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 10px rgba(34, 197, 94, 0.3); }
+          50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.6); }
+        }
+
+        .auth0-lock-widget {
+          animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        /* Add security indicators */
+        .auth0-lock-widget::before {
+          content: '🔒 Secure Login';
+          position: absolute;
+          top: -30px;
+          right: 10px;
+          color: rgba(34, 197, 94, 0.8);
+          font-size: 14px;
+          font-weight: 600;
+        }
+      `;
+
+      res.setHeader('Content-Type', 'text/css');
+      res.setHeader('Cache-Control', 'public, max-age=1800'); // Cache for 30 minutes
+      res.send(customCSS);
+      
+      console.log('✅ Auth0 login styles served successfully');
+    } catch (error) {
+      console.error("❌ Error serving login styles:", error);
+      res.status(500).send('/* Error loading styles */');
+    }
+  });
+
   // API Integration Requirements Report PDF endpoint
   app.get("/api/reports/api-integration", async (req, res) => {
     try {
