@@ -1,0 +1,39 @@
+Create these documents for CyberSecured AI, as they are essential to be added on the /legal page:
+
+- **Privacy Policy** - Detailing how user data is collected, stored, processed, shared, and protected.
+- **Terms of Service** - Outlining the rules, rights, and responsibilities of users when accessing the website and services.
+- **Terms of Use** - Specifying conditions for using website content and services (sometimes combined with Terms of Service).
+- **Cookie Policy** - Explaining what cookies are used, their purposes, and how users can manage them.
+- **GDPR Compliance Statement** - Particularly important if serving European users.
+- **CCPA/CPRA Compliance** - For California users (and as a best practice).
+- **KYC Policy** - Explaining identity verification procedures if collecting sensitive user information.
+- **Data Processing Agreement (DPA)** - Especially if processing data on behalf of business clients.
+- **SMS Messaging Policy** - If SMS communication is part of the service.
+- **Acceptable Use Policy** - Defining prohibited activities when using the service.
+- **Data Security Policy** - Particularly important for a cybersecurity company to detail security measures.
+- **Vulnerability Disclosure Policy** - Protocol for reporting security vulnerabilities.
+- **Service Level Agreement (SLA)** - For enterprise customers, detailing uptime guarantees and support expectations.
+- **Refund & Cancellation Policy** - If applicable to subscription or paid services.
+- **AI Ethics Statement** - Given the AI focus, explaining ethical principles guiding your AI development.
+
+Based on your focus on government and educational institutions, here are additional legal pages and compliance documents you should consider adding to your website:
+
+- **Government-Specific Compliance**
+- FedRAMP Compliance Statement - For federal government clients, showing your cloud services meet federal security standards
+- FISMA Compliance Documentation - Federal Information Security Modernization Act requirements
+- CMMC Certification Information - Cybersecurity Maturity Model Certification for defense contractors
+- Section 508 Compliance Statement - Ensuring accessibility for government websites and tools
+- Buy American Act Statement - If applicable to your products/services
+- **Education-Specific Compliance**
+- FERPA Compliance Statement - Family Educational Rights and Privacy Act for handling student data
+- COPPA Compliance Documentation - Children's Online Privacy Protection Act for K-12 services
+- Student Data Privacy Pledge - Industry commitment to safeguard student information
+- HIPAA Compliance - If handling any health information in educational settings
+- **State-Specific Requirements**
+- State-Specific Data Breach Notification Policies - As requirements vary by state
+- State Education Privacy Laws Compliance - Many states have their own student data protection laws
+- **General Public Sector**
+- Procurement Terms - Special terms for government/education procurement processes
+- Accessibility Statement - Detailing ADA/WCAG compliance
+- Conflict of Interest Policy - Particularly important for government contracts
+- Socioeconomic Compliance Statements - Such as minority-owned business status if applicable
