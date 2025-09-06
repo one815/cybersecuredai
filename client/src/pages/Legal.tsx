@@ -66,7 +66,9 @@ export default function Legal() {
               <CardContent>
                 <div className="bg-white text-black p-8 rounded-lg font-mono text-sm leading-relaxed">
                   <div className="text-center mb-8">
-                    <img src="/api/placeholder/200/80" alt="CyberSecured AI Logo" className="mx-auto mb-4" />
+                    <div className="mx-auto mb-4 p-4 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg inline-block">
+                      <div className="text-2xl font-bold text-white">🛡️ CYBERSECURED AI</div>
+                    </div>
                     <div className="text-lg font-bold">CYBERSECURED AI</div>
                     <div>Enterprise Cybersecurity Platform</div>
                     <div>Willow Park, TX | one@cybersecuredai.com</div>
