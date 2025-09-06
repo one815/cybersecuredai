@@ -11,31 +11,416 @@ export default function LegalDocumentation() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState("authorization");
 
-  const downloadAsPDF = (content: string, filename: string) => {
-    // Create a new window with the content for PDF generation
+  const generateAuthorizationHTML = () => {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Letter of Authorization - CyberSecured AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      color: #000;
+      background: white;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .logo { height: 80px; margin-bottom: 15px; }
+    .company-info { margin-bottom: 10px; }
+    .date { margin: 20px 0; font-weight: bold; }
+    .title { margin: 20px 0; font-weight: bold; font-size: 16px; }
+    .content { margin: 15px 0; }
+    .program-details { margin: 15px 0; }
+    .program-details ul { margin-left: 25px; }
+    .signature-section { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 40px; 
+      margin-top: 30px; 
+    }
+    .signature-image { 
+      height: 60px; 
+      margin-top: 10px; 
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="${import.meta.env.BASE_URL}attached_assets/5_1757170718777.png" alt="CyberSecured AI Logo" class="logo">
+    <div class="company-info"><strong>CYBERSECURED AI</strong></div>
+    <div>Enterprise Cybersecurity Platform</div>
+    <div>395 Pitchfork Trail Suite 902, Willow Park, TX 76087 | legal@cybersecuredai.com</div>
+  </div>
+
+  <div class="date">${new Date().toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  })}</div>
+
+  <div class="title">Letter of Authorization</div>
+
+  <div class="content"><strong>To Whom It May Concern,</strong></div>
+
+  <div class="content">
+    This letter is to confirm that we, <strong>CyberSecured AI</strong> are giving permission to file a campaign to Twilio for program <strong>"CyberSecured AI Security Alerts, Threat Notifications & Multi-Factor Authentication (M2FA)"</strong>.
+  </div>
+
+  <div class="program-details">
+    <strong>Program Details:</strong>
+    <ul>
+      <li>Company: CyberSecured AI</li>
+      <li>Program Name: Security Alerts, Threat Notifications & Multi-Factor Authentication</li>
+      <li>Use Case: Critical security alerts, threat intelligence updates, compliance notifications, and multi-factor authentication login codes</li>
+      <li>Target Audience: Educational institutions, government organizations, and enterprise clients</li>
+      <li>Message Types: Security alerts, system notifications, compliance reminders, M2FA authentication codes</li>
+    </ul>
+  </div>
+
+  <div class="content">
+    If additional information is needed, please contact shortcodes@twilio.com or legal@cybersecuredai.com
+  </div>
+
+  <div class="content"><strong>Regards,</strong></div>
+
+  <div class="signature-section">
+    <div>
+      <strong>Authorized Signer:</strong><br>
+      Camilia Anderson, CEO<br>
+      CyberSecured AI<br><br>
+      <strong>Date:</strong> ${new Date().toLocaleDateString()}<br><br>
+      <strong>Signature:</strong><br>
+      <img src="${import.meta.env.BASE_URL}attached_assets/sig-CAM_1757171427620.PNG" alt="Camilia Anderson Signature" class="signature-image">
+    </div>
+    <div>
+      <strong>Contact Information:</strong><br>
+      Email: legal@cybersecuredai.com<br>
+      Website: cybersecuredai.com<br>
+      Address: 395 Pitchfork Trail Suite 902<br>
+      Willow Park, TX 76087<br><br>
+      <strong>Business Registration:</strong><br>
+      CyberSecure AI Ltd.<br>
+      TX SOS: 806180900
+    </div>
+  </div>
+</body>
+</html>`;
+  };
+
+  const generateTermsHTML = () => {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SMS Terms of Service - CyberSecured AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      color: #000;
+      background: white;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+    .section { margin: 20px 0; }
+    .section h3 { font-weight: bold; margin-bottom: 10px; }
+    .compliance-notice { 
+      background: #e8f5e8; 
+      padding: 15px; 
+      border-left: 4px solid #4CAF50; 
+      margin: 20px 0; 
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">CyberSecured AI SMS Terms of Service</div>
+  </div>
+
+  <div class="section">
+    <h3>1. Service Description</h3>
+    <p>CyberSecured AI provides SMS notifications for critical security alerts, threat intelligence updates, and compliance notifications to opted-in users.</p>
+  </div>
+
+  <div class="section">
+    <h3>2. Consent and Opt-in</h3>
+    <p>By subscribing to our SMS service, you explicitly consent to receive text messages from CyberSecured AI. Message and data rates may apply. You must be 18 years or older or have parental consent.</p>
+  </div>
+
+  <div class="section">
+    <h3>3. Message Frequency</h3>
+    <p>Message frequency varies based on security threat levels and system alerts. You may receive up to 10 messages per month during normal operations, with additional messages during active security incidents.</p>
+  </div>
+
+  <div class="section">
+    <h3>4. Opt-out Instructions</h3>
+    <p>You may opt-out at any time by texting <strong>STOP</strong> to our short code. You may also text <strong>HELP</strong> for customer support. Standard message and data rates may apply.</p>
+  </div>
+
+  <div class="section">
+    <h3>5. Privacy and Data Protection</h3>
+    <p>We collect and use your phone number solely for SMS service delivery. We do not share your information with third parties except as required by law. View our full Privacy Policy at cybersecuredai.com/privacy.</p>
+  </div>
+
+  <div class="section">
+    <h3>6. Support and Contact</h3>
+    <p>For support, text HELP to our short code or email legal@cybersecuredai.com. For technical support with our security platform, visit cybersecuredai.com/support.</p>
+  </div>
+
+  <div class="section">
+    <h3>7. Liability and Disclaimers</h3>
+    <p>SMS alerts are supplementary to your security systems. CyberSecured AI is not liable for delayed messages or network failures. Critical security incidents should be monitored through multiple channels.</p>
+  </div>
+
+  <div class="section">
+    <h3>8. Terms Modification</h3>
+    <p>We may update these terms with 30-day notice via SMS or email. Continued use of the service constitutes acceptance of modified terms.</p>
+  </div>
+
+  <div class="compliance-notice">
+    <strong>✓ Compliance Notice:</strong> These terms comply with Twilio's industry standards for US Short Code Terms of Service
+  </div>
+</body>
+</html>`;
+  };
+
+  const generateOptInHTML = () => {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Opt-in Requirements - CyberSecured AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      color: #000;
+      background: white;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+    .warning { 
+      background: #fff3cd; 
+      padding: 15px; 
+      border-left: 4px solid #ffc107; 
+      margin: 20px 0; 
+    }
+    .disclaimer { 
+      background: #f8f9fa; 
+      padding: 15px; 
+      margin: 15px 0; 
+      border-left: 4px solid #007bff; 
+    }
+    .disclaimer h4 { margin-top: 0; font-weight: bold; }
+    .compliance-notice { 
+      background: #e8f5e8; 
+      padding: 15px; 
+      border-left: 4px solid #4CAF50; 
+      margin: 20px 0; 
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">Opt-in Requirements & Disclaimers</div>
+    <p>Required disclaimers and consent language per Twilio US Short Code standards.</p>
+  </div>
+
+  <div class="warning">
+    <strong>⚠ Required Pre-Consent Disclaimers</strong><br>
+    The following disclaimers must be presented to users before obtaining consent:
+  </div>
+
+  <h3>Consent Language for CyberSecured AI SMS Alerts</h3>
+
+  <div class="disclaimer">
+    <h4>Primary Consent Statement:</h4>
+    <p><em>"By subscribing, you agree to receive SMS security alerts and notifications from CyberSecured AI. Message and data rates may apply. Message frequency varies based on threat levels. Text STOP to opt-out or HELP for support."</em></p>
+  </div>
+
+  <div class="disclaimer">
+    <h4>Frequency Disclosure:</h4>
+    <p><em>"You may receive up to 10 security alert messages per month during normal operations. During active security incidents, you may receive additional time-sensitive notifications."</em></p>
+  </div>
+
+  <div class="disclaimer">
+    <h4>Cost Disclosure:</h4>
+    <p><em>"Standard message and data rates apply. CyberSecured AI does not charge for SMS alerts, but your carrier's messaging rates will apply."</em></p>
+  </div>
+
+  <div class="disclaimer">
+    <h4>Opt-out Instructions:</h4>
+    <p><em>"You can opt-out at any time by texting STOP to our short code. For help, text HELP or contact legal@cybersecuredai.com."</em></p>
+  </div>
+
+  <div class="disclaimer">
+    <h4>Age and Consent Requirements:</h4>
+    <p><em>"You must be 18 years or older to subscribe. If under 18, parental consent is required. By subscribing, you confirm you meet these age requirements."</em></p>
+  </div>
+
+  <div class="disclaimer">
+    <h4>Terms and Privacy:</h4>
+    <p><em>"By subscribing, you agree to our SMS Terms of Service and Privacy Policy available at cybersecuredai.com/legal. We will not share your phone number with third parties."</em></p>
+  </div>
+
+  <div class="compliance-notice">
+    <strong>✓ Compliance Notice:</strong> All disclaimers comply with Twilio's opt-in requirements for US Short Codes
+  </div>
+</body>
+</html>`;
+  };
+
+  const generateCampaignHTML = () => {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Campaign Mockup - CyberSecured AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      color: #000;
+      background: white;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+    .section { margin: 30px 0; }
+    .section h3 { font-weight: bold; margin-bottom: 15px; color: #0066cc; }
+    .message-sample { 
+      background: #f8f9fa; 
+      padding: 15px; 
+      margin: 10px 0; 
+      border-left: 4px solid #6c757d; 
+    }
+    .message-sample.welcome { border-left-color: #6c757d; }
+    .message-sample.critical { border-left-color: #dc3545; }
+    .message-sample.threat { border-left-color: #ffc107; }
+    .message-sample.system { border-left-color: #0dcaf0; }
+    .message-sample.auth { border-left-color: #28a745; }
+    .message-type { font-size: 12px; color: #666; margin-bottom: 5px; }
+    .script-box { 
+      background: #f8f9fa; 
+      padding: 20px; 
+      margin: 15px 0; 
+      border-left: 4px solid #0066cc;
+    }
+    .opt-out-flow { 
+      background: #ffebee; 
+      padding: 15px; 
+      margin: 10px 0; 
+      border-left: 4px solid #f44336; 
+    }
+    .compliance-notice { 
+      background: #e8f5e8; 
+      padding: 15px; 
+      border-left: 4px solid #4CAF50; 
+      margin: 20px 0; 
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">SMS Campaign Mockup & Opt-in Flow</div>
+    <p>Visual demonstration of how users will encounter and consent to SMS notifications.</p>
+  </div>
+
+  <div class="section">
+    <h3>Dashboard Opt-in Flow</h3>
+    <div class="script-box">
+      <h4>🛡 Enable SMS Security Alerts</h4>
+      <p>Stay informed about critical security threats and system alerts via SMS.</p>
+      <ul>
+        <li>Receive up to 10 security alerts per month</li>
+        <li>Standard message and data rates apply</li>
+        <li>Text STOP to opt-out anytime</li>
+        <li>Must be 18+ or have parental consent</li>
+      </ul>
+      <p><strong>☑ I agree to receive SMS alerts and accept the Terms of Service</strong></p>
+      <p><strong>[Enable SMS Alerts]</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Sample SMS Messages</h3>
+    
+    <div class="message-sample welcome">
+      <div class="message-type">Welcome Message</div>
+      <p>Welcome to CyberSecured AI SMS alerts! You'll receive critical security notifications. Reply STOP to opt-out, HELP for support. Msg&data rates may apply.</p>
+    </div>
+    
+    <div class="message-sample critical">
+      <div class="message-type">Critical Alert</div>
+      <p>🚨 CRITICAL: Suspicious login detected from IP 192.168.1.100. Login to cybersecuredai.com/dashboard to review. CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample threat">
+      <div class="message-type">Threat Alert</div>
+      <p>⚠️ New threat detected: APT29 indicators. 5 systems affected. View details: cybersecuredai.com/threats CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample system">
+      <div class="message-type">System Notification</div>
+      <p>ℹ️ Scheduled maintenance tonight 2-4 AM EST. Dashboard temporarily unavailable. CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample auth">
+      <div class="message-type">M2FA Authentication Code</div>
+      <p>Your CyberSecured AI login code: 847392. Valid for 5 minutes. Do not share this code. Reply STOP to opt-out.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Opt-Out Flows</h3>
+    
+    <h4>Security Alerts Opt-Out Process</h4>
+    <div class="opt-out-flow">
+      <strong>1. User Sends:</strong> STOP<br>
+      <strong>2. Auto-Reply:</strong> You have been unsubscribed from CyberSecured AI security alerts. You will no longer receive threat notifications. Reply START to resubscribe.<br>
+      <strong>3. Confirmation:</strong> ✅ Successfully opted out of security alerts. Account updated.
+    </div>
+    
+    <h4>M2FA Opt-Out Process</h4>
+    <div class="opt-out-flow">
+      <strong>1. Dashboard Setting:</strong> User disables SMS M2FA in account settings or texts STOP to opt-out<br>
+      <strong>2. Auto-Reply:</strong> SMS Multi-Factor Authentication disabled. You will no longer receive login codes via SMS. Enable in account settings if needed.<br>
+      <strong>3. Security Notice:</strong> ⚠️ Important: Your account security is reduced without M2FA enabled. Consider alternative authentication methods.
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Verbal Opt-in Scripts</h3>
+    
+    <div class="script-box">
+      <h4>Security Alerts Script</h4>
+      <p><em>"Would you like to receive SMS security alerts from CyberSecured AI? You'll get critical threat notifications and system updates sent directly to your phone. You can receive up to 10 messages per month during normal operations, with additional alerts during security incidents. Standard message and data rates apply. You can opt-out anytime by texting STOP. You must be 18 or older to subscribe. Do you consent to receive these SMS alerts?"</em></p>
+    </div>
+    
+    <div class="script-box">
+      <h4>M2FA Authentication Script</h4>
+      <p><em>"Would you like to enable SMS-based multi-factor authentication for your CyberSecured AI account? You'll receive verification codes for secure login. Message frequency varies with your login activity. Standard message and data rates apply. You can disable this feature anytime in your account settings or by texting STOP. You must be 18 or older to enable this feature. Do you consent to receive M2FA codes via SMS?"</em></p>
+    </div>
+  </div>
+
+  <div class="compliance-notice">
+    <strong>✓ Compliance Notice:</strong> Campaign mockup meets all Twilio US Short Code advertising and consent collection requirements
+  </div>
+</body>
+</html>`;
+  };
+
+  const downloadAsPDF = (htmlContent: string, filename: string) => {
     const printWindow = window.open('', '_blank');
     if (printWindow) {
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>${filename}</title>
-          <style>
-            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
-            body { font-family: 'Noto Sans', sans-serif; margin: 40px; line-height: 1.6; }
-            .logo { text-align: center; margin-bottom: 20px; }
-            .signature { margin-top: 10px; }
-            @media print {
-              body { margin: 20px; }
-              .no-print { display: none; }
-            }
-          </style>
-        </head>
-        <body>
-          ${content}
-        </body>
-        </html>
-      `);
+      printWindow.document.write(htmlContent);
       printWindow.document.close();
       printWindow.focus();
       setTimeout(() => {
@@ -262,7 +647,7 @@ export default function LegalDocumentation() {
                   <Button 
                     className="bg-cyan-600 hover:bg-cyan-700"
                     onClick={() => downloadAsPDF(
-                      document.querySelector('.bg-white.text-black')?.outerHTML || '',
+                      generateAuthorizationHTML(),
                       'CyberSecured_AI_Letter_of_Authorization.pdf'
                     )}
                   >
@@ -272,8 +657,9 @@ export default function LegalDocumentation() {
                   <Button 
                     variant="outline" 
                     className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                    onClick={() => printDocument(
-                      document.querySelector('.bg-white.text-black')?.outerHTML || ''
+                    onClick={() => downloadAsPDF(
+                      generateAuthorizationHTML(),
+                      'CyberSecured_AI_Letter_of_Authorization.pdf'
                     )}
                   >
                     <Printer className="h-4 w-4 mr-2" />
@@ -354,7 +740,7 @@ export default function LegalDocumentation() {
                   <Button 
                     className="bg-cyan-600 hover:bg-cyan-700"
                     onClick={() => downloadAsPDF(
-                      document.querySelector('[data-tab="terms"] .bg-slate-700\\/50')?.outerHTML || '',
+                      generateTermsHTML(),
                       'CyberSecured_AI_SMS_Terms_of_Service.pdf'
                     )}
                   >
@@ -364,8 +750,9 @@ export default function LegalDocumentation() {
                   <Button 
                     variant="outline" 
                     className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                    onClick={() => printDocument(
-                      document.querySelector('[data-tab="terms"] .bg-slate-700\\/50')?.outerHTML || ''
+                    onClick={() => downloadAsPDF(
+                      generateTermsHTML(),
+                      'CyberSecured_AI_SMS_Terms_of_Service.pdf'
                     )}
                   >
                     <Printer className="h-4 w-4 mr-2" />
@@ -465,7 +852,7 @@ export default function LegalDocumentation() {
                   <Button 
                     className="bg-cyan-600 hover:bg-cyan-700"
                     onClick={() => downloadAsPDF(
-                      document.querySelector('[data-tab="optin"]')?.innerHTML || '',
+                      generateOptInHTML(),
                       'CyberSecured_AI_Opt_In_Requirements.pdf'
                     )}
                   >
@@ -475,8 +862,9 @@ export default function LegalDocumentation() {
                   <Button 
                     variant="outline" 
                     className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                    onClick={() => printDocument(
-                      document.querySelector('[data-tab="optin"]')?.innerHTML || ''
+                    onClick={() => downloadAsPDF(
+                      generateOptInHTML(),
+                      'CyberSecured_AI_Opt_In_Requirements.pdf'
                     )}
                   >
                     <Printer className="h-4 w-4 mr-2" />
@@ -768,7 +1156,7 @@ export default function LegalDocumentation() {
                   <Button 
                     className="bg-cyan-600 hover:bg-cyan-700"
                     onClick={() => downloadAsPDF(
-                      document.querySelector('[data-tab="campaign"]')?.innerHTML || '',
+                      generateCampaignHTML(),
                       'CyberSecured_AI_Campaign_Mockup.pdf'
                     )}
                   >
@@ -778,8 +1166,9 @@ export default function LegalDocumentation() {
                   <Button 
                     variant="outline" 
                     className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/10"
-                    onClick={() => printDocument(
-                      document.querySelector('[data-tab="campaign"]')?.innerHTML || ''
+                    onClick={() => downloadAsPDF(
+                      generateCampaignHTML(),
+                      'CyberSecured_AI_Campaign_Mockup.pdf'
                     )}
                   >
                     <Printer className="h-4 w-4 mr-2" />

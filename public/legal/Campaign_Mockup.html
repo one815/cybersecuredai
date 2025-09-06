@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Campaign Mockup - CyberSecured AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
+    body { 
+      font-family: 'Noto Sans', sans-serif; 
+      margin: 40px; 
+      line-height: 1.6; 
+      color: #000;
+      background: white;
+    }
+    .header { text-align: center; margin-bottom: 30px; }
+    .title { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
+    .section { margin: 30px 0; }
+    .section h3 { font-weight: bold; margin-bottom: 15px; color: #0066cc; }
+    .message-sample { 
+      background: #f8f9fa; 
+      padding: 15px; 
+      margin: 10px 0; 
+      border-left: 4px solid #6c757d; 
+    }
+    .message-sample.welcome { border-left-color: #6c757d; }
+    .message-sample.critical { border-left-color: #dc3545; }
+    .message-sample.threat { border-left-color: #ffc107; }
+    .message-sample.system { border-left-color: #0dcaf0; }
+    .message-sample.auth { border-left-color: #28a745; }
+    .message-type { font-size: 12px; color: #666; margin-bottom: 5px; }
+    .script-box { 
+      background: #f8f9fa; 
+      padding: 20px; 
+      margin: 15px 0; 
+      border-left: 4px solid #0066cc;
+    }
+    .opt-out-flow { 
+      background: #ffebee; 
+      padding: 15px; 
+      margin: 10px 0; 
+      border-left: 4px solid #f44336; 
+    }
+    .compliance-notice { 
+      background: #e8f5e8; 
+      padding: 15px; 
+      border-left: 4px solid #4CAF50; 
+      margin: 20px 0; 
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">SMS Campaign Mockup & Opt-in Flow</div>
+    <p>Visual demonstration of how users will encounter and consent to SMS notifications.</p>
+  </div>
+
+  <div class="section">
+    <h3>Dashboard Opt-in Flow</h3>
+    <div class="script-box">
+      <h4>🛡 Enable SMS Security Alerts</h4>
+      <p>Stay informed about critical security threats and system alerts via SMS.</p>
+      <ul>
+        <li>Receive up to 10 security alerts per month</li>
+        <li>Standard message and data rates apply</li>
+        <li>Text STOP to opt-out anytime</li>
+        <li>Must be 18+ or have parental consent</li>
+      </ul>
+      <p><strong>☑ I agree to receive SMS alerts and accept the Terms of Service</strong></p>
+      <p><strong>[Enable SMS Alerts]</strong></p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Sample SMS Messages</h3>
+    
+    <div class="message-sample welcome">
+      <div class="message-type">Welcome Message</div>
+      <p>Welcome to CyberSecured AI SMS alerts! You'll receive critical security notifications. Reply STOP to opt-out, HELP for support. Msg&data rates may apply.</p>
+    </div>
+    
+    <div class="message-sample critical">
+      <div class="message-type">Critical Alert</div>
+      <p>🚨 CRITICAL: Suspicious login detected from IP 192.168.1.100. Login to cybersecuredai.com/dashboard to review. CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample threat">
+      <div class="message-type">Threat Alert</div>
+      <p>⚠️ New threat detected: APT29 indicators. 5 systems affected. View details: cybersecuredai.com/threats CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample system">
+      <div class="message-type">System Notification</div>
+      <p>ℹ️ Scheduled maintenance tonight 2-4 AM EST. Dashboard temporarily unavailable. CyberSecured AI</p>
+    </div>
+    
+    <div class="message-sample auth">
+      <div class="message-type">M2FA Authentication Code</div>
+      <p>Your CyberSecured AI login code: 847392. Valid for 5 minutes. Do not share this code. Reply STOP to opt-out.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Opt-Out Flows</h3>
+    
+    <h4>Security Alerts Opt-Out Process</h4>
+    <div class="opt-out-flow">
+      <strong>1. User Sends:</strong> STOP<br>
+      <strong>2. Auto-Reply:</strong> You have been unsubscribed from CyberSecured AI security alerts. You will no longer receive threat notifications. Reply START to resubscribe.<br>
+      <strong>3. Confirmation:</strong> ✅ Successfully opted out of security alerts. Account updated.
+    </div>
+    
+    <h4>M2FA Opt-Out Process</h4>
+    <div class="opt-out-flow">
+      <strong>1. Dashboard Setting:</strong> User disables SMS M2FA in account settings or texts STOP to opt-out<br>
+      <strong>2. Auto-Reply:</strong> SMS Multi-Factor Authentication disabled. You will no longer receive login codes via SMS. Enable in account settings if needed.<br>
+      <strong>3. Security Notice:</strong> ⚠️ Important: Your account security is reduced without M2FA enabled. Consider alternative authentication methods.
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Verbal Opt-in Scripts</h3>
+    
+    <div class="script-box">
+      <h4>Security Alerts Script</h4>
+      <p><em>"Would you like to receive SMS security alerts from CyberSecured AI? You'll get critical threat notifications and system updates sent directly to your phone. You can receive up to 10 messages per month during normal operations, with additional alerts during security incidents. Standard message and data rates apply. You can opt-out anytime by texting STOP. You must be 18 or older to subscribe. Do you consent to receive these SMS alerts?"</em></p>
+    </div>
+    
+    <div class="script-box">
+      <h4>M2FA Authentication Script</h4>
+      <p><em>"Would you like to enable SMS-based multi-factor authentication for your CyberSecured AI account? You'll receive verification codes for secure login. Message frequency varies with your login activity. Standard message and data rates apply. You can disable this feature anytime in your account settings or by texting STOP. You must be 18 or older to enable this feature. Do you consent to receive M2FA codes via SMS?"</em></p>
+    </div>
+  </div>
+
+  <div class="compliance-notice">
+    <strong>✓ Compliance Notice:</strong> Campaign mockup meets all Twilio US Short Code advertising and consent collection requirements
+  </div>
+</body>
+</html>
