@@ -36,6 +36,7 @@ import {
   getIncidentMap 
 } from "./services/geospatial-intelligence";
 import { oneLoginIntegrationService } from "./services/onelogin-integration";
+import TwilioVoiceService from "./services/twilio-voice";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -6643,6 +6644,118 @@ startxref
       res.status(500).json({ 
         success: false,
         message: "OneLogin SSO authentication error",
+        error: error.message 
+      });
+    }
+  });
+
+  // Twilio Voice Integration API Endpoints
+  
+  // Main voice webhook for incoming calls
+  app.post("/api/twilio/voice", (req, res) => {
+    TwilioVoiceService.handleIncomingCall(req, res);
+  });
+
+  // Voice menu selection handler
+  app.post("/api/twilio/voice/menu", (req, res) => {
+    TwilioVoiceService.handleMenuSelection(req, res);
+  });
+
+  // Call completion handlers
+  app.post("/api/twilio/voice/security-complete", (req, res) => {
+    TwilioVoiceService.handleCallComplete(req, res, 'security');
+  });
+
+  app.post("/api/twilio/voice/support-complete", (req, res) => {
+    TwilioVoiceService.handleCallComplete(req, res, 'support');
+  });
+
+  app.post("/api/twilio/voice/compliance-complete", (req, res) => {
+    TwilioVoiceService.handleCallComplete(req, res, 'compliance');
+  });
+
+  app.post("/api/twilio/voice/info-complete", (req, res) => {
+    TwilioVoiceService.handleCallComplete(req, res, 'info');
+  });
+
+  app.post("/api/twilio/voice/operator-complete", (req, res) => {
+    TwilioVoiceService.handleCallComplete(req, res, 'operator');
+  });
+
+  // Voice authentication for MFA
+  app.get("/api/twilio/voice/auth", (req, res) => {
+    TwilioVoiceService.handleVoiceAuth(req, res);
+  });
+
+  // Fallback handler
+  app.post("/api/twilio/voice/fallback", (req, res) => {
+    TwilioVoiceService.handleFallback(req, res);
+  });
+
+  // Status callback handler
+  app.post("/api/twilio/voice/status", (req, res) => {
+    TwilioVoiceService.handleStatusCallback(req, res);
+  });
+
+  // Send voice authentication code (programmatic)
+  app.post("/api/twilio/voice/send-auth", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, authCode } = req.body;
+      
+      if (!phoneNumber || !authCode) {
+        return res.status(400).json({ message: "Phone number and auth code are required" });
+      }
+
+      const success = await TwilioVoiceService.sendVoiceAuth(phoneNumber, authCode);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Voice authentication call sent successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send voice authentication call" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send voice auth error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send voice authentication",
+        error: error.message 
+      });
+    }
+  });
+
+  // Send security alert call (admin only)
+  app.post("/api/twilio/voice/send-alert", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { phoneNumber, alertMessage } = req.body;
+      
+      if (!phoneNumber || !alertMessage) {
+        return res.status(400).json({ message: "Phone number and alert message are required" });
+      }
+
+      const success = await TwilioVoiceService.sendSecurityAlert(phoneNumber, alertMessage);
+      
+      if (success) {
+        res.json({ 
+          success: true, 
+          message: "Security alert call sent successfully" 
+        });
+      } else {
+        res.status(500).json({ 
+          success: false, 
+          message: "Failed to send security alert call" 
+        });
+      }
+    } catch (error: any) {
+      console.error("❌ Send security alert error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to send security alert",
         error: error.message 
       });
     }
