@@ -3,10 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { MarketingLayout } from "@/components/MarketingLayout";
 
 export default function LegalNew() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white marketing-website">
+    <MarketingLayout>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white">
       {/* Header */}
       <div className="bg-black/20 border-b border-cyan-500/30">
         <div className="container mx-auto px-6 py-16">
@@ -492,5 +494,6 @@ export default function LegalNew() {
         </div>
       </div>
     </div>
+    </MarketingLayout>
   );
 }
