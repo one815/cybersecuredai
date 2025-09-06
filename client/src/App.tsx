@@ -114,6 +114,8 @@ import { MandiantIntelligence } from "@/pages/platform/MandiantIntelligence";
 import { TheHiveIntegration } from "@/pages/TheHiveIntegration";
 import LegalDocumentation from "@/pages/LegalDocumentation";
 import LegalNew from "@/pages/LegalNew";
+import TermsOfService from "@/pages/TermsOfService";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
 
 // Resource Pages
@@ -192,6 +194,8 @@ function Router() {
       <Route path="/pricing" component={Pricing} />
       <Route path="/careers" component={Careers} />
       <Route path="/legal" component={LegalNew} />
+      <Route path="/legal/terms-of-service" component={TermsOfService} />
+      <Route path="/legal/privacy-policy" component={PrivacyPolicy} />
       <Route path="/legaldocumentation" component={LegalDocumentation} />
       <Route path="/blog" component={Blogs} />
       <Route path="/blogs" component={Blogs} />
