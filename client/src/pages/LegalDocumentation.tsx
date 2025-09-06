@@ -532,7 +532,7 @@ export default function LegalDocumentation() {
       {/* Main Content */}
       <div className="container mx-auto px-6 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 mb-8">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 mb-8">
             <TabsTrigger value="authorization" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               Authorization Letter
@@ -548,6 +548,10 @@ export default function LegalDocumentation() {
             <TabsTrigger value="campaign" className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4" />
               Campaign Mockup
+            </TabsTrigger>
+            <TabsTrigger value="legal" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Legal Documents
             </TabsTrigger>
           </TabsList>
 
@@ -1174,6 +1178,239 @@ export default function LegalDocumentation() {
                     <Printer className="h-4 w-4 mr-2" />
                     Print Version
                   </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Comprehensive Legal Documents */}
+          <TabsContent value="legal">
+            <Card className="bg-slate-800/50 border-cyan-500/30">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-cyan-400" />
+                  Comprehensive Legal Documentation Suite
+                </CardTitle>
+                <CardDescription>
+                  Complete legal documentation for government and educational compliance including privacy policies, 
+                  security frameworks, and regulatory compliance statements.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  
+                  {/* Core Privacy & Terms */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400 flex items-center gap-2">
+                      <Shield className="h-5 w-5" />
+                      Core Privacy & Terms
+                    </h3>
+                    <div className="space-y-3">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Privacy_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Privacy Policy
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Terms_of_Service.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Terms of Service
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Cookie_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Cookie Policy
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Acceptable_Use_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Acceptable Use Policy
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Data Protection Compliance */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400 flex items-center gap-2">
+                      <Lock className="h-5 w-5" />
+                      Data Protection
+                    </h3>
+                    <div className="space-y-3">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/GDPR_Compliance.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        GDPR Compliance
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/CCPA_Compliance.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        CCPA/CPRA Compliance
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Data_Security_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Data Security Policy
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Vulnerability_Disclosure_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Vulnerability Disclosure
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Government Compliance */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400 flex items-center gap-2">
+                      <Shield className="h-5 w-5" />
+                      Government Compliance
+                    </h3>
+                    <div className="space-y-3">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/FedRAMP_Compliance.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        FedRAMP Compliance
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/FERPA_Compliance.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        FERPA Compliance
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/COPPA_Compliance.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        COPPA Compliance
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Business Policies */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400 flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5" />
+                      Business Policies
+                    </h3>
+                    <div className="space-y-3">
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Service_Level_Agreement.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Service Level Agreement
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/Refund_Policy.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        Refund & Cancellation
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="w-full justify-start border-slate-600 hover:bg-slate-600/50"
+                        onClick={() => window.open('/legal/AI_Ethics_Statement.html', '_blank')}
+                      >
+                        <FileText className="h-4 w-4 mr-2" />
+                        AI Ethics Statement
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Quick Access Links */}
+                  <div className="bg-slate-700/50 p-6 rounded-lg md:col-span-2 lg:col-span-1">
+                    <h3 className="text-lg font-semibold mb-4 text-cyan-400 flex items-center gap-2">
+                      <AlertCircle className="h-5 w-5" />
+                      Direct Access
+                    </h3>
+                    <div className="space-y-3">
+                      <p className="text-sm text-gray-300 mb-3">
+                        All legal documents are available as standalone HTML files that can be directly accessed, 
+                        printed, or converted to PDF format.
+                      </p>
+                      <div className="text-xs text-gray-400 space-y-2">
+                        <p><strong>Password:</strong> CyberCypher101819</p>
+                        <p><strong>Last Updated:</strong> September 6, 2025</p>
+                        <p><strong>Document Count:</strong> 15+ comprehensive policies</p>
+                        <p><strong>Compliance:</strong> GDPR, CCPA, FERPA, FedRAMP, COPPA</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Compliance Summary */}
+                <div className="mt-8 grid md:grid-cols-2 gap-6">
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <CheckCircle className="h-6 w-6 text-green-400" />
+                      <h4 className="text-lg font-semibold text-green-400">Education Sector Ready</h4>
+                    </div>
+                    <ul className="space-y-2 text-sm text-gray-300">
+                      <li>✓ FERPA compliant student data protection</li>
+                      <li>✓ COPPA compliance for K-12 environments</li>
+                      <li>✓ Student Data Privacy Pledge alignment</li>
+                      <li>✓ Academic calendar-aligned service terms</li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Shield className="h-6 w-6 text-blue-400" />
+                      <h4 className="text-lg font-semibold text-blue-400">Government Sector Ready</h4>
+                    </div>
+                    <ul className="space-y-2 text-sm text-gray-300">
+                      <li>✓ FedRAMP authorization in progress</li>
+                      <li>✓ FISMA compliance documentation</li>
+                      <li>✓ Section 508 accessibility compliance</li>
+                      <li>✓ Enhanced security controls and monitoring</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <FileText className="h-5 w-5 text-cyan-400" />
+                    <p className="text-sm text-cyan-300">
+                      <strong>Complete Legal Suite:</strong> All documents are professionally formatted, 
+                      legally compliant, and ready for regulatory review. Each document includes contact information, 
+                      compliance statements, and clear user rights information.
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
