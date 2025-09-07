@@ -92,11 +92,10 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       ],
       disableDefaultUI: true,
       zoomControl: false,
-      // Enhanced controls for 3D demo
-      rotateControl: true,
-      tiltControl: true,
+      mapTypeControl: false,
       fullscreenControl: false,
-      streetViewControl: false
+      streetViewControl: false,
+      gestureHandling: 'auto'
     });
 
     setMap(googleMap);
@@ -178,43 +177,8 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       {/* Google Maps Container */}
       <div ref={mapRef} className="w-full h-full min-h-[300px]" />
 
-      {/* Map Controls Overlay */}
-      <div className="absolute top-2 left-2 bg-black/80 rounded px-2 py-1 z-10">
-        <div className="text-xs text-cyan-400 font-mono">
-          LIVE THREAT MONITORING
-        </div>
-      </div>
-      
-      <div className="absolute top-2 right-2 bg-black/80 rounded px-2 py-1 flex items-center z-10">
-        <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse mr-1"></div>
-        <div className="text-xs text-green-400 font-mono">REAL-TIME</div>
-      </div>
 
-      {/* Legend */}
-      <div className="absolute bottom-2 left-2 bg-black/80 rounded p-2 z-10">
-        <div className="text-xs text-gray-300 mb-1 font-semibold">Threat Levels</div>
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-            <span className="text-xs text-gray-300">High Risk</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-            <span className="text-xs text-gray-300">Medium Risk</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-            <span className="text-xs text-gray-300">Low Risk</span>
-          </div>
-        </div>
-      </div>
 
-      {/* Threat Stats */}
-      <div className="absolute bottom-2 right-2 bg-black/80 rounded p-2 z-10">
-        <div className="text-xs text-gray-300 font-mono">
-          {threatLocations && Array.isArray(threatLocations) ? `${threatLocations.length} ACTIVE THREATS` : 'SCANNING...'}
-        </div>
-      </div>
     </div>
   );
 }
