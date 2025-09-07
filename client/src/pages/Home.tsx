@@ -1398,12 +1398,19 @@ export default function Home() {
           ) : (
             <button
               onClick={() => setShowCypherAI(true)}
-              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 group"
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white p-2 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 group relative overflow-hidden"
+              style={{
+                boxShadow: '0 20px 40px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1)',
+                background: 'linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #1e40af 100%)',
+              }}
               data-testid="open-cypher-ai"
             >
-              <div className="flex items-center space-x-2">
-                <Enhanced4DBotIcon className="w-6 h-6" size={24} />
-                <span className="hidden group-hover:block absolute right-16 top-1/2 transform -translate-y-1/2 bg-slate-800 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap">
+              {/* Glossy overlay */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-white/20 to-white/10 pointer-events-none"></div>
+              
+              <div className="flex items-center space-x-2 relative z-10">
+                <Enhanced4DBotIcon className="w-18 h-18" size={72} />
+                <span className="hidden group-hover:block absolute right-20 top-1/2 transform -translate-y-1/2 bg-slate-800/90 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap shadow-lg border border-slate-600/50">
                   Ask Cypher AI
                 </span>
               </div>
