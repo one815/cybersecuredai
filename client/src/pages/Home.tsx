@@ -125,7 +125,7 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-8 md:mb-16">
               <Badge className="mb-4 md:mb-8 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-sm md:text-lg px-4 md:px-6 py-1 md:py-2 flex items-center gap-2">
-                <img src="/attached_assets/Cypher AI Assist_1757277458129.png" alt="Cypher AI Assistant" className="w-5 h-5 rounded-full" />
+                <img src="/attached_assets/Cypher AI Assist_1757277458129.png" alt="Cypher AI Assistant" className="w-10 h-10 rounded-full" />
                 Featuring Cypher AI Assistant - 95% Accuracy, 24/7 Support
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight px-2">
@@ -729,8 +729,8 @@ export default function Home() {
                 <Card className="bg-gradient-to-br from-purple-900/50 to-slate-800/50 border-2 border-purple-500/50 hover:border-purple-400 transition-all duration-300">
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/attached_assets/Cypher AI Gen_1757277451468.png" alt="Cypher AI Gen" className="w-8 h-8 rounded-full" />
+                      <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
+                        <img src="/attached_assets/Cypher AI Gen_1757277451468.png" alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-purple-400">Cypher AI Genetic</h4>
@@ -761,8 +761,8 @@ export default function Home() {
                 <Card className="bg-gradient-to-br from-cyan-900/50 to-slate-800/50 border-2 border-cyan-500/50 hover:border-cyan-400 transition-all duration-300">
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/attached_assets/Cypher AI Assist_1757277458129.png" alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
+                      <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
+                        <img src="/attached_assets/Cypher AI Assist_1757277458129.png" alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-cyan-400">Cypher AI Assistant</h4>
