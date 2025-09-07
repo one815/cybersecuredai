@@ -17,6 +17,7 @@ import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
 import { GeospatialIntelligenceMap } from "@/components/GeospatialIntelligenceMap";
 import { IntelligenceOverview } from "@/components/IntelligenceOverview";
 import { CambridgeAnalytics } from "@/components/CambridgeAnalytics";
+import { Phase2Dashboard } from "@/components/Phase2Dashboard";
 import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons

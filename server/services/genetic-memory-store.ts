@@ -309,7 +309,7 @@ export class GeneticMemoryStore {
         LIMIT ${limit}
       `);
 
-      const individuals = (results as any[]).map(row => ({
+      const individuals = (results.rows || results).map((row: any) => ({
         id: row.id as string,
         generationId: row.generation_id as string,
         genome: JSON.parse(row.genome as string),
@@ -384,8 +384,8 @@ export class GeneticMemoryStore {
         WHERE genome_hash = ${genomeHash} AND sector = ${sector}
       `);
 
-      if ((results as any[]).length > 0) {
-        const row = (results as any[])[0];
+      if ((results.rows || results).length > 0) {
+        const row = (results.rows || results)[0];
         const entry: FitnessEntry = {
           genomeHash: row.genome_hash as string,
           sector: row.sector as string,
