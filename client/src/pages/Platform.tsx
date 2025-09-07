@@ -44,6 +44,55 @@ import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_2
 
 export default function Platform() {
   const [, setLocation] = useLocation();
+  
+  // Cypher AI Dual Intelligence Models
+  const cypherAIModels = [
+    {
+      title: "Cypher AI Genetic Model",
+      description: "Self-evolving AI with genetic algorithms and multi-generational learning",
+      icon: <Enhanced4DBrainIcon className="w-10 h-10 text-purple-400" size={40} />,
+      color: "border-purple-500/50",
+      gradient: "from-purple-900/50 to-slate-800/50",
+      features: [
+        "Genetic Algorithm Engine with PyTorch & DEAP",
+        "Multi-Generational Learning & Knowledge Inheritance",
+        "Autonomous Policy Generation (99.2% accuracy)",
+        "Adaptive Neural Architecture Search (NAS)",
+        "Federated Genetic Learning across environments",
+        "Sector-specific adaptation (FERPA/FISMA genetics)"
+      ],
+      metrics: [
+        { label: "False Positive Reduction", value: "-78%", color: "text-purple-400" },
+        { label: "Threat Response Speed", value: "+65%", color: "text-purple-400" },
+        { label: "Security Gap Reduction", value: "-82%", color: "text-purple-400" },
+        { label: "Autonomous Accuracy", value: "99.2%", color: "text-purple-400" }
+      ],
+      technology: "TensorFlow 2.x, PyTorch, Neural Architecture Search, Custom Genetic Operators"
+    },
+    {
+      title: "Cypher AI Assistant",
+      description: "Internal operations AI for meeting intelligence and workflow automation",
+      icon: <Enhanced4DBotIcon className="w-10 h-10 text-cyan-400" size={40} />,
+      color: "border-cyan-500/50", 
+      gradient: "from-cyan-900/50 to-slate-800/50",
+      features: [
+        "Multi-Platform Meeting Intelligence (Teams, Zoom, Google Meet)",
+        "95% Transcription Accuracy with Speaker Recognition",
+        "Smart Calendar Management & Conflict Resolution",
+        "Automated Email Processing & Lead Qualification",
+        "Social Platform Management (LinkedIn, Twitter, GitHub)",
+        "24/7 Website Chat Support with Technical Q&A"
+      ],
+      metrics: [
+        { label: "Meeting Prep Time", value: "-70%", color: "text-cyan-400" },
+        { label: "Team Productivity", value: "+45%", color: "text-cyan-400" },
+        { label: "Client Response Time", value: "+60%", color: "text-cyan-400" },
+        { label: "Transcription Accuracy", value: "95%", color: "text-cyan-400" }
+      ],
+      technology: "Chrome Extensions, Teams Bot API, Twilio API, SendGrid Integration, Real-time WebSockets"
+    }
+  ];
+
   const coreAIEngines = [
     {
       title: "Advanced AI-Driven Threat Hunting",
@@ -197,7 +246,7 @@ export default function Platform() {
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-20">
               <Badge className="mb-8 bg-red-500/20 text-red-300 border-red-500/30 text-lg px-6 py-3">
-                The Complete Security Platform
+                Cypher AI Dual Intelligence Platform
               </Badge>
               <h1 className="text-6xl md:text-8xl font-bold text-white mb-8 leading-tight">
                 Threats Eliminated.<br />
@@ -247,6 +296,104 @@ export default function Platform() {
                 alt="CyberSecured AI Platform Overview"
                 className="w-full rounded-2xl shadow-2xl border border-red-500/30"
               />
+            </div>
+          </div>
+        </section>
+
+        {/* Cypher AI Dual Intelligence Models */}
+        <section className="py-20 px-6 bg-gradient-to-b from-slate-900 to-slate-800">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                🧬 Revolutionary AI Architecture
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                Cypher AI Dual Intelligence<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Models</span>
+              </h2>
+              <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-12">
+                Revolutionary dual AI architecture featuring self-evolving genetic algorithms and advanced internal operations automation. 
+                The first platform to combine genetic learning with comprehensive workflow intelligence.
+              </p>
+            </div>
+
+            {/* Cypher AI Models Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+              {cypherAIModels.map((model, index) => (
+                <Card key={index} className={`bg-gradient-to-br ${model.gradient} border-2 ${model.color} hover:scale-105 transition-all duration-500`}>
+                  <CardContent className="p-8">
+                    <div className="flex items-center mb-6">
+                      <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center mr-6">
+                        {model.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-white">{model.title}</h3>
+                        <p className="text-gray-300 text-sm">{model.description}</p>
+                      </div>
+                    </div>
+
+                    {/* Features List */}
+                    <div className="mb-6">
+                      <h4 className="text-lg font-semibold text-white mb-4">Core Capabilities</h4>
+                      <ul className="space-y-2">
+                        {model.features.map((feature, fIndex) => (
+                          <li key={fIndex} className="flex items-start">
+                            <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-cyan-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                            <span className="text-gray-300 text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Performance Metrics */}
+                    <div className="mb-6">
+                      <h4 className="text-lg font-semibold text-white mb-4">Performance Metrics</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        {model.metrics.map((metric, mIndex) => (
+                          <div key={mIndex} className="text-center p-3 bg-white/5 rounded-lg border border-white/10">
+                            <div className={`text-xl font-bold ${metric.color} mb-1`}>{metric.value}</div>
+                            <div className="text-xs text-gray-400">{metric.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Technology Stack */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-400 mb-2">Technology Stack</h4>
+                      <p className="text-xs text-gray-500">{model.technology}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Architecture Overview */}
+            <div className="mt-16 p-8 bg-gradient-to-r from-slate-900/80 to-slate-800/80 rounded-xl border border-cyan-500/30">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">Integrated AI Architecture</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Enhanced4DBrainIcon className="w-8 h-8 text-purple-400" size={32} />
+                  </div>
+                  <h4 className="text-lg font-bold text-purple-400 mb-2">Genetic Evolution</h4>
+                  <p className="text-sm text-gray-300">Self-evolving algorithms that improve through genetic programming and multi-generational learning</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-cyan-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Enhanced4DBotIcon className="w-8 h-8 text-cyan-400" size={32} />
+                  </div>
+                  <h4 className="text-lg font-bold text-cyan-400 mb-2">Operations Intelligence</h4>
+                  <p className="text-sm text-gray-300">Advanced workflow automation with meeting intelligence and communication management</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <Enhanced4DNetworkIcon className="w-8 h-8 text-green-400" size={32} />
+                  </div>
+                  <h4 className="text-lg font-bold text-green-400 mb-2">Unified Platform</h4>
+                  <p className="text-sm text-gray-300">Seamless integration across all security modules with cross-platform learning capabilities</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
