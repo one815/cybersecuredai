@@ -13,6 +13,9 @@ import { spawn } from 'child_process';
 import { EventEmitter } from 'events';
 import path from 'path';
 import { geneticMemoryStore } from '../services/genetic-memory-store.js';
+import NeuralArchitectureSearchEngine from './neural-architecture-search.js';
+import MeetingIntelligenceService from '../services/meeting-intelligence.js';
+import FederatedLearningEnhancement from '../services/federated-learning-enhancement.js';
 
 export interface GeneticIndividual {
   id: string;
@@ -59,6 +62,11 @@ export class CypherAIGeneticEngine extends EventEmitter {
   private currentGeneration: number = 0;
   private pythonProcess: any = null;
   
+  // Phase 2: Enhanced AI Components
+  private nasEngine: NeuralArchitectureSearchEngine;
+  private meetingIntelligence: MeetingIntelligenceService;
+  private federatedLearning: FederatedLearningEnhancement;
+  
   // Genetic Algorithm Parameters
   private readonly POPULATION_SIZE = 100;
   private readonly MUTATION_RATE = 0.1;
@@ -69,6 +77,11 @@ export class CypherAIGeneticEngine extends EventEmitter {
 
   constructor() {
     super();
+    // Initialize Phase 2 components
+    this.nasEngine = new NeuralArchitectureSearchEngine();
+    this.meetingIntelligence = new MeetingIntelligenceService();
+    this.federatedLearning = new FederatedLearningEnhancement();
+    
     this.initializeEngine();
     this.initializeMemoryStore();
   }
