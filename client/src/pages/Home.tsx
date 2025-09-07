@@ -156,7 +156,7 @@ export default function Home() {
                           <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                           <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                         </div>
-                        <div className="text-xs text-gray-400 ml-4">cybersecured.ai/dashboard</div>
+                        <div className="text-xs text-gray-400 ml-4">https://dashboard.cybersecure.ai</div>
                       </div>
                       <Badge className="bg-cyan-500/20 text-cyan-300 text-xs">LIVE PLATFORM</Badge>
                     </div>
@@ -231,48 +231,79 @@ export default function Home() {
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
                         
-                        {/* Live Threat Monitoring Map */}
-                        <div className="h-40 sm:h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
-                          {/* Top Control Bar - Clean Layout */}
-                          <div className="absolute top-2 left-2 right-2 flex justify-between items-center z-10">
-                            {/* Left Controls */}
-                            <div className="flex items-center space-x-2">
-                              <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">
-                                THREAT MONITORING
+                        {/* Live Threat Monitoring Map - Exact Match */}
+                        <div className="h-64 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
+                          {/* LIVE THREAT MONITORING Badge */}
+                          <div className="absolute top-3 left-3 bg-blue-600 text-white text-xs px-3 py-1 rounded font-bold z-20">
+                            LIVE THREAT MONITORING
+                          </div>
+                          
+                          {/* REAL-TIME Indicator */}
+                          <div className="absolute top-3 right-3 bg-green-600/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1 z-20">
+                            <span className="text-green-300">●</span>
+                            <span>REAL-TIME</span>
+                          </div>
+
+                          {/* Threat Levels Legend */}
+                          <div className="absolute bottom-3 left-3 bg-slate-900/90 rounded p-3 z-20">
+                            <div className="text-white text-xs font-bold mb-2">Threat Levels</div>
+                            <div className="space-y-1">
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                <span className="text-white text-xs">High Risk</span>
                               </div>
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded">
-                                3D
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                <span className="text-white text-xs">Medium Risk</span>
                               </div>
-                            </div>
-                            
-                            {/* Right Status - Simplified */}
-                            <div className="flex items-center space-x-2">
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
-                                <span className="text-red-400">●</span>
-                                <span>2 Threats</span>
-                              </div>
-                              <div className="bg-green-600/90 text-white text-xs px-2 py-1 rounded">
-                                LIVE
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <span className="text-white text-xs">Low Risk</span>
                               </div>
                             </div>
                           </div>
 
+                          {/* Zoom Controls */}
+                          <div className="absolute right-3 top-16 bg-white rounded shadow-lg z-20">
+                            <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold border-b border-gray-200">+</button>
+                            <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold">−</button>
+                          </div>
 
-                          {/* Bottom Right Active Threats Counter */}
-                          <div className="absolute bottom-2 right-2 bg-slate-900/90 text-white text-xs px-2 py-1 rounded font-bold z-10">
+                          {/* Active Threats Counter */}
+                          <div className="absolute bottom-3 right-3 bg-slate-900/90 text-white text-xs px-3 py-1 rounded font-bold z-20">
                             5 ACTIVE THREATS
                           </div>
 
-                          {/* Clean Map - No Duplicate Controls */}
+                          {/* Clean Map */}
                           <div className="relative w-full h-full">
                             <ThreatMap className="w-full h-full" />
+                          </div>
+                        </div>
+                        
+                        {/* Threat Level Statistics Bar */}
+                        <div className="grid grid-cols-4 gap-3 mt-4">
+                          <div className="bg-red-900/30 rounded-lg p-3 text-center border border-red-500/30">
+                            <div className="text-2xl font-bold text-red-400">4</div>
+                            <div className="text-xs text-red-300">Critical</div>
+                          </div>
+                          <div className="bg-orange-900/30 rounded-lg p-3 text-center border border-orange-500/30">
+                            <div className="text-2xl font-bold text-orange-400">7</div>
+                            <div className="text-xs text-orange-300">High</div>
+                          </div>
+                          <div className="bg-yellow-900/30 rounded-lg p-3 text-center border border-yellow-500/30">
+                            <div className="text-2xl font-bold text-yellow-400">12</div>
+                            <div className="text-xs text-yellow-300">Medium</div>
+                          </div>
+                          <div className="bg-blue-900/30 rounded-lg p-3 text-center border border-blue-500/30">
+                            <div className="text-2xl font-bold text-blue-400">23</div>
+                            <div className="text-xs text-blue-300">Low</div>
                           </div>
                         </div>
                       </div>
 
                       {/* Right Column */}
                       <div className="space-y-6">
-                        {/* Cambridge Analytics */}
+                        {/* Cambridge Analytics - Exact Match */}
                         <div className="bg-slate-700/40 rounded-lg p-4 border border-purple-500/30">
                           <div className="flex items-center space-x-2 mb-3">
                             <Enhanced4DBrainIcon className="w-5 h-5 text-purple-400" size={20} />
@@ -280,19 +311,21 @@ export default function Home() {
                           </div>
                           <div className="text-center">
                             <div className="text-4xl font-bold text-purple-400 mb-2">89%</div>
-                            <div className="text-sm text-gray-400 mb-2">AI Accuracy</div>
-                            <div className="space-y-1 text-xs">
-                              <div className="flex items-center justify-between">
-                                <span className="text-gray-400">• Phishing Campaign</span>
+                            <div className="text-sm text-gray-400 mb-3">AI Accuracy</div>
+                            <div className="space-y-1 text-xs text-left">
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                <span className="text-gray-400">Phishing Campaign</span>
                               </div>
-                              <div className="flex items-center justify-between">
-                                <span className="text-gray-400">• Network Anomaly</span>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                <span className="text-gray-400">Network Anomaly</span>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Compliance */}
+                        {/* Compliance - Exact Match */}
                         <div className="bg-slate-700/40 rounded-lg p-4 border border-green-500/30">
                           <div className="flex items-center space-x-2 mb-3">
                             <Enhanced4DCheckCircleIcon className="w-5 h-5 text-green-400" size={20} />
@@ -304,15 +337,15 @@ export default function Home() {
                             <div className="space-y-2 text-xs">
                               <div className="flex justify-between">
                                 <span className="text-gray-400">FERPA</span>
-                                <span className="text-green-400">98%</span>
+                                <span className="text-green-400 font-bold">98%</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">FISMA</span>
-                                <span className="text-blue-400">95%</span>
+                                <span className="text-green-400 font-bold">95%</span>
                               </div>
                               <div className="flex justify-between">
                                 <span className="text-gray-400">CIPA</span>
-                                <span className="text-purple-400">94%</span>
+                                <span className="text-green-400 font-bold">92%</span>
                               </div>
                             </div>
                           </div>
