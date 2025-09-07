@@ -63,7 +63,7 @@ import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligen
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
 // iMac desktop mockup for dashboard display
-import imacMockupImg from "@assets/generated_images/Large_clean_iMac_mockup_8681b1a2.png";
+import imacMockupImg from "@assets/generated_images/Transparent_background_iMac_mockup_761aab24.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
@@ -154,8 +154,8 @@ export default function Home() {
                       className="w-full h-auto shadow-2xl"
                     />
                     
-                    {/* Live Dashboard Overlay covering the iMac screen area */}
-                    <div className="absolute top-[12%] left-[18%] w-[64%] h-[50%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-md overflow-hidden border border-cyan-500/30">
+                    {/* Live Dashboard Overlay covering the entire iMac screen area */}
+                    <div className="absolute top-[8%] left-[15%] w-[70%] h-[64%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded overflow-hidden border border-cyan-500/30">
                       {/* Dashboard Header */}
                       <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
@@ -171,7 +171,7 @@ export default function Home() {
                       </div>
 
                       {/* Dashboard Content Grid */}
-                      <div className="p-2 h-full grid grid-cols-3 gap-2" style={{fontSize: '10px'}}>
+                      <div className="p-3 flex-1 grid grid-cols-3 gap-3" style={{fontSize: '11px'}}>
                         {/* Threat Monitor */}
                         <div className="bg-slate-700/60 rounded p-2 border border-red-500/30">
                           <div className="flex items-center space-x-1 mb-1">
