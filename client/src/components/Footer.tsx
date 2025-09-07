@@ -163,7 +163,7 @@ export function Footer() {
             </div>
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-cyan-400" />
-              <span className="text-gray-400 text-sm">Austin, Texas, USA</span>
+              <span className="text-gray-400 text-sm">Willow Park, Texas, USA</span>
             </div>
           </div>
         </div>
@@ -204,7 +204,7 @@ export function Footer() {
               />
             </div>
             <p className="text-xs text-gray-500">
-              © 2024 CyberSecured AI. All rights reserved. <Link href="/privacy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/terms"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link> | <Link href="/legal"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Legal</span></Link>
+              © 2024 CyberSecured AI. All rights reserved. <Link href="/legal/privacy-policy"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Privacy Policy</span></Link> | <Link href="/legal/terms-of-service"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Service</span></Link> | <Link href="/legal"><span className="hover:text-cyan-400 transition-colors cursor-pointer">Legal</span></Link>
             </p>
           </div>
         </div>

@@ -77,7 +77,7 @@ export default function Careers() {
       id: "devops-engineer",
       title: "Senior DevOps Engineer",
       department: "Engineering",
-      location: "Remote / Austin, TX", 
+      location: "Remote / Willow Park, TX", 
       type: "Full-time",
       salary: "$130,000 - $170,000",
       description: "Build and maintain scalable cloud infrastructure for AI-powered cybersecurity platforms, focusing on high-availability and compliance requirements.",
