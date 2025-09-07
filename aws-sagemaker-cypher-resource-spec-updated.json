@@ -44,27 +44,30 @@
             "network_traffic": {
               "type": "object",
               "properties": {
-                "source_ip": {"type": "string", "format": "ipv4"},
-                "destination_ip": {"type": "string", "format": "ipv4"},
-                "port": {"type": "integer", "minimum": 1, "maximum": 65535},
-                "protocol": {"type": "string", "enum": ["HTTP", "HTTPS", "TCP", "UDP", "ICMP"]},
-                "packet_size": {"type": "integer", "minimum": 0},
-                "connection_duration": {"type": "number", "minimum": 0},
-                "data_volume": {"type": "integer", "minimum": 0}
+                "source_ip": { "type": "string", "format": "ipv4" },
+                "destination_ip": { "type": "string", "format": "ipv4" },
+                "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+                "protocol": {
+                  "type": "string",
+                  "enum": ["HTTP", "HTTPS", "TCP", "UDP", "ICMP"]
+                },
+                "packet_size": { "type": "integer", "minimum": 0 },
+                "connection_duration": { "type": "number", "minimum": 0 },
+                "data_volume": { "type": "integer", "minimum": 0 }
               },
               "required": ["source_ip", "destination_ip", "port", "protocol"]
             },
             "features": {
               "type": "array",
-              "items": {"type": "number"},
+              "items": { "type": "number" },
               "minItems": 1,
               "maxItems": 50
             },
             "metadata": {
               "type": "object",
               "properties": {
-                "timestamp": {"type": "string", "format": "date-time"},
-                "source": {"type": "string"}
+                "timestamp": { "type": "string", "format": "date-time" },
+                "source": { "type": "string" }
               },
               "required": ["timestamp", "source"]
             }
@@ -92,13 +95,22 @@
         "schema": {
           "type": "object",
           "properties": {
-            "prediction": {"type": "string", "enum": ["benign", "suspicious", "malicious"]},
-            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-            "threat_type": {"type": "string"},
-            "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
-            "recommendations": {"type": "array", "items": {"type": "string"}},
-            "model_version": {"type": "string"},
-            "inference_time_ms": {"type": "integer", "minimum": 0}
+            "prediction": {
+              "type": "string",
+              "enum": ["benign", "suspicious", "malicious"]
+            },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "threat_type": { "type": "string" },
+            "severity": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "recommendations": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "model_version": { "type": "string" },
+            "inference_time_ms": { "type": "integer", "minimum": 0 }
           }
         },
         "example": {
@@ -141,30 +153,36 @@
             "user_behavior": {
               "type": "object",
               "properties": {
-                "user_id": {"type": "string"},
-                "login_time": {"type": "string", "format": "date-time"},
-                "login_location": {"type": "string"},
-                "device_fingerprint": {"type": "string"},
+                "user_id": { "type": "string" },
+                "login_time": { "type": "string", "format": "date-time" },
+                "login_location": { "type": "string" },
+                "device_fingerprint": { "type": "string" },
                 "access_patterns": {
                   "type": "array",
                   "items": {
                     "type": "object",
                     "properties": {
-                      "resource": {"type": "string"},
-                      "frequency": {"type": "integer", "minimum": 0}
+                      "resource": { "type": "string" },
+                      "frequency": { "type": "integer", "minimum": 0 }
                     }
                   }
                 },
-                "session_duration": {"type": "integer", "minimum": 0}
+                "session_duration": { "type": "integer", "minimum": 0 }
               },
               "required": ["user_id", "login_time", "session_duration"]
             },
             "historical_baseline": {
               "type": "object",
               "properties": {
-                "avg_session_duration": {"type": "integer", "minimum": 0},
-                "typical_locations": {"type": "array", "items": {"type": "string"}},
-                "usual_access_times": {"type": "array", "items": {"type": "string"}}
+                "avg_session_duration": { "type": "integer", "minimum": 0 },
+                "typical_locations": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "usual_access_times": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
               },
               "required": ["avg_session_duration"]
             }
@@ -177,8 +195,8 @@
             "login_location": "New York, NY",
             "device_fingerprint": "abc123def456",
             "access_patterns": [
-              {"resource": "/admin/users", "frequency": 5},
-              {"resource": "/compliance/reports", "frequency": 12}
+              { "resource": "/admin/users", "frequency": 5 },
+              { "resource": "/compliance/reports", "frequency": 12 }
             ],
             "session_duration": 3600
           },
@@ -194,12 +212,21 @@
         "schema": {
           "type": "object",
           "properties": {
-            "anomaly_score": {"type": "number", "minimum": 0, "maximum": 1},
-            "risk_level": {"type": "string", "enum": ["low", "medium", "high"]},
-            "behavioral_flags": {"type": "array", "items": {"type": "string"}},
-            "user_classification": {"type": "string"},
-            "recommendations": {"type": "array", "items": {"type": "string"}},
-            "baseline_deviation": {"type": "number", "minimum": 0}
+            "anomaly_score": { "type": "number", "minimum": 0, "maximum": 1 },
+            "risk_level": {
+              "type": "string",
+              "enum": ["low", "medium", "high"]
+            },
+            "behavioral_flags": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "user_classification": { "type": "string" },
+            "recommendations": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "baseline_deviation": { "type": "number", "minimum": 0 }
           }
         },
         "example": {
@@ -241,18 +268,30 @@
             "document": {
               "type": "object",
               "properties": {
-                "content": {"type": "string", "description": "Base64 encoded document content"},
-                "file_type": {"type": "string", "enum": ["pdf", "docx", "txt", "xlsx"]},
-                "file_size": {"type": "integer", "minimum": 0},
-                "file_name": {"type": "string"}
+                "content": {
+                  "type": "string",
+                  "description": "Base64 encoded document content"
+                },
+                "file_type": {
+                  "type": "string",
+                  "enum": ["pdf", "docx", "txt", "xlsx"]
+                },
+                "file_size": { "type": "integer", "minimum": 0 },
+                "file_name": { "type": "string" }
               },
               "required": ["content", "file_type", "file_name"]
             },
             "classification_context": {
               "type": "object",
               "properties": {
-                "organization_type": {"type": "string", "enum": ["educational", "government", "municipal"]},
-                "compliance_frameworks": {"type": "array", "items": {"type": "string"}}
+                "organization_type": {
+                  "type": "string",
+                  "enum": ["educational", "government", "municipal"]
+                },
+                "compliance_frameworks": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
               },
               "required": ["organization_type"]
             }
@@ -276,12 +315,21 @@
         "schema": {
           "type": "object",
           "properties": {
-            "classification": {"type": "string"},
-            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
-            "sensitivity_level": {"type": "string", "enum": ["public", "internal", "confidential", "restricted"]},
-            "compliance_tags": {"type": "array", "items": {"type": "string"}},
-            "content_categories": {"type": "array", "items": {"type": "string"}},
-            "retention_period": {"type": "string"}
+            "classification": { "type": "string" },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "sensitivity_level": {
+              "type": "string",
+              "enum": ["public", "internal", "confidential", "restricted"]
+            },
+            "compliance_tags": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "content_categories": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "retention_period": { "type": "string" }
           }
         },
         "example": {
@@ -323,18 +371,28 @@
             "system_metrics": {
               "type": "object",
               "properties": {
-                "cpu_usage": {"type": "number", "minimum": 0, "maximum": 100},
-                "memory_usage": {"type": "number", "minimum": 0, "maximum": 100},
-                "network_io": {"type": "integer", "minimum": 0},
-                "disk_io": {"type": "integer", "minimum": 0},
-                "active_connections": {"type": "integer", "minimum": 0},
-                "failed_logins": {"type": "integer", "minimum": 0},
-                "error_rate": {"type": "number", "minimum": 0, "maximum": 1}
+                "cpu_usage": { "type": "number", "minimum": 0, "maximum": 100 },
+                "memory_usage": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "network_io": { "type": "integer", "minimum": 0 },
+                "disk_io": { "type": "integer", "minimum": 0 },
+                "active_connections": { "type": "integer", "minimum": 0 },
+                "failed_logins": { "type": "integer", "minimum": 0 },
+                "error_rate": { "type": "number", "minimum": 0, "maximum": 1 }
               },
               "required": ["cpu_usage", "memory_usage", "active_connections"]
             },
-            "time_window": {"type": "string", "enum": ["1_minute", "5_minutes", "15_minutes", "1_hour"]},
-            "baseline_period": {"type": "string", "enum": ["1_hour", "24_hours", "7_days", "30_days"]}
+            "time_window": {
+              "type": "string",
+              "enum": ["1_minute", "5_minutes", "15_minutes", "1_hour"]
+            },
+            "baseline_period": {
+              "type": "string",
+              "enum": ["1_hour", "24_hours", "7_days", "30_days"]
+            }
           }
         },
         "example": {
@@ -356,12 +414,18 @@
         "schema": {
           "type": "object",
           "properties": {
-            "anomaly_detected": {"type": "boolean"},
-            "anomaly_score": {"type": "number", "minimum": 0, "maximum": 1},
-            "anomaly_type": {"type": "string"},
-            "affected_metrics": {"type": "array", "items": {"type": "string"}},
-            "severity": {"type": "string", "enum": ["low", "medium", "high"]},
-            "recommendations": {"type": "array", "items": {"type": "string"}}
+            "anomaly_detected": { "type": "boolean" },
+            "anomaly_score": { "type": "number", "minimum": 0, "maximum": 1 },
+            "anomaly_type": { "type": "string" },
+            "affected_metrics": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "severity": { "type": "string", "enum": ["low", "medium", "high"] },
+            "recommendations": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
           }
         },
         "example": {
@@ -402,12 +466,22 @@
               "items": {
                 "type": "object",
                 "properties": {
-                  "endpoint_name": {"type": "string"},
-                  "status": {"type": "string", "enum": ["InService", "OutOfService", "Creating", "Updating", "Deleting", "Failed"]},
-                  "instance_type": {"type": "string"},
-                  "instance_count": {"type": "integer", "minimum": 0},
-                  "model_version": {"type": "string"},
-                  "last_updated": {"type": "string", "format": "date-time"}
+                  "endpoint_name": { "type": "string" },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "InService",
+                      "OutOfService",
+                      "Creating",
+                      "Updating",
+                      "Deleting",
+                      "Failed"
+                    ]
+                  },
+                  "instance_type": { "type": "string" },
+                  "instance_count": { "type": "integer", "minimum": 0 },
+                  "model_version": { "type": "string" },
+                  "last_updated": { "type": "string", "format": "date-time" }
                 }
               }
             }
@@ -445,10 +519,10 @@
         "error": {
           "type": "object",
           "properties": {
-            "code": {"type": "string"},
-            "message": {"type": "string"},
-            "details": {"type": "object"},
-            "request_id": {"type": "string"}
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "details": { "type": "object" },
+            "request_id": { "type": "string" }
           }
         }
       }
@@ -601,8 +675,16 @@
     }
   },
   "corsConfiguration": {
-    "allowOrigins": ["https://cybersecuredai.com", "https://app.cybersecuredai.com"],
-    "allowHeaders": ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key"],
+    "allowOrigins": [
+      "https://cybersecuredai.com",
+      "https://app.cybersecuredai.com"
+    ],
+    "allowHeaders": [
+      "Content-Type",
+      "Authorization",
+      "X-Amz-Date",
+      "X-Api-Key"
+    ],
     "allowMethods": ["GET", "POST", "OPTIONS"],
     "maxAge": 3600
   }
