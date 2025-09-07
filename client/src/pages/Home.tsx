@@ -120,12 +120,12 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-8 md:mb-16">
               <Badge className="mb-4 md:mb-8 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-sm md:text-lg px-4 md:px-6 py-1 md:py-2">
-                Named a Leader in AI-Powered Cybersecurity
+                🤖 Featuring Cypher AI Assistant - 95% Accuracy, 24/7 Support
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight px-2">
-                Enhanced with Multi Intelligence,<br className="hidden sm:block" />
+                Enhanced with Cypher AI,<br className="hidden sm:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                  Advanced Threat Detection.
+                  Intelligent Cyber Operations.
                 </span>
               </h1>
               <div className="flex justify-center mb-6 md:mb-12">
@@ -702,6 +702,114 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Cypher AI Assistant Showcase */}
+            <div className="max-w-6xl mx-auto mb-16">
+              <div className="text-center mb-12">
+                <h3 className="text-4xl font-bold text-white mb-6">
+                  🤖 Meet <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Cypher AI Assistant</span>
+                </h3>
+                <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-8">
+                  Your advanced AI Cyber Tech Assistant with enterprise-grade machine learning models, 
+                  trained specifically for education and government sector cybersecurity operations.
+                </p>
+              </div>
+
+              {/* Cypher AI Performance Metrics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+                <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-cyan-500/30">
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">-65%</div>
+                  <div className="text-sm text-gray-400">Alert Fatigue<br />Reduction</div>
+                </div>
+                <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-green-500/30">
+                  <div className="text-3xl font-bold text-green-400 mb-2">+47%</div>
+                  <div className="text-sm text-gray-400">Faster Incident<br />Response</div>
+                </div>
+                <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-orange-500/30">
+                  <div className="text-3xl font-bold text-orange-400 mb-2">-70%</div>
+                  <div className="text-sm text-gray-400">Manual Compliance<br />Effort</div>
+                </div>
+                <div className="text-center p-6 bg-slate-800/50 rounded-lg border border-blue-500/30">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">95%</div>
+                  <div className="text-sm text-gray-400">Meeting Transcription<br />Accuracy</div>
+                </div>
+              </div>
+
+              {/* Cypher AI Capabilities Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="bg-slate-800/50 border-cyan-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DBrainIcon className="w-8 h-8 text-cyan-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">Advanced Threat Analysis</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      AI-powered threat classification with 94.7% confidence using TensorFlow 2.x and BERT models for real-time security intelligence.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-green-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DCheckCircleIcon className="w-8 h-8 text-green-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">Compliance Automation</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      Automated FERPA, FISMA, and CIPA compliance mapping with 70% reduction in manual effort and intelligent gap analysis.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-purple-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DActivityIcon className="w-8 h-8 text-purple-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">Smart Scheduling</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      35% more efficient calendar optimization with automated meeting transcription and action item extraction at 95% accuracy.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-orange-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DTargetIcon className="w-8 h-8 text-orange-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">Ticket Intelligence</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      AI-powered ticket management with 40% faster resolution, smart categorization, and predictive escalation prevention.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-blue-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DUsersIcon className="w-8 h-8 text-blue-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">24/7 Operations</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      Continuous security operations support with 99.9% uptime and adaptive learning from institutional security patterns.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-800/50 border-yellow-500/30">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      <Enhanced4DZapIcon className="w-8 h-8 text-yellow-400 mr-3" size={32} />
+                      <h4 className="text-lg font-bold text-white">Communication Tracking</h4>
+                    </div>
+                    <p className="text-gray-300 text-sm">
+                      Real-time engagement analytics with email tracking, read receipts, and intelligent communication optimization.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
             {/* Educational Compliance Dashboard Visualization with 4D Visual */}
             <div className="max-w-5xl mx-auto mb-16">
               {/* Hero Visual - Educational Threat Intelligence */}
@@ -714,9 +822,10 @@ export default function Home() {
                   <div className="flex items-center justify-between bg-slate-800/90 rounded-lg p-3 border border-cyan-500/30">
                     <div className="flex items-center space-x-3">
                       <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-white font-semibold">Educational Threat Intelligence</span>
+                      <span className="text-white font-semibold">Cypher AI + Threat Intelligence</span>
                     </div>
                     <div className="flex items-center space-x-2">
+                      <Badge className="bg-cyan-500/20 text-cyan-300 text-xs">🤖 AI Active</Badge>
                       <Badge className="bg-green-500/20 text-green-300 text-xs">FERPA Compliant</Badge>
                       <Badge className="bg-blue-500/20 text-blue-300 text-xs">CIPA Active</Badge>
                     </div>
