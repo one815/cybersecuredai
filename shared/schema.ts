@@ -111,6 +111,36 @@ export const auditLogs = pgTable("audit_logs", {
   timestamp: timestamp("timestamp").defaultNow(),
 });
 
+export const tickets = pgTable("tickets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ticketNumber: varchar("ticket_number").notNull().unique(), // AUTO-generated format: CYBER-YYYYMMDD-XXXX
+  title: varchar("title").notNull(),
+  description: text("description").notNull(),
+  category: varchar("category").notNull(), // general, technical, security, compliance, billing, emergency
+  priority: varchar("priority").notNull().default("medium"), // low, medium, high, critical
+  status: varchar("status").notNull().default("open"), // open, in_progress, pending_customer, resolved, closed
+  submitterName: varchar("submitter_name").notNull(),
+  submitterEmail: varchar("submitter_email").notNull(),
+  submitterOrganization: varchar("submitter_organization"),
+  submitterPhone: varchar("submitter_phone"),
+  assignedTo: varchar("assigned_to").references(() => users.id),
+  assignedTeam: varchar("assigned_team"), // support, security, engineering, compliance
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+  resolvedAt: timestamp("resolved_at"),
+  closedAt: timestamp("closed_at"),
+  resolutionNotes: text("resolution_notes"),
+  customerSatisfactionRating: integer("customer_satisfaction_rating"), // 1-5 scale
+  internalNotes: text("internal_notes"), // Private notes for staff
+  metadata: jsonb("metadata"), // Additional custom fields
+  escalated: boolean("escalated").default(false),
+  escalatedAt: timestamp("escalated_at"),
+  escalatedReason: text("escalated_reason"),
+  slaDeadline: timestamp("sla_deadline"), // SLA response deadline
+  firstResponseAt: timestamp("first_response_at"),
+  tags: jsonb("tags"), // Array of tags for categorization
+});
+
 export const threatNotifications = pgTable("threat_notifications", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   threatId: varchar("threat_id").notNull().references(() => threats.id),
@@ -507,6 +537,19 @@ export const insertThreatIntelligenceSourceSchema = createInsertSchema(threatInt
   createdAt: true,
 });
 
+export const insertTicketSchema = createInsertSchema(tickets).omit({
+  id: true,
+  ticketNumber: true, // Auto-generated
+  submittedAt: true,
+  updatedAt: true,
+  resolvedAt: true,
+  closedAt: true,
+  firstResponseAt: true,
+  escalatedAt: true,
+});
+
+export type Ticket = typeof tickets.$inferSelect;
+export type InsertTicket = z.infer<typeof insertTicketSchema>;
 export type InsertHardwareSecurityDevice = z.infer<typeof insertHardwareSecurityDeviceSchema>;
 export type InsertBiometricAuthRecord = z.infer<typeof insertBiometricAuthRecordSchema>;
 export type InsertIamIntegration = z.infer<typeof insertIamIntegrationSchema>;
