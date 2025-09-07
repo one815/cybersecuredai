@@ -17,6 +17,8 @@ import SecuredLockIcon from '@assets/Secured Lock.png';
 import BotIcon from '@assets/Bot.png';
 import Bot2Icon from '@assets/Bot (2).png';
 import BrainIcon from '@assets/Brain.png';
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
 import EyeIcon from '@assets/Eye.png';
 import LightningIcon from '@assets/Lightning.png';
 import ZapIcon from '@assets/Zap.png';
@@ -163,18 +165,18 @@ export const CustomSecuredLockIcon: React.FC<CustomIconProps> = ({ className, si
 
 export const CustomBotIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
   <img 
-    src={BotIcon} 
-    alt="AI Bot" 
-    className={className}
+    src={cypherAiAssistImage} 
+    alt="Cypher AI Assistant" 
+    className={`rounded-full ${className}`}
     style={{ width: size, height: size }}
   />
 );
 
 export const CustomBot2Icon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
   <img 
-    src={Bot2Icon} 
-    alt="AI Bot" 
-    className={className}
+    src={cypherAiAssistImage} 
+    alt="Cypher AI Assistant" 
+    className={`rounded-full ${className}`}
     style={{ width: size, height: size }}
   />
 );
@@ -182,9 +184,9 @@ export const CustomBot2Icon: React.FC<CustomIconProps> = ({ className, size = 24
 export const CustomBrainIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
   <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
     <img 
-      src={BrainIcon} 
-      alt="AI Brain" 
-      className="w-full h-full object-contain filter drop-shadow-lg"
+      src={cypherAiGenImage} 
+      alt="Cypher AI Genetic Model" 
+      className="w-full h-full object-contain rounded-full filter drop-shadow-lg"
       style={{ 
         filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' 
       }}
@@ -228,51 +230,17 @@ export const Enhanced4DNetworkIcon: React.FC<CustomIconProps> = ({ className, si
   </div>
 );
 
-// Enhanced 4D Brain Icon Component with neural network effects
+// Enhanced 4D Brain Icon Component with Cypher AI Gen image
 export const Enhanced4DBrainIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
   <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      className="filter drop-shadow-lg"
+    <img 
+      src={cypherAiGenImage} 
+      alt="Cypher AI Genetic Model" 
+      className="w-full h-full object-contain rounded-full filter drop-shadow-lg"
       style={{ 
         filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.6)) drop-shadow(0 0 15px rgba(168, 85, 247, 0.4))' 
       }}
-    >
-      {/* Brain outline with gradient */}
-      <path 
-        d="M9.5 2a6.5 6.5 0 0 1 5 0 6.5 6.5 0 0 1 0 5 6.5 6.5 0 0 1-5 0 6.5 6.5 0 0 1 0-5z" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        fill="rgba(168, 85, 247, 0.2)"
-      />
-      
-      {/* Neural pathways */}
-      <path 
-        d="M6 8c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2v8c0 1.1-.9 2-2 2H8c-1.1 0-2-.9-2-2V8z" 
-        stroke="currentColor" 
-        strokeWidth="1.5" 
-        fill="none"
-        opacity="0.7"
-      />
-      
-      {/* Neural connection points */}
-      <circle cx="8" cy="10" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" />
-      <circle cx="12" cy="8" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.3s' }} />
-      <circle cx="16" cy="10" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
-      <circle cx="10" cy="14" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '0.9s' }} />
-      <circle cx="14" cy="14" r="1" fill="rgba(168, 85, 247, 0.8)" className="animate-pulse" style={{ animationDelay: '1.2s' }} />
-      
-      {/* Connecting lines */}
-      <path 
-        d="M8 10l4-2m0 0l4 2m-4-2v6m-4-4l8 0" 
-        stroke="currentColor" 
-        strokeWidth="1" 
-        opacity="0.6"
-      />
-    </svg>
+    />
     <div 
       className="absolute inset-0 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full animate-pulse"
       style={{ 
@@ -647,21 +615,24 @@ export const Enhanced4DShieldIcon: React.FC<CustomIconProps> = ({ className, siz
   </svg>
 );
 
-// Enhanced 4D Bot Icon with glass morphism effects
+// Enhanced 4D Bot Icon with Cypher AI Assistant image
 export const Enhanced4DBotIcon: React.FC<CustomIconProps> = ({ className, size = 24 }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    className={`glass-icon ${className}`}
-  >
-    <rect x="3" y="8" width="18" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="rgba(59, 130, 246, 0.2)"/>
-    <circle cx="12" cy="2" r="1" stroke="currentColor" strokeWidth="2" fill="currentColor"/>
-    <path d="M9 16l2-2 2 2" stroke="currentColor" strokeWidth="2" fill="none"/>
-    <circle cx="8" cy="14" r="1" fill="currentColor" className="animate-pulse"/>
-    <circle cx="16" cy="14" r="1" fill="currentColor" className="animate-pulse" style={{ animationDelay: '0.5s' }}/>
-  </svg>
+  <div className={`relative inline-block ${className}`} style={{ width: size, height: size }}>
+    <img 
+      src={cypherAiAssistImage} 
+      alt="Cypher AI Assistant" 
+      className="w-full h-full object-contain rounded-full filter drop-shadow-lg"
+      style={{ 
+        filter: 'drop-shadow(0 0 8px rgba(59, 130, 246, 0.6)) drop-shadow(0 0 15px rgba(59, 130, 246, 0.4))' 
+      }}
+    />
+    <div 
+      className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full animate-pulse"
+      style={{ 
+        background: 'radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3), transparent 70%)'
+      }}
+    />
+  </div>
 );
 
 // Enhanced 4D Eye Icon with glass morphism effects

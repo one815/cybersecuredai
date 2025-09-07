@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
 import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.png";
 import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
 import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";

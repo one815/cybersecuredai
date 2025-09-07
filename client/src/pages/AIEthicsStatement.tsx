@@ -2,6 +2,7 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Users, Shield, CheckCircle } from "lucide-react";
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
 
 export default function AIEthicsStatement() {
   return (
@@ -12,7 +13,7 @@ export default function AIEthicsStatement() {
           <div className="container mx-auto px-6 py-16">
             <div className="text-center">
               <Badge variant="outline" className="mb-4 border-purple-400 text-purple-400">
-                <Brain className="h-4 w-4 mr-2" />
+                <img src={cypherAiGenImage} alt="Cypher AI Gen" className="h-4 w-4 mr-2 rounded-full" />
                 AI Ethics Statement
               </Badge>
               <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-purple-400 bg-clip-text text-transparent">
@@ -34,7 +35,7 @@ export default function AIEthicsStatement() {
           <Card className="mb-8 bg-green-500/10 border-green-500/30">
             <CardContent className="p-6">
               <div className="flex items-start gap-3">
-                <Brain className="h-6 w-6 text-green-400 flex-shrink-0 mt-0.5" />
+                <img src={cypherAiGenImage} alt="Cypher AI Gen" className="h-6 w-6 rounded-full flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-green-200 font-semibold mb-2">🤖 Our AI Commitment:</p>
                   <p className="text-gray-300">
