@@ -266,7 +266,7 @@ export default function Home() {
                           <div className="absolute top-3 left-80 bg-slate-900/80 rounded p-2 z-10">
                             <div className="text-gray-400 text-xs mb-2">View Controls</div>
                             <button className="bg-slate-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center">
-                              <Enhanced4DSettingsIcon className="w-3 h-3 mr-1" size={12} />
+                              <CustomSettingsIcon className="w-3 h-3 mr-1" size={12} />
                               Reset View
                             </button>
                           </div>
