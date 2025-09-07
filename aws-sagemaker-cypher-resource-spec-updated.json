@@ -1,0 +1,609 @@
+{
+  "apiVersion": "2017-05-13",
+  "serviceName": "CyberSecured AI - AWS SageMaker ML Integration",
+  "serviceDescription": "AI-powered cybersecurity platform with machine learning threat detection, behavioral analysis, and document classification",
+  "baseUrl": "https://cybersecuredai.com",
+  "awsRegion": "us-east-2",
+  "awsService": "SageMaker Runtime",
+  "authentication": {
+    "type": "AWS IAM",
+    "required": true,
+    "credentials": {
+      "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+      "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}",
+      "region": "us-east-2"
+    }
+  },
+  "endpoints": [
+    {
+      "name": "Threat Detection Prediction",
+      "path": "/ml/threat-detection/predict",
+      "method": "POST",
+      "description": "AI-powered network threat detection and classification",
+      "sagemakerEndpoint": "cybersecured-threat-detection-prod",
+      "integrationSettings": {
+        "integrationType": "AWS",
+        "awsSubdomain": "runtime.sagemaker",
+        "actionType": "Use action name",
+        "actionName": "InvokeEndpoint",
+        "httpMethod": "POST",
+        "pathOverride": "",
+        "executionRole": "arn:aws:iam::512795167546:role/APIGatewayToSageMaker"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json",
+        "X-Amz-Target": "sagemaker-runtime.InvokeEndpoint",
+        "Accept": "application/json"
+      },
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["network_traffic", "features", "metadata"],
+          "properties": {
+            "network_traffic": {
+              "type": "object",
+              "properties": {
+                "source_ip": {"type": "string", "format": "ipv4"},
+                "destination_ip": {"type": "string", "format": "ipv4"},
+                "port": {"type": "integer", "minimum": 1, "maximum": 65535},
+                "protocol": {"type": "string", "enum": ["HTTP", "HTTPS", "TCP", "UDP", "ICMP"]},
+                "packet_size": {"type": "integer", "minimum": 0},
+                "connection_duration": {"type": "number", "minimum": 0},
+                "data_volume": {"type": "integer", "minimum": 0}
+              },
+              "required": ["source_ip", "destination_ip", "port", "protocol"]
+            },
+            "features": {
+              "type": "array",
+              "items": {"type": "number"},
+              "minItems": 1,
+              "maxItems": 50
+            },
+            "metadata": {
+              "type": "object",
+              "properties": {
+                "timestamp": {"type": "string", "format": "date-time"},
+                "source": {"type": "string"}
+              },
+              "required": ["timestamp", "source"]
+            }
+          }
+        },
+        "example": {
+          "network_traffic": {
+            "source_ip": "192.168.1.100",
+            "destination_ip": "10.0.0.50",
+            "port": 443,
+            "protocol": "HTTPS",
+            "packet_size": 1024,
+            "connection_duration": 30.5,
+            "data_volume": 2048576
+          },
+          "features": [0.1, 0.3, 0.7, 0.2, 0.9],
+          "metadata": {
+            "timestamp": "2025-09-02T13:49:00Z",
+            "source": "network_monitor"
+          }
+        }
+      },
+      "responseBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "prediction": {"type": "string", "enum": ["benign", "suspicious", "malicious"]},
+            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+            "threat_type": {"type": "string"},
+            "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+            "recommendations": {"type": "array", "items": {"type": "string"}},
+            "model_version": {"type": "string"},
+            "inference_time_ms": {"type": "integer", "minimum": 0}
+          }
+        },
+        "example": {
+          "prediction": "malicious",
+          "confidence": 0.87,
+          "threat_type": "malware_communication",
+          "severity": "high",
+          "recommendations": ["block_ip", "quarantine_host"],
+          "model_version": "v1.2.3",
+          "inference_time_ms": 45
+        }
+      }
+    },
+    {
+      "name": "Behavioral Analysis Prediction",
+      "path": "/ml/behavioral-analysis/predict",
+      "method": "POST",
+      "description": "User behavior anomaly detection and risk assessment",
+      "sagemakerEndpoint": "cybersecured-behavioral-analysis-prod",
+      "integrationSettings": {
+        "integrationType": "AWS",
+        "awsSubdomain": "runtime.sagemaker",
+        "actionType": "Use action name",
+        "actionName": "InvokeEndpoint",
+        "httpMethod": "POST",
+        "pathOverride": "",
+        "executionRole": "arn:aws:iam::512795167546:role/APIGatewayToSageMaker"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json",
+        "X-Amz-Target": "sagemaker-runtime.InvokeEndpoint",
+        "Accept": "application/json"
+      },
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["user_behavior", "historical_baseline"],
+          "properties": {
+            "user_behavior": {
+              "type": "object",
+              "properties": {
+                "user_id": {"type": "string"},
+                "login_time": {"type": "string", "format": "date-time"},
+                "login_location": {"type": "string"},
+                "device_fingerprint": {"type": "string"},
+                "access_patterns": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "resource": {"type": "string"},
+                      "frequency": {"type": "integer", "minimum": 0}
+                    }
+                  }
+                },
+                "session_duration": {"type": "integer", "minimum": 0}
+              },
+              "required": ["user_id", "login_time", "session_duration"]
+            },
+            "historical_baseline": {
+              "type": "object",
+              "properties": {
+                "avg_session_duration": {"type": "integer", "minimum": 0},
+                "typical_locations": {"type": "array", "items": {"type": "string"}},
+                "usual_access_times": {"type": "array", "items": {"type": "string"}}
+              },
+              "required": ["avg_session_duration"]
+            }
+          }
+        },
+        "example": {
+          "user_behavior": {
+            "user_id": "user_12345",
+            "login_time": "2025-09-02T08:30:00Z",
+            "login_location": "New York, NY",
+            "device_fingerprint": "abc123def456",
+            "access_patterns": [
+              {"resource": "/admin/users", "frequency": 5},
+              {"resource": "/compliance/reports", "frequency": 12}
+            ],
+            "session_duration": 3600
+          },
+          "historical_baseline": {
+            "avg_session_duration": 2400,
+            "typical_locations": ["New York, NY", "Boston, MA"],
+            "usual_access_times": ["08:00-17:00"]
+          }
+        }
+      },
+      "responseBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "anomaly_score": {"type": "number", "minimum": 0, "maximum": 1},
+            "risk_level": {"type": "string", "enum": ["low", "medium", "high"]},
+            "behavioral_flags": {"type": "array", "items": {"type": "string"}},
+            "user_classification": {"type": "string"},
+            "recommendations": {"type": "array", "items": {"type": "string"}},
+            "baseline_deviation": {"type": "number", "minimum": 0}
+          }
+        },
+        "example": {
+          "anomaly_score": 0.23,
+          "risk_level": "low",
+          "behavioral_flags": [],
+          "user_classification": "normal_pattern",
+          "recommendations": ["continue_monitoring"],
+          "baseline_deviation": 0.15
+        }
+      }
+    },
+    {
+      "name": "Document Classification Prediction",
+      "path": "/ml/document-classification/predict",
+      "method": "POST",
+      "description": "Automated document security classification and compliance tagging",
+      "sagemakerEndpoint": "cybersecured-document-classifier-prod",
+      "integrationSettings": {
+        "integrationType": "AWS",
+        "awsSubdomain": "runtime.sagemaker",
+        "actionType": "Use action name",
+        "actionName": "InvokeEndpoint",
+        "httpMethod": "POST",
+        "pathOverride": "",
+        "executionRole": "arn:aws:iam::512795167546:role/APIGatewayToSageMaker"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json",
+        "X-Amz-Target": "sagemaker-runtime.InvokeEndpoint",
+        "Accept": "application/json"
+      },
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["document", "classification_context"],
+          "properties": {
+            "document": {
+              "type": "object",
+              "properties": {
+                "content": {"type": "string", "description": "Base64 encoded document content"},
+                "file_type": {"type": "string", "enum": ["pdf", "docx", "txt", "xlsx"]},
+                "file_size": {"type": "integer", "minimum": 0},
+                "file_name": {"type": "string"}
+              },
+              "required": ["content", "file_type", "file_name"]
+            },
+            "classification_context": {
+              "type": "object",
+              "properties": {
+                "organization_type": {"type": "string", "enum": ["educational", "government", "municipal"]},
+                "compliance_frameworks": {"type": "array", "items": {"type": "string"}}
+              },
+              "required": ["organization_type"]
+            }
+          }
+        },
+        "example": {
+          "document": {
+            "content": "Base64EncodedDocumentContent",
+            "file_type": "pdf",
+            "file_size": 1048576,
+            "file_name": "security_policy_2025.pdf"
+          },
+          "classification_context": {
+            "organization_type": "educational",
+            "compliance_frameworks": ["FERPA", "FISMA"]
+          }
+        }
+      },
+      "responseBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "classification": {"type": "string"},
+            "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+            "sensitivity_level": {"type": "string", "enum": ["public", "internal", "confidential", "restricted"]},
+            "compliance_tags": {"type": "array", "items": {"type": "string"}},
+            "content_categories": {"type": "array", "items": {"type": "string"}},
+            "retention_period": {"type": "string"}
+          }
+        },
+        "example": {
+          "classification": "security_policy",
+          "confidence": 0.92,
+          "sensitivity_level": "confidential",
+          "compliance_tags": ["FERPA_applicable", "requires_encryption"],
+          "content_categories": ["cybersecurity", "data_protection"],
+          "retention_period": "7_years"
+        }
+      }
+    },
+    {
+      "name": "System Anomaly Detection",
+      "path": "/ml/anomaly-detection/predict",
+      "method": "POST",
+      "description": "Real-time system metrics anomaly detection and threat assessment",
+      "sagemakerEndpoint": "cybersecured-anomaly-detection-prod",
+      "integrationSettings": {
+        "integrationType": "AWS",
+        "awsSubdomain": "runtime.sagemaker",
+        "actionType": "Use action name",
+        "actionName": "InvokeEndpoint",
+        "httpMethod": "POST",
+        "pathOverride": "",
+        "executionRole": "arn:aws:iam::512795167546:role/APIGatewayToSageMaker"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/json",
+        "X-Amz-Target": "sagemaker-runtime.InvokeEndpoint",
+        "Accept": "application/json"
+      },
+      "requestBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "required": ["system_metrics", "time_window", "baseline_period"],
+          "properties": {
+            "system_metrics": {
+              "type": "object",
+              "properties": {
+                "cpu_usage": {"type": "number", "minimum": 0, "maximum": 100},
+                "memory_usage": {"type": "number", "minimum": 0, "maximum": 100},
+                "network_io": {"type": "integer", "minimum": 0},
+                "disk_io": {"type": "integer", "minimum": 0},
+                "active_connections": {"type": "integer", "minimum": 0},
+                "failed_logins": {"type": "integer", "minimum": 0},
+                "error_rate": {"type": "number", "minimum": 0, "maximum": 1}
+              },
+              "required": ["cpu_usage", "memory_usage", "active_connections"]
+            },
+            "time_window": {"type": "string", "enum": ["1_minute", "5_minutes", "15_minutes", "1_hour"]},
+            "baseline_period": {"type": "string", "enum": ["1_hour", "24_hours", "7_days", "30_days"]}
+          }
+        },
+        "example": {
+          "system_metrics": {
+            "cpu_usage": 85.2,
+            "memory_usage": 76.8,
+            "network_io": 1024000,
+            "disk_io": 512000,
+            "active_connections": 1250,
+            "failed_logins": 3,
+            "error_rate": 0.02
+          },
+          "time_window": "5_minutes",
+          "baseline_period": "24_hours"
+        }
+      },
+      "responseBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "anomaly_detected": {"type": "boolean"},
+            "anomaly_score": {"type": "number", "minimum": 0, "maximum": 1},
+            "anomaly_type": {"type": "string"},
+            "affected_metrics": {"type": "array", "items": {"type": "string"}},
+            "severity": {"type": "string", "enum": ["low", "medium", "high"]},
+            "recommendations": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "example": {
+          "anomaly_detected": true,
+          "anomaly_score": 0.78,
+          "anomaly_type": "resource_exhaustion",
+          "affected_metrics": ["cpu_usage", "active_connections"],
+          "severity": "medium",
+          "recommendations": ["investigate_processes", "check_ddos"]
+        }
+      }
+    },
+    {
+      "name": "Model Status Check",
+      "path": "/ml/models/status",
+      "method": "GET",
+      "description": "Check operational status of all SageMaker model endpoints",
+      "integrationSettings": {
+        "integrationType": "AWS",
+        "awsSubdomain": "sagemaker",
+        "actionType": "Use action name",
+        "actionName": "DescribeEndpoint",
+        "httpMethod": "POST",
+        "pathOverride": "",
+        "executionRole": "arn:aws:iam::512795167546:role/APIGatewayToSageMaker"
+      },
+      "requestHeaders": {
+        "Content-Type": "application/x-amz-json-1.1",
+        "X-Amz-Target": "SageMaker.DescribeEndpoint"
+      },
+      "responseBody": {
+        "contentType": "application/json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "models": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "endpoint_name": {"type": "string"},
+                  "status": {"type": "string", "enum": ["InService", "OutOfService", "Creating", "Updating", "Deleting", "Failed"]},
+                  "instance_type": {"type": "string"},
+                  "instance_count": {"type": "integer", "minimum": 0},
+                  "model_version": {"type": "string"},
+                  "last_updated": {"type": "string", "format": "date-time"}
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "models": [
+            {
+              "endpoint_name": "cybersecured-threat-detection-prod",
+              "status": "InService",
+              "instance_type": "ml.m5.large",
+              "instance_count": 2,
+              "model_version": "1.2.3",
+              "last_updated": "2025-09-01T10:00:00Z"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "errorHandling": {
+    "standardHttpCodes": {
+      "200": "Success",
+      "400": "Bad Request - Invalid input data",
+      "401": "Unauthorized - Invalid API key/credentials",
+      "403": "Forbidden - Insufficient permissions",
+      "404": "Not Found - Model endpoint not found",
+      "429": "Too Many Requests - Rate limit exceeded",
+      "500": "Internal Server Error - SageMaker service error",
+      "503": "Service Unavailable - Model endpoint unavailable"
+    },
+    "errorResponseSchema": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {"type": "string"},
+            "message": {"type": "string"},
+            "details": {"type": "object"},
+            "request_id": {"type": "string"}
+          }
+        }
+      }
+    },
+    "errorResponseExample": {
+      "error": {
+        "code": "INVALID_INPUT",
+        "message": "Required field 'features' is missing",
+        "details": {
+          "field": "features",
+          "expected_type": "array"
+        },
+        "request_id": "req_12345"
+      }
+    }
+  },
+  "rateLimiting": {
+    "perApiKey": {
+      "realtime_inference": "1000 requests/minute",
+      "batch_processing": "10 jobs/hour",
+      "model_management": "100 requests/minute"
+    },
+    "responseHeaders": {
+      "X-RateLimit-Limit": "1000",
+      "X-RateLimit-Remaining": "987",
+      "X-RateLimit-Reset": "1693656000"
+    }
+  },
+  "securityRequirements": {
+    "encryption": {
+      "inTransit": "TLS 1.2+",
+      "atRest": "AES-256",
+      "keyManagement": "AWS KMS"
+    },
+    "iamPermissions": [
+      "sagemaker:InvokeEndpoint",
+      "sagemaker:DescribeEndpoint",
+      "cloudwatch:PutMetricData",
+      "s3:GetObject",
+      "s3:PutObject"
+    ],
+    "apiGatewaySettings": {
+      "requestValidation": "CyberSecured-SageMaker-Validator",
+      "throttling": {
+        "burstLimit": 2000,
+        "rateLimit": 1000
+      },
+      "logging": {
+        "accessLogging": true,
+        "executionLogging": "INFO",
+        "dataTrace": false
+      }
+    }
+  },
+  "deploymentConfiguration": {
+    "awsServices": [
+      "Amazon SageMaker",
+      "API Gateway",
+      "AWS Lambda",
+      "CloudWatch",
+      "S3",
+      "IAM"
+    ],
+    "infrastructure": {
+      "stageName": "prod",
+      "deploymentDescription": "CyberSecured AI ML API v1.0",
+      "cacheClusterEnabled": true,
+      "cacheClusterSize": "0.5",
+      "variables": {
+        "STACK_NAME": "cybersecured-ai-ml-api",
+        "ENVIRONMENT": "production",
+        "MODEL_INSTANCE_TYPE": "ml.m5.large",
+        "MIN_CAPACITY": "1",
+        "MAX_CAPACITY": "10",
+        "TARGET_UTILIZATION": "70"
+      }
+    }
+  },
+  "monitoring": {
+    "cloudWatchMetrics": [
+      "InvocationLatency",
+      "InvocationErrors",
+      "ModelLatency",
+      "OverheadLatency",
+      "Invocations"
+    ],
+    "customMetrics": [
+      "ThreatDetectionAccuracy",
+      "BehavioralAnomalyRate",
+      "DocumentClassificationConfidence",
+      "SystemAnomalyCount"
+    ],
+    "alarms": {
+      "highLatency": {
+        "metric": "InvocationLatency",
+        "threshold": 5000,
+        "comparisonOperator": "GreaterThanThreshold"
+      },
+      "errorRate": {
+        "metric": "InvocationErrors",
+        "threshold": 10,
+        "comparisonOperator": "GreaterThanThreshold"
+      }
+    }
+  },
+  "testingConfiguration": {
+    "sampleRequests": [
+      {
+        "endpoint": "/ml/threat-detection/predict",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer test-api-key"
+        },
+        "body": {
+          "network_traffic": {
+            "source_ip": "192.168.1.100",
+            "destination_ip": "10.0.0.50",
+            "port": 443,
+            "protocol": "HTTPS",
+            "packet_size": 1024,
+            "connection_duration": 30.5,
+            "data_volume": 2048576
+          },
+          "features": [0.1, 0.3, 0.7, 0.2, 0.9],
+          "metadata": {
+            "timestamp": "2025-09-02T13:49:00Z",
+            "source": "network_monitor"
+          }
+        }
+      }
+    ],
+    "curlExamples": [
+      {
+        "description": "Test threat detection endpoint",
+        "command": "curl -X POST https://cybersecuredai.com/ml/threat-detection/predict -H \"Content-Type: application/json\" -H \"Authorization: Bearer YOUR_API_KEY\" -d '{\"network_traffic\":{\"source_ip\":\"192.168.1.100\",\"destination_ip\":\"10.0.0.50\",\"port\":443,\"protocol\":\"HTTPS\"},\"features\":[0.1,0.3,0.7],\"metadata\":{\"timestamp\":\"2025-09-02T13:49:00Z\",\"source\":\"test\"}}'"
+      },
+      {
+        "description": "Check model status",
+        "command": "curl -X GET https://cybersecuredai.com/ml/models/status -H \"Authorization: Bearer YOUR_API_KEY\""
+      }
+    ]
+  },
+  "integrationMappingTemplates": {
+    "requestTemplate": {
+      "application/json": "{\"instances\": [$input.json('$')]}"
+    },
+    "responseTemplate": {
+      "application/json": "#set($inputRoot = $input.path('$')) $input.json('$')"
+    }
+  },
+  "corsConfiguration": {
+    "allowOrigins": ["https://cybersecuredai.com", "https://app.cybersecuredai.com"],
+    "allowHeaders": ["Content-Type", "Authorization", "X-Amz-Date", "X-Api-Key"],
+    "allowMethods": ["GET", "POST", "OPTIONS"],
+    "maxAge": 3600
+  }
+}
