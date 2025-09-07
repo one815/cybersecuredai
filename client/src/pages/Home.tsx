@@ -63,7 +63,7 @@ import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligen
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
 // MacBook Pro mockup for dashboard display
-import macbookMockupImg from "@assets/MacBook-Pro-16-Mockup-2_1757256174290.jpg";
+import macbookMockupImg from "@assets/macbook mockup_1757257520481.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
@@ -153,6 +153,124 @@ export default function Home() {
                       alt="CyberSecured AI Platform Dashboard - Live Interface"
                       className="w-full h-auto rounded-lg shadow-2xl"
                     />
+                    
+                    {/* Live Dashboard Overlay covering the screen area */}
+                    <div className="absolute top-[9%] left-[14%] w-[72%] h-[63%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg overflow-hidden border border-cyan-500/30">
+                      {/* Dashboard Header */}
+                      <div className="bg-slate-800/90 p-3 border-b border-cyan-500/20">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-3">
+                            <Enhanced4DShieldIcon className="w-5 h-5 text-cyan-400" size={20} />
+                            <span className="text-white font-semibold text-sm">CyberSecured AI Dashboard</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                            <span className="text-green-400 text-xs">LIVE</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dashboard Content Grid */}
+                      <div className="p-3 h-full grid grid-cols-3 gap-3 text-xs">
+                        {/* Threat Monitor */}
+                        <div className="bg-slate-700/60 rounded-lg p-3 border border-red-500/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Enhanced4DTargetIcon className="w-3 h-3 text-red-400" size={12} />
+                            <span className="text-red-400 font-medium">Threat Monitor</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-white text-lg font-bold">847</div>
+                            <div className="text-gray-400 text-xs">Threats Blocked Today</div>
+                            <div className="flex items-center space-x-1">
+                              <div className="w-full bg-slate-600 rounded-full h-1">
+                                <div className="bg-red-400 h-1 rounded-full" style={{width: '78%'}}></div>
+                              </div>
+                              <span className="text-red-400 text-xs">78%</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* AI Analysis */}
+                        <div className="bg-slate-700/60 rounded-lg p-3 border border-cyan-500/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Enhanced4DBrainIcon className="w-3 h-3 text-cyan-400" size={12} />
+                            <span className="text-cyan-400 font-medium">AI Analysis</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-white text-lg font-bold">99.7%</div>
+                            <div className="text-gray-400 text-xs">Detection Accuracy</div>
+                            <div className="flex items-center space-x-1">
+                              <div className="w-full bg-slate-600 rounded-full h-1">
+                                <div className="bg-cyan-400 h-1 rounded-full" style={{width: '99.7%'}}></div>
+                              </div>
+                              <span className="text-cyan-400 text-xs">Active</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* System Health */}
+                        <div className="bg-slate-700/60 rounded-lg p-3 border border-green-500/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Enhanced4DActivityIcon className="w-3 h-3 text-green-400" size={12} />
+                            <span className="text-green-400 font-medium">System Health</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-white text-lg font-bold">Optimal</div>
+                            <div className="text-gray-400 text-xs">All Systems Online</div>
+                            <div className="flex space-x-1">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Recent Activity Feed */}
+                        <div className="col-span-2 bg-slate-700/60 rounded-lg p-3 border border-purple-500/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Enhanced4DZapIcon className="w-3 h-3 text-purple-400" size={12} />
+                            <span className="text-purple-400 font-medium">Recent Activity</span>
+                          </div>
+                          <div className="space-y-1 text-xs">
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <div className="w-1 h-1 bg-red-400 rounded-full"></div>
+                              <span>Blocked malware attempt from 192.168.1.45</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <div className="w-1 h-1 bg-cyan-400 rounded-full"></div>
+                              <span>AI detected anomalous network traffic</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                              <span>System backup completed successfully</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Active Connections */}
+                        <div className="bg-slate-700/60 rounded-lg p-3 border border-orange-500/30">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Enhanced4DNetworkIcon className="w-3 h-3 text-orange-400" size={12} />
+                            <span className="text-orange-400 font-medium">Connections</span>
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-white text-lg font-bold">2,847</div>
+                            <div className="text-gray-400 text-xs">Active Sessions</div>
+                            <div className="text-orange-400 text-xs">↑ 12% from yesterday</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Scanning Animation Overlay */}
+                      <div 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent scan-line-glow opacity-30"
+                        style={{
+                          transform: `translateY(${scanLinePosition}%)`,
+                          height: '2px',
+                          transition: 'transform 0.05s linear'
+                        }}
+                      ></div>
+                    </div>
                     
                     {/* Live Platform Badge */}
                     <div className="absolute top-6 right-6 bg-slate-900/95 rounded-lg p-3 border border-green-500/50 holo-badge">
