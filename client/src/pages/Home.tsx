@@ -154,8 +154,8 @@ export default function Home() {
                       className="w-full h-auto shadow-2xl"
                     />
                     
-                    {/* Comprehensive SaaS Dashboard Overlay fitting within iMac screen */}
-                    <div className="absolute top-[11%] left-[17%] w-[66%] h-[56%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg overflow-hidden border border-cyan-500/30">
+                    {/* Comprehensive SaaS Dashboard Overlay fitting perfectly within iMac screen */}
+                    <div className="absolute top-[9%] left-[14%] w-[72%] h-[62%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg overflow-hidden border border-cyan-500/30">
                       {/* Dashboard Header */}
                       <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
@@ -225,19 +225,56 @@ export default function Home() {
                                 <span className="text-blue-400 font-medium" style={{fontSize: '8px'}}>Global Threat Map</span>
                               </div>
                             </div>
-                            <div className="p-2 h-full bg-slate-900/50">
-                              {/* Simulated world map with threat indicators */}
-                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded">
-                                <div className="absolute top-2 left-3 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
-                                <div className="absolute top-4 right-4 w-1 h-1 bg-orange-500 rounded-full animate-pulse"></div>
-                                <div className="absolute bottom-3 left-1/3 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
-                                <div className="absolute bottom-2 right-6 w-1 h-1 bg-yellow-500 rounded-full animate-pulse"></div>
-                                <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
-                                <div className="absolute bottom-4 left-2 text-xs text-green-400" style={{fontSize: '6px'}}>
-                                  Live Threats: 23
+                            <div className="p-2 h-full bg-slate-900/50 relative overflow-hidden">
+                              {/* Enhanced world map visualization */}
+                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded overflow-hidden">
+                                {/* World map outline SVG-style with CSS */}
+                                <div className="absolute inset-0">
+                                  {/* North America */}
+                                  <div className="absolute top-3 left-2 w-4 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  {/* Europe */}
+                                  <div className="absolute top-2 left-1/2 w-2 h-2 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  {/* Asia */}
+                                  <div className="absolute top-2 right-3 w-5 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  {/* Africa */}
+                                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-2 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  {/* Australia */}
+                                  <div className="absolute bottom-3 right-4 w-2 h-1 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  {/* South America */}
+                                  <div className="absolute bottom-2 left-4 w-1.5 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
                                 </div>
-                                <div className="absolute top-2 right-2 text-xs text-cyan-400" style={{fontSize: '6px'}}>
-                                  Monitoring: 48 Countries
+                                
+                                {/* Threat indicators with geographic accuracy */}
+                                <div className="absolute top-3 left-3 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="USA - High Risk"></div>
+                                <div className="absolute top-2 right-5 w-1 h-1 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50" title="China - Medium Risk"></div>
+                                <div className="absolute top-2 left-1/2 w-1 h-1 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Germany - Low Risk"></div>
+                                <div className="absolute top-4 left-1/2 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="Nigeria - High Risk"></div>
+                                <div className="absolute bottom-3 right-4 w-1 h-1 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50" title="Australia - Secure"></div>
+                                <div className="absolute bottom-3 left-4 w-1 h-1 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50" title="Brazil - Medium Risk"></div>
+                                <div className="absolute top-3 right-6 w-1 h-1 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="Russia - High Risk"></div>
+                                <div className="absolute top-4 right-3 w-1 h-1 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Japan - Low Risk"></div>
+                                
+                                {/* Connection lines between threat points */}
+                                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                                  <defs>
+                                    <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                      <stop offset="0%" style={{stopColor: 'rgba(239, 68, 68, 0.5)', stopOpacity: 1}} />
+                                      <stop offset="100%" style={{stopColor: 'rgba(239, 68, 68, 0.1)', stopOpacity: 0}} />
+                                    </linearGradient>
+                                  </defs>
+                                  <line x1="15%" y1="30%" x2="60%" y2="25%" stroke="url(#connectionGradient)" strokeWidth="0.5" className="animate-pulse" />
+                                  <line x1="80%" y1="35%" x2="50%" y2="60%" stroke="url(#connectionGradient)" strokeWidth="0.5" className="animate-pulse" />
+                                </svg>
+                                
+                                {/* Real-time stats overlay */}
+                                <div className="absolute bottom-2 left-1 text-xs text-green-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
+                                  🔴 Active Threats: 23
+                                </div>
+                                <div className="absolute top-1 right-1 text-xs text-cyan-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
+                                  🌐 Countries: 48
+                                </div>
+                                <div className="absolute top-1 left-1 text-xs text-orange-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
+                                  📊 Live Feed
                                 </div>
                               </div>
                             </div>
