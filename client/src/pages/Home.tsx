@@ -63,7 +63,7 @@ import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligen
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
 // iMac desktop mockup for dashboard display
-import imacMockupImg from "@assets/generated_images/Front_facing_iMac_desktop_mockup_b0cc3b8d.png";
+import imacMockupImg from "@assets/generated_images/Large_clean_iMac_mockup_8681b1a2.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
@@ -144,18 +144,18 @@ export default function Home() {
               </div>
               
               {/* iMac Desktop Dashboard Mockup */}
-              <div className="max-w-6xl mx-auto mb-4 md:mb-8 relative px-2">
-                <div className="relative transform -rotate-0 md:-rotate-1 perspective-1000">
+              <div className="max-w-7xl mx-auto mb-4 md:mb-8 relative px-2">
+                <div className="relative">
                   {/* iMac Desktop with Live Dashboard */}
                   <div className="relative">
                     <img 
                       src={imacMockupImg}
                       alt="CyberSecured AI Platform Dashboard - Live Interface"
-                      className="w-full h-auto rounded-lg shadow-2xl"
+                      className="w-full h-auto shadow-2xl"
                     />
                     
                     {/* Live Dashboard Overlay covering the iMac screen area */}
-                    <div className="absolute top-[10%] left-[16%] w-[68%] h-[55%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-md overflow-hidden border border-cyan-500/30">
+                    <div className="absolute top-[12%] left-[18%] w-[64%] h-[50%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-md overflow-hidden border border-cyan-500/30">
                       {/* Dashboard Header */}
                       <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
@@ -165,7 +165,7 @@ export default function Home() {
                           </div>
                           <div className="flex items-center space-x-1">
                             <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                            <span className="text-green-400" style={{fontSize: '10px'}}>LIVE</span>
+                            <span className="text-green-400" style={{fontSize: '10px'}}>LIVE PLATFORM</span>
                           </div>
                         </div>
                       </div>
@@ -275,44 +275,6 @@ export default function Home() {
                         }}
                       ></div>
                     </div>
-                    
-                    {/* Live Platform Badge */}
-                    <div className="absolute top-6 right-6 bg-slate-900/95 rounded-lg p-3 border border-green-500/50 holo-badge">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
-                        <span className="text-green-400 text-sm font-medium neon-glow">LIVE PLATFORM</span>
-                      </div>
-                    </div>
-                    
-                    {/* Floating Dashboard Stats */}
-                    <div className="absolute bottom-12 left-6 bg-slate-900/90 rounded-xl p-4 border border-cyan-500/50 holo-badge backdrop-blur-sm">
-                      <div className="flex items-center space-x-4 text-sm">
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-cyan-400">99.7%</div>
-                          <div className="text-xs text-gray-400">AI Detection</div>
-                        </div>
-                        <div className="w-px h-8 bg-gray-600"></div>
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-green-400">847</div>
-                          <div className="text-xs text-gray-400">Threats Blocked</div>
-                        </div>
-                        <div className="w-px h-8 bg-gray-600"></div>
-                        <div className="text-center">
-                          <div className="text-lg font-bold text-purple-400">2,847</div>
-                          <div className="text-xs text-gray-400">Active Sessions</div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Scanning Animation Overlay */}
-                    <div 
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent scan-line-glow opacity-50 pointer-events-none"
-                      style={{
-                        transform: `translateY(${scanLinePosition}%)`,
-                        height: '2px',
-                        transition: 'transform 0.05s linear'
-                      }}
-                    ></div>
                   </div>
                 </div>
               </div>
