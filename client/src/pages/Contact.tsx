@@ -23,19 +23,110 @@ import {
   Zap
 } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     organization: "",
-    message: ""
+    message: "",
+    category: "general",
+    priority: "medium",
+    phone: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedTicket, setSubmittedTicket] = useState<string | null>(null);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Contact form submitted:", formData);
+    setIsSubmitting(true);
+
+    try {
+      // Determine category based on message content
+      const messageText = formData.message.toLowerCase();
+      let category = formData.category;
+      
+      if (messageText.includes('security') || messageText.includes('breach') || messageText.includes('attack')) {
+        category = 'security';
+      } else if (messageText.includes('compliance') || messageText.includes('ferpa') || messageText.includes('fisma')) {
+        category = 'compliance';
+      } else if (messageText.includes('technical') || messageText.includes('bug') || messageText.includes('error')) {
+        category = 'technical';
+      } else if (messageText.includes('urgent') || messageText.includes('emergency')) {
+        category = 'emergency';
+      }
+
+      // Determine priority based on keywords
+      let priority = formData.priority;
+      if (messageText.includes('urgent') || messageText.includes('emergency') || messageText.includes('critical')) {
+        priority = 'critical';
+      } else if (messageText.includes('important') || messageText.includes('asap')) {
+        priority = 'high';
+      }
+
+      const ticketData = {
+        title: `Contact Form Inquiry - ${formData.organization || 'General'}`,
+        description: formData.message,
+        category: category,
+        priority: priority,
+        submitterName: formData.name,
+        submitterEmail: formData.email,
+        submitterOrganization: formData.organization,
+        submitterPhone: formData.phone,
+        tags: ['contact-form', 'website'],
+        metadata: {
+          source: 'website_contact_form',
+          submittedAt: new Date().toISOString(),
+          userAgent: navigator.userAgent
+        }
+      };
+
+      const response = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(ticketData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit ticket');
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmittedTicket(result.ticketNumber);
+        toast({
+          title: "Support Ticket Created!",
+          description: `Your ticket ${result.ticketNumber} has been created successfully. We'll respond within 24 hours.`,
+        });
+        
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          organization: "",
+          message: "",
+          category: "general",
+          priority: "medium",
+          phone: ""
+        });
+      } else {
+        throw new Error(result.message || 'Failed to create ticket');
+      }
+    } catch (error: any) {
+      console.error('Error submitting ticket:', error);
+      toast({
+        title: "Submission Failed",
+        description: error.message || "There was an error submitting your request. Please try again or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactMethods = [
@@ -345,7 +436,7 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="name" className="text-white mb-2 block">Full Name</Label>
+                        <Label htmlFor="name" className="text-white mb-2 block">Full Name *</Label>
                         <Input
                           id="name"
                           value={formData.name}
@@ -353,10 +444,11 @@ export default function Contact() {
                           placeholder="Your full name"
                           className="bg-slate-800 border-gray-600 text-white"
                           data-testid="input-name"
+                          required
                         />
                       </div>
                       <div>
-                        <Label htmlFor="email" className="text-white mb-2 block">Email Address</Label>
+                        <Label htmlFor="email" className="text-white mb-2 block">Email Address *</Label>
                         <Input
                           id="email"
                           type="email"
@@ -365,43 +457,84 @@ export default function Contact() {
                           placeholder="your@email.com"
                           className="bg-slate-800 border-gray-600 text-white"
                           data-testid="input-email"
+                          required
                         />
                       </div>
                     </div>
                     
-                    <div>
-                      <Label htmlFor="organization" className="text-white mb-2 block">Organization</Label>
-                      <Input
-                        id="organization"
-                        value={formData.organization}
-                        onChange={(e) => setFormData({...formData, organization: e.target.value})}
-                        placeholder="Your school/agency name"
-                        className="bg-slate-800 border-gray-600 text-white"
-                        data-testid="input-organization"
-                      />
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="organization" className="text-white mb-2 block">Organization</Label>
+                        <Input
+                          id="organization"
+                          value={formData.organization}
+                          onChange={(e) => setFormData({...formData, organization: e.target.value})}
+                          placeholder="Your school/agency name"
+                          className="bg-slate-800 border-gray-600 text-white"
+                          data-testid="input-organization"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="phone" className="text-white mb-2 block">Phone Number</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          placeholder="+1 (555) 123-4567"
+                          className="bg-slate-800 border-gray-600 text-white"
+                          data-testid="input-phone"
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <Label htmlFor="message" className="text-white mb-2 block">Message</Label>
+                      <Label htmlFor="message" className="text-white mb-2 block">Message *</Label>
                       <Textarea
                         id="message"
                         rows={6}
                         value={formData.message}
                         onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        placeholder="Tell us about your cybersecurity needs..."
+                        placeholder="Tell us about your cybersecurity needs... (include keywords like 'security', 'compliance', 'technical', or 'urgent' for proper categorization)"
                         className="bg-slate-800 border-gray-600 text-white resize-none"
                         data-testid="textarea-message"
+                        required
                       />
                     </div>
+
+                    {submittedTicket && (
+                      <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4">
+                        <div className="flex items-center">
+                          <CheckCircle className="w-5 h-5 text-green-400 mr-2" />
+                          <div>
+                            <h4 className="text-green-400 font-semibold">Ticket Created Successfully!</h4>
+                            <p className="text-green-300 text-sm">
+                              Your support ticket <span className="font-mono font-bold">{submittedTicket}</span> has been created. 
+                              We'll respond within 24 hours to your email address.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     <Button 
                       type="submit" 
                       size="lg" 
                       className="button-4d w-full bg-cyan-600" 
                       data-testid="button-submit"
+                      disabled={isSubmitting}
                     >
-                      Send Message
-                      <Send className="w-4 h-4 ml-2" />
+                      {isSubmitting ? (
+                        <>
+                          Creating Ticket...
+                          <div className="w-4 h-4 ml-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        </>
+                      ) : (
+                        <>
+                          Create Support Ticket
+                          <Send className="w-4 h-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 </CardContent>
