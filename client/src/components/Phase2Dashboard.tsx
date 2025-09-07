@@ -38,6 +38,8 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
 
 interface Phase2DashboardProps {
   className?: string;
@@ -132,22 +134,52 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
   return (
     <div className={`p-6 space-y-6 ${className}`}>
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-3xl font-bold text-white mb-2">
-            🧬 Revolutionary Cypher AI Dual Intelligence System
-          </h2>
-          <p className="text-cyan-300 mt-2 text-lg">
-            Phase 2: Self-evolving genetic algorithms with neural architecture search, meeting intelligence, and federated learning
-          </p>
+      {/* Header with AI Visual References */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center space-x-6">
+          {/* Cypher AI Gen Visual Reference */}
+          <div className="flex items-center space-x-4">
+            <img 
+              src={cypherAiGenImage} 
+              alt="Cypher AI Genetic Model" 
+              className="w-16 h-16 rounded-full border-2 border-cyan-400 shadow-lg"
+            />
+            <div>
+              <h3 className="text-xl font-bold text-cyan-400">Cypher AI Gen</h3>
+              <p className="text-cyan-300 text-sm">Genetic Evolution Model</p>
+            </div>
+          </div>
+          
+          {/* Cypher AI Assistant Visual Reference */}
+          <div className="flex items-center space-x-4">
+            <img 
+              src={cypherAiAssistImage} 
+              alt="Cypher AI Assistant" 
+              className="w-16 h-16 rounded-full border-2 border-blue-400 shadow-lg"
+            />
+            <div>
+              <h3 className="text-xl font-bold text-blue-400">Cypher AI Assist</h3>
+              <p className="text-blue-300 text-sm">Operations Automation</p>
+            </div>
+          </div>
         </div>
+        
         <Badge 
           variant={systemHealth === 'optimal' ? 'default' : systemHealth === 'good' ? 'secondary' : 'destructive'}
           className="text-lg px-4 py-2 bg-orange-500 text-white border-orange-600"
         >
           {systemHealth.replace('_', ' ').toUpperCase()}
         </Badge>
+      </div>
+      
+      {/* Main Title */}
+      <div className="text-center mb-6">
+        <h2 className="text-3xl font-bold text-white mb-2">
+          🧬 Revolutionary Cypher AI Dual Intelligence System
+        </h2>
+        <p className="text-cyan-300 text-lg">
+          Phase 2: Self-evolving genetic algorithms with neural architecture search, meeting intelligence, and federated learning
+        </p>
       </div>
 
       {/* Overall System Status */}
@@ -419,7 +451,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
         {/* Genetic Evolution Tab */}
         <TabsContent value="genetic" className="space-y-4">
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Select Compliance Sector:</label>
+            <label className="block text-sm font-medium mb-2 text-white">Select Compliance Sector:</label>
             <div className="flex space-x-2">
               {sectors.map((sector) => (
                 <Button
@@ -427,6 +459,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                   variant={selectedSector === sector ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedSector(sector)}
+                  className={selectedSector === sector ? "bg-yellow-600 hover:bg-yellow-700" : "border-yellow-500 text-yellow-400 hover:bg-yellow-600"}
                 >
                   {sector}
                 </Button>
@@ -434,12 +467,34 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
             </div>
           </div>
 
-          <Card>
+          <Card className="bg-slate-800 border border-yellow-500/30">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Zap className="w-5 h-5 text-yellow-600" />
-                <span>Genetic Algorithm Evolution - {selectedSector}</span>
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center space-x-2 text-white">
+                  <Zap className="w-5 h-5 text-yellow-400" />
+                  <span>Genetic Algorithm Evolution - {selectedSector}</span>
+                </CardTitle>
+                
+                {/* Dual AI System Visual */}
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2">
+                    <img 
+                      src={cypherAiGenImage} 
+                      alt="Cypher AI Genetic Model" 
+                      className="w-10 h-10 rounded-full border border-cyan-400"
+                    />
+                    <span className="text-cyan-400 text-sm font-medium">Gen Model</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <img 
+                      src={cypherAiAssistImage} 
+                      alt="Cypher AI Assistant" 
+                      className="w-10 h-10 rounded-full border border-blue-400"
+                    />
+                    <span className="text-blue-400 text-sm font-medium">AI Assist</span>
+                  </div>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               {sectorLoading ? (
@@ -450,24 +505,24 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
               ) : (
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                      <Target className="w-8 h-8 mx-auto mb-2 text-yellow-600" />
-                      <h4 className="font-semibold">Current Accuracy</h4>
-                      <p className="text-2xl font-bold text-yellow-600">
+                    <div className="text-center p-4 bg-slate-700 rounded-lg border border-yellow-500/30">
+                      <Target className="w-8 h-8 mx-auto mb-2 text-yellow-400" />
+                      <h4 className="font-semibold text-white">Current Accuracy</h4>
+                      <p className="text-2xl font-bold text-yellow-400">
                         {sectorPerformance?.data?.currentAccuracy?.toFixed(2) || '0.00'}%
                       </p>
                     </div>
-                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-600" />
-                      <h4 className="font-semibold">Progress to Target</h4>
-                      <p className="text-xl font-bold text-green-600">
+                    <div className="text-center p-4 bg-slate-700 rounded-lg border border-green-500/30">
+                      <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                      <h4 className="font-semibold text-white">Progress to Target</h4>
+                      <p className="text-xl font-bold text-green-400">
                         {sectorPerformance?.data?.accuracyProgress?.toFixed(1) || '0.0'}%
                       </p>
                     </div>
-                    <div className="text-center p-4 bg-blue-50 rounded-lg">
-                      <Activity className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-                      <h4 className="font-semibold">Best Individuals</h4>
-                      <p className="text-xl font-bold text-blue-600">
+                    <div className="text-center p-4 bg-slate-700 rounded-lg border border-blue-500/30">
+                      <Activity className="w-8 h-8 mx-auto mb-2 text-blue-400" />
+                      <h4 className="font-semibold text-white">Best Individuals</h4>
+                      <p className="text-xl font-bold text-blue-400">
                         {sectorPerformance?.data?.bestIndividuals?.length || 0}
                       </p>
                     </div>
