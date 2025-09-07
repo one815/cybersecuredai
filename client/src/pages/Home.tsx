@@ -42,6 +42,7 @@ import {
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
+import { GeospatialIntelligenceMap } from "@/components/GeospatialIntelligenceMap";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { CypherAI } from "@/components/CypherAI";
@@ -220,7 +221,7 @@ export default function Home() {
 
                     {/* Bottom Section with 3D Geospatial, Cambridge Analytics, and Compliance */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                      {/* 3D Geospatial Intelligence */}
+                      {/* 3D Geospatial Intelligence - Live Interactive Map */}
                       <div className="lg:col-span-2 bg-slate-700/40 rounded-lg p-4 border border-gray-600/30">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center space-x-2">
@@ -229,36 +230,13 @@ export default function Home() {
                           </div>
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
-                        <div className="h-32 bg-slate-800/60 rounded border border-blue-500/20 flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="text-blue-400 text-sm mb-2">⚡ REAL-TIME</div>
-                            <div className="text-xs text-gray-400 mb-2">
-                              <div className="flex items-center justify-center space-x-4">
-                                <span>• LIVE THREAT MONITORING</span>
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-4 gap-4 text-xs">
-                              <div className="bg-orange-500/20 rounded p-2">
-                                <div className="text-orange-400 font-bold">4</div>
-                                <div className="text-gray-400">Critical</div>
-                              </div>
-                              <div className="bg-red-500/20 rounded p-2">
-                                <div className="text-red-400 font-bold">7</div>
-                                <div className="text-gray-400">High</div>
-                              </div>
-                              <div className="bg-yellow-500/20 rounded p-2">
-                                <div className="text-yellow-400 font-bold">12</div>
-                                <div className="text-gray-400">Medium</div>
-                              </div>
-                              <div className="bg-blue-500/20 rounded p-2">
-                                <div className="text-blue-400 font-bold">23</div>
-                                <div className="text-gray-400">Low</div>
-                              </div>
-                            </div>
-                            <div className="text-center mt-2">
-                              <span className="text-white font-bold">5 ACTIVE THREATS</span>
-                            </div>
-                          </div>
+                        <div className="h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden">
+                          <GeospatialIntelligenceMap 
+                            className="w-full h-full" 
+                            mapMode="3d"
+                            threatFilter="all"
+                            dimension="global"
+                          />
                         </div>
                       </div>
 
