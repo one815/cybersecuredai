@@ -155,112 +155,112 @@ export default function Home() {
                     />
                     
                     {/* Live Dashboard Overlay covering the iMac screen area */}
-                    <div className="absolute top-[8%] left-[15%] w-[70%] h-[58%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg overflow-hidden border border-cyan-500/30">
+                    <div className="absolute top-[10%] left-[16%] w-[68%] h-[55%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-md overflow-hidden border border-cyan-500/30">
                       {/* Dashboard Header */}
-                      <div className="bg-slate-800/90 p-3 border-b border-cyan-500/20">
+                      <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Enhanced4DShieldIcon className="w-5 h-5 text-cyan-400" size={20} />
-                            <span className="text-white font-semibold text-sm">CyberSecured AI Dashboard</span>
-                          </div>
                           <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                            <span className="text-green-400 text-xs">LIVE</span>
+                            <Enhanced4DShieldIcon className="w-3 h-3 text-cyan-400" size={12} />
+                            <span className="text-white font-medium text-xs">CyberSecured AI Dashboard</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+                            <span className="text-green-400" style={{fontSize: '10px'}}>LIVE</span>
                           </div>
                         </div>
                       </div>
 
                       {/* Dashboard Content Grid */}
-                      <div className="p-4 h-full grid grid-cols-3 gap-4 text-xs">
+                      <div className="p-2 h-full grid grid-cols-3 gap-2" style={{fontSize: '10px'}}>
                         {/* Threat Monitor */}
-                        <div className="bg-slate-700/60 rounded-lg p-4 border border-red-500/30">
-                          <div className="flex items-center space-x-2 mb-3">
-                            <Enhanced4DTargetIcon className="w-4 h-4 text-red-400" size={16} />
-                            <span className="text-red-400 font-medium">Threat Monitor</span>
+                        <div className="bg-slate-700/60 rounded p-2 border border-red-500/30">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <Enhanced4DTargetIcon className="w-3 h-3 text-red-400" size={12} />
+                            <span className="text-red-400 font-medium" style={{fontSize: '9px'}}>Threat Monitor</span>
                           </div>
-                          <div className="space-y-2">
-                            <div className="text-white text-xl font-bold">847</div>
-                            <div className="text-gray-400 text-xs">Threats Blocked Today</div>
-                            <div className="flex items-center space-x-2">
-                              <div className="flex-1 bg-slate-600 rounded-full h-2">
-                                <div className="bg-red-400 h-2 rounded-full" style={{width: '78%'}}></div>
+                          <div className="space-y-1">
+                            <div className="text-white text-sm font-bold">847</div>
+                            <div className="text-gray-400" style={{fontSize: '8px'}}>Threats Blocked</div>
+                            <div className="flex items-center space-x-1">
+                              <div className="flex-1 bg-slate-600 rounded-full h-1">
+                                <div className="bg-red-400 h-1 rounded-full" style={{width: '78%'}}></div>
                               </div>
-                              <span className="text-red-400 text-xs">78%</span>
+                              <span className="text-red-400" style={{fontSize: '8px'}}>78%</span>
                             </div>
                           </div>
                         </div>
 
                         {/* AI Analysis */}
-                        <div className="bg-slate-700/60 rounded-lg p-4 border border-cyan-500/30">
-                          <div className="flex items-center space-x-2 mb-3">
-                            <Enhanced4DBrainIcon className="w-4 h-4 text-cyan-400" size={16} />
-                            <span className="text-cyan-400 font-medium">AI Analysis</span>
+                        <div className="bg-slate-700/60 rounded p-2 border border-cyan-500/30">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <Enhanced4DBrainIcon className="w-3 h-3 text-cyan-400" size={12} />
+                            <span className="text-cyan-400 font-medium" style={{fontSize: '9px'}}>AI Analysis</span>
                           </div>
-                          <div className="space-y-2">
-                            <div className="text-white text-xl font-bold">99.7%</div>
-                            <div className="text-gray-400 text-xs">Detection Accuracy</div>
-                            <div className="flex items-center space-x-2">
-                              <div className="flex-1 bg-slate-600 rounded-full h-2">
-                                <div className="bg-cyan-400 h-2 rounded-full" style={{width: '99.7%'}}></div>
+                          <div className="space-y-1">
+                            <div className="text-white text-sm font-bold">99.7%</div>
+                            <div className="text-gray-400" style={{fontSize: '8px'}}>Detection Rate</div>
+                            <div className="flex items-center space-x-1">
+                              <div className="flex-1 bg-slate-600 rounded-full h-1">
+                                <div className="bg-cyan-400 h-1 rounded-full" style={{width: '99.7%'}}></div>
                               </div>
-                              <span className="text-cyan-400 text-xs">Active</span>
+                              <span className="text-cyan-400" style={{fontSize: '8px'}}>Active</span>
                             </div>
                           </div>
                         </div>
 
                         {/* System Health */}
-                        <div className="bg-slate-700/60 rounded-lg p-4 border border-green-500/30">
-                          <div className="flex items-center space-x-2 mb-3">
-                            <Enhanced4DActivityIcon className="w-4 h-4 text-green-400" size={16} />
-                            <span className="text-green-400 font-medium">System Health</span>
+                        <div className="bg-slate-700/60 rounded p-2 border border-green-500/30">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <Enhanced4DActivityIcon className="w-3 h-3 text-green-400" size={12} />
+                            <span className="text-green-400 font-medium" style={{fontSize: '9px'}}>System Health</span>
                           </div>
-                          <div className="space-y-2">
-                            <div className="text-white text-xl font-bold">Optimal</div>
-                            <div className="text-gray-400 text-xs">All Systems Online</div>
+                          <div className="space-y-1">
+                            <div className="text-white text-sm font-bold">Optimal</div>
+                            <div className="text-gray-400" style={{fontSize: '8px'}}>All Systems Online</div>
                             <div className="flex space-x-1">
-                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
                             </div>
                           </div>
                         </div>
 
                         {/* Recent Activity Feed */}
-                        <div className="col-span-2 bg-slate-700/60 rounded-lg p-4 border border-purple-500/30">
-                          <div className="flex items-center space-x-2 mb-3">
-                            <Enhanced4DZapIcon className="w-4 h-4 text-purple-400" size={16} />
-                            <span className="text-purple-400 font-medium">Recent Activity</span>
+                        <div className="col-span-2 bg-slate-700/60 rounded p-2 border border-purple-500/30">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <Enhanced4DZapIcon className="w-3 h-3 text-purple-400" size={12} />
+                            <span className="text-purple-400 font-medium" style={{fontSize: '9px'}}>Recent Activity</span>
                           </div>
-                          <div className="space-y-2 text-xs">
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <div className="w-1.5 h-1.5 bg-red-400 rounded-full"></div>
-                              <span>Blocked malware attempt from 192.168.1.45</span>
+                          <div className="space-y-1" style={{fontSize: '8px'}}>
+                            <div className="flex items-center space-x-1 text-gray-300">
+                              <div className="w-1 h-1 bg-red-400 rounded-full"></div>
+                              <span>Blocked malware attempt</span>
                             </div>
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                              <span>AI detected anomalous network traffic</span>
+                            <div className="flex items-center space-x-1 text-gray-300">
+                              <div className="w-1 h-1 bg-cyan-400 rounded-full"></div>
+                              <span>AI detected anomaly</span>
                             </div>
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                              <span>System backup completed successfully</span>
+                            <div className="flex items-center space-x-1 text-gray-300">
+                              <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                              <span>Backup completed</span>
                             </div>
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                              <span>Updated threat intelligence database</span>
+                            <div className="flex items-center space-x-1 text-gray-300">
+                              <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
+                              <span>Intelligence updated</span>
                             </div>
                           </div>
                         </div>
 
                         {/* Active Connections */}
-                        <div className="bg-slate-700/60 rounded-lg p-4 border border-orange-500/30">
-                          <div className="flex items-center space-x-2 mb-3">
-                            <Enhanced4DNetworkIcon className="w-4 h-4 text-orange-400" size={16} />
-                            <span className="text-orange-400 font-medium">Connections</span>
+                        <div className="bg-slate-700/60 rounded p-2 border border-orange-500/30">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <Enhanced4DNetworkIcon className="w-3 h-3 text-orange-400" size={12} />
+                            <span className="text-orange-400 font-medium" style={{fontSize: '9px'}}>Connections</span>
                           </div>
-                          <div className="space-y-2">
-                            <div className="text-white text-xl font-bold">2,847</div>
-                            <div className="text-gray-400 text-xs">Active Sessions</div>
-                            <div className="text-orange-400 text-xs">↑ 12% from yesterday</div>
+                          <div className="space-y-1">
+                            <div className="text-white text-sm font-bold">2,847</div>
+                            <div className="text-gray-400" style={{fontSize: '8px'}}>Active Sessions</div>
+                            <div className="text-orange-400" style={{fontSize: '8px'}}>↑ 12% today</div>
                           </div>
                         </div>
                       </div>
