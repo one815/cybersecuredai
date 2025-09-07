@@ -257,38 +257,15 @@ export default function Home() {
                             </div>
                           </div>
 
-                          {/* Left Side Legend - Simplified */}
-                          <div className="absolute bottom-2 left-2 bg-slate-900/90 rounded p-2 z-10 hidden md:block">
-                            <div className="text-white text-xs font-bold mb-1">Risk Levels</div>
-                            <div className="flex items-center space-x-3">
-                              <div className="flex items-center space-x-1">
-                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                                <span className="text-white text-xs">High</span>
-                              </div>
-                              <div className="flex items-center space-x-1">
-                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                <span className="text-white text-xs">Med</span>
-                              </div>
-                              <div className="flex items-center space-x-1">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                <span className="text-white text-xs">Low</span>
-                              </div>
-                            </div>
-                          </div>
 
                           {/* Bottom Right Active Threats Counter */}
                           <div className="absolute bottom-2 right-2 bg-slate-900/90 text-white text-xs px-2 py-1 rounded font-bold z-10">
                             5 ACTIVE THREATS
                           </div>
 
-                          {/* Map with Zoom Controls */}
+                          {/* Clean Map - No Duplicate Controls */}
                           <div className="relative w-full h-full">
                             <ThreatMap className="w-full h-full" />
-                            {/* Zoom Controls - Simplified */}
-                            <div className="absolute right-2 top-14 bg-white/90 rounded shadow-md z-10">
-                              <button className="block w-7 h-7 text-gray-700 hover:bg-gray-100 text-sm font-bold border-b border-gray-200">+</button>
-                              <button className="block w-7 h-7 text-gray-700 hover:bg-gray-100 text-sm font-bold">−</button>
-                            </div>
                           </div>
                         </div>
                       </div>
