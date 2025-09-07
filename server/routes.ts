@@ -7831,5 +7831,422 @@ startxref
   });
 
   const httpServer = createServer(app);
+  // =============================================================================
+  // PHASE 2: REVOLUTIONARY CYPHER AI DUAL INTELLIGENCE SYSTEM API ENDPOINTS
+  // =============================================================================
+
+  // Neural Architecture Search (NAS) API endpoints
+  app.get('/api/nas/status', async (req, res) => {
+    try {
+      const status = cypherGeneticEngine.nasEngine?.getSearchStatus() || { isActive: false };
+      res.json({ success: true, data: status });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get NAS status', details: error.message });
+    }
+  });
+
+  app.post('/api/nas/start-search', async (req, res) => {
+    try {
+      if (!cypherGeneticEngine.nasEngine) {
+        return res.status(400).json({ error: 'NAS engine not initialized' });
+      }
+      await cypherGeneticEngine.nasEngine.startSearch();
+      res.json({ success: true, message: 'Neural Architecture Search started' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to start NAS', details: error.message });
+    }
+  });
+
+  app.post('/api/nas/stop-search', async (req, res) => {
+    try {
+      if (!cypherGeneticEngine.nasEngine) {
+        return res.status(400).json({ error: 'NAS engine not initialized' });
+      }
+      cypherGeneticEngine.nasEngine.stopSearch();
+      res.json({ success: true, message: 'Neural Architecture Search stopped' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to stop NAS', details: error.message });
+    }
+  });
+
+  app.get('/api/nas/architectures/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      if (!['FERPA', 'FISMA', 'CIPA', 'GENERAL'].includes(sector)) {
+        return res.status(400).json({ error: 'Invalid sector' });
+      }
+      
+      const architectures = cypherGeneticEngine.nasEngine?.getBestArchitectures(sector) || [];
+      res.json({ success: true, data: architectures });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get architectures', details: error.message });
+    }
+  });
+
+  app.post('/api/nas/deploy/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      if (!['FERPA', 'FISMA', 'CIPA', 'GENERAL'].includes(sector)) {
+        return res.status(400).json({ error: 'Invalid sector' });
+      }
+      
+      const deployed = await cypherGeneticEngine.nasEngine?.deployArchitecture(sector);
+      if (deployed) {
+        res.json({ success: true, data: deployed, message: 'Architecture deployed successfully' });
+      } else {
+        res.status(404).json({ error: 'No architecture available for deployment' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to deploy architecture', details: error.message });
+    }
+  });
+
+  // Meeting Intelligence API endpoints
+  app.get('/api/meeting-intelligence/status', async (req, res) => {
+    try {
+      const status = cypherGeneticEngine.meetingIntelligence?.getServiceStatus() || { isInitialized: false };
+      res.json({ success: true, data: status });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get meeting intelligence status', details: error.message });
+    }
+  });
+
+  app.post('/api/meeting-intelligence/start-session', async (req, res) => {
+    try {
+      const { title, participants, complianceSector } = req.body;
+      
+      if (!title || !participants || !complianceSector) {
+        return res.status(400).json({ error: 'Missing required fields: title, participants, complianceSector' });
+      }
+      
+      const sessionId = await cypherGeneticEngine.meetingIntelligence?.startMeetingSession({
+        title,
+        participants,
+        complianceSector
+      });
+      
+      res.json({ success: true, data: { sessionId }, message: 'Meeting session started' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to start meeting session', details: error.message });
+    }
+  });
+
+  app.post('/api/meeting-intelligence/transcribe/:sessionId', upload.single('audio'), async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const { speaker } = req.body;
+      const audioBuffer = req.file?.buffer;
+      
+      if (!audioBuffer) {
+        return res.status(400).json({ error: 'Audio file required' });
+      }
+      
+      const segment = await cypherGeneticEngine.meetingIntelligence?.transcribeAudio(
+        sessionId, 
+        audioBuffer, 
+        speaker
+      );
+      
+      res.json({ success: true, data: segment });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to transcribe audio', details: error.message });
+    }
+  });
+
+  app.get('/api/meeting-intelligence/session/:sessionId', async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const session = cypherGeneticEngine.meetingIntelligence?.getMeetingSession(sessionId);
+      
+      if (!session) {
+        return res.status(404).json({ error: 'Meeting session not found' });
+      }
+      
+      res.json({ success: true, data: session });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get meeting session', details: error.message });
+    }
+  });
+
+  app.post('/api/meeting-intelligence/end-session/:sessionId', async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const session = await cypherGeneticEngine.meetingIntelligence?.endMeetingSession(sessionId);
+      
+      res.json({ success: true, data: session, message: 'Meeting session ended' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to end meeting session', details: error.message });
+    }
+  });
+
+  app.get('/api/meeting-intelligence/insights/:sessionId', async (req, res) => {
+    try {
+      const { sessionId } = req.params;
+      const insights = await cypherGeneticEngine.meetingIntelligence?.generateMeetingInsights(sessionId);
+      
+      res.json({ success: true, data: insights });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to generate insights', details: error.message });
+    }
+  });
+
+  app.get('/api/meeting-intelligence/active-sessions', async (req, res) => {
+    try {
+      const sessions = cypherGeneticEngine.meetingIntelligence?.getActiveSessions() || [];
+      res.json({ success: true, data: sessions });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get active sessions', details: error.message });
+    }
+  });
+
+  app.post('/api/meeting-intelligence/configure', async (req, res) => {
+    try {
+      const config = req.body;
+      cypherGeneticEngine.meetingIntelligence?.updateConfiguration(config);
+      res.json({ success: true, message: 'Configuration updated' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to update configuration', details: error.message });
+    }
+  });
+
+  // Federated Learning API endpoints
+  app.get('/api/federated-learning/status', async (req, res) => {
+    try {
+      const status = cypherGeneticEngine.federatedLearning?.getSystemStatus() || { isActive: false };
+      res.json({ success: true, data: status });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get federated learning status', details: error.message });
+    }
+  });
+
+  app.get('/api/federated-learning/metrics', async (req, res) => {
+    try {
+      const metrics = cypherGeneticEngine.federatedLearning?.getCrossEnvironmentMetrics() || {};
+      res.json({ success: true, data: metrics });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get metrics', details: error.message });
+    }
+  });
+
+  app.get('/api/federated-learning/nodes', async (req, res) => {
+    try {
+      const nodes = cypherGeneticEngine.federatedLearning?.getFederatedNodes() || [];
+      res.json({ success: true, data: nodes });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get federated nodes', details: error.message });
+    }
+  });
+
+  app.get('/api/federated-learning/rounds', async (req, res) => {
+    try {
+      const rounds = cypherGeneticEngine.federatedLearning?.getLearningRounds() || [];
+      res.json({ success: true, data: rounds });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get learning rounds', details: error.message });
+    }
+  });
+
+  app.post('/api/federated-learning/initiate-round', async (req, res) => {
+    try {
+      const roundId = await cypherGeneticEngine.federatedLearning?.initiateLearningRound();
+      
+      if (roundId) {
+        res.json({ success: true, data: { roundId }, message: 'Federated learning round initiated' });
+      } else {
+        res.status(400).json({ error: 'Failed to initiate learning round' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to initiate learning round', details: error.message });
+    }
+  });
+
+  app.post('/api/federated-learning/add-node', async (req, res) => {
+    try {
+      const nodeConfig = req.body;
+      
+      if (!nodeConfig.nodeId || !nodeConfig.organization || !nodeConfig.sector) {
+        return res.status(400).json({ error: 'Missing required fields: nodeId, organization, sector' });
+      }
+      
+      const success = await cypherGeneticEngine.federatedLearning?.addFederatedNode(nodeConfig);
+      
+      if (success) {
+        res.json({ success: true, message: 'Federated node added successfully' });
+      } else {
+        res.status(400).json({ error: 'Failed to add federated node' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to add federated node', details: error.message });
+    }
+  });
+
+  app.post('/api/federated-learning/stop', async (req, res) => {
+    try {
+      cypherGeneticEngine.federatedLearning?.stopFederatedLearning();
+      res.json({ success: true, message: 'Federated learning stopped' });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to stop federated learning', details: error.message });
+    }
+  });
+
+  // Enhanced Genetic Algorithm API endpoints
+  app.get('/api/genetic-algorithm/enhanced-status', async (req, res) => {
+    try {
+      const status = {
+        isEvolutionActive: cypherGeneticEngine.isEvolutionActive || false,
+        currentGeneration: cypherGeneticEngine.currentGeneration || 0,
+        targetAccuracy: 99.2,
+        nasEngine: cypherGeneticEngine.nasEngine?.getSearchStatus() || { isActive: false },
+        meetingIntelligence: cypherGeneticEngine.meetingIntelligence?.getServiceStatus() || { isInitialized: false },
+        federatedLearning: cypherGeneticEngine.federatedLearning?.getSystemStatus() || { isActive: false }
+      };
+      
+      res.json({ success: true, data: status });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get enhanced genetic algorithm status', details: error.message });
+    }
+  });
+
+  app.get('/api/genetic-algorithm/sector-performance/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      if (!['FERPA', 'FISMA', 'CIPA', 'GENERAL'].includes(sector)) {
+        return res.status(400).json({ error: 'Invalid sector' });
+      }
+      
+      const analytics = await geneticMemoryStore.getEvolutionaryAnalytics(sector);
+      const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, 5);
+      const architectures = cypherGeneticEngine.nasEngine?.getBestArchitectures(sector) || [];
+      
+      const performance = {
+        sector,
+        analytics,
+        bestIndividuals,
+        bestArchitectures: architectures.slice(0, 3),
+        currentAccuracy: bestIndividuals[0]?.accuracy || 0,
+        targetAccuracy: 99.2,
+        accuracyProgress: ((bestIndividuals[0]?.accuracy || 0) / 99.2) * 100
+      };
+      
+      res.json({ success: true, data: performance });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get sector performance', details: error.message });
+    }
+  });
+
+  app.post('/api/genetic-algorithm/optimize-sector/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      if (!['FERPA', 'FISMA', 'CIPA', 'GENERAL'].includes(sector)) {
+        return res.status(400).json({ error: 'Invalid sector' });
+      }
+      
+      // Trigger optimization for specific sector
+      const optimizationId = `optimize-${sector}-${Date.now()}`;
+      
+      // Start NAS for the sector
+      if (cypherGeneticEngine.nasEngine) {
+        await cypherGeneticEngine.nasEngine.startSearch();
+      }
+      
+      // Initiate federated learning round
+      if (cypherGeneticEngine.federatedLearning) {
+        await cypherGeneticEngine.federatedLearning.initiateLearningRound();
+      }
+      
+      res.json({ 
+        success: true, 
+        data: { optimizationId }, 
+        message: `Optimization started for ${sector} sector` 
+      });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to optimize sector', details: error.message });
+    }
+  });
+
+  app.get('/api/genetic-algorithm/convergence-analytics', async (req, res) => {
+    try {
+      const sectors = ['FERPA', 'FISMA', 'CIPA', 'GENERAL'];
+      const convergenceData = {};
+      
+      for (const sector of sectors) {
+        const analytics = await geneticMemoryStore.getEvolutionaryAnalytics(sector);
+        const generationHistory = await geneticMemoryStore.getGenerationHistory(sector, 50);
+        
+        convergenceData[sector] = {
+          analytics,
+          convergenceRate: analytics ? analytics.convergenceRate : 0,
+          generationProgress: generationHistory,
+          isConverged: analytics ? analytics.bestFitness >= 99.2 : false
+        };
+      }
+      
+      res.json({ success: true, data: convergenceData });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get convergence analytics', details: error.message });
+    }
+  });
+
+  // Phase 2 System Integration endpoint
+  app.get('/api/cypher-ai-system/comprehensive-status', async (req, res) => {
+    try {
+      const systemStatus = {
+        timestamp: new Date().toISOString(),
+        overallAccuracy: 0,
+        systemHealth: 'operational',
+        components: {
+          geneticAlgorithm: {
+            isActive: cypherGeneticEngine.isEvolutionActive || false,
+            currentGeneration: cypherGeneticEngine.currentGeneration || 0,
+            targetAccuracy: 99.2
+          },
+          neuralArchitectureSearch: cypherGeneticEngine.nasEngine?.getSearchStatus() || { isActive: false },
+          meetingIntelligence: cypherGeneticEngine.meetingIntelligence?.getServiceStatus() || { isInitialized: false },
+          federatedLearning: cypherGeneticEngine.federatedLearning?.getSystemStatus() || { isActive: false }
+        },
+        performanceMetrics: {}
+      };
+      
+      // Calculate overall accuracy across all sectors
+      const sectors = ['FERPA', 'FISMA', 'CIPA', 'GENERAL'];
+      let totalAccuracy = 0;
+      let sectorCount = 0;
+      
+      for (const sector of sectors) {
+        try {
+          const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, 1);
+          if (bestIndividuals.length > 0) {
+            totalAccuracy += bestIndividuals[0].accuracy;
+            sectorCount++;
+            systemStatus.performanceMetrics[sector] = {
+              accuracy: bestIndividuals[0].accuracy,
+              generation: bestIndividuals[0].generation,
+              fitness: bestIndividuals[0].fitness
+            };
+          }
+        } catch (error) {
+          console.warn(`Failed to get metrics for ${sector}:`, error);
+        }
+      }
+      
+      systemStatus.overallAccuracy = sectorCount > 0 ? totalAccuracy / sectorCount : 0;
+      
+      // Determine system health
+      if (systemStatus.overallAccuracy >= 99.2) {
+        systemStatus.systemHealth = 'optimal';
+      } else if (systemStatus.overallAccuracy >= 95.0) {
+        systemStatus.systemHealth = 'good';
+      } else if (systemStatus.overallAccuracy >= 90.0) {
+        systemStatus.systemHealth = 'operational';
+      } else {
+        systemStatus.systemHealth = 'requires_attention';
+      }
+      
+      res.json({ success: true, data: systemStatus });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to get comprehensive system status', details: error.message });
+    }
+  });
+
   return httpServer;
 }
