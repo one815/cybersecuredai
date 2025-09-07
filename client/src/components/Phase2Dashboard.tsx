@@ -135,43 +135,43 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-            Revolutionary Cypher AI Dual Intelligence System
+          <h2 className="text-3xl font-bold text-white mb-2">
+            🧬 Revolutionary Cypher AI Dual Intelligence System
           </h2>
-          <p className="text-gray-600 mt-2">
+          <p className="text-cyan-300 mt-2 text-lg">
             Phase 2: Self-evolving genetic algorithms with neural architecture search, meeting intelligence, and federated learning
           </p>
         </div>
         <Badge 
           variant={systemHealth === 'optimal' ? 'default' : systemHealth === 'good' ? 'secondary' : 'destructive'}
-          className="text-lg px-4 py-2"
+          className="text-lg px-4 py-2 bg-orange-500 text-white border-orange-600"
         >
           {systemHealth.replace('_', ' ').toUpperCase()}
         </Badge>
       </div>
 
       {/* Overall System Status */}
-      <Card className="border-2 border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50">
+      <Card className="border-2 border-cyan-400 bg-gradient-to-r from-slate-800 to-slate-900 shadow-xl">
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Target className="w-6 h-6 text-cyan-600" />
+          <CardTitle className="flex items-center space-x-2 text-white">
+            <Target className="w-6 h-6 text-cyan-400" />
             <span>System-wide Accuracy Progress</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold">Target: 99.2% Accuracy</span>
-              <span className="text-2xl font-bold text-cyan-600">{overallAccuracy.toFixed(2)}%</span>
+              <span className="text-lg font-semibold text-white">Target: 99.2% Accuracy</span>
+              <span className="text-3xl font-bold text-cyan-400">{overallAccuracy.toFixed(2)}%</span>
             </div>
-            <Progress value={(overallAccuracy / 99.2) * 100} className="h-4" />
+            <Progress value={(overallAccuracy / 99.2) * 100} className="h-4 bg-slate-700" />
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               {sectors.map((sector) => {
                 const sectorData = systemStatus?.data?.performanceMetrics?.[sector];
                 return (
-                  <div key={sector} className="p-3 bg-white rounded-lg shadow-sm">
-                    <div className="text-xs text-gray-500">{sector}</div>
-                    <div className="text-lg font-bold text-cyan-600">
+                  <div key={sector} className="p-3 bg-slate-700 rounded-lg shadow-sm border border-cyan-500/30">
+                    <div className="text-xs text-cyan-300 font-medium">{sector}</div>
+                    <div className="text-lg font-bold text-cyan-400">
                       {sectorData?.accuracy?.toFixed(1) || '0.0'}%
                     </div>
                   </div>
@@ -183,20 +183,20 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
       </Card>
 
       <Tabs defaultValue="nas" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="nas" className="flex items-center space-x-2">
+        <TabsList className="grid w-full grid-cols-4 bg-slate-800 border border-cyan-500/30">
+          <TabsTrigger value="nas" className="flex items-center space-x-2 text-white data-[state=active]:bg-purple-600 data-[state=active]:text-white">
             <Brain className="w-4 h-4" />
             <span>Neural Architecture Search</span>
           </TabsTrigger>
-          <TabsTrigger value="meeting" className="flex items-center space-x-2">
+          <TabsTrigger value="meeting" className="flex items-center space-x-2 text-white data-[state=active]:bg-green-600 data-[state=active]:text-white">
             <Mic className="w-4 h-4" />
             <span>Meeting Intelligence</span>
           </TabsTrigger>
-          <TabsTrigger value="federated" className="flex items-center space-x-2">
+          <TabsTrigger value="federated" className="flex items-center space-x-2 text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white">
             <Network className="w-4 h-4" />
             <span>Federated Learning</span>
           </TabsTrigger>
-          <TabsTrigger value="genetic" className="flex items-center space-x-2">
+          <TabsTrigger value="genetic" className="flex items-center space-x-2 text-white data-[state=active]:bg-yellow-600 data-[state=active]:text-white">
             <Zap className="w-4 h-4" />
             <span>Genetic Evolution</span>
           </TabsTrigger>
@@ -204,10 +204,10 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
         {/* Neural Architecture Search Tab */}
         <TabsContent value="nas" className="space-y-4">
-          <Card>
+          <Card className="bg-slate-800 border border-purple-500/30">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="flex items-center space-x-2">
-                <Brain className="w-5 h-5 text-purple-600" />
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Brain className="w-5 h-5 text-purple-400" />
                 <span>Neural Architecture Search Engine</span>
               </CardTitle>
               <div className="flex space-x-2">
@@ -239,25 +239,25 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                 {sectors.map((sector) => {
                   const sectorData = nasData.sectors?.[sector] || {};
                   return (
-                    <Card key={sector} className="p-4">
+                    <Card key={sector} className="p-4 bg-slate-700 border border-purple-500/30">
                       <div className="text-center">
-                        <h4 className="font-semibold text-lg">{sector}</h4>
+                        <h4 className="font-semibold text-lg text-white">{sector}</h4>
                         <div className="mt-2 space-y-2">
                           <div>
-                            <span className="text-xs text-gray-500">Best Accuracy</span>
-                            <div className="text-xl font-bold text-purple-600">
+                            <span className="text-xs text-purple-300">Best Accuracy</span>
+                            <div className="text-xl font-bold text-purple-400">
                               {sectorData.bestAccuracy?.toFixed(1) || '0.0'}%
                             </div>
                           </div>
                           <div>
-                            <span className="text-xs text-gray-500">Architectures</span>
-                            <div className="text-lg font-semibold">
+                            <span className="text-xs text-purple-300">Architectures</span>
+                            <div className="text-lg font-semibold text-white">
                               {sectorData.totalArchitectures || 0}
                             </div>
                           </div>
                           <div>
-                            <span className="text-xs text-gray-500">Complexity</span>
-                            <div className="text-sm">
+                            <span className="text-xs text-purple-300">Complexity</span>
+                            <div className="text-sm text-white">
                               {sectorData.averageComplexity?.toFixed(0) || '0'}
                             </div>
                           </div>
@@ -267,11 +267,11 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                   );
                 })}
               </div>
-              <div className="mt-4 p-4 bg-purple-50 rounded-lg">
-                <p className="text-sm text-purple-800">
-                  <strong>Status:</strong> {nasData.isActive ? 'Actively evolving neural architectures' : 'Search paused'} | 
-                  <strong> Generation:</strong> {nasData.generation || 0} | 
-                  <strong> Total Architectures:</strong> {Object.values(nasData.sectors || {}).reduce((sum: number, sector: any) => sum + (sector.totalArchitectures || 0), 0)}
+              <div className="mt-4 p-4 bg-purple-900/50 rounded-lg border border-purple-500/30">
+                <p className="text-sm text-purple-200">
+                  <strong className="text-purple-400">Status:</strong> {nasData.isActive ? 'Actively evolving neural architectures' : 'Search paused'} | 
+                  <strong className="text-purple-400"> Generation:</strong> {nasData.generation || 0} | 
+                  <strong className="text-purple-400"> Total Architectures:</strong> {Object.values(nasData.sectors || {}).reduce((sum: number, sector: any) => sum + (sector.totalArchitectures || 0), 0)}
                 </p>
               </div>
             </CardContent>
@@ -280,31 +280,31 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
         {/* Meeting Intelligence Tab */}
         <TabsContent value="meeting" className="space-y-4">
-          <Card>
+          <Card className="bg-slate-800 border border-green-500/30">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Mic className="w-5 h-5 text-green-600" />
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Mic className="w-5 h-5 text-green-400" />
                 <span>Meeting Intelligence with OpenAI</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <CheckCircle className={`w-8 h-8 mx-auto mb-2 ${meetingData.isInitialized ? 'text-green-600' : 'text-gray-400'}`} />
-                  <h4 className="font-semibold">Service Status</h4>
-                  <p className="text-sm text-gray-600">
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-green-500/30">
+                  <CheckCircle className={`w-8 h-8 mx-auto mb-2 ${meetingData.isInitialized ? 'text-green-400' : 'text-gray-400'}`} />
+                  <h4 className="font-semibold text-white">Service Status</h4>
+                  <p className="text-sm text-green-300">
                     {meetingData.isInitialized ? 'Initialized & Ready' : 'Not Initialized'}
                   </p>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <Users className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-                  <h4 className="font-semibold">Active Sessions</h4>
-                  <p className="text-2xl font-bold text-blue-600">{meetingData.activeSessions || 0}</p>
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-blue-500/30">
+                  <Users className="w-8 h-8 mx-auto mb-2 text-blue-400" />
+                  <h4 className="font-semibold text-white">Active Sessions</h4>
+                  <p className="text-2xl font-bold text-blue-400">{meetingData.activeSessions || 0}</p>
                 </div>
-                <div className="text-center p-4 bg-orange-50 rounded-lg">
-                  <Bot className="w-8 h-8 mx-auto mb-2 text-orange-600" />
-                  <h4 className="font-semibold">AI Capabilities</h4>
-                  <p className="text-sm text-gray-600">Real-time transcription & analysis</p>
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-orange-500/30">
+                  <Bot className="w-8 h-8 mx-auto mb-2 text-orange-400" />
+                  <h4 className="font-semibold text-white">AI Capabilities</h4>
+                  <p className="text-sm text-orange-300">Real-time transcription & analysis</p>
                 </div>
               </div>
               
@@ -312,22 +312,22 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                 {Object.entries(meetingData.capabilities || {}).map(([key, enabled]) => (
                   <div key={key} className="flex items-center space-x-2">
                     {enabled ? (
-                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <CheckCircle className="w-4 h-4 text-green-400" />
                     ) : (
-                      <AlertTriangle className="w-4 h-4 text-red-600" />
+                      <AlertTriangle className="w-4 h-4 text-red-400" />
                     )}
-                    <span className="text-sm capitalize">
+                    <span className="text-sm capitalize text-white">
                       {key.replace(/([A-Z])/g, ' $1').toLowerCase()}
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 p-4 bg-green-50 rounded-lg">
-                <p className="text-sm text-green-800">
-                  <strong>OpenAI Integration:</strong> GPT-5 model with Whisper transcription | 
-                  <strong> Languages:</strong> {meetingData.configuration?.language || 'en'} | 
-                  <strong> Compliance Mode:</strong> {meetingData.configuration?.complianceMode ? 'Enabled' : 'Disabled'}
+              <div className="mt-4 p-4 bg-green-900/50 rounded-lg border border-green-500/30">
+                <p className="text-sm text-green-200">
+                  <strong className="text-green-400">OpenAI Integration:</strong> GPT-5 model with Whisper transcription | 
+                  <strong className="text-green-400"> Languages:</strong> {meetingData.configuration?.language || 'en'} | 
+                  <strong className="text-green-400"> Compliance Mode:</strong> {meetingData.configuration?.complianceMode ? 'Enabled' : 'Disabled'}
                 </p>
               </div>
             </CardContent>
@@ -336,10 +336,10 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
         {/* Federated Learning Tab */}
         <TabsContent value="federated" className="space-y-4">
-          <Card>
+          <Card className="bg-slate-800 border border-blue-500/30">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="flex items-center space-x-2">
-                <Network className="w-5 h-5 text-blue-600" />
+              <CardTitle className="flex items-center space-x-2 text-white">
+                <Network className="w-5 h-5 text-blue-400" />
                 <span>Enhanced Federated Learning</span>
               </CardTitle>
               <Button 
@@ -354,27 +354,27 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-blue-50 rounded-lg">
-                  <Globe className="w-8 h-8 mx-auto mb-2 text-blue-600" />
-                  <h4 className="font-semibold">Total Nodes</h4>
-                  <p className="text-2xl font-bold text-blue-600">{federatedData.data?.metrics?.totalNodes || 0}</p>
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-blue-500/30">
+                  <Globe className="w-8 h-8 mx-auto mb-2 text-blue-400" />
+                  <h4 className="font-semibold text-white">Total Nodes</h4>
+                  <p className="text-2xl font-bold text-blue-400">{federatedData.data?.metrics?.totalNodes || 0}</p>
                 </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <Activity className="w-8 h-8 mx-auto mb-2 text-green-600" />
-                  <h4 className="font-semibold">Active Nodes</h4>
-                  <p className="text-2xl font-bold text-green-600">{federatedData.data?.metrics?.activeNodes || 0}</p>
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-green-500/30">
+                  <Activity className="w-8 h-8 mx-auto mb-2 text-green-400" />
+                  <h4 className="font-semibold text-white">Active Nodes</h4>
+                  <p className="text-2xl font-bold text-green-400">{federatedData.data?.metrics?.activeNodes || 0}</p>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg">
-                  <Shield className="w-8 h-8 mx-auto mb-2 text-purple-600" />
-                  <h4 className="font-semibold">Trust Score</h4>
-                  <p className="text-xl font-bold text-purple-600">
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-purple-500/30">
+                  <Shield className="w-8 h-8 mx-auto mb-2 text-purple-400" />
+                  <h4 className="font-semibold text-white">Trust Score</h4>
+                  <p className="text-xl font-bold text-purple-400">
                     {((federatedData.data?.metrics?.averageTrustScore || 0) * 100).toFixed(1)}%
                   </p>
                 </div>
-                <div className="text-center p-4 bg-orange-50 rounded-lg">
-                  <Lock className="w-8 h-8 mx-auto mb-2 text-orange-600" />
-                  <h4 className="font-semibold">Privacy Score</h4>
-                  <p className="text-xl font-bold text-orange-600">
+                <div className="text-center p-4 bg-slate-700 rounded-lg border border-orange-500/30">
+                  <Lock className="w-8 h-8 mx-auto mb-2 text-orange-400" />
+                  <h4 className="font-semibold text-white">Privacy Score</h4>
+                  <p className="text-xl font-bold text-orange-400">
                     {((federatedData.data?.metrics?.privacyPreservationScore || 0) * 100).toFixed(1)}%
                   </p>
                 </div>
