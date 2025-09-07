@@ -12,6 +12,7 @@
 import { spawn } from 'child_process';
 import { EventEmitter } from 'events';
 import path from 'path';
+import { geneticMemoryStore } from '../services/genetic-memory-store.js';
 
 export interface GeneticIndividual {
   id: string;
@@ -69,6 +70,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
   constructor() {
     super();
     this.initializeEngine();
+    this.initializeMemoryStore();
   }
 
   /**
@@ -80,6 +82,9 @@ export class CypherAIGeneticEngine extends EventEmitter {
     try {
       // Initialize sector-specific populations
       await this.initializeSectorPopulations();
+      
+      // Load previous generations from memory store
+      await this.loadPreviousGenerations();
       
       // Start Python genetic algorithm backend
       await this.startPythonBackend();
@@ -248,6 +253,60 @@ export class CypherAIGeneticEngine extends EventEmitter {
   }
 
   /**
+   * Initialize memory store integration
+   */
+  private async initializeMemoryStore(): Promise<void> {
+    console.log('🧠 Initializing multi-generational memory store...');
+    try {
+      // Memory store automatically initializes database
+      console.log('✅ Multi-generational memory store ready');
+    } catch (error) {
+      console.error('❌ Failed to initialize memory store:', error);
+    }
+  }
+
+  /**
+   * Load previous generations from memory store
+   */
+  private async loadPreviousGenerations(): Promise<void> {
+    console.log('📚 Loading previous generation history...');
+    
+    for (const sector of ['FERPA', 'FISMA', 'CIPA', 'GENERAL']) {
+      try {
+        const history = await geneticMemoryStore.getGenerationHistory(sector, 10);
+        if (history.length > 0) {
+          const latestGeneration = history[0];
+          console.log(`📖 Found ${history.length} previous generations for ${sector} (latest: gen ${latestGeneration.generation})`);
+          
+          // Update current generation counter
+          this.currentGeneration = Math.max(this.currentGeneration, latestGeneration.generation);
+          
+          // Load best individuals for seeding
+          const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, 5);
+          if (bestIndividuals.length > 0) {
+            const population = this.populations.get(sector);
+            if (population) {
+              // Replace some random individuals with proven winners
+              for (let i = 0; i < Math.min(5, bestIndividuals.length); i++) {
+                if (population.individuals[i]) {
+                  population.individuals[i] = {
+                    ...bestIndividuals[i],
+                    generation: 0, // Reset for current evolution
+                    createdAt: new Date()
+                  };
+                }
+              }
+              console.log(`🌟 Seeded ${sector} population with ${bestIndividuals.length} elite individuals`);
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Failed to load previous generations for ${sector}:`, error);
+      }
+    }
+  }
+
+  /**
    * Initialize federated learning network
    */
   private initializeFederatedLearning(): void {
@@ -314,6 +373,19 @@ export class CypherAIGeneticEngine extends EventEmitter {
       // Update population statistics
       this.updatePopulationStats(population);
       
+      // Store generation in memory store for persistence
+      try {
+        await geneticMemoryStore.storeGeneration(population, {
+          mutationRate: this.MUTATION_RATE,
+          crossoverRate: this.CROSSOVER_RATE,
+          eliteSize: this.ELITE_SIZE,
+          targetAccuracy: this.TARGET_ACCURACY
+        });
+        console.log(`💾 Stored generation ${population.generation} for ${sector} in memory store`);
+      } catch (error) {
+        console.error(`❌ Failed to store generation ${population.generation}:`, error);
+      }
+      
       // Emit evolution progress
       this.emit('generationComplete', {
         sector,
@@ -325,6 +397,11 @@ export class CypherAIGeneticEngine extends EventEmitter {
       // Federated learning synchronization
       if (population.generation % 10 === 0) {
         await this.federatedLearningSync(sector);
+      }
+      
+      // Cleanup old generations periodically
+      if (population.generation % 100 === 0) {
+        await geneticMemoryStore.cleanupOldGenerations(sector, 500);
       }
     }
   }
@@ -342,6 +419,14 @@ export class CypherAIGeneticEngine extends EventEmitter {
    * Calculate fitness score for an individual
    */
   private async calculateFitness(individual: GeneticIndividual): Promise<number> {
+    // Check fitness cache first
+    const startTime = Date.now();
+    const cached = await geneticMemoryStore.getCachedFitness(individual.genome, individual.sector);
+    if (cached) {
+      console.log(`💾 Using cached fitness for ${individual.id}: ${cached.fitness.toFixed(2)}`);
+      return cached.fitness;
+    }
+    
     // Fitness based on:
     // 1. Policy effectiveness (threat detection rate)
     // 2. False positive rate
@@ -360,7 +445,19 @@ export class CypherAIGeneticEngine extends EventEmitter {
       adaptationScore * 0.1
     ) * 100;
     
-    return Math.min(100, Math.max(0, fitness));
+    const finalFitness = Math.min(100, Math.max(0, fitness));
+    const evaluationTime = Date.now() - startTime;
+    
+    // Cache the fitness evaluation
+    await geneticMemoryStore.cacheFitnessEvaluation(
+      individual.genome, 
+      individual.sector, 
+      finalFitness, 
+      individual.accuracy, 
+      evaluationTime
+    );
+    
+    return finalFitness;
   }
 
   /**
@@ -569,6 +666,9 @@ export class CypherAIGeneticEngine extends EventEmitter {
     // Share knowledge with federated nodes
     for (const node of relevantNodes) {
       node.contribution = Math.min(1.0, node.contribution + 0.01);
+      
+      // Store federated node state in memory store
+      await geneticMemoryStore.storeFederatedNode(node);
     }
     
     this.emit('federatedSync', { sector, nodesCount: relevantNodes.length });
