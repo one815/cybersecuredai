@@ -247,8 +247,12 @@ export default function Home() {
                     </CardContent>
                   </Card>
                 </div>
-                      {/* Dashboard Header */}
-                      <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
+
+                {/* Dashboard Mockup */}
+                <div className="relative w-full max-w-4xl mx-auto mt-16">
+                  <div className="relative bg-slate-800/90 rounded-lg overflow-hidden border border-cyan-500/30 shadow-2xl">
+                    {/* Dashboard Header */}
+                    <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
                             <Enhanced4DShieldIcon className="w-3 h-3 text-cyan-400" size={12} />
