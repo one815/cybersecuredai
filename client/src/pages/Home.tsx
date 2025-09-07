@@ -163,31 +163,31 @@ export default function Home() {
                   </div>
 
                   {/* Dashboard Header */}
-                  <div className="bg-slate-800/90 p-4 border-b border-cyan-500/20">
-                    <div className="flex items-center justify-between">
+                  <div className="bg-slate-800/90 p-3 md:p-4 border-b border-cyan-500/20">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                       <div className="flex items-center space-x-3">
-                        <Enhanced4DShieldIcon className="w-6 h-6 text-cyan-400" size={24} />
+                        <Enhanced4DShieldIcon className="w-5 h-5 md:w-6 md:h-6 text-cyan-400" size={24} />
                         <div>
-                          <h3 className="text-white font-bold text-lg">CyberSecured AI Platform</h3>
-                          <p className="text-gray-400 text-sm">Converged Intelligence Dashboard</p>
+                          <h3 className="text-white font-bold text-base md:text-lg">CyberSecured AI Platform</h3>
+                          <p className="text-gray-400 text-xs md:text-sm">Converged Intelligence Dashboard</p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                        <span className="text-green-400 text-sm font-medium">OPERATIONAL</span>
-                        <span className="text-gray-400 text-sm">Last Update: Live</span>
+                        <div className="w-2 h-2 md:w-3 md:h-3 bg-green-400 rounded-full animate-pulse"></div>
+                        <span className="text-green-400 text-xs md:text-sm font-medium">OPERATIONAL</span>
+                        <span className="text-gray-400 text-xs md:text-sm hidden sm:inline">Last Update: Live</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Intelligence Overview Section */}
-                  <div className="p-6">
+                  <div className="p-3 md:p-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <Enhanced4DTargetIcon className="w-5 h-5 text-cyan-400" size={20} />
                       <h4 className="text-cyan-400 font-bold uppercase text-sm tracking-wider">Intelligence Overview</h4>
                     </div>
                     
-                    <div className="grid grid-cols-4 gap-4 mb-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                       {/* 94% Threat Confidence */}
                       <div className="bg-cyan-500/10 rounded-lg p-4 border border-cyan-500/30">
                         <div className="text-3xl font-bold text-cyan-400 mb-1">94%</div>
@@ -232,69 +232,72 @@ export default function Home() {
                         </div>
                         
                         {/* Live Threat Monitoring Map */}
-                        <div className="h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
-                          {/* Top Control Bar */}
-                          <div className="absolute top-2 left-2 right-2 flex justify-between items-center z-20">
+                        <div className="h-40 sm:h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
+                          {/* Top Control Bar - Responsive */}
+                          <div className="absolute top-1 sm:top-2 left-1 sm:left-2 right-1 sm:right-2 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-1 sm:space-y-0 z-20">
                             {/* Left Controls */}
-                            <div className="flex items-center space-x-3">
-                              <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">
-                                LIVE THREAT MONITORING
+                            <div className="flex items-center space-x-1 sm:space-x-3 flex-wrap">
+                              <div className="bg-blue-600 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded font-bold">
+                                <span className="hidden sm:inline">LIVE THREAT MONITORING</span>
+                                <span className="sm:hidden">LIVE</span>
                               </div>
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded">
+                              <div className="bg-slate-900/90 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
                                 3D
                               </div>
-                              <div className="bg-slate-700/90 text-gray-300 text-xs px-2 py-1 rounded">
+                              <div className="bg-slate-700/90 text-gray-300 text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
                                 Sat
                               </div>
                             </div>
                             
                             {/* Right Status */}
-                            <div className="flex items-center space-x-2">
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
-                                <span className="text-red-400">●</span>
+                            <div className="flex items-center space-x-1 sm:space-x-2">
+                              <div className="bg-slate-900/90 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex items-center space-x-1">
+                                <span className="text-red-400 text-xs">●</span>
                                 <span>2</span>
                               </div>
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
-                                <span className="text-green-400">●</span>
+                              <div className="bg-slate-900/90 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded flex items-center space-x-1">
+                                <span className="text-green-400 text-xs">●</span>
                                 <span>6</span>
                               </div>
-                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded">
-                                REAL-TIME
+                              <div className="bg-slate-900/90 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded">
+                                <span className="hidden sm:inline">REAL-TIME</span>
+                                <span className="sm:hidden">LIVE</span>
                               </div>
                             </div>
                           </div>
 
-                          {/* Left Side Legend */}
-                          <div className="absolute bottom-2 left-2 bg-slate-900/90 rounded p-2 z-20">
+                          {/* Left Side Legend - Hidden on small screens */}
+                          <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2 bg-slate-900/90 rounded p-1.5 sm:p-2 z-20 hidden sm:block">
                             <div className="text-white text-xs font-bold mb-1">Threat Levels</div>
-                            <div className="space-y-1">
-                              <div className="flex items-center space-x-2">
-                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                            <div className="space-y-0.5 sm:space-y-1">
+                              <div className="flex items-center space-x-1 sm:space-x-2">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"></div>
                                 <span className="text-white text-xs">High Risk</span>
                               </div>
-                              <div className="flex items-center space-x-2">
-                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                              <div className="flex items-center space-x-1 sm:space-x-2">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-yellow-500 rounded-full"></div>
                                 <span className="text-white text-xs">Medium Risk</span>
                               </div>
-                              <div className="flex items-center space-x-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                              <div className="flex items-center space-x-1 sm:space-x-2">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-500 rounded-full"></div>
                                 <span className="text-white text-xs">Low Risk</span>
                               </div>
                             </div>
                           </div>
 
                           {/* Bottom Right Active Threats Counter */}
-                          <div className="absolute bottom-2 right-2 bg-slate-900/90 text-white text-xs px-2 py-1 rounded font-bold z-20">
-                            5 ACTIVE THREATS
+                          <div className="absolute bottom-1 sm:bottom-2 right-1 sm:right-2 bg-slate-900/90 text-white text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded font-bold z-20">
+                            <span className="hidden sm:inline">5 ACTIVE THREATS</span>
+                            <span className="sm:hidden">5 THREATS</span>
                           </div>
 
                           {/* Map with Zoom Controls */}
                           <div className="relative w-full h-full">
                             <ThreatMap className="w-full h-full" />
                             {/* Zoom Controls */}
-                            <div className="absolute right-2 top-12 bg-white rounded shadow-lg z-20">
-                              <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold">+</button>
-                              <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold">−</button>
+                            <div className="absolute right-1 sm:right-2 top-8 sm:top-12 bg-white rounded shadow-lg z-20">
+                              <button className="block w-6 h-6 sm:w-8 sm:h-8 text-gray-700 hover:bg-gray-100 text-sm sm:text-lg font-bold">+</button>
+                              <button className="block w-6 h-6 sm:w-8 sm:h-8 text-gray-700 hover:bg-gray-100 text-sm sm:text-lg font-bold">−</button>
                             </div>
                           </div>
                         </div>
