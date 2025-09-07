@@ -225,56 +225,41 @@ export default function Home() {
                                 <span className="text-blue-400 font-medium" style={{fontSize: '8px'}}>🌍 Global Threat Map</span>
                               </div>
                             </div>
-                            <div className="p-2 h-full bg-slate-900/50 relative overflow-hidden">
-                              {/* Enhanced world map visualization */}
-                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded overflow-hidden border-2 border-cyan-400">
-                                {/* World map outline SVG-style with CSS */}
-                                <div className="absolute inset-0">
-                                  {/* North America */}
-                                  <div className="absolute top-3 left-2 w-4 h-3 border-2 border-cyan-400 rounded-sm bg-cyan-400/30"></div>
-                                  {/* Europe */}
-                                  <div className="absolute top-2 left-1/2 w-2 h-2 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
-                                  {/* Asia */}
-                                  <div className="absolute top-2 right-3 w-5 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
-                                  {/* Africa */}
-                                  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-2 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
-                                  {/* Australia */}
-                                  <div className="absolute bottom-3 right-4 w-2 h-1 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
-                                  {/* South America */}
-                                  <div className="absolute bottom-2 left-4 w-1.5 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                            <div className="p-2 h-full bg-slate-900/90 relative overflow-hidden">
+                              {/* BRIGHT VISIBLE GEOSPATIAL MAP - WILL DEFINITELY SHOW */}
+                              <div className="relative h-full bg-gradient-to-br from-blue-900 to-purple-900 rounded border border-cyan-400">
+                                {/* LARGE BRIGHT CONTINENTS */}
+                                <div className="absolute inset-1">
+                                  {/* NORTH AMERICA - BRIGHT RED */}
+                                  <div className="absolute top-2 left-3 w-6 h-4 bg-red-400 rounded border-2 border-red-300"></div>
+                                  
+                                  {/* EUROPE - BRIGHT GREEN */}
+                                  <div className="absolute top-2 left-1/2 w-3 h-3 bg-green-400 rounded border-2 border-green-300"></div>
+                                  
+                                  {/* ASIA - BRIGHT BLUE */}
+                                  <div className="absolute top-1 right-2 w-7 h-5 bg-blue-400 rounded border-2 border-blue-300"></div>
+                                  
+                                  {/* AFRICA - BRIGHT YELLOW */}
+                                  <div className="absolute top-6 left-1/2 transform -translate-x-1/2 w-3 h-5 bg-yellow-400 rounded border-2 border-yellow-300"></div>
+                                  
+                                  {/* AUSTRALIA - BRIGHT PURPLE */}
+                                  <div className="absolute bottom-2 right-3 w-3 h-2 bg-purple-400 rounded border-2 border-purple-300"></div>
+                                  
+                                  {/* SOUTH AMERICA - BRIGHT ORANGE */}
+                                  <div className="absolute bottom-1 left-5 w-2 h-5 bg-orange-400 rounded border-2 border-orange-300"></div>
                                 </div>
                                 
-                                {/* Threat indicators with geographic accuracy */}
-                                <div className="absolute top-3 left-3 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="USA - High Risk"></div>
-                                <div className="absolute top-2 right-5 w-1 h-1 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50" title="China - Medium Risk"></div>
-                                <div className="absolute top-2 left-1/2 w-1 h-1 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Germany - Low Risk"></div>
-                                <div className="absolute top-4 left-1/2 w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="Nigeria - High Risk"></div>
-                                <div className="absolute bottom-3 right-4 w-1 h-1 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50" title="Australia - Secure"></div>
-                                <div className="absolute bottom-3 left-4 w-1 h-1 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50" title="Brazil - Medium Risk"></div>
-                                <div className="absolute top-3 right-6 w-1 h-1 bg-red-500 rounded-full animate-pulse shadow-lg shadow-red-500/50" title="Russia - High Risk"></div>
-                                <div className="absolute top-4 right-3 w-1 h-1 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" title="Japan - Low Risk"></div>
+                                {/* HUGE BRIGHT THREAT INDICATORS */}
+                                <div className="absolute top-3 left-4 w-3 h-3 bg-red-600 rounded-full animate-pulse border-2 border-white"></div>
+                                <div className="absolute top-3 right-4 w-3 h-3 bg-orange-500 rounded-full animate-pulse border-2 border-white"></div>
+                                <div className="absolute bottom-4 left-1/2 w-3 h-3 bg-red-600 rounded-full animate-pulse border-2 border-white"></div>
                                 
-                                {/* Connection lines between threat points */}
-                                <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                                  <defs>
-                                    <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                      <stop offset="0%" style={{stopColor: 'rgba(239, 68, 68, 0.5)', stopOpacity: 1}} />
-                                      <stop offset="100%" style={{stopColor: 'rgba(239, 68, 68, 0.1)', stopOpacity: 0}} />
-                                    </linearGradient>
-                                  </defs>
-                                  <line x1="15%" y1="30%" x2="60%" y2="25%" stroke="url(#connectionGradient)" strokeWidth="0.5" className="animate-pulse" />
-                                  <line x1="80%" y1="35%" x2="50%" y2="60%" stroke="url(#connectionGradient)" strokeWidth="0.5" className="animate-pulse" />
-                                </svg>
-                                
-                                {/* Real-time stats overlay */}
-                                <div className="absolute bottom-2 left-1 text-xs text-green-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
-                                  🔴 Active Threats: 23
+                                {/* BIG VISIBLE TEXT */}
+                                <div className="absolute bottom-1 left-1 text-white font-bold bg-red-600 px-2 py-1 rounded text-xs">
+                                  🔴 THREATS: 23
                                 </div>
-                                <div className="absolute top-1 right-1 text-xs text-cyan-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
-                                  🌐 Countries: 48
-                                </div>
-                                <div className="absolute top-1 left-1 text-xs text-orange-400 bg-slate-900/80 rounded px-1" style={{fontSize: '6px'}}>
-                                  📊 Live Feed
+                                <div className="absolute top-1 right-1 text-white font-bold bg-cyan-600 px-2 py-1 rounded text-xs">
+                                  🌐 LIVE
                                 </div>
                               </div>
                             </div>
