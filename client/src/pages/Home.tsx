@@ -135,7 +135,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-6 md:px-8 py-3 md:py-4 text-base md:text-lg"
-                  onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  onClick={() => window.location.href = '/solutions'}
                 >
                   See how we lead
                   <Enhanced4DArrowRightIcon className="ml-2 w-4 md:w-5 h-4 md:h-5" size={20} />
@@ -380,7 +380,7 @@ export default function Home() {
                       size="lg" 
                       className="button-4d px-8 py-4 text-lg"
                       data-testid="button-learn-more"
-                      onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                      onClick={() => window.location.href = '/platform'}
                     >
                       <Enhanced4DTargetIcon className="mr-2 w-5 h-5" size={20} />
                       Learn About Our Technology
@@ -389,7 +389,7 @@ export default function Home() {
                       size="lg" 
                       className="button-4d px-8 py-4 text-lg"
                       data-testid="link-demo"
-                      onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                      onClick={() => window.location.href = '/contact'}
                     >
                       Request Demo
                       <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
@@ -672,7 +672,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 className="button-4d px-8 py-4 text-lg"
-                onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                onClick={() => { window.location.href = '/contact';  }}
               >
                 Experience Secure Authentication
                 <Enhanced4DShieldIcon className="ml-2 w-5 h-5" size={20} />
@@ -697,7 +697,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-8 py-4 text-lg"
-                  onClick={() => { window.location.href = '/about'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  onClick={() => window.location.href = '/about'}
                 >
                   See why
                   <Enhanced4DExternalLinkIcon className="ml-2 w-5 h-5" size={20} />
@@ -1004,7 +1004,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1025,7 +1025,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1046,7 +1046,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1067,7 +1067,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1088,7 +1088,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1109,7 +1109,7 @@ export default function Home() {
                 <CardContent className="p-8 pt-0">
                   <Button 
                     className="button-4d w-full"
-                    onClick={() => { window.location.href = '/solutions'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => window.location.href = '/solutions'}
                   >
                     Learn More
                   </Button>
@@ -1123,7 +1123,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-10 py-4 text-lg"
-                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  onClick={() => { window.location.href = '/contact';  }}
                 >
                   Watch Demo
                   <CustomActivityIcon className="ml-2 w-6 h-6" size={24} />
@@ -1131,7 +1131,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   className="button-4d px-10 py-4 text-lg"
-                  onClick={() => { window.location.href = '/contact'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                  onClick={() => { window.location.href = '/contact';  }}
                 >
                   Try Free Security Scan
                   <CustomTargetIcon className="ml-2 w-6 h-6" size={24} />
@@ -1200,14 +1200,14 @@ export default function Home() {
                   <Button 
                     size="lg" 
                     className="button-4d px-8 py-3"
-                    onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/platform';  }}
                   >
                     Learn more
                   </Button>
                   <Button 
                     size="lg" 
                     className="button-4d px-8 py-3"
-                    onClick={() => { window.location.href = '/platform'; setTimeout(() => window.scrollTo(0, 0), 100); }}
+                    onClick={() => { window.location.href = '/platform';  }}
                   >
                     Take a product tour
                   </Button>
