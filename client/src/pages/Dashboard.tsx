@@ -643,6 +643,11 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* Phase 2: Revolutionary Cypher AI Dual Intelligence System */}
+        <div className="mb-8">
+          <Phase2Dashboard className="w-full" />
+        </div>
+
         {/* AI Analytics Status Section */}
         {aiAnalytics && (
           <div className="mb-8">
