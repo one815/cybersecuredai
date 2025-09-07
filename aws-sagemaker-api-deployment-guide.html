@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSecured AI - AWS SageMaker API Deployment Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a365d;
+            text-align: center;
+            border-bottom: 3px solid #4299e1;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2d3748;
+            background: #edf2f7;
+            padding: 15px;
+            border-left: 5px solid #4299e1;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #4a5568;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+        .step {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .step-number {
+            background: #4299e1;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        .warning {
+            background: #fed7d7;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .success {
+            background: #c6f6d5;
+            border: 2px solid #68d391;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .info {
+            background: #bee3f8;
+            border: 2px solid #63b3ed;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        code {
+            background: #1a202c;
+            color: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .code-block {
+            background: #1a202c;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .highlight {
+            background: #fef5e7;
+            border: 2px solid #f6ad55;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .url {
+            word-break: break-all;
+            background: #e2e8f0;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ CyberSecured AI - AWS SageMaker API Deployment Guide</h1>
+        
+        <div class="info">
+            <strong>📋 Overview:</strong> This guide will walk you through creating a complete SageMaker model, endpoint, and API Gateway integration for CyberSecured AI's threat detection system.
+            <br><strong>Account ID:</strong> 512795167546
+            <br><strong>Primary Region:</strong> us-east-2
+        </div>
+
+        <h2>🔧 STEP 1: Create IAM Role (Prerequisites)</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Go to IAM Console:</strong>
+            <div class="url">https://console.aws.amazon.com/iam/home?region=us-east-2#/roles</div>
+        </div>
+        
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Create Role for API Gateway:</strong>
+            <ul>
+                <li>Click <strong>"Create role"</strong></li>
+                <li>Select <strong>"AWS service"</strong></li>
+                <li>Choose <strong>"API Gateway"</strong> from the service list</li>
+                <li>Click <strong>"Next"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Create Custom Policy:</strong>
+            <ul>
+                <li>Click <strong>"Create policy"</strong> (opens new tab)</li>
+                <li>Select <strong>"JSON"</strong> tab</li>
+                <li>Paste this policy:</li>
+            </ul>
+            <div class="code-block">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sagemaker:InvokeEndpoint",
+                "sagemaker:DescribeEndpoint"
+            ],
+            "Resource": "*"
+        }
+    ]
+}</div>
+            <ul>
+                <li>Policy name: <code>SageMakerInvokePolicy</code></li>
+                <li>Click <strong>"Create policy"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Attach Policy to Role:</strong>
+            <ul>
+                <li>Go back to role creation tab</li>
+                <li>Search for <code>SageMakerInvokePolicy</code></li>
+                <li>Check the box and click <strong>"Next"</strong></li>
+                <li>Role name: <code>APIGatewayToSageMaker</code></li>
+                <li>Click <strong>"Create role"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🤖 STEP 2: Create SageMaker Model</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Navigate to SageMaker Models:</strong>
+            <div class="url">https://us-east-2.console.aws.amazon.com/sagemaker/home?region=us-east-2#/models</div>
+            <div class="warning">
+                <strong>⚠️ Important:</strong> Switch to <strong>us-east-2</strong> region (Ohio) - your API Gateway is in this region!
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Create Model:</strong>
+            <ul>
+                <li>Click <strong>"Create model"</strong></li>
+                <li><strong>Model name:</strong> <code>cybersecured-threat-detection-model</code></li>
+                <li><strong>IAM role:</strong> Create new role → SageMaker execution role</li>
+                <li><strong>VPC:</strong> No VPC (leave default)</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Container Definition:</strong>
+            <ul>
+                <li><strong>Provide model artifacts:</strong> Choose "Use a model package"</li>
+                <li><strong>Model package source:</strong> AWS Marketplace or SageMaker examples</li>
+                <li><strong>Quick option:</strong> Search for "XGBoost" in built-in algorithms</li>
+                <li>Select: <code>382416733822.dkr.ecr.us-east-2.amazonaws.com/xgboost:latest</code></li>
+                <li><strong>Model data URL (S3):</strong> Leave empty for now (we'll use pre-trained)</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Complete Model Creation:</strong>
+            <ul>
+                <li>Click <strong>"Create model"</strong></li>
+                <li>Wait for status: <strong>"InService"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🚀 STEP 3: Create Endpoint Configuration</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Navigate to Endpoint Configurations:</strong>
+            <div class="url">https://us-east-2.console.aws.amazon.com/sagemaker/home?region=us-east-2#/endpoint-configs</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Create Configuration:</strong>
+            <ul>
+                <li>Click <strong>"Create endpoint configuration"</strong></li>
+                <li><strong>Name:</strong> <code>cybersecured-threat-detection-config</code></li>
+                <li><strong>Type:</strong> Provisioned</li>
+                <li><strong>Encryption:</strong> No custom encryption</li>
+                <li><strong>Data capture:</strong> Disabled</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Production Variant:</strong>
+            <ul>
+                <li>Click <strong>"Add model"</strong></li>
+                <li><strong>Model name:</strong> Select <code>cybersecured-threat-detection-model</code></li>
+                <li><strong>Variant name:</strong> <code>primary</code></li>
+                <li><strong>Instance type:</strong> <code>ml.t2.medium</code> (cheapest for testing)</li>
+                <li><strong>Initial instance count:</strong> <code>1</code></li>
+                <li><strong>Initial weight:</strong> <code>1</code></li>
+                <li>Click <strong>"Save"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Create Configuration:</strong>
+            <ul>
+                <li>Click <strong>"Create endpoint configuration"</strong></li>
+                <li>Wait for status: <strong>"InService"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🎯 STEP 4: Create SageMaker Endpoint</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Navigate to Endpoints:</strong>
+            <div class="url">https://us-east-2.console.aws.amazon.com/sagemaker/home?region=us-east-2#/endpoints</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Create Endpoint:</strong>
+            <ul>
+                <li>Click <strong>"Create endpoint"</strong></li>
+                <li><strong>Endpoint name:</strong> <code>cybersecured-threat-detection-prod</code></li>
+                <li><strong>Endpoint configuration:</strong> Select <code>cybersecured-threat-detection-config</code></li>
+                <li>Click <strong>"Create endpoint"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Wait for Deployment:</strong>
+            <ul>
+                <li>Status will show: <strong>"Creating"</strong> → <strong>"InService"</strong></li>
+                <li>This takes 5-10 minutes</li>
+                <li><strong>DO NOT proceed until status is "InService"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🌐 STEP 5: Create API Gateway Resources</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Navigate to Your API Gateway:</strong>
+            <div class="url">https://us-east-2.console.aws.amazon.com/apigateway/main/apis/t4laolark6/resources/ldh4igizd0/create-resource?api=t4laolark6&experience=rest&region=us-east-2</div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Create /ml Resource:</strong>
+            <ul>
+                <li><strong>Resource name:</strong> <code>ml</code></li>
+                <li><strong>Resource path:</strong> <code>/ml</code></li>
+                <li><strong>Enable CORS:</strong> ✅ Checked</li>
+                <li><strong>Proxy resource:</strong> ❌ Unchecked</li>
+                <li>Click <strong>"Create resource"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Create /ml/threat-detection Resource:</strong>
+            <ul>
+                <li>Select the <code>/ml</code> resource</li>
+                <li>Click <strong>"Create resource"</strong></li>
+                <li><strong>Resource name:</strong> <code>threat-detection</code></li>
+                <li><strong>Resource path:</strong> <code>/ml/threat-detection</code></li>
+                <li><strong>Enable CORS:</strong> ✅ Checked</li>
+                <li>Click <strong>"Create resource"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Create /ml/threat-detection/predict Resource:</strong>
+            <ul>
+                <li>Select the <code>/ml/threat-detection</code> resource</li>
+                <li>Click <strong>"Create resource"</strong></li>
+                <li><strong>Resource name:</strong> <code>predict</code></li>
+                <li><strong>Resource path:</strong> <code>/ml/threat-detection/predict</code></li>
+                <li><strong>Enable CORS:</strong> ✅ Checked</li>
+                <li>Click <strong>"Create resource"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🔗 STEP 6: Create POST Method</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Create Method:</strong>
+            <ul>
+                <li>Select the <code>/ml/threat-detection/predict</code> resource</li>
+                <li>Click <strong>"Create method"</strong></li>
+                <li><strong>Method type:</strong> <code>POST</code></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Integration Settings:</strong>
+            <ul>
+                <li><strong>Integration type:</strong> AWS Service</li>
+                <li><strong>AWS region:</strong> <code>us-east-2</code></li>
+                <li><strong>AWS service:</strong> <code>SageMaker Runtime</code></li>
+                <li><strong>HTTP method:</strong> <code>POST</code></li>
+                <li><strong>Action type:</strong> Use action name</li>
+                <li><strong>Action:</strong> <code>InvokeEndpoint</code></li>
+                <li><strong>Execution role:</strong> <code>arn:aws:iam::512795167546:role/APIGatewayToSageMaker</code></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <strong>Method Request Headers:</strong>
+            <ul>
+                <li>Click <strong>"Method request"</strong> tab</li>
+                <li>Add these headers:</li>
+                <li><code>Content-Type</code> (Required: ✅)</li>
+                <li><code>X-Amz-Target</code> (Required: ✅)</li>
+                <li><code>Accept</code> (Required: ✅)</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <strong>Integration Request:</strong>
+            <ul>
+                <li>Click <strong>"Integration request"</strong> tab</li>
+                <li><strong>HTTP headers:</strong></li>
+                <li><code>Content-Type</code> = <code>'application/json'</code></li>
+                <li><code>X-Amz-Target</code> = <code>'sagemaker-runtime.InvokeEndpoint'</code></li>
+                <li><strong>Mapping templates:</strong></li>
+                <li>Content type: <code>application/json</code></li>
+                <li>Template: <code>{"instances": [$input.json('$')]}</code></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <strong>Save Method:</strong>
+            <ul>
+                <li>Click <strong>"Save"</strong></li>
+                <li>Click <strong>"Create method"</strong></li>
+            </ul>
+        </div>
+
+        <h2>🚀 STEP 7: Deploy API</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Deploy API:</strong>
+            <ul>
+                <li>Select your API root resource</li>
+                <li>Click <strong>"Deploy API"</strong></li>
+                <li><strong>Deployment stage:</strong> <code>prod</code> (or create new)</li>
+                <li><strong>Deployment description:</strong> <code>CyberSecured AI ML API v1.0</code></li>
+                <li>Click <strong>"Deploy"</strong></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <strong>Get API URL:</strong>
+            <ul>
+                <li>Copy the <strong>Invoke URL</strong></li>
+                <li>Your endpoint will be: <code>https://[api-id].execute-api.us-east-2.amazonaws.com/prod/ml/threat-detection/predict</code></li>
+            </ul>
+        </div>
+
+        <h2>🧪 STEP 8: Test Your API</h2>
+        <div class="step">
+            <span class="step-number">1</span>
+            <strong>Test with curl:</strong>
+            <div class="code-block">curl -X POST https://[your-api-id].execute-api.us-east-2.amazonaws.com/prod/ml/threat-detection/predict \
+  -H "Content-Type: application/json" \
+  -d '{"network_traffic": {"source_ip": "192.168.1.100", "destination_ip": "10.0.0.50", "port": 443, "protocol": "HTTPS"}, "features": [0.1, 0.3, 0.7], "metadata": {"timestamp": "2025-09-07T22:00:00Z", "source": "test"}}'</div>
+        </div>
+
+        <div class="success">
+            <strong>🎉 Success!</strong> Your CyberSecured AI SageMaker API is now deployed and ready to receive threat detection requests!
+        </div>
+
+        <div class="warning">
+            <strong>💰 Cost Warning:</strong>
+            <ul>
+                <li>SageMaker endpoint: ~$35/month for ml.t2.medium</li>
+                <li>API Gateway: $3.50 per million requests</li>
+                <li>Remember to delete resources when testing is complete</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <strong>📋 Next Steps:</strong>
+            <ul>
+                <li>Create additional endpoints for behavioral analysis, document classification, and anomaly detection</li>
+                <li>Implement proper request validation</li>
+                <li>Add API key authentication</li>
+                <li>Monitor with CloudWatch</li>
+                <li>Set up auto-scaling policies</li>
+            </ul>
+        </div>
+
+        <hr style="margin: 40px 0;">
+        <p style="text-align: center; color: #718096; font-size: 14px;">
+            Generated for CyberSecured AI - Account ID: 512795167546<br>
+            For technical support, contact your AWS administrator
+        </p>
+    </div>
+</body>
+</html>
