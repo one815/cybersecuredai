@@ -5,6 +5,7 @@ import path from "path";
 import multer from "multer";
 import { auth } from "express-openid-connect";
 import { storage } from "./storage";
+import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
 import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
@@ -38,6 +39,7 @@ import {
 import { oneLoginIntegrationService } from "./services/onelogin-integration";
 import TwilioVoiceService from "./services/twilio-voice";
 import TwilioSMSService from "./services/twilio-sms";
+import { tickets, insertTicketSchema, type InsertTicket, type Ticket } from "@shared/schema";
 
 // Configure multer for file uploads
 const upload = multer({
@@ -6985,6 +6987,353 @@ startxref
       res.status(500).json({ 
         success: false,
         message: "Failed to get SMS statistics",
+        error: error.message 
+      });
+    }
+  });
+
+  // Ticket System API Endpoints
+  
+  // Create a new support ticket (public endpoint for contact form)
+  app.post("/api/tickets", async (req, res) => {
+    try {
+      // Validate the request body
+      const validatedData = insertTicketSchema.parse(req.body);
+      
+      // Generate unique ticket number
+      const date = new Date();
+      const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
+      const randomNum = Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+      const ticketNumber = `CYBER-${dateStr}-${randomNum}`;
+      
+      // Calculate SLA deadline based on priority
+      const slaHours = validatedData.priority === 'critical' ? 1 : 
+                      validatedData.priority === 'high' ? 4 : 
+                      validatedData.priority === 'medium' ? 24 : 72;
+      const slaDeadline = new Date(Date.now() + slaHours * 60 * 60 * 1000);
+      
+      // Determine category if not provided
+      const category = validatedData.category || 'general';
+      
+      // Create the ticket
+      const newTicket = await db.insert(tickets).values({
+        ...validatedData,
+        ticketNumber,
+        category,
+        slaDeadline,
+        assignedTeam: category === 'security' ? 'security' : 
+                     category === 'compliance' ? 'compliance' : 
+                     category === 'technical' ? 'engineering' : 'support',
+        tags: validatedData.tags || [],
+        metadata: validatedData.metadata || {}
+      }).returning();
+
+      // Send confirmation email to submitter using Twilio
+      if (validatedData.submitterEmail) {
+        try {
+          await TwilioSMSService.sendAuthCode(
+            validatedData.submitterPhone || '+12345678900',
+            `Ticket ${ticketNumber} created successfully. You will receive updates via email.`
+          );
+        } catch (smsError) {
+          console.log('📧 SMS notification failed, email will be sent instead');
+        }
+      }
+
+      // Log the ticket creation
+      console.log(`🎫 New support ticket created: ${ticketNumber} by ${validatedData.submitterEmail}`);
+
+      res.status(201).json({
+        success: true,
+        message: "Support ticket created successfully",
+        ticket: newTicket[0],
+        ticketNumber: ticketNumber
+      });
+    } catch (error: any) {
+      console.error("❌ Create ticket error:", error);
+      
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ 
+          success: false,
+          message: "Invalid ticket data",
+          errors: error.errors 
+        });
+      }
+      
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to create support ticket",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get all tickets (admin only)
+  app.get("/api/tickets", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { 
+        status, 
+        priority, 
+        category, 
+        assignedTeam,
+        page = '1', 
+        limit = '20',
+        search 
+      } = req.query;
+
+      // Build where conditions
+      const conditions: any[] = [];
+      
+      if (status) conditions.push(eq(tickets.status, status as string));
+      if (priority) conditions.push(eq(tickets.priority, priority as string));
+      if (category) conditions.push(eq(tickets.category, category as string));
+      if (assignedTeam) conditions.push(eq(tickets.assignedTeam, assignedTeam as string));
+      
+      // Get tickets with filtering and pagination
+      const offset = (parseInt(page as string) - 1) * parseInt(limit as string);
+      
+      let query = db.select().from(tickets);
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const ticketList = await query
+        .orderBy(desc(tickets.submittedAt))
+        .limit(parseInt(limit as string))
+        .offset(offset);
+
+      // Get total count for pagination
+      const [{ count }] = await db
+        .select({ count: sql`count(*)`.mapWith(Number) })
+        .from(tickets)
+        .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+      res.json({
+        success: true,
+        tickets: ticketList,
+        pagination: {
+          page: parseInt(page as string),
+          limit: parseInt(limit as string),
+          total: count,
+          totalPages: Math.ceil(count / parseInt(limit as string))
+        }
+      });
+    } catch (error: any) {
+      console.error("❌ Get tickets error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve tickets",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get a specific ticket by ID or ticket number
+  app.get("/api/tickets/:identifier", async (req, res) => {
+    try {
+      const { identifier } = req.params;
+      
+      // Check if identifier is a ticket number or ID
+      const isTicketNumber = identifier.startsWith('CYBER-');
+      
+      const ticket = await db
+        .select()
+        .from(tickets)
+        .where(isTicketNumber ? 
+          eq(tickets.ticketNumber, identifier) : 
+          eq(tickets.id, identifier)
+        )
+        .limit(1);
+
+      if (ticket.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Ticket not found" 
+        });
+      }
+
+      res.json({
+        success: true,
+        ticket: ticket[0]
+      });
+    } catch (error: any) {
+      console.error("❌ Get ticket error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve ticket",
+        error: error.message 
+      });
+    }
+  });
+
+  // Update ticket status and details (admin only)
+  app.patch("/api/tickets/:id", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
+      
+      // Prepare update object
+      const updates: any = {
+        ...updateData,
+        updatedAt: new Date()
+      };
+      
+      // Set resolution/closure timestamps based on status
+      if (updateData.status === 'resolved' && !updateData.resolvedAt) {
+        updates.resolvedAt = new Date();
+      }
+      if (updateData.status === 'closed' && !updateData.closedAt) {
+        updates.closedAt = new Date();
+      }
+      
+      // Set first response timestamp if moving from 'open' status
+      if (updateData.status && updateData.status !== 'open') {
+        const currentTicket = await db.select().from(tickets).where(eq(tickets.id, id)).limit(1);
+        if (currentTicket[0] && currentTicket[0].status === 'open' && !currentTicket[0].firstResponseAt) {
+          updates.firstResponseAt = new Date();
+        }
+      }
+
+      const updatedTicket = await db
+        .update(tickets)
+        .set(updates)
+        .where(eq(tickets.id, id))
+        .returning();
+
+      if (updatedTicket.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Ticket not found" 
+        });
+      }
+
+      // Send notification to customer if status changed
+      if (updateData.status && updatedTicket[0].submitterEmail) {
+        const statusMessage = `Your support ticket ${updatedTicket[0].ticketNumber} status has been updated to: ${updateData.status.toUpperCase()}`;
+        
+        try {
+          if (updatedTicket[0].submitterPhone) {
+            await TwilioSMSService.sendAuthCode(updatedTicket[0].submitterPhone, statusMessage);
+          }
+        } catch (notificationError) {
+          console.log('📧 Customer notification failed:', notificationError);
+        }
+      }
+
+      console.log(`🎫 Ticket ${updatedTicket[0].ticketNumber} updated by ${req.user?.email}`);
+
+      res.json({
+        success: true,
+        message: "Ticket updated successfully",
+        ticket: updatedTicket[0]
+      });
+    } catch (error: any) {
+      console.error("❌ Update ticket error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to update ticket",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get ticket statistics (admin only)
+  app.get("/api/tickets/stats/overview", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      // Get overall statistics
+      const [totalTickets] = await db.select({ count: sql`count(*)`.mapWith(Number) }).from(tickets);
+      const [openTickets] = await db.select({ count: sql`count(*)`.mapWith(Number) }).from(tickets).where(eq(tickets.status, 'open'));
+      const [inProgressTickets] = await db.select({ count: sql`count(*)`.mapWith(Number) }).from(tickets).where(eq(tickets.status, 'in_progress'));
+      const [resolvedTickets] = await db.select({ count: sql`count(*)`.mapWith(Number) }).from(tickets).where(eq(tickets.status, 'resolved'));
+      
+      // Get tickets by priority
+      const priorityStats = await db
+        .select({ 
+          priority: tickets.priority, 
+          count: sql`count(*)`.mapWith(Number) 
+        })
+        .from(tickets)
+        .groupBy(tickets.priority);
+
+      // Get tickets by category
+      const categoryStats = await db
+        .select({ 
+          category: tickets.category, 
+          count: sql`count(*)`.mapWith(Number) 
+        })
+        .from(tickets)
+        .groupBy(tickets.category);
+
+      // Calculate average response time
+      const avgResponseTime = await db
+        .select({ 
+          avgMinutes: sql`AVG(EXTRACT(EPOCH FROM (first_response_at - submitted_at))/60)`.mapWith(Number)
+        })
+        .from(tickets)
+        .where(isNotNull(tickets.firstResponseAt));
+
+      res.json({
+        success: true,
+        stats: {
+          total: totalTickets.count,
+          open: openTickets.count,
+          inProgress: inProgressTickets.count,
+          resolved: resolvedTickets.count,
+          closed: totalTickets.count - openTickets.count - inProgressTickets.count - resolvedTickets.count,
+          byPriority: priorityStats,
+          byCategory: categoryStats,
+          averageResponseTimeMinutes: avgResponseTime[0]?.avgMinutes || 0
+        }
+      });
+    } catch (error: any) {
+      console.error("❌ Get ticket stats error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve ticket statistics",
+        error: error.message 
+      });
+    }
+  });
+
+  // Escalate ticket (admin only)
+  app.post("/api/tickets/:id/escalate", authenticateJWT, authorizeRoles("admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { id } = req.params;
+      const { reason } = req.body;
+      
+      const escalatedTicket = await db
+        .update(tickets)
+        .set({
+          escalated: true,
+          escalatedAt: new Date(),
+          escalatedReason: reason,
+          priority: 'high', // Auto-escalate priority
+          updatedAt: new Date()
+        })
+        .where(eq(tickets.id, id))
+        .returning();
+
+      if (escalatedTicket.length === 0) {
+        return res.status(404).json({ 
+          success: false,
+          message: "Ticket not found" 
+        });
+      }
+
+      // Send escalation notification
+      console.log(`🚨 Ticket ${escalatedTicket[0].ticketNumber} escalated by ${req.user?.email}: ${reason}`);
+
+      res.json({
+        success: true,
+        message: "Ticket escalated successfully",
+        ticket: escalatedTicket[0]
+      });
+    } catch (error: any) {
+      console.error("❌ Escalate ticket error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to escalate ticket",
         error: error.message 
       });
     }
