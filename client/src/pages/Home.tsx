@@ -63,7 +63,7 @@ import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligen
 import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
 import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
 // iMac desktop mockup for dashboard display
-import imacMockupImg from "@assets/generated_images/Transparent_background_iMac_mockup_761aab24.png";
+import imacMockupImg from "@assets/generated_images/Clean_transparent_iMac_frame_2795ad4e.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
@@ -154,123 +154,159 @@ export default function Home() {
                       className="w-full h-auto shadow-2xl"
                     />
                     
-                    {/* Live Dashboard Overlay covering the entire iMac screen area */}
-                    <div className="absolute top-[8%] left-[15%] w-[70%] h-[64%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded overflow-hidden border border-cyan-500/30">
+                    {/* Comprehensive SaaS Dashboard Overlay fitting within iMac screen */}
+                    <div className="absolute top-[11%] left-[17%] w-[66%] h-[56%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-lg overflow-hidden border border-cyan-500/30">
                       {/* Dashboard Header */}
                       <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <Enhanced4DShieldIcon className="w-3 h-3 text-cyan-400" size={12} />
-                            <span className="text-white font-medium text-xs">CyberSecured AI Dashboard</span>
+                            <Enhanced4DShieldIcon className="w-4 h-4 text-cyan-400" size={16} />
+                            <span className="text-white font-medium text-sm">CyberSecured AI Dashboard</span>
                           </div>
-                          <div className="flex items-center space-x-1">
-                            <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
-                            <span className="text-green-400" style={{fontSize: '10px'}}>LIVE PLATFORM</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                            <span className="text-green-400 text-xs">LIVE PLATFORM</span>
                           </div>
                         </div>
                       </div>
 
-                      {/* Dashboard Content Grid */}
-                      <div className="p-3 flex-1 grid grid-cols-3 gap-3" style={{fontSize: '11px'}}>
-                        {/* Threat Monitor */}
-                        <div className="bg-slate-700/60 rounded p-2 border border-red-500/30">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <Enhanced4DTargetIcon className="w-3 h-3 text-red-400" size={12} />
-                            <span className="text-red-400 font-medium" style={{fontSize: '9px'}}>Threat Monitor</span>
+                      {/* Main Dashboard Content */}
+                      <div className="flex flex-col h-full overflow-hidden">
+                        {/* Top Metrics Row */}
+                        <div className="grid grid-cols-4 gap-2 p-2" style={{fontSize: '10px'}}>
+                          {/* Threat Monitor */}
+                          <div className="bg-slate-700/60 rounded p-2 border border-red-500/30">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <Enhanced4DTargetIcon className="w-3 h-3 text-red-400" size={12} />
+                              <span className="text-red-400 font-medium" style={{fontSize: '8px'}}>Threats</span>
+                            </div>
+                            <div className="text-white text-lg font-bold">847</div>
+                            <div className="text-gray-400" style={{fontSize: '7px'}}>Blocked Today</div>
                           </div>
-                          <div className="space-y-1">
-                            <div className="text-white text-sm font-bold">847</div>
-                            <div className="text-gray-400" style={{fontSize: '8px'}}>Threats Blocked</div>
-                            <div className="flex items-center space-x-1">
-                              <div className="flex-1 bg-slate-600 rounded-full h-1">
-                                <div className="bg-red-400 h-1 rounded-full" style={{width: '78%'}}></div>
+
+                          {/* AI Analysis */}
+                          <div className="bg-slate-700/60 rounded p-2 border border-cyan-500/30">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <Enhanced4DBrainIcon className="w-3 h-3 text-cyan-400" size={12} />
+                              <span className="text-cyan-400 font-medium" style={{fontSize: '8px'}}>AI Detection</span>
+                            </div>
+                            <div className="text-white text-lg font-bold">99.7%</div>
+                            <div className="text-gray-400" style={{fontSize: '7px'}}>Accuracy Rate</div>
+                          </div>
+
+                          {/* System Health */}
+                          <div className="bg-slate-700/60 rounded p-2 border border-green-500/30">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <Enhanced4DActivityIcon className="w-3 h-3 text-green-400" size={12} />
+                              <span className="text-green-400 font-medium" style={{fontSize: '8px'}}>System</span>
+                            </div>
+                            <div className="text-white text-lg font-bold">Optimal</div>
+                            <div className="text-gray-400" style={{fontSize: '7px'}}>All Online</div>
+                          </div>
+
+                          {/* Active Connections */}
+                          <div className="bg-slate-700/60 rounded p-2 border border-orange-500/30">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <Enhanced4DNetworkIcon className="w-3 h-3 text-orange-400" size={12} />
+                              <span className="text-orange-400 font-medium" style={{fontSize: '8px'}}>Sessions</span>
+                            </div>
+                            <div className="text-white text-lg font-bold">2,847</div>
+                            <div className="text-gray-400" style={{fontSize: '7px'}}>Active Now</div>
+                          </div>
+                        </div>
+
+                        {/* Main Content Area */}
+                        <div className="flex-1 grid grid-cols-2 gap-2 p-2">
+                          {/* Geospatial Threat Map */}
+                          <div className="bg-slate-700/60 rounded border border-blue-500/30 overflow-hidden">
+                            <div className="bg-slate-800/90 p-2 border-b border-blue-500/20">
+                              <div className="flex items-center space-x-1">
+                                <Enhanced4DGlobeIcon className="w-3 h-3 text-blue-400" size={12} />
+                                <span className="text-blue-400 font-medium" style={{fontSize: '8px'}}>Global Threat Map</span>
                               </div>
-                              <span className="text-red-400" style={{fontSize: '8px'}}>78%</span>
                             </div>
-                          </div>
-                        </div>
-
-                        {/* AI Analysis */}
-                        <div className="bg-slate-700/60 rounded p-2 border border-cyan-500/30">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <Enhanced4DBrainIcon className="w-3 h-3 text-cyan-400" size={12} />
-                            <span className="text-cyan-400 font-medium" style={{fontSize: '9px'}}>AI Analysis</span>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-white text-sm font-bold">99.7%</div>
-                            <div className="text-gray-400" style={{fontSize: '8px'}}>Detection Rate</div>
-                            <div className="flex items-center space-x-1">
-                              <div className="flex-1 bg-slate-600 rounded-full h-1">
-                                <div className="bg-cyan-400 h-1 rounded-full" style={{width: '99.7%'}}></div>
+                            <div className="p-2 h-full bg-slate-900/50">
+                              {/* Simulated world map with threat indicators */}
+                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded">
+                                <div className="absolute top-2 left-3 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
+                                <div className="absolute top-4 right-4 w-1 h-1 bg-orange-500 rounded-full animate-pulse"></div>
+                                <div className="absolute bottom-3 left-1/3 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
+                                <div className="absolute bottom-2 right-6 w-1 h-1 bg-yellow-500 rounded-full animate-pulse"></div>
+                                <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-red-500 rounded-full animate-pulse"></div>
+                                <div className="absolute bottom-4 left-2 text-xs text-green-400" style={{fontSize: '6px'}}>
+                                  Live Threats: 23
+                                </div>
+                                <div className="absolute top-2 right-2 text-xs text-cyan-400" style={{fontSize: '6px'}}>
+                                  Monitoring: 48 Countries
+                                </div>
                               </div>
-                              <span className="text-cyan-400" style={{fontSize: '8px'}}>Active</span>
+                            </div>
+                          </div>
+
+                          {/* Activity Feed & Intelligence */}
+                          <div className="bg-slate-700/60 rounded border border-purple-500/30 overflow-hidden">
+                            <div className="bg-slate-800/90 p-2 border-b border-purple-500/20">
+                              <div className="flex items-center space-x-1">
+                                <Enhanced4DZapIcon className="w-3 h-3 text-purple-400" size={12} />
+                                <span className="text-purple-400 font-medium" style={{fontSize: '8px'}}>Live Intelligence Feed</span>
+                              </div>
+                            </div>
+                            <div className="p-2 space-y-1" style={{fontSize: '7px'}}>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-red-400 rounded-full animate-pulse"></div>
+                                <span>Malware blocked: 192.168.1.45</span>
+                                <span className="text-gray-500 ml-auto">2s</span>
+                              </div>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse"></div>
+                                <span>AI anomaly detected: Network traffic</span>
+                                <span className="text-gray-500 ml-auto">8s</span>
+                              </div>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse"></div>
+                                <span>CIRCL feed updated: 847 new IOCs</span>
+                                <span className="text-gray-500 ml-auto">12s</span>
+                              </div>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                                <span>Backup completed successfully</span>
+                                <span className="text-gray-500 ml-auto">15s</span>
+                              </div>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-orange-400 rounded-full animate-pulse"></div>
+                                <span>MISP threat intelligence synced</span>
+                                <span className="text-gray-500 ml-auto">23s</span>
+                              </div>
+                              <div className="flex items-center space-x-2 text-gray-300">
+                                <div className="w-1 h-1 bg-purple-400 rounded-full animate-pulse"></div>
+                                <span>Cypher AI learning update</span>
+                                <span className="text-gray-500 ml-auto">31s</span>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* System Health */}
-                        <div className="bg-slate-700/60 rounded p-2 border border-green-500/30">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <Enhanced4DActivityIcon className="w-3 h-3 text-green-400" size={12} />
-                            <span className="text-green-400 font-medium" style={{fontSize: '9px'}}>System Health</span>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-white text-sm font-bold">Optimal</div>
-                            <div className="text-gray-400" style={{fontSize: '8px'}}>All Systems Online</div>
-                            <div className="flex space-x-1">
-                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                              <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                        {/* Bottom Status Bar */}
+                        <div className="bg-slate-800/90 p-1 border-t border-cyan-500/20">
+                          <div className="flex items-center justify-between text-xs">
+                            <div className="flex items-center space-x-3">
+                              <span className="text-green-400">🟢 PyMISP Connected</span>
+                              <span className="text-cyan-400">🟢 CIRCL Active</span>
+                              <span className="text-blue-400">🟢 Genetic AI Running</span>
                             </div>
-                          </div>
-                        </div>
-
-                        {/* Recent Activity Feed */}
-                        <div className="col-span-2 bg-slate-700/60 rounded p-2 border border-purple-500/30">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <Enhanced4DZapIcon className="w-3 h-3 text-purple-400" size={12} />
-                            <span className="text-purple-400 font-medium" style={{fontSize: '9px'}}>Recent Activity</span>
-                          </div>
-                          <div className="space-y-1" style={{fontSize: '8px'}}>
-                            <div className="flex items-center space-x-1 text-gray-300">
-                              <div className="w-1 h-1 bg-red-400 rounded-full"></div>
-                              <span>Blocked malware attempt</span>
+                            <div className="text-gray-400" style={{fontSize: '8px'}}>
+                              Last updated: {new Date().toLocaleTimeString()}
                             </div>
-                            <div className="flex items-center space-x-1 text-gray-300">
-                              <div className="w-1 h-1 bg-cyan-400 rounded-full"></div>
-                              <span>AI detected anomaly</span>
-                            </div>
-                            <div className="flex items-center space-x-1 text-gray-300">
-                              <div className="w-1 h-1 bg-green-400 rounded-full"></div>
-                              <span>Backup completed</span>
-                            </div>
-                            <div className="flex items-center space-x-1 text-gray-300">
-                              <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
-                              <span>Intelligence updated</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Active Connections */}
-                        <div className="bg-slate-700/60 rounded p-2 border border-orange-500/30">
-                          <div className="flex items-center space-x-1 mb-1">
-                            <Enhanced4DNetworkIcon className="w-3 h-3 text-orange-400" size={12} />
-                            <span className="text-orange-400 font-medium" style={{fontSize: '9px'}}>Connections</span>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-white text-sm font-bold">2,847</div>
-                            <div className="text-gray-400" style={{fontSize: '8px'}}>Active Sessions</div>
-                            <div className="text-orange-400" style={{fontSize: '8px'}}>↑ 12% today</div>
                           </div>
                         </div>
                       </div>
 
                       {/* Scanning Animation Overlay */}
                       <div 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent scan-line-glow opacity-30 pointer-events-none"
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/15 to-transparent scan-line-glow opacity-40 pointer-events-none"
                         style={{
                           transform: `translateY(${scanLinePosition}%)`,
-                          height: '2px',
+                          height: '1px',
                           transition: 'transform 0.05s linear'
                         }}
                       ></div>
