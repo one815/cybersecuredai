@@ -41,6 +41,7 @@ import { oneLoginIntegrationService } from "./services/onelogin-integration";
 import TwilioVoiceService from "./services/twilio-voice";
 import TwilioSMSService from "./services/twilio-sms";
 import { tickets, insertTicketSchema, type InsertTicket, type Ticket } from "@shared/schema";
+import CypherAIService from "./services/cypher-ai";
 
 // Configure multer for file uploads
 const upload = multer({
