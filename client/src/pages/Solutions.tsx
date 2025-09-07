@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowRight, Star, GraduationCap, ExternalLink, Building, Users } from "lucide-react";
 // All icons now use Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
