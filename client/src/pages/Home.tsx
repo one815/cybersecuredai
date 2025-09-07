@@ -156,7 +156,7 @@ export default function Home() {
                           <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                           <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                         </div>
-                        <div className="text-xs text-gray-400 ml-4">dashboard.cybersecured.ai</div>
+                        <div className="text-xs text-gray-400 ml-4">cybersecured.ai/dashboard</div>
                       </div>
                       <Badge className="bg-cyan-500/20 text-cyan-300 text-xs">LIVE PLATFORM</Badge>
                     </div>
@@ -231,47 +231,71 @@ export default function Home() {
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
                         
-                        {/* Map Interface - Clean and Condensed */}
+                        {/* Live Threat Monitoring Map */}
                         <div className="h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
-                          {/* Data Layers - Condensed */}
-                          <div className="absolute top-2 left-2 bg-slate-900/90 rounded px-2 py-1 z-10">
+                          {/* Top Control Bar */}
+                          <div className="absolute top-2 left-2 right-2 flex justify-between items-center z-20">
+                            {/* Left Controls */}
+                            <div className="flex items-center space-x-3">
+                              <div className="bg-blue-600 text-white text-xs px-2 py-1 rounded font-bold">
+                                LIVE THREAT MONITORING
+                              </div>
+                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded">
+                                3D
+                              </div>
+                              <div className="bg-slate-700/90 text-gray-300 text-xs px-2 py-1 rounded">
+                                Sat
+                              </div>
+                            </div>
+                            
+                            {/* Right Status */}
                             <div className="flex items-center space-x-2">
-                              <span className="text-gray-400 text-xs">Layers:</span>
-                              <button className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded">Threats</button>
-                            </div>
-                          </div>
-
-                          {/* Map Mode - Condensed */}
-                          <div className="absolute top-2 left-28 bg-slate-900/90 rounded px-2 py-1 z-10">
-                            <div className="flex items-center space-x-1">
-                              <span className="text-gray-400 text-xs">Mode:</span>
-                              <button className="text-gray-400 text-xs px-1">2D</button>
-                              <button className="bg-blue-600 text-white text-xs px-1 rounded">3D</button>
-                              <button className="text-gray-400 text-xs px-1">Sat</button>
-                            </div>
-                          </div>
-
-                          {/* Live Status - Condensed */}
-                          <div className="absolute top-2 right-2 bg-slate-900/90 rounded px-2 py-1 z-10">
-                            <div className="flex items-center space-x-3 text-xs">
-                              <div className="flex items-center space-x-1">
-                                <span className="text-gray-300">Threats:</span>
-                                <span className="bg-red-500 text-white px-1 rounded">2</span>
+                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
+                                <span className="text-red-400">●</span>
+                                <span>2</span>
                               </div>
-                              <div className="flex items-center space-x-1">
-                                <span className="text-gray-300">Health:</span>
-                                <span className="bg-green-500 text-white px-1 rounded">6</span>
+                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded flex items-center space-x-1">
+                                <span className="text-green-400">●</span>
+                                <span>6</span>
                               </div>
-                              <div className="flex items-center space-x-1">
-                                <span className="text-gray-300">Incidents:</span>
-                                <span className="bg-yellow-500 text-white px-1 rounded">1</span>
+                              <div className="bg-slate-900/90 text-white text-xs px-2 py-1 rounded">
+                                REAL-TIME
                               </div>
                             </div>
                           </div>
 
-                          {/* Live Map */}
-                          <div className="w-full h-full">
+                          {/* Left Side Legend */}
+                          <div className="absolute bottom-2 left-2 bg-slate-900/90 rounded p-2 z-20">
+                            <div className="text-white text-xs font-bold mb-1">Threat Levels</div>
+                            <div className="space-y-1">
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                <span className="text-white text-xs">High Risk</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                                <span className="text-white text-xs">Medium Risk</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                <span className="text-white text-xs">Low Risk</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Bottom Right Active Threats Counter */}
+                          <div className="absolute bottom-2 right-2 bg-slate-900/90 text-white text-xs px-2 py-1 rounded font-bold z-20">
+                            5 ACTIVE THREATS
+                          </div>
+
+                          {/* Map with Zoom Controls */}
+                          <div className="relative w-full h-full">
                             <ThreatMap className="w-full h-full" />
+                            {/* Zoom Controls */}
+                            <div className="absolute right-2 top-12 bg-white rounded shadow-lg z-20">
+                              <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold">+</button>
+                              <button className="block w-8 h-8 text-gray-700 hover:bg-gray-100 text-lg font-bold">−</button>
+                            </div>
                           </div>
                         </div>
                       </div>
