@@ -78,6 +78,9 @@ const gamificationEngine = new GamificationEngine();
 const { default: CypherAIGeneticEngine } = await import("./engines/cypher-ai-genetic.js");
 const cypherGeneticEngine = new CypherAIGeneticEngine();
 
+// Initialize Genetic Memory Store
+const { geneticMemoryStore } = await import("./services/genetic-memory-store.js");
+
 // Set up real-time threat monitoring
 mlThreatEngine.on('threatDetected', (threat) => {
   console.log(`🚨 THREAT DETECTED: ${threat.level} - ${threat.riskScore} risk score`);
@@ -7648,6 +7651,181 @@ startxref
         success: false,
         message: "Failed to retrieve genetic engine status",
         error: error.message 
+      });
+    }
+  });
+
+  // Multi-Generational Memory Store API Endpoints
+
+  // Get generational history for a sector
+  app.get('/api/cypher-ai/genetic/history/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const limit = parseInt(req.query.limit as string) || 50;
+      
+      const history = await geneticMemoryStore.getGenerationHistory(sector, limit);
+      
+      res.json({
+        success: true,
+        sector,
+        history,
+        count: history.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get generation history:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get generation history',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get best individuals across all generations for a sector
+  app.get('/api/cypher-ai/genetic/best-historical/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const limit = parseInt(req.query.limit as string) || 10;
+      
+      const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, limit);
+      
+      res.json({
+        success: true,
+        sector,
+        bestIndividuals,
+        count: bestIndividuals.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get best historical individuals:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get best historical individuals',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get evolutionary analytics for a sector
+  app.get('/api/cypher-ai/genetic/analytics/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const generations = parseInt(req.query.generations as string) || 100;
+      
+      const analytics = await geneticMemoryStore.getEvolutionaryAnalytics(sector, generations);
+      
+      if (!analytics) {
+        return res.status(404).json({ 
+          success: false, 
+          error: 'No analytics data found for this sector' 
+        });
+      }
+      
+      res.json({
+        success: true,
+        analytics,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get evolutionary analytics:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get evolutionary analytics',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get memory store cache statistics
+  app.get('/api/cypher-ai/genetic/memory-stats', (req, res) => {
+    try {
+      const stats = geneticMemoryStore.getCacheStats();
+      
+      res.json({
+        success: true,
+        memoryStats: stats,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get memory stats:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get memory statistics',
+        message: error.message 
+      });
+    }
+  });
+
+  // Cleanup old generations for storage management
+  app.post('/api/cypher-ai/genetic/cleanup/:sector', async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const keepGenerations = parseInt(req.body.keepGenerations) || 1000;
+      
+      await geneticMemoryStore.cleanupOldGenerations(sector, keepGenerations);
+      
+      res.json({
+        success: true,
+        message: `Cleaned up old generations for ${sector} sector`,
+        keepGenerations,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to cleanup old generations:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to cleanup old generations',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get comprehensive multi-generational system overview
+  app.get('/api/cypher-ai/genetic/overview', async (req, res) => {
+    try {
+      const sectors = ['FERPA', 'FISMA', 'CIPA', 'GENERAL'];
+      const overview = {
+        system: {
+          totalSectors: sectors.length,
+          memoryStats: geneticMemoryStore.getCacheStats(),
+          timestamp: new Date().toISOString()
+        },
+        sectors: {}
+      };
+
+      // Get analytics for each sector
+      for (const sector of sectors) {
+        try {
+          const analytics = await geneticMemoryStore.getEvolutionaryAnalytics(sector, 50);
+          const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, 3);
+          
+          overview.sectors[sector] = {
+            analytics: analytics || { totalGenerations: 0, currentBestFitness: 0 },
+            topPerformers: bestIndividuals.slice(0, 3),
+            status: analytics?.currentBestFitness >= 99.2 ? 'TARGET_ACHIEVED' : 'EVOLVING'
+          };
+        } catch (error) {
+          overview.sectors[sector] = {
+            analytics: { totalGenerations: 0, currentBestFitness: 0 },
+            topPerformers: [],
+            status: 'ERROR',
+            error: error.message
+          };
+        }
+      }
+      
+      res.json({
+        success: true,
+        overview,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to get system overview:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Failed to get multi-generational system overview',
+        message: error.message 
       });
     }
   });
