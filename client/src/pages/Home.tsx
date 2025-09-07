@@ -222,16 +222,16 @@ export default function Home() {
                             <div className="bg-slate-800/90 p-2 border-b border-blue-500/20">
                               <div className="flex items-center space-x-1">
                                 <Enhanced4DGlobeIcon className="w-3 h-3 text-blue-400" size={12} />
-                                <span className="text-blue-400 font-medium" style={{fontSize: '8px'}}>Global Threat Map</span>
+                                <span className="text-blue-400 font-medium" style={{fontSize: '8px'}}>🌍 Global Threat Map</span>
                               </div>
                             </div>
                             <div className="p-2 h-full bg-slate-900/50 relative overflow-hidden">
                               {/* Enhanced world map visualization */}
-                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded overflow-hidden">
+                              <div className="relative h-full bg-gradient-to-br from-slate-800 to-slate-900 rounded overflow-hidden border-2 border-cyan-400">
                                 {/* World map outline SVG-style with CSS */}
                                 <div className="absolute inset-0">
                                   {/* North America */}
-                                  <div className="absolute top-3 left-2 w-4 h-3 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
+                                  <div className="absolute top-3 left-2 w-4 h-3 border-2 border-cyan-400 rounded-sm bg-cyan-400/30"></div>
                                   {/* Europe */}
                                   <div className="absolute top-2 left-1/2 w-2 h-2 border border-cyan-400/30 rounded-sm bg-cyan-400/10"></div>
                                   {/* Asia */}
