@@ -2583,16 +2583,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Cypher AI Assistant API routes
-  app.post("/api/cypher/chat", async (req, res) => {
-    try {
-      const message = req.body;
-      const response = await cypherAI.processMessage(message);
-      res.json(response);
-    } catch (error) {
-      console.error("Cypher chat error:", error);
-      res.status(500).json({ message: "Failed to process Cypher message" });
-    }
-  });
 
   app.get("/api/cypher/insights/:userId", async (req, res) => {
     try {
@@ -6796,8 +6786,8 @@ startxref
       
       const response = await CypherAIService.processQuery({
         query,
-        context,
-        capabilities
+        context: context || {},
+        capabilities: capabilities || ['threat_analysis', 'compliance', 'scheduling', 'tickets']
       });
 
       res.json({ 
@@ -6811,7 +6801,8 @@ startxref
       res.status(500).json({ 
         success: false, 
         error: 'Cypher AI processing failed',
-        details: error.message
+        details: error.message,
+        message: 'Failed to process Cypher message'
       });
     }
   });
