@@ -6778,6 +6778,124 @@ startxref
     TwilioSMSService.handleSMSStatus(req, res);
   });
 
+  // Cypher AI Integration API Endpoints
+  
+  // Main Cypher AI chat endpoint
+  app.post("/api/cypher/chat", async (req: Request, res: Response) => {
+    try {
+      const { query, context, capabilities } = req.body;
+      
+      if (!query || typeof query !== 'string') {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Query is required and must be a string' 
+        });
+      }
+
+      console.log(`🤖 Cypher AI processing query from user: "${query.substring(0, 50)}..."`);
+      
+      const response = await CypherAIService.processQuery({
+        query,
+        context,
+        capabilities
+      });
+
+      res.json({ 
+        success: true, 
+        data: response,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('❌ Cypher AI endpoint error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Cypher AI processing failed',
+        details: error.message
+      });
+    }
+  });
+
+  // Meeting Transcription endpoint
+  app.post("/api/cypher/transcribe", upload.single('audio'), async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Audio file is required' 
+        });
+      }
+
+      console.log('🎤 Processing meeting transcription...');
+      
+      const result = await CypherAIService.transcribeMeeting(req.file.buffer, req.body);
+
+      res.json({ 
+        success: true, 
+        data: result,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('❌ Transcription endpoint error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Meeting transcription failed',
+        details: error.message
+      });
+    }
+  });
+
+  // Calendar Optimization endpoint
+  app.post("/api/cypher/calendar/optimize", async (req: Request, res: Response) => {
+    try {
+      const { calendarData, preferences } = req.body;
+      
+      console.log('📅 Optimizing calendar with AI...');
+      
+      const result = await CypherAIService.optimizeCalendar(calendarData, preferences);
+
+      res.json({ 
+        success: true, 
+        data: result,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('❌ Calendar optimization endpoint error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Calendar optimization failed',
+        details: error.message
+      });
+    }
+  });
+
+  // Communication Tracking endpoint
+  app.post("/api/cypher/communications/track", async (req: Request, res: Response) => {
+    try {
+      const messageData = req.body;
+      
+      console.log('📧 Tracking communication engagement...');
+      
+      const result = await CypherAIService.trackCommunication(messageData);
+
+      res.json({ 
+        success: true, 
+        data: result,
+        timestamp: new Date().toISOString()
+      });
+
+    } catch (error: any) {
+      console.error('❌ Communication tracking endpoint error:', error);
+      res.status(500).json({ 
+        success: false, 
+        error: 'Communication tracking failed',
+        details: error.message
+      });
+    }
+  });
+
   // Send authentication code via SMS
   app.post("/api/twilio/sms/send-auth", authenticateJWT, async (req: AuthenticatedRequest, res) => {
     try {
