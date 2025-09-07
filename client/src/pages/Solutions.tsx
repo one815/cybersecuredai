@@ -880,144 +880,161 @@ export default function Solutions() {
           </div>
         </section>
 
-        {/* Enterprise Security Integrations */}
+        {/* Solution Implementation Workflow */}
         <section className="py-20 px-6 bg-slate-900">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
-                Enterprise Security Integrations
+                Implementation Process
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-                Premium Vendor<br />
-                <span className="text-purple-400">& Threat Intelligence</span>
+                How We Secure<br />
+                <span className="text-purple-400">Your Organization</span>
               </h2>
               <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-16">
-                Comprehensive integration with industry-leading security vendors, threat intelligence feeds,
-                and enterprise authentication systems for maximum protection coverage.
+                Our proven 4-phase implementation process ensures rapid deployment with minimal disruption
+                to your operations while maximizing security coverage.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              <Card className="bg-slate-800/90 border border-blue-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DNetworkIcon className="w-12 h-12 text-blue-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Premium Threat Intelligence</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• PyMISP & CIRCL integration</li>
-                    <li>• VirusTotal & Palo Alto Cortex XDR</li>
-                    <li>• Mandiant threat intelligence (optional)</li>
-                    <li>• IBM X-Force intelligence</li>
-                    <li>• AlienVault OTX feeds</li>
-                    <li>• BGP Ranking analysis</li>
-                    <li>• Passive DNS investigation</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-blue-500 text-blue-400 hover:bg-blue-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
+            {/* Implementation Workflow */}
+            <div className="relative">
+              {/* Workflow Line */}
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 via-cyan-500 to-green-500 hidden lg:block"></div>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative">
+                {/* Phase 1: Assessment */}
+                <div className="relative">
+                  <div className="bg-slate-800/90 border border-purple-500/30 rounded-xl p-8 hover:border-purple-400/50 transition-all duration-300">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                    <Enhanced4DEyeIcon className="w-12 h-12 text-purple-400 mb-4 mx-auto" size={48} />
+                    <h3 className="text-xl font-bold text-white mb-4 text-center">Assessment</h3>
+                    <div className="space-y-3 text-gray-300 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span>Security posture evaluation</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span>Risk identification</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span>Compliance gap analysis</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                        <span>Custom solution design</span>
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <Badge className="bg-purple-500/20 text-purple-300">2-3 Days</Badge>
+                    </div>
+                  </div>
+                </div>
 
-              <Card className="bg-slate-800/90 border border-yellow-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DLockIcon className="w-12 h-12 text-yellow-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Hardware Security Modules</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• Thales Luna HSM</li>
-                    <li>• YubiHSM 2 integration</li>
-                    <li>• AWS Cloud HSM</li>
-                    <li>• Hardware key management</li>
-                    <li>• Cryptographic operations</li>
-                    <li>• Secure key storage</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-yellow-500 text-yellow-400 hover:bg-yellow-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
+                {/* Phase 2: Deployment */}
+                <div className="relative">
+                  <div className="bg-slate-800/90 border border-cyan-500/30 rounded-xl p-8 hover:border-cyan-400/50 transition-all duration-300">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                    <Enhanced4DZapIcon className="w-12 h-12 text-cyan-400 mb-4 mx-auto" size={48} />
+                    <h3 className="text-xl font-bold text-white mb-4 text-center">Deployment</h3>
+                    <div className="space-y-3 text-gray-300 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        <span>Platform installation</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        <span>Integration configuration</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        <span>AI model training</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                        <span>Testing and validation</span>
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <Badge className="bg-cyan-500/20 text-cyan-300">5-7 Days</Badge>
+                    </div>
+                  </div>
+                </div>
 
-              <Card className="bg-slate-800/90 border border-purple-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DEyeIcon className="w-12 h-12 text-purple-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Biometric Authentication</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• Auth0 facial recognition</li>
-                    <li>• NEC multi-modal biometrics</li>
-                    <li>• Portal Guard Bio-Key</li>
-                    <li>• FIDO2 compliance</li>
-                    <li>• 99.9% accuracy</li>
-                    <li>• Multi-factor authentication</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-purple-500 text-purple-400 hover:bg-purple-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
+                {/* Phase 3: Training */}
+                <div className="relative">
+                  <div className="bg-slate-800/90 border border-green-500/30 rounded-xl p-8 hover:border-green-400/50 transition-all duration-300">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                    <Enhanced4DUsersIcon className="w-12 h-12 text-green-400 mb-4 mx-auto" size={48} />
+                    <h3 className="text-xl font-bold text-white mb-4 text-center">Training</h3>
+                    <div className="space-y-3 text-gray-300 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span>Admin team training</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span>User onboarding</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span>Response procedures</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span>Documentation delivery</span>
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <Badge className="bg-green-500/20 text-green-300">2-3 Days</Badge>
+                    </div>
+                  </div>
+                </div>
 
-              <Card className="bg-slate-800/90 border border-green-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DShieldIcon className="w-12 h-12 text-green-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Security Infrastructure</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• Palo Alto PA-5220 firewall</li>
-                    <li>• Cisco Firepower 2130 IPS</li>
-                    <li>• F5 BIG-IP ASM WAF</li>
-                    <li>• Real-time monitoring</li>
-                    <li>• Device health analytics</li>
-                    <li>• Performance optimization</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-green-500 text-green-400 hover:bg-green-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
+                {/* Phase 4: Support */}
+                <div className="relative">
+                  <div className="bg-slate-800/90 border border-yellow-500/30 rounded-xl p-8 hover:border-yellow-400/50 transition-all duration-300">
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                    <CustomHeadphonesIcon className="w-12 h-12 text-yellow-400 mb-4 mx-auto" size={48} />
+                    <h3 className="text-xl font-bold text-white mb-4 text-center">Ongoing Support</h3>
+                    <div className="space-y-3 text-gray-300 text-sm">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <span>24/7 monitoring</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <span>Regular updates</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <span>Performance optimization</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                        <span>Dedicated success manager</span>
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <Badge className="bg-yellow-500/20 text-yellow-300">Ongoing</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              <Card className="bg-slate-800/90 border border-red-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DUsersIcon className="w-12 h-12 text-red-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Enterprise IAM</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• Okta SSO & MFA</li>
-                    <li>• Azure Active Directory</li>
-                    <li>• OneLogin adaptive auth</li>
-                    <li>• User provisioning</li>
-                    <li>• Conditional access</li>
-                    <li>• Lifecycle management</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-red-500 text-red-400 hover:bg-red-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-slate-800/90 border border-emerald-500/30">
-                <CardHeader className="p-6">
-                  <Enhanced4DFileIcon className="w-12 h-12 text-emerald-400 mb-4" size={48} />
-                  <CardTitle className="text-xl text-white mb-3">Compliance & Notifications</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 pt-0">
-                  <ul className="space-y-2 text-sm text-gray-300 mb-6">
-                    <li>• SendGrid email integration</li>
-                    <li>• NIST IR-6 compliance</li>
-                    <li>• Automated incident alerts</li>
-                    <li>• Role-based distribution</li>
-                    <li>• Professional templates</li>
-                    <li>• Configuration management</li>
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full border-emerald-500 text-emerald-400 hover:bg-emerald-500/10">
-                    Learn More
-                  </Button>
-                </CardContent>
-              </Card>
+              {/* Total Implementation Time */}
+              <div className="mt-16 text-center">
+                <div className="inline-flex items-center space-x-4 bg-slate-800/90 rounded-xl p-6 border border-spring-500/30">
+                  <Enhanced4DCheckCircleIcon className="w-8 h-8 text-spring-400" size={32} />
+                  <div>
+                    <div className="text-2xl font-bold text-white">Complete Implementation</div>
+                    <div className="text-spring-400 font-semibold">10-14 Days Total</div>
+                    <div className="text-gray-400">From assessment to full operation</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
