@@ -91,10 +91,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
         }
       ],
       disableDefaultUI: true,
-      zoomControl: true,
-      zoomControlOptions: {
-        position: window.google.maps.ControlPosition.RIGHT_CENTER
-      },
+      zoomControl: false,
       // Enhanced controls for 3D demo
       rotateControl: true,
       tiltControl: true,
