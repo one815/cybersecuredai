@@ -268,7 +268,7 @@ export class GeneticMemoryStore {
         LIMIT ${limit}
       `);
 
-      const generations = (results as any[]).map(row => ({
+      const generations = (results.rows || results).map((row: any) => ({
         id: row.id as string,
         generation: row.generation as number,
         sector: row.sector as string,
