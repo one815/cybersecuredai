@@ -209,7 +209,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
    */
   private async startPythonBackend(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const pythonScriptPath = path.join(__dirname, '../../python/genetic_engine.py');
+      const pythonScriptPath = path.join(import.meta.dirname, '../../python/genetic_engine.py');
       
       this.pythonProcess = spawn('python3', [pythonScriptPath], {
         stdio: ['pipe', 'pipe', 'pipe'],

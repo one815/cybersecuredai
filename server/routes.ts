@@ -74,6 +74,10 @@ const behavioralEngine = new BehavioralAnalysisEngine();
 const { GamificationEngine } = await import("./engines/gamification-engine");
 const gamificationEngine = new GamificationEngine();
 
+// Initialize Cypher AI Genetic Engine
+const { default: CypherAIGeneticEngine } = await import("./engines/cypher-ai-genetic.js");
+const cypherGeneticEngine = new CypherAIGeneticEngine();
+
 // Set up real-time threat monitoring
 mlThreatEngine.on('threatDetected', (threat) => {
   console.log(`🚨 THREAT DETECTED: ${threat.level} - ${threat.riskScore} risk score`);
@@ -7445,6 +7449,204 @@ startxref
       res.status(500).json({ 
         success: false,
         message: "Failed to escalate ticket",
+        error: error.message 
+      });
+    }
+  });
+
+  // Cypher AI Genetic Engine API Endpoints
+  
+  // Start genetic evolution for a specific sector
+  app.post("/api/cypher-ai/genetic/evolve", async (req, res) => {
+    try {
+      const { sector = 'GENERAL' } = req.body;
+      
+      await cypherGeneticEngine.startEvolution();
+      
+      res.json({
+        success: true,
+        message: `Started genetic evolution for ${sector} sector`,
+        evolution: {
+          active: true,
+          sector,
+          timestamp: new Date()
+        }
+      });
+    } catch (error: any) {
+      console.error("❌ Genetic evolution start error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to start genetic evolution",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get population status for all sectors
+  app.get("/api/cypher-ai/genetic/populations", async (req, res) => {
+    try {
+      const populations = cypherGeneticEngine.getPopulationStatus();
+      const federatedNodes = cypherGeneticEngine.getFederatedNetworkStatus();
+      
+      const populationData = Array.from(populations.entries()).map(([sector, population]) => ({
+        sector,
+        generation: population.generation,
+        populationSize: population.individuals.length,
+        averageFitness: population.averageFitness,
+        bestFitness: population.bestFitness,
+        diversity: population.diversity
+      }));
+      
+      const federatedData = Array.from(federatedNodes.entries()).map(([nodeId, node]) => ({
+        nodeId,
+        organization: node.organization,
+        sector: node.sector,
+        learningRate: node.learningRate,
+        contribution: node.contribution
+      }));
+      
+      res.json({
+        success: true,
+        populations: populationData,
+        federatedNodes: federatedData,
+        timestamp: new Date()
+      });
+    } catch (error: any) {
+      console.error("❌ Get populations error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve population status",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get best individual for a sector
+  app.get("/api/cypher-ai/genetic/best/:sector", async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const bestIndividual = cypherGeneticEngine.getBestIndividual(sector);
+      
+      if (!bestIndividual) {
+        return res.status(404).json({
+          success: false,
+          message: `No individuals found for sector ${sector}`
+        });
+      }
+      
+      res.json({
+        success: true,
+        bestIndividual: {
+          id: bestIndividual.id,
+          fitness: bestIndividual.fitness,
+          accuracy: bestIndividual.accuracy,
+          generation: bestIndividual.generation,
+          sector: bestIndividual.sector,
+          policyRulesCount: bestIndividual.policyRules.length,
+          createdAt: bestIndividual.createdAt
+        },
+        policyRules: bestIndividual.policyRules
+      });
+    } catch (error: any) {
+      console.error("❌ Get best individual error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve best individual",
+        error: error.message 
+      });
+    }
+  });
+
+  // Deploy evolved policy to production
+  app.post("/api/cypher-ai/genetic/deploy/:sector", async (req, res) => {
+    try {
+      const { sector } = req.params;
+      const success = await cypherGeneticEngine.deployPolicy(sector);
+      
+      if (!success) {
+        return res.status(400).json({
+          success: false,
+          message: `Failed to deploy policy for sector ${sector}`
+        });
+      }
+      
+      res.json({
+        success: true,
+        message: `Policy deployed successfully for ${sector} sector`,
+        deployment: {
+          sector,
+          deployedAt: new Date(),
+          status: 'active'
+        }
+      });
+    } catch (error: any) {
+      console.error("❌ Deploy policy error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to deploy evolved policy",
+        error: error.message 
+      });
+    }
+  });
+
+  // Stop genetic evolution
+  app.post("/api/cypher-ai/genetic/stop", async (req, res) => {
+    try {
+      cypherGeneticEngine.stopEvolution();
+      
+      res.json({
+        success: true,
+        message: "Genetic evolution stopped successfully",
+        timestamp: new Date()
+      });
+    } catch (error: any) {
+      console.error("❌ Stop evolution error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to stop genetic evolution",
+        error: error.message 
+      });
+    }
+  });
+
+  // Get genetic evolution status and statistics
+  app.get("/api/cypher-ai/genetic/status", async (req, res) => {
+    try {
+      const populations = cypherGeneticEngine.getPopulationStatus();
+      const federatedNodes = cypherGeneticEngine.getFederatedNetworkStatus();
+      
+      // Calculate overall system performance
+      const totalPopulations = populations.size;
+      const averageAccuracy = Array.from(populations.values())
+        .reduce((sum, pop) => sum + pop.bestFitness, 0) / totalPopulations;
+      
+      const totalFederatedNodes = federatedNodes.size;
+      
+      res.json({
+        success: true,
+        status: {
+          engineActive: true,
+          totalSectors: totalPopulations,
+          averageAccuracy: averageAccuracy.toFixed(2),
+          federatedNodes: totalFederatedNodes,
+          targetAccuracy: 99.2,
+          achieved: averageAccuracy >= 99.2
+        },
+        sectors: Array.from(populations.entries()).map(([sector, population]) => ({
+          sector,
+          generation: population.generation,
+          bestFitness: population.bestFitness.toFixed(2),
+          averageFitness: population.averageFitness.toFixed(2),
+          diversity: population.diversity.toFixed(3),
+          status: population.bestFitness >= 99.2 ? 'ACHIEVED' : 'EVOLVING'
+        })),
+        timestamp: new Date()
+      });
+    } catch (error: any) {
+      console.error("❌ Get genetic status error:", error);
+      res.status(500).json({ 
+        success: false,
+        message: "Failed to retrieve genetic engine status",
         error: error.message 
       });
     }
