@@ -221,7 +221,7 @@ export default function Home() {
 
                     {/* Bottom Section with 3D Geospatial, Cambridge Analytics, and Compliance */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                      {/* 3D Geospatial Intelligence - Live Interactive Map */}
+                      {/* 3D Geospatial Intelligence - Live Interactive Dashboard */}
                       <div className="lg:col-span-2 bg-slate-700/40 rounded-lg p-4 border border-gray-600/30">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center space-x-2">
@@ -230,13 +230,70 @@ export default function Home() {
                           </div>
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
-                        <div className="h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden">
-                          <GeospatialIntelligenceMap 
-                            className="w-full h-full" 
-                            mapMode="3d"
-                            threatFilter="all"
-                            dimension="global"
-                          />
+                        
+                        {/* Map Interface matching screenshot */}
+                        <div className="h-48 bg-slate-800/60 rounded border border-blue-500/20 overflow-hidden relative">
+                          {/* Control Panel */}
+                          <div className="absolute top-3 left-3 space-y-3 z-10">
+                            {/* Data Layers */}
+                            <div className="bg-slate-900/80 rounded p-2 min-w-32">
+                              <div className="text-gray-400 text-xs mb-2">Data Layers</div>
+                              <div className="space-y-1">
+                                <button className="bg-blue-600 text-white text-xs px-2 py-1 rounded w-full text-left">
+                                  Threats/Assets
+                                </button>
+                                <button className="text-gray-400 text-xs px-2 py-1 w-full text-left hover:bg-slate-700 rounded">
+                                  Compliance/Incidents
+                                </button>
+                              </div>
+                              <button className="bg-slate-700 text-gray-300 text-xs px-2 py-1 rounded w-full mt-2 flex items-center">
+                                <span className="mr-1">☰</span> All Layers
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Map Mode Controls */}
+                          <div className="absolute top-3 left-40 bg-slate-900/80 rounded p-2 z-10">
+                            <div className="text-gray-400 text-xs mb-2">Map Mode</div>
+                            <div className="flex space-x-1">
+                              <button className="text-gray-400 text-xs px-2 py-1 hover:bg-slate-700 rounded">2D</button>
+                              <button className="bg-blue-600 text-white text-xs px-2 py-1 rounded">3D</button>
+                              <button className="text-gray-400 text-xs px-2 py-1 hover:bg-slate-700 rounded">Sat</button>
+                            </div>
+                          </div>
+
+                          {/* View Controls */}
+                          <div className="absolute top-3 left-80 bg-slate-900/80 rounded p-2 z-10">
+                            <div className="text-gray-400 text-xs mb-2">View Controls</div>
+                            <button className="bg-slate-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center">
+                              <Enhanced4DSettingsIcon className="w-3 h-3 mr-1" size={12} />
+                              Reset View
+                            </button>
+                          </div>
+
+                          {/* Live Status */}
+                          <div className="absolute top-3 right-3 bg-slate-900/80 rounded p-2 z-10">
+                            <div className="text-gray-400 text-xs mb-2">Live Status</div>
+                            <div className="space-y-1">
+                              <div className="flex items-center space-x-2">
+                                <span className="text-gray-300 text-xs">Active Threats:</span>
+                                <span className="bg-red-500 text-white text-xs px-1 rounded">2</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-gray-300 text-xs">Infrastructure Health:</span>
+                                <span className="bg-green-500 text-white text-xs px-1 rounded">6</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-gray-300 text-xs">Open Incidents:</span>
+                                <span className="bg-yellow-500 text-white text-xs px-1 rounded">1</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Simulated Map Background */}
+                          <div className="w-full h-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
+                            <ThreatMap className="w-full h-full" />
+                          </div>
                         </div>
                       </div>
 
