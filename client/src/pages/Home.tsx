@@ -44,6 +44,7 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
+import { CypherAI } from "@/components/CypherAI";
 
 // CSS for continuous scanning animation
 const scanningStyles = `
@@ -71,6 +72,8 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [scanLinePosition, setScanLinePosition] = useState(0);
   const [scanDirection, setScanDirection] = useState(1); // 1 for down, -1 for up
+  const [showCypherAI, setShowCypherAI] = useState(false);
+  const [cypherExpanded, setCypherExpanded] = useState(false);
 
   useEffect(() => {
     if (window.location.pathname === '/') {
@@ -1308,6 +1311,42 @@ export default function Home() {
             </Card>
           </div>
         </section>
+
+        {/* Floating Cypher AI Assistant */}
+        <div className="fixed bottom-6 right-6 z-50">
+          {showCypherAI ? (
+            <div className={`transition-all duration-300 ${cypherExpanded ? 'w-96 h-[600px]' : 'w-80 h-96'}`}>
+              <CypherAI 
+                isExpanded={cypherExpanded}
+                onToggleExpand={() => setCypherExpanded(!cypherExpanded)}
+                className="shadow-2xl"
+              />
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowCypherAI(true)}
+              className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 group"
+              data-testid="open-cypher-ai"
+            >
+              <div className="flex items-center space-x-2">
+                <Enhanced4DBotIcon className="w-6 h-6" size={24} />
+                <span className="hidden group-hover:block absolute right-16 top-1/2 transform -translate-y-1/2 bg-slate-800 text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap">
+                  Ask Cypher AI
+                </span>
+              </div>
+            </button>
+          )}
+          
+          {showCypherAI && (
+            <button
+              onClick={() => setShowCypherAI(false)}
+              className="absolute -top-2 -left-2 bg-red-500 hover:bg-red-600 text-white p-1 rounded-full text-xs transition-all duration-200"
+              data-testid="close-cypher-ai"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
     </MarketingLayout>
   );

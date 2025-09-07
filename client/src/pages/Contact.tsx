@@ -20,10 +20,12 @@ import {
   CheckCircle,
   MessageSquare,
   Monitor,
-  Zap
+  Zap,
+  Bot
 } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { CypherAI } from "@/components/CypherAI";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -37,6 +39,8 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedTicket, setSubmittedTicket] = useState<string | null>(null);
+  const [showCypherAI, setShowCypherAI] = useState(true);
+  const [cypherExpanded, setCypherExpanded] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -418,10 +422,44 @@ export default function Contact() {
               </div>
             </section>
 
-            {/* Contact Form & Office Info */}
-            <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Form & Cypher AI */}
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Cypher AI Assistant */}
+              <div className="lg:col-span-1">
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-white mb-4 flex items-center">
+                    <Bot className="w-6 h-6 mr-3 text-cyan-400" />
+                    Ask Cypher AI
+                  </h3>
+                  <p className="text-gray-400 mb-4">
+                    Get instant answers about cybersecurity solutions. Available 24/7 with 95% accuracy.
+                  </p>
+                </div>
+                
+                {showCypherAI && (
+                  <div className="mb-4">
+                    <CypherAI 
+                      isExpanded={cypherExpanded}
+                      onToggleExpand={() => setCypherExpanded(!cypherExpanded)}
+                      className="shadow-xl"
+                    />
+                  </div>
+                )}
+                
+                {!showCypherAI && (
+                  <Button
+                    onClick={() => setShowCypherAI(true)}
+                    className="w-full mb-6 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
+                    data-testid="activate-cypher-ai"
+                  >
+                    <Bot className="w-5 h-5 mr-2" />
+                    Activate Cypher AI
+                  </Button>
+                )}
+              </div>
+
               {/* Contact Form */}
-              <Card className="bg-white/5 border-gray-700/50">
+              <Card className="bg-white/5 border-gray-700/50 lg:col-span-2">
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
                     <div className="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
