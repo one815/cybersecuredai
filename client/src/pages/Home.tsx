@@ -143,19 +143,110 @@ export default function Home() {
                 </Button>
               </div>
               
-              {/* iMac Desktop Dashboard Mockup */}
+              {/* Original Dashboard Grid */}
               <div className="max-w-7xl mx-auto mb-4 md:mb-8 relative px-2">
-                <div className="relative">
-                  {/* iMac Desktop with Live Dashboard */}
-                  <div className="relative">
-                    <img 
-                      src={imacMockupImg}
-                      alt="CyberSecured AI Platform Dashboard - Live Interface"
-                      className="w-full h-auto shadow-2xl"
-                    />
-                    
-                    {/* Simple Live Dashboard Overlay */}
-                    <div className="absolute top-[12%] left-[18%] w-[64%] h-[50%] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-md overflow-hidden border border-cyan-500/30">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {/* Threat Monitor */}
+                  <Card className="bg-slate-800/50 border-red-500/30 backdrop-blur-sm">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center space-x-2 text-red-400">
+                        <Enhanced4DTargetIcon className="w-5 h-5" size={20} />
+                        <span>Threat Monitor</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="text-3xl font-bold text-white">847</div>
+                        <div className="text-sm text-gray-400">Threats Blocked Today</div>
+                        <div className="flex items-center space-x-2">
+                          <div className="flex-1 bg-slate-600 rounded-full h-2">
+                            <div className="bg-red-400 h-2 rounded-full" style={{width: '78%'}}></div>
+                          </div>
+                          <span className="text-red-400 text-sm">78%</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* AI Analysis */}
+                  <Card className="bg-slate-800/50 border-cyan-500/30 backdrop-blur-sm">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center space-x-2 text-cyan-400">
+                        <Enhanced4DBrainIcon className="w-5 h-5" size={20} />
+                        <span>AI Analysis</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="text-3xl font-bold text-white">99.7%</div>
+                        <div className="text-sm text-gray-400">Detection Accuracy</div>
+                        <div className="flex items-center space-x-2">
+                          <div className="flex-1 bg-slate-600 rounded-full h-2">
+                            <div className="bg-cyan-400 h-2 rounded-full" style={{width: '99.7%'}}></div>
+                          </div>
+                          <span className="text-cyan-400 text-sm">Active</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* System Health */}
+                  <Card className="bg-slate-800/50 border-green-500/30 backdrop-blur-sm">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="flex items-center space-x-2 text-green-400">
+                        <Enhanced4DActivityIcon className="w-5 h-5" size={20} />
+                        <span>System Health</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="text-3xl font-bold text-white">Optimal</div>
+                        <div className="text-sm text-gray-400">All Systems Online</div>
+                        <div className="flex space-x-2">
+                          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                          <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Recent Activity Section */}
+                <div className="mt-8">
+                  <Card className="bg-slate-800/50 border-purple-500/30 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2 text-purple-400">
+                        <Enhanced4DZapIcon className="w-5 h-5" size={20} />
+                        <span>Recent Activity</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div className="flex items-center space-x-3 text-gray-300">
+                          <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                          <span>Blocked malware attempt from suspicious IP</span>
+                          <span className="text-sm text-gray-500 ml-auto">2m ago</span>
+                        </div>
+                        <div className="flex items-center space-x-3 text-gray-300">
+                          <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                          <span>AI detected network anomaly and initiated response</span>
+                          <span className="text-sm text-gray-500 ml-auto">5m ago</span>
+                        </div>
+                        <div className="flex items-center space-x-3 text-gray-300">
+                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                          <span>System backup completed successfully</span>
+                          <span className="text-sm text-gray-500 ml-auto">8m ago</span>
+                        </div>
+                        <div className="flex items-center space-x-3 text-gray-300">
+                          <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                          <span>Threat intelligence database updated</span>
+                          <span className="text-sm text-gray-500 ml-auto">12m ago</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
                       {/* Dashboard Header */}
                       <div className="bg-slate-800/90 p-2 border-b border-cyan-500/20">
                         <div className="flex items-center justify-between">
