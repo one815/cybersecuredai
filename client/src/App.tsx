@@ -148,6 +148,9 @@ function Router() {
   const [location] = useLocation();
 
   useEffect(() => {
+    // Scroll to top on every route change
+    window.scrollTo(0, 0);
+    
     // Only show onboarding on platform pages (not marketing pages)
     const isPlatformPage = location.startsWith('/dashboard') || 
                           location.startsWith('/threats') || 
