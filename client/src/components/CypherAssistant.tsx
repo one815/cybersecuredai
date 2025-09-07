@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle, Send, Bot, User, Shield, AlertTriangle, Info, CheckCircle, X, Minimize2 } from 'lucide-react';
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
 import { useAuth } from '@/hooks/useAuth';
 import { apiRequest } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
@@ -142,7 +143,7 @@ export function CypherAssistant({
       case 'recommendation': return <Info className="w-4 h-4 text-blue-500" />;
       case 'analysis': return <Shield className="w-4 h-4 text-green-500" />;
       case 'action': return <CheckCircle className="w-4 h-4 text-orange-500" />;
-      default: return <Bot className="w-4 h-4 text-purple-500" />;
+      default: return <img src={cypherAiAssistImage} alt="Cypher AI" className="w-4 h-4 rounded-full" />;
     }
   };
 
@@ -201,7 +202,7 @@ export function CypherAssistant({
           <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Bot className="w-5 h-5" />
+                <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-5 h-5 rounded-full" />
                 <CardTitle className="text-lg font-bold">Cypher AI Assistant</CardTitle>
               </div>
               <div className="flex gap-1">
@@ -320,7 +321,7 @@ export function CypherAssistant({
                   <div className="flex justify-start mb-4">
                     <div className="bg-white dark:bg-gray-900 border-2 border-purple-200 dark:border-purple-700 rounded-lg p-4 shadow-md">
                       <div className="flex items-center gap-3">
-                        <Bot className="w-5 h-5 text-purple-500 animate-pulse" />
+                        <img src={cypherAiAssistImage} alt="Cypher AI" className="w-5 h-5 rounded-full animate-pulse" />
                         <div className="flex flex-col">
                           <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">Cypher AI</span>
                           <span className="text-xs text-gray-600 dark:text-gray-400">Analyzing your request...</span>

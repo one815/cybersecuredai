@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Eye } from "lucide-react";
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
 import { CustomDatabaseIcon, CustomTargetIcon, CustomUserIcon } from "@/components/CustomIcons";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useQuery } from "@tanstack/react-query";
@@ -53,7 +54,7 @@ export default function ThreatAnalysis() {
           <Card className="bg-surface border-cyan-500/30" data-testid="card-ml-models">
             <CardContent className="p-3 sm:p-4">
               <div className="flex items-center space-x-2 sm:space-x-3">
-                <Brain className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400" />
+                <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
                 <div>
                   <div className="text-lg sm:text-2xl font-bold text-white">{(aiAnalytics as any)?.systemMetrics?.mlEnginesActive || 0}</div>
                   <div className="text-xs sm:text-sm text-gray-400">ML Models Active</div>
@@ -104,7 +105,7 @@ export default function ThreatAnalysis() {
           <Card className="bg-surface border-cyan-500/30" data-testid="card-ml-threat-detection">
             <CardHeader>
               <CardTitle className="text-white text-lg flex items-center">
-                <Brain className="w-5 h-5 mr-2 text-cyan-400" />
+                <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-5 h-5 mr-2 rounded-full" />
                 ML Threat Detection Engine
               </CardTitle>
               <div className="flex items-center space-x-2">

@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Bot, Shield, Lock, Eye, EyeOff } from "lucide-react";
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -74,7 +75,7 @@ export function ClientLogin() {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center">
-              <Bot className="w-7 h-7 text-white" />
+              <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-7 h-7 rounded-full" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               CyberSecured AI

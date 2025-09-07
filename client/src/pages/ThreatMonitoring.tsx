@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search, TrendingUp, BarChart3, Zap, Settings, RefreshCw, Download, Layers, Cpu, Cloud, Brain } from "lucide-react";
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
 import { ThreatMap } from "@/components/ThreatMap";
 
 // Extend window interface for Google Maps
@@ -1211,7 +1212,7 @@ export default function ThreatMonitoring() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white flex items-center">
-                  <Brain className="w-5 h-5 mr-2" />
+                  <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-5 h-5 mr-2 rounded-full" />
                   AI Threat Intelligence
                 </CardTitle>
                 <Badge className="bg-purple-900/50 text-purple-400 border-purple-700">
@@ -1348,7 +1349,7 @@ export default function ThreatMonitoring() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="text-white flex items-center">
-                <Brain className="w-5 h-5 mr-2" />
+                <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-5 h-5 mr-2 rounded-full" />
                 AI-Powered Response Recommendations
               </CardTitle>
               <Badge className="bg-green-900/50 text-green-400 border-green-700">
@@ -1536,7 +1537,7 @@ export default function ThreatMonitoring() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-white flex items-center">
-                  <Brain className="w-5 h-5 mr-2" />
+                  <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-5 h-5 mr-2 rounded-full" />
                   Cypher AI Assistant
                 </CardTitle>
                 <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
@@ -1547,7 +1548,7 @@ export default function ThreatMonitoring() {
                 <div className="bg-gradient-to-r from-blue-900/30 to-purple-900/30 border border-blue-500/50 rounded-lg p-4">
                   <div className="flex items-center space-x-2 mb-3">
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                      <Brain className="w-4 h-4 text-white" />
+                      <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-4 h-4 rounded-full" />
                     </div>
                     <div>
                       <span className="text-blue-400 font-semibold">Cypher Analysis</span>
