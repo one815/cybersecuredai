@@ -130,6 +130,7 @@ import COPPACompliance from "@/pages/COPPACompliance";
 import SMSMessagingPolicy from "@/pages/SMSMessagingPolicy";
 import AIEthicsStatement from "@/pages/AIEthicsStatement";
 import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
+import ExternalIntegrationsPage from "@/pages/ExternalIntegrations";
 
 // Resource Pages
 import DataSheetFederalZeroTrust from "@/pages/resources/DataSheetFederalZeroTrust";
@@ -390,6 +391,11 @@ function Router() {
       <Route path="/platform/thehive-integration">
         <Layout>
           <TheHiveIntegration />
+        </Layout>
+      </Route>
+      <Route path="/integrations/external">
+        <Layout>
+          <ExternalIntegrationsPage />
         </Layout>
       </Route>
       <Route path="/training">
