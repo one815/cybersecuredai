@@ -32,7 +32,7 @@ import { theHiveIntegration } from "./engines/thehive-integration.js";
 import { socialPlatformsService } from "./services/social-platforms-integration.js";
 import { calendarOptimizationService } from "./services/calendar-optimization.js";
 import { advancedCommunicationTrackingService } from "./services/advanced-communication-tracking.js";
-import { meetingIntelligenceService } from "./services/meeting-intelligence.js";
+import MeetingIntelligenceService from "./services/meeting-intelligence.js";
 import { 
   getGeospatialOverview, 
   getThreatLandscape, 
@@ -8551,6 +8551,9 @@ startxref
       res.status(500).json({ error: 'Failed to get communication timeline', details: error.message });
     }
   });
+
+  // Initialize Meeting Intelligence Service
+  const meetingIntelligenceService = new MeetingIntelligenceService();
 
   // Meeting Intelligence Service Status
   app.get('/api/integrations/meeting/status', async (req, res) => {
