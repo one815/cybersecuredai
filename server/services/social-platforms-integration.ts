@@ -299,7 +299,7 @@ export class SocialPlatformsService extends EventEmitter {
    */
   async monitorTwitterThreats(keywords: string[] = [
     '#cybersecurity', '#databreach', '#malware', '#phishing', 
-    '#ransomware', '#apt', '#vulnerability', '#zerod
+    '#ransomware', '#apt', '#vulnerability', '#zeroday'
 
   ]): Promise<ThreatIntelligenceAlert[]> {
     if (!this.platforms.has('twitter')) {

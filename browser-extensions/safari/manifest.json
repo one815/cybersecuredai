@@ -1,0 +1,65 @@
+{
+  "manifest_version": 2,
+  "name": "CyberSecured AI - Security Assistant",
+  "version": "3.0.0",
+  "description": "Revolutionary dual AI security assistant with genetic algorithms, meeting intelligence, and real-time threat monitoring for Safari.",
+  "homepage_url": "https://cybersecuredai.com",
+  "permissions": [
+    "tabs",
+    "storage",
+    "notifications",
+    "contextMenus",
+    "webRequest",
+    "webRequestBlocking",
+    "*://*.cybersecuredai.com/*",
+    "*://*.linkedin.com/*",
+    "*://*.twitter.com/*",
+    "*://*.github.com/*",
+    "*://calendar.google.com/*",
+    "*://outlook.office.com/*",
+    "*://*.zoom.us/*",
+    "*://*.teams.microsoft.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.twitter.com/*",
+        "*://*.github.com/*",
+        "*://calendar.google.com/*",
+        "*://outlook.office.com/*",
+        "*://*.zoom.us/*",
+        "*://*.teams.microsoft.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "CyberSecured AI Security Assistant",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "web_accessible_resources": [
+    "assets/*",
+    "icons/*"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

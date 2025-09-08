@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSecured AI Security Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="popup">
+    <div class="popup-header">
+        <div class="logo">
+            <img src="icons/icon-32.png" alt="CyberSecured AI" class="logo-icon">
+            <div class="logo-text">
+                <h1>CyberSecured AI</h1>
+                <p>Security Assistant v3.0</p>
+            </div>
+        </div>
+        <div class="connection-status" id="connection-status">
+            <span class="status-indicator"></span>
+            <span class="status-text">Connecting...</span>
+        </div>
+    </div>
+
+    <div class="popup-content">
+        <!-- Security Overview -->
+        <section class="security-overview">
+            <h2>Security Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <span class="status-icon">🛡️</span>
+                    <div class="status-details">
+                        <span class="status-label">Protection</span>
+                        <span class="status-value" id="protection-status">Active</span>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">⚠️</span>
+                    <div class="status-details">
+                        <span class="status-label">Threats</span>
+                        <span class="status-value" id="threat-count">0</span>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">🎯</span>
+                    <div class="status-details">
+                        <span class="status-label">AI Accuracy</span>
+                        <span class="status-value" id="ai-accuracy">99.2%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="action-btn primary" id="scan-page" data-testid="button-scan-page">
+                    <span class="btn-icon">🔍</span>
+                    <span class="btn-text">Scan This Page</span>
+                </button>
+                <button class="action-btn secondary" id="check-threats" data-testid="button-check-threats">
+                    <span class="btn-icon">🚨</span>
+                    <span class="btn-text">Check Threats</span>
+                </button>
+                <button class="action-btn secondary" id="open-dashboard" data-testid="button-open-dashboard">
+                    <span class="btn-icon">📊</span>
+                    <span class="btn-text">Dashboard</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Platform Integrations -->
+        <section class="platform-integrations">
+            <h3>Platform Integration</h3>
+            <div class="platform-status" id="platform-status">
+                <div class="platform-item" data-platform="linkedin">
+                    <span class="platform-icon">💼</span>
+                    <span class="platform-name">LinkedIn</span>
+                    <span class="platform-status-indicator" id="linkedin-status">●</span>
+                </div>
+                <div class="platform-item" data-platform="twitter">
+                    <span class="platform-icon">🐦</span>
+                    <span class="platform-name">Twitter</span>
+                    <span class="platform-status-indicator" id="twitter-status">●</span>
+                </div>
+                <div class="platform-item" data-platform="github">
+                    <span class="platform-icon">⚡</span>
+                    <span class="platform-name">GitHub</span>
+                    <span class="platform-status-indicator" id="github-status">●</span>
+                </div>
+                <div class="platform-item" data-platform="calendar">
+                    <span class="platform-icon">📅</span>
+                    <span class="platform-name">Calendar</span>
+                    <span class="platform-status-indicator" id="calendar-status">●</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Insights -->
+        <section class="ai-insights">
+            <h3>Cypher AI Insights</h3>
+            <div class="insight-cards" id="insight-cards">
+                <div class="insight-loading">
+                    <span class="loading-icon">🤖</span>
+                    <span class="loading-text">Analyzing...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity">
+            <h3>Recent Activity</h3>
+            <div class="activity-list" id="activity-list">
+                <div class="activity-item">
+                    <span class="activity-icon">🔍</span>
+                    <div class="activity-details">
+                        <span class="activity-text">Page scanned - No threats found</span>
+                        <span class="activity-time">2 minutes ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="popup-footer">
+        <div class="footer-links">
+            <button class="footer-link" id="open-settings" data-testid="button-settings">
+                <span class="link-icon">⚙️</span>
+                <span class="link-text">Settings</span>
+            </button>
+            <button class="footer-link" id="open-help" data-testid="button-help">
+                <span class="link-icon">❓</span>
+                <span class="link-text">Help</span>
+            </button>
+            <button class="footer-link" id="open-external-integrations" data-testid="button-external-integrations">
+                <span class="link-icon">🔗</span>
+                <span class="link-text">Integrations</span>
+            </button>
+        </div>
+        <div class="version-info">
+            <span class="version">v3.0.0 - Phase 3: External Integrations</span>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
