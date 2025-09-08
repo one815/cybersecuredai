@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "CyberSecured AI - Security Assistant",
+  "version": "3.0.0",
+  "description": "Revolutionary dual AI security assistant with genetic algorithms, meeting intelligence, and real-time threat monitoring.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "notifications",
+    "identity",
+    "webRequest",
+    "contextMenus",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*.cybersecuredai.com/*",
+    "https://*.linkedin.com/*",
+    "https://*.twitter.com/*",
+    "https://*.github.com/*",
+    "https://*.googleapis.com/*",
+    "https://*.microsoft.com/*",
+    "https://*.zoom.us/*",
+    "https://*.teams.microsoft.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.linkedin.com/*",
+        "https://*.twitter.com/*", 
+        "https://*.github.com/*",
+        "https://calendar.google.com/*",
+        "https://outlook.office.com/*",
+        "https://*.zoom.us/*",
+        "https://*.teams.microsoft.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CyberSecured AI Security Assistant",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
