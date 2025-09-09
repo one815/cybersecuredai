@@ -125,7 +125,7 @@ class AWSMachineLearningService {
       region: process.env.AWS_REGION || 'us-east-1',
       accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-      threatDetectionEndpoint: process.env.SAGEMAKER_THREAT_DETECTION_ENDPOINT || 'cybersecured-threat-detection-v1',
+      threatDetectionEndpoint: process.env.SAGEMAKER_THREAT_DETECTION_ENDPOINT || 'cybersecured-threat-detection-prod',
       behavioralAnalysisEndpoint: process.env.SAGEMAKER_BEHAVIORAL_ANALYSIS_ENDPOINT || 'cybersecured-behavioral-analysis-v1',
       documentClassifierEndpoint: process.env.SAGEMAKER_DOCUMENT_CLASSIFIER_ENDPOINT || 'cybersecured-document-classifier-v1',
       anomalyDetectionEndpoint: process.env.SAGEMAKER_ANOMALY_DETECTION_ENDPOINT || 'cybersecured-anomaly-detection-v1'

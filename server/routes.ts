@@ -5770,6 +5770,17 @@ startxref
     }
   });
 
+  // Test endpoint for SageMaker integration (no auth required)
+  app.get("/api/ml/test", async (req, res) => {
+    try {
+      const status = awsMachineLearningService.getServiceStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error getting ML service status:', error);
+      res.status(500).json({ error: 'Failed to get ML service status' });
+    }
+  });
+
   // AWS SageMaker ML API routes
   app.post("/api/ml/threat-detection/predict", authenticateJWT, async (req: AuthenticatedRequest, res) => {
     try {
