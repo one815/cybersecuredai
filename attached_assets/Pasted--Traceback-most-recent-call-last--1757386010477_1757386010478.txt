@@ -1,0 +1,101 @@
+╭─────────────────────────────── Traceback (most recent call last) ────────────────────────────────╮
+│ in <module>:50                                                                                   │
+│                                                                                                  │
+│   47 print("🚀 Deploying endpoint (this takes ~5-10 minutes)...")                                │
+│   48 print("⏳ Endpoint name: cybersecured-threat-detection-prod")                               │
+│   49                                                                                             │
+│ ❱ 50 predictor = pytorch_model.deploy(                                                           │
+│   51 │   initial_instance_count=1,                                                               │
+│   52 │   instance_type='ml.t2.medium',                                                           │
+│   53 │   endpoint_name='cybersecured-threat-detection-prod'                                      │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/model.py:1737  │
+│ in deploy                                                                                        │
+│                                                                                                  │
+│   1734 │   │   │   return None                                                                   │
+│   1735 │   │                                                                                     │
+│   1736 │   │   else:  # existing single model endpoint path                                      │
+│ ❱ 1737 │   │   │   self._create_sagemaker_model(                                                 │
+│   1738 │   │   │   │   instance_type=instance_type,                                              │
+│   1739 │   │   │   │   accelerator_type=accelerator_type,                                        │
+│   1740 │   │   │   │   tags=tags,                                                                │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/model.py:936   │
+│ in _create_sagemaker_model                                                                       │
+│                                                                                                  │
+│    933 │   │   │   if self.name is None and model_package.name is not None:                      │
+│    934 │   │   │   │   self.name = model_package.name                                            │
+│    935 │   │   else:                                                                             │
+│ ❱  936 │   │   │   container_def = self.prepare_container_def(                                   │
+│    937 │   │   │   │   instance_type,                                                            │
+│    938 │   │   │   │   accelerator_type=accelerator_type,                                        │
+│    939 │   │   │   │   serverless_inference_config=serverless_inference_config,                  │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/pytorch/model. │
+│ py:324 in prepare_container_def                                                                  │
+│                                                                                                  │
+│   321 │   │   │   │   )                                                                          │
+│   322 │   │   │                                                                                  │
+│   323 │   │   │   region_name = self.sagemaker_session.boto_session.region_name                  │
+│ ❱ 324 │   │   │   deploy_image = self.serving_image_uri(                                         │
+│   325 │   │   │   │   region_name,                                                               │
+│   326 │   │   │   │   instance_type,                                                             │
+│   327 │   │   │   │   accelerator_type=accelerator_type,                                         │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/pytorch/model. │
+│ py:368 in serving_image_uri                                                                      │
+│                                                                                                  │
+│   365 │   │   │   str: The appropriate image URI based on the given parameters.                  │
+│   366 │   │                                                                                      │
+│   367 │   │   """                                                                                │
+│ ❱ 368 │   │   return image_uris.retrieve(                                                        │
+│   369 │   │   │   self._framework_name,                                                          │
+│   370 │   │   │   region_name,                                                                   │
+│   371 │   │   │   version=self.framework_version,                                                │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/workflow/utili │
+│ ties.py:432 in wrapper                                                                           │
+│                                                                                                  │
+│   429 │   │   │   if isinstance(value, Parameter):                                               │
+│   430 │   │   │   │   logger.warning(warning_msg_template, arg_name, func_name, type(value))     │
+│   431 │   │   │   │   kwargs[arg_name] = value.default_value                                     │
+│ ❱ 432 │   │   return func(*args, **kwargs)                                                       │
+│   433 │                                                                                          │
+│   434 │   return wrapper                                                                         │
+│   435                                                                                            │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/image_uris.py: │
+│ 212 in retrieve                                                                                  │
+│                                                                                                  │
+│   209 │   │   _validate_arg(full_base_framework_version, list(version_config.keys()), "base fr   │
+│   210 │   │   version_config = version_config.get(full_base_framework_version)                   │
+│   211 │                                                                                          │
+│ ❱ 212 │   py_version = _validate_py_version_and_set_if_needed(py_version, version_config, fram   │
+│   213 │   version_config = version_config.get(py_version) or version_config                      │
+│   214 │   registry = _registry_from_region(region, version_config["registries"])                 │
+│   215 │   endpoint_data = utils._botocore_resolver().construct_endpoint("ecr", region)           │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/image_uris.py: │
+│ 613 in _validate_py_version_and_set_if_needed                                                    │
+│                                                                                                  │
+│   610 │   │   logger.info("Defaulting to only available Python version: %s", available_version   │
+│   611 │   │   return available_versions[0]                                                       │
+│   612 │                                                                                          │
+│ ❱ 613 │   _validate_arg(py_version, available_versions, "Python version")                        │
+│   614 │   return py_version                                                                      │
+│   615                                                                                            │
+│   616                                                                                            │
+│                                                                                                  │
+│ /home/ec2-user/anaconda3/envs/pytorch_p310/lib/python3.10/site-packages/sagemaker/image_uris.py: │
+│ 620 in _validate_arg                                                                             │
+│                                                                                                  │
+│   617 def _validate_arg(arg, available_options, arg_name):                                       │
+│   618 │   """Checks if the arg is in the available options, and raises a ``ValueError`` if not   │
+│   619 │   if arg not in available_options:                                                       │
+│ ❱ 620 │   │   raise ValueError(                                                                  │
+│   621 │   │   │   "Unsupported {arg_name}: {arg}. You may need to upgrade your SDK version "     │
+│   622 │   │   │   "(pip install -U sagemaker) for newer {arg_name}s. Supported {arg_name}(s):    │
+│   623 │   │   │   "{options}.".format(arg_name=arg_name, arg=arg, options=", ".join(available_   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+ValueError: Unsupported Python version: py310. You may need to upgrade your SDK version (pip install -U sagemaker) 
+for newer Python versions. Supported Python version(s): py39.
