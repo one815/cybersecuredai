@@ -3132,6 +3132,258 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Comprehensive Compliance Tracking and Reporting APIs
+  
+  // Get all available compliance frameworks
+  app.get("/api/compliance/frameworks", async (req, res) => {
+    try {
+      const frameworks = complianceAutomationEngine.getAllFrameworks();
+      res.json({
+        frameworks,
+        totalFrameworks: frameworks.length,
+        bysector: frameworks.reduce((acc, f) => {
+          acc[f.sector] = (acc[f.sector] || 0) + 1;
+          return acc;
+        }, {} as Record<string, number>),
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching compliance frameworks:", error);
+      res.status(500).json({ message: "Failed to fetch compliance frameworks" });
+    }
+  });
+
+  // Get detailed framework information
+  app.get("/api/compliance/frameworks/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const framework = complianceAutomationEngine.getFramework(frameworkId);
+      
+      if (!framework) {
+        return res.status(404).json({ message: "Framework not found" });
+      }
+
+      const controls = complianceAutomationEngine.getFrameworkControls(frameworkId);
+      const mappings = complianceAutomationEngine.getControlMappings(frameworkId);
+      
+      res.json({
+        framework,
+        controls: {
+          total: controls.length,
+          byCategory: controls.reduce((acc, c) => {
+            acc[c.category] = (acc[c.category] || 0) + 1;
+            return acc;
+          }, {} as Record<string, number>),
+          byPriority: controls.reduce((acc, c) => {
+            acc[c.priority] = (acc[c.priority] || 0) + 1;
+            return acc;
+          }, {} as Record<string, number>),
+          automationCapable: controls.filter(c => c.implementation === "automated").length,
+          details: controls
+        },
+        mappings,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error fetching framework details:", error);
+      res.status(500).json({ message: "Failed to fetch framework details" });
+    }
+  });
+
+  // Comprehensive compliance status assessment
+  app.get("/api/compliance/status", async (req, res) => {
+    try {
+      const { organizationId = "default" } = req.query;
+      
+      const complianceStatus = await complianceAutomationEngine.getComprehensiveComplianceStatus(organizationId as string);
+      
+      res.json({
+        organizationId,
+        ...complianceStatus,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting compliance status:", error);
+      res.status(500).json({ message: "Failed to get compliance status" });
+    }
+  });
+
+  // Platform capability mapping to compliance requirements
+  app.get("/api/compliance/platform-mapping", async (req, res) => {
+    try {
+      const { frameworkId } = req.query;
+      
+      const platformMapping = await complianceAutomationEngine.getPlatformCapabilityMapping(frameworkId as string);
+      
+      res.json({
+        platformMapping,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting platform mapping:", error);
+      res.status(500).json({ message: "Failed to get platform mapping" });
+    }
+  });
+
+  // Gap analysis for specific framework
+  app.get("/api/compliance/gap-analysis/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const { organizationId = "default" } = req.query;
+      
+      const gapAnalysis = await complianceAutomationEngine.performGapAnalysis(frameworkId, organizationId as string);
+      
+      res.json({
+        frameworkId,
+        organizationId,
+        ...gapAnalysis,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error performing gap analysis:", error);
+      res.status(500).json({ message: "Failed to perform gap analysis" });
+    }
+  });
+
+  // Real-time compliance monitoring
+  app.get("/api/compliance/monitoring/real-time", async (req, res) => {
+    try {
+      const realTimeStatus = await complianceAutomationEngine.getRealTimeComplianceMonitoring();
+      
+      res.json({
+        ...realTimeStatus,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting real-time compliance monitoring:", error);
+      res.status(500).json({ message: "Failed to get real-time compliance monitoring" });
+    }
+  });
+
+  // Compliance trend analysis
+  app.get("/api/compliance/trends", async (req, res) => {
+    try {
+      const { frameworkId, organizationId = "default", period = "30" } = req.query;
+      
+      const trends = await complianceAutomationEngine.getComplianceTrends(
+        frameworkId as string,
+        organizationId as string,
+        parseInt(period as string)
+      );
+      
+      res.json({
+        frameworkId,
+        organizationId,
+        period: parseInt(period as string),
+        ...trends,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting compliance trends:", error);
+      res.status(500).json({ message: "Failed to get compliance trends" });
+    }
+  });
+
+  // Automated compliance report generation
+  app.post("/api/compliance/reports/generate", async (req, res) => {
+    try {
+      const { 
+        frameworkIds = [], 
+        organizationId = "default", 
+        reportType = "comprehensive",
+        format = "json"
+      } = req.body;
+      
+      const report = await complianceAutomationEngine.generateComplianceReport({
+        frameworkIds,
+        organizationId,
+        reportType,
+        format
+      });
+      
+      if (format === "pdf") {
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="compliance-report-${Date.now()}.pdf"`);
+        res.send(report.content);
+      } else {
+        res.json({
+          report,
+          timestamp: new Date()
+        });
+      }
+    } catch (error) {
+      console.error("Error generating compliance report:", error);
+      res.status(500).json({ message: "Failed to generate compliance report" });
+    }
+  });
+
+  // Compliance scoring and benchmarking
+  app.get("/api/compliance/scoring/:frameworkId", async (req, res) => {
+    try {
+      const { frameworkId } = req.params;
+      const { organizationId = "default" } = req.query;
+      
+      const scoring = await complianceAutomationEngine.getComplianceScoring(frameworkId, organizationId as string);
+      
+      res.json({
+        frameworkId,
+        organizationId,
+        ...scoring,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error getting compliance scoring:", error);
+      res.status(500).json({ message: "Failed to get compliance scoring" });
+    }
+  });
+
+  // Control evidence management
+  app.post("/api/compliance/evidence", async (req, res) => {
+    try {
+      const { controlId, frameworkId, evidenceData, organizationId = "default" } = req.body;
+      
+      if (!controlId || !frameworkId || !evidenceData) {
+        return res.status(400).json({ message: "Missing required fields: controlId, frameworkId, evidenceData" });
+      }
+      
+      const evidenceResult = await complianceAutomationEngine.submitControlEvidence({
+        controlId,
+        frameworkId,
+        evidenceData,
+        organizationId
+      });
+      
+      res.json({
+        evidenceResult,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error submitting evidence:", error);
+      res.status(500).json({ message: "Failed to submit evidence" });
+    }
+  });
+
+  // Remediation plan generation
+  app.post("/api/compliance/remediation-plan", async (req, res) => {
+    try {
+      const { frameworkId, organizationId = "default", priority = "high" } = req.body;
+      
+      const remediationPlan = await complianceAutomationEngine.generateRemediationPlan({
+        frameworkId,
+        organizationId,
+        priority
+      });
+      
+      res.json({
+        remediationPlan,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error generating remediation plan:", error);
+      res.status(500).json({ message: "Failed to generate remediation plan" });
+    }
+  });
+
   // Cypher AI Dashboard endpoints
   app.get("/api/cypher/reports", async (req, res) => {
     try {
