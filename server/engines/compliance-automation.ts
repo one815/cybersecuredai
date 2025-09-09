@@ -207,6 +207,12 @@ export class ComplianceAutomationEngine {
     { id: "cmmc-warrior", name: "CMMC Warrior", description: "Achieved 90%+ compliance in CMMC", icon: "sword", tier: "gold", criteria: { framework: "cmmc", minScore: 90 } },
     { id: "cipa-guardian", name: "CIPA Guardian", description: "Achieved 90%+ compliance in CIPA", icon: "shield", tier: "gold", criteria: { framework: "cipa", minScore: 90 } },
     { id: "fedramp-pro", name: "FedRAMP Pro", description: "Achieved 90%+ compliance in FedRAMP", icon: "cloud", tier: "gold", criteria: { framework: "fedramp", minScore: 90 } },
+    { id: "iso27001-master", name: "ISO 27001 Master", description: "Achieved 90%+ compliance in ISO 27001", icon: "certificate", tier: "gold", criteria: { framework: "iso27001", minScore: 90 } },
+    { id: "soc2-expert", name: "SOC 2 Expert", description: "Achieved 90%+ compliance in SOC 2", icon: "audit", tier: "gold", criteria: { framework: "soc2", minScore: 90 } },
+    { id: "coppa-protector", name: "COPPA Protector", description: "Achieved 90%+ compliance in COPPA", icon: "child", tier: "gold", criteria: { framework: "coppa", minScore: 90 } },
+    { id: "gdpr-champion", name: "GDPR Champion", description: "Achieved 90%+ compliance in GDPR", icon: "globe", tier: "gold", criteria: { framework: "gdpr", minScore: 90 } },
+    { id: "ccpa-defender", name: "CCPA Defender", description: "Achieved 90%+ compliance in CCPA", icon: "shield-alert", tier: "gold", criteria: { framework: "ccpa", minScore: 90 } },
+    { id: "hipaa-guardian", name: "HIPAA Guardian", description: "Achieved 90%+ compliance in HIPAA", icon: "heart", tier: "gold", criteria: { framework: "hipaa", minScore: 90 } },
     
     // Score Achievement Badges
     { id: "excellence-seeker", name: "Excellence Seeker", description: "Achieved 80%+ across 3+ frameworks", icon: "target", tier: "silver", criteria: { multiFramework: true, minScore: 80, minFrameworks: 3 } },
@@ -476,6 +482,225 @@ export class ComplianceAutomationEngine {
       }
     ];
 
+    // ISO27001 Framework
+    const iso27001Controls: ComplianceControl[] = [
+      {
+        id: "iso27001-a-5-1-1",
+        frameworkId: "iso27001",
+        controlId: "A.5.1.1",
+        title: "Information Security Policies",
+        description: "A set of policies for information security shall be defined, approved by management, published and communicated to employees and relevant external parties",
+        category: "risk_management",
+        priority: "critical",
+        implementation: "manual",
+        requiredEvidence: ["information security policy", "management approval", "communication records"],
+        testMethods: ["policy review", "approval verification", "communication audit"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "PM-1", relationship: "equivalent" }]
+      },
+      {
+        id: "iso27001-a-9-1-1",
+        frameworkId: "iso27001",
+        controlId: "A.9.1.1",
+        title: "Access Control Policy",
+        description: "An access control policy shall be established, documented and reviewed based on business and information security requirements",
+        category: "access_control",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["access control policy", "policy reviews", "business requirements mapping"],
+        testMethods: ["policy assessment", "requirement validation", "access review"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "AC-1", relationship: "equivalent" }]
+      },
+      {
+        id: "iso27001-a-10-1-1",
+        frameworkId: "iso27001",
+        controlId: "A.10.1.1",
+        title: "Cryptographic Controls",
+        description: "A policy on the use of cryptographic controls for protection of information shall be developed and implemented",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "automated",
+        requiredEvidence: ["cryptographic policy", "encryption implementation", "key management procedures"],
+        testMethods: ["encryption testing", "key management audit", "cryptographic validation"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "SC-13", relationship: "equivalent" }]
+      },
+      {
+        id: "iso27001-a-12-6-1",
+        frameworkId: "iso27001",
+        controlId: "A.12.6.1",
+        title: "Management of Technical Vulnerabilities",
+        description: "Information about technical vulnerabilities of information systems being used shall be obtained in a timely fashion",
+        category: "network_security",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["vulnerability scanning reports", "patch management records", "threat intelligence feeds"],
+        testMethods: ["vulnerability assessment", "patch testing", "scanning validation"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "SI-2", relationship: "equivalent" }]
+      },
+      {
+        id: "iso27001-a-16-1-1",
+        frameworkId: "iso27001",
+        controlId: "A.16.1.1",
+        title: "Incident Management Responsibilities",
+        description: "Management responsibilities and procedures shall be established to ensure effective response to information security incidents",
+        category: "incident_response",
+        priority: "high",
+        implementation: "hybrid",
+        requiredEvidence: ["incident response plan", "role definitions", "response procedures"],
+        testMethods: ["incident simulation", "procedure testing", "response evaluation"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "IR-1", relationship: "equivalent" }]
+      }
+    ];
+
+    // SOC 2 Framework
+    const soc2Controls: ComplianceControl[] = [
+      {
+        id: "soc2-cc-6-1",
+        frameworkId: "soc2",
+        controlId: "CC6.1",
+        title: "Logical and Physical Access Controls",
+        description: "The entity implements logical and physical access controls to restrict unauthorized access to the system",
+        category: "access_control",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["access control matrix", "physical security measures", "logical access controls"],
+        testMethods: ["access testing", "security assessment", "control validation"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "AC-2", relationship: "related" }]
+      },
+      {
+        id: "soc2-cc-7-1",
+        frameworkId: "soc2",
+        controlId: "CC7.1",
+        title: "System Monitoring",
+        description: "The entity monitors system components and the operation of controls to detect security events",
+        category: "network_security",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["monitoring configurations", "alerting systems", "incident logs"],
+        testMethods: ["monitoring testing", "alert validation", "log analysis"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "SI-4", relationship: "equivalent" }]
+      }
+    ];
+
+    // COPPA Framework
+    const coppaControls: ComplianceControl[] = [
+      {
+        id: "coppa-1-1",
+        frameworkId: "coppa",
+        controlId: "COPPA-1.1",
+        title: "Parental Consent Requirements",
+        description: "Obtain verifiable parental consent before collecting personal information from children under 13",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "manual",
+        requiredEvidence: ["consent mechanisms", "age verification", "parental consent records"],
+        testMethods: ["consent process review", "age verification testing", "record audit"],
+        mappings: []
+      },
+      {
+        id: "coppa-2-1",
+        frameworkId: "coppa",
+        controlId: "COPPA-2.1",
+        title: "Children's Data Protection",
+        description: "Implement enhanced security measures for protecting children's personal information",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "automated",
+        requiredEvidence: ["data encryption", "access controls", "retention policies"],
+        testMethods: ["encryption testing", "access validation", "retention verification"],
+        mappings: [{ frameworkId: "ferpa", controlId: "FERPA-3.1", relationship: "related" }]
+      }
+    ];
+
+    // GDPR Framework
+    const gdprControls: ComplianceControl[] = [
+      {
+        id: "gdpr-art-25",
+        frameworkId: "gdpr",
+        controlId: "Article 25",
+        title: "Data Protection by Design and by Default",
+        description: "Implement appropriate technical and organizational measures to ensure data protection principles",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "hybrid",
+        requiredEvidence: ["privacy impact assessments", "data protection measures", "design documentation"],
+        testMethods: ["privacy assessment", "design review", "protection validation"],
+        mappings: []
+      },
+      {
+        id: "gdpr-art-32",
+        frameworkId: "gdpr",
+        controlId: "Article 32",
+        title: "Security of Processing",
+        description: "Implement appropriate technical and organizational measures to ensure security of personal data",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "automated",
+        requiredEvidence: ["security measures", "encryption implementation", "access controls"],
+        testMethods: ["security testing", "encryption validation", "access audit"],
+        mappings: [{ frameworkId: "iso27001", controlId: "A.10.1.1", relationship: "related" }]
+      }
+    ];
+
+    // CCPA Framework
+    const ccpaControls: ComplianceControl[] = [
+      {
+        id: "ccpa-1798-100",
+        frameworkId: "ccpa",
+        controlId: "1798.100",
+        title: "Consumer Right to Know",
+        description: "Provide consumers the right to know about personal information collected, used, shared or sold",
+        category: "data_protection",
+        priority: "high",
+        implementation: "manual",
+        requiredEvidence: ["privacy notice", "data inventory", "disclosure procedures"],
+        testMethods: ["notice review", "inventory validation", "procedure testing"],
+        mappings: [{ frameworkId: "gdpr", controlId: "Article 13", relationship: "related" }]
+      },
+      {
+        id: "ccpa-1798-105",
+        frameworkId: "ccpa",
+        controlId: "1798.105",
+        title: "Consumer Right to Delete",
+        description: "Provide consumers the right to request deletion of personal information",
+        category: "data_protection",
+        priority: "high",
+        implementation: "automated",
+        requiredEvidence: ["deletion mechanisms", "data mapping", "retention policies"],
+        testMethods: ["deletion testing", "mapping validation", "retention audit"],
+        mappings: [{ frameworkId: "gdpr", controlId: "Article 17", relationship: "equivalent" }]
+      }
+    ];
+
+    // HIPAA Framework
+    const hipaaControls: ComplianceControl[] = [
+      {
+        id: "hipaa-164-308",
+        frameworkId: "hipaa",
+        controlId: "164.308",
+        title: "Administrative Safeguards",
+        description: "Implement administrative safeguards to protect electronic protected health information",
+        category: "access_control",
+        priority: "critical",
+        implementation: "manual",
+        requiredEvidence: ["policies and procedures", "workforce training", "access management"],
+        testMethods: ["policy review", "training assessment", "access audit"],
+        mappings: []
+      },
+      {
+        id: "hipaa-164-312",
+        frameworkId: "hipaa",
+        controlId: "164.312",
+        title: "Technical Safeguards",
+        description: "Implement technical safeguards to protect electronic protected health information",
+        category: "data_protection",
+        priority: "critical",
+        implementation: "automated",
+        requiredEvidence: ["access controls", "audit controls", "integrity controls", "transmission security"],
+        testMethods: ["technical testing", "audit validation", "integrity verification"],
+        mappings: [{ frameworkId: "nist-800-53", controlId: "SC-13", relationship: "related" }]
+      }
+    ];
+
     const frameworks: ComplianceFramework[] = [
       {
         id: "ferpa",
@@ -538,6 +763,60 @@ export class ComplianceAutomationEngine {
         sector: "government",
         version: "Rev 2",
         controls: nist800171Controls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "iso27001",
+        name: "ISO 27001",
+        fullName: "Information Security Management Systems",
+        sector: "government",
+        version: "2022",
+        controls: iso27001Controls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "soc2",
+        name: "SOC 2",
+        fullName: "Service Organization Control 2",
+        sector: "government",
+        version: "2017",
+        controls: soc2Controls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "coppa",
+        name: "COPPA",
+        fullName: "Children's Online Privacy Protection Act",
+        sector: "education",
+        version: "2013",
+        controls: coppaControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "gdpr",
+        name: "GDPR",
+        fullName: "General Data Protection Regulation",
+        sector: "government",
+        version: "2018",
+        controls: gdprControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "ccpa",
+        name: "CCPA",
+        fullName: "California Consumer Privacy Act",
+        sector: "government",
+        version: "2020",
+        controls: ccpaControls,
+        lastUpdated: new Date()
+      },
+      {
+        id: "hipaa",
+        name: "HIPAA",
+        fullName: "Health Insurance Portability and Accountability Act",
+        sector: "healthcare",
+        version: "2013",
+        controls: hipaaControls,
         lastUpdated: new Date()
       }
     ];
