@@ -130,6 +130,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       user: req.oidc?.user || null
     });
   });
+
+  // Placeholder image endpoint for build optimization
+  app.get('/api/placeholder/:width/:height', (req, res) => {
+    const { width, height } = req.params;
+    const w = parseInt(width) || 150;
+    const h = parseInt(height) || 150;
+    
+    // Generate simple SVG placeholder
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+      <rect width="100%" height="100%" fill="#e5e7eb"/>
+      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#9ca3af" font-family="system-ui, sans-serif" font-size="14">${w}x${h}</text>
+    </svg>`;
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
+    res.send(svg);
+  });
   
   // Initialize Cypher AI Assistant
   const { CypherAI } = await import('./engines/cypher-ai');
