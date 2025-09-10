@@ -141,12 +141,12 @@ export default function Leadership() {
       education: "Ph.D. Computer Science - Artificial Intelligence, Stanford University; MS Machine Learning, Carnegie Mellon University; BS Computer Science, MIT",
       experience: "16+ years AI security research, Former Principal Research Scientist at Google AI, Former Director of Stanford AI Security Laboratory",
       certifications: ["Certified Information Systems Security Professional (CISSP)", "Google Cloud Professional Machine Learning Engineer", "AWS Certified Machine Learning - Specialty", "Certified Artificial Intelligence Professional (CAIP)"],
-      clearance: "Secret",
+      clearance: "Available upon request",
       projectReferences: [
-        "Google DeepMind Security Framework Development (lead researcher)",
-        "DARPA Artificial Intelligence Exploration (AIE) Program",
-        "Stanford AI Safety Research Initiative (founding director)",
-        "Department of Energy AI Security Assessment Project"
+        "AI security research for educational technology environments",
+        "Privacy-preserving machine learning for educational data analysis",
+        "Advanced threat detection systems for K-12 cybersecurity",
+        "Educational AI security frameworks and compliance research"
       ],
       specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Adversarial AI Defense"],
       email: "info@cybersecuredai.com",
@@ -161,12 +161,12 @@ export default function Leadership() {
       education: "MS Computer Science - Cybersecurity, Carnegie Mellon University; BS Computer Engineering, Virginia Tech",
       experience: "14+ years cybersecurity engineering, Former Senior Systems Engineer at NSA, Former Principal Architect at Raytheon Technologies",
       certifications: ["CISSP", "CISM", "AWS Solutions Architect Professional", "SANS GIAC Security Expert (GSE)"],
-      clearance: "Confidential",
+      clearance: "Available upon request",
       projectReferences: [
-        "NSA Advanced Persistent Threat Detection System (classified)",
-        "DoD Enterprise Security Architecture Implementation",
-        "Federal Aviation Administration Critical Infrastructure Protection",
-        "Department of Homeland Security Cybersecurity Framework Integration"
+        "Federal cybersecurity program support and implementation",
+        "Enterprise security architecture for critical infrastructure",
+        "NIST cybersecurity framework implementation and compliance",
+        "Educational technology security architecture and planning"
       ],
       specialties: ["Enterprise Security Architecture", "Critical Infrastructure Protection", "Real-time Threat Detection", "Federal Compliance Systems"],
       email: "info@cybersecuredai.com",
@@ -177,16 +177,16 @@ export default function Leadership() {
       name: "Mark Ibrahim",
       title: "Chief AI Security Research Officer",
       subtitle: "Fundamental AI Research Scientist, Meta AI - Privacy-Preserving Machine Learning Expert",
-      bio: "Mark brings cutting-edge AI security and privacy-preserving machine learning expertise from Meta AI to CyberSecured AI's research initiatives. With 2,313+ research citations and extensive work on encrypted data processing, he leads our advanced AI security research and development of privacy-preserving cybersecurity systems.",
+      bio: "Mark brings cutting-edge AI security and privacy-preserving machine learning expertise from Meta AI to CyberSecured AI's research initiatives. With extensive work on encrypted data processing and privacy-preserving ML, he leads our advanced AI security research and development of privacy-preserving cybersecurity systems.",
       education: "Ph.D. Computer Science - Machine Learning, Advanced AI Research Specialization",
       experience: "8+ years AI research at Meta AI (formerly Facebook AI Research), specializing in privacy-preserving ML and encrypted data processing",
       certifications: ["Verified Google Scholar Researcher", "PyCon US Speaker", "NeurIPS Workshop Presenter", "ICML Tutorial Instructor"],
       projectReferences: [
-        "Machine Learning on Encrypted Data with CrypTen (PyCon US 2020 presentation)",
-        "Self-Supervised Learning research with Columbia University collaborators",
-        "NeurIPS 2024 Self-Supervised Learning Workshop (oral presentation)",
-        "ICML 2023 Tutorial on Self-Supervised Learning (400+ attendees)",
-        "Georgia Tech Deep Learning Course instruction (10k+ online students)"
+        "Privacy-preserving machine learning research and development",
+        "Educational AI security research and academic collaboration",
+        "AI security conference presentations and workshops",
+        "Machine learning security tutorials and educational content",
+        "Privacy-preserving cybersecurity systems for educational institutions"
       ],
       specialties: ["Privacy-Preserving Machine Learning", "Encrypted Data Processing", "Self-Supervised Learning", "Robust AI Systems"],
       email: "info@cybersecuredai.com",
