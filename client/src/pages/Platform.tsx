@@ -35,12 +35,12 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link, useLocation } from "wouter";
 
 // Authority platform images
-import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
-import aiThreatImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
-import complianceImg from "@assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.png";
-import networkSecurityImg from "@assets/generated_images/Network_Security_Demo_f519b96f.png";
-import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.png";
-import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
+import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.jpg";
+import aiThreatImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg";
+import complianceImg from "@assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.jpg";
+import networkSecurityImg from "@assets/generated_images/Network_Security_Demo_f519b96f.jpg";
+import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.jpg";
+import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.jpg";
 
 export default function Platform() {
   const [, setLocation] = useLocation();

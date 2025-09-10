@@ -21,11 +21,11 @@ import {
   ExternalLink,
   Filter
 } from "lucide-react";
-import fedAIInfraWebinarImg from "@assets/generated_images/Federal_AI_Infrastructure_Webinar_73974936.png";
-import campusAISecWebinarImg from "@assets/generated_images/Campus_AI_Security_Webinar_032ea4d4.png";
-import k12ClassroomWebinarImg from "@assets/generated_images/K12_Digital_Classroom_Webinar_ccef445f.png";
-import aiInfraHardeningWebinarImg from "@assets/generated_images/AI_Infrastructure_Hardening_Webinar_b8dbbc10.png";
-import aiSecComplianceWebinarImg from "@assets/generated_images/AI_Security_Compliance_Webinar_ae1e454f.png";
+import fedAIInfraWebinarImg from "@assets/generated_images/Federal_AI_Infrastructure_Webinar_73974936.jpg";
+import campusAISecWebinarImg from "@assets/generated_images/Campus_AI_Security_Webinar_032ea4d4.jpg";
+import k12ClassroomWebinarImg from "@assets/generated_images/K12_Digital_Classroom_Webinar_ccef445f.jpg";
+import aiInfraHardeningWebinarImg from "@assets/generated_images/AI_Infrastructure_Hardening_Webinar_b8dbbc10.jpg";
+import aiSecComplianceWebinarImg from "@assets/generated_images/AI_Security_Compliance_Webinar_ae1e454f.jpg";
 
 const webinars = [
   // Federal Government Webinars

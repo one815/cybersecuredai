@@ -37,16 +37,16 @@ import {
   Enhanced4DActivityIcon,
   Enhanced4DLockIcon
 } from "@/components/CustomIcons";
-import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
-import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
-import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
-import universityNetworkImg from "@assets/generated_images/University_Network_Integration_b94f16b2.png";
-import k12PrivacyImg from "@assets/generated_images/K12_Student_Privacy_Protection_829fd6b1.png";
-import securityAnalyticsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
-import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.png";
-import campusDeploymentImg from "@assets/generated_images/Campus_Deployment_Guide_660cca2b.png";
-import apiDevelopmentImg from "@assets/generated_images/API_Development_Guide_301134f9.png";
-import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.png";
+import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.jpg";
+import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg";
+import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";
+import universityNetworkImg from "@assets/generated_images/University_Network_Integration_b94f16b2.jpg";
+import k12PrivacyImg from "@assets/generated_images/K12_Student_Privacy_Protection_829fd6b1.jpg";
+import securityAnalyticsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.jpg";
+import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.jpg";
+import campusDeploymentImg from "@assets/generated_images/Campus_Deployment_Guide_660cca2b.jpg";
+import apiDevelopmentImg from "@assets/generated_images/API_Development_Guide_301134f9.jpg";
+import incidentResponseImg from "@assets/generated_images/Automated_Incident_Response_9b65f496.jpg";
 
 const categories = [
   "Platform Overview",

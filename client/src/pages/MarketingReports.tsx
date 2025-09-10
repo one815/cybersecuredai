@@ -18,12 +18,12 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import aiSecurityThreatImg from "@assets/generated_images/AI_Security_Threat_Report_9243f47f.png";
-import leadershipAwardImg from "@assets/generated_images/Cybersecurity_Leadership_Award_64e0bf84.png";
-import globalSecurityImg from "@assets/generated_images/Global_Security_Report_15483828.png";
-import federalAssessmentImg from "@assets/generated_images/Federal_Security_Assessment_79814cb2.png";
-import higherEducationImg from "@assets/generated_images/Higher_Education_Security_26849194.png";
-import k12ComplianceImg from "@assets/generated_images/K-12_Privacy_Compliance_14461732.png";
+import aiSecurityThreatImg from "@assets/generated_images/AI_Security_Threat_Report_9243f47f.jpg";
+import leadershipAwardImg from "@assets/generated_images/Cybersecurity_Leadership_Award_64e0bf84.jpg";
+import globalSecurityImg from "@assets/generated_images/Global_Security_Report_15483828.jpg";
+import federalAssessmentImg from "@assets/generated_images/Federal_Security_Assessment_79814cb2.jpg";
+import higherEducationImg from "@assets/generated_images/Higher_Education_Security_26849194.jpg";
+import k12ComplianceImg from "@assets/generated_images/K-12_Privacy_Compliance_14461732.jpg";
 
 const categories = [
   "Threat Reports",

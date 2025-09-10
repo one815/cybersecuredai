@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 // Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.png";
+import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.jpg";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -102,7 +102,7 @@ export function Navigation() {
           <Link href="/" className="flex-shrink-0 mr-4 md:mr-16">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
-                src="/attached_assets/2_1756557992421.png" 
+                src="/attached_assets/2_1756557992421.jpg" 
                 alt="CyberSecured AI" 
                 className="h-16 md:h-24 w-auto"
                 data-testid="logo-home-link"

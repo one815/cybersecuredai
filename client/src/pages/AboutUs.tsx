@@ -25,9 +25,9 @@ import {
 import { Link } from "wouter";
 
 // Import professional images
-import platformImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.png";
-import innovationImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
-import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
+import platformImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.jpg";
+import innovationImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
+import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";
 
 export default function AboutUs() {
   const keyMetrics = [

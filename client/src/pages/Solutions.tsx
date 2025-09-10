@@ -37,12 +37,12 @@ import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
 // Professional solution images
-import managedEdrImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.png";
-import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
-import educationImg from "@assets/generated_images/Academic_Security_Framework_75c0b524.png";
-import governmentImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.png";
-import platformImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.png";
-import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.png";
+import managedEdrImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg";
+import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";
+import educationImg from "@assets/generated_images/Academic_Security_Framework_75c0b524.jpg";
+import governmentImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.jpg";
+import platformImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.jpg";
+import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.jpg";
 
 export default function Solutions() {
   const [, setLocation] = useLocation();

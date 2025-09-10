@@ -2,7 +2,7 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Users, Shield, CheckCircle } from "lucide-react";
-import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.jpg';
 
 export default function AIEthicsStatement() {
   return (

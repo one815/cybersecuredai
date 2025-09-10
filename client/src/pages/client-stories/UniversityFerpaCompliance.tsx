@@ -18,7 +18,7 @@ import {
   TrendingUp
 } from "lucide-react";
 import { Link } from "wouter";
-import universityFerpaImg from "@assets/generated_images/University_FERPA_Compliance_Success_c6f7fd15.png";
+import universityFerpaImg from "@assets/generated_images/University_FERPA_Compliance_Success_c6f7fd15.jpg";
 
 export default function UniversityFerpaCompliance() {
   return (

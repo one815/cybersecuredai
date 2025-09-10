@@ -20,14 +20,14 @@ import {
 import {
   Enhanced4DEyeIcon
 } from "@/components/CustomIcons";
-import govAIFundamentalsImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.png";
-import advThreatDetectionImg from "@assets/generated_images/Advanced_Threat_Detection_Video_03258c71.png";
-import ferpaComplianceVideoImg from "@assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.png";
-import k12StudentDataProtImg from "@assets/generated_images/K12_Student_Data_Protection_3f09fa2a.png";
-import zeroTrustArchVideoImg from "@assets/generated_images/Zero_Trust_Architecture_Video_8765cbeb.png";
-import fedAgencyCaseStudyImg from "@assets/generated_images/Federal_Agency_Case_Study_6de66494.png";
-import aiComplianceAutoVideoImg from "@assets/generated_images/AI_Compliance_Automation_Video_c14385ca.png";
-import univResearchDataProtImg from "@assets/generated_images/University_Research_Data_Protection_2c521546.png";
+import govAIFundamentalsImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.jpg";
+import advThreatDetectionImg from "@assets/generated_images/Advanced_Threat_Detection_Video_03258c71.jpg";
+import ferpaComplianceVideoImg from "@assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.jpg";
+import k12StudentDataProtImg from "@assets/generated_images/K12_Student_Data_Protection_3f09fa2a.jpg";
+import zeroTrustArchVideoImg from "@assets/generated_images/Zero_Trust_Architecture_Video_8765cbeb.jpg";
+import fedAgencyCaseStudyImg from "@assets/generated_images/Federal_Agency_Case_Study_6de66494.jpg";
+import aiComplianceAutoVideoImg from "@assets/generated_images/AI_Compliance_Automation_Video_c14385ca.jpg";
+import univResearchDataProtImg from "@assets/generated_images/University_Research_Data_Protection_2c521546.jpg";
 
 const categories = [
   "AI Security Fundamentals",

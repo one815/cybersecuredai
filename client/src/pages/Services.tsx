@@ -46,9 +46,9 @@ import {
 import { Link } from "wouter";
 
 // Professional services images
-import managedServicesImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
-import professionalImg from "@assets/generated_images/Client_Success_Story_e83fb121.png";
-import supportImg from "@assets/generated_images/Success_Kit_Collection_aad5a657.png";
+import managedServicesImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.jpg";
+import professionalImg from "@assets/generated_images/Client_Success_Story_e83fb121.jpg";
+import supportImg from "@assets/generated_images/Success_Kit_Collection_aad5a657.jpg";
 
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState("managed");

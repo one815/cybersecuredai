@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search, TrendingUp, BarChart3, Zap, Settings, RefreshCw, Download, Layers, Cpu, Cloud, Brain } from "lucide-react";
-import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.png';
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.jpg';
 import { ThreatMap } from "@/components/ThreatMap";
 
 // Extend window interface for Google Maps

@@ -19,7 +19,7 @@ import {
   Laptop
 } from "lucide-react";
 import { Link } from "wouter";
-import k12CostSavingsImg from "@assets/generated_images/K12_District_Cost_Savings_62fda7d5.png";
+import k12CostSavingsImg from "@assets/generated_images/K12_District_Cost_Savings_62fda7d5.jpg";
 
 export default function K12CostSavings() {
   return (

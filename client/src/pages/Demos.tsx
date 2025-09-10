@@ -19,12 +19,12 @@ import {
   Users,
   Video
 } from "lucide-react";
-import platformWalkthroughImg from "@assets/generated_images/Platform_Complete_Walkthrough_42b56e86.png";
-import aiThreatLiveImg from "@assets/generated_images/AI_Threat_Detection_Live_579539ba.png";
-import ferpaComplianceImg from "@assets/generated_images/FERPA_Compliance_Demo_0d0f9ed7.png";
-import k12TutorialImg from "@assets/generated_images/K12_Interactive_Tutorial_5efec0ee.png";
-import enterpriseIntegrationImg from "@assets/generated_images/Enterprise_Integration_Showcase_79f150a2.png";
-import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.png";
+import platformWalkthroughImg from "@assets/generated_images/Platform_Complete_Walkthrough_42b56e86.jpg";
+import aiThreatLiveImg from "@assets/generated_images/AI_Threat_Detection_Live_579539ba.jpg";
+import ferpaComplianceImg from "@assets/generated_images/FERPA_Compliance_Demo_0d0f9ed7.jpg";
+import k12TutorialImg from "@assets/generated_images/K12_Interactive_Tutorial_5efec0ee.jpg";
+import enterpriseIntegrationImg from "@assets/generated_images/Enterprise_Integration_Showcase_79f150a2.jpg";
+import socDashboardImg from "@assets/generated_images/SOC_Dashboard_Management_23c1af0b.jpg";
 
 const categories = [
   "Platform Overview",

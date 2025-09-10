@@ -21,21 +21,21 @@ import {
   FileText,
   TrendingUp
 } from "lucide-react";
-import zeroTrustFederalImg from "@assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.png";
-import executiveOrderImg from "@assets/generated_images/Executive_Order_Compliance_fa53dcb9.png";
-import criticalInfraImg from "@assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.png";
-import multiStateImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.png";
-import stateStandardsImg from "@assets/generated_images/State_AI_Standards_eedb2317.png";
-import cityVulnImg from "@assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.png";
-import smartCityImg from "@assets/generated_images/Smart_City_Security_d206ef72.png";
-import researchCollabImg from "@assets/generated_images/Research_Collaboration_Security_f063fdbf.png";
-import campusAccessImg from "@assets/generated_images/Campus_Access_Control_71cb5b76.png";
-import academicFrameworkImg from "@assets/generated_images/Academic_Security_Framework_75c0b524.png";
-import schoolAssessmentImg from "@assets/generated_images/School_Security_Assessment_dfded22a.png";
-import techTrainingImg from "@assets/generated_images/Tech_Administrator_Training_98012fa2.png";
-import sharedSecOpsImg from "@assets/generated_images/Shared_Security_Operations_ad805f3d.png";
-import shadowAIImg from "@assets/generated_images/Shadow_AI_Detection_efe2f3db.png";
-import simplifiedFrameworkImg from "@assets/generated_images/Simplified_Security_Framework_40fa4e44.png";
+import zeroTrustFederalImg from "@assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.jpg";
+import executiveOrderImg from "@assets/generated_images/Executive_Order_Compliance_fa53dcb9.jpg";
+import criticalInfraImg from "@assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.jpg";
+import multiStateImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.jpg";
+import stateStandardsImg from "@assets/generated_images/State_AI_Standards_eedb2317.jpg";
+import cityVulnImg from "@assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.jpg";
+import smartCityImg from "@assets/generated_images/Smart_City_Security_d206ef72.jpg";
+import researchCollabImg from "@assets/generated_images/Research_Collaboration_Security_f063fdbf.jpg";
+import campusAccessImg from "@assets/generated_images/Campus_Access_Control_71cb5b76.jpg";
+import academicFrameworkImg from "@assets/generated_images/Academic_Security_Framework_75c0b524.jpg";
+import schoolAssessmentImg from "@assets/generated_images/School_Security_Assessment_dfded22a.jpg";
+import techTrainingImg from "@assets/generated_images/Tech_Administrator_Training_98012fa2.jpg";
+import sharedSecOpsImg from "@assets/generated_images/Shared_Security_Operations_ad805f3d.jpg";
+import shadowAIImg from "@assets/generated_images/Shadow_AI_Detection_efe2f3db.jpg";
+import simplifiedFrameworkImg from "@assets/generated_images/Simplified_Security_Framework_40fa4e44.jpg";
 
 const industries = [
   "Federal Government",

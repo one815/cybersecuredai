@@ -1,12 +1,12 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
-import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.png';
-import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.png";
+import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.jpg';
+import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.jpg";
 import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
-import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.png";
-import nistCompliantImg from "@assets/NIST compliant_1755703344784.png";
-import soc2CompliantImg from "@assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.png";
-import isoCompliantImg from "@assets/ISO certified 2_1756459077090.png";
+import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.jpg";
+import nistCompliantImg from "@assets/NIST compliant_1755703344784.jpg";
+import soc2CompliantImg from "@assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.jpg";
+import isoCompliantImg from "@assets/ISO certified 2_1756459077090.jpg";
 
 export function Footer() {
   return (
@@ -17,7 +17,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <div className="flex items-center mb-4">
               <img 
-                src="/attached_assets/2_1756557992421.png" 
+                src="/attached_assets/2_1756557992421.jpg" 
                 alt="CyberSecured AI" 
                 className="h-24 w-auto"
               />

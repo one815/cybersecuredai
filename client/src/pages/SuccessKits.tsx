@@ -20,12 +20,12 @@ import {
   Video,
   BookOpen
 } from "lucide-react";
-import federalImplKitImg from "@assets/generated_images/Federal_Implementation_Success_Kit_7462db64.png";
-import higherEdDeployKitImg from "@assets/generated_images/Higher_Education_Deployment_Kit_e124065f.png";
-import k12DataProtKitImg from "@assets/generated_images/K12_Data_Protection_Kit_32b1e468.png";
-import aiThreatResponseImg from "@assets/generated_images/AI_Threat_Response_Playbook_bca88bb3.png";
-import aiRiskAssessmentImg from "@assets/generated_images/AI_Security_Risk_Assessment_4eae4751.png";
-import aiAwarenessTrainingImg from "@assets/generated_images/AI_Security_Awareness_Training_643d9a03.png";
+import federalImplKitImg from "@assets/generated_images/Federal_Implementation_Success_Kit_7462db64.jpg";
+import higherEdDeployKitImg from "@assets/generated_images/Higher_Education_Deployment_Kit_e124065f.jpg";
+import k12DataProtKitImg from "@assets/generated_images/K12_Data_Protection_Kit_32b1e468.jpg";
+import aiThreatResponseImg from "@assets/generated_images/AI_Threat_Response_Playbook_bca88bb3.jpg";
+import aiRiskAssessmentImg from "@assets/generated_images/AI_Security_Risk_Assessment_4eae4751.jpg";
+import aiAwarenessTrainingImg from "@assets/generated_images/AI_Security_Awareness_Training_643d9a03.jpg";
 
 const categories = [
   "Implementation",

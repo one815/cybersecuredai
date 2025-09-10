@@ -568,7 +568,7 @@ export default function LegalDocumentation() {
                   <div className="text-center mb-8">
                     <div className="mx-auto mb-4">
                       <img 
-                        src={import.meta.env.BASE_URL + "attached_assets/5_1757170718777.png"}
+                        src={import.meta.env.BASE_URL + "attached_assets/5_1757170718777.jpg"}
                         alt="CyberSecured AI Logo" 
                         className="h-20 mx-auto"
                       />

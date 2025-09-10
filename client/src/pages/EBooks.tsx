@@ -20,14 +20,14 @@ import {
   GraduationCap,
   School
 } from "lucide-react";
-import educationalSecurityImg from "@assets/generated_images/Educational_Security_Guide_330f6e1c.png";
-import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Handbook_8fbedcba.png";
-import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
-import universityZeroTrustImg from "@assets/generated_images/University_Zero_Trust_411ba981.png";
-import k12DigitalSafetyImg from "@assets/generated_images/K12_Digital_Safety_1bedbed4.png";
-import governmentThreatImg from "@assets/generated_images/Government_Threat_Intelligence_aa6e2a67.png";
-import complianceAutomationImg from "@assets/generated_images/Compliance_Automation_Strategies_dd60a808.png";
-import campusIncidentImg from "@assets/generated_images/Campus_Incident_Response_ea29c3c7.png";
+import educationalSecurityImg from "@assets/generated_images/Educational_Security_Guide_330f6e1c.jpg";
+import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Handbook_8fbedcba.jpg";
+import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
+import universityZeroTrustImg from "@assets/generated_images/University_Zero_Trust_411ba981.jpg";
+import k12DigitalSafetyImg from "@assets/generated_images/K12_Digital_Safety_1bedbed4.jpg";
+import governmentThreatImg from "@assets/generated_images/Government_Threat_Intelligence_aa6e2a67.jpg";
+import complianceAutomationImg from "@assets/generated_images/Compliance_Automation_Strategies_dd60a808.jpg";
+import campusIncidentImg from "@assets/generated_images/Campus_Incident_Response_ea29c3c7.jpg";
 
 const categories = [
   "AI & Cybersecurity",
