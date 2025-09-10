@@ -135,9 +135,20 @@ export default function Leadership() {
     {
       name: "Dr. Sarah Chen",
       title: "Head of AI Security Strategy",
-      subtitle: "Former Google AI/ML Security Researcher",
-      bio: "Bringing world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecured AI.",
-      specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Google Security Alumni"],
+      subtitle: "Former Google AI/ML Security Researcher & Stanford AI Laboratory Director",
+      bio: "Dr. Chen brings world-class AI security expertise from Google's cutting-edge research division to revolutionize threat detection and predictive analytics for educational cybersecurity at CyberSecured AI. Her pioneering research in adversarial machine learning and AI security frameworks has established new industry standards for autonomous threat detection systems.",
+      education: "Ph.D. Computer Science - Artificial Intelligence, Stanford University; MS Machine Learning, Carnegie Mellon University; BS Computer Science, MIT",
+      experience: "16+ years AI security research, Former Principal Research Scientist at Google AI, Former Director of Stanford AI Security Laboratory",
+      certifications: ["Certified Information Systems Security Professional (CISSP)", "Google Cloud Professional Machine Learning Engineer", "AWS Certified Machine Learning - Specialty", "Certified Artificial Intelligence Professional (CAIP)"],
+      clearance: "Secret",
+      projectReferences: [
+        "Google DeepMind Security Framework Development (lead researcher)",
+        "DARPA Artificial Intelligence Exploration (AIE) Program",
+        "Stanford AI Safety Research Initiative (founding director)",
+        "Department of Energy AI Security Assessment Project"
+      ],
+      awards: ["IEEE Computer Society Outstanding Contribution Award", "Google Research Excellence Award", "Stanford Distinguished Teaching Award", "AI Security Innovation Award 2022"],
+      specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Adversarial AI Defense"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/dr-sarah-chen",
       image: sarahChenImg
