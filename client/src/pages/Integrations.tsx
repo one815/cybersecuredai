@@ -38,10 +38,10 @@ import {
   CustomTargetIcon,
   CustomHeadphonesIcon
 } from "@/components/CustomIcons";
-import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.png";
-import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.png";
-import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.png";
-import cortexXdrImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.png";
+import integrationImg from "@assets/generated_images/Integration_Hub_Network_a0bbdbbb.jpg";
+import sentinelImg from "@assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.jpg";
+import azureAdImg from "@assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.jpg";
+import cortexXdrImg from "@assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.jpg";
 import awsLogo from "@assets/download-1_1756487272282.jpg";
 
 const categories = [

@@ -19,7 +19,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { Link } from "wouter";
-import federalEducationImg from "@assets/generated_images/Federal_Education_Security_Success_147eb718.png";
+import federalEducationImg from "@assets/generated_images/Federal_Education_Security_Success_147eb718.jpg";
 
 export default function FederalEducationSecurity() {
   return (

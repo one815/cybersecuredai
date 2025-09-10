@@ -20,11 +20,11 @@ import {
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { useState } from "react";
-import aiCybersecurityImg from "@assets/generated_images/AI_cybersecurity_intersection_illustration_87f5fc44.png";
-import zeroVulnImg from "@assets/generated_images/Zero-day_vulnerability_detection_concept_4a55e3a1.png";
-import aiThreatIntelImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.png";
-import aiComplianceImg from "@assets/generated_images/AI_regulatory_compliance_illustration_4479e9d4.png";
-import resilientAIImg from "@assets/generated_images/Resilient_AI_systems_development_9d8f800c.png";
+import aiCybersecurityImg from "@assets/generated_images/AI_cybersecurity_intersection_illustration_87f5fc44.jpg";
+import zeroVulnImg from "@assets/generated_images/Zero-day_vulnerability_detection_concept_4a55e3a1.jpg";
+import aiThreatIntelImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.jpg";
+import aiComplianceImg from "@assets/generated_images/AI_regulatory_compliance_illustration_4479e9d4.jpg";
+import resilientAIImg from "@assets/generated_images/Resilient_AI_systems_development_9d8f800c.jpg";
 
 interface BlogPost {
   id: string;

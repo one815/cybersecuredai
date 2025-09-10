@@ -20,10 +20,10 @@ import {
   Calendar,
   Filter
 } from "lucide-react";
-import securityReportImg from "@assets/generated_images/Security_Report_Analysis_a04e4b7e.png";
-import complianceReportImg from "@assets/generated_images/Compliance_Audit_Report_c7bd1ed8.png";
-import userActivityReportImg from "@assets/generated_images/User_Activity_Analytics_Report_3cf64d91.png";
-import infrastructureReportImg from "@assets/generated_images/Infrastructure_Health_Report_51e19268.png";
+import securityReportImg from "@assets/generated_images/Security_Report_Analysis_a04e4b7e.jpg";
+import complianceReportImg from "@assets/generated_images/Compliance_Audit_Report_c7bd1ed8.jpg";
+import userActivityReportImg from "@assets/generated_images/User_Activity_Analytics_Report_3cf64d91.jpg";
+import infrastructureReportImg from "@assets/generated_images/Infrastructure_Health_Report_51e19268.jpg";
 
 export default function Reports() {
   const { toast } = useToast();

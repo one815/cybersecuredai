@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 // CyberSecure logo
-import cyberSecureLogo from "@assets/CyberSecure AI (1)_1756164301031.png";
+import cyberSecureLogo from "@assets/CyberSecure AI (1)_1756164301031.jpg";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuth as useAuth0 } from "@/contexts/AuthContext";
 // Custom cybersecurity icons

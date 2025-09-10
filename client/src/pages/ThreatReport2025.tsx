@@ -20,7 +20,7 @@ import {
   Brain
 } from "lucide-react";
 import { MarketingLayout } from "@/components/MarketingLayout";
-import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.png";
+import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.jpg";
 
 export default function ThreatReport2025() {
   const threatStats = [

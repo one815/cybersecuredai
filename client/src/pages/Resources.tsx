@@ -23,7 +23,7 @@ import {
   Filter,
   ChevronDown
 } from "lucide-react";
-import resourcesImg from "@assets/generated_images/Resource_Library_Hub_1661d0f4.png";
+import resourcesImg from "@assets/generated_images/Resource_Library_Hub_1661d0f4.jpg";
 
 const categories = [
   "AI & Machine Learning",

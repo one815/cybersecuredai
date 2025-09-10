@@ -18,11 +18,11 @@ import {
   FileText,
   Filter
 } from "lucide-react";
-import definitiveAIHandbookImg from "@assets/generated_images/Definitive_AI_Security_Handbook_11b99390.png";
-import federalAIHandbookImg from "@assets/generated_images/Federal_AI_Security_Handbook_9586f7b5.png";
-import universityAIHandbookImg from "@assets/generated_images/University_AI_Security_Handbook_1c87369e.png";
-import k12AIHandbookImg from "@assets/generated_images/K12_AI_Security_Handbook_220cb241.png";
-import aiFieldGuideImg from "@assets/generated_images/AI_Security_Field_Guide_a103de8a.png";
+import definitiveAIHandbookImg from "@assets/generated_images/Definitive_AI_Security_Handbook_11b99390.jpg";
+import federalAIHandbookImg from "@assets/generated_images/Federal_AI_Security_Handbook_9586f7b5.jpg";
+import universityAIHandbookImg from "@assets/generated_images/University_AI_Security_Handbook_1c87369e.jpg";
+import k12AIHandbookImg from "@assets/generated_images/K12_AI_Security_Handbook_220cb241.jpg";
+import aiFieldGuideImg from "@assets/generated_images/AI_Security_Field_Guide_a103de8a.jpg";
 
 const handbooks = [
   {

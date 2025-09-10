@@ -11,7 +11,7 @@ export default function Awards() {
       title: "Rising Star Award",
       subtitle: "Gold Winner - The Learning Awards",
       description: "Recognized for exceptional innovation in AI-powered cybersecurity solutions and outstanding leadership in driving digital security transformation for educational institutions.",
-      image: "/attached_assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png"
+      image: "/attached_assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.jpg"
     },
     {
       year: "2024",

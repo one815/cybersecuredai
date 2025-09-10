@@ -19,11 +19,11 @@ import {
   ExternalLink,
   Filter
 } from "lucide-react";
-import aiSecROIWhitePaperImg from "@assets/generated_images/AI_Security_ROI_White_Paper_c089a823.png";
-import privacyAIWhitePaperImg from "@assets/generated_images/Privacy_Preserving_AI_Paper_5a9a8a4a.png";
-import govAIInfraWhitePaperImg from "@assets/generated_images/Government_AI_Infrastructure_Paper_febb5409.png";
-import academicResearchAIWhitePaperImg from "@assets/generated_images/Academic_Research_AI_Security_8041a1e2.png";
-import k12AIImplWhitePaperImg from "@assets/generated_images/K12_AI_Security_Implementation_7535be1e.png";
+import aiSecROIWhitePaperImg from "@assets/generated_images/AI_Security_ROI_White_Paper_c089a823.jpg";
+import privacyAIWhitePaperImg from "@assets/generated_images/Privacy_Preserving_AI_Paper_5a9a8a4a.jpg";
+import govAIInfraWhitePaperImg from "@assets/generated_images/Government_AI_Infrastructure_Paper_febb5409.jpg";
+import academicResearchAIWhitePaperImg from "@assets/generated_images/Academic_Research_AI_Security_8041a1e2.jpg";
+import k12AIImplWhitePaperImg from "@assets/generated_images/K12_AI_Security_Implementation_7535be1e.jpg";
 
 const whitepapers = [
   {

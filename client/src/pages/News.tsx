@@ -19,12 +19,12 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link } from "wouter";
 
 // Authority news images
-import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.png";
-import industryLeadershipImg from "@assets/generated_images/Market_Research_Report_f84a91b6.png";
-import federalAuthImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.png";
-import partnershipImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.png";
-import aiInnovationImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.png";
-import complianceImg from "@assets/generated_images/Compliance_Automation_Success_2b4e2ceb.png";
+import threatReportImg from "@assets/generated_images/Threat_Report_2025_Cover_50b3edd9.jpg";
+import industryLeadershipImg from "@assets/generated_images/Market_Research_Report_f84a91b6.jpg";
+import federalAuthImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";
+import partnershipImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.jpg";
+import aiInnovationImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
+import complianceImg from "@assets/generated_images/Compliance_Automation_Success_2b4e2ceb.jpg";
 
 interface NewsItem {
   id: string;

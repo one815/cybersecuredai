@@ -24,12 +24,12 @@ import {
   AlertTriangle,
   Target
 } from "lucide-react";
-import zeroTrustFederalImg from "@assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.png";
-import executiveOrderImg from "@assets/generated_images/Executive_Order_Compliance_fa53dcb9.png";
-import criticalInfraImg from "@assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.png";
-import multiStateImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.png";
-import stateStandardsImg from "@assets/generated_images/State_AI_Standards_eedb2317.png";
-import cityVulnImg from "@assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.png";
+import zeroTrustFederalImg from "@assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.jpg";
+import executiveOrderImg from "@assets/generated_images/Executive_Order_Compliance_fa53dcb9.jpg";
+import criticalInfraImg from "@assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.jpg";
+import multiStateImg from "@assets/generated_images/Multi_State_Coalition_e7af0642.jpg";
+import stateStandardsImg from "@assets/generated_images/State_AI_Standards_eedb2317.jpg";
+import cityVulnImg from "@assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.jpg";
 
 const industries = [
   "Federal Government",

@@ -19,12 +19,12 @@ import {
   School,
   Users
 } from "lucide-react";
-import futureAISecurityImg from "@assets/generated_images/Future_AI_Security_Podcast_c84aa6b3.png";
-import federalAIImplImg from "@assets/generated_images/Federal_AI_Implementation_778c3628.png";
-import campusSecurityImg from "@assets/generated_images/Campus_Security_Podcast_d6549898.png";
-import studentDataProtImg from "@assets/generated_images/Student_Data_Protection_acedb126.png";
-import threatIntelRevImg from "@assets/generated_images/Threat_Intelligence_Revolution_d66501ef.png";
-import complianceAutoSuccessImg from "@assets/generated_images/Compliance_Automation_Success_2b4e2ceb.png";
+import futureAISecurityImg from "@assets/generated_images/Future_AI_Security_Podcast_c84aa6b3.jpg";
+import federalAIImplImg from "@assets/generated_images/Federal_AI_Implementation_778c3628.jpg";
+import campusSecurityImg from "@assets/generated_images/Campus_Security_Podcast_d6549898.jpg";
+import studentDataProtImg from "@assets/generated_images/Student_Data_Protection_acedb126.jpg";
+import threatIntelRevImg from "@assets/generated_images/Threat_Intelligence_Revolution_d66501ef.jpg";
+import complianceAutoSuccessImg from "@assets/generated_images/Compliance_Automation_Success_2b4e2ceb.jpg";
 
 const categories = [
   "AI Security",
