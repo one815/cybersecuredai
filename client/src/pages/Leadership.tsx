@@ -63,8 +63,8 @@ const googleCloudCertImg = "/api/placeholder/200/150";
 const pmpCertImg = "/api/placeholder/200/150";
 const azureDeveloperCertImg = "/api/placeholder/200/150";
 // Use placeholder for missing certifications
-const vmwareCertImg = null;
-const digitalMarketingCertImg = null;
+const vmwareCertImg = "/api/placeholder/150/150";
+const digitalMarketingCertImg = "/api/placeholder/150/150";
 
 // Import actual certification document images
 const azureSecurityPreviewImg = "/api/placeholder/400/300";
