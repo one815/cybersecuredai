@@ -49,6 +49,7 @@ import hunterAndersonImg from "@assets/Hunter_1756502307221.png";
 import brookeCarlisleImg from "@assets/Brooke Carlisle_1756502307220.png";
 import maureenDizonImg from "@assets/Maureen_1756502307222.png";
 import ceciliaSimpsonImg from "@assets/Cecilia_1756502307221.png";
+import markIbrahimImg from "@assets/Mark Ibrahim_1757525782284.png";
 
 // Import certification and award images
 import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
@@ -174,22 +175,23 @@ export default function Leadership() {
     },
     {
       name: "Mark Ibrahim",
-      title: "Chief Information Security Officer",
-      subtitle: "Former U.S. Army Advisor, Former Analyst & Engineer at Lockheed Martin",
-      bio: "Bringing enterprise-grade security expertise from military and defense contractor experience to protect critical infrastructure and educational institutions with comprehensive cybersecurity frameworks.",
-      education: "MS Cybersecurity, Stanford University",
-      experience: "15+ years enterprise security",
-      certifications: ["CISA", "CEH", "CISSP", "IA"],
-      clearance: "TS/SCI",
+      title: "Chief AI Security Research Officer",
+      subtitle: "Fundamental AI Research Scientist, Meta AI - Privacy-Preserving Machine Learning Expert",
+      bio: "Mark brings cutting-edge AI security and privacy-preserving machine learning expertise from Meta AI to CyberSecured AI's research initiatives. With 2,313+ research citations and extensive work on encrypted data processing, he leads our advanced AI security research and development of privacy-preserving cybersecurity systems.",
+      education: "Ph.D. Computer Science - Machine Learning, Advanced AI Research Specialization",
+      experience: "8+ years AI research at Meta AI (formerly Facebook AI Research), specializing in privacy-preserving ML and encrypted data processing",
+      certifications: ["Verified Google Scholar Researcher", "PyCon US Speaker", "NeurIPS Workshop Presenter", "ICML Tutorial Instructor"],
       projectReferences: [
-        "NSA Cybersecurity Framework Implementation (classified)",
-        "LA Unified School District Security Assessment",
-        "CyberShield Security Infrastructure"
+        "Machine Learning on Encrypted Data with CrypTen (PyCon US 2020 presentation)",
+        "Self-Supervised Learning research with Columbia University collaborators",
+        "NeurIPS 2024 Self-Supervised Learning Workshop (oral presentation)",
+        "ICML 2023 Tutorial on Self-Supervised Learning (400+ attendees)",
+        "Georgia Tech Deep Learning Course instruction (10k+ online students)"
       ],
-      specialties: ["Enterprise Security", "Government Compliance", "Critical Infrastructure", "Defense Security"],
+      specialties: ["Privacy-Preserving Machine Learning", "Encrypted Data Processing", "Self-Supervised Learning", "Robust AI Systems"],
       email: "info@cybersecuredai.com",
-      linkedin: "https://linkedin.com/in/mark-ibrahim",
-      image: sarahChenImg // Using placeholder image for now
+      linkedin: "https://linkedin.com/in/marksibrahim",
+      image: markIbrahimImg
     }
   ];
 
