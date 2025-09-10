@@ -45,7 +45,7 @@ import lucasLopezImg from "@assets/Lucas_1756502307222.png";
 import asalahMahmoudImg from "@assets/Asalah_1756502307219.png";
 import brookeHoldenImg from "@assets/Brooke Holden_1756502307220.png";
 import gregoriaNwagmeImg from "@assets/Gregoria_1756502307221.png";
-import hunterAndersonImg from "@assets/Hunter Anderson_1757526683827.jpeg";
+import hunterAndersonImg from "@assets/Hunter_1757526752576.png";
 import brookeCarlisleImg from "@assets/Brooke Carlisle_1756502307220.png";
 import maureenDizonImg from "@assets/Maureen_1756502307222.png";
 import ceciliaSimpsonImg from "@assets/Cecilia_1756502307221.png";
