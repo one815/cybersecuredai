@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSecured AI - Warranty Statement | RFP #26-02PV</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.75in;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            min-height: 100vh;
+        }
+        
+        .document-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .document-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1f4788, #2d5016, #00bcd4);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .logo-section {
+            margin-bottom: 20px;
+        }
+        
+        .cyber-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #1f4788 0%, #00bcd4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(31, 71, 136, 0.3);
+        }
+        
+        .company-name {
+            font-size: 28pt;
+            font-weight: bold;
+            color: #1f4788;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tagline {
+            font-size: 12pt;
+            color: #2d5016;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .document-title {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #1f4788;
+            margin: 30px 0 20px;
+            text-align: center;
+            border-bottom: 3px solid #1f4788;
+            padding-bottom: 10px;
+        }
+        
+        .rfp-info {
+            background: linear-gradient(135deg, #e6f3ff 0%, #f0f8f0 100%);
+            padding: 20px;
+            border-left: 4px solid #1f4788;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .rfp-number {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #1f4788;
+            margin-bottom: 10px;
+        }
+        
+        .client-name {
+            font-size: 14pt;
+            color: #2d5016;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin: 30px 0;
+        }
+        
+        .section-title {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #1f4788;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #1f4788;
+        }
+        
+        .warranty-item {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #2d5016;
+            border-radius: 5px;
+        }
+        
+        .warranty-title {
+            font-weight: bold;
+            color: #1f4788;
+            font-size: 12pt;
+            margin-bottom: 8px;
+        }
+        
+        .warranty-details {
+            font-size: 11pt;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .term-duration {
+            background: linear-gradient(135deg, #1f4788 0%, #2d5016 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(31, 71, 136, 0.3);
+        }
+        
+        .signature-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .signature-block {
+            display: inline-block;
+            width: 48%;
+            vertical-align: top;
+            margin: 10px 1%;
+        }
+        
+        .signature-line {
+            border-bottom: 2px solid #1f4788;
+            margin: 30px 0 10px;
+            height: 40px;
+        }
+        
+        .signature-label {
+            font-size: 10pt;
+            color: #666;
+            text-align: center;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            text-align: center;
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .contact-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e6f3ff 0%, #f0f8f0 100%);
+            border: 2px solid #1f4788;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .coverage-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .coverage-item h4 {
+            color: #1f4788;
+            margin-top: 0;
+            font-size: 11pt;
+        }
+        
+        ul li {
+            margin-bottom: 8px;
+        }
+        
+        @media print {
+            body { background: white; min-height: auto; }
+            .document-container { box-shadow: none; }
+            .signature-block { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo-section">
+            <div class="cyber-logo">CA</div>
+            <div class="company-name">CyberSecured AI</div>
+            <div class="tagline">Revolutionary Dual AI Architecture Cybersecurity Platform</div>
+        </div>
+        
+        <div class="document-title">WARRANTY STATEMENT</div>
+        
+        <div class="rfp-info">
+            <div class="rfp-number">RFP #26-02PV: Cybersecurity Products and Services</div>
+            <div class="client-name">Paradise Valley Unified School District</div>
+            <div style="font-size: 11pt; margin-top: 10px; color: #666;">
+                1GPA National Governmental Purchasing Cooperative
+            </div>
+        </div>
+    </div>
+
+    <!-- Warranty Overview -->
+    <div class="section">
+        <div class="section-title">COMPREHENSIVE WARRANTY COVERAGE</div>
+        <div class="highlight-box">
+            <p style="font-size: 12pt; font-weight: 600; color: #1f4788; margin-bottom: 15px;">
+                CyberSecured AI provides comprehensive warranty coverage for all cybersecurity products and services delivered under RFP #26-02PV to Paradise Valley Unified School District.
+            </p>
+            <p style="font-size: 11pt; color: #555;">
+                This warranty demonstrates our commitment to delivering reliable, secure, and educationally-focused cybersecurity solutions that meet the highest standards of quality and performance for K-12 educational environments.
+            </p>
+        </div>
+    </div>
+
+    <!-- Warranty Terms -->
+    <div class="section">
+        <div class="section-title">WARRANTY TERMS AND DURATION</div>
+        
+        <div class="term-duration">
+            <div style="font-size: 16pt; margin-bottom: 10px;">5-YEAR COMPREHENSIVE WARRANTY</div>
+            <div style="font-size: 12pt;">Effective from the date of final system acceptance</div>
+        </div>
+
+        <div class="coverage-grid">
+            <div class="coverage-item">
+                <h4>Software & Platform Warranty</h4>
+                <ul style="font-size: 10pt;">
+                    <li>5 years full coverage</li>
+                    <li>Free software updates</li>
+                    <li>Bug fixes and patches</li>
+                    <li>Security updates</li>
+                </ul>
+            </div>
+            <div class="coverage-item">
+                <h4>Hardware Components</h4>
+                <ul style="font-size: 10pt;">
+                    <li>3 years full replacement</li>
+                    <li>Advanced replacement service</li>
+                    <li>On-site installation</li>
+                    <li>Extended coverage options</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specific Warranties -->
+    <div class="section">
+        <div class="section-title">SPECIFIC WARRANTY COVERAGE</div>
+        
+        <div class="warranty-item">
+            <div class="warranty-title">1. CYBERSECURITY PLATFORM PERFORMANCE</div>
+            <div class="warranty-details">
+                <strong>Guaranteed Performance Metrics:</strong>
+                <ul>
+                    <li>99.9% system uptime SLA with 24/7 monitoring</li>
+                    <li>Threat detection accuracy ≥99.5% with minimal false positives</li>
+                    <li>Incident response time ≤4 hours for critical security events</li>
+                    <li>FERPA/CIPA/COPPA compliance maintenance throughout warranty period</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warranty-item">
+            <div class="warranty-title">2. EDUCATIONAL TECHNOLOGY INTEGRATION</div>
+            <div class="warranty-details">
+                <strong>Seamless Integration Warranty:</strong>
+                <ul>
+                    <li>Google Workspace for Education security integration</li>
+                    <li>Microsoft 365 A3/A5 platform compatibility</li>
+                    <li>PowerSchool and Infinite Campus SIS security</li>
+                    <li>Single Sign-On (SSO) functionality across all educational platforms</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warranty-item">
+            <div class="warranty-title">3. AI SECURITY SYSTEMS</div>
+            <div class="warranty-details">
+                <strong>Advanced AI Protection Warranty:</strong>
+                <ul>
+                    <li>Cypher AI Genetic Model continuous evolution and improvement</li>
+                    <li>Privacy-preserving machine learning for student data analytics</li>
+                    <li>Automated threat detection with educational environment optimization</li>
+                    <li>AI ethics compliance for educational technology applications</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warranty-item">
+            <div class="warranty-title">4. COMPLIANCE AND PRIVACY PROTECTION</div>
+            <div class="warranty-details">
+                <strong>Regulatory Compliance Warranty:</strong>
+                <ul>
+                    <li>100% compliance with FERPA (Family Educational Rights and Privacy Act)</li>
+                    <li>CIPA (Children's Internet Protection Act) content filtering compliance</li>
+                    <li>COPPA (Children's Online Privacy Protection Act) adherence</li>
+                    <li>Arizona A.R.S. 15-1046 student privacy law compliance</li>
+                    <li>Automated compliance monitoring and reporting</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warranty-item">
+            <div class="warranty-title">5. SUPPORT AND MAINTENANCE</div>
+            <div class="warranty-details">
+                <strong>Comprehensive Support Warranty:</strong>
+                <ul>
+                    <li>24/7/365 technical support with escalation procedures</li>
+                    <li>On-site support for critical incidents within 4 hours</li>
+                    <li>Regular system health checks and preventive maintenance</li>
+                    <li>Staff training and knowledge transfer programs</li>
+                    <li>Quarterly security assessments and optimization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warranty Exclusions -->
+    <div class="section">
+        <div class="section-title">WARRANTY EXCLUSIONS</div>
+        <div style="font-size: 11pt; color: #555;">
+            <p>This warranty does not cover:</p>
+            <ul>
+                <li>Damage caused by misuse, abuse, or unauthorized modifications</li>
+                <li>Issues resulting from third-party software or hardware not approved by CyberSecured AI</li>
+                <li>Force majeure events beyond reasonable control</li>
+                <li>Network infrastructure not provided by CyberSecured AI</li>
+                <li>Data loss due to user error or non-compliance with security protocols</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Warranty Claims Process -->
+    <div class="section">
+        <div class="section-title">WARRANTY CLAIMS PROCESS</div>
+        <div class="highlight-box">
+            <h4 style="color: #1f4788; margin-top: 0;">Simple 3-Step Claims Process:</h4>
+            <ol style="font-size: 11pt;">
+                <li><strong>Report:</strong> Contact our 24/7 support center via phone, email, or secure portal</li>
+                <li><strong>Assess:</strong> Our technical team will remotely assess the issue within 2 hours</li>
+                <li><strong>Resolve:</strong> On-site or remote resolution within guaranteed SLA timeframes</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-info">
+        <h4 style="color: #1f4788; margin-top: 0;">24/7 WARRANTY SUPPORT</h4>
+        <p style="margin: 5px 0;"><strong>Phone:</strong> 1-800-CYBER-AI (1-800-292-3724)</p>
+        <p style="margin: 5px 0;"><strong>Email:</strong> warranty@cybersecuredai.com</p>
+        <p style="margin: 5px 0;"><strong>Secure Portal:</strong> support.cybersecuredai.com</p>
+        <p style="margin: 5px 0;"><strong>Emergency Line:</strong> Available 24/7 for critical security incidents</p>
+    </div>
+
+    <!-- Signature Section -->
+    <div class="signature-section">
+        <div class="section-title">AUTHORIZED SIGNATURES</div>
+        
+        <div class="signature-block">
+            <div class="signature-line"></div>
+            <div class="signature-label">
+                <strong>Camilia Anderson</strong><br>
+                Chief Executive Officer & Founder<br>
+                CyberSecured AI<br>
+                Date: _______________
+            </div>
+        </div>
+
+        <div class="signature-block">
+            <div class="signature-line"></div>
+            <div class="signature-label">
+                <strong>Hunter Anderson</strong><br>
+                Chief Technology Officer<br>
+                CyberSecured AI<br>
+                Date: _______________
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>CyberSecured AI | Revolutionary Dual AI Architecture Cybersecurity Platform</strong></p>
+        <p>Phoenix, Arizona | RFP #26-02PV Warranty Statement</p>
+        <p>Document Generated: September 10, 2025</p>
+        <p style="margin-top: 15px; font-style: italic;">
+            This warranty statement is binding upon acceptance of our proposal for RFP #26-02PV by Paradise Valley Unified School District.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
