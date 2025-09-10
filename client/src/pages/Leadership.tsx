@@ -141,6 +141,45 @@ export default function Leadership() {
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/dr-sarah-chen",
       image: sarahChenImg
+    },
+    {
+      name: "Michael Rodriguez",
+      title: "Chief Technology Officer",
+      subtitle: "Former Lead AI Engineer at Google DeepMind",
+      bio: "Leading technology innovation with advanced AI/ML expertise from Google DeepMind, driving revolutionary cybersecurity solutions with genetic algorithms and machine learning for government and educational security.",
+      education: "MS Artificial Intelligence/Machine Learning, MIT",
+      experience: "12+ years AI/ML development",
+      certifications: ["CISSP", "AWS Certified", "TensorFlow Expert"],
+      projectReferences: [
+        "Google Cloud AI Security Platform (lead architect)",
+        "Defense Advanced Research Projects Agency (DARPA) AI Security Initiative", 
+        "University of Texas System AI Threat Detection Implementation"
+      ],
+      awards: ["AI Innovation Award 2023", "MIT Technology Review Innovator Under 35"],
+      specialties: ["AI/ML Architecture", "Genetic Algorithms", "Cloud Security", "DARPA Research"],
+      email: "info@cybersecuredai.com",
+      linkedin: "https://linkedin.com/in/michael-rodriguez",
+      image: sarahChenImg // Using placeholder image for now
+    },
+    {
+      name: "Mark Ibrahim",
+      title: "Chief Information Security Officer",
+      subtitle: "Former U.S. Army Advisor, Former Analyst & Engineer at Lockheed Martin",
+      bio: "Bringing enterprise-grade security expertise from military and defense contractor experience to protect critical infrastructure and educational institutions with comprehensive cybersecurity frameworks.",
+      education: "MS Cybersecurity, Stanford University",
+      experience: "15+ years enterprise security",
+      certifications: ["CISA", "CEH", "CISSP", "IA"],
+      clearance: "TS/SCI",
+      projectReferences: [
+        "NSA Cybersecurity Framework Implementation (classified)",
+        "LA Unified School District Security Assessment",
+        "CyberShield Security Infrastructure"
+      ],
+      awards: ["Federal 100 Award Winner", "Government Security Professional of the Year"],
+      specialties: ["Enterprise Security", "Government Compliance", "Critical Infrastructure", "Defense Security"],
+      email: "info@cybersecuredai.com",
+      linkedin: "https://linkedin.com/in/mark-ibrahim",
+      image: sarahChenImg // Using placeholder image for now
     }
   ];
 
@@ -184,30 +223,6 @@ export default function Leadership() {
       image: asalahMahmoudImg
     },
     {
-      name: "Brooke Holden",
-      title: "Cybersecurity Brand Manager", 
-      experience: "5+ Years",
-      education: "Harvard Business School Online - B.A. in International Marketing",
-      highlights: [
-        "Maintain consistent cybersecurity brand messaging across all channels",
-        "Oversee the visual identity of CyberSecured AI brand",
-        "Maintain cohesive and easily identifiable security-focused image"
-      ],
-      image: brookeHoldenImg
-    },
-    {
-      name: "Gregoria Nwagme",
-      title: "Senior Lead Security UI/UX Designer",
-      experience: "15+ Years", 
-      education: "M.A. in Design Innovation - University of Sydney (AU)",
-      highlights: [
-        "Building and configuring cybersecurity dashboard applications",
-        "Ensuring team adherence to security interface design quality standards",
-        "Communicating client security specifications to development teams"
-      ],
-      image: gregoriaNwagmeImg
-    },
-    {
       name: "Hunter Anderson",
       title: "Lead Cybersecurity Full Stack Engineer",
       experience: "10+ Years",
@@ -218,30 +233,6 @@ export default function Leadership() {
         "Maintain high-availability security infrastructure for educational institutions"
       ],
       image: hunterAndersonImg
-    },
-    {
-      name: "Brooke Carlisle",
-      title: "Sustainable Security Engineer",
-      experience: "7+ Years",
-      education: "Jackson State University - Engineering",
-      highlights: [
-        "Developing and implementing sustainable cybersecurity solutions",
-        "Ensuring team adherence to environmental and security standards",
-        "Communicating sustainability goals in cybersecurity to development teams"
-      ],
-      image: brookeCarlisleImg
-    },
-    {
-      name: "Maureen Dizon",
-      title: "Client Cybersecurity Marketing Manager",
-      experience: "10+ Years", 
-      education: "B.S. Marketing",
-      highlights: [
-        "Manage cybersecurity marketing including brand positioning, digital, social, and integrated security awareness programs",
-        "Ensure consistent security messaging across all channels in collaboration with IT and security teams",
-        "Drive comprehensive cybersecurity marketing strategies for educational client success"
-      ],
-      image: maureenDizonImg
     },
     {
       name: "Cecilia Simpson",
@@ -480,8 +471,8 @@ export default function Leadership() {
             {distinguishedLeadership.map((leader, index) => (
               <Card key={index} className="bg-gradient-to-r from-cyber-blue-900/20 to-spring-900/20 border-cyber-blue-500/30 mb-8">
                 <CardContent className="p-8">
-                  <div className="grid lg:grid-cols-3 gap-8 items-center">
-                    <div className="lg:col-span-1 flex justify-center items-center">
+                  <div className="grid lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-1 flex justify-center items-start">
                       <img 
                         src={leader.image} 
                         alt={leader.name}
@@ -492,13 +483,88 @@ export default function Leadership() {
                       <h3 className="text-2xl font-bold text-white mb-2">{leader.name}</h3>
                       <p className="text-spring-400 font-semibold mb-1">{leader.title}</p>
                       <p className="text-cyber-blue-400 mb-4">{leader.subtitle}</p>
+                      
+                      {/* Education and Experience for new members */}
+                      {leader.education && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-1">Education</h4>
+                          <p className="text-gray-300 text-sm">{leader.education}</p>
+                        </div>
+                      )}
+                      
+                      {leader.experience && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-1">Experience</h4>
+                          <p className="text-gray-300 text-sm">{leader.experience}</p>
+                        </div>
+                      )}
+                      
                       <p className="text-gray-300 mb-6 leading-relaxed">{leader.bio}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {leader.specialties.map((specialty, specIndex) => (
-                          <Badge key={specIndex} variant="outline" className="border-spring-400/30 text-spring-400 bg-spring-400/10">
-                            {specialty}
+                      
+                      {/* Certifications */}
+                      {leader.certifications && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-2">Certifications</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {leader.certifications.map((cert, certIndex) => (
+                              <Badge key={certIndex} className="bg-orange-500/20 text-orange-400 border-orange-500/30">
+                                {cert}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Security Clearance */}
+                      {leader.clearance && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-1">Security Clearance</h4>
+                          <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                            {leader.clearance}
                           </Badge>
-                        ))}
+                        </div>
+                      )}
+                      
+                      {/* Project References */}
+                      {leader.projectReferences && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-2">Project References</h4>
+                          <div className="space-y-1">
+                            {leader.projectReferences.map((project, projectIndex) => (
+                              <div key={projectIndex} className="flex items-start gap-2">
+                                <Enhanced4DCheckCircleIcon className="glass-icon w-4 h-4 mt-0.5 text-spring-400" size={16} />
+                                <span className="text-gray-300 text-sm">{project}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Awards */}
+                      {leader.awards && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-2">Awards & Recognition</h4>
+                          <div className="space-y-1">
+                            {leader.awards.map((award, awardIndex) => (
+                              <div key={awardIndex} className="flex items-start gap-2">
+                                <Enhanced4DStarIcon className="glass-icon w-4 h-4 mt-0.5 text-spring-400" size={16} />
+                                <span className="text-gray-300 text-sm">{award}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Specialties */}
+                      <div className="mb-4">
+                        <h4 className="text-sm font-semibold text-white mb-2">Specialties</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {leader.specialties.map((specialty, specIndex) => (
+                            <Badge key={specIndex} variant="outline" className="border-spring-400/30 text-spring-400 bg-spring-400/10">
+                              {specialty}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
