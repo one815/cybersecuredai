@@ -161,7 +161,7 @@ export default function Leadership() {
       education: "MS Computer Science - Cybersecurity, Carnegie Mellon University; BS Computer Engineering, Virginia Tech",
       experience: "14+ years cybersecurity engineering, Former Senior Systems Engineer at NSA, Former Principal Architect at Raytheon Technologies",
       certifications: ["CISSP", "CISM", "AWS Solutions Architect Professional", "SANS GIAC Security Expert (GSE)"],
-      clearance: "TS/SCI",
+      clearance: "Confidential",
       projectReferences: [
         "NSA Advanced Persistent Threat Detection System (classified)",
         "DoD Enterprise Security Architecture Implementation",
