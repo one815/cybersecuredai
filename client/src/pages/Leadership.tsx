@@ -175,7 +175,6 @@ export default function Leadership() {
         "LA Unified School District Security Assessment",
         "CyberShield Security Infrastructure"
       ],
-      awards: ["Federal 100 Award Winner", "Government Security Professional of the Year"],
       specialties: ["Enterprise Security", "Government Compliance", "Critical Infrastructure", "Defense Security"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/mark-ibrahim",
