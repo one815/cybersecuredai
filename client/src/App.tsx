@@ -3,145 +3,160 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Layout } from "@/components/Layout";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthProvider } from "@/contexts/AuthContext";
-import NotFound from "@/pages/not-found";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Platform/Dashboard Pages
-import Dashboard from "@/pages/Dashboard";
-import ThreatMonitoring from "@/pages/ThreatMonitoring";
-import ThreatAnalysis from "@/pages/ThreatAnalysis";
-import ThreatDetection from "@/pages/ThreatDetection";
-import Authentication from "@/pages/Authentication";
-import FileSharing from "@/pages/FileSharing";
-import Compliance from "@/pages/Compliance";
-import Achievements from "@/pages/Achievements";
-import UserManagement from "@/pages/UserManagement";
-import Reports from "@/pages/Reports";
-import IncidentResponse from "@/pages/IncidentResponse";
-import AdminPanel from "@/pages/AdminPanel";
-import AIConfiguration from "@/pages/AIConfiguration";
-import SecurityIntegrations from "@/pages/SecurityIntegrations";
-import ITManagement from "@/pages/ITManagement";
-import SecurityTraining from "@/pages/SecurityTraining";
-import HelpDesk from "@/pages/HelpDesk";
-import Resources from "@/pages/Resources";
-import Courses from "@/pages/Courses";
-import BlogPosts from "@/pages/BlogPosts";
-import Handbooks from "@/pages/Handbooks";
-import Webinars from "@/pages/Webinars";
-import WhitePapers from "@/pages/WhitePapers";
-import Podcasts from "@/pages/Podcasts";
-import SuccessKits from "@/pages/SuccessKits";
-import Videos from "@/pages/Videos";
-import UseCases from "@/pages/UseCases";
-import EBooks from "@/pages/EBooks";
-import DataSheets from "@/pages/DataSheets";
-import ClientStories from "@/pages/ClientStories";
-import Demos from "@/pages/Demos";
-import Integrations from "@/pages/Integrations";
-import MarketingReports from "@/pages/MarketingReports";
-import SecurityOverview from "@/pages/SecurityOverview";
-import SecurityDashboard from "@/pages/SecurityDashboard";
-import ThreatIntelligenceDashboard from "@/pages/ThreatIntelligenceDashboard";
-import MISPLiveDashboard from "@/pages/MISPLiveDashboard";
-import MISPBenefits from "@/pages/MISPBenefits";
-import VulnerabilityTrendDashboard from "@/pages/VulnerabilityTrendDashboard";
-import ThreatMap5D from "@/pages/ThreatMap5D";
+// Error Boundary for lazy components
+const LazyErrorBoundary = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-[200px]"><Skeleton className="w-full h-[200px]" /></div>}>
+      {children}
+    </Suspense>
+  );
+};
 
-// Marketing Website Pages
-import Home from "@/pages/Home";
-import AboutUs from "@/pages/AboutUs";
-import Leadership from "@/pages/Leadership";
-import Awards from "@/pages/Awards";
-import Contact from "@/pages/Contact";
-import Solutions from "@/pages/Solutions";
-import Services from "@/pages/Services";
-import Pricing from "@/pages/Pricing";
-import SecurityScanner from "@/pages/SecurityScanner";
-import BasicSecurityScan from "@/pages/BasicSecurityScan";
-import Careers from "@/pages/Careers";
-import Blogs from "@/pages/Blogs";
-import News from "@/pages/News";
-import { ClientLogin } from "@/pages/ClientLogin";
-import ThreatReport2025 from "@/pages/ThreatReport2025";
-import SecurityPlaybookSimulator from "@/pages/SecurityPlaybookSimulator";
+const NotFound = lazy(() => import("@/pages/not-found"));
 
-// Marketing Document Viewers
-import DocumentViewer from "@/pages/marketing/DocumentViewer";
-import ArticleViewer from "@/pages/marketing/ArticleViewer";
-import CourseViewer from "@/pages/marketing/CourseViewer";
-import WhyCyberSecuredAI from "@/pages/WhyCyberSecureAI";
-import FuturisticDemo from "@/pages/FuturisticDemo";
+// Platform/Dashboard Pages - Lazy loaded for code splitting
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const ThreatMonitoring = lazy(() => import("@/pages/ThreatMonitoring"));
+const ThreatAnalysis = lazy(() => import("@/pages/ThreatAnalysis"));
+const ThreatDetection = lazy(() => import("@/pages/ThreatDetection"));
+const Authentication = lazy(() => import("@/pages/Authentication"));
+const FileSharing = lazy(() => import("@/pages/FileSharing"));
+const Compliance = lazy(() => import("@/pages/Compliance"));
+const Achievements = lazy(() => import("@/pages/Achievements"));
+const UserManagement = lazy(() => import("@/pages/UserManagement"));
+const Reports = lazy(() => import("@/pages/Reports"));
+const IncidentResponse = lazy(() => import("@/pages/IncidentResponse"));
+const AdminPanel = lazy(() => import("@/pages/AdminPanel"));
+const AIConfiguration = lazy(() => import("@/pages/AIConfiguration"));
+const SecurityIntegrations = lazy(() => import("@/pages/SecurityIntegrations"));
+const ITManagement = lazy(() => import("@/pages/ITManagement"));
+const SecurityTraining = lazy(() => import("@/pages/SecurityTraining"));
+const HelpDesk = lazy(() => import("@/pages/HelpDesk"));
+const Resources = lazy(() => import("@/pages/Resources"));
+const Courses = lazy(() => import("@/pages/Courses"));
+const BlogPosts = lazy(() => import("@/pages/BlogPosts"));
+const Handbooks = lazy(() => import("@/pages/Handbooks"));
+const Webinars = lazy(() => import("@/pages/Webinars"));
+const WhitePapers = lazy(() => import("@/pages/WhitePapers"));
+const Podcasts = lazy(() => import("@/pages/Podcasts"));
+const SuccessKits = lazy(() => import("@/pages/SuccessKits"));
+const Videos = lazy(() => import("@/pages/Videos"));
+const UseCases = lazy(() => import("@/pages/UseCases"));
+const EBooks = lazy(() => import("@/pages/EBooks"));
+const DataSheets = lazy(() => import("@/pages/DataSheets"));
+const ClientStories = lazy(() => import("@/pages/ClientStories"));
+const Demos = lazy(() => import("@/pages/Demos"));
+const Integrations = lazy(() => import("@/pages/Integrations"));
+const MarketingReports = lazy(() => import("@/pages/MarketingReports"));
+const SecurityOverview = lazy(() => import("@/pages/SecurityOverview"));
+const SecurityDashboard = lazy(() => import("@/pages/SecurityDashboard"));
+const ThreatIntelligenceDashboard = lazy(() => import("@/pages/ThreatIntelligenceDashboard"));
+const MISPLiveDashboard = lazy(() => import("@/pages/MISPLiveDashboard"));
+const MISPBenefits = lazy(() => import("@/pages/MISPBenefits"));
+const VulnerabilityTrendDashboard = lazy(() => import("@/pages/VulnerabilityTrendDashboard"));
+// Heavy 3D visualization component - lazy loaded to reduce initial bundle
+const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
 
-// Solutions Pages
-import RansomwareProtection from "@/pages/solutions/RansomwareProtection";
-import ZeroTrustSecurity from "@/pages/solutions/ZeroTrustSecurity";
-import CloudSecurity from "@/pages/solutions/CloudSecurity";
-import AIThreatDetection from "@/pages/solutions/AIThreatDetection";
-import K12Education from "@/pages/solutions/K12Education";
-import HigherEducation from "@/pages/solutions/HigherEducation";
-import MunicipalGovernment from "@/pages/solutions/MunicipalGovernment";
-import FederalAgencies from "@/pages/solutions/FederalAgencies";
+// Marketing Website Pages - Lazy loaded
+const Home = lazy(() => import("@/pages/Home"));
+const AboutUs = lazy(() => import("@/pages/AboutUs"));
+const Leadership = lazy(() => import("@/pages/Leadership"));
+const Awards = lazy(() => import("@/pages/Awards"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const Solutions = lazy(() => import("@/pages/Solutions"));
+const Services = lazy(() => import("@/pages/Services"));
+const Pricing = lazy(() => import("@/pages/Pricing"));
+const SecurityScanner = lazy(() => import("@/pages/SecurityScanner"));
+const BasicSecurityScan = lazy(() => import("@/pages/BasicSecurityScan"));
+const Careers = lazy(() => import("@/pages/Careers"));
+const Blogs = lazy(() => import("@/pages/Blogs"));
+const News = lazy(() => import("@/pages/News"));
+const ClientLogin = lazy(() => import("@/pages/ClientLogin").then(m => ({ default: m.ClientLogin })));
+const ThreatReport2025 = lazy(() => import("@/pages/ThreatReport2025"));
+const SecurityPlaybookSimulator = lazy(() => import("@/pages/SecurityPlaybookSimulator"));
 
-// Platform Pages
-import Platform from "@/pages/Platform";
-import AutomatedIncidentResponse from "@/pages/platform/AutomatedIncidentResponse";
-import PlatformThreatDetection from "@/pages/platform/ThreatDetection";
-import PredictiveRiskAnalysis from "@/pages/platform/PredictiveRiskAnalysis";
-import ComplianceAutomation from "@/pages/platform/ComplianceAutomation";
-import PlatformSecurityTraining from "@/pages/platform/SecurityTraining";
-import MonitoringVulnerability from "@/pages/platform/MonitoringVulnerability";
-import FirewallManagement from "@/pages/platform/FirewallManagement";
-import NetworkMonitoring from "@/pages/platform/NetworkMonitoring";
-import ZeroTrustArchitecture from "@/pages/platform/ZeroTrustArchitecture";
-import IdentityAccessManagement from "@/pages/platform/IdentityAccessManagement";
-import SystemAdministration from "@/pages/platform/SystemAdministration";
-import HardwareSecurityModules from "@/pages/platform/HardwareSecurityModules";
-import BiometricAuthentication from "@/pages/platform/BiometricAuthentication";
-import EnhancedThreatIntelligence from "@/pages/platform/EnhancedThreatIntelligence";
-import SecurityInfrastructureMonitoring from "@/pages/platform/SecurityInfrastructureMonitoring";
-import EnterpriseIAM from "@/pages/platform/EnterpriseIAM";
-import MLAnalytics from "@/pages/platform/MLAnalytics";
-import ThreatConnectAttribution from "@/pages/platform/ThreatConnectAttribution";
-import IBMXForceIntelligence from "@/pages/platform/IBMXForceIntelligence";
-import AlternativeThreatFeeds from "@/pages/platform/AlternativeThreatFeeds";
-import TaxiiStixManagement from "@/pages/platform/TaxiiStixManagement";
-import { MandiantIntelligence } from "@/pages/platform/MandiantIntelligence";
-import { TheHiveIntegration } from "@/pages/TheHiveIntegration";
-import LegalDocumentation from "@/pages/LegalDocumentation";
-import LegalNew from "@/pages/LegalNew";
-import TermsOfService from "@/pages/TermsOfService";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import AcceptableUsePolicy from "@/pages/AcceptableUsePolicy";
-import CookiePolicy from "@/pages/CookiePolicy";
-import DataSecurityPolicy from "@/pages/DataSecurityPolicy";
-import RefundPolicy from "@/pages/RefundPolicy";
-import ServiceLevelAgreement from "@/pages/ServiceLevelAgreement";
-import GDPRCompliance from "@/pages/GDPRCompliance";
-import FERPACompliance from "@/pages/FERPACompliance";
-import CCPACompliance from "@/pages/CCPACompliance";
-import TermsOfUse from "@/pages/TermsOfUse";
-import VulnerabilityDisclosure from "@/pages/VulnerabilityDisclosure";
-import COPPACompliance from "@/pages/COPPACompliance";
-import SMSMessagingPolicy from "@/pages/SMSMessagingPolicy";
-import AIEthicsStatement from "@/pages/AIEthicsStatement";
-import EnterpriseSecurity from "@/pages/EnterpriseSecurity";
-import ExternalIntegrationsPage from "@/pages/ExternalIntegrations";
+// Marketing Document Viewers - Lazy loaded
+const DocumentViewer = lazy(() => import("@/pages/marketing/DocumentViewer"));
+const ArticleViewer = lazy(() => import("@/pages/marketing/ArticleViewer"));
+const CourseViewer = lazy(() => import("@/pages/marketing/CourseViewer"));
+const WhyCyberSecuredAI = lazy(() => import("@/pages/WhyCyberSecureAI"));
+// Heavy demo with 3D/visualization components - lazy loaded
+const FuturisticDemo = lazy(() => import("@/pages/FuturisticDemo"));
 
-// Resource Pages
-import DataSheetFederalZeroTrust from "@/pages/resources/DataSheetFederalZeroTrust";
-import DataSheetCriticalInfrastructure from "@/pages/resources/DataSheetCriticalInfrastructure";
-import DataSheetRapidResponse from "@/pages/resources/DataSheetRapidResponse";
-import DataSheetUniversityResearch from "@/pages/resources/DataSheetUniversityResearch";
+// Solutions Pages - Lazy loaded
+const RansomwareProtection = lazy(() => import("@/pages/solutions/RansomwareProtection"));
+const ZeroTrustSecurity = lazy(() => import("@/pages/solutions/ZeroTrustSecurity"));
+const CloudSecurity = lazy(() => import("@/pages/solutions/CloudSecurity"));
+const AIThreatDetection = lazy(() => import("@/pages/solutions/AIThreatDetection"));
+const K12Education = lazy(() => import("@/pages/solutions/K12Education"));
+const HigherEducation = lazy(() => import("@/pages/solutions/HigherEducation"));
+const MunicipalGovernment = lazy(() => import("@/pages/solutions/MunicipalGovernment"));
+const FederalAgencies = lazy(() => import("@/pages/solutions/FederalAgencies"));
 
-// Client Story Pages
-import FederalEducationSecurity from "@/pages/client-stories/FederalEducationSecurity";
-import UniversityFerpaCompliance from "@/pages/client-stories/UniversityFerpaCompliance";
-import K12CostSavings from "@/pages/client-stories/K12CostSavings";
+// Platform Pages - Lazy loaded
+const Platform = lazy(() => import("@/pages/Platform"));
+const AutomatedIncidentResponse = lazy(() => import("@/pages/platform/AutomatedIncidentResponse"));
+const PlatformThreatDetection = lazy(() => import("@/pages/platform/ThreatDetection"));
+const PredictiveRiskAnalysis = lazy(() => import("@/pages/platform/PredictiveRiskAnalysis"));
+const ComplianceAutomation = lazy(() => import("@/pages/platform/ComplianceAutomation"));
+const PlatformSecurityTraining = lazy(() => import("@/pages/platform/SecurityTraining"));
+const MonitoringVulnerability = lazy(() => import("@/pages/platform/MonitoringVulnerability"));
+const FirewallManagement = lazy(() => import("@/pages/platform/FirewallManagement"));
+const NetworkMonitoring = lazy(() => import("@/pages/platform/NetworkMonitoring"));
+const ZeroTrustArchitecture = lazy(() => import("@/pages/platform/ZeroTrustArchitecture"));
+const IdentityAccessManagement = lazy(() => import("@/pages/platform/IdentityAccessManagement"));
+const SystemAdministration = lazy(() => import("@/pages/platform/SystemAdministration"));
+const HardwareSecurityModules = lazy(() => import("@/pages/platform/HardwareSecurityModules"));
+const BiometricAuthentication = lazy(() => import("@/pages/platform/BiometricAuthentication"));
+const EnhancedThreatIntelligence = lazy(() => import("@/pages/platform/EnhancedThreatIntelligence"));
+const SecurityInfrastructureMonitoring = lazy(() => import("@/pages/platform/SecurityInfrastructureMonitoring"));
+const EnterpriseIAM = lazy(() => import("@/pages/platform/EnterpriseIAM"));
+// Heavy ML/Analytics component - lazy loaded
+const MLAnalytics = lazy(() => import("@/pages/platform/MLAnalytics"));
+const ThreatConnectAttribution = lazy(() => import("@/pages/platform/ThreatConnectAttribution"));
+const IBMXForceIntelligence = lazy(() => import("@/pages/platform/IBMXForceIntelligence"));
+const AlternativeThreatFeeds = lazy(() => import("@/pages/platform/AlternativeThreatFeeds"));
+const TaxiiStixManagement = lazy(() => import("@/pages/platform/TaxiiStixManagement"));
+const MandiantIntelligence = lazy(() => import("@/pages/platform/MandiantIntelligence").then(m => ({ default: m.MandiantIntelligence })));
+const TheHiveIntegration = lazy(() => import("@/pages/TheHiveIntegration").then(m => ({ default: m.TheHiveIntegration })));
+// Legal and Compliance Pages - Lazy loaded
+const LegalDocumentation = lazy(() => import("@/pages/LegalDocumentation"));
+const LegalNew = lazy(() => import("@/pages/LegalNew"));
+const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+const AcceptableUsePolicy = lazy(() => import("@/pages/AcceptableUsePolicy"));
+const CookiePolicy = lazy(() => import("@/pages/CookiePolicy"));
+const DataSecurityPolicy = lazy(() => import("@/pages/DataSecurityPolicy"));
+const RefundPolicy = lazy(() => import("@/pages/RefundPolicy"));
+const ServiceLevelAgreement = lazy(() => import("@/pages/ServiceLevelAgreement"));
+const GDPRCompliance = lazy(() => import("@/pages/GDPRCompliance"));
+const FERPACompliance = lazy(() => import("@/pages/FERPACompliance"));
+const CCPACompliance = lazy(() => import("@/pages/CCPACompliance"));
+const TermsOfUse = lazy(() => import("@/pages/TermsOfUse"));
+const VulnerabilityDisclosure = lazy(() => import("@/pages/VulnerabilityDisclosure"));
+const COPPACompliance = lazy(() => import("@/pages/COPPACompliance"));
+const SMSMessagingPolicy = lazy(() => import("@/pages/SMSMessagingPolicy"));
+const AIEthicsStatement = lazy(() => import("@/pages/AIEthicsStatement"));
+const EnterpriseSecurity = lazy(() => import("@/pages/EnterpriseSecurity"));
+const ExternalIntegrationsPage = lazy(() => import("@/pages/ExternalIntegrations"));
+
+// Resource Pages - Lazy loaded
+const DataSheetFederalZeroTrust = lazy(() => import("@/pages/resources/DataSheetFederalZeroTrust"));
+const DataSheetCriticalInfrastructure = lazy(() => import("@/pages/resources/DataSheetCriticalInfrastructure"));
+const DataSheetRapidResponse = lazy(() => import("@/pages/resources/DataSheetRapidResponse"));
+const DataSheetUniversityResearch = lazy(() => import("@/pages/resources/DataSheetUniversityResearch"));
+
+// Client Story Pages - Lazy loaded
+const FederalEducationSecurity = lazy(() => import("@/pages/client-stories/FederalEducationSecurity"));
+const UniversityFerpaCompliance = lazy(() => import("@/pages/client-stories/UniversityFerpaCompliance"));
+const K12CostSavings = lazy(() => import("@/pages/client-stories/K12CostSavings"));
 
 function Router() {
   const { user, isLoading } = useAuth();
@@ -198,7 +213,8 @@ function Router() {
 
   return (
     <>
-      <Switch>
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-interactive"></div></div>}>
+        <Switch>
         {/* Marketing Website Routes (no Layout wrapper) */}
       <Route path="/" component={Home} />
       <Route path="/about" component={AboutUs} />
@@ -560,7 +576,8 @@ function Router() {
       <Route path="/marketing/case-studies/:useCase" component={ArticleViewer} />
       
         <Route component={NotFound} />
-      </Switch>
+        </Switch>
+      </Suspense>
       
     </>
   );

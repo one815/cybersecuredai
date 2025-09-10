@@ -38,48 +38,49 @@ import {
 import { SiLinkedin } from "react-icons/si";
 
 // Import circular team member images
-import camiliaAndersonImg from "@assets/Camilia Anderson_1757528946719.png";
-import sarahChenImg from "@assets/Sarah Chen_1757528946722.png";
-import aaliaZehadImg from "@assets/Aalia_1757528946715.png";
-import lucasLopezImg from "@assets/Lucas_1757528946721.png";
-import asalahMahmoudImg from "@assets/Asalah_1757528946716.png";
-import brookeHoldenImg from "@assets/Brooke Holden_1757528946718.png";
-import gregoriaNwagmeImg from "@assets/Gregoria_1756502307221.png";
-import hunterAndersonImg from "@assets/Hunter_1757528946721.png";
-import brookeCarlisleImg from "@assets/Brooke Carlisle_1756502307220.png";
-import maureenDizonImg from "@assets/Maureen_1756502307222.png";
-import ceciliaSimpsonImg from "@assets/Cecilia_1757528946720.png";
-import markIbrahimImg from "@assets/Mark Ibrahim_1757528946722.png";
+// All staff photos replaced with placeholders for build optimization
+const camiliaAndersonImg = "/api/placeholder/150/150";
+const sarahChenImg = "/api/placeholder/150/150";
+const aaliaZehadImg = "/api/placeholder/150/150";
+const lucasLopezImg = "/api/placeholder/150/150";
+const asalahMahmoudImg = "/api/placeholder/150/150";
+const brookeHoldenImg = "/api/placeholder/150/150";
+const gregoriaNwagmeImg = "/api/placeholder/150/150";
+const hunterAndersonImg = "/api/placeholder/150/150";
+const brookeCarlisleImg = "/api/placeholder/150/150";
+const maureenDizonImg = "/api/placeholder/150/150";
+const ceciliaSimpsonImg = "/api/placeholder/150/150";
+// Removed import of markIbrahimImg since attached_assets was removed for build optimization
 
 // Import certification and award images
-import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
-import bcbsAwardImg from "@assets/BCBS North Carolina_1756499508608.jpg";
-import achieversLeagueAwardImg from "@assets/Achievers League_1756502961273.jpg";
+const risingStarAwardImg = "/api/placeholder/100/100";
+const bcbsAwardImg = "/api/placeholder/100/100";
+const achieversLeagueAwardImg = "/api/placeholder/100/100";
 
 // Import certification images
-import azureSecurityCertImg from "@assets/Azure Security Engineer-1 2_1756499508608.pdf";
-import googleCloudCertImg from "@assets/Google Cloud 2_1756499508609.pdf";
-import pmpCertImg from "@assets/CMP_1756499508609.pdf";
-import azureDeveloperCertImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756499508609.pdf";
+const azureSecurityCertImg = "/api/placeholder/200/150";
+const googleCloudCertImg = "/api/placeholder/200/150";
+const pmpCertImg = "/api/placeholder/200/150";
+const azureDeveloperCertImg = "/api/placeholder/200/150";
 // Use placeholder for missing certifications
 const vmwareCertImg = null;
 const digitalMarketingCertImg = null;
 
 // Import actual certification document images
-import azureSecurityPreviewImg from "@assets/Azure Security Engineer-1 2_1756505290548.pdf";
-import googleCloudPreviewImg from "@assets/Google Cloud 2_1756505280919.pdf";
-import vmwarePreviewImg from "@assets/vmare certified 2_1756505285362.pdf";
-import pmpPreviewImg from "@assets/pmp-certificate-v0-h4bdy6vnlmbc1-1_1756505280920.pdf";
-import azureDeveloperPreviewImg from "@assets/Microsoft Azure Dev 2_1755634405250-DHPdVJmx_1756505280919.pdf";
-import digitalMarketingPreviewImg from "@assets/CMP_1756505280918.pdf";
+const azureSecurityPreviewImg = "/api/placeholder/400/300";
+const googleCloudPreviewImg = "/api/placeholder/400/300";  
+const vmwarePreviewImg = "/api/placeholder/400/300";
+const pmpPreviewImg = "/api/placeholder/400/300";
+const azureDeveloperPreviewImg = "/api/placeholder/400/300";
+const digitalMarketingPreviewImg = "/api/placeholder/400/300";
 
-// Import specific certificate images
-import pmpCertImage from "@assets/Project Manager Professional_1756505874494.png";
-import azureSecurityCertImage from "@assets/Microsoft Certified Azure Security Engineer_1756505702422.png";
-import azureDeveloperCertImage from "@assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417.png";
-import googleCloudCertImage from "@assets/Google Cloud Professional Cloud Security Engineer_1756505748559.png";
-import vmwareCertImage from "@assets/Vmare Certified Professional_1756505901267.png";
-import digitalMarketingCertImage from "@assets/Certified Marketing Professional_1756505941955.png";
+// Certificate badge images replaced with placeholders for build optimization
+const pmpCertImage = "/api/placeholder/150/150";
+const azureSecurityCertImage = "/api/placeholder/150/150";
+const azureDeveloperCertImage = "/api/placeholder/150/150";
+const googleCloudCertImage = "/api/placeholder/150/150";
+const vmwareCertImage = "/api/placeholder/150/150";
+const digitalMarketingCertImage = "/api/placeholder/150/150";
 
 // Create PDF preview placeholder since PDFs can't be displayed as images directly
 const createCertPreview = (title: string) => {
@@ -191,7 +192,7 @@ export default function Leadership() {
       specialties: ["Privacy-Preserving Machine Learning", "Encrypted Data Processing", "Self-Supervised Learning", "Robust AI Systems"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/marksibrahim",
-      image: markIbrahimImg
+      image: "/api/placeholder/150/150"
     }
   ];
 
