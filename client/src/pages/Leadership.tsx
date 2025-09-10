@@ -147,7 +147,6 @@ export default function Leadership() {
         "Stanford AI Safety Research Initiative (founding director)",
         "Department of Energy AI Security Assessment Project"
       ],
-      awards: ["IEEE Computer Society Cybersecurity Award for Practice", "IEEE Symposium on Security and Privacy Best Paper Award", "AI's 10 to Watch Award - IEEE Computer Society", "Stanford Distinguished Teaching Award"],
       specialties: ["Machine Learning Security", "AI Threat Research", "Strategic AI Implementation", "Adversarial AI Defense"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/dr-sarah-chen",
@@ -168,7 +167,6 @@ export default function Leadership() {
         "Federal Aviation Administration Critical Infrastructure Protection",
         "Department of Homeland Security Cybersecurity Framework Integration"
       ],
-      awards: ["NSA Frank B. Rowlett Award for Individual Achievement", "Federal 100 Award Winner", "DoD CIO Excellence Award"],
       specialties: ["Enterprise Security Architecture", "Critical Infrastructure Protection", "Real-time Threat Detection", "Federal Compliance Systems"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/hunter-anderson-cto",
