@@ -16,7 +16,7 @@ import {
   Enhanced4DBuildingIcon,
   Enhanced4DUsersIcon,
   Enhanced4DEyeIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { 
   Mail, 
   Award, 

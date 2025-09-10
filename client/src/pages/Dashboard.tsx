@@ -63,7 +63,7 @@ import {
   Enhanced4DActivityIcon,
   CustomTargetIcon,
   CustomShieldIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 
 export default function Dashboard() {
   const { user } = useAuth();

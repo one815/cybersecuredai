@@ -34,7 +34,7 @@ import {
   Enhanced4DTargetIcon,
   Enhanced4DEyeIcon,
   Enhanced4DActivityIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 
 export default function ThreatIntelligence() {
   const [threatFeeds] = useState([

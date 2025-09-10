@@ -34,7 +34,7 @@ import {
   Enhanced4DShieldIcon,
   Enhanced4DEyeIcon,
   Enhanced4DActivityIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { useAuth } from "@/hooks/useAuth";
 
 interface SecurityMetric {

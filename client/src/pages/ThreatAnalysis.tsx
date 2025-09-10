@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Eye } from "lucide-react";
 import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.jpg';
-import { CustomDatabaseIcon, CustomTargetIcon, CustomUserIcon } from "@/components/CustomIcons";
+import { CustomDatabaseIcon, CustomTargetIcon, CustomUserIcon } from "@/components/LazyCustomIcons";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useQuery } from "@tanstack/react-query";
 

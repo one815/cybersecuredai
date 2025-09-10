@@ -10,7 +10,7 @@ import {
   Enhanced4DTrendingUpIcon,
   Enhanced4DGlobeIcon,
   Enhanced4DArrowRightIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { 
   Shield, 
   Brain, 

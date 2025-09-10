@@ -31,7 +31,7 @@ import {
   Enhanced4DBuildingIcon,
   Enhanced4DSettingsIcon,
   Enhanced4DStarIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { 
   Globe, 
   Building, 

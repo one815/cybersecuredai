@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Enhanced4DActivityIcon,
   Enhanced4DBrainIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { GeospatialIntelligenceMap } from "@/components/GeospatialIntelligenceMap";
 
 interface ThreatStats {

@@ -19,7 +19,7 @@ import {
   Enhanced4DBuildingIcon,
   Enhanced4DCrownIcon,
   Enhanced4DPhoneIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { Link } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 

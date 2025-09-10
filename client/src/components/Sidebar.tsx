@@ -10,7 +10,7 @@ import {
   CustomUserIcon, 
   CustomTargetIcon,
   CustomHeadphonesIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 // Modern 3D/Futuristic Icons
 import { 
   LayoutDashboard, 

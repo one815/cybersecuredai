@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import {
   Enhanced4DEyeIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import govAIFundamentalsImg from "@assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.jpg";
 import advThreatDetectionImg from "@assets/generated_images/Advanced_Threat_Detection_Video_03258c71.jpg";
 import ferpaComplianceVideoImg from "@assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.jpg";

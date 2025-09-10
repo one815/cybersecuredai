@@ -32,7 +32,7 @@ import {
   Enhanced4DGlobeIcon,
   Enhanced4DServerIcon,
   Enhanced4DBuildingIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 
