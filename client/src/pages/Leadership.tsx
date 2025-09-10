@@ -143,23 +143,25 @@ export default function Leadership() {
       image: sarahChenImg
     },
     {
-      name: "Michael Rodriguez",
+      name: "Hunter Anderson",
       title: "Chief Technology Officer",
-      subtitle: "Former Lead AI Engineer at Google DeepMind",
-      bio: "Leading technology innovation with advanced AI/ML expertise from Google DeepMind, driving revolutionary cybersecurity solutions with genetic algorithms and machine learning for government and educational security.",
-      education: "MS Artificial Intelligence/Machine Learning, MIT",
-      experience: "12+ years AI/ML development",
-      certifications: ["CISSP", "AWS Certified", "TensorFlow Expert"],
+      subtitle: "Cybersecurity Systems Architect & Former NSA Senior Engineer",
+      bio: "Hunter leads CyberSecured AI's technical architecture and platform development with extensive experience in government-grade cybersecurity systems. His expertise in distributed security frameworks, real-time threat analysis, and high-availability infrastructure drives our platform's enterprise capabilities. Hunter's background in classified defense systems and large-scale security implementations ensures our technology meets the most demanding federal security requirements.",
+      education: "MS Computer Science - Cybersecurity, Carnegie Mellon University; BS Computer Engineering, Virginia Tech",
+      experience: "14+ years cybersecurity engineering, Former Senior Systems Engineer at NSA, Former Principal Architect at Raytheon Technologies",
+      certifications: ["CISSP", "CISM", "AWS Solutions Architect Professional", "SANS GIAC Security Expert (GSE)"],
+      clearance: "TS/SCI",
       projectReferences: [
-        "Google Cloud AI Security Platform (lead architect)",
-        "Defense Advanced Research Projects Agency (DARPA) AI Security Initiative", 
-        "University of Texas System AI Threat Detection Implementation"
+        "NSA Advanced Persistent Threat Detection System (classified)",
+        "DoD Enterprise Security Architecture Implementation",
+        "Federal Aviation Administration Critical Infrastructure Protection",
+        "Department of Homeland Security Cybersecurity Framework Integration"
       ],
-      awards: ["AI Innovation Award 2023", "MIT Technology Review Innovator Under 35"],
-      specialties: ["AI/ML Architecture", "Genetic Algorithms", "Cloud Security", "DARPA Research"],
+      awards: ["NSA Exceptional Civilian Service Award", "Federal Computer Week Federal 100 Winner", "DoD Cybersecurity Excellence Award"],
+      specialties: ["Enterprise Security Architecture", "Critical Infrastructure Protection", "Real-time Threat Detection", "Federal Compliance Systems"],
       email: "info@cybersecuredai.com",
-      linkedin: "https://linkedin.com/in/michael-rodriguez",
-      image: sarahChenImg // Using placeholder image for now
+      linkedin: "https://linkedin.com/in/hunter-anderson-cto",
+      image: hunterAndersonImg
     },
     {
       name: "Mark Ibrahim",
@@ -220,18 +222,6 @@ export default function Leadership() {
         "Focuses on ethical AI implications and societal impact in education"
       ],
       image: asalahMahmoudImg
-    },
-    {
-      name: "Hunter Anderson",
-      title: "Lead Cybersecurity Full Stack Engineer",
-      experience: "10+ Years",
-      education: "Oklahoma State University - Engineering", 
-      highlights: [
-        "Develop secure full-stack cybersecurity platform architecture",
-        "Implement robust security controls and threat detection systems",
-        "Maintain high-availability security infrastructure for educational institutions"
-      ],
-      image: hunterAndersonImg
     },
     {
       name: "Cecilia Simpson",
