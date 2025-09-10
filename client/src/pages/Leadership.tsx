@@ -38,18 +38,18 @@ import {
 import { SiLinkedin } from "react-icons/si";
 
 // Import circular team member images
-import camiliaAndersonImg from "@assets/Camilia_1756502307220.png";
-import sarahChenImg from "@assets/Sarah Chen_1756502307222.png";
-import aaliaZehadImg from "@assets/Aalia_1756502307219.png";
-import lucasLopezImg from "@assets/Lucas_1756502307222.png";
-import asalahMahmoudImg from "@assets/Asalah_1756502307219.png";
-import brookeHoldenImg from "@assets/Brooke Holden_1756502307220.png";
+import camiliaAndersonImg from "@assets/Camilia Anderson_1757528946719.png";
+import sarahChenImg from "@assets/Sarah Chen_1757528946722.png";
+import aaliaZehadImg from "@assets/Aalia_1757528946715.png";
+import lucasLopezImg from "@assets/Lucas_1757528946721.png";
+import asalahMahmoudImg from "@assets/Asalah_1757528946716.png";
+import brookeHoldenImg from "@assets/Brooke Holden_1757528946718.png";
 import gregoriaNwagmeImg from "@assets/Gregoria_1756502307221.png";
-import hunterAndersonImg from "@assets/Hunter_1757526752576.png";
+import hunterAndersonImg from "@assets/Hunter_1757528946721.png";
 import brookeCarlisleImg from "@assets/Brooke Carlisle_1756502307220.png";
 import maureenDizonImg from "@assets/Maureen_1756502307222.png";
-import ceciliaSimpsonImg from "@assets/Cecilia_1756502307221.png";
-import markIbrahimImg from "@assets/Mark Ibrahim_1757525782284.png";
+import ceciliaSimpsonImg from "@assets/Cecilia_1757528946720.png";
+import markIbrahimImg from "@assets/Mark Ibrahim_1757528946722.png";
 
 // Import certification and award images
 import risingStarAwardImg from "@assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.png";
