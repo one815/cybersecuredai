@@ -31,7 +31,7 @@ import {
   X,
   Plus
 } from "lucide-react";
-import { CustomFileTextIcon, CustomSettingsIcon, CustomUserIcon } from "@/components/CustomIcons";
+import { CustomFileTextIcon, CustomSettingsIcon, CustomUserIcon } from "@/components/LazyCustomIcons";
 import { useToast } from "@/hooks/use-toast";
 
 export default function FileSharing() {

@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// All icons now use Enhanced 4D versions with glass morphism effects
+// All icons now use lazy-loaded Enhanced 4D versions with glass morphism effects
 import {
   CustomShieldIcon,
   CustomBrainIcon,
@@ -38,7 +38,7 @@ import {
   Enhanced4DFileIcon,
   Enhanced4DServerIcon,
   Enhanced4DBuildingIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { Link, useLocation } from "wouter";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { ThreatMap } from "@/components/ThreatMap";

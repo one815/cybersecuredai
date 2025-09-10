@@ -36,7 +36,7 @@ import {
   Enhanced4DZapIcon,
   Enhanced4DActivityIcon,
   Enhanced4DLockIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import platformOverviewImg from "@assets/generated_images/Platform_Overview_Datasheet_3d239cec.jpg";
 import aiThreatDetectionImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg";
 import federalComplianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";

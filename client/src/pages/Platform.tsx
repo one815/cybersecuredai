@@ -30,7 +30,7 @@ import {
   Enhanced4DExternalLinkIcon,
   Enhanced4DBuildingIcon,
   Enhanced4DStarIcon
-} from "@/components/CustomIcons";
+} from "@/components/LazyCustomIcons";
 import { MarketingLayout } from "@/components/MarketingLayout";
 import { Link, useLocation } from "wouter";
 
