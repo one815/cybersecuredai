@@ -97,8 +97,7 @@ behavioralEngine.on('anomalyDetected', (anomaly) => {
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Serve static files from attached_assets directory
-  app.use("/attached_assets", express.static(path.resolve(import.meta.dirname, "..", "attached_assets")));
+  // Static asset serving removed for deployment size optimization
   
   // Auth0 configuration
   const authConfig = {
