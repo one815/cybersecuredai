@@ -370,7 +370,7 @@ export default function Leadership() {
                 <div className="grid lg:grid-cols-2 gap-8 p-8">
                   <div className="flex flex-col justify-center">
                     <div className="flex items-center gap-4 mb-6">
-                      <div className="relative w-20 h-20">
+                      <div className="relative w-64 h-64">
                         <img 
                           src={leader.image} 
                           alt={leader.name}
@@ -591,7 +591,7 @@ export default function Leadership() {
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className="w-32 h-32 object-contain group-hover:scale-105 transition-transform duration-300"
+                      className="w-64 h-64 object-contain group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute top-4 right-4">
                       <Badge variant="outline" className="bg-midnight-900/90 border-midnight-600 text-white">
