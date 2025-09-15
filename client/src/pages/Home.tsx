@@ -70,7 +70,7 @@ import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d
 import scanningImg from "@assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp";
 
 // Import actual webp images from attached assets
-import cypherAiAssistImage from "@assets/Cypher AI Asst. webp_1757954427635.webp";
+import cypherAiAssistImage from "@assets/Cypher AI Assist_1757956158279.png";
 import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
 import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
 import fismaCompliantImg from "@assets/FISME_1757954427636.webp";

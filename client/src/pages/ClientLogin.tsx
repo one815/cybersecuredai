@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Bot, Shield, Lock, Eye, EyeOff } from "lucide-react";
 // Import actual Cypher AI Assistant image
-import cypherAiAssistImage from "@assets/Cypher AI Asst. webp_1757954427635.webp";
+import cypherAiAssistImage from "@assets/Cypher AI Assist_1757956158279.png";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
