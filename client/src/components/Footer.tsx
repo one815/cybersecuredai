@@ -1,12 +1,12 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
 import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
-import ferpaCompliantImg from "@assets/FERPA_1757949842495.webp";
-import fismaCompliantImg from "@assets/FISME_1757949882711.webp";
-import fedrampAuthorizedImg from "@assets/FedRamp_1757949842495.webp";
-import nistCompliantImg from "@assets/NIST_1757949846522.webp";
-import soc2CompliantImg from "@assets/SOC 2_1757949878606.webp";
-import isoCompliantImg from "@assets/ISO_1757949850369.webp";
+const ferpaCompliantImg = "/assets/FERPA_1757949842495.webp";
+const fismaCompliantImg = "/assets/FISME_1757949882711.webp";
+const fedrampAuthorizedImg = "/assets/FedRamp_1757949842495.webp";
+const nistCompliantImg = "/assets/NIST_1757949846522.webp";
+const soc2CompliantImg = "/assets/SOC 2_1757949878606.webp";
+const isoCompliantImg = "/assets/ISO_1757949850369.webp";
 
 export function Footer() {
   return (
