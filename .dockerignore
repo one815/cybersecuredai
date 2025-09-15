@@ -1,0 +1,63 @@
+# Exclude everything first, then add back only what's needed
+*
+
+# Include essential application code
+!server/
+!client/
+!shared/
+!package.json
+!package-lock.json
+!tsconfig.json
+!vite.config.ts
+!tailwind.config.ts
+!postcss.config.js
+
+# Exclude large assets and documents from app directories
+client/public/marketing/
+client/public/reports/
+client/public/assets/
+!client/public/assets/favicon*
+!client/public/assets/android-chrome*
+!client/public/assets/apple-touch-icon*
+!client/public/assets/site.webmanifest
+
+# Include optimized assets if they exist
+!client/public/assets-optimized/
+
+# Exclude all development, documentation, and marketing files
+*.pdf
+*.docx
+*.mov
+*.psd
+*.zip
+*.html
+*.md
+!README.md
+
+# Exclude directories with large files
+attached_assets/
+RFP/
+python/
+browser-extensions/
+.cache/
+
+# Exclude development files
+node_modules/
+.git/
+.env*
+.vscode/
+.idea/
+*.log
+tmp/
+temp/
+logs/
+coverage/
+.next/
+.nuxt/
+dist/client/assets/*.map
+
+# Exclude test files
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts

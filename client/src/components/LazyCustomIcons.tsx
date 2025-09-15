@@ -346,3 +346,27 @@ export function Enhanced4DNetworkIcon({ className, size = 24 }: { className?: st
     </Suspense>
   );
 }
+
+export function Enhanced4DStarIcon({ className, size = 24 }: { className?: string, size?: number }) {
+  return (
+    <Suspense fallback={<div className={`bg-gray-200 dark:bg-gray-700 rounded animate-pulse ${className}`} style={{ width: size, height: size }} />}>
+      <LazyEnhanced4DIcon type="star" className={className} size={size} />
+    </Suspense>
+  );
+}
+
+export function Enhanced4DCrownIcon({ className, size = 24 }: { className?: string, size?: number }) {
+  return (
+    <Suspense fallback={<div className={`bg-gray-200 dark:bg-gray-700 rounded animate-pulse ${className}`} style={{ width: size, height: size }} />}>
+      <LazyEnhanced4DIcon type="crown" className={className} size={size} />
+    </Suspense>
+  );
+}
+
+export function Enhanced4DPhoneIcon({ className, size = 24 }: { className?: string, size?: number }) {
+  return (
+    <Suspense fallback={<div className={`bg-gray-200 dark:bg-gray-700 rounded animate-pulse ${className}`} style={{ width: size, height: size }} />}>
+      <LazyEnhanced4DIcon type="phone" className={className} size={size} />
+    </Suspense>
+  );
+}

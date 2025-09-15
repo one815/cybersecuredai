@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import ForceGraph3D from "react-force-graph-3d";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -43,12 +42,43 @@ export function ThreatIntelligenceNetwork() {
   const [timeScale, setTimeScale] = useState([1]);
   const [selectedSeverity, setSelectedSeverity] = useState<string[]>(["critical", "high", "medium", "low"]);
   const [zoomLevel, setZoomLevel] = useState(200);
+  const [ForceGraph3D, setForceGraph3D] = useState<React.ComponentType<any> | null>(null);
+  const [isLibraryLoading, setIsLibraryLoading] = useState(true);
+
+  // Dynamically load ForceGraph3D to reduce initial bundle size
+  useEffect(() => {
+    let mounted = true;
+    
+    const loadForceGraph = async () => {
+      try {
+        const { default: ForceGraph3DComponent } = await import("react-force-graph-3d");
+        if (mounted) {
+          setForceGraph3D(() => ForceGraph3DComponent);
+          setIsLibraryLoading(false);
+        }
+      } catch (error) {
+        console.error("Failed to load ForceGraph3D:", error);
+        if (mounted) {
+          setIsLibraryLoading(false);
+        }
+      }
+    };
+
+    loadForceGraph();
+    
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Define network data type for better typing
+  type NetworkData = { nodes: ThreatNode[]; links: ThreatLink[] };
 
   // Fetch threat intelligence network data
-  const { data: networkData, isLoading } = useQuery({
+  const { data: networkData, isLoading } = useQuery<NetworkData>({
     queryKey: ["/api/threat-intelligence/network"],
     refetchInterval: isPlaying ? 5000 : false, // Real-time updates when playing
-    select: (data) => {
+    select: (data: any): NetworkData => {
       // Transform data for 3D visualization
       const nodes: ThreatNode[] = data?.nodes?.map((node: any) => ({
         ...node,
@@ -59,15 +89,18 @@ export function ThreatIntelligenceNetwork() {
         ],
         size: getSizeByType(node.type, node.severity),
         color: getColorBySeverity(node.severity)
-      })) || [];
+      })) ?? [];
 
       const links: ThreatLink[] = data?.links?.filter((link: any) => 
         selectedSeverity.includes(nodes.find(n => n.id === link.source)?.severity || "low")
-      ) || [];
+      ) ?? [];
 
       return { nodes, links };
     }
   });
+
+  // Typed fallback for safe property access
+  const graphData: NetworkData = networkData ?? { nodes: [], links: [] };
 
   const getSizeByType = (type: string, severity: string) => {
     const baseSize = type === "threat" ? 8 : type === "asset" ? 6 : 4;
@@ -129,7 +162,30 @@ export function ThreatIntelligenceNetwork() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isLibraryLoading) {
+    return (
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Network className="w-5 h-5 mr-2" />
+            Threat Intelligence Network
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-400">
+                {isLibraryLoading ? "Loading 3D visualization library..." : "Loading threat intelligence network..."}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!ForceGraph3D) {
     return (
       <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
