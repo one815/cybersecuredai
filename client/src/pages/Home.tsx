@@ -70,7 +70,7 @@ import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d
 import scanningImg from "@assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp";
 
 // Import actual webp images from attached assets
-import cypherAiAssistImage from "@assets/Cypher AI Assist_1757956837639.png";
+import cypherAiAssistImage from "@assets/Cypher AI Assist_1757957102038.png";
 import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
 import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
 import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
@@ -1448,7 +1448,7 @@ export default function Home() {
               <div className="absolute inset-0 rounded-full bg-gradient-to-t from-transparent via-white/20 to-white/10 pointer-events-none"></div>
               
               <div className="flex items-center space-x-2 relative z-10">
-                <Enhanced4DBotIcon className="w-18 h-18" size={72} />
+                <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-18 h-18 rounded-full" style={{ width: '72px', height: '72px' }} />
                 <span className="hidden group-hover:block absolute right-20 top-1/2 transform -translate-y-1/2 bg-slate-800/90 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm whitespace-nowrap shadow-lg border border-slate-600/50">
                   Ask Cypher AI
                 </span>
