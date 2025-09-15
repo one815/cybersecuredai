@@ -47,8 +47,10 @@ import hunterAndersonImg from "@assets/Hunter_1757954427636.webp";
 import lucasLopezImg from "@assets/Lucas_1757954427638.webp";
 import markIbrahimImg from "@assets/Mark_1757954427638.webp";
 
-// Placeholder for team members without photos yet
-const sarahChenImg = "/api/placeholder/150/150";
+// Import additional team member photos from attached assets
+import sarahChenImg from "@assets/Sarah Chen_1757954437932.webp";
+
+// Placeholders for team members without photos yet  
 const gregoriaNwagmeImg = "/api/placeholder/150/150";
 const brookeCarlisleImg = "/api/placeholder/150/150";
 const maureenDizonImg = "/api/placeholder/150/150";
@@ -193,7 +195,7 @@ export default function Leadership() {
       specialties: ["Privacy-Preserving Machine Learning", "Encrypted Data Processing", "Self-Supervised Learning", "Robust AI Systems"],
       email: "info@cybersecuredai.com",
       linkedin: "https://linkedin.com/in/marksibrahim",
-      image: "/api/placeholder/150/150"
+      image: markIbrahimImg
     }
   ];
 

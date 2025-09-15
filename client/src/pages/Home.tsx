@@ -77,14 +77,15 @@ import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
 import isoCompliantImg from "@assets/ISO_1757954427638.webp";
 import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
 
-// SOC 2 and partner logos - placeholders for missing webp files
-const soc2CompliantImg = "/api/placeholder/100/60";
-const mitPartnerImg = "/api/placeholder/120/80";
-const stanfordPartnerImg = "/api/placeholder/120/80";
-const berkeleyPartnerImg = "/api/placeholder/120/80";
-const cambridgePartnerImg = "/api/placeholder/120/80";
-const universityPartnerImg = "/api/placeholder/120/80";
-const caStatePartnerImg = "/api/placeholder/120/80";
+// Import partner logos and additional compliance badges
+import mitPartnerImg from "@assets/Partner - MIT_1757954437926.webp";
+import stanfordPartnerImg from "@assets/Partner Stanford_1757954437931.webp";
+import berkeleyPartnerImg from "@assets/Partner - Univ of Berkley_1757954437927.webp";
+import cambridgePartnerImg from "@assets/Partner - University of Cambridge_1757954437928.webp";
+import universityPartnerImg from "@assets/Partner - University_1757954437929.webp";
+import caStatePartnerImg from "@assets/Partner - CA State Univeristy_1757954437924.webp";
+import mreaPartnerImg from "@assets/Partner - MREA_1757954437926.webp";
+import soc2CompliantImg from "@assets/SOC 2_1757954437932.webp";
 
 export default function Home() {
   const { user, isLoading } = useAuth();
@@ -1369,6 +1370,15 @@ export default function Home() {
                     src={caStatePartnerImg}
                     alt="The California State University"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
+                  />
+                </div>
+                
+                {/* MREA Logo */}
+                <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
+                  <img 
+                    src={mreaPartnerImg}
+                    alt="MREA"
+                    className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
                 </div>
                 </div>

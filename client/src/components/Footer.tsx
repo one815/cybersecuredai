@@ -8,9 +8,7 @@ import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
 import nistCompliantImg from "@assets/NIST_1757954437923.webp";
 import isoCompliantImg from "@assets/ISO_1757954427638.webp";
 import cyberSecuredLogoImg from "@assets/CyberSecured AI logo_1757954427635.webp";
-
-// SOC 2 placeholder - no webp file available yet
-const soc2CompliantImg = "/api/placeholder/100/60";
+import soc2CompliantImg from "@assets/SOC 2_1757954437932.webp";
 
 export function Footer() {
   return (
