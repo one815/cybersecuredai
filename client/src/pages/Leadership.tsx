@@ -66,29 +66,37 @@ import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
 import cybersecuredAiLogoImg from "@assets/CyberSecured AI logo_1757954427635.webp";
 import cybersecuredAiLogo2Img from "@assets/CyberSecured AI logo 2_1757954427635.webp";
 
-// Import certification images (using compliance badges as certification placeholders)
-const azureSecurityCertImg = ferpaCompliantImg;
-const googleCloudCertImg = fismaCompliantImg;
-const pmpCertImg = fedrampAuthorizedImg;
-const azureDeveloperCertImg = cybersecuredAiLogoImg;
-const vmwareCertImg = cybersecuredAiLogo2Img;
-const digitalMarketingCertImg = ferpaCompliantImg;
+// Import new professional certification images
+import azureSecurityEngineerImg from "@assets/Microsoft Certified Azure Security Engineer_1756505702422-sPSI3H9G_1757956435336.png";
+import azureDeveloperAssociateImg from "@assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417-sXnM1FlO-1_1757956435337.png";
+import googleCloudSecurityImg from "@assets/Google Cloud Professional Cloud Security Engineer_1756505748559-BPDR1JpD_1757956439918.png";
+import vmwareProfessionalImg from "@assets/Vmare Certified Professional_1756505901267-CBx4r4Ll_1757956445835.png";
+import digitalMarketingProfImg from "@assets/Certified Marketing Professional_1756505941955-DJgFxPVa_1757956451621.png";
+import pmpProfessionalImg from "@assets/Project Manager Professional_1756505874494-C8svvNXC_1757956460335.png";
 
-// Import actual certification document images (using real compliance images)
-const azureSecurityPreviewImg = ferpaCompliantImg;
-const googleCloudPreviewImg = fismaCompliantImg;  
-const vmwarePreviewImg = fedrampAuthorizedImg;
-const pmpPreviewImg = cybersecuredAiLogoImg;
-const azureDeveloperPreviewImg = cybersecuredAiLogo2Img;
-const digitalMarketingPreviewImg = ferpaCompliantImg;
+// Updated certification images with real professional certifications
+const azureSecurityCertImg = azureSecurityEngineerImg;
+const googleCloudCertImg = googleCloudSecurityImg;
+const pmpCertImg = pmpProfessionalImg;
+const azureDeveloperCertImg = azureDeveloperAssociateImg;
+const vmwareCertImg = vmwareProfessionalImg;
+const digitalMarketingCertImg = digitalMarketingProfImg;
 
-// Certificate badge images using real compliance certification images
-const pmpCertImage = fedrampAuthorizedImg;
-const azureSecurityCertImage = ferpaCompliantImg;
-const azureDeveloperCertImage = fismaCompliantImg;
-const googleCloudCertImage = cybersecuredAiLogoImg;
-const vmwareCertImage = cybersecuredAiLogo2Img;
-const digitalMarketingCertImage = ferpaCompliantImg;
+// Updated certification preview images with real professional certifications
+const azureSecurityPreviewImg = azureSecurityEngineerImg;
+const googleCloudPreviewImg = googleCloudSecurityImg;  
+const vmwarePreviewImg = vmwareProfessionalImg;
+const pmpPreviewImg = pmpProfessionalImg;
+const azureDeveloperPreviewImg = azureDeveloperAssociateImg;
+const digitalMarketingPreviewImg = digitalMarketingProfImg;
+
+// Certificate badge images using real professional certifications
+const pmpCertImage = pmpProfessionalImg;
+const azureSecurityCertImage = azureSecurityEngineerImg;
+const azureDeveloperCertImage = azureDeveloperAssociateImg;
+const googleCloudCertImage = googleCloudSecurityImg;
+const vmwareCertImage = vmwareProfessionalImg;
+const digitalMarketingCertImage = digitalMarketingProfImg;
 
 // Create PDF preview placeholder since PDFs can't be displayed as images directly
 const createCertPreview = (title: string) => {
