@@ -1,4 +1,25 @@
-import sharp from 'sharp';
+// Dynamic import for sharp to reduce initial bundle size
+let sharp: any = null;
+let sharpLoading = false;
+let sharpPromise: Promise<any> | null = null;
+
+const loadSharp = async () => {
+  if (sharp) return sharp;
+  if (sharpPromise) return sharpPromise;
+  
+  sharpLoading = true;
+  sharpPromise = import('sharp').then(module => {
+    sharp = module.default;
+    sharpLoading = false;
+    return sharp;
+  }).catch(error => {
+    console.error('Failed to load sharp:', error);
+    sharpLoading = false;
+    throw error;
+  });
+  
+  return sharpPromise;
+};
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -31,8 +52,9 @@ async function optimizeImage(
 ): Promise<void> {
   try {
     const { size: originalSize } = await fs.stat(inputPath);
+    const sharpInstance = await loadSharp();
     
-    await sharp(inputPath)
+    await sharpInstance(inputPath)
       .resize(options.maxWidth, null, { 
         withoutEnlargement: true,
         fit: 'inside'
@@ -83,6 +105,15 @@ async function optimizeImagesInDirectory(
   options: OptimizationOptions = defaultOptions
 ): Promise<void> {
   console.log(`🔍 Scanning for images in ${sourceDir}...`);
+  
+  // Pre-load sharp for better performance
+  try {
+    await loadSharp();
+    console.log('✅ Sharp library loaded successfully');
+  } catch (error) {
+    console.error('❌ Failed to load sharp library:', error);
+    return;
+  }
   
   const images = await findImages(sourceDir);
   
