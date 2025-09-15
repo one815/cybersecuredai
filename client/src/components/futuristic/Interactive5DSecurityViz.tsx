@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Text, Sphere, Box, Line } from '@react-three/drei';
-import { Mesh, Vector3, Color } from 'three';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Shield, AlertTriangle, Zap, Network, Database, Server } from 'lucide-react';
+
+// Lazy load the 3D scene to reduce initial bundle size
+const LazySecurityVizScene = React.lazy(() => import('./Interactive5DSecurityVizScene'));
 
 interface SecurityNode {
   id: string;
