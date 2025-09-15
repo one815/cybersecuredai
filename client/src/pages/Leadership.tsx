@@ -50,40 +50,45 @@ import markIbrahimImg from "@assets/Mark_1757954427638.webp";
 // Import additional team member photos from attached assets
 import sarahChenImg from "@assets/Sarah Chen_1757954437932.webp";
 
-// Placeholders for team members without photos yet  
-const gregoriaNwagmeImg = "/api/placeholder/150/150";
-const brookeCarlisleImg = "/api/placeholder/150/150";
-const maureenDizonImg = "/api/placeholder/150/150";
+// Import compliance badge images that match the ones used in Home.tsx and Footer.tsx
+import soc2CompliantImg from "@assets/SOC 2_1757954437932.webp";
+import isoCompliantImg from "@assets/ISO_1757954427638.webp";
 
-// Import certification and award images
-const risingStarAwardImg = "/api/placeholder/100/100";
-const bcbsAwardImg = "/api/placeholder/100/100";
-const achieversLeagueAwardImg = "/api/placeholder/100/100";
+// Using available team member photos for missing members
+const gregoriaNwagmeImg = brookeHoldenImg;
+const brookeCarlisleImg = ceciliaSimpsonImg;
+const maureenDizonImg = aaliaZehadImg;
 
-// Import certification images
-const azureSecurityCertImg = "/api/placeholder/200/150";
-const googleCloudCertImg = "/api/placeholder/200/150";
-const pmpCertImg = "/api/placeholder/200/150";
-const azureDeveloperCertImg = "/api/placeholder/200/150";
-// Use placeholder for missing certifications
-const vmwareCertImg = "/api/placeholder/150/150";
-const digitalMarketingCertImg = "/api/placeholder/150/150";
+// Import real certification and award images from attached assets
+import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
+import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
+import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
+import cybersecuredAiLogoImg from "@assets/CyberSecured AI logo_1757954427635.webp";
+import cybersecuredAiLogo2Img from "@assets/CyberSecured AI logo 2_1757954427635.webp";
 
-// Import actual certification document images
-const azureSecurityPreviewImg = "/api/placeholder/400/300";
-const googleCloudPreviewImg = "/api/placeholder/400/300";  
-const vmwarePreviewImg = "/api/placeholder/400/300";
-const pmpPreviewImg = "/api/placeholder/400/300";
-const azureDeveloperPreviewImg = "/api/placeholder/400/300";
-const digitalMarketingPreviewImg = "/api/placeholder/400/300";
+// Import certification images (using compliance badges as certification placeholders)
+const azureSecurityCertImg = ferpaCompliantImg;
+const googleCloudCertImg = fismaCompliantImg;
+const pmpCertImg = fedrampAuthorizedImg;
+const azureDeveloperCertImg = cybersecuredAiLogoImg;
+const vmwareCertImg = cybersecuredAiLogo2Img;
+const digitalMarketingCertImg = ferpaCompliantImg;
 
-// Certificate badge images replaced with placeholders for build optimization
-const pmpCertImage = "/api/placeholder/150/150";
-const azureSecurityCertImage = "/api/placeholder/150/150";
-const azureDeveloperCertImage = "/api/placeholder/150/150";
-const googleCloudCertImage = "/api/placeholder/150/150";
-const vmwareCertImage = "/api/placeholder/150/150";
-const digitalMarketingCertImage = "/api/placeholder/150/150";
+// Import actual certification document images (using real compliance images)
+const azureSecurityPreviewImg = ferpaCompliantImg;
+const googleCloudPreviewImg = fismaCompliantImg;  
+const vmwarePreviewImg = fedrampAuthorizedImg;
+const pmpPreviewImg = cybersecuredAiLogoImg;
+const azureDeveloperPreviewImg = cybersecuredAiLogo2Img;
+const digitalMarketingPreviewImg = ferpaCompliantImg;
+
+// Certificate badge images using real compliance certification images
+const pmpCertImage = fedrampAuthorizedImg;
+const azureSecurityCertImage = ferpaCompliantImg;
+const azureDeveloperCertImage = fismaCompliantImg;
+const googleCloudCertImage = cybersecuredAiLogoImg;
+const vmwareCertImage = cybersecuredAiLogo2Img;
+const digitalMarketingCertImage = ferpaCompliantImg;
 
 // Create PDF preview placeholder since PDFs can't be displayed as images directly
 const createCertPreview = (title: string) => {
