@@ -80,7 +80,26 @@ interface GeospatialMapProps {
 
 declare global {
   interface Window {
-    google: any;
+    google: {
+      maps: {
+        Map: any;
+        marker: any;
+        maps3d: any;
+        importLibrary: (library: string) => Promise<any>;
+        LatLng: any;
+        Marker: any;
+        InfoWindow: any;
+        Polyline: any;
+        Polygon: any;
+        Circle: any;
+        AdvancedMarkerElement: any;
+        PinElement: any;
+        Marker3DInteractiveElement: any;
+        MapsLibrary: any;
+        SymbolPath: any;
+        Animation: any;
+      };
+    };
   }
 }
 
@@ -103,31 +122,31 @@ export function GeospatialIntelligenceMap({
   }, [externalMapMode]);
 
   // Fetch comprehensive geospatial data
-  const { data: geospatialData, isLoading } = useQuery({
+  const { data: geospatialData = {}, isLoading } = useQuery({
     queryKey: ['/api/geospatial/overview'],
     refetchInterval: 30000,
   });
 
-  const { data: threats } = useQuery({
+  const { data: threats = [] } = useQuery({
     queryKey: ['/api/geospatial/threats'],
     refetchInterval: 15000,
   });
 
-  const { data: infrastructureResponse } = useQuery({
+  const { data: infrastructureResponse = {} } = useQuery({
     queryKey: ['/api/geospatial/infrastructure'],
     queryFn: () => fetch('/api/geospatial/infrastructure?realtime=true').then(res => res.json()),
     refetchInterval: 15000, // Faster updates for real-time monitoring
   });
   
   // Extract devices from the enhanced response with proper fallback
-  const infrastructure = infrastructureResponse?.devices || [];
+  const infrastructure = (infrastructureResponse as any)?.devices || [];
 
-  const { data: complianceRegions } = useQuery({
+  const { data: complianceRegions = [] } = useQuery({
     queryKey: ['/api/geospatial/compliance'],
     refetchInterval: 300000, // 5 minutes
   });
 
-  const { data: incidents } = useQuery({
+  const { data: incidents = [] } = useQuery({
     queryKey: ['/api/geospatial/incidents'],
     refetchInterval: 10000,
   });
@@ -185,7 +204,7 @@ export function GeospatialIntelligenceMap({
             console.error('❌ Failed to load 3D Maps:', error);
             console.log('ℹ️ Falling back to enhanced 2D map with advanced markers');
             // Fallback to enhanced satellite view with latest features
-            const { Map } = await window.google.maps.importLibrary("maps") as google.maps.MapsLibrary;
+            const { Map } = await window.google.maps.importLibrary("maps") as any;
             const googleMap = new Map(mapRef.current, {
               center: { lat: 37.4239163, lng: -122.0947209 },
               zoom: 16,
@@ -208,7 +227,7 @@ export function GeospatialIntelligenceMap({
             tilt: mapMode === 'satellite' ? 45 : 0,
             heading: 0,
             // Only apply custom styles for standard mode, not when mapId is used
-            ...(mapMode === 'standard' && !('DEMO_MAP_ID') ? {
+            ...(mapMode === 'standard' && false ? {
               styles: [
                 {
                   "featureType": "all",
@@ -285,7 +304,7 @@ export function GeospatialIntelligenceMap({
         // 3D Markers for photorealistic map
         const { Marker3DInteractiveElement } = await window.google.maps.importLibrary("maps3d");
         
-        threats.forEach((threat: GeospatialThreat) => {
+        (threats as GeospatialThreat[]).forEach((threat: GeospatialThreat) => {
           // Validate coordinates before creating marker
           if (typeof threat.latitude !== 'number' || typeof threat.longitude !== 'number' || 
               isNaN(threat.latitude) || isNaN(threat.longitude)) {
@@ -331,7 +350,7 @@ export function GeospatialIntelligenceMap({
         // Advanced 2D markers
         const { AdvancedMarkerElement, PinElement } = await window.google.maps.importLibrary("marker");
         
-        threats.forEach((threat: GeospatialThreat) => {
+        (threats as GeospatialThreat[]).forEach((threat: GeospatialThreat) => {
           const color = threat.severity === 'critical' ? '#ef4444' : 
                        threat.severity === 'high' ? '#f97316' : 
                        threat.severity === 'medium' ? '#eab308' : '#22c55e';
@@ -408,7 +427,7 @@ export function GeospatialIntelligenceMap({
     } catch (error) {
       console.error('Error creating markers:', error);
       // Fallback to basic markers
-      threats.forEach((threat: GeospatialThreat) => {
+      (threats as GeospatialThreat[]).forEach((threat: GeospatialThreat) => {
         const color = threat.severity === 'critical' ? '#ef4444' : 
                      threat.severity === 'high' ? '#f97316' : 
                      threat.severity === 'medium' ? '#eab308' : '#22c55e';
@@ -463,7 +482,7 @@ export function GeospatialIntelligenceMap({
         // 3D Infrastructure markers for photorealistic map
         const { Marker3DInteractiveElement } = await window.google.maps.importLibrary("maps3d");
         
-        infrastructure.forEach((asset: InfrastructureAsset) => {
+        (infrastructure as InfrastructureAsset[]).forEach((asset: InfrastructureAsset) => {
           const color = asset.status === 'healthy' ? '#22c55e' : 
                        asset.status === 'warning' ? '#eab308' : 
                        asset.status === 'critical' ? '#ef4444' : '#6b7280';
@@ -508,7 +527,7 @@ export function GeospatialIntelligenceMap({
         // Advanced 2D infrastructure markers
         const { AdvancedMarkerElement } = await window.google.maps.importLibrary("marker");
         
-        infrastructure.forEach((asset: InfrastructureAsset) => {
+        (infrastructure as InfrastructureAsset[]).forEach((asset: InfrastructureAsset) => {
           const color = asset.status === 'healthy' ? '#22c55e' : 
                        asset.status === 'warning' ? '#eab308' : 
                        asset.status === 'critical' ? '#ef4444' : '#6b7280';
@@ -672,7 +691,7 @@ export function GeospatialIntelligenceMap({
 
     const newOverlays: any[] = [];
 
-    complianceRegions.forEach((region: ComplianceRegion) => {
+    (complianceRegions as ComplianceRegion[]).forEach((region: ComplianceRegion) => {
       const color = region.riskLevel === 'critical' ? '#ef4444' : 
                    region.riskLevel === 'high' ? '#f97316' : 
                    region.riskLevel === 'medium' ? '#eab308' : '#22c55e';
@@ -718,7 +737,7 @@ export function GeospatialIntelligenceMap({
 
     const newOverlays: any[] = [];
 
-    incidents.forEach((incident: IncidentLocation) => {
+    (incidents as IncidentLocation[]).forEach((incident: IncidentLocation) => {
       const color = incident.severity === 'critical' ? '#ef4444' : 
                    incident.severity === 'high' ? '#f97316' : 
                    incident.severity === 'medium' ? '#eab308' : '#3b82f6';
@@ -908,19 +927,19 @@ export function GeospatialIntelligenceMap({
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-400">Active Threats</span>
                 <Badge variant="destructive" className="text-xs">
-                  {geospatialData?.overview?.activeThrents || 0}
+                  {(geospatialData as any)?.overview?.activeThreats || 0}
                 </Badge>
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-400">Infrastructure</span>
                 <Badge variant="secondary" className="text-xs">
-                  {geospatialData?.overview?.healthyAssets || 0} Healthy
+                  {(geospatialData as any)?.overview?.healthyAssets || 0} Healthy
                 </Badge>
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-gray-400">Open Incidents</span>
                 <Badge variant="destructive" className="text-xs">
-                  {geospatialData?.overview?.openIncidents || 0}
+                  {(geospatialData as any)?.overview?.openIncidents || 0}
                 </Badge>
               </div>
             </div>
@@ -1002,10 +1021,10 @@ export function GeospatialIntelligenceMap({
             {/* Stats */}
             <div className="absolute bottom-4 right-4 bg-black/90 rounded p-3 z-10">
               <div className="text-xs text-gray-300 font-mono">
-                {activeLayer === 'threats' && threats ? `${threats.length} THREATS TRACKED` :
-                 activeLayer === 'infrastructure' && infrastructure ? `${infrastructure.length} ASSETS MONITORED` :
-                 activeLayer === 'incidents' && incidents ? `${incidents.length} ACTIVE INCIDENTS` :
-                 activeLayer === 'compliance' && complianceRegions ? `${complianceRegions.length} COMPLIANCE ZONES` :
+                {activeLayer === 'threats' && Array.isArray(threats) ? `${threats.length} THREATS TRACKED` :
+                 activeLayer === 'infrastructure' && Array.isArray(infrastructure) ? `${infrastructure.length} ASSETS MONITORED` :
+                 activeLayer === 'incidents' && Array.isArray(incidents) ? `${incidents.length} ACTIVE INCIDENTS` :
+                 activeLayer === 'compliance' && Array.isArray(complianceRegions) ? `${complianceRegions.length} COMPLIANCE ZONES` :
                  'MULTIPLE LAYERS ACTIVE'}
               </div>
             </div>

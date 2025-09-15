@@ -45,7 +45,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/useAuth";
-import jsPDF from 'jspdf';
 
 // Types for custom compliance
 interface CustomComplianceFramework {
@@ -703,9 +702,21 @@ export default function Compliance() {
     }
   });
 
-  // Download PDF Report Function
+  // Download PDF Report Function with Dynamic Import
   const downloadReport = async (framework: any) => {
+    let jsPDF: any;
+    
     try {
+      // Show loading toast while importing jsPDF
+      toast({
+        title: "Preparing PDF Export",
+        description: "Loading PDF generator...",
+      });
+
+      // Dynamic import of jsPDF to reduce bundle size
+      const jsPDFModule = await import('jspdf');
+      jsPDF = jsPDFModule.default;
+
       // Create new PDF document
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pageWidth = pdf.internal.pageSize.width;
@@ -910,16 +921,26 @@ export default function Compliance() {
       const fileName = `${framework.framework || 'compliance'}-report-${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(fileName);
 
-
       toast({
         title: "PDF Report Downloaded",
         description: `${framework.framework?.toUpperCase()} compliance report has been saved as PDF`,
       });
     } catch (error) {
       console.error('PDF generation error:', error);
+      
+      // Provide specific error message based on error type
+      let errorMessage = "Failed to generate PDF compliance report. Please try again.";
+      if (error instanceof Error) {
+        if (error.message.includes('import')) {
+          errorMessage = "Failed to load PDF generator. Please check your internet connection and try again.";
+        } else if (error.message.includes('jsPDF')) {
+          errorMessage = "PDF generation library error. Please try again.";
+        }
+      }
+      
       toast({
         title: "PDF Generation Failed",
-        description: "Failed to generate PDF compliance report. Please try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     }

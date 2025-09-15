@@ -7,17 +7,18 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense, lazy } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
-import { GeospatialIntelligenceMap } from "@/components/GeospatialIntelligenceMap";
-import { IntelligenceOverview } from "@/components/IntelligenceOverview";
-import { CambridgeAnalytics } from "@/components/CambridgeAnalytics";
-import { Phase2Dashboard } from "@/components/Phase2Dashboard";
+// Lazy load heavy components to reduce bundle size
+const GeospatialIntelligenceMap = lazy(() => import("@/components/GeospatialIntelligenceMap").then(module => ({ default: module.GeospatialIntelligenceMap })));
+const IntelligenceOverview = lazy(() => import("@/components/IntelligenceOverview").then(module => ({ default: module.IntelligenceOverview })));
+const CambridgeAnalytics = lazy(() => import("@/components/CambridgeAnalytics").then(module => ({ default: module.CambridgeAnalytics })));
+const Phase2Dashboard = lazy(() => import("@/components/Phase2Dashboard").then(module => ({ default: module.Phase2Dashboard })));
 import { apiRequest } from "@/lib/queryClient";
 import type { DashboardStats } from "@/types";
 // Modern 3D/Futuristic Icons
@@ -51,6 +52,7 @@ import {
   Globe,
   Network
 } from "lucide-react";
+// Import custom icons synchronously for now since they're used throughout the header
 import {
   Enhanced4DBrainIcon,
   Enhanced4DNetworkIcon,
@@ -65,12 +67,71 @@ import {
   CustomShieldIcon
 } from "@/components/LazyCustomIcons";
 
+// Loading skeleton components for heavy widgets
+const MapLoadingSkeleton = () => (
+  <div className="h-[700px] bg-background/20 rounded-lg border border-gray-700 flex items-center justify-center">
+    <div className="text-center text-gray-400 space-y-3">
+      <div className="w-16 h-16 mx-auto bg-gray-700 rounded-full animate-pulse flex items-center justify-center">
+        <Globe className="w-8 h-8 text-gray-500" />
+      </div>
+      <div className="text-sm">Loading Geospatial Intelligence Map...</div>
+      <div className="text-xs text-gray-500">Initializing mapping engine and threat data</div>
+    </div>
+  </div>
+);
+
+const AnalyticsLoadingSkeleton = () => (
+  <div className="bg-background/20 rounded-lg border border-gray-700 p-6">
+    <div className="animate-pulse space-y-4">
+      <div className="flex items-center space-x-3">
+        <div className="w-6 h-6 bg-gray-700 rounded"></div>
+        <div className="h-6 bg-gray-700 rounded w-64"></div>
+      </div>
+      <div className="space-y-3">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-16 bg-gray-700 rounded"></div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const Phase2LoadingSkeleton = () => (
+  <div className="bg-background/20 rounded-lg border border-gray-700 p-6">
+    <div className="animate-pulse space-y-6">
+      <div className="h-8 bg-gray-700 rounded w-1/2"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-32 bg-gray-700 rounded"></div>
+        ))}
+      </div>
+      <div className="h-48 bg-gray-700 rounded"></div>
+    </div>
+  </div>
+);
+
 export default function Dashboard() {
   const { user } = useAuth();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // State for conditional rendering of heavy components
+  const [loadedSections, setLoadedSections] = useState<Set<string>>(new Set());
+  
+  // Function to mark a section as loaded
+  const loadSection = (sectionName: string) => {
+    setLoadedSections(prev => new Set(Array.from(prev).concat([sectionName])));
+  };
+  
+  // Auto-load critical sections after initial render (optional - can be removed for maximum performance)
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     loadSection('geospatial-map'); // Auto-load map after 2 seconds
+  //   }, 2000);
+  //   return () => clearTimeout(timer);
+  // }, []);
   
   // State for tracking resolved security alerts (persisted)
   const [resolvedAlerts, setResolvedAlerts] = useState<Set<string>>(() => {
@@ -85,7 +146,7 @@ export default function Dashboard() {
   // Function to mark alert as resolved with persistence
   const resolveAlert = (alertId: string) => {
     setResolvedAlerts(prev => {
-      const newSet = new Set(Array.from(prev).concat(alertId));
+      const newSet = new Set(Array.from(prev).concat([alertId]));
       localStorage.setItem('resolvedAlerts', JSON.stringify(Array.from(newSet)));
       return newSet;
     });
@@ -499,7 +560,24 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent className="p-0">
               <div className="h-[700px] overflow-hidden">
-                <GeospatialIntelligenceMap className="w-full h-full" />
+                {loadedSections.has('geospatial-map') ? (
+                  <Suspense fallback={<MapLoadingSkeleton />}>
+                    <GeospatialIntelligenceMap className="w-full h-full" />
+                  </Suspense>
+                ) : (
+                  <div 
+                    className="h-full cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                    onClick={() => loadSection('geospatial-map')}
+                  >
+                    <MapLoadingSkeleton />
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                      <Button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 text-lg">
+                        <Globe className="w-6 h-6 mr-3" />
+                        Load Global Threat Map
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -645,7 +723,33 @@ export default function Dashboard() {
 
         {/* Phase 2: Revolutionary Cypher AI Dual Intelligence System */}
         <div className="mb-8">
-          <Phase2Dashboard className="w-full" />
+          {loadedSections.has('phase2-dashboard') ? (
+            <Suspense fallback={<Phase2LoadingSkeleton />}>
+              <Phase2Dashboard className="w-full" />
+            </Suspense>
+          ) : (
+            <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl cursor-pointer transition-all duration-300 hover:scale-[1.01]" onClick={() => loadSection('phase2-dashboard')}>
+              <CardHeader>
+                <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
+                  <Brain className="w-6 h-6 mr-3 text-cyan-400 animate-pulse" />
+                  REVOLUTIONARY CYPHER AI DUAL INTELLIGENCE SYSTEM
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center">
+                    <Brain className="w-10 h-10 text-white animate-pulse" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">Phase 2: Self-Evolving AI System</h3>
+                  <p className="text-gray-400 mb-6 max-w-2xl mx-auto">Experience neural architecture search, meeting intelligence, federated learning, and genetic algorithm evolution</p>
+                  <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-8 py-4 text-lg">
+                    <Zap className="w-6 h-6 mr-3" />
+                    Launch Cypher AI Dashboard
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* AI Analytics Status Section */}
@@ -745,7 +849,7 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-3 sm:mb-4">
                 <div className="flex items-center space-x-2">
-                  <Enhanced4DShieldIcon className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(251, 191, 36, 0.5))'}} />
+                  <Enhanced4DShieldIcon className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" size={24} />
                   <span className="text-xs sm:text-sm text-gray-400 tech-font">THREAT LEVEL</span>
                 </div>
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" style={{filter: 'drop-shadow(0 0 4px rgba(251, 191, 36, 0.4))'}} />
@@ -806,7 +910,7 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Enhanced4DLockIcon className="w-6 h-6 text-green-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(34, 197, 94, 0.5))'}} />
+                  <Enhanced4DLockIcon className="w-6 h-6 text-green-400" size={24} />
                   <span className="text-sm text-gray-400 tech-font">SYSTEM SECURITY</span>
                 </div>
                 <CheckCircle className="w-5 h-5 text-green-400" style={{filter: 'drop-shadow(0 0 4px rgba(34, 197, 94, 0.4))'}} />
@@ -836,7 +940,7 @@ export default function Dashboard() {
             <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-2">
-                  <Enhanced4DEyeIcon className="w-6 h-6 text-cyan-400" size={24} style={{filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.5))'}} />
+                  <Enhanced4DEyeIcon className="w-6 h-6 text-cyan-400" size={24} />
                   <span className="text-sm text-gray-400 tech-font">AUTHENTICATION</span>
                 </div>
                 <div className="mfa-badge">
@@ -1563,12 +1667,64 @@ export default function Dashboard() {
 
         {/* Platform Intelligence Overview */}
         <div className="mb-8">
-          <IntelligenceOverview />
+          {loadedSections.has('intelligence-overview') ? (
+            <Suspense fallback={<AnalyticsLoadingSkeleton />}>
+              <IntelligenceOverview />
+            </Suspense>
+          ) : (
+            <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl cursor-pointer transition-all duration-300 hover:scale-[1.01]" onClick={() => loadSection('intelligence-overview')}>
+              <CardHeader>
+                <CardTitle className="text-cyan-300 flex items-center font-bold tracking-wide">
+                  <Eye className="w-6 h-6 mr-3 text-cyan-400 animate-pulse" />
+                  PLATFORM INTELLIGENCE OVERVIEW
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-cyan-500 to-green-500 rounded-full flex items-center justify-center">
+                    <Activity className="w-10 h-10 text-white animate-pulse" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">Intelligence Status Dashboard</h3>
+                  <p className="text-gray-400 mb-6 max-w-2xl mx-auto">View comprehensive platform intelligence metrics, threat levels, and system health analytics</p>
+                  <Button className="bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-600 hover:to-green-600 text-white px-8 py-4 text-lg">
+                    <TrendingUp className="w-6 h-6 mr-3" />
+                    Load Intelligence Dashboard
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Cambridge-Style Analytics */}
         <div className="mb-8">
-          <CambridgeAnalytics />
+          {loadedSections.has('cambridge-analytics') ? (
+            <Suspense fallback={<AnalyticsLoadingSkeleton />}>
+              <CambridgeAnalytics />
+            </Suspense>
+          ) : (
+            <Card className="holographic-card border-purple-500/30 backdrop-blur-xl cursor-pointer transition-all duration-300 hover:scale-[1.01]" onClick={() => loadSection('cambridge-analytics')}>
+              <CardHeader>
+                <CardTitle className="text-purple-300 flex items-center font-bold tracking-wide">
+                  <Brain className="w-6 h-6 mr-3 text-purple-400 animate-pulse" />
+                  CAMBRIDGE INTELLIGENCE ANALYTICS
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-12">
+                  <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                    <BarChart className="w-10 h-10 text-white animate-pulse" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-3">Advanced AI-Powered Analytics</h3>
+                  <p className="text-gray-400 mb-6 max-w-2xl mx-auto">Discover strategic insights, threat vectors, and behavioral patterns using Cambridge-style analytical intelligence</p>
+                  <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-4 text-lg">
+                    <Target className="w-6 h-6 mr-3" />
+                    Launch Analytics Engine
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Cypher AI Assistant Dashboard Widget */}
