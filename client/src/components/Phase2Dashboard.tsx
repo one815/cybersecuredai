@@ -40,7 +40,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 // Import actual Cypher AI images from attached assets
 import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
-import cypherAiAssistImage from "@assets/Cypher AI Asst. webp_1757954427635.webp";
+import cypherAiAssistImage from "@assets/Cypher AI Assist_1757956158279.png";
 
 interface Phase2DashboardProps {
   className?: string;
