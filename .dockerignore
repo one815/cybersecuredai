@@ -40,6 +40,31 @@ RFP/
 python/
 browser-extensions/
 .cache/
+__pycache__/
+.pytest_cache/
+.uv/
+
+# Exclude Python virtual environments and caches
+venv/
+env/
+.env/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Exclude ML/AI model files and large binaries
+*.pkl
+*.joblib
+*.model
+*.weights
+*.onnx
+*.pb
+*.bin
+
+# Exclude training data and datasets
+eng.traineddata
+*.traineddata
 
 # Exclude development files
 node_modules/
