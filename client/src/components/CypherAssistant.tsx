@@ -143,7 +143,7 @@ export function CypherAssistant({
       case 'recommendation': return <Info className="w-4 h-4 text-blue-500" />;
       case 'analysis': return <Shield className="w-4 h-4 text-green-500" />;
       case 'action': return <CheckCircle className="w-4 h-4 text-orange-500" />;
-      default: return <img src={`${cypherAiAssistImage}?v=${Date.now()}`} alt="Cypher AI" className="w-4 h-4 rounded-full" />;
+      default: return <img src={cypherAiAssistImage} alt="Cypher AI" className="w-4 h-4 rounded-full" />;
     }
   };
 
@@ -181,7 +181,7 @@ export function CypherAssistant({
           className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg p-0 overflow-hidden"
           data-testid="cypher-toggle-button"
         >
-          <img src={`${cypherAiAssistImage}?v=${Date.now()}`} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
+          <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
         </Button>
       </div>
     );
@@ -195,14 +195,14 @@ export function CypherAssistant({
           className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg p-0 overflow-hidden"
           data-testid="cypher-open-button"
         >
-          <img src={`${cypherAiAssistImage}?v=${Date.now()}`} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
+          <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
         </Button>
       ) : (
         <Card className="w-96 h-[600px] shadow-2xl border-2 border-blue-200 dark:border-blue-800 bg-white dark:bg-gray-950">
           <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-lg pb-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <img src={`${cypherAiAssistImage}?v=${Date.now()}`} alt="Cypher AI Assistant" className="w-5 h-5 rounded-full" />
+                <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-5 h-5 rounded-full" />
                 <CardTitle className="text-lg font-bold">Cypher AI Assistant</CardTitle>
               </div>
               <div className="flex gap-1">
@@ -321,7 +321,7 @@ export function CypherAssistant({
                   <div className="flex justify-start mb-4">
                     <div className="bg-white dark:bg-gray-900 border-2 border-purple-200 dark:border-purple-700 rounded-lg p-4 shadow-md">
                       <div className="flex items-center gap-3">
-                        <img src={`${cypherAiAssistImage}?v=${Date.now()}`} alt="Cypher AI" className="w-5 h-5 rounded-full animate-pulse" />
+                        <img src={cypherAiAssistImage} alt="Cypher AI" className="w-5 h-5 rounded-full animate-pulse" />
                         <div className="flex flex-col">
                           <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">Cypher AI</span>
                           <span className="text-xs text-gray-600 dark:text-gray-400">Analyzing your request...</span>
