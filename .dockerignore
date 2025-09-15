@@ -31,9 +31,13 @@ client/public/assets/
 *.mov
 *.psd
 *.zip
-*.html
 *.md
 !README.md
+
+# Exclude HTML files except essential ones
+*.html
+!client/index.html
+!client/src/index.html
 
 # Exclude directories with large files
 attached_assets/

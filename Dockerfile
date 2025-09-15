@@ -52,8 +52,8 @@ RUN apk add --no-cache \
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install ONLY production dependencies
-RUN npm ci --omit=dev --ignore-scripts && \
+# Install ONLY production dependencies (allow scripts for native modules)
+RUN npm ci --omit=dev && \
     npm cache clean --force && \
     rm -rf /tmp/* /var/cache/apk/* ~/.npm
 
@@ -74,9 +74,9 @@ USER nextjs
 # Expose port
 EXPOSE 5000
 
-# Health check
+# Health check using existing compliance health endpoint
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:5000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+    CMD node -e "require('http').get('http://localhost:5000/api/compliance/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 # Start the application
 CMD ["node", "dist/index.js"]
