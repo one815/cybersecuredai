@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Database, Server, Users, CheckCircle, PlayCircle, PauseCircle, SkipForward, Search, TrendingUp, BarChart3, Zap, Settings, RefreshCw, Download, Layers, Cpu, Cloud, Brain } from "lucide-react";
-// Webp image placeholder since referenced webp file doesn't exist in attached_assets
-const cypherAiGenImage = "/api/placeholder/32/32";
+// Import actual Cypher AI Gen image
+import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
 import { ThreatMap } from "@/components/ThreatMap";
 
 // Extend window interface for Google Maps

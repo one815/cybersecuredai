@@ -3,8 +3,8 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 
-// Webp image placeholder since referenced webp files don't exist in attached_assets
-const cyberSecuredLogoImg = "/api/placeholder/200/100";
+// Import actual CyberSecured AI logo
+import cyberSecuredLogoImg from "@assets/CyberSecured AI logo_1757954427635.webp";
 
 export function Navigation() {
   const [location] = useLocation();

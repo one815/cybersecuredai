@@ -37,20 +37,21 @@ import {
 } from "lucide-react";
 import { SiLinkedin } from "react-icons/si";
 
-// Import circular team member images
-// All staff photos replaced with placeholders for build optimization since webp files don't exist in attached_assets
-const camiliaAndersonImg = "/api/placeholder/150/150";
+// Import team member photos from attached assets
+import aaliaZehadImg from "@assets/Aalia_1757954427631.webp";
+import asalahMahmoudImg from "@assets/Asalah_1757954427633.webp";
+import brookeHoldenImg from "@assets/Brooke Holden_1757954427634.webp";
+import camiliaAndersonImg from "@assets/Camilia Anderson_1757954427634.webp";
+import ceciliaSimpsonImg from "@assets/Cecilia_1757954427634.webp";
+import hunterAndersonImg from "@assets/Hunter_1757954427636.webp";
+import lucasLopezImg from "@assets/Lucas_1757954427638.webp";
+import markIbrahimImg from "@assets/Mark_1757954427638.webp";
+
+// Placeholder for team members without photos yet
 const sarahChenImg = "/api/placeholder/150/150";
-const aaliaZehadImg = "/api/placeholder/150/150";
-const lucasLopezImg = "/api/placeholder/150/150";
-const asalahMahmoudImg = "/api/placeholder/150/150";
-const brookeHoldenImg = "/api/placeholder/150/150";
 const gregoriaNwagmeImg = "/api/placeholder/150/150";
-const hunterAndersonImg = "/api/placeholder/150/150";
 const brookeCarlisleImg = "/api/placeholder/150/150";
 const maureenDizonImg = "/api/placeholder/150/150";
-const ceciliaSimpsonImg = "/api/placeholder/150/150";
-// Removed import of markIbrahimImg since attached_assets was removed for build optimization
 
 // Import certification and award images
 const risingStarAwardImg = "/api/placeholder/100/100";
