@@ -2480,7 +2480,19 @@ export class ComplianceAutomationEngine {
       nextAssessment: latestAssessment?.nextAssessment
     };
 
-    const remediationPlan = this.generateRemediationPlan(latestAssessment);
+    const remediationPlan = latestAssessment ? 
+      latestAssessment.findings
+        .filter(f => f.status === "open")
+        .sort((a, b) => this.getSeverityWeight(a.severity) - this.getSeverityWeight(b.severity))
+        .map(finding => ({
+          findingId: finding.id,
+          severity: finding.severity,
+          title: finding.title,
+          recommendation: finding.recommendation,
+          timeframe: finding.remediationTimeframe,
+          estimatedEffort: this.estimateRemediationEffort(finding),
+          priority: this.calculateRemediationPriority(finding)
+        })) : [];
 
     const riskAssessment = {
       overallRiskLevel: this.calculateOverallRisk(latestAssessment),
@@ -2551,22 +2563,6 @@ export class ComplianceAutomationEngine {
     };
   }
 
-  private generateRemediationPlan(assessment?: ComplianceAssessment): any[] {
-    if (!assessment) return [];
-    
-    return assessment.findings
-      .filter(f => f.status === "open")
-      .sort((a, b) => this.getSeverityWeight(a.severity) - this.getSeverityWeight(b.severity))
-      .map(finding => ({
-        findingId: finding.id,
-        severity: finding.severity,
-        title: finding.title,
-        recommendation: finding.recommendation,
-        timeframe: finding.remediationTimeframe,
-        estimatedEffort: this.estimateRemediationEffort(finding),
-        priority: this.calculateRemediationPriority(finding)
-      }));
-  }
 
   private getSeverityWeight(severity: string): number {
     switch (severity) {
@@ -2612,10 +2608,6 @@ export class ComplianceAutomationEngine {
 
   getAllFrameworks(): ComplianceFramework[] {
     return Array.from(this.frameworks.values());
-  }
-
-  getFramework(frameworkId: string): ComplianceFramework | undefined {
-    return this.frameworks.get(frameworkId);
   }
 
   getFrameworkControls(frameworkId: string): ComplianceControl[] {
