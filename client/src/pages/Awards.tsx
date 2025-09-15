@@ -11,21 +11,21 @@ export default function Awards() {
       title: "Rising Star Award",
       subtitle: "Gold Winner - The Learning Awards",
       description: "Recognized for exceptional innovation in AI-powered cybersecurity solutions and outstanding leadership in driving digital security transformation for educational institutions.",
-      image: "/attached_assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.jpg"
+      image: "/assets/Rising_Gold_1755639714060-Dj-zBU33_1756499508610.jpg"
     },
     {
       year: "2024",
       title: "Best Track Network - Data",
       subtitle: "BCBS North Carolina HCL Award", 
       description: "Achieved excellence in network data security and analytics for enterprise healthcare data protection systems.",
-      image: "/attached_assets/BCBS North Carolina_1756499508608.jpg"
+      image: "/assets/BCBS North Carolina_1756499508608.jpg"
     },
     {
       year: "2025",
       title: "Achievers League Award",
       subtitle: "Above Recognition Beyond Rewards",
       description: "Distinguished achievement recognition for exceptional leadership and innovation in cybersecurity solutions and client success initiatives.",
-      image: "/attached_assets/Achievers League_1756502961273.jpg"
+      image: "/assets/Achievers League_1756502961273.jpg"
     }
   ];
 
