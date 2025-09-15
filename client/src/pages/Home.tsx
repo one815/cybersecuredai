@@ -67,7 +67,7 @@ import complianceImg from "@assets/generated_images/Federal_Compliance_Certifica
 import imacMockupImg from "@assets/generated_images/Clean_transparent_iMac_frame_2795ad4e.png";
 import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.jpg";
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
-import scanningImg from "@assets/cybersecured ai scan_1756296311900.jpg";
+import scanningImg from "@assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg";
 
 export default function Home() {
   const { user, isLoading } = useAuth();
