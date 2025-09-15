@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-// Vector security icons from attached assets
-import securityIconsPath from "@assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.jpg";
+// Vector security icons from public assets
+const securityIconsPath = "/assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.jpg";
 
 export function Navigation() {
   const [location] = useLocation();
