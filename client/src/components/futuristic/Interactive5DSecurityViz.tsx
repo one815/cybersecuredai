@@ -5,8 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Shield, AlertTriangle, Zap, Network, Database, Server } from 'lucide-react';
 
-// Lazy load the 3D scene to reduce initial bundle size
-const LazySecurityVizScene = React.lazy(() => import('./Interactive5DSecurityVizScene'));
+// Lightweight 2D security visualization (optimized for deployment)
 
 interface SecurityNode {
   id: string;
@@ -44,85 +43,68 @@ interface NetworkConnection {
   encrypted: boolean;
 }
 
-// 3D Security Node Component
-function SecurityNodeMesh({ node, onSelect, selected }: { 
+// Lightweight 2D Security Node Component (optimized for deployment)
+function SecurityNode2D({ node, onSelect, selected }: { 
   node: SecurityNode; 
   onSelect: (node: SecurityNode) => void;
   selected: boolean;
 }) {
-  const meshRef = useRef<Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
-  useFrame((state) => {
-    if (meshRef.current) {
-      // Gentle rotation and floating animation
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.position.y = node.position[1] + Math.sin(state.clock.elapsedTime + node.position[0]) * 0.1;
-    }
-  });
-
-  const getNodeColor = (): Color => {
-    if (selected) return new Color('#00ff88');
-    if (hovered) return new Color('#88ff00');
+  const getNodeColor = () => {
+    if (selected) return '#00ff88';
+    if (hovered) return '#88ff00';
     
     // Color based on risk level
-    if (node.riskLevel > 0.8) return new Color('#ff4444');
-    if (node.riskLevel > 0.6) return new Color('#ff8800');
-    if (node.riskLevel > 0.4) return new Color('#ffdd00');
-    return new Color('#00ddff');
+    if (node.riskLevel > 0.8) return '#ff4444';
+    if (node.riskLevel > 0.6) return '#ff8800';
+    if (node.riskLevel > 0.4) return '#ffdd00';
+    return '#00ddff';
   };
 
-  const getNodeShape = () => {
+  const getNodeIcon = () => {
     switch (node.type) {
-      case 'server':
-        return <Box args={[0.8, 1.2, 0.8]} />;
-      case 'database':
-        return <Box args={[1.0, 0.6, 1.0]} />;
-      case 'network':
-        return <Sphere args={[0.8, 12, 8]} />;
-      case 'threat':
-        return <Sphere args={[0.6, 8, 6]} />;
-      default:
-        return <Sphere args={[0.7, 10, 8]} />;
+      case 'server': return <Server className="w-6 h-6" />;
+      case 'database': return <Database className="w-6 h-6" />;
+      case 'network': return <Network className="w-6 h-6" />;
+      case 'threat': return <AlertTriangle className="w-6 h-6" />;
+      case 'application': return <Zap className="w-6 h-6" />;
+      default: return <Shield className="w-6 h-6" />;
     }
   };
 
   return (
-    <group>
-      <mesh
-        ref={meshRef}
-        position={node.position}
-        onClick={() => onSelect(node)}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
+    <div
+      className={`absolute cursor-pointer transition-all duration-200 transform ${
+        selected ? 'scale-110 z-20' : hovered ? 'scale-105 z-10' : 'z-0'
+      }`}
+      style={{
+        left: `${50 + node.position[0] * 2}%`,
+        top: `${50 + node.position[1] * 2}%`,
+      }}
+      onClick={() => onSelect(node)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      data-testid={`node-${node.id}`}
+    >
+      <div
+        className="flex flex-col items-center p-3 rounded-lg border-2 backdrop-blur-sm"
+        style={{
+          backgroundColor: `${getNodeColor()}20`,
+          borderColor: getNodeColor(),
+          boxShadow: selected || hovered ? `0 0 20px ${getNodeColor()}` : 'none',
+        }}
       >
-        {getNodeShape()}
-        <meshStandardMaterial 
-          color={getNodeColor()} 
-          emissive={getNodeColor().multiplyScalar(0.3)}
-          transparent
-          opacity={node.type === 'threat' ? 0.8 : 0.9}
-        />
-      </mesh>
-      
-      {/* Node label */}
-      <Text
-        position={[node.position[0], node.position[1] + 1.5, node.position[2]]}
-        fontSize={0.3}
-        color={selected ? '#00ff88' : '#ffffff'}
-        anchorX="center"
-        anchorY="middle"
-      >
-        {node.name}
-      </Text>
-
-      {/* Risk level indicator */}
-      {node.riskLevel > 0.7 && (
-        <Sphere args={[0.2, 6, 4]} position={[node.position[0] + 1, node.position[1] + 1, node.position[2]]}>
-          <meshBasicMaterial color="#ff0000" transparent opacity={0.8} />
-        </Sphere>
-      )}
-    </group>
+        <div style={{ color: getNodeColor() }}>
+          {getNodeIcon()}
+        </div>
+        <span className="text-xs mt-1 text-white font-medium">{node.name}</span>
+        <span className="text-xs text-gray-300">Risk: {Math.round(node.riskLevel * 100)}%</span>
+        {node.riskLevel > 0.7 && (
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+        )}
+      </div>
+    </div>
   );
 }
 
