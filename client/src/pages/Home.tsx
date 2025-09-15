@@ -69,6 +69,21 @@ import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp";
 
+// Webp image placeholders since most referenced webp files don't exist in attached_assets
+const cypherAiAssistImage = "/api/placeholder/40/40";
+const cypherAiGenImage = "/api/placeholder/48/48";
+const soc2CompliantImg = "/api/placeholder/100/60";
+const ferpaCompliantImg = "/api/placeholder/100/60";
+const fismaCompliantImg = "/api/placeholder/100/60";
+const isoCompliantImg = "/api/placeholder/100/60";
+const fedrampAuthorizedImg = "/api/placeholder/100/60";
+const mitPartnerImg = "/api/placeholder/120/80";
+const stanfordPartnerImg = "/api/placeholder/120/80";
+const berkeleyPartnerImg = "/api/placeholder/120/80";
+const cambridgePartnerImg = "/api/placeholder/120/80";
+const universityPartnerImg = "/api/placeholder/120/80";
+const caStatePartnerImg = "/api/placeholder/120/80";
+
 export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -125,7 +140,7 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-8 md:mb-16">
               <Badge className="mb-4 md:mb-8 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-sm md:text-lg px-4 md:px-6 py-1 md:py-2 flex items-center gap-2">
-                <img src="/assets/Cypher AI Asst. webp_1757949055406.webp" alt="Cypher AI Assistant" className="w-10 h-10 rounded-full" />
+                <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-10 h-10 rounded-full" />
                 Featuring Cypher AI Assistant - 95% Accuracy, 24/7 Support
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight px-2">
@@ -618,7 +633,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src="/assets/SOC 2_1757949878606.webp"
+                      src={soc2CompliantImg}
                       alt="SOC 2 TYPE II Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -629,7 +644,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src="/assets/FERPA_1757949842495.webp"
+                      src={ferpaCompliantImg}
                       alt="FERPA Compliant Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -640,7 +655,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src="/assets/FISME_1757949882711.webp"
+                      src={fismaCompliantImg}
                       alt="FISMA Compliant Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -651,7 +666,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src="/assets/ISO_1757949850369.webp"
+                      src={isoCompliantImg}
                       alt="ISO 27001 Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -662,7 +677,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-orange-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src="/assets/FedRamp_1757949842495.webp"
+                      src={fedrampAuthorizedImg}
                       alt="FedRAMP Authorized Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -730,7 +745,7 @@ export default function Home() {
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
                       <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/assets/Cypher AI Gen_1757949055407.webp" alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
+                        <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-purple-400">Cypher AI Genetic</h4>
@@ -762,7 +777,7 @@ export default function Home() {
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
                       <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/assets/Cypher AI Asst. webp_1757949055406.webp" alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
+                        <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-cyan-400">Cypher AI Assistant</h4>
@@ -1304,7 +1319,7 @@ export default function Home() {
                 {/* MIT Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner - MIT_1757949055408.webp"
+                    src={mitPartnerImg}
                     alt="MIT"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1313,7 +1328,7 @@ export default function Home() {
                 {/* Stanford Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner Stanford_1757949055410.webp"
+                    src={stanfordPartnerImg}
                     alt="Stanford University"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1322,7 +1337,7 @@ export default function Home() {
                 {/* UC Berkeley Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner - Univ of Berkley_1757949055409.webp"
+                    src={berkeleyPartnerImg}
                     alt="UC Berkeley"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1331,7 +1346,7 @@ export default function Home() {
                 {/* University of Cambridge Logo */}
                 <div className="flex items-center justify-center h-28 w-56 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner - University of Cambridge_1757949055409.webp"
+                    src={cambridgePartnerImg}
                     alt="University of Cambridge"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1340,7 +1355,7 @@ export default function Home() {
                 {/* Colorado State University Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner - University_1757949055409.webp"
+                    src={universityPartnerImg}
                     alt="Colorado State University"
                     className="h-18 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1349,7 +1364,7 @@ export default function Home() {
                 {/* CSU - The California State University Logo */}
                 <div className="flex items-center justify-center h-28 w-60 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src="/assets/Partner - CA State Univeristy_1757949055408.webp"
+                    src={caStatePartnerImg}
                     alt="The California State University"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />

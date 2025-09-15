@@ -9,7 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Bot, Shield, Lock, Eye, EyeOff } from "lucide-react";
-import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
+// Webp image placeholder since referenced webp file doesn't exist in attached_assets
+const cypherAiAssistImage = "/api/placeholder/28/28";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),

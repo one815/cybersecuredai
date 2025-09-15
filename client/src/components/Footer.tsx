@@ -1,12 +1,14 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
-import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
-const ferpaCompliantImg = "/assets/FERPA_1757949842495.webp";
-const fismaCompliantImg = "/assets/FISME_1757949882711.webp";
-const fedrampAuthorizedImg = "/assets/FedRamp_1757949842495.webp";
-const nistCompliantImg = "/assets/NIST_1757949846522.webp";
-const soc2CompliantImg = "/assets/SOC 2_1757949878606.webp";
-const isoCompliantImg = "/assets/ISO_1757949850369.webp";
+// Webp image placeholders since referenced webp files don't exist in attached_assets
+const cypherAiAssistImage = "/api/placeholder/40/40";
+const ferpaCompliantImg = "/api/placeholder/100/60";
+const fismaCompliantImg = "/api/placeholder/100/60";
+const fedrampAuthorizedImg = "/api/placeholder/100/60";
+const nistCompliantImg = "/api/placeholder/100/60";
+const soc2CompliantImg = "/api/placeholder/100/60";
+const isoCompliantImg = "/api/placeholder/100/60";
+const cyberSecuredLogoImg = "/api/placeholder/120/60";
 
 export function Footer() {
   return (
@@ -17,7 +19,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <div className="flex items-center mb-4">
               <img 
-                src="/assets/CyberSecured AI logo_1757949055406.webp" 
+                src={cyberSecuredLogoImg} 
                 alt="CyberSecured AI" 
                 className="h-24 w-auto"
               />
