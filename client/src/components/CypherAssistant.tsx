@@ -178,10 +178,10 @@ export function CypherAssistant({
       <div className="fixed bottom-4 right-4 z-50">
         <Button
           onClick={() => onToggleMinimize?.()}
-          className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+          className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg p-0 overflow-hidden"
           data-testid="cypher-toggle-button"
         >
-          <MessageCircle className="w-6 h-6" />
+          <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
         </Button>
       </div>
     );
@@ -192,10 +192,10 @@ export function CypherAssistant({
       {!isOpen ? (
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+          className="rounded-full w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg p-0 overflow-hidden"
           data-testid="cypher-open-button"
         >
-          <MessageCircle className="w-6 h-6" />
+          <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-8 h-8 rounded-full" />
         </Button>
       ) : (
         <Card className="w-96 h-[600px] shadow-2xl border-2 border-blue-200 dark:border-blue-800 bg-white dark:bg-gray-950">
