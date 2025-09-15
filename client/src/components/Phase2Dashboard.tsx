@@ -83,7 +83,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
   // Start/Stop NAS mutations
   const startNAS = useMutation({
-    mutationFn: () => apiRequest('/api/nas/start-search', { method: 'POST' }),
+    mutationFn: () => fetch('/api/nas/start-search', { method: 'POST' }).then(res => res.json()),
     onSuccess: () => {
       toast({ title: "Neural Architecture Search Started", description: "Self-modifying AI structures are now evolving." });
       queryClient.invalidateQueries({ queryKey: ['/api/nas/status'] });
@@ -94,7 +94,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
   });
 
   const stopNAS = useMutation({
-    mutationFn: () => apiRequest('/api/nas/stop-search', { method: 'POST' }),
+    mutationFn: () => fetch('/api/nas/stop-search', { method: 'POST' }).then(res => res.json()),
     onSuccess: () => {
       toast({ title: "Neural Architecture Search Stopped", description: "Evolution process has been paused." });
       queryClient.invalidateQueries({ queryKey: ['/api/nas/status'] });
@@ -103,7 +103,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
 
   // Initiate federated learning round
   const initiateFederatedRound = useMutation({
-    mutationFn: () => apiRequest('/api/federated-learning/initiate-round', { method: 'POST' }),
+    mutationFn: () => fetch('/api/federated-learning/initiate-round', { method: 'POST' }).then(res => res.json()),
     onSuccess: () => {
       toast({ title: "Federated Learning Round Started", description: "Cross-environment knowledge sharing initiated." });
       queryClient.invalidateQueries({ queryKey: ['/api/federated-learning/status'] });
@@ -127,11 +127,11 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
     );
   }
 
-  const overallAccuracy = systemStatus?.data?.overallAccuracy || 0;
-  const systemHealth = systemStatus?.data?.systemHealth || 'unknown';
-  const nasData = nasStatus?.data || {};
-  const meetingData = meetingStatus?.data || {};
-  const federatedData = federatedStatus?.data || {};
+  const overallAccuracy = (systemStatus as any)?.data?.overallAccuracy || 0;
+  const systemHealth = (systemStatus as any)?.data?.systemHealth || 'unknown';
+  const nasData = (nasStatus as any)?.data || {};
+  const meetingData = (meetingStatus as any)?.data || {};
+  const federatedData = (federatedStatus as any)?.data || {};
 
   return (
     <div className={`p-6 space-y-6 ${className}`}>
@@ -200,7 +200,7 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
             <Progress value={(overallAccuracy / 99.2) * 100} className="h-4 bg-slate-700" />
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
               {sectors.map((sector) => {
-                const sectorData = systemStatus?.data?.performanceMetrics?.[sector];
+                const sectorData = (systemStatus as any)?.data?.performanceMetrics?.[sector];
                 return (
                   <div key={sector} className="p-3 bg-slate-700 rounded-lg shadow-sm border border-cyan-500/30">
                     <div className="text-xs text-cyan-300 font-medium">{sector}</div>
@@ -510,21 +510,21 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                       <Target className="w-8 h-8 mx-auto mb-2 text-yellow-400" />
                       <h4 className="font-semibold text-white">Current Accuracy</h4>
                       <p className="text-2xl font-bold text-yellow-400">
-                        {sectorPerformance?.data?.currentAccuracy?.toFixed(2) || '0.00'}%
+                        {(sectorPerformance as any)?.data?.currentAccuracy?.toFixed(2) || '0.00'}%
                       </p>
                     </div>
                     <div className="text-center p-4 bg-slate-700 rounded-lg border border-green-500/30">
                       <TrendingUp className="w-8 h-8 mx-auto mb-2 text-green-400" />
                       <h4 className="font-semibold text-white">Progress to Target</h4>
                       <p className="text-xl font-bold text-green-400">
-                        {sectorPerformance?.data?.accuracyProgress?.toFixed(1) || '0.0'}%
+                        {(sectorPerformance as any)?.data?.accuracyProgress?.toFixed(1) || '0.0'}%
                       </p>
                     </div>
                     <div className="text-center p-4 bg-slate-700 rounded-lg border border-blue-500/30">
                       <Activity className="w-8 h-8 mx-auto mb-2 text-blue-400" />
                       <h4 className="font-semibold text-white">Best Individuals</h4>
                       <p className="text-xl font-bold text-blue-400">
-                        {sectorPerformance?.data?.bestIndividuals?.length || 0}
+                        {(sectorPerformance as any)?.data?.bestIndividuals?.length || 0}
                       </p>
                     </div>
                   </div>
@@ -532,20 +532,20 @@ export function Phase2Dashboard({ className = "" }: Phase2DashboardProps) {
                   <div>
                     <h4 className="font-semibold mb-3">Evolution Progress</h4>
                     <Progress 
-                      value={sectorPerformance?.data?.accuracyProgress || 0} 
+                      value={(sectorPerformance as any)?.data?.accuracyProgress || 0} 
                       className="h-4"
                     />
                     <div className="flex justify-between text-sm text-gray-600 mt-2">
-                      <span>Current: {sectorPerformance?.data?.currentAccuracy?.toFixed(2) || '0.00'}%</span>
+                      <span>Current: {(sectorPerformance as any)?.data?.currentAccuracy?.toFixed(2) || '0.00'}%</span>
                       <span>Target: 99.2%</span>
                     </div>
                   </div>
 
-                  {sectorPerformance?.data?.bestArchitectures?.length > 0 && (
+                  {(sectorPerformance as any)?.data?.bestArchitectures?.length > 0 && (
                     <div>
                       <h4 className="font-semibold mb-3">Top Neural Architectures</h4>
                       <div className="space-y-2">
-                        {sectorPerformance.data.bestArchitectures.slice(0, 3).map((arch: any, index: number) => (
+                        {(sectorPerformance as any).data.bestArchitectures.slice(0, 3).map((arch: any, index: number) => (
                           <div key={arch.id} className="p-3 bg-gray-50 rounded-lg flex justify-between items-center">
                             <div>
                               <span className="font-medium">Architecture #{index + 1}</span>
