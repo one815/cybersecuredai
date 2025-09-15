@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { MessageCircle, Send, Bot, User, Shield, AlertTriangle, Info, CheckCircle, X, Minimize2 } from 'lucide-react';
-import cypherAiAssistImage from '@assets/generated_images/Morphlike_Cypher_AI_glassmorphism_53828ca6.jpg';
+import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757954952031.webp';
 import { useAuth } from '@/hooks/useAuth';
 import { apiRequest } from '@/lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
