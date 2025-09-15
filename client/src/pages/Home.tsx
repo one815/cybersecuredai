@@ -125,7 +125,7 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl relative z-10">
             <div className="text-center mb-8 md:mb-16">
               <Badge className="mb-4 md:mb-8 bg-cyan-500/20 text-cyan-300 border-cyan-500/30 text-sm md:text-lg px-4 md:px-6 py-1 md:py-2 flex items-center gap-2">
-                <img src="/assets/Cypher AI Assist_1757277458129.jpg" alt="Cypher AI Assistant" className="w-10 h-10 rounded-full" />
+                <img src="/assets/Cypher AI Asst. webp_1757949055406.webp" alt="Cypher AI Assistant" className="w-10 h-10 rounded-full" />
                 Featuring Cypher AI Assistant - 95% Accuracy, 24/7 Support
               </Badge>
               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 md:mb-8 leading-tight px-2">
@@ -730,7 +730,7 @@ export default function Home() {
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
                       <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/assets/Cypher AI Gen_1757277451468.jpg" alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
+                        <img src="/assets/Cypher AI Gen_1757949055407.webp" alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-purple-400">Cypher AI Genetic</h4>
@@ -762,7 +762,7 @@ export default function Home() {
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
                       <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
-                        <img src="/assets/Cypher AI Assist_1757277458129.jpg" alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
+                        <img src="/assets/Cypher AI Asst. webp_1757949055406.webp" alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
                         <h4 className="text-2xl font-bold text-cyan-400">Cypher AI Assistant</h4>
@@ -1304,7 +1304,7 @@ export default function Home() {
                 {/* MIT Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (4)_1756397271074.jpg"}
+                    src="/assets/Partner - MIT_1757949055408.webp"
                     alt="MIT"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1313,7 +1313,7 @@ export default function Home() {
                 {/* Stanford Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1756397271074.jpg"}
+                    src="/assets/Partner Stanford_1757949055410.webp"
                     alt="Stanford University"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1322,7 +1322,7 @@ export default function Home() {
                 {/* UC Berkeley Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/5_1756397271070.jpg"}
+                    src="/assets/Partner - Univ of Berkley_1757949055409.webp"
                     alt="UC Berkeley"
                     className="h-20 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1331,7 +1331,7 @@ export default function Home() {
                 {/* University of Cambridge Logo */}
                 <div className="flex items-center justify-center h-28 w-56 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/SOC 2 (2)_1756397271073.jpg"}
+                    src="/assets/Partner - University of Cambridge_1757949055409.webp"
                     alt="University of Cambridge"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1340,7 +1340,7 @@ export default function Home() {
                 {/* Colorado State University Logo */}
                 <div className="flex items-center justify-center h-28 w-32 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/6_1756397271072.jpg"}
+                    src="/assets/Partner - University_1757949055409.webp"
                     alt="Colorado State University"
                     className="h-18 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
@@ -1349,7 +1349,7 @@ export default function Home() {
                 {/* CSU - The California State University Logo */}
                 <div className="flex items-center justify-center h-28 w-60 bg-white/10 rounded-xl border border-cyan-500/20 hover:border-cyan-400/60 hover:scale-110 transition-all duration-300 flex-shrink-0 hover:bg-white/15">
                   <img 
-                    src={import.meta.env.BASE_URL + "attached_assets/7_1756397271072.jpg"}
+                    src="/assets/Partner - CA State Univeristy_1757949055408.webp"
                     alt="The California State University"
                     className="h-24 w-auto filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                   />
