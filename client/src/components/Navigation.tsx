@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-// Vector security icons from public assets
-const securityIconsPath = "/assets/Screen Shot 2025-08-20 at 11.44.59 AM_1755708412270.jpg";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 export function Navigation() {
   const [location] = useLocation();
@@ -104,7 +103,7 @@ export function Navigation() {
               <img 
                 src="/assets/CyberSecured AI logo_1757949055406.webp" 
                 alt="CyberSecured AI" 
-                className="h-16 md:h-24 w-auto"
+                className="h-32 md:h-48 w-auto"
                 data-testid="logo-home-link"
               />
             </div>
@@ -124,7 +123,7 @@ export function Navigation() {
                       {item.label}
                       <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400 group-hover:w-full transition-all duration-300"></div>
                     </span>
-                    <div className={`w-4 h-4 transition-transform duration-200 bg-contain bg-no-repeat bg-center ${openDropdown === item.label ? 'rotate-180' : ''}`} style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 90%', filter: openDropdown === item.label ? 'hue-rotate(180deg) saturate(1.5) brightness(1.2)' : 'grayscale(1) brightness(0.7)'}} />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180' : ''} text-gray-300`} />
                     
                     {/* Dropdown Menu */}
                     {openDropdown === item.label && (
@@ -402,8 +401,8 @@ export function Navigation() {
               className="p-2"
             >
               {isMobileMenuOpen ? 
-                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(0deg) saturate(1.5) brightness(1.2)'}} /> : 
-                <div className="w-6 h-6 bg-contain bg-no-repeat bg-center" style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '30% 40%', filter: 'hue-rotate(200deg) saturate(1.5) brightness(1.2)'}} />
+                <X className="w-6 h-6 text-gray-300" /> : 
+                <Menu className="w-6 h-6 text-gray-300" />
               }
             </Button>
           </div>
@@ -422,9 +421,9 @@ export function Navigation() {
                         onClick={() => handleDropdownToggle(item.label)}
                       >
                         <span>{item.label}</span>
-                        <div className={`w-4 h-4 transition-transform bg-contain bg-no-repeat bg-center ${
+                        <ChevronDown className={`w-4 h-4 transition-transform ${
                           openDropdown === item.label ? "rotate-180" : ""
-                        }`} style={{backgroundImage: `url(${securityIconsPath})`, backgroundPosition: '70% 90%', filter: openDropdown === item.label ? 'hue-rotate(180deg) saturate(1.5) brightness(1.2)' : 'grayscale(1) brightness(0.7)'}} />
+                        } text-gray-300`} />
                       </button>
                       {openDropdown === item.label && (
                         <div className="pl-4 space-y-1">

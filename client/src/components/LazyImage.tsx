@@ -98,11 +98,11 @@ export function LazyImage({
 }
 
 // Corrected approach using import.meta.glob for proper lazy loading
-const imageLoaders: Record<string, () => Promise<string>> = import.meta.glob('/attached_assets/**/*.{jpg,jpeg,png}', { 
+const imageLoaders = import.meta.glob('/attached_assets/**/*.{jpg,jpeg,png,webp}', { 
   eager: false,
   query: '?url',
   import: 'default'
-});
+}) as Record<string, () => Promise<string>>;
 
 // Function to normalize @assets paths to actual file paths
 function normalizePath(imagePath: string): string {
@@ -123,7 +123,17 @@ export function useImageImport(imagePath: string) {
         setIsLoading(true);
         setError(null);
         
-        // Normalize @assets path to actual file path
+        // Handle public asset URLs directly
+        if (imagePath.startsWith('/assets/') || imagePath.startsWith('http')) {
+          // For public assets, use the path directly
+          if (isMounted) {
+            setImageUrl(imagePath);
+            setIsLoading(false);
+          }
+          return;
+        }
+        
+        // Normalize @assets path to actual file path for dynamic imports
         const key = normalizePath(imagePath);
         
         // Find the corresponding loader function
