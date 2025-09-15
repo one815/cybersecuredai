@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
-import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.jpg';
+import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
 import ferpaCompliantImg from "@assets/ferpa compliant_1755703343167.jpg";
 import fismaCompliantImg from "@assets/fisme compliant_1755703347744.webp";
 import fedrampAuthorizedImg from "@assets/fedramp authorized_1755703346268.jpg";
@@ -17,7 +17,7 @@ export function Footer() {
           <div className="col-span-1 md:col-span-2 lg:col-span-2">
             <div className="flex items-center mb-4">
               <img 
-                src="/assets/2_1756557992421.jpg" 
+                src="/assets/CyberSecured AI logo_1757949055406.webp" 
                 alt="CyberSecured AI" 
                 className="h-24 w-auto"
               />

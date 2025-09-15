@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Bot, Shield, Lock, Eye, EyeOff } from "lucide-react";
-import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.jpg';
+import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),

@@ -38,8 +38,8 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import cypherAiGenImage from '@assets/Cypher AI Gen_1757277451468.jpg';
-import cypherAiAssistImage from '@assets/Cypher AI Assist_1757277458129.jpg';
+import cypherAiGenImage from '@assets/Cypher AI Gen_1757949055407.webp';
+import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
 
 interface Phase2DashboardProps {
   className?: string;
