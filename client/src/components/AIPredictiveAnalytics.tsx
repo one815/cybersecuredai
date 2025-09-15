@@ -16,7 +16,46 @@ import {
   BarChart3,
   RefreshCw
 } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
+// Dynamic recharts imports to reduce bundle size
+type RechartsComponents = {
+  LineChart: any;
+  Line: any;
+  XAxis: any;
+  YAxis: any;
+  CartesianGrid: any;
+  Tooltip: any;
+  ResponsiveContainer: any;
+  AreaChart: any;
+  Area: any;
+};
+
+let rechartsComponents: RechartsComponents | null = null;
+let rechartsPromise: Promise<RechartsComponents> | null = null;
+
+const loadRechartsComponents = async (): Promise<RechartsComponents> => {
+  if (rechartsComponents) return rechartsComponents;
+  if (rechartsPromise) return rechartsPromise;
+  
+  rechartsPromise = import("recharts").then(module => {
+    rechartsComponents = {
+      LineChart: module.LineChart,
+      Line: module.Line,
+      XAxis: module.XAxis,
+      YAxis: module.YAxis,
+      CartesianGrid: module.CartesianGrid,
+      Tooltip: module.Tooltip,
+      ResponsiveContainer: module.ResponsiveContainer,
+      AreaChart: module.AreaChart,
+      Area: module.Area
+    };
+    return rechartsComponents!;
+  }).catch(error => {
+    console.error('Failed to load recharts:', error);
+    throw error;
+  });
+  
+  return rechartsPromise;
+};
 
 interface PredictionData {
   timestamp: string;
@@ -37,6 +76,34 @@ interface AlertThreshold {
 export function AIPredictiveAnalytics() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("24h");
   const [refreshing, setRefreshing] = useState(false);
+  const [isRechartsLoaded, setIsRechartsLoaded] = useState(!!rechartsComponents);
+  const [rechartsError, setRechartsError] = useState<string | null>(null);
+
+  // Load recharts dynamically
+  useEffect(() => {
+    let mounted = true;
+    
+    const initializeCharts = async () => {
+      try {
+        await loadRechartsComponents();
+        if (mounted) {
+          setIsRechartsLoaded(true);
+        }
+      } catch (error) {
+        if (mounted) {
+          setRechartsError(error instanceof Error ? error.message : 'Failed to load charts');
+        }
+      }
+    };
+
+    if (!rechartsComponents) {
+      initializeCharts();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   // Fetch AI prediction data
   const { data: predictiveData, refetch, isLoading } = useQuery<{
@@ -107,6 +174,48 @@ export function AIPredictiveAnalytics() {
       </Card>
     );
   }
+
+  // Show error if recharts failed to load
+  if (rechartsError) {
+    return (
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Brain className="w-5 h-5 mr-2" />
+            AI Predictive Analytics Hub
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64 text-red-400">
+            Failed to load charts: {rechartsError}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Show loading if recharts is not loaded yet
+  if (!isRechartsLoaded || !rechartsComponents) {
+    return (
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Brain className="w-5 h-5 mr-2" />
+            AI Predictive Analytics Hub
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+            <span className="ml-3 text-gray-400">Loading charts...</span>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Destructure loaded components
+  const { ResponsiveContainer, LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line } = rechartsComponents;
 
   return (
     <Card className="holographic-card border-purple-500/30 backdrop-blur-xl floating-3d">

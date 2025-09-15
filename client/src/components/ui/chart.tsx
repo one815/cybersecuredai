@@ -1,9 +1,30 @@
 "use client"
 
 import * as React from "react"
-import * as RechartsPrimitive from "recharts"
-
 import { cn } from "@/lib/utils"
+
+// Dynamic import for recharts to reduce initial bundle size
+let RechartsPrimitive: any = null;
+let isRechartsLoading = false;
+let rechartsPromise: Promise<any> | null = null;
+
+const loadRecharts = async () => {
+  if (RechartsPrimitive) return RechartsPrimitive;
+  if (rechartsPromise) return rechartsPromise;
+  
+  isRechartsLoading = true;
+  rechartsPromise = import("recharts").then(module => {
+    RechartsPrimitive = module;
+    isRechartsLoading = false;
+    return module;
+  }).catch(error => {
+    console.error('Failed to load recharts:', error);
+    isRechartsLoading = false;
+    throw error;
+  });
+  
+  return rechartsPromise;
+};
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
@@ -38,13 +59,63 @@ const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     config: ChartConfig
-    children: React.ComponentProps<
-      typeof RechartsPrimitive.ResponsiveContainer
-    >["children"]
+    children: React.ReactNode
   }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
+  const [isChartsLoaded, setIsChartsLoaded] = React.useState(!!RechartsPrimitive)
+  const [loadError, setLoadError] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    let mounted = true
+    
+    const initializeCharts = async () => {
+      try {
+        await loadRecharts()
+        if (mounted) {
+          setIsChartsLoaded(true)
+        }
+      } catch (error) {
+        if (mounted) {
+          setLoadError(error instanceof Error ? error.message : 'Failed to load charts')
+        }
+      }
+    }
+
+    if (!RechartsPrimitive) {
+      initializeCharts()
+    }
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  if (loadError) {
+    return (
+      <div
+        ref={ref}
+        className={cn("flex aspect-video justify-center items-center text-xs text-red-500", className)}
+        {...props}
+      >
+        Failed to load chart component: {loadError}
+      </div>
+    )
+  }
+
+  if (!isChartsLoaded) {
+    return (
+      <div
+        ref={ref}
+        className={cn("flex aspect-video justify-center items-center text-xs", className)}
+        {...props}
+      >
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+        <span className="ml-2 text-gray-400">Loading chart...</span>
+      </div>
+    )
+  }
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -100,12 +171,16 @@ ${colorConfig
   )
 }
 
-const ChartTooltip = RechartsPrimitive.Tooltip
+const ChartTooltip = React.forwardRef<any, any>((props, ref) => {
+  if (!RechartsPrimitive) return null
+  const TooltipComponent = RechartsPrimitive.Tooltip
+  return <TooltipComponent ref={ref} {...props} />
+})
+ChartTooltip.displayName = "ChartTooltip"
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-    React.ComponentProps<"div"> & {
+  any & {
       hideLabel?: boolean
       hideIndicator?: boolean
       indicator?: "line" | "dot" | "dashed"
@@ -185,7 +260,7 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {payload.map((item, index) => {
+          {payload.map((item: any, index: number) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
             const indicatorColor = color || item.payload.fill || item.color
@@ -256,12 +331,18 @@ const ChartTooltipContent = React.forwardRef<
 )
 ChartTooltipContent.displayName = "ChartTooltip"
 
-const ChartLegend = RechartsPrimitive.Legend
+const ChartLegend = React.forwardRef<any, any>((props, ref) => {
+  if (!RechartsPrimitive) return null
+  const LegendComponent = RechartsPrimitive.Legend
+  return <LegendComponent ref={ref} {...props} />
+})
+ChartLegend.displayName = "ChartLegend"
 
 const ChartLegendContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> &
-    Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+  React.ComponentProps<"div"> & {
+      payload?: any[]
+      verticalAlign?: "top" | "bottom"
       hideIcon?: boolean
       nameKey?: string
     }
@@ -285,7 +366,7 @@ const ChartLegendContent = React.forwardRef<
           className
         )}
       >
-        {payload.map((item) => {
+        {payload.map((item: any) => {
           const key = `${nameKey || item.dataKey || "value"}`
           const itemConfig = getPayloadConfigFromPayload(config, item, key)
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,50 @@ import {
   BarChart3,
   PieChart
 } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, RadialBarChart, RadialBar, PieChart as RechartsPieChart, Cell } from "recharts";
+// Dynamic recharts imports to reduce bundle size
+type RechartsComponents = {
+  LineChart: any;
+  Line: any;
+  XAxis: any;
+  YAxis: any;
+  ResponsiveContainer: any;
+  RadialBarChart: any;
+  RadialBar: any;
+  PieChart: any;
+  Cell: any;
+};
+
+let rechartsComponents: RechartsComponents | null = null;
+let rechartsLoading = false;
+let rechartsPromise: Promise<RechartsComponents> | null = null;
+
+const loadRechartsComponents = async (): Promise<RechartsComponents> => {
+  if (rechartsComponents) return rechartsComponents;
+  if (rechartsPromise) return rechartsPromise;
+  
+  rechartsLoading = true;
+  rechartsPromise = import("recharts").then(module => {
+    rechartsComponents = {
+      LineChart: module.LineChart,
+      Line: module.Line,
+      XAxis: module.XAxis,
+      YAxis: module.YAxis,
+      ResponsiveContainer: module.ResponsiveContainer,
+      RadialBarChart: module.RadialBarChart,
+      RadialBar: module.RadialBar,
+      PieChart: module.PieChart,
+      Cell: module.Cell
+    };
+    rechartsLoading = false;
+    return rechartsComponents!;
+  }).catch(error => {
+    console.error('Failed to load recharts:', error);
+    rechartsLoading = false;
+    throw error;
+  });
+  
+  return rechartsPromise;
+};
 
 interface AnalyticsInsight {
   id: string;
@@ -37,6 +80,34 @@ interface ThreatVector {
 
 export function CambridgeAnalytics() {
   const [activeTab, setActiveTab] = useState("insights");
+  const [isRechartsLoaded, setIsRechartsLoaded] = useState(!!rechartsComponents);
+  const [rechartsError, setRechartsError] = useState<string | null>(null);
+
+  // Load recharts dynamically
+  useEffect(() => {
+    let mounted = true;
+    
+    const initializeCharts = async () => {
+      try {
+        await loadRechartsComponents();
+        if (mounted) {
+          setIsRechartsLoaded(true);
+        }
+      } catch (error) {
+        if (mounted) {
+          setRechartsError(error instanceof Error ? error.message : 'Failed to load charts');
+        }
+      }
+    };
+
+    if (!rechartsComponents) {
+      initializeCharts();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const { data: analyticsData, isLoading } = useQuery<{
     insights: AnalyticsInsight[];
@@ -222,21 +293,32 @@ export function CambridgeAnalytics() {
 
           <TabsContent value="behavioral" className="space-y-4 mt-6">
             <div className="h-64 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={analyticsData?.behavioralPatterns || [
-                  { time: "00:00", anomalies: 2, normal: 1456, suspicious: 8 },
-                  { time: "06:00", anomalies: 1, normal: 2134, suspicious: 3 },
-                  { time: "12:00", anomalies: 5, normal: 3421, suspicious: 12 },
-                  { time: "18:00", anomalies: 3, normal: 2876, suspicious: 7 },
-                  { time: "24:00", anomalies: 1, normal: 1234, suspicious: 4 }
-                ]}>
-                  <XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
-                  <YAxis stroke="#6b7280" fontSize={12} />
-                  <Line type="monotone" dataKey="normal" stroke="#22c55e" strokeWidth={2} />
-                  <Line type="monotone" dataKey="suspicious" stroke="#eab308" strokeWidth={2} />
-                  <Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
+              {rechartsError ? (
+                <div className="flex items-center justify-center h-full text-red-400">
+                  Failed to load chart: {rechartsError}
+                </div>
+              ) : !isRechartsLoaded ? (
+                <div className="flex items-center justify-center h-full">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+                  <span className="ml-2 text-gray-400">Loading chart...</span>
+                </div>
+              ) : (
+                <rechartsComponents.ResponsiveContainer width="100%" height="100%">
+                  <rechartsComponents.LineChart data={analyticsData?.behavioralPatterns || [
+                    { time: "00:00", anomalies: 2, normal: 1456, suspicious: 8 },
+                    { time: "06:00", anomalies: 1, normal: 2134, suspicious: 3 },
+                    { time: "12:00", anomalies: 5, normal: 3421, suspicious: 12 },
+                    { time: "18:00", anomalies: 3, normal: 2876, suspicious: 7 },
+                    { time: "24:00", anomalies: 1, normal: 1234, suspicious: 4 }
+                  ]}>
+                    <rechartsComponents.XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
+                    <rechartsComponents.YAxis stroke="#6b7280" fontSize={12} />
+                    <rechartsComponents.Line type="monotone" dataKey="normal" stroke="#22c55e" strokeWidth={2} />
+                    <rechartsComponents.Line type="monotone" dataKey="suspicious" stroke="#eab308" strokeWidth={2} />
+                    <rechartsComponents.Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} />
+                  </rechartsComponents.LineChart>
+                </rechartsComponents.ResponsiveContainer>
+              )}
             </div>
             
             <div className="grid grid-cols-3 gap-4 text-center">

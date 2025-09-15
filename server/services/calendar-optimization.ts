@@ -12,7 +12,28 @@
  */
 
 import { EventEmitter } from 'events';
-import { google } from 'googleapis';
+// Dynamic import for googleapis to reduce initial bundle size
+let google: any = null;
+let googleapisLoading = false;
+let googleapisPromise: Promise<any> | null = null;
+
+const loadGoogleApis = async () => {
+  if (google) return google;
+  if (googleapisPromise) return googleapisPromise;
+  
+  googleapisLoading = true;
+  googleapisPromise = import('googleapis').then(module => {
+    google = module.google;
+    googleapisLoading = false;
+    return google;
+  }).catch(error => {
+    console.error('Failed to load googleapis:', error);
+    googleapisLoading = false;
+    throw error;
+  });
+  
+  return googleapisPromise;
+};
 import axios from 'axios';
 
 export interface CalendarEvent {

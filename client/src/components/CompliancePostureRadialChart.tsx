@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,42 @@ import {
   Download,
   Eye
 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, RadialBarChart, RadialBar, Legend } from "recharts";
+// Dynamic recharts imports to reduce bundle size
+type RechartsComponents = {
+  PieChart: any;
+  Pie: any;
+  Cell: any;
+  ResponsiveContainer: any;
+  RadialBarChart: any;
+  RadialBar: any;
+  Legend: any;
+};
+
+let rechartsComponents: RechartsComponents | null = null;
+let rechartsPromise: Promise<RechartsComponents> | null = null;
+
+const loadRechartsComponents = async (): Promise<RechartsComponents> => {
+  if (rechartsComponents) return rechartsComponents;
+  if (rechartsPromise) return rechartsPromise;
+  
+  rechartsPromise = import("recharts").then(module => {
+    rechartsComponents = {
+      PieChart: module.PieChart,
+      Pie: module.Pie,
+      Cell: module.Cell,
+      ResponsiveContainer: module.ResponsiveContainer,
+      RadialBarChart: module.RadialBarChart,
+      RadialBar: module.RadialBar,
+      Legend: module.Legend
+    };
+    return rechartsComponents!;
+  }).catch(error => {
+    console.error('Failed to load recharts:', error);
+    throw error;
+  });
+  
+  return rechartsPromise;
+};
 
 interface ComplianceFramework {
   id: string;
@@ -33,6 +68,34 @@ interface ComplianceFramework {
 
 export function CompliancePostureRadialChart() {
   const [selectedFramework, setSelectedFramework] = useState<string | null>(null);
+  const [isRechartsLoaded, setIsRechartsLoaded] = useState(!!rechartsComponents);
+  const [rechartsError, setRechartsError] = useState<string | null>(null);
+
+  // Load recharts dynamically
+  useEffect(() => {
+    let mounted = true;
+    
+    const initializeCharts = async () => {
+      try {
+        await loadRechartsComponents();
+        if (mounted) {
+          setIsRechartsLoaded(true);
+        }
+      } catch (error) {
+        if (mounted) {
+          setRechartsError(error instanceof Error ? error.message : 'Failed to load charts');
+        }
+      }
+    };
+
+    if (!rechartsComponents) {
+      initializeCharts();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   // Fetch compliance frameworks data
   const { data: complianceData, isLoading } = useQuery<{
@@ -107,6 +170,48 @@ export function CompliancePostureRadialChart() {
   }
 
   const selectedFrameworkData = complianceData?.frameworks?.find(f => f.id === selectedFramework);
+
+  // Show error if recharts failed to load
+  if (rechartsError) {
+    return (
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Shield className="w-5 h-5 mr-2" />
+            Compliance Posture Analysis
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64 text-red-400">
+            Failed to load charts: {rechartsError}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Show loading if recharts is not loaded yet
+  if (!isRechartsLoaded || !rechartsComponents) {
+    return (
+      <Card className="bg-gray-800 border-gray-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center">
+            <Shield className="w-5 h-5 mr-2" />
+            Compliance Posture Analysis
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+            <span className="ml-3 text-gray-400">Loading charts...</span>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Destructure loaded components
+  const { ResponsiveContainer, RadialBarChart, RadialBar, Legend, PieChart, Pie, Cell } = rechartsComponents;
 
   return (
     <Card className="holographic-card border-green-500/30 backdrop-blur-xl floating-3d">

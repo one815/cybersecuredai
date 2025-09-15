@@ -1,4 +1,25 @@
-import { jsPDF } from 'jspdf';
+// Dynamic import for jsPDF to reduce initial bundle size
+let jsPDF: any = null;
+let jsPDFLoading = false;
+let jsPDFPromise: Promise<any> | null = null;
+
+const loadJsPDF = async () => {
+  if (jsPDF) return jsPDF;
+  if (jsPDFPromise) return jsPDFPromise;
+  
+  jsPDFLoading = true;
+  jsPDFPromise = import('jspdf').then(module => {
+    jsPDF = module.jsPDF;
+    jsPDFLoading = false;
+    return jsPDF;
+  }).catch(error => {
+    console.error('Failed to load jsPDF:', error);
+    jsPDFLoading = false;
+    throw error;
+  });
+  
+  return jsPDFPromise;
+};
 
 export interface PDFChecklistItem {
   id: string;
@@ -16,8 +37,9 @@ export class CompliancePDFGenerator {
   /**
    * Generate NIST SP 800-53 Compliance Checklist PDF
    */
-  static generateNISTComplianceChecklist(): jsPDF {
-    const doc = new jsPDF('p', 'mm', 'a4');
+  static async generateNISTComplianceChecklist(): Promise<any> {
+    const PDFClass = await loadJsPDF();
+    const doc = new PDFClass('p', 'mm', 'a4');
     let yPosition = 20;
     
     // Header
@@ -317,8 +339,9 @@ export class CompliancePDFGenerator {
   /**
    * Generate API Setup Guide PDF
    */
-  static generateAPISetupGuide(): jsPDF {
-    const doc = new jsPDF('p', 'mm', 'a4');
+  static async generateAPISetupGuide(): Promise<any> {
+    const PDFClass = await loadJsPDF();
+    const doc = new PDFClass('p', 'mm', 'a4');
     let yPosition = 20;
     
     // Header
@@ -416,16 +439,16 @@ export class CompliancePDFGenerator {
 }
 
 // Generate both PDFs
-export function generateCompliancePDFs() {
+export async function generateCompliancePDFs() {
   try {
     console.log('📄 Generating NIST SP 800-53 Compliance Checklist PDF...');
     
     // Generate main checklist
-    const checklistPDF = CompliancePDFGenerator.generateNISTComplianceChecklist();
+    const checklistPDF = await CompliancePDFGenerator.generateNISTComplianceChecklist();
     checklistPDF.save('NIST_SP_800-53_Compliance_Checklist.pdf');
     
     // Generate API setup guide
-    const apiGuidePDF = CompliancePDFGenerator.generateAPISetupGuide();
+    const apiGuidePDF = await CompliancePDFGenerator.generateAPISetupGuide();
     apiGuidePDF.save('API_Setup_Guide.pdf');
     
     console.log('✅ PDF documents generated successfully:');

@@ -3,7 +3,28 @@
  * Provides AI-powered threat detection and behavioral analysis
  */
 
-import AWS from 'aws-sdk';
+// Dynamic import for AWS SDK to reduce initial bundle size
+let AWS: any = null;
+let awsLoading = false;
+let awsPromise: Promise<any> | null = null;
+
+const loadAWS = async () => {
+  if (AWS) return AWS;
+  if (awsPromise) return awsPromise;
+  
+  awsLoading = true;
+  awsPromise = import('aws-sdk').then(module => {
+    AWS = module.default;
+    awsLoading = false;
+    return AWS;
+  }).catch(error => {
+    console.error('Failed to load AWS SDK:', error);
+    awsLoading = false;
+    throw error;
+  });
+  
+  return awsPromise;
+};
 
 interface SageMakerConfig {
   region: string;
@@ -116,7 +137,7 @@ interface AnomalyDetectionResponse {
 }
 
 class AWSMachineLearningService {
-  private sagemakerRuntime: AWS.SageMakerRuntime;
+  private sagemakerRuntime!: AWS.SageMakerRuntime;
   private config: SageMakerConfig;
   private isConfigured: boolean = false;
 
@@ -132,21 +153,26 @@ class AWSMachineLearningService {
     };
 
     if (this.config.accessKeyId && this.config.secretAccessKey) {
-      this.initializeSageMaker();
+      // Initialize asynchronously to avoid blocking constructor
+      this.initializeSageMaker().catch(error => {
+        console.error('❌ Failed to initialize AWS SageMaker in constructor:', error);
+      });
     } else {
       console.log('🔧 AWS SageMaker credentials not configured - using fallback ML models');
     }
   }
 
-  private initializeSageMaker(): void {
+  private async initializeSageMaker(): Promise<void> {
     try {
-      AWS.config.update({
+      const AWSClass = await loadAWS();
+      
+      AWSClass.config.update({
         accessKeyId: this.config.accessKeyId,
         secretAccessKey: this.config.secretAccessKey,
         region: this.config.region
       });
 
-      this.sagemakerRuntime = new AWS.SageMakerRuntime({
+      this.sagemakerRuntime = new AWSClass.SageMakerRuntime({
         apiVersion: '2017-05-13'
       });
 
@@ -300,7 +326,8 @@ class AWSMachineLearningService {
     }
 
     try {
-      const sagemaker = new AWS.SageMaker({
+      const AWSClass = await loadAWS();
+      const sagemaker = new AWSClass.SageMaker({
         region: this.config.region,
         accessKeyId: this.config.accessKeyId,
         secretAccessKey: this.config.secretAccessKey
