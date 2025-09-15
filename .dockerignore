@@ -81,6 +81,23 @@ coverage/
 .nuxt/
 dist/client/assets/*.map
 
+# Exclude build optimization - clean assets during build
+# Large media files that shouldn't be in production
+*.mov
+*.mp4
+*.avi
+*.wmv
+dist/public/assets/*.pdf
+dist/public/assets/*certificate*
+dist/public/assets/*_[0-9]*-*.png
+dist/public/assets/*_[0-9]*-*.jpg
+
+# Exclude temporary and cache files  
+.tmp/
+.temp/
+*.tmp
+*.cache
+
 # Exclude test files
 **/*.test.js
 **/*.test.ts
