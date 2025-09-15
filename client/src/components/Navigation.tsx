@@ -102,7 +102,7 @@ export function Navigation() {
           <Link href="/" className="flex-shrink-0 mr-4 md:mr-16">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
-                src="/attached_assets/2_1756557992421.jpg" 
+                src="/assets/2_1756557992421.jpg" 
                 alt="CyberSecured AI" 
                 className="h-16 md:h-24 w-auto"
                 data-testid="logo-home-link"
