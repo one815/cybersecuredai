@@ -99,26 +99,26 @@ export function Navigation() {
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-surface sticky top-0 z-50">
       <div className="w-full px-4 md:px-6">
-        <div className="flex items-center justify-between h-20 md:h-28">
+        <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 lg:h-24">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 mr-4 md:mr-16">
+          <Link href="/" className="flex-shrink-0 mr-2 sm:mr-4 md:mr-6 lg:mr-8">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
                 src={cyberSecuredLogoImg} 
                 alt="CyberSecured AI" 
-                className="h-32 md:h-48 w-auto"
+                className="h-8 sm:h-10 md:h-12 lg:h-16 xl:h-18 w-auto max-w-[120px] sm:max-w-[150px] md:max-w-[180px] lg:max-w-[220px] xl:max-w-[250px]"
                 data-testid="logo-home-link"
               />
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
             {navItems.map((item) => (
               <div key={item.href} className="relative group">
                 {item.dropdown ? (
                   <div
-                    className="flex items-center space-x-1 text-sm font-medium transition-all duration-200 hover:text-cyan-400 cursor-pointer text-gray-300 px-3 py-2 rounded-lg hover:bg-cyan-500/10 relative group cyber-font"
+                    className="flex items-center space-x-1 text-xs lg:text-sm font-medium transition-all duration-200 hover:text-cyan-400 cursor-pointer text-gray-300 px-2 lg:px-3 py-2 rounded-lg hover:bg-cyan-500/10 relative group cyber-font"
                     onMouseEnter={() => setOpenDropdown(item.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
@@ -357,42 +357,56 @@ export function Navigation() {
           </div>
 
           {/* Security Indicators & Enhanced CTA */}
-          <div className="hidden lg:flex items-center space-x-6">
+          <div className="hidden xl:flex items-center space-x-4">
             {/* Security Status Indicators */}
-            <div className="flex items-center space-x-3">
-              <div className="live-indicator tech-font">
+            <div className="flex items-center space-x-2">
+              <div className="live-indicator tech-font text-xs">
                 LIVE
               </div>
-              <div className="encryption-indicator">
+              <div className="encryption-indicator text-xs">
                 AES-256
               </div>
-              <div className="verification-badge">
+              <div className="verification-badge text-xs">
                 VERIFIED
               </div>
             </div>
 
             {/* Authentication Visual */}
-            <div className="flex items-center space-x-2 p-2 holographic-card micro-hover rounded-lg">
+            <div className="flex items-center space-x-1 p-1 holographic-card micro-hover rounded-lg">
               <div className="fingerprint-scanner scale-50"></div>
               <div className="text-xs">
-                <div className="tech-font text-green-400">AUTHENTICATED</div>
-                <div className="text-gray-400">Admin User</div>
+                <div className="tech-font text-green-400 text-xs">AUTHENTICATED</div>
+                <div className="text-gray-400 text-xs">Admin User</div>
               </div>
             </div>
 
             {/* Enhanced CTA Buttons */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
               <Link href="/client-login">
-                <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 micro-hover cyber-font">
+                <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 micro-hover cyber-font text-xs px-2 py-1">
                   Client Portal
                 </Button>
               </Link>
               <Link href="/security-scanner">
-                <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 micro-hover ripple-effect cyber-font">
+                <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 micro-hover ripple-effect cyber-font text-xs px-2 py-1">
                   Free Scan
                 </Button>
               </Link>
             </div>
+          </div>
+
+          {/* Tablet/Large Mobile CTA */}
+          <div className="hidden md:flex lg:hidden xl:hidden items-center space-x-2">
+            <Link href="/client-login">
+              <Button variant="outline" size="sm" className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 cyber-font text-xs">
+                Portal
+              </Button>
+            </Link>
+            <Link href="/security-scanner">
+              <Button size="sm" className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 cyber-font text-xs">
+                Scan
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
