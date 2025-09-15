@@ -69,19 +69,26 @@ generate-*.cjs
 *-images.js
 *-imports.js
 
-# Exclude directories with large files
+# Exclude directories with large files - CRITICAL FOR SIZE REDUCTION
 attached_assets/
 RFP/
 python/
 browser-extensions/
-.cache/
 __pycache__/
 .pytest_cache/
-.uv/
 
-# Exclude Python-specific large files
-pyproject.toml
+# Exclude ALL cache directories (these contain massive ML libraries)
+.cache/
+.uv/
+.cache
 uv.lock
+.pythonlibs/
+.local/
+.config/
+.upm/
+
+# Exclude Python-specific large files  
+pyproject.toml
 *.pyc
 *.pyo
 *.pyd
@@ -119,11 +126,7 @@ coverage/
 .nuxt/
 dist/client/assets/*.map
 
-# Exclude large configuration files but keep package-lock.json for deterministic builds
-.local/
-.upm/
-.config/
-.pythonlibs/
+# These are now handled above in cache section
 
 # Exclude test and debug files
 **/*.test.js
