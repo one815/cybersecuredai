@@ -618,7 +618,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-green-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/SOC 2_1755704176279-Cr4UCYMb_1756458605841.jpg"}
+                      src="/assets/SOC 2_1757949878606.webp"
                       alt="SOC 2 TYPE II Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -629,7 +629,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-cyan-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/ferpa compliant_1755703343167.jpg"}
+                      src="/assets/FERPA_1757949842495.webp"
                       alt="FERPA Compliant Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -640,7 +640,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-blue-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/fisme compliant_1755703347744.webp"}
+                      src="/assets/FISME_1757949882711.webp"
                       alt="FISMA Compliant Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -651,7 +651,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-purple-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/ISO certified 2_1756459077090.jpg"}
+                      src="/assets/ISO_1757949850369.webp"
                       alt="ISO 27001 Certification Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
@@ -662,7 +662,7 @@ export default function Home() {
                 <div className="bg-slate-800/50 rounded-lg p-4 border border-orange-500/30 holo-badge hover:scale-105 transition-all duration-300 flex flex-col items-center">
                   <div className="relative w-20 h-20 flex items-center justify-center mb-3">
                     <img 
-                      src={import.meta.env.BASE_URL + "attached_assets/fedramp authorized_1755703346268.jpg"}
+                      src="/assets/FedRamp_1757949842495.webp"
                       alt="FedRAMP Authorized Badge"
                       className="w-full h-full object-contain filter brightness-100 hover:brightness-125 transition-all duration-300 drop-shadow-lg"
                     />
