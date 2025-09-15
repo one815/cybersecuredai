@@ -13,22 +13,27 @@
 !client/
 !shared/
 
-# Exclude large assets and documents from app directories
+# Exclude large asset directories and files
 client/public/marketing/
 client/public/reports/
-client/public/assets/
+client/public/assets/*certificate*
+client/public/assets/*_[0-9]*-*.png
+client/public/assets/*_[0-9]*-*.jpg
+# Explicitly include only essential runtime assets
+!client/public/index.html
+!client/public/assets/site.webmanifest
 !client/public/assets/favicon*
 !client/public/assets/android-chrome*
 !client/public/assets/apple-touch-icon*
-!client/public/assets/site.webmanifest
-
-# Include optimized assets if they exist
-!client/public/assets-optimized/
 
 # Exclude all development, documentation, and marketing files
 *.pdf
 *.docx
+*.doc
 *.mov
+*.mp4
+*.avi
+*.wmv
 *.psd
 *.zip
 *.md
@@ -38,6 +43,31 @@ client/public/assets/
 *.html
 !client/index.html
 !client/src/index.html
+
+# Exclude specific large root files that shouldn't be in deployment
+cybersecured-ai-documentation.html
+cybersecured-ai-documentation.md
+complete-api-list.html
+complete-platform-status-report.html
+cybersecured-ai-rfp-response.html
+durham-vulnerability-management-rfp-response.html
+afrl-*.html
+*-rfp-response*.html
+*-resume-*.html
+*rfp-26-02pv*.html
+*tribal-government*.html
+*compliance-*.html
+*implementation-checklist*.html
+*deployment-guide*.html
+*network-fix*.html
+
+# Exclude compression and utility scripts
+compress-*.js
+fix-*.js
+update-*.js
+generate-*.cjs
+*-images.js
+*-imports.js
 
 # Exclude directories with large files
 attached_assets/
@@ -49,14 +79,16 @@ __pycache__/
 .pytest_cache/
 .uv/
 
-# Exclude Python virtual environments and caches
-venv/
-env/
-.env/
+# Exclude Python-specific large files
+pyproject.toml
+uv.lock
 *.pyc
 *.pyo
 *.pyd
 .Python
+venv/
+env/
+.env/
 
 # Exclude ML/AI model files and large binaries
 *.pkl
@@ -71,9 +103,10 @@ env/
 eng.traineddata
 *.traineddata
 
-# Exclude development files
+# Exclude development and build files
 node_modules/
 .git/
+.gitignore
 .env*
 .vscode/
 .idea/
@@ -85,6 +118,19 @@ coverage/
 .next/
 .nuxt/
 dist/client/assets/*.map
+
+# Exclude large configuration files but keep package-lock.json for deterministic builds
+.local/
+.upm/
+.config/
+.pythonlibs/
+
+# Exclude test and debug files
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+test-*.log
 
 # Exclude build optimization - clean assets during build
 # Large media files that shouldn't be in production
@@ -103,8 +149,4 @@ dist/public/assets/*_[0-9]*-*.jpg
 *.tmp
 *.cache
 
-# Exclude test files
-**/*.test.js
-**/*.test.ts
-**/*.spec.js
-**/*.spec.ts
+# Keep public assets - they're needed for runtime
