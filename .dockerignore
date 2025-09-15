@@ -1,16 +1,17 @@
-# Exclude everything first, then add back only what's needed
-*
-
-# Include essential application code
-!server/
-!client/
-!shared/
+# Essential build files - include these
 !package.json
 !package-lock.json
 !tsconfig.json
 !vite.config.ts
 !tailwind.config.ts
 !postcss.config.js
+!components.json
+!Dockerfile
+
+# Include essential application code
+!server/
+!client/
+!shared/
 
 # Exclude large assets and documents from app directories
 client/public/marketing/
