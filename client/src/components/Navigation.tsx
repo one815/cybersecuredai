@@ -3,6 +3,9 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 
+// Webp image placeholder since referenced webp files don't exist in attached_assets
+const cyberSecuredLogoImg = "/api/placeholder/200/100";
+
 export function Navigation() {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -101,7 +104,7 @@ export function Navigation() {
           <Link href="/" className="flex-shrink-0 mr-4 md:mr-16">
             <div className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
               <img 
-                src="/assets/CyberSecured AI logo_1757949055406.webp" 
+                src={cyberSecuredLogoImg} 
                 alt="CyberSecured AI" 
                 className="h-32 md:h-48 w-auto"
                 data-testid="logo-home-link"

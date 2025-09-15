@@ -2,7 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Activity, TrendingUp, BarChart3, Zap, MapPin, Brain, Shield, Eye } from "lucide-react";
-import cypherAiGenImage from '@assets/Cypher AI Gen_1757949055407.webp';
+// Webp image placeholder since referenced webp file doesn't exist in attached_assets
+const cypherAiGenImage = "/api/placeholder/32/32";
 import { CustomDatabaseIcon, CustomTargetIcon, CustomUserIcon } from "@/components/LazyCustomIcons";
 import { ThreatMap } from "@/components/ThreatMap";
 import { useQuery } from "@tanstack/react-query";

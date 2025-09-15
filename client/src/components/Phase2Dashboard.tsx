@@ -38,8 +38,9 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import cypherAiGenImage from '@assets/Cypher AI Gen_1757949055407.webp';
-import cypherAiAssistImage from '@assets/Cypher AI Asst. webp_1757949055406.webp';
+// Webp image placeholders since referenced webp files don't exist in attached_assets
+const cypherAiGenImage = "/api/placeholder/32/32";
+const cypherAiAssistImage = "/api/placeholder/32/32";
 
 interface Phase2DashboardProps {
   className?: string;
