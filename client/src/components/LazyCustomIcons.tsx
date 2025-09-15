@@ -1,62 +1,64 @@
 import React, { Suspense, lazy } from 'react';
 import { DynamicLazyImage, LazyImage } from './LazyImage';
 
-// Define the icon configuration with paths
+// Define the icon configuration with direct /assets/ paths
 const ICON_CONFIGS = {
   // Basic icons
-  checkmark: '@assets/Checkmark.jpg',
-  clipboardCheck: '@assets/Clipboard Check Mark.jpg',
-  database: '@assets/Database.jpg',
-  fileText: '@assets/FileText.jpg',
-  headphones: '@assets/Headphones.jpg',
-  settings: '@assets/Settings.jpg',
-  target: '@assets/Target.jpg',
-  user: '@assets/User.jpg',
+  checkmark: '/assets/Checkmark.webp',
+  clipboardCheck: '/assets/Clipboard Check Mark.webp',
+  database: '/assets/Database.webp',
+  fileText: '/assets/FileText.webp',
+  headphones: '/assets/Headphones.webp',
+  settings: '/assets/Settings.webp',
+  target: '/assets/Target.webp',
+  user: '/assets/User.webp',
   
-  // Security icons
-  shield: '@assets/Shield.jpg',
-  lock: '@assets/Lock.jpg',
-  securedLock: '@assets/Secured Lock.jpg',
-  bot: '@assets/Bot.jpg',
-  bot2: '@assets/Bot (2).jpg',
-  brain: '@assets/Brain.jpg',
-  cypherAiGen: '@assets/Cypher AI Gen_1757949055407.webp',
-  cypherAiAssist: '@assets/Cypher AI Asst. webp_1757949055406.webp',
-  eye: '@assets/Eye.jpg',
-  lightning: '@assets/Lightning.jpg',
-  zap: '@assets/Zap.jpg',
-  cypherAI: '@assets/Cypher AI.jpg',
-  cyberSecureBadge: '@assets/CyberSecure Shield Badge.jpg',
-  authentication: '@assets/Authentication.jpg',
-  fileSharing: '@assets/File Sharing.jpg',
-  activity: '@assets/Activity.jpg',
-  alertSignal: '@assets/Alert Signal.jpg',
-  yellowWarning: '@assets/Yellow Warning Triangle.jpg',
-  redWarning: '@assets/Red Warning Triangle.jpg',
-  globe: '@assets/Globe.jpg',
-  rocket: '@assets/Rocket.jpg',
-  trendingUp: '@assets/Trending Up.jpg',
-  flag: '@assets/Flag.jpg',
-  search: '@assets/Search.jpg',
-  infrastructure: '@assets/Infrastructure.jpg',
-  advancedThreat: '@assets/Advanced Threat Management.jpg',
-  fingerprint: '@assets/Fingerprint.jpg',
-  scan: '@assets/Scan.jpg',
-  secured: '@assets/Secured.jpg',
-  verifying: '@assets/Verifying.jpg',
-  checkBadge: '@assets/Check Badge.jpg',
-  bug: '@assets/Bug.jpg',
-  clock: '@assets/Clock.jpg',
-  mail: '@assets/Mail.jpg',
-  bell: '@assets/Bell.jpg',
-  phone: '@assets/Phone.jpg',
-  smartphone: '@assets/Smartphone.jpg',
-  calendar: '@assets/Calendar.jpg',
-  graduationCap: '@assets/Graduation Cap.jpg',
-  verificationGraduate: '@assets/Verification Graduate Cap.jpg',
-  power: '@assets/Power.jpg',
-  rightArrow: '@assets/Right Arrow.jpg',
-  leftArrow: '@assets/Left Arrow.jpg'
+  // Security icons - using WebP for Cypher AI, JPG for others
+  shield: '/assets/Shield.webp',
+  lock: '/assets/Lock.webp',
+  securedLock: '/assets/Secured Lock.webp',
+  bot: '/assets/Cypher AI Asst. webp_1757949055406.webp', // Using WebP
+  bot2: '/assets/Cypher AI Asst. webp_1757949055406.webp', // Using WebP
+  brain: '/assets/Cypher AI Gen_1757949055407.webp', // Using WebP
+  cypherAiGen: '/assets/Cypher AI Gen_1757949055407.webp', // Using WebP
+  cypherAiAssist: '/assets/Cypher AI Asst. webp_1757949055406.webp', // Using WebP
+  eye: '/assets/Eye.webp',
+  lightning: '/assets/Lightning.webp',
+  zap: '/assets/Zap.webp',
+  cypherAI: '/assets/Cypher AI.webp',
+  cyberSecureBadge: '/assets/CyberSecure Shield Badge.webp',
+  authentication: '/assets/Authentication.webp',
+  fileSharing: '/assets/File Sharing.webp',
+  activity: '/assets/Activity.webp',
+  alertSignal: '/assets/Alert Signal.webp',
+  yellowWarning: '/assets/Yellow Warning Triangle.webp',
+  redWarning: '/assets/Red Warning Triangle.webp',
+  globe: '/assets/Globe.webp',
+  rocket: '/assets/Rocket.webp',
+  trendingUp: '/assets/Trending Up.webp',
+  flag: '/assets/Flag.webp',
+  search: '/assets/Search.webp',
+  infrastructure: '/assets/Infrastructure.webp',
+  advancedThreat: '/assets/Advanced Threat Management.webp',
+  fingerprint: '/assets/Fingerprint.webp',
+  scan: '/assets/Scan.webp',
+  secured: '/assets/Secured.webp',
+  verifying: '/assets/Verifying.webp',
+  checkBadge: '/assets/Check Badge.webp',
+  bug: '/assets/Bug.webp',
+  clock: '/assets/Clock.webp',
+  mail: '/assets/Mail.webp',
+  bell: '/assets/Bell.webp',
+  phone: '/assets/Phone.webp',
+  smartphone: '/assets/Smartphone.webp',
+  calendar: '/assets/Calendar.webp',
+  graduationCap: '/assets/Graduation Cap.webp',
+  verificationGraduate: '/assets/Verification Graduate Cap.webp',
+  power: '/assets/Power.webp',
+  rightArrow: '/assets/Right Arrow.webp',
+  leftArrow: '/assets/Left Arrow.webp',
+  desktop: '/assets/Desktop.webp',
+  location: '/assets/Location.webp'
 };
 
 interface IconProps {
@@ -152,11 +154,11 @@ export function CustomLockIcon({ className, size, style, loading }: Omit<IconPro
 }
 
 export function CustomBotIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
-  return <LazyIcon iconKey="bot" alt="Bot" className={className} size={size} style={style} loading={loading} />;
+  return <LazyIcon iconKey="bot" alt="Cypher AI Assistant" className={`rounded-full ${className}`} size={size} style={style} loading={loading} />;
 }
 
 export function CustomBrainIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
-  return <LazyIcon iconKey="brain" alt="Brain" className={className} size={size} style={style} loading={loading} />;
+  return <LazyIcon iconKey="brain" alt="Cypher AI Genetic Model" className={`rounded-full ${className}`} size={size} style={style} loading={loading} />;
 }
 
 export function CustomEyeIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
@@ -185,6 +187,38 @@ export function CustomFlagIcon({ className, size, style, loading }: Omit<IconPro
 
 export function CustomGraduationCapIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
   return <LazyIcon iconKey="graduationCap" alt="Graduation Cap" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomAuthenticationIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="authentication" alt="Authentication" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomAlertSignalIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="alertSignal" alt="Alert Signal" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomBellIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="bell" alt="Bell" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomClockIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="clock" alt="Clock" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomBugIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="bug" alt="Bug" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomCheckBadgeIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="checkBadge" alt="Check Badge" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomDesktopIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="desktop" alt="Desktop" className={className} size={size} style={style} loading={loading} />;
+}
+
+export function CustomLocationIcon({ className, size, style, loading }: Omit<IconProps, 'iconKey' | 'alt'>) {
+  return <LazyIcon iconKey="location" alt="Location" className={className} size={size} style={style} loading={loading} />;
 }
 
 // Create a lazy component for the heavy icons that are rarely seen
