@@ -1,14 +1,16 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
-// Webp image placeholders since referenced webp files don't exist in attached_assets
-const cypherAiAssistImage = "/api/placeholder/40/40";
-const ferpaCompliantImg = "/api/placeholder/100/60";
-const fismaCompliantImg = "/api/placeholder/100/60";
-const fedrampAuthorizedImg = "/api/placeholder/100/60";
-const nistCompliantImg = "/api/placeholder/100/60";
+// Import actual webp images from attached assets
+import cypherAiAssistImage from "@assets/Cypher AI Asst. webp_1757954427635.webp";
+import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
+import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
+import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
+import nistCompliantImg from "@assets/NIST_1757954437923.webp";
+import isoCompliantImg from "@assets/ISO_1757954427638.webp";
+import cyberSecuredLogoImg from "@assets/CyberSecured AI logo_1757954427635.webp";
+
+// SOC 2 placeholder - no webp file available yet
 const soc2CompliantImg = "/api/placeholder/100/60";
-const isoCompliantImg = "/api/placeholder/100/60";
-const cyberSecuredLogoImg = "/api/placeholder/120/60";
 
 export function Footer() {
   return (

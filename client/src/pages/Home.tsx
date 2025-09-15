@@ -69,14 +69,16 @@ import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331
 import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
 import scanningImg from "@assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp";
 
-// Webp image placeholders since most referenced webp files don't exist in attached_assets
-const cypherAiAssistImage = "/api/placeholder/40/40";
-const cypherAiGenImage = "/api/placeholder/48/48";
+// Import actual webp images from attached assets
+import cypherAiAssistImage from "@assets/Cypher AI Asst. webp_1757954427635.webp";
+import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
+import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
+import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
+import isoCompliantImg from "@assets/ISO_1757954427638.webp";
+import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
+
+// SOC 2 and partner logos - placeholders for missing webp files
 const soc2CompliantImg = "/api/placeholder/100/60";
-const ferpaCompliantImg = "/api/placeholder/100/60";
-const fismaCompliantImg = "/api/placeholder/100/60";
-const isoCompliantImg = "/api/placeholder/100/60";
-const fedrampAuthorizedImg = "/api/placeholder/100/60";
 const mitPartnerImg = "/api/placeholder/120/80";
 const stanfordPartnerImg = "/api/placeholder/120/80";
 const berkeleyPartnerImg = "/api/placeholder/120/80";

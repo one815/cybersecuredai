@@ -2,8 +2,8 @@ import { MarketingLayout } from "@/components/MarketingLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Users, Shield, CheckCircle } from "lucide-react";
-// Webp image placeholder since referenced webp file doesn't exist in attached_assets
-const cypherAiGenImage = "/api/placeholder/24/24";
+// Import actual Cypher AI Gen image
+import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
 
 export default function AIEthicsStatement() {
   return (
