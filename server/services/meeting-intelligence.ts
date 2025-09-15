@@ -154,9 +154,11 @@ export class MeetingIntelligenceService extends EventEmitter {
     console.log('🎤 Initializing Meeting Intelligence Service...');
     
     try {
-      // Test OpenAI API connection
+      // Check if OpenAI API key is configured
       if (!process.env.OPENAI_API_KEY) {
-        throw new Error('OpenAI API key not configured');
+        console.log('⚠️ OpenAI API key not configured - Meeting Intelligence Service running in limited mode');
+        this.isInitialized = false;
+        return;
       }
 
       // Verify API access
@@ -168,6 +170,8 @@ export class MeetingIntelligenceService extends EventEmitter {
       
     } catch (error) {
       console.error('❌ Failed to initialize Meeting Intelligence Service:', error);
+      console.log('⚠️ Meeting Intelligence Service running in limited mode');
+      this.isInitialized = false;
       this.emit('serviceError', error);
     }
   }
@@ -180,7 +184,7 @@ export class MeetingIntelligenceService extends EventEmitter {
       const response = await openai.chat.completions.create({
         model: 'gpt-5', // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
         messages: [{ role: 'user', content: 'Test connection' }],
-        max_tokens: 5
+        max_completion_tokens: 5
       });
       
       if (response.choices?.[0]?.message) {
@@ -316,7 +320,7 @@ export class MeetingIntelligenceService extends EventEmitter {
         model: 'gpt-5', // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
         messages: [{ role: 'user', content: analysisPrompt }],
         response_format: { type: 'json_object' },
-        max_tokens: 500
+        max_completion_tokens: 500
       });
 
       const analysis = JSON.parse(response.choices[0].message.content || '{}');
@@ -424,7 +428,7 @@ export class MeetingIntelligenceService extends EventEmitter {
           model: 'gpt-5', // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
           messages: [{ role: 'user', content: violationCheckPrompt }],
           response_format: { type: 'json_object' },
-          max_tokens: 300
+          max_completion_tokens: 300
         });
 
         const analysis = JSON.parse(response.choices[0].message.content || '{}');
@@ -480,7 +484,7 @@ export class MeetingIntelligenceService extends EventEmitter {
           model: 'gpt-5', // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
           messages: [{ role: 'user', content: actionExtractionPrompt }],
           response_format: { type: 'json_object' },
-          max_tokens: 400
+          max_completion_tokens: 400
         });
 
         const extraction = JSON.parse(response.choices[0].message.content || '{"actionItems": []}');
@@ -562,7 +566,7 @@ export class MeetingIntelligenceService extends EventEmitter {
         model: 'gpt-5', // the newest OpenAI model is "gpt-5" which was released August 7, 2025. do not change this unless explicitly requested by the user
         messages: [{ role: 'user', content: insightsPrompt }],
         response_format: { type: 'json_object' },
-        max_tokens: 2000
+        max_completion_tokens: 2000
       });
 
       const insights = JSON.parse(response.choices[0].message.content || '{}');

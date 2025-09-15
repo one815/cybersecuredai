@@ -108,7 +108,9 @@ export class GeneticMemoryStore {
   private readonly MAX_CACHE_SIZE = 10000;
 
   constructor() {
-    this.initializeDatabase();
+    this.initializeDatabase().catch((error) => {
+      console.error('⚠️ GeneticMemoryStore running in memory-only mode due to database error:', error.message);
+    });
     this.startCacheCleanup();
   }
 
@@ -117,6 +119,11 @@ export class GeneticMemoryStore {
    */
   private async initializeDatabase(): Promise<void> {
     try {
+      // Check if database is available
+      if (!process.env.DATABASE_URL) {
+        console.log('⚠️ Database not configured - GeneticMemoryStore using in-memory storage only');
+        return;
+      }
       // Create tables if they don't exist
       await db.execute(sql`
         CREATE TABLE IF NOT EXISTS genetic_generations (
