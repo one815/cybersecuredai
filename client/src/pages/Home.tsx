@@ -528,7 +528,7 @@ export default function Home() {
               <Card className="holographic-card border-cyan-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-3 bg-cyan-500/20 rounded-lg">
+                    <div className="w-16 h-16 bg-slate-800/80 rounded-2xl border-2 border-cyan-500/50 flex items-center justify-center hover:border-cyan-400 transition-all duration-300">
                       <Enhanced4DShieldIcon className="w-8 h-8 text-cyan-400" size={32} />
                     </div>
                     <CardTitle className="text-cyan-300 font-bold">
@@ -562,7 +562,7 @@ export default function Home() {
               <Card className="holographic-card border-purple-500/30 bg-slate-800/50 relative overflow-hidden">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-3 bg-purple-500/20 rounded-lg">
+                    <div className="w-16 h-16 bg-slate-800/80 rounded-2xl border-2 border-purple-500/50 flex items-center justify-center hover:border-purple-400 transition-all duration-300">
                       <Enhanced4DLockIcon className="w-8 h-8 text-purple-400" size={32} />
                     </div>
                     <CardTitle className="text-purple-300 font-bold">
@@ -596,7 +596,7 @@ export default function Home() {
               <Card className="holographic-card border-red-500/30 bg-slate-800/50">
                 <CardHeader>
                   <div className="flex items-center space-x-3 mb-4">
-                    <div className="p-3 bg-red-500/20 rounded-lg">
+                    <div className="w-16 h-16 bg-slate-800/80 rounded-2xl border-2 border-red-500/50 flex items-center justify-center hover:border-red-400 transition-all duration-300">
                       <Enhanced4DAlertTriangleIcon className="w-8 h-8 text-red-400" size={32} />
                     </div>
                     <CardTitle className="text-red-300 font-bold">
@@ -747,7 +747,7 @@ export default function Home() {
                 <Card className="bg-gradient-to-br from-purple-900/50 to-slate-800/50 border-2 border-purple-500/50 hover:border-purple-400 transition-all duration-300">
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
-                      <div className="w-16 h-16 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
+                      <div className="w-16 h-16 bg-slate-800/80 rounded-2xl border-2 border-purple-500/50 flex items-center justify-center mr-4 hover:border-purple-400 transition-all duration-300">
                         <img src={cypherAiGenImage} alt="Cypher AI Gen" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
@@ -779,7 +779,7 @@ export default function Home() {
                 <Card className="bg-gradient-to-br from-cyan-900/50 to-slate-800/50 border-2 border-cyan-500/50 hover:border-cyan-400 transition-all duration-300">
                   <CardContent className="p-8">
                     <div className="flex items-center mb-6">
-                      <div className="w-16 h-16 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-4">
+                      <div className="w-16 h-16 bg-slate-800/80 rounded-2xl border-2 border-cyan-500/50 flex items-center justify-center mr-4 hover:border-cyan-400 transition-all duration-300">
                         <img src={cypherAiAssistImage} alt="Cypher AI Assistant" className="w-12 h-12 rounded-full" />
                       </div>
                       <div>
@@ -833,7 +833,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-purple-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DBrainIcon className="w-8 h-8 text-purple-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-purple-500/50 flex items-center justify-center mr-3 hover:border-purple-400 transition-all duration-300">
+                        <Enhanced4DBrainIcon className="w-6 h-6 text-purple-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">Genetic Evolution Engine</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
@@ -845,7 +847,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-cyan-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DActivityIcon className="w-8 h-8 text-cyan-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-cyan-500/50 flex items-center justify-center mr-3 hover:border-cyan-400 transition-all duration-300">
+                        <Enhanced4DActivityIcon className="w-6 h-6 text-cyan-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">Meeting Intelligence</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
@@ -857,7 +861,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-green-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DCheckCircleIcon className="w-8 h-8 text-green-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-green-500/50 flex items-center justify-center mr-3 hover:border-green-400 transition-all duration-300">
+                        <Enhanced4DCheckCircleIcon className="w-6 h-6 text-green-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">Adaptive Threat Detection</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
@@ -869,7 +875,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-orange-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DTargetIcon className="w-8 h-8 text-orange-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-orange-500/50 flex items-center justify-center mr-3 hover:border-orange-400 transition-all duration-300">
+                        <Enhanced4DTargetIcon className="w-6 h-6 text-orange-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">Ticket Intelligence</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
@@ -881,7 +889,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-blue-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DUsersIcon className="w-8 h-8 text-blue-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-blue-500/50 flex items-center justify-center mr-3 hover:border-blue-400 transition-all duration-300">
+                        <Enhanced4DUsersIcon className="w-6 h-6 text-blue-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">24/7 Operations</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
@@ -893,7 +903,9 @@ export default function Home() {
                 <Card className="bg-slate-800/50 border-yellow-500/30">
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      <Enhanced4DZapIcon className="w-8 h-8 text-yellow-400 mr-3" size={32} />
+                      <div className="w-12 h-12 bg-slate-800/80 rounded-xl border-2 border-yellow-500/50 flex items-center justify-center mr-3 hover:border-yellow-400 transition-all duration-300">
+                        <Enhanced4DZapIcon className="w-6 h-6 text-yellow-400" size={24} />
+                      </div>
                       <h4 className="text-lg font-bold text-white">Communication Tracking</h4>
                     </div>
                     <p className="text-gray-300 text-sm">
