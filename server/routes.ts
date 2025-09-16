@@ -6,46 +6,13 @@ import multer from "multer";
 import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
-import { db } from "./db";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
 import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
-import { zeroTrustEngine, type VerificationContext } from "./engines/zero-trust";
-import { threatDetectionEngine, type NetworkEvent } from "./engines/threat-detection";
-import { complianceAutomationEngine } from "./engines/compliance-automation";
-import { MLThreatDetectionEngine } from "./engines/ml-threat-detection";
-import { BehavioralAnalysisEngine } from "./engines/behavioral-analysis";
-import { otxService } from "./otxService";
-import { vulnerabilityPrediction } from "./engines/vulnerability-prediction";
-import { hsmIntegrationService } from "./services/hsm-integration";
-import { biometricIntegrationService } from "./services/biometric-integration";
-import { enhancedThreatIntelligenceService } from "./services/enhanced-threat-intelligence";
-import { emailNotificationService } from "./services/email-notification.js";
-import { awsMachineLearningService } from "./services/aws-sagemaker-service";
-import { ibmXForceService } from "./services/ibm-xforce-service";
-import { pagerDutyIntegrationService } from "./services/pagerduty-integration";
-import { alternativeThreatFeedsService } from "./services/alternative-threat-feeds";
-import { threatConnectService } from "./services/threatconnect-service";
-import { attOTXService } from "./services/att-otx-service";
-import { taxiiStixService } from "./services/taxii-stix-service";
-import { mandiantService } from "./services/mandiant-intelligence";
-import { theHiveIntegration } from "./engines/thehive-integration.js";
-import { socialPlatformsService } from "./services/social-platforms-integration.js";
-import { calendarOptimizationService } from "./services/calendar-optimization.js";
-import { advancedCommunicationTrackingService } from "./services/advanced-communication-tracking.js";
-import MeetingIntelligenceService from "./services/meeting-intelligence.js";
-import { 
-  getGeospatialOverview, 
-  getThreatLandscape, 
-  getInfrastructureMap,
-  getDeviceDetails,
-  getComplianceMap, 
-  getIncidentMap 
-} from "./services/geospatial-intelligence";
-import { oneLoginIntegrationService } from "./services/onelogin-integration";
-import TwilioVoiceService from "./services/twilio-voice";
-import TwilioSMSService from "./services/twilio-sms";
-import { tickets, insertTicketSchema, type InsertTicket, type Ticket } from "@shared/schema";
-import CypherAIService from "./services/cypher-ai";
+// Engine types only - no instantiation imports
+import type { VerificationContext } from "./engines/zero-trust";
+import type { NetworkEvent } from "./engines/threat-detection";
+// Services will be dynamically imported as needed in route handlers
+// Static service imports removed to prevent module-scope instantiation
 
 // Configure multer for file uploads
 const upload = multer({
@@ -70,31 +37,7 @@ const upload = multer({
   }
 });
 
-// Initialize ML threat detection and behavioral analysis engines
-const mlThreatEngine = new MLThreatDetectionEngine();
-const behavioralEngine = new BehavioralAnalysisEngine();
-
-// Initialize gamification engine
-const { GamificationEngine } = await import("./engines/gamification-engine");
-const gamificationEngine = new GamificationEngine();
-
-// Initialize Cypher AI Genetic Engine
-const { default: CypherAIGeneticEngine } = await import("./engines/cypher-ai-genetic.js");
-const cypherGeneticEngine = new CypherAIGeneticEngine();
-
-// Initialize Genetic Memory Store
-const { geneticMemoryStore } = await import("./services/genetic-memory-store.js");
-
-// Set up real-time threat monitoring
-mlThreatEngine.on('threatDetected', (threat) => {
-  console.log(`🚨 THREAT DETECTED: ${threat.level} - ${threat.riskScore} risk score`);
-  // In production, this would trigger alerts, notifications, and automated responses
-});
-
-behavioralEngine.on('anomalyDetected', (anomaly) => {
-  console.log(`⚠️  BEHAVIORAL ANOMALY: ${anomaly.severity} - ${anomaly.description}`);
-  // In production, this would trigger security reviews and access controls
-});
+// Engine instances will be lazily initialized inside registerRoutes()
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Static asset serving removed for deployment size optimization
@@ -166,14 +109,164 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.send(svg);
   });
   
-  // Initialize Cypher AI Assistant
-  const { CypherAI } = await import('./engines/cypher-ai');
-  const cypherAI = new CypherAI(mlThreatEngine, behavioralEngine);
-
-  // Set up gamification event handlers
-  gamificationEngine.on('badgeEarned', (badgeEvent) => {
-    console.log(`🏆 BADGE EARNED: ${badgeEvent.userId} earned "${badgeEvent.badgeName}" (${badgeEvent.tier}) - ${badgeEvent.pointsValue} points`);
-    // In production, this would trigger notifications and UI updates
+  // Feature flags for conditional engine initialization
+  const ENABLE_ML_ENGINES = process.env.ENABLE_ML_ENGINES !== 'false'; // Default enabled
+  const ENABLE_GENETIC_ENGINE = process.env.ENABLE_GENETIC_ENGINE === 'true'; // Default disabled
+  const ENABLE_GAMIFICATION = process.env.ENABLE_GAMIFICATION !== 'false'; // Default enabled
+  
+  // Type-safe lazy singleton helpers for engine instantiation
+  function lazySingleton<T>(factory: () => T): () => T {
+    let instance: T | null = null;
+    
+    return () => {
+      if (instance !== null) return instance;
+      
+      try {
+        const result = factory();
+        if (result instanceof Promise) {
+          throw new Error('Async factory passed to synchronous lazySingleton. Use lazySingletonAsync instead.');
+        }
+        instance = result;
+        return instance;
+      } catch (error) {
+        console.error('Error in lazy singleton initialization:', error);
+        throw error;
+      }
+    };
+  }
+  
+  function lazySingletonAsync<T>(factory: () => Promise<T>): () => Promise<T> {
+    let instance: T | null = null;
+    let isInitializing = false;
+    let initPromise: Promise<T> | null = null;
+    
+    return async (): Promise<T> => {
+      if (instance !== null) return instance;
+      if (isInitializing && initPromise) return initPromise;
+      
+      isInitializing = true;
+      try {
+        initPromise = factory().then(resolved => {
+          instance = resolved;
+          isInitializing = false;
+          initPromise = null;
+          return resolved;
+        }).catch(error => {
+          isInitializing = false;
+          initPromise = null;
+          throw error;
+        });
+        
+        return await initPromise;
+      } catch (error) {
+        isInitializing = false;
+        console.error('Error in async lazy singleton initialization:', error);
+        throw error;
+      }
+    };
+  }
+  
+  // Lazy ML Engine factories
+  const getMlThreatEngine = lazySingletonAsync(async () => {
+    if (!ENABLE_ML_ENGINES) return null;
+    console.log('🤖 Initializing ML Threat Detection Engine...');
+    const { MLThreatDetectionEngine } = await import('./engines/ml-threat-detection');
+    const engine = new MLThreatDetectionEngine();
+    
+    // Set up real-time threat monitoring
+    engine.on('threatDetected', (threat) => {
+      console.log(`🚨 THREAT DETECTED: ${threat.level} - ${threat.riskScore} risk score`);
+      // In production, this would trigger alerts, notifications, and automated responses
+    });
+    
+    return engine;
+  });
+  
+  const getBehavioralEngine = lazySingletonAsync(async () => {
+    if (!ENABLE_ML_ENGINES) return null;
+    console.log('🧠 Initializing Behavioral Analysis Engine...');
+    const { BehavioralAnalysisEngine } = await import('./engines/behavioral-analysis');
+    const engine = new BehavioralAnalysisEngine();
+    
+    // Set up anomaly monitoring
+    engine.on('anomalyDetected', (anomaly) => {
+      console.log(`⚠️  BEHAVIORAL ANOMALY: ${anomaly.severity} - ${anomaly.description}`);
+      // In production, this would trigger security reviews and access controls
+    });
+    
+    return engine;
+  });
+  
+  // Lazy Gamification Engine factory
+  const getGamificationEngine = lazySingletonAsync(async () => {
+    if (!ENABLE_GAMIFICATION) return null;
+    console.log('🎮 Initializing Gamification Engine...');
+    const { GamificationEngine } = await import('./engines/gamification-engine');
+    const engine = new GamificationEngine();
+    
+    // Set up gamification event handlers
+    engine.on('badgeEarned', (badgeEvent) => {
+      console.log(`🏆 BADGE EARNED: ${badgeEvent.userId} earned "${badgeEvent.badgeName}" (${badgeEvent.tier}) - ${badgeEvent.pointsValue} points`);
+      // In production, this would trigger notifications and UI updates
+    });
+    
+    return engine;
+  });
+  
+  // Lazy Cypher AI Genetic Engine factory
+  const getCypherGeneticEngine = lazySingletonAsync(async () => {
+    if (!ENABLE_GENETIC_ENGINE) return null;
+    console.log('🧬 Initializing Cypher AI Genetic Engine...');
+    const { default: CypherAIGeneticEngine } = await import('./engines/cypher-ai-genetic.js');
+    const engine = new CypherAIGeneticEngine();
+    // Note: Engine.start() is NOT called automatically - only when needed
+    return engine;
+  });
+  
+  // Lazy Genetic Memory Store factory
+  const getGeneticMemoryStore = lazySingletonAsync(async () => {
+    if (!ENABLE_GENETIC_ENGINE) return null;
+    console.log('🧠 Initializing Genetic Memory Store...');
+    const { geneticMemoryStore } = await import('./services/genetic-memory-store.js');
+    return geneticMemoryStore;
+  });
+  
+  // Lazy Cypher AI Assistant factory
+  const getCypherAI = lazySingletonAsync(async () => {
+    console.log('🤖 Initializing Cypher AI Assistant...');
+    const [mlThreatEngine, behavioralEngine, { CypherAI }] = await Promise.all([
+      getMlThreatEngine(),
+      getBehavioralEngine(), 
+      import('./engines/cypher-ai')
+    ]);
+    
+    // CypherAI can work without ML engines but with reduced capabilities
+    if (!mlThreatEngine && !behavioralEngine) {
+      console.warn('⚠️  CypherAI initialized without ML engines - some features will be unavailable');
+    }
+    
+    return new CypherAI(mlThreatEngine, behavioralEngine);
+  });
+  
+  // Lazy Zero Trust Engine factory
+  const getZeroTrustEngine = lazySingletonAsync(async () => {
+    console.log('🔒 Initializing Zero Trust Engine...');
+    const { zeroTrustEngine } = await import('./engines/zero-trust');
+    return zeroTrustEngine;
+  });
+  
+  // Lazy Threat Detection Engine factory
+  const getThreatDetectionEngine = lazySingletonAsync(async () => {
+    console.log('🛡️ Initializing Threat Detection Engine...');
+    const { threatDetectionEngine } = await import('./engines/threat-detection');
+    return threatDetectionEngine;
+  });
+  
+  // Lazy Compliance Automation Engine factory  
+  const getComplianceAutomationEngine = lazySingletonAsync(async () => {
+    console.log('📋 Initializing Compliance Automation Engine...');
+    const { complianceAutomationEngine } = await import('./engines/compliance-automation');
+    return complianceAutomationEngine;
   });
   // User routes
   app.get("/api/users", async (req, res) => {
@@ -540,9 +633,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Badge routes
-  app.get("/api/badges/definitions", (req, res) => {
+  app.get("/api/badges/definitions", async (req, res) => {
     try {
-      const badgeDefinitions = complianceAutomationEngine.getBadgeDefinitions();
+      const complianceEngine = await getComplianceAutomationEngine();
+      if (!complianceEngine) {
+        return res.status(503).json({ message: "Compliance engine not available" });
+      }
+      const badgeDefinitions = complianceEngine.getBadgeDefinitions();
       res.json(badgeDefinitions);
     } catch (error) {
       console.error("Error fetching badge definitions:", error);
@@ -550,10 +647,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/badges/user/:userId", (req, res) => {
+  app.get("/api/badges/user/:userId", async (req, res) => {
     try {
       const { userId } = req.params;
-      const userBadges = complianceAutomationEngine.getUserBadges(userId);
+      const complianceEngine = await getComplianceAutomationEngine();
+      if (!complianceEngine) {
+        return res.status(503).json({ message: "Compliance engine not available" });
+      }
+      const userBadges = complianceEngine.getUserBadges(userId);
       res.json(userBadges);
     } catch (error) {
       console.error("Error fetching user badges:", error);
@@ -561,10 +662,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/badges/recent/:userId/:assessmentId", (req, res) => {
+  app.get("/api/badges/recent/:userId/:assessmentId", async (req, res) => {
     try {
       const { userId, assessmentId } = req.params;
-      const recentBadges = complianceAutomationEngine.getRecentBadges(userId, assessmentId);
+      const complianceEngine = await getComplianceAutomationEngine();
+      if (!complianceEngine) {
+        return res.status(503).json({ message: "Compliance engine not available" });
+      }
+      const recentBadges = complianceEngine.getRecentBadges(userId, assessmentId);
       res.json(recentBadges);
     } catch (error) {
       console.error("Error fetching recent badges:", error);
@@ -661,6 +766,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Zero-Trust Security Engine Routes
   app.post("/api/zero-trust/verify", async (req, res) => {
     try {
+      const zeroTrustEngine = await getZeroTrustEngine();
       const context: VerificationContext = {
         userId: req.body.userId,
         ipAddress: req.ip || req.connection.remoteAddress || "127.0.0.1",
@@ -704,6 +810,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/zero-trust/devices/:userId", async (req, res) => {
     try {
+      const zeroTrustEngine = await getZeroTrustEngine();
       const devices = await zeroTrustEngine.getTrustedDevices(req.params.userId);
       res.json(devices);
     } catch (error) {
@@ -714,6 +821,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/zero-trust/devices", async (req, res) => {
     try {
+      const zeroTrustEngine = await getZeroTrustEngine();
       const device = await zeroTrustEngine.registerTrustedDevice(req.body.userId, req.body);
       res.status(201).json(device);
     } catch (error) {
@@ -724,6 +832,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete("/api/zero-trust/devices/:deviceId", async (req, res) => {
     try {
+      const zeroTrustEngine = await getZeroTrustEngine();
       const success = await zeroTrustEngine.revokeTrustedDevice(req.params.deviceId);
       if (success) {
         res.status(204).send();
@@ -740,6 +849,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/threats/analyze", async (req, res) => {
     try {
       const events: NetworkEvent[] = req.body.events || [];
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const detectionResults = await threatDetectionEngine.analyzeNetworkTraffic(events);
       
       // Create threat records for detected threats
@@ -781,6 +891,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/threats/patterns", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const patterns = threatDetectionEngine.getThreatPatterns();
       res.json(patterns);
     } catch (error) {
@@ -791,6 +902,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/threats/stats", async (req, res) => {
     try {
+      const [threatDetectionEngine, zeroTrustEngine] = await Promise.all([
+        getThreatDetectionEngine(),
+        getZeroTrustEngine()
+      ]);
       const stats = {
         recentEventsCount: threatDetectionEngine.getRecentThreatsCount(),
         suspiciousIPsCount: threatDetectionEngine.getSuspiciousIPsCount(),
@@ -807,6 +922,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/threats/intelligence", async (req, res) => {
     try {
       const { suspiciousIPs } = req.body;
+      const threatDetectionEngine = await getThreatDetectionEngine();
       await threatDetectionEngine.updateThreatIntelligence(suspiciousIPs || []);
       res.json({ message: "Threat intelligence updated" });
     } catch (error) {
@@ -818,8 +934,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Compliance Automation Engine Routes
   app.get("/api/compliance/frameworks", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
-      const frameworks = complianceAutomationEngine.getFrameworks();
+      const complianceEngine = await getComplianceAutomationEngine();
+      const frameworks = complianceEngine.getFrameworks();
       res.json(frameworks);
     } catch (error) {
       console.error("Error fetching compliance frameworks:", error);
@@ -829,8 +945,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/compliance/health", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
-      const healthData = complianceAutomationEngine.getComplianceHealth();
+      const complianceEngine = await getComplianceAutomationEngine();
+      const healthData = complianceEngine.getComplianceHealth();
       res.json(healthData);
     } catch (error) {
       console.error("Error fetching compliance health:", error);
@@ -840,8 +956,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/compliance/framework/:frameworkId", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
-      const framework = complianceAutomationEngine.getFramework(req.params.frameworkId);
+      const complianceEngine = await getComplianceAutomationEngine();
+      const framework = complianceEngine.getFramework(req.params.frameworkId);
       if (!framework) {
         return res.status(404).json({ error: "Framework not found" });
       }
@@ -854,12 +970,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/compliance/assessment/:frameworkId", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
+      const complianceEngine = await getComplianceAutomationEngine();
       const { frameworkId } = req.params;
       const organizationId = req.body.organizationId || "default-org";
       
       console.log(`Starting automated compliance assessment for ${frameworkId}...`);
-      const assessment = await complianceAutomationEngine.performAutomatedAssessment(frameworkId, organizationId);
+      const assessment = await complianceEngine.performAutomatedAssessment(frameworkId, organizationId);
       
       res.json(assessment);
     } catch (error) {
@@ -870,8 +986,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/compliance/assessments", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
-      const assessments = complianceAutomationEngine.getAssessments();
+      const complianceEngine = await getComplianceAutomationEngine();
+      const assessments = complianceEngine.getAssessments();
       res.json(assessments);
     } catch (error) {
       console.error("Error fetching compliance assessments:", error);
@@ -881,8 +997,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/compliance/gap-analysis/:frameworkId", async (req, res) => {
     try {
-      const { complianceAutomationEngine } = await import("./engines/compliance-automation");
-      const gapAnalysis = await complianceAutomationEngine.getComplianceGapAnalysis(req.params.frameworkId);
+      const complianceEngine = await getComplianceAutomationEngine();
+      const gapAnalysis = await complianceEngine.getComplianceGapAnalysis(req.params.frameworkId);
       res.json(gapAnalysis);
     } catch (error) {
       console.error("Error fetching compliance gap analysis:", error);
@@ -2759,6 +2875,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // MISP Threat Intelligence API routes
   app.get("/api/misp/threat-intelligence", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
       res.json({
         ...threatIntel,
@@ -2774,6 +2891,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/misp/ip-reputation/:ip", async (req, res) => {
     try {
       const ip = req.params.ip;
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const reputation = await threatDetectionEngine.getMISPIPReputation(ip);
       res.json({
         ip,
@@ -2790,6 +2908,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/misp/domain-reputation/:domain", async (req, res) => {
     try {
       const domain = req.params.domain;
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const reputation = await threatDetectionEngine.getMISPDomainReputation(domain);
       res.json({
         domain,
@@ -2878,6 +2997,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/misp/threat-actors", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
       res.json({
         threatActors: threatIntel.threatActors,
@@ -2893,6 +3013,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/misp/iocs", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
       const { type } = req.query;
       
@@ -2928,6 +3049,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/misp/status", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const threatIntel = threatDetectionEngine.getMISPThreatIntelligence();
       res.json({
         initialized: threatDetectionEngine.isMISPInitialized(),
@@ -2952,6 +3074,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // MISP Official Feeds Management
   app.get("/api/misp/feeds", async (req, res) => {
     try {
+      const threatDetectionEngine = await getThreatDetectionEngine();
       const feeds = threatDetectionEngine.getMISPOfficialFeeds();
       res.json({
         feeds,
@@ -2974,6 +3097,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Enabled must be a boolean value" });
       }
 
+      const threatDetectionEngine = await getThreatDetectionEngine();
       threatDetectionEngine.updateMISPFeedConfiguration(feedName, enabled);
       
       res.json({
