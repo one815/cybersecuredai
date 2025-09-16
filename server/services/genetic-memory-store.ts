@@ -8,9 +8,10 @@
  * - Federated learning state synchronization
  * - Evolutionary analytics and metrics
  * - Fitness evaluation caching
+ * - Lazy database initialization with graceful fallbacks
  */
 
-import { db } from '../db';
+import { getDbIfAvailable, withDb, isDatabaseAvailable, type Db, type DbProvider } from '../db';
 import { sql, eq, desc, and, gte } from 'drizzle-orm';
 import type { 
   GeneticIndividual, 
@@ -106,12 +107,12 @@ export class GeneticMemoryStore {
   private fitnessCache: Map<string, FitnessEntry> = new Map();
   private readonly CACHE_TTL = 3600000; // 1 hour in milliseconds
   private readonly MAX_CACHE_SIZE = 10000;
+  private dbProvider: DbProvider;
+  private initPromise: Promise<void> | null = null;
+  private cleanupInterval: NodeJS.Timeout | null = null;
 
-  constructor() {
-    this.initializeDatabase().catch((error) => {
-      console.error('⚠️ GeneticMemoryStore running in memory-only mode due to database error:', error.message);
-    });
-    this.startCacheCleanup();
+  constructor(options: { dbProvider?: DbProvider } = {}) {
+    this.dbProvider = options.dbProvider || getDbIfAvailable;
   }
 
   /**
