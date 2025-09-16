@@ -5,6 +5,10 @@ import * as schema from "@shared/schema";
 
 neonConfig.webSocketConstructor = ws;
 
+// Type definitions for dependency injection patterns
+export type Db = ReturnType<typeof drizzle>;
+export type DbProvider = () => Db | null;
+
 let _pool: Pool | null = null;
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -31,6 +35,31 @@ function getDb() {
 // Check if database is available without throwing
 export function isDatabaseAvailable(): boolean {
   return !!process.env.DATABASE_URL;
+}
+
+// Get database instance if available, null otherwise - for dependency injection patterns
+export function getDbIfAvailable(): Db | null {
+  if (!isDatabaseAvailable()) {
+    return null;
+  }
+  try {
+    return getDb();
+  } catch (error) {
+    console.warn('Database connection failed:', error);
+    return null;
+  }
+}
+
+// Helper function to call fn with db if available, else returns fallback/no-op
+export function withDb<T>(
+  fn: (db: Db) => T | Promise<T>,
+  fallback?: () => T | Promise<T>
+): T | Promise<T> | undefined {
+  const dbInstance = getDbIfAvailable();
+  if (dbInstance) {
+    return fn(dbInstance);
+  }
+  return fallback ? fallback() : undefined;
 }
 
 // Exported lazy database instances
