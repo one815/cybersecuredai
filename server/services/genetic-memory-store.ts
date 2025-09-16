@@ -274,111 +274,143 @@ export class GeneticMemoryStore {
    * Store an individual genetic entity
    */
   async storeIndividual(individual: GeneticIndividual, generationId: string): Promise<void> {
-    try {
-      await db.execute(sql`
-        INSERT INTO genetic_individuals (
-          id, generation_id, genome, fitness, accuracy, sector, policy_rules, parent_ids
-        ) VALUES (
-          ${individual.id}, ${generationId}, ${JSON.stringify(individual.genome)},
-          ${individual.fitness}, ${individual.accuracy}, ${individual.sector},
-          ${JSON.stringify(individual.policyRules)}, ${JSON.stringify([])}
-        )
-      `);
-
-      // Cache high-fitness individuals
-      if (individual.fitness > 95.0) {
-        this.cacheSet(`elite:${individual.sector}:${individual.id}`, individual);
-      }
-
-    } catch (error) {
-      console.error('❌ Failed to store individual:', error);
-      throw error;
+    // Cache high-fitness individuals regardless of database availability
+    if (individual.fitness > 95.0) {
+      this.cacheSet(`elite:${individual.sector}:${individual.id}`, individual);
     }
+
+    // Try to store in database if available
+    await withDb(
+      async (db) => {
+        try {
+          await db.execute(sql`
+            INSERT INTO genetic_individuals (
+              id, generation_id, genome, fitness, accuracy, sector, policy_rules, parent_ids
+            ) VALUES (
+              ${individual.id}, ${generationId}, ${JSON.stringify(individual.genome)},
+              ${individual.fitness}, ${individual.accuracy}, ${individual.sector},
+              ${JSON.stringify(individual.policyRules)}, ${JSON.stringify([])}
+            )
+          `);
+        } catch (error) {
+          console.error('❌ Failed to store individual in database:', error);
+        }
+      },
+      () => {
+        // Database unavailable - already cached if elite
+      }
+    );
   }
 
   /**
    * Retrieve generational history for a sector
    */
   async getGenerationHistory(sector: string, limit: number = 50): Promise<GenerationRecord[]> {
-    try {
-      // Check cache first
-      const cacheKey = `history:${sector}:${limit}`;
-      const cached = this.cacheGet(cacheKey);
-      if (cached) return cached;
+    await this.ensureInitialized();
+    
+    // Check cache first
+    const cacheKey = `history:${sector}:${limit}`;
+    const cached = this.cacheGet(cacheKey);
+    if (cached) return cached;
 
-      const results = await db.execute(sql`
-        SELECT * FROM genetic_generations 
-        WHERE sector = ${sector}
-        ORDER BY generation DESC 
-        LIMIT ${limit}
-      `);
+    // Try to retrieve from database if available
+    const result = await withDb(
+      async (db) => {
+        try {
+          const results = await db.execute(sql`
+            SELECT * FROM genetic_generations 
+            WHERE sector = ${sector}
+            ORDER BY generation DESC 
+            LIMIT ${limit}
+          `);
 
-      const generations = (results.rows || results).map((row: any) => ({
-        id: row.id as string,
-        generation: row.generation as number,
-        sector: row.sector as string,
-        bestFitness: row.best_fitness as number,
-        averageFitness: row.average_fitness as number,
-        diversity: row.diversity as number,
-        populationSize: row.population_size as number,
-        evolutionParams: JSON.parse(row.evolution_params as string),
-        createdAt: new Date(row.created_at as string),
-        metadata: row.metadata ? JSON.parse(row.metadata as string) : {}
-      }));
+          const generations = (results.rows || results).map((row: any) => ({
+            id: row.id as string,
+            generation: row.generation as number,
+            sector: row.sector as string,
+            bestFitness: row.best_fitness as number,
+            averageFitness: row.average_fitness as number,
+            diversity: row.diversity as number,
+            populationSize: row.population_size as number,
+            evolutionParams: JSON.parse(row.evolution_params as string),
+            createdAt: new Date(row.created_at as string),
+            metadata: row.metadata ? JSON.parse(row.metadata as string) : {}
+          }));
 
-      // Cache the results
-      this.cacheSet(cacheKey, generations);
-      return generations;
+          // Cache the results
+          this.cacheSet(cacheKey, generations);
+          return generations;
+        } catch (error) {
+          console.error('❌ Failed to retrieve generation history:', error);
+          return [];
+        }
+      },
+      () => {
+        // Database unavailable - return empty array
+        return [];
+      }
+    );
 
-    } catch (error) {
-      console.error('❌ Failed to retrieve generation history:', error);
-      return [];
-    }
+    return result || [];
   }
 
   /**
    * Get best individuals across all generations for a sector
    */
   async getBestIndividuals(sector: string, limit: number = 10): Promise<IndividualRecord[]> {
-    try {
-      const cacheKey = `best:${sector}:${limit}`;
-      const cached = this.cacheGet(cacheKey);
-      if (cached) return cached;
+    await this.ensureInitialized();
+    
+    const cacheKey = `best:${sector}:${limit}`;
+    const cached = this.cacheGet(cacheKey);
+    if (cached) return cached;
 
-      const results = await db.execute(sql`
-        SELECT i.*, g.generation 
-        FROM genetic_individuals i
-        JOIN genetic_generations g ON i.generation_id = g.id
-        WHERE i.sector = ${sector}
-        ORDER BY i.fitness DESC 
-        LIMIT ${limit}
-      `);
+    // Try to retrieve from database if available
+    const result = await withDb(
+      async (db) => {
+        try {
+          const results = await db.execute(sql`
+            SELECT i.*, g.generation 
+            FROM genetic_individuals i
+            JOIN genetic_generations g ON i.generation_id = g.id
+            WHERE i.sector = ${sector}
+            ORDER BY i.fitness DESC 
+            LIMIT ${limit}
+          `);
 
-      const individuals = (results.rows || results).map((row: any) => ({
-        id: row.id as string,
-        generationId: row.generation_id as string,
-        genome: JSON.parse(row.genome as string),
-        fitness: row.fitness as number,
-        accuracy: row.accuracy as number,
-        sector: row.sector as string,
-        policyRules: JSON.parse(row.policy_rules as string),
-        parentIds: row.parent_ids ? JSON.parse(row.parent_ids as string) : [],
-        createdAt: new Date(row.created_at as string)
-      }));
+          const individuals = (results.rows || results).map((row: any) => ({
+            id: row.id as string,
+            generationId: row.generation_id as string,
+            genome: JSON.parse(row.genome as string),
+            fitness: row.fitness as number,
+            accuracy: row.accuracy as number,
+            sector: row.sector as string,
+            policyRules: JSON.parse(row.policy_rules as string),
+            parentIds: row.parent_ids ? JSON.parse(row.parent_ids as string) : [],
+            createdAt: new Date(row.created_at as string)
+          }));
 
-      this.cacheSet(cacheKey, individuals);
-      return individuals;
+          this.cacheSet(cacheKey, individuals);
+          return individuals;
+        } catch (error) {
+          console.error('❌ Failed to retrieve best individuals:', error);
+          return [];
+        }
+      },
+      () => {
+        // Database unavailable - return empty array
+        return [];
+      }
+    );
 
-    } catch (error) {
-      console.error('❌ Failed to retrieve best individuals:', error);
-      return [];
-    }
+    return result || [];
   }
 
   /**
    * Cache fitness evaluation to avoid recomputation
    */
   async cacheFitnessEvaluation(genome: number[], sector: string, fitness: number, accuracy: number, evaluationTime: number): Promise<void> {
+    await this.ensureInitialized();
+    
     const genomeHash = this.hashGenome(genome);
     const entry: FitnessEntry = {
       genomeHash,
@@ -390,30 +422,38 @@ export class GeneticMemoryStore {
       cacheHits: 1
     };
 
-    try {
-      // Store in database
-      await db.execute(sql`
-        INSERT INTO fitness_cache (
-          genome_hash, sector, fitness, accuracy, evaluation_time
-        ) VALUES (
-          ${genomeHash}, ${sector}, ${fitness}, ${accuracy}, ${evaluationTime}
-        ) ON CONFLICT(genome_hash) DO UPDATE SET
-          cache_hits = cache_hits + 1,
-          evaluated_at = CURRENT_TIMESTAMP
-      `);
+    // Always store in memory cache
+    this.fitnessCache.set(`${genomeHash}:${sector}`, entry);
 
-      // Store in memory cache
-      this.fitnessCache.set(`${genomeHash}:${sector}`, entry);
-
-    } catch (error) {
-      console.error('❌ Failed to cache fitness evaluation:', error);
-    }
+    // Try to store in database if available
+    await withDb(
+      async (db) => {
+        try {
+          await db.execute(sql`
+            INSERT INTO fitness_cache (
+              genome_hash, sector, fitness, accuracy, evaluation_time
+            ) VALUES (
+              ${genomeHash}, ${sector}, ${fitness}, ${accuracy}, ${evaluationTime}
+            ) ON CONFLICT(genome_hash) DO UPDATE SET
+              cache_hits = cache_hits + 1,
+              evaluated_at = CURRENT_TIMESTAMP
+          `);
+        } catch (error) {
+          console.error('❌ Failed to cache fitness evaluation in database:', error);
+        }
+      },
+      () => {
+        // Database unavailable - already cached in memory
+      }
+    );
   }
 
   /**
    * Retrieve cached fitness evaluation
    */
   async getCachedFitness(genome: number[], sector: string): Promise<FitnessEntry | null> {
+    await this.ensureInitialized();
+    
     const genomeHash = this.hashGenome(genome);
     const cacheKey = `${genomeHash}:${sector}`;
 
@@ -422,144 +462,201 @@ export class GeneticMemoryStore {
       return this.fitnessCache.get(cacheKey)!;
     }
 
-    try {
-      // Check database
-      const results = await db.execute(sql`
-        SELECT * FROM fitness_cache 
-        WHERE genome_hash = ${genomeHash} AND sector = ${sector}
-      `);
+    // Try to check database if available
+    const result = await withDb(
+      async (db) => {
+        try {
+          const results = await db.execute(sql`
+            SELECT * FROM fitness_cache 
+            WHERE genome_hash = ${genomeHash} AND sector = ${sector}
+          `);
 
-      if ((results.rows || results).length > 0) {
-        const row = (results.rows || results)[0];
-        const entry: FitnessEntry = {
-          genomeHash: row.genome_hash as string,
-          sector: row.sector as string,
-          fitness: row.fitness as number,
-          accuracy: row.accuracy as number,
-          evaluationTime: row.evaluation_time as number,
-          evaluatedAt: new Date(row.evaluated_at as string),
-          cacheHits: row.cache_hits as number
-        };
+          if ((results.rows || results).length > 0) {
+            const row = (results.rows || results)[0];
+            const entry: FitnessEntry = {
+              genomeHash: row.genome_hash as string,
+              sector: row.sector as string,
+              fitness: row.fitness as number,
+              accuracy: row.accuracy as number,
+              evaluationTime: row.evaluation_time as number,
+              evaluatedAt: new Date(row.evaluated_at as string),
+              cacheHits: row.cache_hits as number
+            };
 
-        // Cache in memory for faster access
-        this.fitnessCache.set(cacheKey, entry);
-        return entry;
+            // Cache in memory for faster access
+            this.fitnessCache.set(cacheKey, entry);
+            return entry;
+          }
+
+          return null;
+        } catch (error) {
+          console.error('❌ Failed to retrieve cached fitness:', error);
+          return null;
+        }
+      },
+      () => {
+        // Database unavailable - return null
+        return null;
       }
+    );
 
-      return null;
-
-    } catch (error) {
-      console.error('❌ Failed to retrieve cached fitness:', error);
-      return null;
-    }
+    return result;
   }
 
   /**
    * Store federated learning node state
    */
   async storeFederatedNode(node: FederatedLearningNode): Promise<void> {
-    try {
-      await db.execute(sql`
-        INSERT INTO federated_nodes (
-          node_id, organization, sector, learning_rate, contribution, metadata
-        ) VALUES (
-          ${node.nodeId}, ${node.organization}, ${node.sector},
-          ${node.learningRate}, ${node.contribution}, ${JSON.stringify({})}
-        ) ON CONFLICT(node_id) DO UPDATE SET
-          learning_rate = ${node.learningRate},
-          contribution = ${node.contribution},
-          last_sync = CURRENT_TIMESTAMP
-      `);
+    await this.ensureInitialized();
+    
+    // Cache the node information
+    this.cacheSet(`fed-node:${node.nodeId}`, node);
 
-      console.log(`🌐 Stored federated node ${node.nodeId} (${node.organization})`);
+    // Try to store in database if available
+    await withDb(
+      async (db) => {
+        try {
+          await db.execute(sql`
+            INSERT INTO federated_nodes (
+              node_id, organization, sector, learning_rate, contribution, metadata
+            ) VALUES (
+              ${node.nodeId}, ${node.organization}, ${node.sector},
+              ${node.learningRate}, ${node.contribution}, ${JSON.stringify({})}
+            ) ON CONFLICT(node_id) DO UPDATE SET
+              learning_rate = ${node.learningRate},
+              contribution = ${node.contribution},
+              last_sync = CURRENT_TIMESTAMP
+          `);
 
-    } catch (error) {
-      console.error('❌ Failed to store federated node:', error);
-    }
+          console.log(`🌐 Stored federated node ${node.nodeId} (${node.organization})`);
+        } catch (error) {
+          console.error('❌ Failed to store federated node in database:', error);
+        }
+      },
+      () => {
+        console.log(`🌐 Cached federated node ${node.nodeId} (database unavailable)`);
+      }
+    );
   }
 
   /**
    * Get evolutionary analytics for a sector
    */
   async getEvolutionaryAnalytics(sector: string, generations: number = 100): Promise<any> {
-    try {
-      const cacheKey = `analytics:${sector}:${generations}`;
-      const cached = this.cacheGet(cacheKey);
-      if (cached) return cached;
+    await this.ensureInitialized();
+    
+    const cacheKey = `analytics:${sector}:${generations}`;
+    const cached = this.cacheGet(cacheKey);
+    if (cached) return cached;
 
-      // Get generation trends
-      const trends = await db.execute(sql`
-        SELECT 
-          generation,
-          best_fitness,
-          average_fitness,
-          diversity,
-          population_size,
-          created_at
-        FROM genetic_generations 
-        WHERE sector = ${sector}
-        ORDER BY generation DESC 
-        LIMIT ${generations}
-      `);
+    // Try to get generation trends from database
+    const result = await withDb(
+      async (db) => {
+        try {
+          const trends = await db.execute(sql`
+            SELECT 
+              generation,
+              best_fitness,
+              average_fitness,
+              diversity,
+              population_size,
+              created_at
+            FROM genetic_generations 
+            WHERE sector = ${sector}
+            ORDER BY generation DESC 
+            LIMIT ${generations}
+          `);
 
-      // Calculate statistics
-      const fitnessValues = trends.map(t => t.best_fitness as number);
-      const avgFitnessValues = trends.map(t => t.average_fitness as number);
-      
-      const analytics = {
-        sector,
-        totalGenerations: trends.length,
-        currentBestFitness: fitnessValues[0] || 0,
-        averageFitnessImprovement: this.calculateTrend(avgFitnessValues),
-        fitnessVariance: this.calculateVariance(fitnessValues),
-        convergenceRate: this.calculateConvergenceRate(fitnessValues),
-        diversityTrend: this.calculateTrend(trends.map(t => t.diversity as number)),
-        generationTrends: trends.reverse(), // Chronological order
-        lastUpdated: new Date()
-      };
+          // Calculate statistics
+          const fitnessValues = trends.map(t => t.best_fitness as number);
+          const avgFitnessValues = trends.map(t => t.average_fitness as number);
+          
+          const analytics = {
+            sector,
+            totalGenerations: trends.length,
+            currentBestFitness: fitnessValues[0] || 0,
+            averageFitnessImprovement: this.calculateTrend(avgFitnessValues),
+            fitnessVariance: this.calculateVariance(fitnessValues),
+            convergenceRate: this.calculateConvergenceRate(fitnessValues),
+            diversityTrend: this.calculateTrend(trends.map(t => t.diversity as number)),
+            generationTrends: trends.reverse(), // Chronological order
+            lastUpdated: new Date()
+          };
 
-      this.cacheSet(cacheKey, analytics, 300000); // Cache for 5 minutes
-      return analytics;
+          this.cacheSet(cacheKey, analytics, 300000); // Cache for 5 minutes
+          return analytics;
+        } catch (error) {
+          console.error('❌ Failed to generate evolutionary analytics:', error);
+          return null;
+        }
+      },
+      () => {
+        // Database unavailable - return basic analytics
+        return {
+          sector,
+          totalGenerations: 0,
+          currentBestFitness: 0,
+          averageFitnessImprovement: 0,
+          fitnessVariance: 0,
+          convergenceRate: 0,
+          diversityTrend: 0,
+          generationTrends: [],
+          lastUpdated: new Date()
+        };
+      }
+    );
 
-    } catch (error) {
-      console.error('❌ Failed to generate evolutionary analytics:', error);
-      return null;
-    }
+    return result;
   }
 
   /**
    * Clear old generations to manage storage
    */
   async cleanupOldGenerations(sector: string, keepGenerations: number = 1000): Promise<void> {
-    try {
-      const oldGenerations = await db.execute(sql`
-        SELECT id FROM genetic_generations 
-        WHERE sector = ${sector}
-        ORDER BY generation DESC 
-        OFFSET ${keepGenerations}
-      `);
+    await this.ensureInitialized();
+    
+    // Try to cleanup from database if available
+    await withDb(
+      async (db) => {
+        try {
+          const oldGenerations = await db.execute(sql`
+            SELECT id FROM genetic_generations 
+            WHERE sector = ${sector}
+            ORDER BY generation DESC 
+            OFFSET ${keepGenerations}
+          `);
 
-      if (oldGenerations.length > 0) {
-        const idsToDelete = oldGenerations.map(g => g.id);
-        
-        // Delete individuals first (foreign key constraint)
-        await db.execute(sql`
-          DELETE FROM genetic_individuals 
-          WHERE generation_id IN (${idsToDelete.join(',')})
-        `);
+          if (oldGenerations.length > 0) {
+            const idsToDelete = oldGenerations.map(g => g.id);
+            
+            // Delete individuals first (foreign key constraint)
+            await db.execute(sql`
+              DELETE FROM genetic_individuals 
+              WHERE generation_id IN (${idsToDelete.join(',')})
+            `);
 
-        // Delete generations
-        await db.execute(sql`
-          DELETE FROM genetic_generations 
-          WHERE id IN (${idsToDelete.join(',')})
-        `);
+            // Delete generations
+            await db.execute(sql`
+              DELETE FROM genetic_generations 
+              WHERE id IN (${idsToDelete.join(',')})
+            `);
 
-        console.log(`🧹 Cleaned up ${oldGenerations.length} old generations for ${sector}`);
+            console.log(`🧹 Cleaned up ${oldGenerations.length} old generations for ${sector}`);
+          }
+        } catch (error) {
+          console.error('❌ Failed to cleanup old generations:', error);
+        }
+      },
+      () => {
+        // Database unavailable - clean up memory cache only
+        const cacheKeys = Array.from(this.memoryCache.keys());
+        const sectorKeys = cacheKeys.filter(key => key.includes(sector));
+        sectorKeys.slice(keepGenerations).forEach(key => {
+          this.memoryCache.delete(key);
+        });
+        console.log(`🧹 Cleaned up memory cache for ${sector} (database unavailable)`);
       }
-
-    } catch (error) {
-      console.error('❌ Failed to cleanup old generations:', error);
-    }
+    );
   }
 
   /**
@@ -637,7 +734,11 @@ export class GeneticMemoryStore {
    * Periodic cache cleanup
    */
   private startCacheCleanup(): void {
-    setInterval(() => {
+    if (this.cleanupInterval) {
+      return; // Already started
+    }
+
+    this.cleanupInterval = setInterval(() => {
       const now = Date.now();
       
       // Clean memory cache
@@ -659,6 +760,19 @@ export class GeneticMemoryStore {
   }
 
   /**
+   * Clean up resources and stop background processes
+   */
+  destroy(): void {
+    if (this.cleanupInterval) {
+      clearInterval(this.cleanupInterval);
+      this.cleanupInterval = null;
+    }
+    this.memoryCache.clear();
+    this.fitnessCache.clear();
+    this.initPromise = null;
+  }
+
+  /**
    * Get cache statistics
    */
   getCacheStats(): any {
@@ -672,4 +786,31 @@ export class GeneticMemoryStore {
   }
 }
 
-export const geneticMemoryStore = new GeneticMemoryStore();
+// Lazy factory for genetic memory store
+let _geneticMemoryStore: GeneticMemoryStore | null = null;
+
+/**
+ * Create or get singleton instance of GeneticMemoryStore with lazy initialization
+ * @param options - Configuration options including optional dbProvider
+ * @returns GeneticMemoryStore instance
+ */
+export function getGeneticMemoryStore(options?: { dbProvider?: DbProvider }): GeneticMemoryStore {
+  if (!_geneticMemoryStore) {
+    _geneticMemoryStore = new GeneticMemoryStore(options);
+  }
+  return _geneticMemoryStore;
+}
+
+/**
+ * Reset the singleton instance (useful for testing)
+ */
+export function resetGeneticMemoryStore(): void {
+  if (_geneticMemoryStore) {
+    _geneticMemoryStore.destroy();
+    _geneticMemoryStore = null;
+  }
+}
+
+// Export singleton instance for backward compatibility
+// This will not trigger database connections on import, only when methods are called
+export const geneticMemoryStore = getGeneticMemoryStore();
