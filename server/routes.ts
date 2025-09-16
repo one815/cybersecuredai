@@ -130,6 +130,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Health endpoint that works without DATABASE_URL
+  app.get('/api/health', async (req, res) => {
+    const { isDatabaseAvailable } = await import("./db");
+    
+    const health = {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      database: {
+        available: isDatabaseAvailable(),
+        status: isDatabaseAvailable() ? 'connected' : 'not_configured'
+      },
+      environment: process.env.NODE_ENV || 'development',
+      version: '1.0.0'
+    };
+    
+    res.json(health);
+  });
+  
   // Placeholder image endpoint for build optimization
   app.get('/api/placeholder/:width/:height', (req, res) => {
     const { width, height } = req.params;
