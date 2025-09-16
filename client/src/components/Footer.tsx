@@ -1,7 +1,8 @@
 import { Link } from "wouter";
 import { Bot, Shield, Mail, Phone, MapPin, Twitter, Linkedin, Github, ExternalLink } from "lucide-react";
 // Import actual webp images from attached assets
-import cypherAiAssistImage from "@assets/Cypher AI Assist_1757956837639.png";
+// Large asset moved to external storage for deployment optimization (10.51 MB)
+const cypherAiAssistImage = "/public-objects/Cypher AI Assist_1757956837639.png";
 import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
 import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
 import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";
