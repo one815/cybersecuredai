@@ -116,15 +116,37 @@ export class GeneticMemoryStore {
   }
 
   /**
-   * Initialize database tables for genetic algorithm storage
+   * Ensure database is initialized lazily and cache cleanup is started
+   * This method is idempotent and safe to call multiple times
    */
-  private async initializeDatabase(): Promise<void> {
+  private async ensureInitialized(): Promise<void> {
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.initPromise = this.performInitialization();
+    return this.initPromise;
+  }
+
+  /**
+   * Perform one-time initialization of database tables and cache cleanup
+   */
+  private async performInitialization(): Promise<void> {
     try {
       // Check if database is available
-      if (!process.env.DATABASE_URL) {
+      if (!isDatabaseAvailable()) {
         console.log('⚠️ Database not configured - GeneticMemoryStore using in-memory storage only');
+        this.startCacheCleanup();
         return;
       }
+
+      const db = this.dbProvider();
+      if (!db) {
+        console.log('⚠️ Database not available - GeneticMemoryStore using in-memory storage only');
+        this.startCacheCleanup();
+        return;
+      }
+
       // Create tables if they don't exist
       await db.execute(sql`
         CREATE TABLE IF NOT EXISTS genetic_generations (
@@ -188,8 +210,12 @@ export class GeneticMemoryStore {
       await db.execute(sql`CREATE INDEX IF NOT EXISTS idx_fitness_sector ON fitness_cache(sector, genome_hash)`);
 
       console.log('✅ Genetic memory store database initialized');
+      this.startCacheCleanup();
+
     } catch (error) {
       console.error('❌ Failed to initialize genetic memory store database:', error);
+      // Still start cache cleanup for memory-only mode
+      this.startCacheCleanup();
     }
   }
 
@@ -197,40 +223,51 @@ export class GeneticMemoryStore {
    * Store a complete generation with all individuals
    */
   async storeGeneration(population: GeneticPopulation, evolutionParams: any = {}): Promise<string> {
+    await this.ensureInitialized();
     const generationId = `gen-${population.sector}-${population.generation}-${Date.now()}`;
     
-    try {
-      // Store generation record
-      await db.execute(sql`
-        INSERT INTO genetic_generations (
-          id, generation, sector, best_fitness, average_fitness, 
-          diversity, population_size, evolution_params, metadata
-        ) VALUES (
-          ${generationId}, ${population.generation}, ${population.sector},
-          ${population.bestFitness}, ${population.averageFitness},
-          ${population.diversity}, ${population.individuals.length},
-          ${JSON.stringify(evolutionParams)}, ${JSON.stringify({ timestamp: new Date() })}
-        )
-      `);
+    // Cache the generation for fast access regardless of database availability
+    this.cacheSet(`generation:${population.sector}:${population.generation}`, {
+      ...population,
+      generationId
+    });
 
-      // Store all individuals in this generation
-      for (const individual of population.individuals) {
-        await this.storeIndividual(individual, generationId);
+    // Try to store in database if available
+    const dbResult = await withDb(
+      async (db) => {
+        try {
+          // Store generation record
+          await db.execute(sql`
+            INSERT INTO genetic_generations (
+              id, generation, sector, best_fitness, average_fitness, 
+              diversity, population_size, evolution_params, metadata
+            ) VALUES (
+              ${generationId}, ${population.generation}, ${population.sector},
+              ${population.bestFitness}, ${population.averageFitness},
+              ${population.diversity}, ${population.individuals.length},
+              ${JSON.stringify(evolutionParams)}, ${JSON.stringify({ timestamp: new Date() })}
+            )
+          `);
+
+          // Store all individuals in this generation
+          for (const individual of population.individuals) {
+            await this.storeIndividual(individual, generationId);
+          }
+
+          console.log(`💾 Stored generation ${population.generation} for ${population.sector} (${population.individuals.length} individuals)`);
+          return true;
+        } catch (error) {
+          console.error('❌ Failed to store generation in database:', error);
+          return false;
+        }
+      },
+      () => {
+        console.log(`💾 Cached generation ${population.generation} for ${population.sector} (database unavailable)`);
+        return false;
       }
+    );
 
-      // Cache the generation for fast access
-      this.cacheSet(`generation:${population.sector}:${population.generation}`, {
-        ...population,
-        generationId
-      });
-
-      console.log(`💾 Stored generation ${population.generation} for ${population.sector} (${population.individuals.length} individuals)`);
-      return generationId;
-
-    } catch (error) {
-      console.error('❌ Failed to store generation:', error);
-      throw error;
-    }
+    return generationId;
   }
 
   /**
