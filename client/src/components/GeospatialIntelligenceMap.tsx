@@ -161,7 +161,11 @@ export function GeospatialIntelligenceMap({
 
       const script = document.createElement('script');
       // Load Google Maps with latest version and advanced marker support
-      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAvPZ_0E5dkqYgCqTebp3l3AVTvbz0Nmh8';
+      const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+      if (!apiKey) {
+        console.error('Google Maps API key not configured. Please set VITE_GOOGLE_MAPS_API_KEY environment variable.');
+        return;
+      }
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker,visualization,geometry,places&callback=initGeospatialMap&v=weekly`;
       script.async = true;
       script.defer = true;

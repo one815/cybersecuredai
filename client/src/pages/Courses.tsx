@@ -18,18 +18,19 @@ import {
   Play,
   Filter
 } from "lucide-react";
-import federalAISecurityCourseImg from "@assets/generated_images/Federal_AI_Security_Course_83447dcc.jpg";
-import classifiedAISystemsCourseImg from "@assets/generated_images/Classified_AI_Systems_Course_4fcc1bcc.jpg";
-import crossAgencyResponseCourseImg from "@assets/generated_images/Cross_Agency_Response_Course_68368323.jpg";
-import universityResearchSecurityCourseImg from "@assets/generated_images/University_Research_Security_Course_aa9fd512.jpg";
-import campusAIImplCourseImg from "@assets/generated_images/Campus_AI_Implementation_Course_a7477413.jpg";
-import higherEdSecurityPilotCourseImg from "@assets/generated_images/Higher_Ed_Security_Pilot_Course_072466af.jpg";
-import k12AISecurityEssentialsCourseImg from "@assets/generated_images/K12_AI_Security_Essentials_a4927a35.jpg";
-import districtSecurityOpsCourseImg from "@assets/generated_images/District_Security_Operations_Course_4131c14e.jpg";
-import studentAIInteractionsCourseImg from "@assets/generated_images/Student_AI_Interactions_Course_ac59f45a.jpg";
-import certifiedAISecurityProfImg from "@assets/generated_images/Certified_AI_Security_Professional_b3eb22a9.jpg";
-import aiIncidentResponseCourseImg from "@assets/generated_images/AI_Incident_Response_Course_d38ffd86.jpg";
-import secureAIArchitectureCourseImg from "@assets/generated_images/Secure_AI_Architecture_Course_34260e1d.jpg";
+// Use optimized course images from public assets to reduce bundle size
+const federalAISecurityCourseImg = "/assets-optimized/AI_Security_Awareness_Training_643d9a03-DEtWvUSL.webp";
+const classifiedAISystemsCourseImg = "/assets-optimized/Classified_AI_Systems_Course_4fcc1bcc-D56J064V.webp";
+const crossAgencyResponseCourseImg = "/assets-optimized/Cross_Agency_Response_Course_68368323-BlfIwYjK.webp";
+const universityResearchSecurityCourseImg = "/assets-optimized/Higher_Education_Security_26849194-CuTgS8vl.webp";
+const campusAIImplCourseImg = "/assets-optimized/Campus_AI_Implementation_Course_a7477413-BqdYs9__.webp";
+const higherEdSecurityPilotCourseImg = "/assets-optimized/Higher_Ed_Security_Pilot_Course_072466af-DIV3ul0w.webp";
+const k12AISecurityEssentialsCourseImg = "/assets-optimized/Educational_Security_Guide_330f6e1c-BQCpH9Yq.webp";
+const districtSecurityOpsCourseImg = "/assets-optimized/District_Security_Operations_Course_4131c14e-CMSF2qy4.webp";
+const studentAIInteractionsCourseImg = "/assets-optimized/Tech_Administrator_Training_98012fa2-BWvdhqkl.webp";
+const certifiedAISecurityProfImg = "/assets-optimized/Higher_Education_Deployment_Kit_e124065f-BlOlTgn9.webp";
+const aiIncidentResponseCourseImg = "/assets-optimized/AI_Security_Risk_Assessment_4eae4751-CzGhOj9d.webp";
+const secureAIArchitectureCourseImg = "/assets-optimized/AI_Threat_Detection_Engine_58460592-pfdo749l.webp";
 
 const sectors = [
   { id: "all", name: "All Sectors", icon: Users },
