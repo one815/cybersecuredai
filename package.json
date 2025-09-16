@@ -13,7 +13,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.37.0",
     "@azure/msal-node": "^3.7.3",
-    "@google-cloud/storage": "^7.17.0",
+    "@google-cloud/storage": "^7.17.1",
     "@google/genai": "^1.16.0",
     "@googlemaps/react-wrapper": "^1.2.0",
     "@hookform/resolvers": "^3.10.0",
@@ -89,7 +89,7 @@
     "express-session": "^1.18.2",
     "force-graph": "^1.50.1",
     "framer-motion": "^11.13.1",
-    "google-auth-library": "^10.2.1",
+    "google-auth-library": "^10.3.0",
     "googleapis": "^159.0.0",
     "helmet": "^8.1.0",
     "html-pdf-node": "^1.0.8",
