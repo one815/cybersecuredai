@@ -1,6 +1,6 @@
 # Multi-stage build to reduce final image size
 # Stage 1: Build stage with all dependencies
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -23,6 +23,10 @@ RUN apk add --no-cache \
 # Copy package files
 COPY package.json package-lock.json ./
 
+# Set environment variables to skip heavy downloads
+ENV PUPPETEER_SKIP_DOWNLOAD=1
+ENV CHROMIUM_EXECUTABLE_PATH="/usr/bin/chromium-browser"
+
 # Install ALL dependencies for building (including devDependencies)
 RUN npm ci --include=dev
 
@@ -33,10 +37,15 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production stage with minimal dependencies
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 # Set working directory
 WORKDIR /app
+
+# Set environment variables to skip heavy downloads and optimize for production
+ENV NODE_ENV=production
+ENV PUPPETEER_SKIP_DOWNLOAD=1
+ENV CHROMIUM_EXECUTABLE_PATH="/usr/bin/chromium-browser"
 
 # Install only production runtime dependencies for native modules
 RUN apk add --no-cache \
@@ -52,10 +61,10 @@ RUN apk add --no-cache \
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install ONLY production dependencies (allow scripts for native modules)
-RUN npm ci --omit=dev && \
+# Install ONLY production dependencies (omit dev and optional dependencies)
+RUN npm ci --omit=dev --omit=optional && \
     npm cache clean --force && \
-    rm -rf /tmp/* /var/cache/apk/* ~/.npm
+    rm -rf /tmp/* /var/cache/apk/* ~/.npm /root/.npm
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
