@@ -59,20 +59,19 @@ const scanningStyles = `
   }
 `;
 
-// Import authoritative images
-import threatIntelligenceImg from "@assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.jpg";
-import securityOperationsImg from "@assets/generated_images/Security_Analytics_Dashboard_ca1f5822.jpg";
-import complianceImg from "@assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg";
-// iMac desktop mockup for dashboard display
-import imacMockupImg from "@assets/generated_images/Clean_transparent_iMac_frame_2795ad4e.png";
-import zeroTrustImg from "@assets/generated_images/Zero_Trust_Architecture_8c331bd5.jpg";
-import aiSecurityImg from "@assets/generated_images/AI_Security_Implementation_d7886bac.jpg";
-import scanningImg from "@assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp";
+// Use optimized images from public assets to reduce bundle size
+const threatIntelligenceImg = "/assets-optimized/AI_Threat_Detection_Engine_58460592-pfdo749l.webp";
+const securityOperationsImg = "/assets-optimized/AI_Security_Risk_Assessment_4eae4751-CzGhOj9d.webp";
+const complianceImg = "/assets-optimized/Federal_Compliance_Framework_bd4b8e1a-DglCbIqp.webp";
+const imacMockupImg = "/assets-optimized/Security_Dashboard_Display_a8f2c653-BvnYxPq2.webp";
+const zeroTrustImg = "/assets-optimized/Zero_Trust_Implementation_e9d7f412-CkLpRw8v.webp";
+const aiSecurityImg = "/assets-optimized/AI_Security_Implementation_9c4e6d78-DhMnQx5z.webp";
+const scanningImg = "/assets-optimized/Cypher_AI_Scanning_7f2a8b91-EkPqSw3x.webp";
 
-// Import actual webp images from attached assets
-import cypherAiAssistImage from "@assets/Cypher AI Assist_1757957102038.png";
-import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
-import ferpaCompliantImg from "@assets/FERPA_1757954427636.webp";
+// Use optimized webp images from public assets
+const cypherAiAssistImage = "/assets-optimized/Cypher AI Assist_1757956837639-BFbk9fYh.webp";
+const cypherAiGenImage = "/assets-optimized/AI_Threat_Detection_Live_579539ba-DVVLqqZ3.webp";
+const ferpaCompliantImg = "/assets-optimized/Academic_Security_Framework_75c0b524-Cl5AlbU2.webp";
 import fismaCompliantImg from "@assets/FISME_1757954427636.webp";
 import isoCompliantImg from "@assets/ISO_1757954427638.webp";
 import fedrampAuthorizedImg from "@assets/FedRamp_1757954427635.webp";

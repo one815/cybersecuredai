@@ -1,0 +1,58 @@
+# Mirror .dockerignore for Cloud Build/Deploy
+# Exclude large asset directories from deployment
+attached_assets/**
+public/marketing/**
+public/reports/**
+browser-extensions/**
+RFP/**
+python/**
+
+# Exclude development and cache files
+node_modules/.cache/
+.cache/
+.uv/
+.temp/
+.tmp/
+.pythonlibs/
+.local/
+.config/
+.upm/
+__pycache__/
+.pytest_cache/
+
+# Exclude large file types
+*.pdf
+*.docx
+*.doc
+*.mov
+*.mp4
+*.avi
+*.wmv
+*.psd
+*.zip
+*.pkl
+*.joblib
+*.model
+*.weights
+*.onnx
+*.pb
+*.bin
+*.traineddata
+
+# Exclude development files
+.git/
+.gitignore
+.vscode/
+.idea/
+*.log
+tmp/
+temp/
+logs/
+coverage/
+.env*
+
+# Exclude test files
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
