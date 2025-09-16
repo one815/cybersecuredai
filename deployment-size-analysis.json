@@ -1,0 +1,1262 @@
+{
+  "timestamp": "2025-09-16T18:06:49.101Z",
+  "analysis": {
+    "totalFiles": 249,
+    "essentialFiles": 232,
+    "largeFiles": 17,
+    "totalSize": 99989626,
+    "essentialSize": 34260012,
+    "largeSize": 65729614,
+    "potentialReduction": 65729614,
+    "reductionPercentage": 65.73643349761105
+  },
+  "largeFiles": [
+    {
+      "path": "attached_assets/Cypher AI Assist_1757956158279.png",
+      "size": 11017357,
+      "sizeFormatted": "10.51 MB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Assist_1757956644824.png",
+      "size": 11017357,
+      "sizeFormatted": "10.51 MB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Assist_1757956837639.png",
+      "size": 11017357,
+      "sizeFormatted": "10.51 MB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Assist_1757957102038.png",
+      "size": 11017357,
+      "sizeFormatted": "10.51 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0416_1756457811960.jpeg",
+      "size": 2842468,
+      "sizeFormatted": "2.71 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0347_1756030655077.jpeg",
+      "size": 1908294,
+      "sizeFormatted": "1.82 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0351_1756031333138.jpeg",
+      "size": 1791106,
+      "sizeFormatted": "1.71 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0351_1756031509291.jpeg",
+      "size": 1791106,
+      "sizeFormatted": "1.71 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0401_1756314303675.jpeg",
+      "size": 1635111,
+      "sizeFormatted": "1.56 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0401_1756319606992.jpeg",
+      "size": 1635111,
+      "sizeFormatted": "1.56 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0401_1756319842143.jpeg",
+      "size": 1635111,
+      "sizeFormatted": "1.56 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0404_1756314303674.jpeg",
+      "size": 1599580,
+      "sizeFormatted": "1.53 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0404_1756314413565.jpeg",
+      "size": 1599580,
+      "sizeFormatted": "1.53 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0404_1756319842143.jpeg",
+      "size": 1599580,
+      "sizeFormatted": "1.53 MB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.38.51 AM_1757954358494.png",
+      "size": 1300499,
+      "sizeFormatted": "1.24 MB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.38.46 AM_1757954358493.png",
+      "size": 1241587,
+      "sizeFormatted": "1.18 MB"
+    },
+    {
+      "path": "attached_assets/IMG_0DD07CBBD3B2-1_1755964187650.jpeg",
+      "size": 1081053,
+      "sizeFormatted": "1.03 MB"
+    }
+  ],
+  "essentialFiles": [
+    {
+      "path": "attached_assets/IMG_0405_1756319842143.jpeg",
+      "size": 938762,
+      "sizeFormatted": "916.76 KB"
+    },
+    {
+      "path": "attached_assets/IMG_04A8A6E9DB98-1_1755961059743.jpeg",
+      "size": 849352,
+      "sizeFormatted": "829.45 KB"
+    },
+    {
+      "path": "attached_assets/IMG_2ACB2B02B444-1_1755963758228.jpeg",
+      "size": 844519,
+      "sizeFormatted": "824.73 KB"
+    },
+    {
+      "path": "attached_assets/IMG_11899791BF6B-1_1755963524581.jpeg",
+      "size": 746522,
+      "sizeFormatted": "729.03 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 12.08.24 PM_1757956139003.png",
+      "size": 708486,
+      "sizeFormatted": "691.88 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 12.08.30 PM_1757956146516.png",
+      "size": 691370,
+      "sizeFormatted": "675.17 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 12.20.00 PM_1757956809219.png",
+      "size": 673310,
+      "sizeFormatted": "657.53 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.38.41 AM_1757954358485.png",
+      "size": 662385,
+      "sizeFormatted": "646.86 KB"
+    },
+    {
+      "path": "attached_assets/IMG_B67DFD7BE57C-1_1755962152014.jpeg",
+      "size": 631183,
+      "sizeFormatted": "616.39 KB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Asst. webp_1757954427635.webp",
+      "size": 604426,
+      "sizeFormatted": "590.26 KB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Asst. webp_1757954952031.webp",
+      "size": 604426,
+      "sizeFormatted": "590.26 KB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Asst. webp_1757955570792.webp",
+      "size": 604426,
+      "sizeFormatted": "590.26 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417-sXnM1FlO-1_1757956362848.png",
+      "size": 598629,
+      "sizeFormatted": "584.60 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417-sXnM1FlO-1_1757956435337.png",
+      "size": 598629,
+      "sizeFormatted": "584.60 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Microsoft Azure Developer Associate_1756505798417-sXnM1FlO_1757956362848.png",
+      "size": 598629,
+      "sizeFormatted": "584.60 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0403_1756314303675.jpeg",
+      "size": 527504,
+      "sizeFormatted": "515.14 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0403_1756314413565.jpeg",
+      "size": 527504,
+      "sizeFormatted": "515.14 KB"
+    },
+    {
+      "path": "attached_assets/IMG_55822F4640D8-1_1755962684275.jpeg",
+      "size": 519877,
+      "sizeFormatted": "507.69 KB"
+    },
+    {
+      "path": "attached_assets/IMG_E82F5F820155-1_1755960569492.jpeg",
+      "size": 508099,
+      "sizeFormatted": "496.19 KB"
+    },
+    {
+      "path": "attached_assets/IMG_E82F5F820155-1_1755963759731.jpeg",
+      "size": 508099,
+      "sizeFormatted": "496.19 KB"
+    },
+    {
+      "path": "attached_assets/Mark Ibrahim_1757524044144.jpeg",
+      "size": 481993,
+      "sizeFormatted": "470.70 KB"
+    },
+    {
+      "path": "attached_assets/Hunter Anderson_1757526683827.jpeg",
+      "size": 460935,
+      "sizeFormatted": "450.13 KB"
+    },
+    {
+      "path": "attached_assets/Project Manager Professional_1756505874494-C8svvNXC_1757956460335.png",
+      "size": 439247,
+      "sizeFormatted": "428.95 KB"
+    },
+    {
+      "path": "attached_assets/Project Manager Professional_1756505874494-C8svvNXC_1757956570935.png",
+      "size": 439247,
+      "sizeFormatted": "428.95 KB"
+    },
+    {
+      "path": "attached_assets/Certified Marketing Professional_1756505941955-DJgFxPVa_1757956451621.png",
+      "size": 373065,
+      "sizeFormatted": "364.32 KB"
+    },
+    {
+      "path": "attached_assets/Certified Marketing Professional_1756505941955-DJgFxPVa_1757956558282.png",
+      "size": 373065,
+      "sizeFormatted": "364.32 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0381_1756251166274.jpeg",
+      "size": 275122,
+      "sizeFormatted": "268.67 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0381_1756251846688.jpeg",
+      "size": 275122,
+      "sizeFormatted": "268.67 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0381_1756252340233.jpeg",
+      "size": 275122,
+      "sizeFormatted": "268.67 KB"
+    },
+    {
+      "path": "attached_assets/IMG_0381_1756254215270.jpeg",
+      "size": 275122,
+      "sizeFormatted": "268.67 KB"
+    },
+    {
+      "path": "attached_assets/Google Cloud Professional Cloud Security Engineer_1756505748559-BPDR1JpD_1757956439918.png",
+      "size": 265115,
+      "sizeFormatted": "258.90 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Azure Security Engineer_1756505702422-sPSI3H9G_1757956362846.png",
+      "size": 240875,
+      "sizeFormatted": "235.23 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Azure Security Engineer_1756505702422-sPSI3H9G_1757956385236.png",
+      "size": 240875,
+      "sizeFormatted": "235.23 KB"
+    },
+    {
+      "path": "attached_assets/Microsoft Certified Azure Security Engineer_1756505702422-sPSI3H9G_1757956435336.png",
+      "size": 240875,
+      "sizeFormatted": "235.23 KB"
+    },
+    {
+      "path": "attached_assets/Vmare Certified Professional_1756505901267-CBx4r4Ll_1757956445835.png",
+      "size": 223009,
+      "sizeFormatted": "217.78 KB"
+    },
+    {
+      "path": "attached_assets/Vmare Certified Professional_1756505901267-CBx4r4Ll_1757956545699.png",
+      "size": 223009,
+      "sizeFormatted": "217.78 KB"
+    },
+    {
+      "path": "attached_assets/Partner - Univ of Berkley_1757954437927.webp",
+      "size": 216568,
+      "sizeFormatted": "211.49 KB"
+    },
+    {
+      "path": "attached_assets/Cypher AI Gen_1757954427635.webp",
+      "size": 163474,
+      "sizeFormatted": "159.64 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_Access_Control_71cb5b76.jpg",
+      "size": 160283,
+      "sizeFormatted": "156.53 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Rural_Digital_Equity_Success_60f1d289.jpg",
+      "size": 159775,
+      "sizeFormatted": "156.03 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Research_Collaboration_Security_f063fdbf.jpg",
+      "size": 157473,
+      "sizeFormatted": "153.78 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Resource_Library_Hub_1661d0f4.jpg",
+      "size": 154849,
+      "sizeFormatted": "151.22 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Security_Assessment_79814cb2.jpg",
+      "size": 154037,
+      "sizeFormatted": "150.43 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/MIT_Research_IP_Protection_0a1313e3.jpg",
+      "size": 149259,
+      "sizeFormatted": "145.76 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Smart_City_Security_d206ef72.jpg",
+      "size": 148987,
+      "sizeFormatted": "145.50 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/District_Security_Operations_Course_4131c14e.jpg",
+      "size": 148952,
+      "sizeFormatted": "145.46 KB"
+    },
+    {
+      "path": "attached_assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953657943.webp",
+      "size": 148480,
+      "sizeFormatted": "145.00 KB"
+    },
+    {
+      "path": "attached_assets/cybersecured ai scan_1756296311900-BJ0reccu_1757953669053.webp",
+      "size": 148480,
+      "sizeFormatted": "145.00 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/City_Vulnerability_Assessment_dd3a88e4.jpg",
+      "size": 146359,
+      "sizeFormatted": "142.93 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Academic_Security_Framework_75c0b524.jpg",
+      "size": 142664,
+      "sizeFormatted": "139.32 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_FERPA_Compliance_Success_c6f7fd15.jpg",
+      "size": 141234,
+      "sizeFormatted": "137.92 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Critical_Infrastructure_Protection_939a6a9a.jpg",
+      "size": 140659,
+      "sizeFormatted": "137.36 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Cross_Agency_Response_Course_68368323.jpg",
+      "size": 135814,
+      "sizeFormatted": "132.63 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_Zero_Trust_411ba981.jpg",
+      "size": 132517,
+      "sizeFormatted": "129.41 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Threat_Detection_Live_579539ba.jpg",
+      "size": 132282,
+      "sizeFormatted": "129.18 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Risk_Assessment_4eae4751.jpg",
+      "size": 132021,
+      "sizeFormatted": "128.93 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Multi_State_Coalition_e7af0642.jpg",
+      "size": 131414,
+      "sizeFormatted": "128.33 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Enterprise_Integration_Showcase_79f150a2.jpg",
+      "size": 131413,
+      "sizeFormatted": "128.33 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Educational_Security_Guide_330f6e1c.jpg",
+      "size": 130472,
+      "sizeFormatted": "127.41 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/State_AI_Standards_eedb2317.jpg",
+      "size": 129787,
+      "sizeFormatted": "126.75 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Awareness_Training_643d9a03.jpg",
+      "size": 128319,
+      "sizeFormatted": "125.31 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/SOC_Dashboard_Management_23c1af0b.jpg",
+      "size": 127348,
+      "sizeFormatted": "124.36 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_Research_Data_Protection_2c521546.jpg",
+      "size": 126509,
+      "sizeFormatted": "123.54 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Threat_Response_Playbook_bca88bb3.jpg",
+      "size": 126185,
+      "sizeFormatted": "123.23 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Threat_Report_9243f47f.jpg",
+      "size": 125642,
+      "sizeFormatted": "122.70 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Success_Kit_Package_108b7e6b.jpg",
+      "size": 125373,
+      "sizeFormatted": "122.43 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/School_Security_Assessment_dfded22a.jpg",
+      "size": 124506,
+      "sizeFormatted": "121.59 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Shared_Security_Operations_ad805f3d.jpg",
+      "size": 123756,
+      "sizeFormatted": "120.86 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Higher_Ed_Security_Pilot_Course_072466af.jpg",
+      "size": 122460,
+      "sizeFormatted": "119.59 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/FERPA_Compliance_Demo_0d0f9ed7.jpg",
+      "size": 117980,
+      "sizeFormatted": "115.21 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Global_Security_Report_15483828.jpg",
+      "size": 117801,
+      "sizeFormatted": "115.04 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Higher_Education_Security_26849194.jpg",
+      "size": 115420,
+      "sizeFormatted": "112.71 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_AI_Security_Essentials_a4927a35.jpg",
+      "size": 113708,
+      "sizeFormatted": "111.04 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Photorealistic_geometric_wireframe_face_9ac47e7d.jpg",
+      "size": 113142,
+      "sizeFormatted": "110.49 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Interactive_Platform_Demo_ea647cc8.jpg",
+      "size": 112302,
+      "sizeFormatted": "109.67 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Infrastructure_Health_Report_51e19268.jpg",
+      "size": 111776,
+      "sizeFormatted": "109.16 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_AI_Implementation_Course_a7477413.jpg",
+      "size": 111078,
+      "sizeFormatted": "108.47 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Cybersecurity_Podcast_Studio_526ffd72.jpg",
+      "size": 110261,
+      "sizeFormatted": "107.68 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Classified_AI_Systems_Course_4fcc1bcc.jpg",
+      "size": 109823,
+      "sizeFormatted": "107.25 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Integration_Hub_Network_a0bbdbbb.jpg",
+      "size": 109056,
+      "sizeFormatted": "106.50 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_District_Cost_Savings_62fda7d5.jpg",
+      "size": 108636,
+      "sizeFormatted": "106.09 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Advanced_Threat_Detection_Video_03258c71.jpg",
+      "size": 108106,
+      "sizeFormatted": "105.57 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Tech_Administrator_Training_98012fa2.jpg",
+      "size": 107867,
+      "sizeFormatted": "105.34 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Behavioral_Analytics_Guide_c60f0652.jpg",
+      "size": 106893,
+      "sizeFormatted": "104.39 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Digital_Safety_1bedbed4.jpg",
+      "size": 106667,
+      "sizeFormatted": "104.17 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Threat_Detection_Engine_58460592.jpg",
+      "size": 106505,
+      "sizeFormatted": "104.01 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Resilient_AI_systems_development_9d8f800c.jpg",
+      "size": 106259,
+      "sizeFormatted": "103.77 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Student_Privacy_Protection_829fd6b1.jpg",
+      "size": 104770,
+      "sizeFormatted": "102.31 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Podcast_Audio_Setup_5d354a10.jpg",
+      "size": 104404,
+      "sizeFormatted": "101.96 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Higher_Education_Deployment_Kit_e124065f.jpg",
+      "size": 102455,
+      "sizeFormatted": "100.05 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Agency_Case_Study_6de66494.jpg",
+      "size": 102269,
+      "sizeFormatted": "99.87 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Privacy_Preserving_AI_Paper_5a9a8a4a.jpg",
+      "size": 101358,
+      "sizeFormatted": "98.98 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Incident_Response_Course_d38ffd86.jpg",
+      "size": 101337,
+      "sizeFormatted": "98.96 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Dual_AI_architecture_visualization_59ff774f.jpg",
+      "size": 101252,
+      "sizeFormatted": "98.88 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_Incident_Response_ea29c3c7.jpg",
+      "size": 100145,
+      "sizeFormatted": "97.80 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Threat_Intelligence_Revolution_d66501ef.jpg",
+      "size": 100010,
+      "sizeFormatted": "97.67 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Success_Kit_Collection_aad5a657.jpg",
+      "size": 98004,
+      "sizeFormatted": "95.71 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Behavioral_Analytics_EBook_0c5ad824.jpg",
+      "size": 97554,
+      "sizeFormatted": "95.27 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_Automation_Success_2b4e2ceb.jpg",
+      "size": 97367,
+      "sizeFormatted": "95.08 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Government_Threat_Intelligence_aa6e2a67.jpg",
+      "size": 96015,
+      "sizeFormatted": "93.76 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_Deployment_Guide_660cca2b.jpg",
+      "size": 95043,
+      "sizeFormatted": "92.82 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Student_Data_Protection_acedb126.jpg",
+      "size": 93989,
+      "sizeFormatted": "91.79 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Zero-day_vulnerability_detection_concept_4a55e3a1.jpg",
+      "size": 93507,
+      "sizeFormatted": "91.32 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Multi_Agency_Collaboration_Platform_b50f0b2a.jpg",
+      "size": 93221,
+      "sizeFormatted": "91.04 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Implementation_Success_Kit_7462db64.jpg",
+      "size": 93151,
+      "sizeFormatted": "90.97 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Automated_Incident_Response_9b65f496.jpg",
+      "size": 92851,
+      "sizeFormatted": "90.67 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Future_AI_Security_Podcast_c84aa6b3.jpg",
+      "size": 91628,
+      "sizeFormatted": "89.48 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/FERPA_Compliance_Training_Video_c287b1a6.jpg",
+      "size": 91172,
+      "sizeFormatted": "89.04 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Morphlike_Cypher_AI_glassmorphism_53828ca6.jpg",
+      "size": 90700,
+      "sizeFormatted": "88.57 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_cybersecurity_intersection_illustration_87f5fc44.jpg",
+      "size": 90633,
+      "sizeFormatted": "88.51 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Government_AI_Security_Fundamentals_722b26ac.jpg",
+      "size": 90491,
+      "sizeFormatted": "88.37 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Data_Protection_Kit_32b1e468.jpg",
+      "size": 90077,
+      "sizeFormatted": "87.97 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Network_Infrastructure_Management_733af78c.jpg",
+      "size": 89893,
+      "sizeFormatted": "87.79 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Platform_Complete_Walkthrough_42b56e86.jpg",
+      "size": 89216,
+      "sizeFormatted": "87.13 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Shadow_AI_Detection_efe2f3db.jpg",
+      "size": 88562,
+      "sizeFormatted": "86.49 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Zero_Trust_Federal_UseCase_917a389e.jpg",
+      "size": 88465,
+      "sizeFormatted": "86.39 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_AI_Implementation_778c3628.jpg",
+      "size": 87949,
+      "sizeFormatted": "85.89 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_Network_Integration_b94f16b2.jpg",
+      "size": 87912,
+      "sizeFormatted": "85.85 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Zero_Trust_Architecture_Video_8765cbeb.jpg",
+      "size": 87362,
+      "sizeFormatted": "85.31 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecured_AI_leadership_team_8489771e.jpg",
+      "size": 87199,
+      "sizeFormatted": "85.16 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_Security_Podcast_d6549898.jpg",
+      "size": 85899,
+      "sizeFormatted": "83.89 KB"
+    },
+    {
+      "path": "attached_assets/sig-CAM_1757171427620.PNG",
+      "size": 85275,
+      "sizeFormatted": "83.28 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_AI_Security_Handbook_9586f7b5.jpg",
+      "size": 85073,
+      "sizeFormatted": "83.08 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Market_Research_Report_f84a91b6.jpg",
+      "size": 85069,
+      "sizeFormatted": "83.08 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Threat_Detection_Demo_94b2c9ed.jpg",
+      "size": 83595,
+      "sizeFormatted": "81.64 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Academic_Research_AI_Security_8041a1e2.jpg",
+      "size": 83385,
+      "sizeFormatted": "81.43 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/MFA_Deployment_Success_Kit_8350de83.jpg",
+      "size": 83222,
+      "sizeFormatted": "81.27 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Executive_Order_Compliance_fa53dcb9.jpg",
+      "size": 82263,
+      "sizeFormatted": "80.33 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_AI_Security_Handbook_220cb241.jpg",
+      "size": 81828,
+      "sizeFormatted": "79.91 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Security_Report_Analysis_a04e4b7e.jpg",
+      "size": 81254,
+      "sizeFormatted": "79.35 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_Research_Security_Course_aa9fd512.jpg",
+      "size": 80767,
+      "sizeFormatted": "78.87 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Compliance_Certification_2faa9e41.jpg",
+      "size": 79373,
+      "sizeFormatted": "77.51 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Implementation_d7886bac.jpg",
+      "size": 79224,
+      "sizeFormatted": "77.37 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Definitive_AI_Security_Handbook_11b99390.jpg",
+      "size": 78606,
+      "sizeFormatted": "76.76 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Certified_AI_Security_Professional_b3eb22a9.jpg",
+      "size": 78269,
+      "sizeFormatted": "76.43 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/User_Activity_Analytics_Report_3cf64d91.jpg",
+      "size": 78090,
+      "sizeFormatted": "76.26 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_EBook_8af07a80.jpg",
+      "size": 77479,
+      "sizeFormatted": "75.66 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Video_Training_Content_825592ee.jpg",
+      "size": 76695,
+      "sizeFormatted": "74.90 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Compliance_Automation_Video_c14385ca.jpg",
+      "size": 76648,
+      "sizeFormatted": "74.85 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/University_AI_Security_Handbook_1c87369e.jpg",
+      "size": 76531,
+      "sizeFormatted": "74.74 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Zero_Trust_Architecture_8c331bd5.jpg",
+      "size": 75682,
+      "sizeFormatted": "73.91 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_Podcast_172a246a.jpg",
+      "size": 75578,
+      "sizeFormatted": "73.81 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Field_Guide_a103de8a.jpg",
+      "size": 75140,
+      "sizeFormatted": "73.38 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_threat_intelligence_visualization_8a1adc0c.jpg",
+      "size": 73220,
+      "sizeFormatted": "71.50 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_Compliance_Webinar_ae1e454f.jpg",
+      "size": 72686,
+      "sizeFormatted": "70.98 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Security_ROI_White_Paper_c089a823.jpg",
+      "size": 72567,
+      "sizeFormatted": "70.87 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Threat_Report_2025_Cover_50b3edd9.jpg",
+      "size": 72379,
+      "sizeFormatted": "70.68 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Futuristic_cybersecurity_dashboard_metrics_36f2e14b.jpg",
+      "size": 72293,
+      "sizeFormatted": "70.60 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Student_Data_Protection_3f09fa2a.jpg",
+      "size": 72259,
+      "sizeFormatted": "70.57 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Campus_AI_Security_Webinar_032ea4d4.jpg",
+      "size": 72051,
+      "sizeFormatted": "70.36 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_DataSheet_102d9c28.jpg",
+      "size": 71785,
+      "sizeFormatted": "70.10 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Government_UseCase_Visual_d443e24d.jpg",
+      "size": 71743,
+      "sizeFormatted": "70.06 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Professional_biometric_face_front_view_9c52270e.jpg",
+      "size": 71076,
+      "sizeFormatted": "69.41 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Student_AI_Interactions_Course_ac59f45a.jpg",
+      "size": 70906,
+      "sizeFormatted": "69.24 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Microsoft_Sentinel_Integration_50e01dae.jpg",
+      "size": 70624,
+      "sizeFormatted": "68.97 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CrowdStrike_Falcon_Integration_b7b00887.jpg",
+      "size": 70179,
+      "sizeFormatted": "68.53 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Simplified_Security_Framework_40fa4e44.jpg",
+      "size": 69830,
+      "sizeFormatted": "68.19 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Platform_Overview_Datasheet_3d239cec.jpg",
+      "size": 69816,
+      "sizeFormatted": "68.18 KB"
+    },
+    {
+      "path": "attached_assets/Partner Stanford_1757954437931.webp",
+      "size": 69570,
+      "sizeFormatted": "67.94 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Interactive_Tutorial_5efec0ee.jpg",
+      "size": 69544,
+      "sizeFormatted": "67.91 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Secure_AI_Architecture_Course_34260e1d.jpg",
+      "size": 69024,
+      "sizeFormatted": "67.41 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_UseCase_44be3aae.jpg",
+      "size": 68856,
+      "sizeFormatted": "67.24 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Government_AI_Infrastructure_Paper_febb5409.jpg",
+      "size": 68731,
+      "sizeFormatted": "67.12 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/API_Development_Guide_301134f9.jpg",
+      "size": 68467,
+      "sizeFormatted": "66.86 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_Audit_Report_c7bd1ed8.jpg",
+      "size": 68174,
+      "sizeFormatted": "66.58 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_AI_Security_Course_83447dcc.jpg",
+      "size": 67608,
+      "sizeFormatted": "66.02 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Security_Analytics_Dashboard_ca1f5822.jpg",
+      "size": 66936,
+      "sizeFormatted": "65.37 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_MarketingReport_f6c089f4.jpg",
+      "size": 66866,
+      "sizeFormatted": "65.30 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_AI_Security_Implementation_7535be1e.jpg",
+      "size": 65294,
+      "sizeFormatted": "63.76 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_Risk_Management_5c6a0896.jpg",
+      "size": 65054,
+      "sizeFormatted": "63.53 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Compliance_Handbook_8fbedcba.jpg",
+      "size": 63968,
+      "sizeFormatted": "62.47 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Realistic_4D_biometric_face_scan_42621f9d.jpg",
+      "size": 63756,
+      "sizeFormatted": "62.26 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Interactive_Demo_Screen_fd45f543.jpg",
+      "size": 63663,
+      "sizeFormatted": "62.17 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_frameworks_visualization_grid_fed77837.jpg",
+      "size": 61622,
+      "sizeFormatted": "60.18 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_regulatory_compliance_illustration_4479e9d4.jpg",
+      "size": 61118,
+      "sizeFormatted": "59.69 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_Automation_Strategies_dd60a808.jpg",
+      "size": 61035,
+      "sizeFormatted": "59.60 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_Resources_1c29952b.jpg",
+      "size": 60929,
+      "sizeFormatted": "59.50 KB"
+    },
+    {
+      "path": "attached_assets/FISME_1757954427636.webp",
+      "size": 60452,
+      "sizeFormatted": "59.04 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Video_Training_Content_01f9408e.jpg",
+      "size": 59898,
+      "sizeFormatted": "58.49 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_SuccessKit_8dc59fb5.jpg",
+      "size": 59445,
+      "sizeFormatted": "58.05 KB"
+    },
+    {
+      "path": "attached_assets/SOC 2_1757954437932.webp",
+      "size": 58782,
+      "sizeFormatted": "57.40 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Network_Security_Demo_f519b96f.jpg",
+      "size": 58558,
+      "sizeFormatted": "57.19 KB"
+    },
+    {
+      "path": "attached_assets/NIST_1757954437923.webp",
+      "size": 58524,
+      "sizeFormatted": "57.15 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K12_Digital_Classroom_Webinar_ccef445f.jpg",
+      "size": 58127,
+      "sizeFormatted": "56.76 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_AI_Infrastructure_Webinar_73974936.jpg",
+      "size": 57209,
+      "sizeFormatted": "55.87 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Endpoint_Security_Management_60b6fce3.jpg",
+      "size": 57153,
+      "sizeFormatted": "55.81 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/AI_Infrastructure_Hardening_Webinar_b8dbbc10.jpg",
+      "size": 56308,
+      "sizeFormatted": "54.99 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Cloud_Security_Analytics_Platform_0c84c42d.jpg",
+      "size": 56030,
+      "sizeFormatted": "54.72 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_VideoTopic_8dc81963.jpg",
+      "size": 54668,
+      "sizeFormatted": "53.39 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Futuristic_infrastructure_architecture_diagram_afb3cf4b.jpg",
+      "size": 54477,
+      "sizeFormatted": "53.20 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/K-12_Privacy_Compliance_14461732.jpg",
+      "size": 54361,
+      "sizeFormatted": "53.09 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Azure_AD_SSO_Integration_0e96f0ea.jpg",
+      "size": 53337,
+      "sizeFormatted": "52.09 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Cybersecurity_Leadership_Award_64e0bf84.jpg",
+      "size": 52843,
+      "sizeFormatted": "51.60 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Platform_Demo_Video_23616ca7.jpg",
+      "size": 52817,
+      "sizeFormatted": "51.58 KB"
+    },
+    {
+      "path": "attached_assets/CyberSecured AI logo 2_1757954427635.webp",
+      "size": 51510,
+      "sizeFormatted": "50.30 KB"
+    },
+    {
+      "path": "attached_assets/CyberSecured AI logo_1757954427635.webp",
+      "size": 51510,
+      "sizeFormatted": "50.30 KB"
+    },
+    {
+      "path": "attached_assets/FERPA_1757954427636.webp",
+      "size": 51472,
+      "sizeFormatted": "50.27 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Client_Success_Story_e83fb121.jpg",
+      "size": 51400,
+      "sizeFormatted": "50.20 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/DataSheet_Document_Layout_5b72aac7.jpg",
+      "size": 51217,
+      "sizeFormatted": "50.02 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Federal_Education_Security_Success_147eb718.jpg",
+      "size": 49458,
+      "sizeFormatted": "48.30 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_Demo_66434319.jpg",
+      "size": 47967,
+      "sizeFormatted": "46.84 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Incident_Response_Demo_71885a42.jpg",
+      "size": 47941,
+      "sizeFormatted": "46.82 KB"
+    },
+    {
+      "path": "attached_assets/Partner - University_1757954437929.webp",
+      "size": 47896,
+      "sizeFormatted": "46.77 KB"
+    },
+    {
+      "path": "attached_assets/ISO_1757954427638.webp",
+      "size": 46108,
+      "sizeFormatted": "45.03 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/MacBook_Pro_cybersecurity_dashboard_87b7c231.jpg",
+      "size": 45971,
+      "sizeFormatted": "44.89 KB"
+    },
+    {
+      "path": "attached_assets/Partner - University of Cambridge_1757954437928.webp",
+      "size": 45224,
+      "sizeFormatted": "44.16 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_Integration_fb4936ed.jpg",
+      "size": 45132,
+      "sizeFormatted": "44.07 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Compliance_Dashboard_Demo_bbe28daf.jpg",
+      "size": 44693,
+      "sizeFormatted": "43.65 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/CyberSecure_AI_ClientStory_11562679.jpg",
+      "size": 41505,
+      "sizeFormatted": "40.53 KB"
+    },
+    {
+      "path": "attached_assets/FedRamp_1757954427635.webp",
+      "size": 40272,
+      "sizeFormatted": "39.33 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Large_clean_iMac_mockup_8681b1a2.png",
+      "size": 39574,
+      "sizeFormatted": "38.65 KB"
+    },
+    {
+      "path": "attached_assets/Partner - CA State Univeristy_1757954437924.webp",
+      "size": 34380,
+      "sizeFormatted": "33.57 KB"
+    },
+    {
+      "path": "attached_assets/Brooke Holden_1757954427634.webp",
+      "size": 32338,
+      "sizeFormatted": "31.58 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/EBook_Cover_Design_045c2e20.jpg",
+      "size": 30816,
+      "sizeFormatted": "30.09 KB"
+    },
+    {
+      "path": "attached_assets/Partner - MREA_1757954437926.webp",
+      "size": 30642,
+      "sizeFormatted": "29.92 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 12.28.30 PM_1757957319435.png",
+      "size": 29503,
+      "sizeFormatted": "28.81 KB"
+    },
+    {
+      "path": "attached_assets/Hunter_1757954427636.webp",
+      "size": 29284,
+      "sizeFormatted": "28.60 KB"
+    },
+    {
+      "path": "attached_assets/Mark_1757954427638.webp",
+      "size": 28668,
+      "sizeFormatted": "28.00 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Front_facing_iMac_desktop_mockup_b0cc3b8d.png",
+      "size": 28589,
+      "sizeFormatted": "27.92 KB"
+    },
+    {
+      "path": "attached_assets/Lucas_1757954427638.webp",
+      "size": 27562,
+      "sizeFormatted": "26.92 KB"
+    },
+    {
+      "path": "attached_assets/Camilia Anderson_1757954427634.webp",
+      "size": 26996,
+      "sizeFormatted": "26.36 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.59.14 AM_1757955598541.png",
+      "size": 26012,
+      "sizeFormatted": "25.40 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Transparent_background_iMac_mockup_761aab24.png",
+      "size": 23976,
+      "sizeFormatted": "23.41 KB"
+    },
+    {
+      "path": "attached_assets/Aalia_1757954427631.webp",
+      "size": 23756,
+      "sizeFormatted": "23.20 KB"
+    },
+    {
+      "path": "attached_assets/generated_images/Clean_transparent_iMac_frame_2795ad4e.png",
+      "size": 23595,
+      "sizeFormatted": "23.04 KB"
+    },
+    {
+      "path": "attached_assets/Asalah_1757954427633.webp",
+      "size": 22740,
+      "sizeFormatted": "22.21 KB"
+    },
+    {
+      "path": "attached_assets/Cecilia_1757954427634.webp",
+      "size": 21838,
+      "sizeFormatted": "21.33 KB"
+    },
+    {
+      "path": "attached_assets/Sarah Chen_1757954437932.webp",
+      "size": 20638,
+      "sizeFormatted": "20.15 KB"
+    },
+    {
+      "path": "attached_assets/Partner - MIT_1757954437926.webp",
+      "size": 16052,
+      "sizeFormatted": "15.68 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.58.00 AM_1757955610069.png",
+      "size": 9238,
+      "sizeFormatted": "9.02 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.57.54 AM_1757955610064.png",
+      "size": 7286,
+      "sizeFormatted": "7.12 KB"
+    },
+    {
+      "path": "attached_assets/Screen Shot 2025-09-15 at 11.57.57 AM_1757955610068.png",
+      "size": 7163,
+      "sizeFormatted": "7.00 KB"
+    }
+  ]
+}
