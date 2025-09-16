@@ -12,10 +12,8 @@
 import { spawn } from 'child_process';
 import { EventEmitter } from 'events';
 import path from 'path';
-import { geneticMemoryStore } from '../services/genetic-memory-store.js';
-import NeuralArchitectureSearchEngine from './neural-architecture-search.js';
-import MeetingIntelligenceService from '../services/meeting-intelligence.js';
-import FederatedLearningEnhancement from '../services/federated-learning-enhancement.js';
+import { GeneticMemoryStore } from '../services/genetic-memory-store.js';
+import type { DbProvider } from '../db.js';
 
 export interface GeneticIndividual {
   id: string;
@@ -55,17 +53,27 @@ export interface FederatedLearningNode {
   contribution: number;
 }
 
+export interface CypherAIGeneticEngineOptions {
+  dbProvider?: DbProvider;
+  geneticMemoryStore?: GeneticMemoryStore;
+}
+
 export class CypherAIGeneticEngine extends EventEmitter {
   private populations: Map<string, GeneticPopulation> = new Map();
   private federatedNodes: Map<string, FederatedLearningNode> = new Map();
   private isEvolutionActive: boolean = false;
   private currentGeneration: number = 0;
   private pythonProcess: any = null;
+  private isStarted: boolean = false;
+  private startPromise: Promise<void> | null = null;
   
-  // Phase 2: Enhanced AI Components
-  private nasEngine: NeuralArchitectureSearchEngine;
-  private meetingIntelligence: MeetingIntelligenceService;
-  private federatedLearning: FederatedLearningEnhancement;
+  // Injected dependencies
+  private geneticMemoryStore: GeneticMemoryStore;
+  
+  // Phase 2: Enhanced AI Components (lazy loaded)
+  private nasEngine: any = null;
+  private meetingIntelligence: any = null;
+  private federatedLearning: any = null;
   
   // Genetic Algorithm Parameters
   private readonly POPULATION_SIZE = 100;
@@ -75,24 +83,43 @@ export class CypherAIGeneticEngine extends EventEmitter {
   private readonly MAX_GENERATIONS = 1000;
   private readonly TARGET_ACCURACY = 99.2; // 99.2% target accuracy
 
-  constructor() {
+  constructor(options: CypherAIGeneticEngineOptions = {}) {
     super();
-    // Initialize Phase 2 components
-    this.nasEngine = new NeuralArchitectureSearchEngine();
-    this.meetingIntelligence = new MeetingIntelligenceService();
-    this.federatedLearning = new FederatedLearningEnhancement();
     
-    this.initializeEngine();
-    this.initializeMemoryStore();
+    // Dependency injection with lazy fallbacks
+    this.geneticMemoryStore = options.geneticMemoryStore || new GeneticMemoryStore({
+      dbProvider: options.dbProvider
+    });
+    
+    console.log('🧬 Cypher AI Genetic Engine constructed (lazy mode - call start() to initialize)');
   }
 
   /**
-   * Initialize the Cypher AI Genetic Engine
+   * Start and initialize the Cypher AI Genetic Engine
+   * This method is idempotent and safe to call multiple times
    */
-  async initializeEngine(): Promise<void> {
-    console.log('🧬 Initializing Cypher AI Genetic Algorithm Engine...');
+  async start(): Promise<void> {
+    if (this.startPromise) {
+      return this.startPromise;
+    }
+
+    this.startPromise = this.performStart();
+    return this.startPromise;
+  }
+
+  /**
+   * Perform one-time initialization of the engine
+   */
+  private async performStart(): Promise<void> {
+    if (this.isStarted) {
+      return;
+    }
+    console.log('🧬 Starting Cypher AI Genetic Algorithm Engine...');
     
     try {
+      // Lazy load Phase 2 components
+      await this.loadServices();
+      
       // Initialize sector-specific populations
       await this.initializeSectorPopulations();
       
@@ -105,12 +132,69 @@ export class CypherAIGeneticEngine extends EventEmitter {
       // Initialize federated learning network
       this.initializeFederatedLearning();
       
-      console.log('✅ Cypher AI Genetic Engine initialized successfully');
-      this.emit('engineInitialized');
+      this.isStarted = true;
+      console.log('✅ Cypher AI Genetic Engine started successfully');
+      this.emit('engineStarted');
       
     } catch (error) {
-      console.error('❌ Failed to initialize Cypher AI Genetic Engine:', error);
+      console.error('❌ Failed to start Cypher AI Genetic Engine:', error);
       this.emit('engineError', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Lazy load services only when the engine starts
+   */
+  private async loadServices(): Promise<void> {
+    console.log('📦 Loading AI services...');
+    
+    try {
+      // Dynamic imports to avoid loading services during construction
+      const [NeuralArchitectureSearchEngine, MeetingIntelligenceService, FederatedLearningEnhancement] = await Promise.all([
+        import('./neural-architecture-search.js').then(m => m.default).catch(() => null),
+        import('../services/meeting-intelligence.js').then(m => m.default).catch(() => null),
+        import('../services/federated-learning-enhancement.js').then(m => m.default).catch(() => null)
+      ]);
+      
+      // Initialize services if available
+      if (NeuralArchitectureSearchEngine) {
+        this.nasEngine = new NeuralArchitectureSearchEngine();
+        console.log('✅ Neural Architecture Search Engine loaded');
+      } else {
+        console.log('⚠️ Neural Architecture Search Engine not available');
+      }
+      
+      if (MeetingIntelligenceService) {
+        this.meetingIntelligence = new MeetingIntelligenceService();
+        console.log('✅ Meeting Intelligence Service loaded');
+      } else {
+        console.log('⚠️ Meeting Intelligence Service not available');
+      }
+      
+      if (FederatedLearningEnhancement) {
+        this.federatedLearning = new FederatedLearningEnhancement();
+        console.log('✅ Federated Learning Enhancement loaded');
+      } else {
+        console.log('⚠️ Federated Learning Enhancement not available');
+      }
+      
+    } catch (error) {
+      console.error('❌ Failed to load some services:', error);
+      // Continue without failing - services are optional
+    }
+  }
+
+  /**
+   * Ensure the engine is started before performing operations
+   */
+  private async ensureStarted(): Promise<void> {
+    if (!this.isStarted && !this.startPromise) {
+      throw new Error('Cypher AI Genetic Engine not started. Call start() first.');
+    }
+    
+    if (this.startPromise) {
+      await this.startPromise;
     }
   }
 
@@ -265,18 +349,6 @@ export class CypherAIGeneticEngine extends EventEmitter {
     });
   }
 
-  /**
-   * Initialize memory store integration
-   */
-  private async initializeMemoryStore(): Promise<void> {
-    console.log('🧠 Initializing multi-generational memory store...');
-    try {
-      // Memory store automatically initializes database
-      console.log('✅ Multi-generational memory store ready');
-    } catch (error) {
-      console.error('❌ Failed to initialize memory store:', error);
-    }
-  }
 
   /**
    * Load previous generations from memory store
@@ -286,7 +358,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
     
     for (const sector of ['FERPA', 'FISMA', 'CIPA', 'GENERAL']) {
       try {
-        const history = await geneticMemoryStore.getGenerationHistory(sector, 10);
+        const history = await this.geneticMemoryStore.getGenerationHistory(sector, 10);
         if (history.length > 0) {
           const latestGeneration = history[0];
           console.log(`📖 Found ${history.length} previous generations for ${sector} (latest: gen ${latestGeneration.generation})`);
@@ -295,7 +367,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
           this.currentGeneration = Math.max(this.currentGeneration, latestGeneration.generation);
           
           // Load best individuals for seeding
-          const bestIndividuals = await geneticMemoryStore.getBestIndividuals(sector, 5);
+          const bestIndividuals = await this.geneticMemoryStore.getBestIndividuals(sector, 5);
           if (bestIndividuals.length > 0) {
             const population = this.populations.get(sector);
             if (population) {
@@ -348,6 +420,8 @@ export class CypherAIGeneticEngine extends EventEmitter {
    * Start genetic algorithm evolution process
    */
   async startEvolution(): Promise<void> {
+    await this.ensureStarted();
+    
     if (this.isEvolutionActive) {
       console.log('⚠️ Evolution already in progress');
       return;
@@ -388,7 +462,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
       
       // Store generation in memory store for persistence
       try {
-        await geneticMemoryStore.storeGeneration(population, {
+        await this.geneticMemoryStore.storeGeneration(population, {
           mutationRate: this.MUTATION_RATE,
           crossoverRate: this.CROSSOVER_RATE,
           eliteSize: this.ELITE_SIZE,
@@ -414,7 +488,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
       
       // Cleanup old generations periodically
       if (population.generation % 100 === 0) {
-        await geneticMemoryStore.cleanupOldGenerations(sector, 500);
+        await this.geneticMemoryStore.cleanupOldGenerations(sector, 500);
       }
     }
   }
@@ -434,7 +508,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
   private async calculateFitness(individual: GeneticIndividual): Promise<number> {
     // Check fitness cache first
     const startTime = Date.now();
-    const cached = await geneticMemoryStore.getCachedFitness(individual.genome, individual.sector);
+    const cached = await this.geneticMemoryStore.getCachedFitness(individual.genome, individual.sector);
     if (cached) {
       console.log(`💾 Using cached fitness for ${individual.id}: ${cached.fitness.toFixed(2)}`);
       return cached.fitness;
@@ -462,7 +536,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
     const evaluationTime = Date.now() - startTime;
     
     // Cache the fitness evaluation
-    await geneticMemoryStore.cacheFitnessEvaluation(
+    await this.geneticMemoryStore.cacheFitnessEvaluation(
       individual.genome, 
       individual.sector, 
       finalFitness, 
@@ -681,7 +755,7 @@ export class CypherAIGeneticEngine extends EventEmitter {
       node.contribution = Math.min(1.0, node.contribution + 0.01);
       
       // Store federated node state in memory store
-      await geneticMemoryStore.storeFederatedNode(node);
+      await this.geneticMemoryStore.storeFederatedNode(node);
     }
     
     this.emit('federatedSync', { sector, nodesCount: relevantNodes.length });
@@ -714,7 +788,14 @@ export class CypherAIGeneticEngine extends EventEmitter {
   /**
    * Stop evolution process
    */
-  stopEvolution(): void {
+  async stopEvolution(): Promise<void> {
+    await this.ensureStarted();
+    
+    if (!this.isEvolutionActive) {
+      console.log('ℹ️ Evolution is not active');
+      return;
+    }
+    
     this.isEvolutionActive = false;
     console.log('🛑 Stopping Cypher AI genetic evolution');
     this.emit('evolutionStopped');
@@ -723,21 +804,25 @@ export class CypherAIGeneticEngine extends EventEmitter {
   /**
    * Get current population status
    */
-  getPopulationStatus(): Map<string, GeneticPopulation> {
+  async getPopulationStatus(): Promise<Map<string, GeneticPopulation>> {
+    await this.ensureStarted();
     return new Map(this.populations);
   }
 
   /**
    * Get federated learning network status
    */
-  getFederatedNetworkStatus(): Map<string, FederatedLearningNode> {
+  async getFederatedNetworkStatus(): Promise<Map<string, FederatedLearningNode>> {
+    await this.ensureStarted();
     return new Map(this.federatedNodes);
   }
 
   /**
    * Get best performing individual for a sector
    */
-  getBestIndividual(sector: string): GeneticIndividual | null {
+  async getBestIndividual(sector: string): Promise<GeneticIndividual | null> {
+    await this.ensureStarted();
+    
     const population = this.populations.get(sector);
     if (!population || population.individuals.length === 0) return null;
     
@@ -749,7 +834,9 @@ export class CypherAIGeneticEngine extends EventEmitter {
    * Deploy evolved policy to production
    */
   async deployPolicy(sector: string): Promise<boolean> {
-    const bestIndividual = this.getBestIndividual(sector);
+    await this.ensureStarted();
+    
+    const bestIndividual = await this.getBestIndividual(sector);
     if (!bestIndividual) {
       console.error(`No best individual found for sector ${sector}`);
       return false;
@@ -768,19 +855,112 @@ export class CypherAIGeneticEngine extends EventEmitter {
   }
 
   /**
-   * Cleanup resources
+   * Stop the engine and cleanup resources
    */
-  async shutdown(): Promise<void> {
-    this.stopEvolution();
-    
-    if (this.pythonProcess && !this.pythonProcess.killed) {
-      this.pythonProcess.kill();
+  async stop(): Promise<void> {
+    if (!this.isStarted) {
+      console.log('ℹ️ Engine is not started');
+      return;
     }
     
+    console.log('🛑 Stopping Cypher AI Genetic Engine...');
+    
+    // Stop evolution if active
+    if (this.isEvolutionActive) {
+      this.isEvolutionActive = false;
+      this.emit('evolutionStopped');
+    }
+    
+    // Close Python process if running
+    if (this.pythonProcess && !this.pythonProcess.killed) {
+      this.pythonProcess.kill();
+      this.pythonProcess = null;
+      console.log('🐍 Python backend process terminated');
+    }
+    
+    // Clear internal state
     this.populations.clear();
     this.federatedNodes.clear();
+    this.currentGeneration = 0;
     
-    console.log('🛑 Cypher AI Genetic Engine shutdown complete');
+    this.isStarted = false;
+    this.startPromise = null;
+    
+    console.log('✅ Cypher AI Genetic Engine stopped');
+    this.emit('engineStopped');
+  }
+
+  /**
+   * Check if the engine is ready for operations
+   */
+  isReady(): boolean {
+    return this.isStarted;
+  }
+
+  /**
+   * Get current evolution status
+   */
+  async getEvolutionStatus(): Promise<{
+    isActive: boolean;
+    currentGeneration: number;
+    sectors: string[];
+    populationStats: { [sector: string]: { bestFitness: number; averageFitness: number; } };
+  }> {
+    await this.ensureStarted();
+    
+    const populationStats: { [sector: string]: { bestFitness: number; averageFitness: number; } } = {};
+    
+    for (const [sector, population] of this.populations) {
+      populationStats[sector] = {
+        bestFitness: population.bestFitness,
+        averageFitness: population.averageFitness
+      };
+    }
+    
+    return {
+      isActive: this.isEvolutionActive,
+      currentGeneration: this.currentGeneration,
+      sectors: Array.from(this.populations.keys()),
+      populationStats
+    };
+  }
+
+  /**
+   * Alias for backward compatibility
+   * @deprecated Use stop() instead
+   */
+  async shutdown(): Promise<void> {
+    console.warn('shutdown() is deprecated. Use stop() instead.');
+    await this.stop();
+  }
+}
+
+// Factory function for creating engine with proper dependency injection
+export function createCypherAIGeneticEngine(options: CypherAIGeneticEngineOptions = {}): CypherAIGeneticEngine {
+  return new CypherAIGeneticEngine(options);
+}
+
+// Singleton instance (lazy)
+let _engineInstance: CypherAIGeneticEngine | null = null;
+
+/**
+ * Get or create the singleton Cypher AI Genetic Engine instance
+ * This is a lazy factory that creates the engine only when first requested
+ */
+export function getCypherAIGeneticEngine(options: CypherAIGeneticEngineOptions = {}): CypherAIGeneticEngine {
+  if (!_engineInstance) {
+    _engineInstance = new CypherAIGeneticEngine(options);
+  }
+  return _engineInstance;
+}
+
+/**
+ * Reset the singleton instance (useful for testing)
+ */
+export function resetCypherAIGeneticEngine(): void {
+  if (_engineInstance) {
+    _engineInstance.stop().catch(console.error);
+    _engineInstance = null;
   }
 }
 
