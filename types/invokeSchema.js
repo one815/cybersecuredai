@@ -14,4 +14,3 @@ export const InvokeSchema = z.object({
   }).optional()
 });
 
-export type InvokeRequest = z.infer<typeof InvokeSchema>;

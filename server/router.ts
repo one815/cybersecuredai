@@ -4,6 +4,7 @@ import { InvokeSchema } from '../types/invokeSchema.js';
 import server from './index.js';
 import { pickProvider } from './routing.js';
 import { MockProvider } from './providers/mockProvider.js';
+import { OpenAIProvider } from './providers/openai.js';
 import { createLogger } from './utils/logging.js';
 import { estimateCost } from './utils/cost.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -29,8 +30,13 @@ export const routerPlugin = fp(async (fastify) => {
     const providerName = pickProvider(payload);
     logger.info({ id, provider: providerName }, 'invoke:chosen_provider');
 
-    // currently implement only mock provider adapter
-    const provider = new MockProvider({ name: providerName });
+    // select provider implementation
+    let provider: any;
+    if (providerName === 'openai') {
+      provider = new OpenAIProvider();
+    } else {
+      provider = new MockProvider({ name: providerName });
+    }
 
     try {
       const res = await provider.invoke(payload, { timeoutMs: 3000 });
