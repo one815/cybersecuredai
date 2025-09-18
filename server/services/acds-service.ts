@@ -1510,6 +1510,429 @@ export class ACDSService extends EventEmitter {
     return drone;
   }
 
+  // ===== CyDEF Genetic Algorithm Integration =====
+
+  /**
+   * Get CyDEF genetic algorithm recommendations for drone deployment decisions
+   */
+  async getCydefDeploymentRecommendations(threatData: any, availableDrones: AcdsDrone[]): Promise<any> {
+    if (!this.cydefService) {
+      console.warn('⚠️ CyDEF service not available for deployment recommendations');
+      return null;
+    }
+
+    try {
+      // Process threat through CyDEF genetic algorithms
+      const threatResponse = await this.cydefService.processThreat(threatData);
+      
+      // Calculate optimal drone deployment based on GA recommendations
+      const deploymentRecommendation = {
+        responseType: threatResponse.responseType,
+        confidence: threatResponse.confidenceScore,
+        geneticGeneration: threatResponse.geneticAlgorithmGeneration,
+        recommendedDrones: this.selectOptimalDronesForThreat(threatData, availableDrones, threatResponse),
+        formationPattern: this.calculateOptimalFormation(threatData, threatResponse),
+        coordinationAlgorithm: this.selectCoordinationAlgorithm(threatResponse),
+        autonomyLevel: this.determineAutonomyLevel(threatResponse),
+        deploymentPriority: this.calculateDeploymentPriority(threatData, threatResponse),
+        estimatedEffectiveness: this.estimateDeploymentEffectiveness(threatResponse),
+        riskAssessment: this.assessDeploymentRisk(threatData, threatResponse)
+      };
+
+      console.log(`🧬 CyDEF deployment recommendation generated for threat with ${threatResponse.confidenceScore}% confidence`);
+      return deploymentRecommendation;
+    } catch (error) {
+      console.error('❌ Failed to get CyDEF deployment recommendations:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Process threat and autonomously deploy drones using CyDEF genetic algorithm insights
+   */
+  async processThreatwithAutonomousDeployment(threat: any): Promise<SwarmCoordinationDecision> {
+    console.log(`🚁 Processing threat for autonomous deployment: ${threat.type || 'unknown'}`);
+    
+    const startTime = Date.now();
+    
+    try {
+      // Get available drones for deployment
+      const availableDrones = Array.from(this.drones.values()).filter(
+        drone => drone.currentStatus === 'standby' || drone.currentStatus === 'patrol'
+      );
+
+      if (availableDrones.length === 0) {
+        throw new Error('No drones available for autonomous deployment');
+      }
+
+      // Get CyDEF genetic algorithm recommendations
+      const cydefRecommendation = await this.getCydefDeploymentRecommendations(threat, availableDrones);
+      
+      if (!cydefRecommendation) {
+        throw new Error('Failed to get CyDEF deployment recommendations');
+      }
+
+      // Create coordination decision based on genetic algorithm insights
+      const coordinationDecision: SwarmCoordinationDecision = {
+        coordinationId: `coord-${Date.now()}`,
+        decisionType: 'threat_response',
+        participatingDrones: cydefRecommendation.recommendedDrones.map((d: any) => d.droneId),
+        algorithmUsed: 'genetic_algorithm',
+        inputData: {
+          threat: threat,
+          availableDrones: availableDrones.length,
+          threatSeverity: threat.severity || 'medium',
+          location: threat.location
+        },
+        decision: {
+          deploymentPattern: cydefRecommendation.formationPattern,
+          coordinationAlgorithm: cydefRecommendation.coordinationAlgorithm,
+          autonomyLevel: cydefRecommendation.autonomyLevel,
+          estimatedDuration: cydefRecommendation.estimatedDuration || 3600,
+          priority: cydefRecommendation.deploymentPriority
+        },
+        confidence: cydefRecommendation.confidence,
+        executionTime: Date.now() - startTime,
+        cydefIntegration: {
+          generation: cydefRecommendation.geneticGeneration || 0,
+          fitnessScore: cydefRecommendation.estimatedEffectiveness || 0,
+          recommendation: cydefRecommendation
+        }
+      };
+
+      // Execute autonomous deployment
+      await this.executeAutonomousDeployment(coordinationDecision, threat);
+
+      // Record coordination decision
+      await this.recordCoordinationDecision(coordinationDecision);
+
+      this.emit('threat_response_deployed', coordinationDecision);
+      
+      console.log(`✅ Autonomous threat response deployment completed in ${coordinationDecision.executionTime}ms`);
+      return coordinationDecision;
+
+    } catch (error) {
+      console.error('❌ Failed to process threat with autonomous deployment:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Select optimal drones for threat response based on CyDEF recommendations
+   */
+  private selectOptimalDronesForThreat(threat: any, availableDrones: AcdsDrone[], cydefResponse: any): AcdsDrone[] {
+    // Sort drones by suitability for threat type
+    const suitabilityScores = availableDrones.map(drone => ({
+      drone,
+      score: this.calculateDroneSuitabilityScore(drone, threat, cydefResponse)
+    }));
+
+    // Sort by score and select top drones
+    suitabilityScores.sort((a, b) => b.score - a.score);
+    
+    // Determine number of drones needed based on threat severity and CyDEF confidence
+    const droneCount = this.calculateRequiredDroneCount(threat, cydefResponse);
+    
+    return suitabilityScores.slice(0, droneCount).map(item => item.drone);
+  }
+
+  /**
+   * Calculate drone suitability score for specific threat
+   */
+  private calculateDroneSuitabilityScore(drone: AcdsDrone, threat: any, cydefResponse: any): number {
+    let score = 0;
+    
+    // Base score from drone health and battery
+    score += (drone.operationalHealth / 100) * 30;
+    score += (drone.batteryLevel / 100) * 20;
+    
+    // Drone type suitability for threat
+    if (threat.type === 'network_intrusion' && drone.droneType === 'threat_hunter') score += 25;
+    if (threat.type === 'malware_detection' && drone.droneType === 'cyber_patrol') score += 25;
+    if (threat.type === 'data_exfiltration' && drone.droneType === 'response_unit') score += 25;
+    if (threat.type === 'unknown' && drone.droneType === 'surveillance') score += 15;
+    
+    // CyDEF confidence bonus
+    score += (cydefResponse.confidenceScore / 100) * 15;
+    
+    // Swarm role suitability
+    if (drone.swarmRole === 'leader') score += 10;
+    if (drone.swarmRole === 'specialist') score += 8;
+    
+    return Math.min(score, 100);
+  }
+
+  /**
+   * Calculate required drone count based on threat and CyDEF analysis
+   */
+  private calculateRequiredDroneCount(threat: any, cydefResponse: any): number {
+    let baseCount = 2; // Minimum swarm size
+    
+    // Adjust based on threat severity
+    switch (threat.severity) {
+      case 'critical': baseCount = 4; break;
+      case 'high': baseCount = 3; break;
+      case 'medium': baseCount = 2; break;
+      case 'low': baseCount = 1; break;
+    }
+    
+    // Adjust based on CyDEF confidence (lower confidence = more drones)
+    if (cydefResponse.confidenceScore < 70) baseCount += 1;
+    if (cydefResponse.confidenceScore < 50) baseCount += 1;
+    
+    return Math.min(baseCount, 6); // Maximum 6 drones per threat
+  }
+
+  /**
+   * Calculate optimal formation pattern based on CyDEF recommendations
+   */
+  private calculateOptimalFormation(threat: any, cydefResponse: any): string {
+    const confidence = cydefResponse.confidenceScore;
+    
+    // High confidence threats use focused formations
+    if (confidence > 80) {
+      return threat.type === 'network_intrusion' ? 'triangle' : 'line';
+    }
+    
+    // Medium confidence uses distributed formations
+    if (confidence > 60) {
+      return 'circle';
+    }
+    
+    // Low confidence uses wide coverage
+    return 'grid';
+  }
+
+  /**
+   * Select coordination algorithm based on CyDEF analysis
+   */
+  private selectCoordinationAlgorithm(cydefResponse: any): string {
+    // Use genetic algorithm insights to choose best coordination method
+    if (cydefResponse.confidenceScore > 85) {
+      return 'ai_optimized'; // High confidence allows AI optimization
+    }
+    
+    if (cydefResponse.responseType === 'escalate') {
+      return 'hierarchical'; // Escalations need clear command structure
+    }
+    
+    return 'distributed_consensus'; // Default to robust consensus
+  }
+
+  /**
+   * Determine autonomy level based on CyDEF recommendations
+   */
+  private determineAutonomyLevel(cydefResponse: any): string {
+    // Higher CyDEF confidence allows more autonomy
+    if (cydefResponse.confidenceScore > 90) return 'autonomous';
+    if (cydefResponse.confidenceScore > 70) return 'semi_autonomous';
+    return 'manual';
+  }
+
+  /**
+   * Calculate deployment priority based on threat and CyDEF analysis
+   */
+  private calculateDeploymentPriority(threat: any, cydefResponse: any): string {
+    const confidence = cydefResponse.confidenceScore;
+    
+    if (threat.severity === 'critical' && confidence > 80) return 'emergency';
+    if (threat.severity === 'high' || confidence > 90) return 'high';
+    if (threat.severity === 'medium' && confidence > 60) return 'medium';
+    return 'low';
+  }
+
+  /**
+   * Estimate deployment effectiveness based on CyDEF analysis
+   */
+  private estimateDeploymentEffectiveness(cydefResponse: any): number {
+    // Base effectiveness on CyDEF confidence and response type
+    let effectiveness = cydefResponse.confidenceScore;
+    
+    // Adjust based on response type
+    switch (cydefResponse.responseType) {
+      case 'isolate': effectiveness += 10; break;
+      case 'block': effectiveness += 8; break;
+      case 'quarantine': effectiveness += 12; break;
+      case 'monitor': effectiveness -= 5; break;
+      case 'escalate': effectiveness -= 10; break;
+    }
+    
+    return Math.min(Math.max(effectiveness, 0), 100);
+  }
+
+  /**
+   * Assess deployment risk based on threat and CyDEF analysis
+   */
+  private assessDeploymentRisk(threat: any, cydefResponse: any): any {
+    return {
+      operationalRisk: cydefResponse.confidenceScore < 60 ? 'high' : 'low',
+      batteryRisk: this.calculateBatteryRisk(),
+      weatherRisk: 'low', // Would integrate with weather service
+      airspaceRisk: 'medium', // Would check airspace restrictions
+      collisionRisk: this.calculateCollisionRisk(),
+      overallRisk: cydefResponse.confidenceScore > 80 ? 'low' : 'medium'
+    };
+  }
+
+  /**
+   * Execute autonomous deployment based on coordination decision
+   */
+  private async executeAutonomousDeployment(decision: SwarmCoordinationDecision, threat: any): Promise<void> {
+    console.log(`🚁 Executing autonomous deployment for ${decision.participatingDrones.length} drones`);
+    
+    const deployments: AcdsDeployment[] = [];
+    
+    for (const droneId of decision.participatingDrones) {
+      const drone = this.drones.get(droneId);
+      if (!drone) continue;
+      
+      // Calculate deployment position based on threat location and formation
+      const deploymentPosition = this.calculateDeploymentPosition(
+        threat.location, 
+        decision.decision.deploymentPattern,
+        decision.participatingDrones.indexOf(droneId)
+      );
+      
+      // Create deployment
+      const deployment = await this.deployDrone(droneId, {
+        deploymentType: 'autonomous_threat_response',
+        targetLatitude: deploymentPosition.latitude,
+        targetLongitude: deploymentPosition.longitude,
+        targetAltitude: deploymentPosition.altitude || 150,
+        missionId: null, // Autonomous deployments don't need pre-planned missions
+        priority: decision.decision.priority,
+        estimatedDuration: decision.decision.estimatedDuration,
+        cydefIntegration: decision.cydefIntegration
+      });
+      
+      deployments.push(deployment);
+    }
+    
+    console.log(`✅ ${deployments.length} drones deployed autonomously`);
+  }
+
+  /**
+   * Calculate deployment position for drone based on formation pattern
+   */
+  private calculateDeploymentPosition(threatLocation: any, pattern: string, droneIndex: number): any {
+    const basePosition = {
+      latitude: parseFloat(threatLocation.latitude || '38.8951'),
+      longitude: parseFloat(threatLocation.longitude || '-77.0364'),
+      altitude: 150
+    };
+    
+    const spacing = 0.001; // ~100 meters
+    
+    switch (pattern) {
+      case 'triangle':
+        return {
+          latitude: basePosition.latitude + (droneIndex % 3 - 1) * spacing,
+          longitude: basePosition.longitude + Math.floor(droneIndex / 3) * spacing,
+          altitude: basePosition.altitude
+        };
+        
+      case 'circle':
+        const angle = (droneIndex * 2 * Math.PI) / 6; // Up to 6 drones in circle
+        return {
+          latitude: basePosition.latitude + Math.cos(angle) * spacing,
+          longitude: basePosition.longitude + Math.sin(angle) * spacing,
+          altitude: basePosition.altitude
+        };
+        
+      case 'line':
+        return {
+          latitude: basePosition.latitude,
+          longitude: basePosition.longitude + droneIndex * spacing,
+          altitude: basePosition.altitude
+        };
+        
+      case 'grid':
+      default:
+        return {
+          latitude: basePosition.latitude + (droneIndex % 3 - 1) * spacing,
+          longitude: basePosition.longitude + Math.floor(droneIndex / 3) * spacing,
+          altitude: basePosition.altitude
+        };
+    }
+  }
+
+  /**
+   * Record coordination decision for analytics and audit trail
+   */
+  private async recordCoordinationDecision(decision: SwarmCoordinationDecision): Promise<void> {
+    try {
+      const coordinationRecord = {
+        coordinationEventId: decision.coordinationId,
+        eventType: decision.decisionType,
+        organizationId: this.config.organizationId,
+        swarmId: `swarm-${this.config.organizationId}`,
+        participatingDrones: decision.participatingDrones,
+        algorithmUsed: decision.algorithmUsed,
+        inputData: decision.inputData,
+        coordinationDecision: decision.decision,
+        confidence: decision.confidence,
+        executionTimeMs: decision.executionTime,
+        geneticAlgorithmGeneration: decision.cydefIntegration?.generation || null,
+        geneticAlgorithmFitness: decision.cydefIntegration?.fitnessScore || null,
+        cydefRecommendation: decision.cydefIntegration?.recommendation || null,
+        timestamp: new Date()
+      };
+      
+      // Store coordination record (would use storage interface in real implementation)
+      console.log(`📊 Coordination decision recorded: ${decision.coordinationId}`);
+      
+    } catch (error) {
+      console.error('❌ Failed to record coordination decision:', error);
+    }
+  }
+
+  /**
+   * Calculate battery risk across fleet
+   */
+  private calculateBatteryRisk(): string {
+    const dronesArray = Array.from(this.drones.values());
+    const averageBattery = dronesArray.reduce((sum, drone) => sum + drone.batteryLevel, 0) / dronesArray.length;
+    
+    if (averageBattery < 30) return 'high';
+    if (averageBattery < 60) return 'medium';
+    return 'low';
+  }
+
+  /**
+   * Calculate collision risk based on active deployments
+   */
+  private calculateCollisionRisk(): string {
+    const activeCount = this.activeDeployments.size;
+    
+    if (activeCount > 10) return 'high';
+    if (activeCount > 5) return 'medium';
+    return 'low';
+  }
+
+  /**
+   * Integrate with CyDEF system status for comprehensive threat intelligence
+   */
+  async getCydefSystemStatus(): Promise<any> {
+    if (!this.cydefService) {
+      return null;
+    }
+    
+    try {
+      const systemStatus = await this.cydefService.getSystemStatus();
+      return {
+        geneticAlgorithmStatus: systemStatus[0]?.geneticAlgorithmStatus || 'stopped',
+        currentGeneration: systemStatus[0]?.currentGeneration || 0,
+        bestFitnessScore: systemStatus[0]?.bestFitnessScore || 0,
+        actualAccuracy: systemStatus[0]?.actualAccuracy || 0,
+        autonomousMode: systemStatus[0]?.autonomousMode || false,
+        lastEvolutionCycle: systemStatus[0]?.lastEvolutionCycle
+      };
+    } catch (error) {
+      console.error('❌ Failed to get CyDEF system status:', error);
+      return null;
+    }
+  }
+
   /**
    * Inject service dependencies
    */

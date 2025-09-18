@@ -11108,6 +11108,319 @@ startxref
       });
 
       console.log('📍 Live Location WebSocket server initialized at /ws/live-location');
+
+      // ===== ACDS (Autonomous Cyber Defense Swarm) WebSocket Support =====
+
+      // ACDS WebSocket endpoint for real-time drone swarm coordination
+      const acdsWss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/acds'
+      });
+
+      acdsWss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid ACDS WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/acds') {
+          console.warn(`⚠️ ACDS WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ ACDS WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ ACDS WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ ACDS WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🚁 Swarm access granted for: ${payload.userId}`);
+        
+        // Track connection time for analytics
+        (ws as any).connectedAt = new Date().toISOString();
+        (ws as any).userId = payload.userId;
+        (ws as any).userEmail = payload.email;
+        
+        // Send welcome message with initial swarm status
+        ws.send(JSON.stringify({
+          type: 'welcome',
+          message: 'Connected to ACDS Swarm Coordination System',
+          user: payload.email,
+          timestamp: new Date().toISOString()
+        }));
+
+        try {
+          // Initialize ACDS service for this WebSocket connection
+          const acdsService = await initACDSService();
+          
+          // Setup real-time event handlers for ACDS updates
+          const handleSwarmTelemetry = (telemetryData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'swarm_telemetry',
+                payload: telemetryData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleDroneStatusUpdate = (droneUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'drone_status_update',
+                payload: droneUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleMissionUpdate = (missionUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'mission_update',
+                payload: missionUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleDeploymentUpdate = (deploymentUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'deployment_update',
+                payload: deploymentUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleCoordinationDecision = (coordinationData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'coordination_decision',
+                payload: coordinationData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleEmergencyAlert = (emergencyData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'emergency_alert',
+                payload: emergencyData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          // Register event listeners for real-time swarm updates
+          acdsService.on('swarmTelemetry', handleSwarmTelemetry);
+          acdsService.on('droneStatusUpdate', handleDroneStatusUpdate);
+          acdsService.on('missionUpdate', handleMissionUpdate);
+          acdsService.on('deploymentUpdate', handleDeploymentUpdate);
+          acdsService.on('coordinationDecision', handleCoordinationDecision);
+          acdsService.on('emergencyAlert', handleEmergencyAlert);
+
+          // Send initial swarm status on connection
+          try {
+            const swarmStatus = await acdsService.getSwarmStatus();
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'swarm_status',
+                payload: swarmStatus,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          } catch (error) {
+            console.error('❌ Failed to get initial ACDS swarm status:', error);
+          }
+
+          // Handle incoming WebSocket messages
+          ws.on('message', async (message) => {
+            try {
+              const data = JSON.parse(message.toString());
+              console.log('📨 Received ACDS WebSocket message:', data);
+              
+              // Handle different message types
+              switch (data.type) {
+                case 'ping':
+                  ws.send(JSON.stringify({ 
+                    type: 'pong', 
+                    timestamp: new Date().toISOString() 
+                  }));
+                  break;
+                  
+                case 'requestSwarmStatus':
+                  try {
+                    const swarmStatus = await acdsService.getSwarmStatus();
+                    ws.send(JSON.stringify({
+                      type: 'swarm_status',
+                      payload: swarmStatus,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to get swarm status via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'requestFleetStatus':
+                  try {
+                    const fleetStatus = await acdsService.getFleetStatus();
+                    ws.send(JSON.stringify({
+                      type: 'fleet_status',
+                      payload: fleetStatus,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to get fleet status via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'emergencyRecall':
+                  try {
+                    const recallResult = await acdsService.initiateEmergencyRecall(data.payload);
+                    // Broadcast emergency recall to all connected clients
+                    acdsWss.clients.forEach((client) => {
+                      if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                          type: 'emergency_alert',
+                          payload: {
+                            type: 'emergency_recall',
+                            message: 'Emergency recall initiated for all drones',
+                            result: recallResult
+                          },
+                          timestamp: new Date().toISOString()
+                        }));
+                      }
+                    });
+                  } catch (error) {
+                    console.error('❌ Failed to execute emergency recall via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'triggerCoordination':
+                  try {
+                    const coordinationResult = await acdsService.triggerCoordination(data.payload);
+                    ws.send(JSON.stringify({
+                      type: 'coordination_decision',
+                      payload: coordinationResult,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to trigger coordination via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'subscribe':
+                  // Handle subscription to specific event types
+                  console.log('📡 ACDS WebSocket subscription request:', data.payload);
+                  break;
+                  
+                default:
+                  console.log('Unknown ACDS WebSocket message type:', data.type);
+              }
+            } catch (error) {
+              console.error('❌ Failed to parse ACDS WebSocket message:', error);
+            }
+          });
+
+          // Setup periodic telemetry updates (every 2 seconds)
+          const telemetryInterval = setInterval(async () => {
+            try {
+              if (ws.readyState === WebSocket.OPEN) {
+                const telemetryData = await acdsService.getSwarmTelemetry();
+                ws.send(JSON.stringify({
+                  type: 'swarm_telemetry',
+                  payload: telemetryData,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            } catch (error) {
+              console.error('❌ Failed to send periodic telemetry:', error);
+            }
+          }, 2000);
+
+          // Cleanup interval on connection close
+          ws.on('close', (code, reason) => {
+            clearInterval(telemetryInterval);
+            
+            const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+            const connectedDuration = (ws as any).connectedAt 
+              ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+              : '';
+            
+            console.log(`🔌 ACDS WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+            console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+            
+            // Remove event listeners to prevent memory leaks
+            acdsService.removeListener('swarmTelemetry', handleSwarmTelemetry);
+            acdsService.removeListener('droneStatusUpdate', handleDroneStatusUpdate);
+            acdsService.removeListener('missionUpdate', handleMissionUpdate);
+            acdsService.removeListener('deploymentUpdate', handleDeploymentUpdate);
+            acdsService.removeListener('coordinationDecision', handleCoordinationDecision);
+            acdsService.removeListener('emergencyAlert', handleEmergencyAlert);
+          });
+
+        } catch (error) {
+          console.error('❌ Failed to initialize ACDS service for WebSocket:', error);
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Failed to initialize ACDS service',
+            timestamp: new Date().toISOString()
+          }));
+        }
+
+        } catch (authError) {
+          console.error('❌ ACDS WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Enhanced error handling
+        ws.on('error', (error) => {
+          console.error('❌ ACDS WebSocket error:', error);
+        });
+      });
+
+      console.log('🚁 ACDS WebSocket server initialized at /ws/acds');
+
     } catch (error) {
       console.error('❌ Failed to initialize WebSocket server:', error instanceof Error ? error.message : String(error));
       console.log('⚠️ Live Location will continue without WebSocket support');

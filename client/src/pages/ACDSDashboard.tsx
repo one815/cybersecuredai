@@ -381,8 +381,21 @@ export default function ACDSDashboard() {
 
   // Initialize WebSocket connection for real-time updates
   useEffect(() => {
+    // Skip WebSocket if not authenticated
+    if (!user) {
+      console.log('🚁 ACDS WebSocket: No authenticated user found, skipping connection');
+      return;
+    }
+
+    // Get authentication token for WebSocket
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      console.warn('🚁 No authentication token found, ACDS WebSocket connection skipped');
+      return;
+    }
+
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws/acds`;
+    const wsUrl = `${protocol}//${window.location.host}/ws/acds?token=${encodeURIComponent(token)}`;
     
     try {
       const ws = new WebSocket(wsUrl);
@@ -447,7 +460,7 @@ export default function ACDSDashboard() {
     } catch (error) {
       console.error('Failed to initialize ACDS WebSocket:', error);
     }
-  }, [queryClient, toast]);
+  }, [user, queryClient, toast]);
 
   // Initialize Google Maps for drone positioning
   useEffect(() => {
