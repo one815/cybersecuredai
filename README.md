@@ -122,6 +122,19 @@ Validation: zod schema in SPEC.md.
 - Deployment: Node 20-slim Dockerfile; docker-compose; Cloud Run/ECS/K8s
 - Testing: unit for routing and schema; integration per provider; smoke and load baselines
 
+### Testing with injected providers
+For unit and integration tests we avoid network calls by injecting fake providers.
+
+- Provider DI: `createApp({ providers })` accepts a bag of providers implementing `{ name, invoke() }`.
+- Example fake provider:
+
+```ts
+const fake = { name: 'openai', invoke: async (payload) => ({ output: `ok:${payload.input}` }) };
+const app = await createApp({ providers: { openai: fake, claude: fake, gemini: fake, deepseek: fake } });
+```
+
+- Fallback tests: simulate a failing primary by throwing inside `invoke()` and assert the router executes the configured fallback provider from the bag.
+
 ## Roadmap
 
 - Streaming and SSE
