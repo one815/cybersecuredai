@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { useState, useRef, Suspense, lazy } from "react";
+import React, { useState, useRef, Suspense, lazy } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
@@ -245,7 +245,7 @@ export default function Dashboard() {
   };
 
   // Query for uploaded files
-  const { data: recentFiles = [] } = useQuery({
+  const { data: recentFiles = [] } = useQuery<any[]>({
     queryKey: ["/api/files"],
     refetchInterval: 2000, // Refresh every 2 seconds to get classification updates
   });
@@ -260,13 +260,13 @@ export default function Dashboard() {
   });
 
   // Fetch AI analytics data
-  const { data: aiAnalytics } = useQuery({
+  const { data: aiAnalytics } = useQuery<any>({
     queryKey: ["/api/ai/analytics"],
     refetchInterval: 30000, // Refresh every 30 seconds
     staleTime: 20000, // Cache for 20 seconds
   });
 
-  const { data: dataClassificationSummary } = useQuery({
+  const { data: dataClassificationSummary } = useQuery<any>({
     queryKey: ["/api/data-classification/summary"],
   });
 
@@ -288,7 +288,7 @@ export default function Dashboard() {
   });
 
   // Fetch daily recommendations from Cypher AI
-  const { data: dailyRecommendations } = useQuery({
+  const { data: dailyRecommendations } = useQuery<any>({
     queryKey: ["/api/cypher/daily-recommendations/admin-1"],
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
     refetchInterval: 1000 * 60 * 60, // Refresh every hour
@@ -655,7 +655,7 @@ export default function Dashboard() {
             <CardContent className="p-0">
               <div className="h-[700px] overflow-hidden">
                 {loadedSections.has('geospatial-map') ? (
-                  <Suspense fallback={<MapLoadingSkeleton /> as React.ReactNode}>
+                  <Suspense fallback={<MapLoadingSkeleton />}>
                     <GeospatialIntelligenceMap className="w-full h-full" />
                   </Suspense>
                 ) : (
@@ -1680,7 +1680,7 @@ export default function Dashboard() {
                   ))}
 
                   {/* Files from API */}
-                  {(recentFiles as any[]).slice(0, 3 - uploadedFiles.length).map((file: any, index: number) => {
+                  {recentFiles.slice(0, 3 - uploadedFiles.length).map((file: any, index: number) => {
                     const getClassificationColor = (classification: string) => {
                       switch (classification?.toLowerCase()) {
                         case 'confidential':
@@ -1745,7 +1745,7 @@ export default function Dashboard() {
                   })}
 
                   {/* Show message if no files */}
-                  {uploadedFiles.length === 0 && (recentFiles as any[]).length === 0 && (
+                  {uploadedFiles.length === 0 && recentFiles.length === 0 && (
                     <div className="text-center py-6 text-gray-500">
                       <FileText className="w-8 h-8 mx-auto mb-2 opacity-50" />
                       <p className="text-sm">No files uploaded yet</p>

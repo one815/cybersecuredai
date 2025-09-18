@@ -1373,3 +1373,237 @@ export type AcdsCoordination = typeof acdsCoordination.$inferSelect;
 export type InsertAcdsCoordination = z.infer<typeof insertAcdsCoordinationSchema>;
 export type AcdsAnalytics = typeof acdsAnalytics.$inferSelect;
 export type InsertAcdsAnalytics = z.infer<typeof insertAcdsAnalyticsSchema>;
+
+// ===== UNIFIED SYSTEM TYPES FOR CROSS-SYSTEM INTEGRATION =====
+
+// Unified System Status - Aggregated health status from all four systems
+export const UnifiedSystemStatusSchema = z.object({
+  systemId: z.string(),
+  systemName: z.string(),
+  status: z.enum(['operational', 'warning', 'critical', 'maintenance', 'offline']),
+  lastUpdate: z.string().datetime(),
+  subsystems: z.object({
+    cydef: z.object({
+      status: z.enum(['operational', 'warning', 'critical', 'offline']),
+      activeThreats: z.number(),
+      geneticGeneration: z.number(),
+      fitnessScore: z.number(),
+      autonomousMode: z.boolean(),
+      lastEvolution: z.string().datetime().optional(),
+    }),
+    liveLocation: z.object({
+      status: z.enum(['operational', 'warning', 'critical', 'offline']),
+      trackedDevices: z.number(),
+      onlineDevices: z.number(),
+      activeAlerts: z.number(),
+      geofenceBreaches: z.number(),
+      lastLocationUpdate: z.string().datetime().optional(),
+    }),
+    cypherHUM: z.object({
+      status: z.enum(['operational', 'warning', 'critical', 'offline']),
+      activeSessions: z.number(),
+      threatsVisualized: z.number(),
+      aiInteractions: z.number(),
+      holographicQuality: z.enum(['low', 'medium', 'high', 'ultra']),
+      averageFPS: z.number(),
+    }),
+    acds: z.object({
+      status: z.enum(['operational', 'warning', 'critical', 'offline']),
+      totalDrones: z.number(),
+      activeDrones: z.number(),
+      activeMissions: z.number(),
+      swarmCoordination: z.enum(['manual', 'semi_autonomous', 'autonomous', 'ai_driven']),
+      averageBatteryLevel: z.number(),
+    }),
+  }),
+  overallHealth: z.number(), // 0-100 percentage
+  criticalIssues: z.array(z.string()),
+  performanceMetrics: z.object({
+    responseTime: z.number(),
+    throughput: z.number(),
+    reliability: z.number(),
+    availability: z.number(),
+  }),
+});
+
+// Cross-System Metrics for correlation analysis
+export const CrossSystemMetricsSchema = z.object({
+  timeRange: z.object({
+    start: z.string().datetime(),
+    end: z.string().datetime(),
+  }),
+  correlationAnalysis: z.object({
+    cydefLiveLocationCorrelation: z.number(), // -1 to 1 correlation coefficient
+    cydefACDSCorrelation: z.number(),
+    liveLocationACDSCorrelation: z.number(),
+    cypherHUMEffectiveness: z.number(),
+    overallSystemSynergy: z.number(),
+  }),
+  threatResponseMetrics: z.object({
+    averageDetectionTime: z.number(),
+    averageResponseTime: z.number(),
+    automaticResponseRate: z.number(),
+    falsePositiveRate: z.number(),
+    threatResolutionRate: z.number(),
+  }),
+  aiIntegrationMetrics: z.object({
+    geneticAlgorithmEffectiveness: z.number(),
+    aiDecisionAccuracy: z.number(),
+    holographicAnalysisAccuracy: z.number(),
+    swarmCoordinationEfficiency: z.number(),
+    predictiveModelAccuracy: z.number(),
+  }),
+  operationalMetrics: z.object({
+    systemUptime: z.number(),
+    dataIntegrityScore: z.number(),
+    securityPostureScore: z.number(),
+    complianceScore: z.number(),
+    userSatisfactionScore: z.number(),
+  }),
+});
+
+// Executive Dashboard Metrics for high-level reporting
+export const ExecutiveMetricsSchema = z.object({
+  executiveSummary: z.object({
+    overallSecurityPosture: z.enum(['excellent', 'good', 'fair', 'poor', 'critical']),
+    threatLandscapeStatus: z.enum(['calm', 'elevated', 'high', 'critical']),
+    systemPerformanceRating: z.number(), // 0-100
+    complianceStatus: z.enum(['compliant', 'minor_issues', 'major_issues', 'non_compliant']),
+    riskLevel: z.enum(['low', 'moderate', 'high', 'critical']),
+  }),
+  keyPerformanceIndicators: z.object({
+    threatDetectionRate: z.number(),
+    incidentResponseTime: z.number(),
+    systemAvailability: z.number(),
+    userProductivity: z.number(),
+    costEfficiency: z.number(),
+    roiMetrics: z.number(),
+  }),
+  trendAnalysis: z.object({
+    threatTrends: z.array(z.object({
+      period: z.string(),
+      threatCount: z.number(),
+      severity: z.string(),
+      category: z.string(),
+    })),
+    performanceTrends: z.array(z.object({
+      period: z.string(),
+      metric: z.string(),
+      value: z.number(),
+      trend: z.enum(['improving', 'stable', 'declining']),
+    })),
+  }),
+  riskAssessment: z.object({
+    currentRiskScore: z.number(),
+    riskFactors: z.array(z.string()),
+    mitigationStrategies: z.array(z.string()),
+    recommendations: z.array(z.string()),
+  }),
+  budgetMetrics: z.object({
+    totalInvestment: z.number(),
+    costPerIncidentPrevented: z.number(),
+    savingsFromAutomation: z.number(),
+    predictedROI: z.number(),
+  }),
+});
+
+// Unified Alert System for cross-system notifications
+export const UnifiedAlertSchema = z.object({
+  id: z.string(),
+  alertId: z.string(),
+  sourceSystem: z.enum(['cydef', 'liveLocation', 'cypherHUM', 'acds', 'unified']),
+  sourceId: z.string(), // ID in the source system
+  alertType: z.enum(['security_threat', 'system_anomaly', 'device_offline', 'geofence_breach', 'mission_critical', 'ai_correlation', 'compliance_violation', 'performance_degradation']),
+  severity: z.enum(['info', 'low', 'medium', 'high', 'critical', 'emergency']),
+  priority: z.enum(['p1', 'p2', 'p3', 'p4', 'p5']),
+  status: z.enum(['new', 'acknowledged', 'investigating', 'resolved', 'false_positive']),
+  title: z.string(),
+  description: z.string(),
+  technicalDetails: z.string().optional(),
+  affectedSystems: z.array(z.string()),
+  correlatedAlerts: z.array(z.string()),
+  aiAnalysis: z.object({
+    confidenceScore: z.number(),
+    threatLevel: z.number(),
+    recommendations: z.array(z.string()),
+    automaticActions: z.array(z.string()),
+  }).optional(),
+  metadata: z.record(z.any()),
+  geolocation: z.object({
+    latitude: z.string(),
+    longitude: z.string(),
+    accuracy: z.number().optional(),
+  }).optional(),
+  timestamps: z.object({
+    detected: z.string().datetime(),
+    created: z.string().datetime(),
+    acknowledged: z.string().datetime().optional(),
+    resolved: z.string().datetime().optional(),
+    lastUpdated: z.string().datetime(),
+  }),
+  assignedTo: z.string().optional(),
+  escalationPath: z.array(z.string()),
+  slaDeadline: z.string().datetime().optional(),
+  complianceFlags: z.array(z.string()),
+});
+
+// Alert Statistics for analytics and reporting
+export const AlertStatsSchema = z.object({
+  timeRange: z.object({
+    start: z.string().datetime(),
+    end: z.string().datetime(),
+  }),
+  totalAlerts: z.number(),
+  alertsBySystem: z.object({
+    cydef: z.number(),
+    liveLocation: z.number(),
+    cypherHUM: z.number(),
+    acds: z.number(),
+    unified: z.number(),
+  }),
+  alertsBySeverity: z.object({
+    info: z.number(),
+    low: z.number(),
+    medium: z.number(),
+    high: z.number(),
+    critical: z.number(),
+    emergency: z.number(),
+  }),
+  alertsByStatus: z.object({
+    new: z.number(),
+    acknowledged: z.number(),
+    investigating: z.number(),
+    resolved: z.number(),
+    false_positive: z.number(),
+  }),
+  responseMetrics: z.object({
+    averageAcknowledgmentTime: z.number(),
+    averageResolutionTime: z.number(),
+    slaCompliance: z.number(),
+    escalationRate: z.number(),
+  }),
+  trendData: z.array(z.object({
+    timestamp: z.string().datetime(),
+    alertCount: z.number(),
+    severity: z.string(),
+    resolved: z.number(),
+  })),
+  topAlertTypes: z.array(z.object({
+    alertType: z.string(),
+    count: z.number(),
+    severity: z.string(),
+  })),
+  correlationInsights: z.array(z.object({
+    pattern: z.string(),
+    frequency: z.number(),
+    systems: z.array(z.string()),
+    impact: z.string(),
+  })),
+});
+
+// Type exports for TypeScript usage
+export type UnifiedSystemStatus = z.infer<typeof UnifiedSystemStatusSchema>;
+export type CrossSystemMetrics = z.infer<typeof CrossSystemMetricsSchema>;
+export type ExecutiveMetrics = z.infer<typeof ExecutiveMetricsSchema>;
+export type UnifiedAlert = z.infer<typeof UnifiedAlertSchema>;
+export type AlertStats = z.infer<typeof AlertStatsSchema>;
