@@ -4,7 +4,7 @@ import { InvokeSchema } from '../types/invokeSchema.js';
 import server from './index.js';
 import { pickProvider } from './routing.js';
 import { MockProvider } from './providers/mockProvider.js';
-import { OpenAIProvider } from './providers/openai.js';
+import { defaultProviders, ProviderBag } from './providers/factory.js';
 import { createLogger } from './utils/logging.js';
 import { estimateCost } from './utils/cost.js';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,12 +30,17 @@ export const routerPlugin = fp(async (fastify) => {
     const providerName = pickProvider(payload);
     logger.info({ id, provider: providerName }, 'invoke:chosen_provider');
 
-    // select provider implementation
+    // provider bag (allow DI / test overrides)
+    const bag: ProviderBag = defaultProviders();
     let provider: any;
-    if (providerName === 'openai') {
-      provider = new OpenAIProvider();
+    // image provider selection: options.image.provider
+    if (providerName === 'image_generate') {
+      const imgProv = payload.options?.image?.provider;
+      provider = (bag.image && bag.image[imgProv]) ?? bag.image?.vertex ?? new MockProvider({ name: 'vertex' });
+    } else if (providerName === 'openai') {
+      provider = bag.openai ?? new MockProvider({ name: 'openai' });
     } else {
-      provider = new MockProvider({ name: providerName });
+      provider = (bag as any)[providerName] ?? new MockProvider({ name: providerName });
     }
 
     try {
@@ -47,10 +52,10 @@ export const routerPlugin = fp(async (fastify) => {
     } catch (err) {
       logger.error({ id, provider: providerName, err }, 'invoke:error');
       // fallback attempt if configured
-      const fallback = provider.getFallback();
+      const fallback = provider.getFallback ? provider.getFallback() : null;
       if (fallback) {
         logger.info({ id, provider: fallback }, 'invoke:fallback');
-        const provider2 = new MockProvider({ name: fallback });
+        const provider2 = (bag as any)[fallback] ?? new MockProvider({ name: fallback });
         try {
           const res2 = await provider2.invoke(payload, { timeoutMs: 3000 });
           const cost_estimate = estimateCost(payload, fallback);
