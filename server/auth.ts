@@ -91,7 +91,7 @@ export class AuthService {
       expiresIn: JWT_EXPIRES_IN,
       issuer: 'cybersecure-ai',
       audience: 'cybersecure-platform'
-    });
+    } as jwt.SignOptions);
   }
 
   /**

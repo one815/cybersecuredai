@@ -34,7 +34,27 @@ import {
   type InsertCustomComplianceControl,
   type Subscriber,
   type InsertSubscriber,
-  type UpsertUser
+  type UpsertUser,
+  type CypherhumSession,
+  type InsertCypherhumSession,
+  type CypherhumVisualization,
+  type InsertCypherhumVisualization,
+  type CypherhumInteraction,
+  type InsertCypherhumInteraction,
+  type CypherhumThreatModel,
+  type InsertCypherhumThreatModel,
+  type CypherhumAnalytics,
+  type InsertCypherhumAnalytics,
+  type AcdsDrone,
+  type InsertAcdsDrone,
+  type AcdsSwarmMission,
+  type InsertAcdsSwarmMission,
+  type AcdsDeployment,
+  type InsertAcdsDeployment,
+  type AcdsCoordination,
+  type InsertAcdsCoordination,
+  type AcdsAnalytics,
+  type InsertAcdsAnalytics
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -122,6 +142,90 @@ export interface IStorage {
   // Confirmation code operations
   createConfirmationCode(data: any): Promise<any>;
   verifyConfirmationCode(email: string, code: string): Promise<any | undefined>;
+
+  // ===== CypherHUM Operations =====
+  
+  // CypherHUM Session operations
+  getCypherhumSessions(userId?: string): Promise<CypherhumSession[]>;
+  getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined>;
+  createCypherhumSession(session: InsertCypherhumSession): Promise<CypherhumSession>;
+  updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession>;
+  deleteCypherhumSession(sessionId: string): Promise<void>;
+  
+  // CypherHUM Visualization operations  
+  getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]>;
+  getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined>;
+  createCypherhumVisualization(visualization: InsertCypherhumVisualization): Promise<CypherhumVisualization>;
+  updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization>;
+  deleteCypherhumVisualization(visualizationId: string): Promise<void>;
+  
+  // CypherHUM Interaction operations
+  getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]>;
+  getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined>;
+  createCypherhumInteraction(interaction: InsertCypherhumInteraction): Promise<CypherhumInteraction>;
+  updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction>;
+  deleteCypherhumInteraction(interactionId: string): Promise<void>;
+  
+  // CypherHUM Threat Model operations
+  getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]>;
+  getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined>;
+  createCypherhumThreatModel(threatModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel>;
+  updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel>;
+  deleteCypherhumThreatModel(modelId: string): Promise<void>;
+  
+  // CypherHUM Analytics operations
+  getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]>;
+  getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined>;
+  createCypherhumAnalytic(analytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics>;
+  updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics>;
+  deleteCypherhumAnalytic(analyticId: string): Promise<void>;
+
+  // ===== ACDS (Autonomous Cyber Defense Swarm) Operations =====
+  
+  // ACDS Drone operations
+  getAcdsDrones(organizationId?: string): Promise<AcdsDrone[]>;
+  getAcdsDrone(droneId: string): Promise<AcdsDrone | undefined>;
+  createAcdsDrone(drone: InsertAcdsDrone): Promise<AcdsDrone>;
+  updateAcdsDrone(droneId: string, updates: Partial<AcdsDrone>): Promise<AcdsDrone>;
+  deleteAcdsDrone(droneId: string): Promise<void>;
+  getAcdsDronesByStatus(status: string, organizationId?: string): Promise<AcdsDrone[]>;
+  getAcdsDronesBySwarmRole(role: string, organizationId?: string): Promise<AcdsDrone[]>;
+  
+  // ACDS Swarm Mission operations
+  getAcdsSwarmMissions(organizationId?: string, status?: string): Promise<AcdsSwarmMission[]>;
+  getAcdsSwarmMission(missionId: string): Promise<AcdsSwarmMission | undefined>;
+  createAcdsSwarmMission(mission: InsertAcdsSwarmMission): Promise<AcdsSwarmMission>;
+  updateAcdsSwarmMission(missionId: string, updates: Partial<AcdsSwarmMission>): Promise<AcdsSwarmMission>;
+  deleteAcdsSwarmMission(missionId: string): Promise<void>;
+  getActiveAcdsSwarmMissions(organizationId?: string): Promise<AcdsSwarmMission[]>;
+  
+  // ACDS Deployment operations
+  getAcdsDeployments(organizationId?: string, status?: string): Promise<AcdsDeployment[]>;
+  getAcdsDeployment(deploymentId: string): Promise<AcdsDeployment | undefined>;
+  createAcdsDeployment(deployment: InsertAcdsDeployment): Promise<AcdsDeployment>;
+  updateAcdsDeployment(deploymentId: string, updates: Partial<AcdsDeployment>): Promise<AcdsDeployment>;
+  deleteAcdsDeployment(deploymentId: string): Promise<void>;
+  getAcdsDeploymentsByDrone(droneId: string): Promise<AcdsDeployment[]>;
+  getAcdsDeploymentsByMission(missionId: string): Promise<AcdsDeployment[]>;
+  getActiveAcdsDeployments(organizationId?: string): Promise<AcdsDeployment[]>;
+  
+  // ACDS Coordination operations
+  getAcdsCoordinations(organizationId?: string): Promise<AcdsCoordination[]>;
+  getAcdsCoordination(coordinationId: string): Promise<AcdsCoordination | undefined>;
+  createAcdsCoordination(coordination: InsertAcdsCoordination): Promise<AcdsCoordination>;
+  updateAcdsCoordination(coordinationId: string, updates: Partial<AcdsCoordination>): Promise<AcdsCoordination>;
+  deleteAcdsCoordination(coordinationId: string): Promise<void>;
+  getAcdsCoordinationsByEvent(eventType: string, organizationId?: string): Promise<AcdsCoordination[]>;
+  getAcdsCoordinationsBySwarm(swarmId: string): Promise<AcdsCoordination[]>;
+  
+  // ACDS Analytics operations
+  getAcdsAnalytics(organizationId?: string, analyticsType?: string): Promise<AcdsAnalytics[]>;
+  getAcdsAnalytic(analyticId: string): Promise<AcdsAnalytics | undefined>;
+  createAcdsAnalytic(analytic: InsertAcdsAnalytics): Promise<AcdsAnalytics>;
+  updateAcdsAnalytic(analyticId: string, updates: Partial<AcdsAnalytics>): Promise<AcdsAnalytics>;
+  deleteAcdsAnalytic(analyticId: string): Promise<void>;
+  getAcdsAnalyticsByCategory(category: string, organizationId?: string): Promise<AcdsAnalytics[]>;
+  getAcdsAnalyticsByDateRange(startDate: Date, endDate: Date, organizationId?: string): Promise<AcdsAnalytics[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -140,6 +244,20 @@ export class MemStorage implements IStorage {
   private confirmationCodes: Map<string, any> = new Map();
   private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
   private cypherReports: Map<string, any> = new Map();
+  
+  // CypherHUM Storage Maps
+  private cypherhumSessions: Map<string, CypherhumSession> = new Map();
+  private cypherhumVisualizations: Map<string, CypherhumVisualization> = new Map();
+  private cypherhumInteractions: Map<string, CypherhumInteraction> = new Map();
+  private cypherhumThreatModels: Map<string, CypherhumThreatModel> = new Map();
+  private cypherhumAnalytics: Map<string, CypherhumAnalytics> = new Map();
+
+  // ACDS Storage Maps
+  private acdsDrones: Map<string, AcdsDrone> = new Map();
+  private acdsSwarmMissions: Map<string, AcdsSwarmMission> = new Map();
+  private acdsDeployments: Map<string, AcdsDeployment> = new Map();
+  private acdsCoordinations: Map<string, AcdsCoordination> = new Map();
+  private acdsAnalytics: Map<string, AcdsAnalytics> = new Map();
 
   constructor() {
     this.initializeData();
@@ -1136,6 +1254,538 @@ export class MemStorage implements IStorage {
     }
     
     return undefined;
+  }
+
+  // ===== CypherHUM Storage Implementations =====
+  
+  // CypherHUM Session operations
+  async getCypherhumSessions(userId?: string): Promise<CypherhumSession[]> {
+    const sessions = Array.from(this.cypherhumSessions.values());
+    return userId ? sessions.filter(s => s.userId === userId) : sessions;
+  }
+
+  async getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined> {
+    return this.cypherhumSessions.get(sessionId);
+  }
+
+  async createCypherhumSession(insertSession: InsertCypherhumSession): Promise<CypherhumSession> {
+    const id = randomUUID();
+    const session: CypherhumSession = {
+      ...insertSession,
+      id,
+      status: insertSession.status ?? "active",
+      startTime: insertSession.startTime ?? new Date(),
+      endTime: null,
+      duration: insertSession.duration ?? 0,
+      threatsVisualized: insertSession.threatsVisualized ?? 0,
+      aiInteractions: insertSession.aiInteractions ?? 0,
+      visualizationPresetId: insertSession.visualizationPresetId ?? null,
+      sessionData: insertSession.sessionData ?? {},
+      performanceMetrics: insertSession.performanceMetrics ?? {},
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumSessions.set(id, session);
+    return session;
+  }
+
+  async updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession> {
+    const session = this.cypherhumSessions.get(sessionId);
+    if (!session) throw new Error("CypherHUM session not found");
+    
+    const updatedSession = { ...session, ...updates, updatedAt: new Date() };
+    this.cypherhumSessions.set(sessionId, updatedSession);
+    return updatedSession;
+  }
+
+  async deleteCypherhumSession(sessionId: string): Promise<void> {
+    this.cypherhumSessions.delete(sessionId);
+  }
+
+  // CypherHUM Visualization operations  
+  async getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]> {
+    const visualizations = Array.from(this.cypherhumVisualizations.values());
+    if (userId) {
+      return visualizations.filter(v => v.createdBy === userId || v.isPublic === true);
+    }
+    return visualizations.filter(v => v.isPublic === true);
+  }
+
+  async getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined> {
+    return this.cypherhumVisualizations.get(visualizationId);
+  }
+
+  async createCypherhumVisualization(insertVisualization: InsertCypherhumVisualization): Promise<CypherhumVisualization> {
+    const id = randomUUID();
+    const visualization: CypherhumVisualization = {
+      ...insertVisualization,
+      id,
+      isDefault: insertVisualization.isDefault ?? false,
+      isPublic: insertVisualization.isPublic ?? false,
+      usageCount: insertVisualization.usageCount ?? 0,
+      rating: insertVisualization.rating ?? 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumVisualizations.set(id, visualization);
+    return visualization;
+  }
+
+  async updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization> {
+    const visualization = this.cypherhumVisualizations.get(visualizationId);
+    if (!visualization) throw new Error("CypherHUM visualization not found");
+    
+    const updatedVisualization = { ...visualization, ...updates, updatedAt: new Date() };
+    this.cypherhumVisualizations.set(visualizationId, updatedVisualization);
+    return updatedVisualization;
+  }
+
+  async deleteCypherhumVisualization(visualizationId: string): Promise<void> {
+    this.cypherhumVisualizations.delete(visualizationId);
+  }
+
+  // CypherHUM Interaction operations
+  async getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]> {
+    const interactions = Array.from(this.cypherhumInteractions.values());
+    return sessionId ? interactions.filter(i => i.sessionId === sessionId) : interactions;
+  }
+
+  async getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined> {
+    return this.cypherhumInteractions.get(interactionId);
+  }
+
+  async createCypherhumInteraction(insertInteraction: InsertCypherhumInteraction): Promise<CypherhumInteraction> {
+    const id = randomUUID();
+    const interaction: CypherhumInteraction = {
+      ...insertInteraction,
+      id,
+      responseType: insertInteraction.responseType ?? "acknowledgment",
+      processingTime: insertInteraction.processingTime ?? 0,
+      confidenceScore: insertInteraction.confidenceScore ?? null,
+      contextData: insertInteraction.contextData ?? null,
+      threeDManipulation: insertInteraction.threeDManipulation ?? null,
+      visualizationImpact: insertInteraction.visualizationImpact ?? null,
+      userFeedback: insertInteraction.userFeedback ?? null,
+      timestamp: new Date()
+    };
+    this.cypherhumInteractions.set(id, interaction);
+    return interaction;
+  }
+
+  async updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction> {
+    const interaction = this.cypherhumInteractions.get(interactionId);
+    if (!interaction) throw new Error("CypherHUM interaction not found");
+    
+    const updatedInteraction = { ...interaction, ...updates };
+    this.cypherhumInteractions.set(interactionId, updatedInteraction);
+    return updatedInteraction;
+  }
+
+  async deleteCypherhumInteraction(interactionId: string): Promise<void> {
+    this.cypherhumInteractions.delete(interactionId);
+  }
+
+  // CypherHUM Threat Model operations
+  async getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]> {
+    const models = Array.from(this.cypherhumThreatModels.values());
+    return threatId ? models.filter(m => m.threatId === threatId) : models;
+  }
+
+  async getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined> {
+    return this.cypherhumThreatModels.get(modelId);
+  }
+
+  async createCypherhumThreatModel(insertModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel> {
+    const id = randomUUID();
+    const model: CypherhumThreatModel = {
+      ...insertModel,
+      id,
+      geometryData: insertModel.geometryData ?? {},
+      materialProperties: insertModel.materialProperties ?? {},
+      animationData: insertModel.animationData ?? {},
+      interactionBehavior: insertModel.interactionBehavior ?? {},
+      severity3DMapping: insertModel.severity3DMapping ?? {},
+      realTimeProperties: insertModel.realTimeProperties ?? {},
+      renderingOptimization: insertModel.renderingOptimization ?? {},
+      aiEnhancement: insertModel.aiEnhancement ?? {},
+      spatialPosition: insertModel.spatialPosition ?? [0, 0, 0],
+      scale: insertModel.scale ?? [1, 1, 1],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumThreatModels.set(id, model);
+    return model;
+  }
+
+  async updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel> {
+    const model = this.cypherhumThreatModels.get(modelId);
+    if (!model) throw new Error("CypherHUM threat model not found");
+    
+    const updatedModel = { ...model, ...updates, updatedAt: new Date() };
+    this.cypherhumThreatModels.set(modelId, updatedModel);
+    return updatedModel;
+  }
+
+  async deleteCypherhumThreatModel(modelId: string): Promise<void> {
+    this.cypherhumThreatModels.delete(modelId);
+  }
+
+  // CypherHUM Analytics operations
+  async getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]> {
+    const analytics = Array.from(this.cypherhumAnalytics.values());
+    let filtered = analytics;
+    
+    if (sessionId) {
+      filtered = filtered.filter(a => a.sessionId === sessionId);
+    }
+    if (userId) {
+      filtered = filtered.filter(a => a.userId === userId);
+    }
+    
+    return filtered;
+  }
+
+  async getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined> {
+    return this.cypherhumAnalytics.get(analyticId);
+  }
+
+  async createCypherhumAnalytic(insertAnalytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics> {
+    const id = randomUUID();
+    const analytic: CypherhumAnalytics = {
+      ...insertAnalytic,
+      id,
+      sessionId: insertAnalytic.sessionId ?? null,
+      metricValue: insertAnalytic.metricValue ?? 0,
+      contextData: insertAnalytic.contextData ?? null,
+      aggregationPeriod: insertAnalytic.aggregationPeriod ?? "instant",
+      timestamp: new Date()
+    };
+    this.cypherhumAnalytics.set(id, analytic);
+    return analytic;
+  }
+
+  async updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics> {
+    const analytic = this.cypherhumAnalytics.get(analyticId);
+    if (!analytic) throw new Error("CypherHUM analytic not found");
+    
+    const updatedAnalytic = { ...analytic, ...updates };
+    this.cypherhumAnalytics.set(analyticId, updatedAnalytic);
+    return updatedAnalytic;
+  }
+
+  async deleteCypherhumAnalytic(analyticId: string): Promise<void> {
+    this.cypherhumAnalytics.delete(analyticId);
+  }
+
+  // ===== ACDS (Autonomous Cyber Defense Swarm) Operations =====
+  
+  // ACDS Drone operations
+  async getAcdsDrones(organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = Array.from(this.acdsDrones.values());
+    return organizationId ? drones.filter(d => d.organizationId === organizationId) : drones;
+  }
+
+  async getAcdsDrone(droneId: string): Promise<AcdsDrone | undefined> {
+    return Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+  }
+
+  async createAcdsDrone(insertDrone: InsertAcdsDrone): Promise<AcdsDrone> {
+    const id = randomUUID();
+    const drone: AcdsDrone = {
+      ...insertDrone,
+      id,
+      currentLatitude: insertDrone.currentLatitude ?? null,
+      currentLongitude: insertDrone.currentLongitude ?? null,
+      currentAltitude: insertDrone.currentAltitude ?? null,
+      assignedMissionId: insertDrone.assignedMissionId ?? null,
+      operatorId: insertDrone.operatorId ?? null,
+      emergencyContactProtocol: insertDrone.emergencyContactProtocol ?? {},
+      lastLocationUpdate: insertDrone.lastLocationUpdate ?? new Date(),
+      lastStatusUpdate: insertDrone.lastStatusUpdate ?? new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsDrones.set(id, drone);
+    return drone;
+  }
+
+  async updateAcdsDrone(droneId: string, updates: Partial<AcdsDrone>): Promise<AcdsDrone> {
+    const drone = Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+    if (!drone) throw new Error("ACDS drone not found");
+    
+    const updatedDrone = { ...drone, ...updates, updatedAt: new Date() };
+    this.acdsDrones.set(drone.id, updatedDrone);
+    return updatedDrone;
+  }
+
+  async deleteAcdsDrone(droneId: string): Promise<void> {
+    const drone = Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+    if (drone) {
+      this.acdsDrones.delete(drone.id);
+    }
+  }
+
+  async getAcdsDronesByStatus(status: string, organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = await this.getAcdsDrones(organizationId);
+    return drones.filter(d => d.currentStatus === status);
+  }
+
+  async getAcdsDronesBySwarmRole(role: string, organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = await this.getAcdsDrones(organizationId);
+    return drones.filter(d => d.swarmRole === role);
+  }
+  
+  // ACDS Swarm Mission operations
+  async getAcdsSwarmMissions(organizationId?: string, status?: string): Promise<AcdsSwarmMission[]> {
+    const missions = Array.from(this.acdsSwarmMissions.values());
+    let filtered = organizationId ? missions.filter(m => m.organizationId === organizationId) : missions;
+    return status ? filtered.filter(m => m.status === status) : filtered;
+  }
+
+  async getAcdsSwarmMission(missionId: string): Promise<AcdsSwarmMission | undefined> {
+    return this.acdsSwarmMissions.get(missionId);
+  }
+
+  async createAcdsSwarmMission(insertMission: InsertAcdsSwarmMission): Promise<AcdsSwarmMission> {
+    const id = randomUUID();
+    const mission: AcdsSwarmMission = {
+      ...insertMission,
+      id,
+      threatContext: insertMission.threatContext ?? null,
+      actualDuration: insertMission.actualDuration ?? null,
+      swarmConfiguration: insertMission.swarmConfiguration ?? {},
+      riskAssessment: insertMission.riskAssessment ?? {},
+      weatherConditions: insertMission.weatherConditions ?? {},
+      airspaceRestrictions: insertMission.airspaceRestrictions ?? [],
+      dataCollectionRequirements: insertMission.dataCollectionRequirements ?? [],
+      emergencyProcedures: insertMission.emergencyProcedures ?? {},
+      cydefIntegration: insertMission.cydefIntegration ?? {},
+      plannedStartTime: insertMission.plannedStartTime ?? null,
+      actualStartTime: insertMission.actualStartTime ?? null,
+      plannedEndTime: insertMission.plannedEndTime ?? null,
+      actualEndTime: insertMission.actualEndTime ?? null,
+      complianceRequirements: insertMission.complianceRequirements ?? [],
+      resultsData: insertMission.resultsData ?? null,
+      performanceMetrics: insertMission.performanceMetrics ?? null,
+      lessonsLearned: insertMission.lessonsLearned ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsSwarmMissions.set(id, mission);
+    return mission;
+  }
+
+  async updateAcdsSwarmMission(missionId: string, updates: Partial<AcdsSwarmMission>): Promise<AcdsSwarmMission> {
+    const mission = this.acdsSwarmMissions.get(missionId);
+    if (!mission) throw new Error("ACDS swarm mission not found");
+    
+    const updatedMission = { ...mission, ...updates, updatedAt: new Date() };
+    this.acdsSwarmMissions.set(missionId, updatedMission);
+    return updatedMission;
+  }
+
+  async deleteAcdsSwarmMission(missionId: string): Promise<void> {
+    this.acdsSwarmMissions.delete(missionId);
+  }
+
+  async getActiveAcdsSwarmMissions(organizationId?: string): Promise<AcdsSwarmMission[]> {
+    return this.getAcdsSwarmMissions(organizationId, 'active');
+  }
+  
+  // ACDS Deployment operations
+  async getAcdsDeployments(organizationId?: string, status?: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    let filtered = organizationId ? deployments.filter(d => d.organizationId === organizationId) : deployments;
+    return status ? filtered.filter(d => d.deploymentStatus === status) : filtered;
+  }
+
+  async getAcdsDeployment(deploymentId: string): Promise<AcdsDeployment | undefined> {
+    return Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+  }
+
+  async createAcdsDeployment(insertDeployment: InsertAcdsDeployment): Promise<AcdsDeployment> {
+    const id = randomUUID();
+    const deployment: AcdsDeployment = {
+      ...insertDeployment,
+      id,
+      missionId: insertDeployment.missionId ?? null,
+      currentLatitude: insertDeployment.currentLatitude ?? null,
+      currentLongitude: insertDeployment.currentLongitude ?? null,
+      currentAltitude: insertDeployment.currentAltitude ?? null,
+      flightPath: insertDeployment.flightPath ?? [],
+      formationPosition: insertDeployment.formationPosition ?? {},
+      speedKmh: insertDeployment.speedKmh ?? 0,
+      heading: insertDeployment.heading ?? 0,
+      batteryConsumption: insertDeployment.batteryConsumption ?? 0,
+      estimatedRemainingTime: insertDeployment.estimatedRemainingTime ?? null,
+      sensorReadings: insertDeployment.sensorReadings ?? {},
+      threatDetections: insertDeployment.threatDetections ?? [],
+      communicationLog: insertDeployment.communicationLog ?? [],
+      coordinationCommands: insertDeployment.coordinationCommands ?? [],
+      autonomousDecisions: insertDeployment.autonomousDecisions ?? [],
+      cydefResponses: insertDeployment.cydefResponses ?? [],
+      environmentalFactors: insertDeployment.environmentalFactors ?? {},
+      riskLevelCurrent: insertDeployment.riskLevelCurrent ?? 'low',
+      emergencyProceduresActive: insertDeployment.emergencyProceduresActive ?? false,
+      returnToBaseInitiated: insertDeployment.returnToBaseInitiated ?? false,
+      missionObjectiveStatus: insertDeployment.missionObjectiveStatus ?? {},
+      dataCollected: insertDeployment.dataCollected ?? {},
+      anomaliesDetected: insertDeployment.anomaliesDetected ?? [],
+      networkConnectivity: insertDeployment.networkConnectivity ?? 'stable',
+      lastHeartbeat: insertDeployment.lastHeartbeat ?? new Date(),
+      estimatedCompletionTime: insertDeployment.estimatedCompletionTime ?? null,
+      actualCompletionTime: insertDeployment.actualCompletionTime ?? null,
+      operatorOverride: insertDeployment.operatorOverride ?? false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsDeployments.set(id, deployment);
+    return deployment;
+  }
+
+  async updateAcdsDeployment(deploymentId: string, updates: Partial<AcdsDeployment>): Promise<AcdsDeployment> {
+    const deployment = Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+    if (!deployment) throw new Error("ACDS deployment not found");
+    
+    const updatedDeployment = { ...deployment, ...updates, updatedAt: new Date() };
+    this.acdsDeployments.set(deployment.id, updatedDeployment);
+    return updatedDeployment;
+  }
+
+  async deleteAcdsDeployment(deploymentId: string): Promise<void> {
+    const deployment = Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+    if (deployment) {
+      this.acdsDeployments.delete(deployment.id);
+    }
+  }
+
+  async getAcdsDeploymentsByDrone(droneId: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    return deployments.filter(d => d.droneId === droneId);
+  }
+
+  async getAcdsDeploymentsByMission(missionId: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    return deployments.filter(d => d.missionId === missionId);
+  }
+
+  async getActiveAcdsDeployments(organizationId?: string): Promise<AcdsDeployment[]> {
+    return this.getAcdsDeployments(organizationId, 'active');
+  }
+  
+  // ACDS Coordination operations
+  async getAcdsCoordinations(organizationId?: string): Promise<AcdsCoordination[]> {
+    const coordinations = Array.from(this.acdsCoordinations.values());
+    return organizationId ? coordinations.filter(c => c.organizationId === organizationId) : coordinations;
+  }
+
+  async getAcdsCoordination(coordinationId: string): Promise<AcdsCoordination | undefined> {
+    return Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+  }
+
+  async createAcdsCoordination(insertCoordination: InsertAcdsCoordination): Promise<AcdsCoordination> {
+    const id = randomUUID();
+    const coordination: AcdsCoordination = {
+      ...insertCoordination,
+      id,
+      swarmId: insertCoordination.swarmId ?? `swarm-${insertCoordination.organizationId}`,
+      participatingDrones: insertCoordination.participatingDrones ?? [],
+      inputData: insertCoordination.inputData ?? {},
+      coordinationDecision: insertCoordination.coordinationDecision ?? {},
+      implementationStartTime: insertCoordination.implementationStartTime ?? null,
+      implementationEndTime: insertCoordination.implementationEndTime ?? null,
+      implementationResults: insertCoordination.implementationResults ?? null,
+      geneticAlgorithmGeneration: insertCoordination.geneticAlgorithmGeneration ?? null,
+      geneticAlgorithmFitness: insertCoordination.geneticAlgorithmFitness ?? null,
+      cydefRecommendation: insertCoordination.cydefRecommendation ?? null,
+      performanceMetrics: insertCoordination.performanceMetrics ?? null,
+      lessonsLearned: insertCoordination.lessonsLearned ?? null
+    };
+    this.acdsCoordinations.set(id, coordination);
+    return coordination;
+  }
+
+  async updateAcdsCoordination(coordinationId: string, updates: Partial<AcdsCoordination>): Promise<AcdsCoordination> {
+    const coordination = Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+    if (!coordination) throw new Error("ACDS coordination not found");
+    
+    const updatedCoordination = { ...coordination, ...updates };
+    this.acdsCoordinations.set(coordination.id, updatedCoordination);
+    return updatedCoordination;
+  }
+
+  async deleteAcdsCoordination(coordinationId: string): Promise<void> {
+    const coordination = Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+    if (coordination) {
+      this.acdsCoordinations.delete(coordination.id);
+    }
+  }
+
+  async getAcdsCoordinationsByEvent(eventType: string, organizationId?: string): Promise<AcdsCoordination[]> {
+    const coordinations = await this.getAcdsCoordinations(organizationId);
+    return coordinations.filter(c => c.eventType === eventType);
+  }
+
+  async getAcdsCoordinationsBySwarm(swarmId: string): Promise<AcdsCoordination[]> {
+    const coordinations = Array.from(this.acdsCoordinations.values());
+    return coordinations.filter(c => c.swarmId === swarmId);
+  }
+  
+  // ACDS Analytics operations
+  async getAcdsAnalytics(organizationId?: string, analyticsType?: string): Promise<AcdsAnalytics[]> {
+    const analytics = Array.from(this.acdsAnalytics.values());
+    let filtered = organizationId ? analytics.filter(a => a.organizationId === organizationId) : analytics;
+    return analyticsType ? filtered.filter(a => a.analyticsType === analyticsType) : filtered;
+  }
+
+  async getAcdsAnalytic(analyticId: string): Promise<AcdsAnalytics | undefined> {
+    return this.acdsAnalytics.get(analyticId);
+  }
+
+  async createAcdsAnalytic(insertAnalytic: InsertAcdsAnalytics): Promise<AcdsAnalytics> {
+    const id = randomUUID();
+    const analytic: AcdsAnalytics = {
+      ...insertAnalytic,
+      id,
+      aggregationPeriod: insertAnalytic.aggregationPeriod ?? 'real_time',
+      metricData: insertAnalytic.metricData ?? null,
+      complianceFramework: insertAnalytic.complianceFramework ?? null,
+      complianceScore: insertAnalytic.complianceScore ?? null,
+      benchmarkComparison: insertAnalytic.benchmarkComparison ?? null,
+      trendAnalysis: insertAnalytic.trendAnalysis ?? null,
+      predictiveInsights: insertAnalytic.predictiveInsights ?? null,
+      alertThresholds: insertAnalytic.alertThresholds ?? null,
+      dataSource: insertAnalytic.dataSource ?? 'acds_service',
+      validationStatus: insertAnalytic.validationStatus ?? 'pending',
+      dataQualityScore: insertAnalytic.dataQualityScore ?? null,
+      correlationFactors: insertAnalytic.correlationFactors ?? null,
+      timestamp: new Date()
+    };
+    this.acdsAnalytics.set(id, analytic);
+    return analytic;
+  }
+
+  async updateAcdsAnalytic(analyticId: string, updates: Partial<AcdsAnalytics>): Promise<AcdsAnalytics> {
+    const analytic = this.acdsAnalytics.get(analyticId);
+    if (!analytic) throw new Error("ACDS analytic not found");
+    
+    const updatedAnalytic = { ...analytic, ...updates };
+    this.acdsAnalytics.set(analyticId, updatedAnalytic);
+    return updatedAnalytic;
+  }
+
+  async deleteAcdsAnalytic(analyticId: string): Promise<void> {
+    this.acdsAnalytics.delete(analyticId);
+  }
+
+  async getAcdsAnalyticsByCategory(category: string, organizationId?: string): Promise<AcdsAnalytics[]> {
+    const analytics = await this.getAcdsAnalytics(organizationId);
+    return analytics.filter(a => a.metricCategory === category);
+  }
+
+  async getAcdsAnalyticsByDateRange(startDate: Date, endDate: Date, organizationId?: string): Promise<AcdsAnalytics[]> {
+    const analytics = await this.getAcdsAnalytics(organizationId);
+    return analytics.filter(a => a.timestamp >= startDate && a.timestamp <= endDate);
   }
 }
 

@@ -237,14 +237,14 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Bottom Section with 3D Geospatial, Cambridge Analytics, and Compliance */}
+                    {/* Bottom Section with 5D Geospatial, Cambridge Analytics, and Compliance */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                      {/* 3D Geospatial Intelligence - Live Interactive Dashboard */}
+                      {/* 5D Geospatial Intelligence with Avatar Guide - Live Interactive Dashboard */}
                       <div className="lg:col-span-2 bg-slate-700/40 rounded-lg p-4 border border-gray-600/30">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center space-x-2">
                             <Enhanced4DGlobeIcon className="w-5 h-5 text-blue-400" size={20} />
-                            <h5 className="text-blue-400 font-bold text-sm uppercase">3D Geospatial Intelligence</h5>
+                            <h5 className="text-blue-400 font-bold text-sm uppercase">5D Geospatial Intelligence with Avatar Guide</h5>
                           </div>
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
@@ -371,6 +371,316 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Revolutionary AI Systems Hero */}
+        <section className="relative py-20 md:py-32 px-4 md:px-6 bg-gradient-to-br from-slate-900 via-purple-900/40 to-slate-900">
+          <div className="absolute inset-0 bg-grid-white/[0.03]"></div>
+          <div className="container mx-auto max-w-7xl relative z-10">
+            <div className="text-center mb-16">
+              <Badge className="mb-8 bg-red-500/20 text-red-300 border-red-500/30 text-xl px-8 py-4 flex items-center justify-center gap-3 max-w-md mx-auto">
+                <Enhanced4DShieldIcon className="w-6 h-6" size={24} />
+                FEDERAL DEPLOYMENT READY
+              </Badge>
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 leading-tight">
+                Five Revolutionary<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-blue-500">
+                  CyberSecured AI Systems
+                </span>
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-200 max-w-5xl mx-auto mb-12 leading-relaxed">
+                Production-ready federal-grade cybersecurity with genetic AI evolution, holographic interfaces, 
+                autonomous drone coordination, and real-time geospatial intelligence
+              </p>
+              
+              {/* Federal Compliance Badges */}
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-4 py-2">
+                  <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2" size={16} />
+                  FISMA Compliant
+                </Badge>
+                <Badge className="bg-green-500/20 text-green-300 border-green-500/30 px-4 py-2">
+                  <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2" size={16} />
+                  FedRAMP Authorized
+                </Badge>
+                <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30 px-4 py-2">
+                  <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2" size={16} />
+                  NIST Framework
+                </Badge>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg font-semibold"
+                  onClick={() => window.location.href = '/platform'}
+                >
+                  <Enhanced4DGlobeIcon className="mr-2 w-6 h-6" size={24} />
+                  Explore All Systems
+                </Button>
+                <Button 
+                  size="lg" 
+                  className="button-4d px-10 py-4 text-lg font-semibold"
+                  onClick={() => window.location.href = '/contact'}
+                >
+                  Request Federal Demo
+                  <Enhanced4DArrowRightIcon className="ml-2 w-6 h-6" size={24} />
+                </Button>
+              </div>
+            </div>
+
+            {/* Five Revolutionary Systems Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              
+              {/* CyDEF - Autonomous Cyber Defense */}
+              <Card className="bg-gradient-to-br from-purple-900/60 to-slate-800/60 border border-purple-500/40 hover:border-purple-400/70 transition-all duration-300 group lg:col-span-1">
+                <CardHeader className="p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-purple-500/30 rounded-xl flex items-center justify-center border border-purple-400/50">
+                      <Enhanced4DBrainIcon className="w-8 h-8 text-purple-300" size={32} />
+                    </div>
+                    <Badge className="bg-purple-500/20 text-purple-300 border-purple-400/30 text-xs">
+                      🧠 GENETIC AI
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl text-white mb-4">CyDEF</CardTitle>
+                  <p className="text-lg text-purple-300 font-semibold mb-3">Autonomous Cyber Defense</p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Self-evolving genetic algorithms with 99.2% accuracy. Multi-generational learning, 
+                    autonomous threat response, and federal-grade AI-powered defense systems.
+                  </p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                      Genetic Algorithm Evolution
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                      99.2% Threat Detection Accuracy
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                      Autonomous Policy Generation
+                    </div>
+                  </div>
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => window.location.href = '/dashboard/cydef'}
+                  >
+                    Access CyDEF Dashboard
+                    <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Live Location Tracking */}
+              <Card className="bg-gradient-to-br from-cyan-900/60 to-slate-800/60 border border-cyan-500/40 hover:border-cyan-400/70 transition-all duration-300 group">
+                <CardHeader className="p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-cyan-500/30 rounded-xl flex items-center justify-center border border-cyan-400/50">
+                      <Enhanced4DGlobeIcon className="w-8 h-8 text-cyan-300" size={32} />
+                    </div>
+                    <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-400/30 text-xs">
+                      📍 GEOSPATIAL
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl text-white mb-4">Live Location</CardTitle>
+                  <p className="text-lg text-cyan-300 font-semibold mb-3">Real-Time Asset Tracking</p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Real-time device and asset monitoring with geospatial intelligence integration, 
+                    automated threat correlation, and comprehensive location-based security.
+                  </p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                      Real-Time Device Monitoring
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                      Geospatial Intelligence Integration
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                      Automated Threat Correlation
+                    </div>
+                  </div>
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => window.location.href = '/dashboard/location'}
+                  >
+                    View Location Dashboard
+                    <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* CypherHUM - Holographic Interface */}
+              <Card className="bg-gradient-to-br from-blue-900/60 to-slate-800/60 border border-blue-500/40 hover:border-blue-400/70 transition-all duration-300 group">
+                <CardHeader className="p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-blue-500/30 rounded-xl flex items-center justify-center border border-blue-400/50">
+                      <Enhanced4DEyeIcon className="w-8 h-8 text-blue-300" size={32} />
+                    </div>
+                    <Badge className="bg-blue-500/20 text-blue-300 border-blue-400/30 text-xs">
+                      👁️ 5D HOLOGRAPHIC AVATAR
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl text-white mb-4">CypherHUM</CardTitle>
+                  <p className="text-lg text-blue-300 font-semibold mb-3">Live Human-Like Avatar Interface</p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Revolutionary 5D threat visualization with live human-like avatar guide featuring natural movements, 
+                    facial expressions, and contextual gestures. Experience temporal threat analysis across time and space dimensions.
+                  </p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                      5D Holographic Threat Matrix
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                      Live Avatar with Facial Expressions
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                      AI Natural Language Processing
+                    </div>
+                  </div>
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => window.location.href = '/dashboard/cypherHUM'}
+                  >
+                    Enter Holographic Interface
+                    <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* ACDS - Autonomous Cyber Defense Swarm */}
+              <Card className="bg-gradient-to-br from-red-900/60 to-slate-800/60 border border-red-500/40 hover:border-red-400/70 transition-all duration-300 group md:col-span-2 lg:col-span-1">
+                <CardHeader className="p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-red-500/30 rounded-xl flex items-center justify-center border border-red-400/50">
+                      <Enhanced4DZapIcon className="w-8 h-8 text-red-300" size={32} />
+                    </div>
+                    <Badge className="bg-red-500/20 text-red-300 border-red-400/30 text-xs">
+                      🚁 DRONE SWARM
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl text-white mb-4">ACDS</CardTitle>
+                  <p className="text-lg text-red-300 font-semibold mb-3">Autonomous Cyber Defense Swarm</p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Drone swarm coordination and monitoring with autonomous defensive operations, 
+                    real-time swarm intelligence, and integrated cyber-physical security systems.
+                  </p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="space-y-2 mb-6">
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                      Drone Swarm Coordination
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                      Autonomous Defensive Operations
+                    </div>
+                    <div className="flex items-center text-sm text-gray-300">
+                      <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                      Real-Time Swarm Intelligence
+                    </div>
+                  </div>
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => window.location.href = '/dashboard/acds'}
+                  >
+                    Access ACDS Control
+                    <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {/* Unified Integration Platform */}
+              <Card className="bg-gradient-to-br from-green-900/60 to-slate-800/60 border border-green-500/40 hover:border-green-400/70 transition-all duration-300 group md:col-span-2">
+                <CardHeader className="p-8">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-16 h-16 bg-green-500/30 rounded-xl flex items-center justify-center border border-green-400/50">
+                      <Enhanced4DNetworkIcon className="w-8 h-8 text-green-300" size={32} />
+                    </div>
+                    <Badge className="bg-green-500/20 text-green-300 border-green-400/30 text-xs">
+                      🔄 UNIFIED ANALYTICS
+                    </Badge>
+                  </div>
+                  <CardTitle className="text-2xl text-white mb-4">Unified Integration Platform</CardTitle>
+                  <p className="text-lg text-green-300 font-semibold mb-3">Cross-System Analytics & Correlation</p>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Cross-system analytics and correlation engine with centralized alert management, 
+                    executive compliance dashboards, and federal deployment architecture integration.
+                  </p>
+                </CardHeader>
+                <CardContent className="p-8 pt-0">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm text-gray-300">
+                        <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                        Cross-System Analytics
+                      </div>
+                      <div className="flex items-center text-sm text-gray-300">
+                        <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                        Centralized Alert Management
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm text-gray-300">
+                        <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                        Executive Compliance Dashboards
+                      </div>
+                      <div className="flex items-center text-sm text-gray-300">
+                        <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                        Federal Deployment Architecture
+                      </div>
+                    </div>
+                  </div>
+                  <Button 
+                    className="button-4d w-full"
+                    onClick={() => window.location.href = '/dashboard/unified'}
+                  >
+                    Access Unified Platform
+                    <Enhanced4DArrowRightIcon className="ml-2 w-4 h-4" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Technical Specifications Banner */}
+            <div className="mt-16 bg-slate-800/60 rounded-xl border border-cyan-500/30 p-8">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">
+                Enterprise Technical Architecture
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">5</div>
+                  <div className="text-sm text-gray-300">Operational WebSocket Servers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-400 mb-2">JWT</div>
+                  <div className="text-sm text-gray-300">Role-Based Authorization</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-2">5D</div>
+                  <div className="text-sm text-gray-300">Avatar-Guided Threat Visualization</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-400 mb-2">AI</div>
+                  <div className="text-sm text-gray-300">Genetic Algorithm Evolution</div>
                 </div>
               </div>
             </div>
