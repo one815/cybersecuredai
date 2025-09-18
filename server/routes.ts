@@ -9975,11 +9975,74 @@ startxref
 
       // ===== Live Location WebSocket Support =====
       
-      // Live Location WebSocket endpoint
-      wss.on('connection', (ws, request) => {
-        if (request.url !== '/ws/live-location') return;
+      // Live Location WebSocket endpoint with authentication
+      wss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
         
-        console.log('📍 Live Location WebSocket client connected');
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/live-location') {
+          console.warn(`⚠️ WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ Live Location WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ Live Location WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ Live Location WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🆔 User ID: ${payload.userId}`);
+          console.log(`   🕐 Token expires: ${payload.exp ? new Date(payload.exp * 1000).toISOString() : 'Unknown'}`);
+          
+          // Store user info for this WebSocket connection
+          (ws as any).userId = payload.userId;
+          (ws as any).userEmail = payload.email;
+          (ws as any).userRole = payload.role;
+          (ws as any).connectedAt = new Date().toISOString();
+          
+        } catch (authError) {
+          console.error('❌ Live Location WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
 
         // Initialize Live Location service and set up event listeners
         initLiveLocationService().then(liveLocationService => {
@@ -10138,8 +10201,25 @@ startxref
           }
         });
 
+        // Enhanced error handling with user context
         ws.on('error', (error) => {
-          console.error('❌ Live Location WebSocket error:', error);
+          const userInfo = (ws as any).userEmail ? `(${(ws as any).userEmail})` : '(anonymous)';
+          console.error(`❌ Live Location WebSocket error for user ${userInfo}:`, error);
+        });
+
+        // Connection close event with proper cleanup
+        ws.on('close', (code, reason) => {
+          const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+          const connectedDuration = (ws as any).connectedAt 
+            ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+            : '';
+          
+          console.log(`🔌 Live Location WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+          console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+          
+          // Remove event listeners to prevent memory leaks
+          // Note: Event handlers are cleaned up automatically when WebSocket closes
+          // The Live Location service will handle cleanup internally
         });
       });
 

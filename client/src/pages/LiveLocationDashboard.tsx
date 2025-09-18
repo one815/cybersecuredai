@@ -10,7 +10,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { apiRequest } from "@/lib/queryClient";
 import {
   MapPin,
@@ -129,6 +131,7 @@ declare global {
 export default function LiveLocationDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { user, isAuthenticated, isLoading: authLoading, login } = useAuth();
   const mapRef = useRef<HTMLDivElement>(null);
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -148,34 +151,59 @@ export default function LiveLocationDashboard() {
   const [filterDeviceType, setFilterDeviceType] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Fetch dashboard data - use WebSocket when connected, fallback to polling
-  const { data: dashboardData, isLoading: loadingDashboard, refetch: refetchDashboard } = useQuery({
+  // Fetch dashboard data - gate on authentication state, use WebSocket when connected, fallback to polling
+  const { data: dashboardData, isLoading: loadingDashboard, refetch: refetchDashboard, error: dashboardError } = useQuery({
     queryKey: ['/api/live-location/dashboard'],
-    refetchInterval: (realTimeEnabled && !wsConnected) ? 10000 : false, // Only poll if WebSocket not connected
+    enabled: isAuthenticated, // Only fetch when authenticated
+    refetchInterval: (realTimeEnabled && !wsConnected && isAuthenticated) ? 10000 : false, // Only poll if WebSocket not connected and authenticated
+    retry: (failureCount, error: any) => {
+      // Don't retry on 401 errors - authentication issue
+      if (error?.response?.status === 401) return false;
+      return failureCount < 3;
+    }
   });
 
-  // Fetch devices with filtering - use WebSocket when connected, fallback to polling
-  const { data: devicesData, isLoading: loadingDevices, refetch: refetchDevices } = useQuery({
-    queryKey: ['/api/live-location/devices', filterStatus, filterDeviceType, searchQuery],
-    queryFn: () => {
+  // Fetch devices with filtering - gate on authentication state, use WebSocket when connected, fallback to polling
+  const { data: devicesData, isLoading: loadingDevices, refetch: refetchDevices, error: devicesError } = useQuery({
+    queryKey: (() => {
+      const baseUrl = '/api/live-location/devices';
       const params = new URLSearchParams();
       if (filterStatus !== 'all') params.append('status', filterStatus);
       if (filterDeviceType !== 'all') params.append('deviceType', filterDeviceType);
       if (searchQuery) params.append('search', searchQuery);
-      return fetch(`/api/live-location/devices?${params}`).then(res => res.json());
-    },
-    refetchInterval: (realTimeEnabled && !wsConnected) ? 15000 : false, // Only poll if WebSocket not connected
+      const queryString = params.toString();
+      return [queryString ? `${baseUrl}?${queryString}` : baseUrl];
+    })(),
+    enabled: isAuthenticated, // Only fetch when authenticated
+    refetchInterval: (realTimeEnabled && !wsConnected && isAuthenticated) ? 15000 : false, // Only poll if WebSocket not connected and authenticated
+    retry: (failureCount, error: any) => {
+      // Don't retry on 401 errors - authentication issue
+      if (error?.response?.status === 401) return false;
+      return failureCount < 3;
+    }
   });
 
-  // Fetch alerts - use WebSocket when connected, fallback to polling
-  const { data: alertsData, isLoading: loadingAlerts, refetch: refetchAlerts } = useQuery({
+  // Fetch alerts - gate on authentication state, use WebSocket when connected, fallback to polling
+  const { data: alertsData, isLoading: loadingAlerts, refetch: refetchAlerts, error: alertsError } = useQuery({
     queryKey: ['/api/live-location/alerts'],
-    refetchInterval: (realTimeEnabled && !wsConnected) ? 5000 : false, // Only poll if WebSocket not connected
+    enabled: isAuthenticated, // Only fetch when authenticated
+    refetchInterval: (realTimeEnabled && !wsConnected && isAuthenticated) ? 5000 : false, // Only poll if WebSocket not connected and authenticated
+    retry: (failureCount, error: any) => {
+      // Don't retry on 401 errors - authentication issue
+      if (error?.response?.status === 401) return false;
+      return failureCount < 3;
+    }
   });
 
-  // Fetch geofences
-  const { data: geofencesData, isLoading: loadingGeofences } = useQuery({
+  // Fetch geofences - gate on authentication state
+  const { data: geofencesData, isLoading: loadingGeofences, error: geofencesError } = useQuery({
     queryKey: ['/api/live-location/geofences'],
+    enabled: isAuthenticated, // Only fetch when authenticated
+    retry: (failureCount, error: any) => {
+      // Don't retry on 401 errors - authentication issue
+      if (error?.response?.status === 401) return false;
+      return failureCount < 3;
+    }
   });
 
   // WebSocket connection and real-time updates
@@ -184,7 +212,21 @@ export default function LiveLocationDashboard() {
 
     const connectWebSocket = () => {
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/ws/live-location`;
+      
+      // Get authentication token from localStorage
+      const token = localStorage.getItem('auth_token');
+      if (!token) {
+        console.warn('📍 No authentication token found, WebSocket connection skipped');
+        toast({
+          title: "Authentication Required",
+          description: "Please log in to enable real-time location tracking.",
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Include token in WebSocket URL as query parameter
+      const wsUrl = `${protocol}//${window.location.host}/ws/live-location?token=${encodeURIComponent(token)}`;
       
       try {
         const ws = new WebSocket(wsUrl);
@@ -224,12 +266,23 @@ export default function LiveLocationDashboard() {
           setWsConnected(false);
         };
         
-        ws.onclose = () => {
-          console.log('📍 Live Location WebSocket disconnected');
+        ws.onclose = (event) => {
+          console.log('📍 Live Location WebSocket disconnected', event.code, event.reason);
           setWsConnected(false);
           wsRef.current = null;
           
-          // Attempt to reconnect with exponential backoff
+          // Handle authentication-related close codes
+          if (event.code === 1008) {
+            console.error('❌ WebSocket authentication failed:', event.reason);
+            toast({
+              title: "Authentication Failed",
+              description: "Real-time updates require valid authentication. Please log in again.",
+              variant: "destructive"
+            });
+            return; // Don't attempt reconnection for auth failures
+          }
+          
+          // Attempt to reconnect with exponential backoff for other failures
           if (realTimeEnabled && wsReconnectAttempts < 5) {
             const backoffDelay = Math.min(1000 * Math.pow(2, wsReconnectAttempts), 30000);
             setWsReconnectAttempts(prev => prev + 1);
@@ -649,6 +702,57 @@ export default function LiveLocationDashboard() {
       notes
     });
   };
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white mb-4"></div>
+          <p className="text-xl">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show user-friendly unauthenticated UI instead of noisy 401 errors
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900 text-white flex items-center justify-center">
+        <div className="max-w-md mx-auto text-center">
+          <div className="mb-8">
+            <Shield className="w-16 h-16 mx-auto mb-4 text-blue-400" />
+            <h1 className="text-3xl font-bold mb-2">Authentication Required</h1>
+            <p className="text-gray-300 mb-6">
+              Live Location Dashboard requires authentication to access real-time device tracking and monitoring features.
+            </p>
+          </div>
+          
+          <Alert className="mb-6 bg-blue-900/20 border-blue-400">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription className="text-blue-200">
+              Please log in to access:
+              <ul className="mt-2 space-y-1 text-left">
+                <li>• Real-time device location tracking</li>
+                <li>• Live WebSocket connections</li>
+                <li>• Security alerts and monitoring</li>
+                <li>• Geofence management</li>
+              </ul>
+            </AlertDescription>
+          </Alert>
+
+          <Button 
+            onClick={login} 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-lg"
+            data-testid="button-login"
+          >
+            <Shield className="w-5 h-5 mr-2" />
+            Log In to Continue
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900 text-white p-6">
