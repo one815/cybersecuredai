@@ -732,3 +732,255 @@ export type CydefPerformanceMetric = typeof cydefPerformanceMetrics.$inferSelect
 export type InsertCydefPerformanceMetric = z.infer<typeof insertCydefPerformanceMetricSchema>;
 export type CydefThreatAnalysis = typeof cydefThreatAnalyses.$inferSelect;
 export type InsertCydefThreatAnalysis = z.infer<typeof insertCydefThreatAnalysisSchema>;
+
+// ===== Live Location Tracking System Tables =====
+
+// Device Registry and Basic Information
+export const liveLocationDevices = pgTable("live_location_devices", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deviceName: varchar("device_name").notNull(),
+  deviceType: varchar("device_type").notNull(), // server, workstation, mobile, iot, router, switch, firewall, camera, sensor
+  deviceCategory: varchar("device_category").notNull(), // critical, standard, monitoring, infrastructure
+  macAddress: varchar("mac_address"),
+  ipAddress: varchar("ip_address"),
+  serialNumber: varchar("serial_number"),
+  manufacturer: varchar("manufacturer"),
+  model: varchar("model"),
+  firmwareVersion: varchar("firmware_version"),
+  operatingSystem: varchar("operating_system"),
+  networkSegmentId: varchar("network_segment_id"),
+  assignedTo: varchar("assigned_to").references(() => users.id),
+  organizationId: varchar("organization_id").notNull(),
+  status: varchar("status").notNull().default("unknown"), // online, offline, maintenance, decommissioned, lost, stolen
+  lastSeen: timestamp("last_seen"),
+  discoveryMethod: varchar("discovery_method").default("manual"), // manual, network_scan, nozomi_arc, active_probe, snmp
+  healthScore: integer("health_score").default(100), // 0-100 health percentage
+  criticalAsset: boolean("critical_asset").default(false),
+  monitoringEnabled: boolean("monitoring_enabled").default(true),
+  locationTrackingEnabled: boolean("location_tracking_enabled").default(false),
+  complianceRequired: boolean("compliance_required").default(false),
+  complianceFrameworks: jsonb("compliance_frameworks").default('[]'), // Array of applicable frameworks
+  metadata: jsonb("metadata").default('{}'),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Location History and Movement Tracking
+export const liveLocationHistory = pgTable("live_location_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deviceId: varchar("device_id").notNull().references(() => liveLocationDevices.id),
+  latitude: varchar("latitude"),
+  longitude: varchar("longitude"),
+  altitude: varchar("altitude"),
+  accuracy: integer("accuracy"), // GPS accuracy in meters
+  locationMethod: varchar("location_method").notNull().default("gps"), // gps, wifi, cellular, ip_geolocation, manual, beacon
+  networkLocation: jsonb("network_location"), // Network-based location data
+  ipGeolocation: jsonb("ip_geolocation"), // IP-based geolocation data
+  address: text("address"), // Human-readable address
+  city: varchar("city"),
+  state: varchar("state"),
+  country: varchar("country"),
+  timezone: varchar("timezone"),
+  movementSpeed: integer("movement_speed"), // Speed in km/h
+  movementDirection: integer("movement_direction"), // Bearing in degrees
+  batteryLevel: integer("battery_level"), // For mobile devices (0-100)
+  signalStrength: integer("signal_strength"), // Network signal strength
+  isInsideGeofence: boolean("is_inside_geofence").default(false),
+  geofenceIds: jsonb("geofence_ids").default('[]'), // Array of geofence IDs device is within
+  reportedBy: varchar("reported_by"), // Source of location update
+  confidence: integer("confidence").default(100), // Confidence in location accuracy (0-100)
+  isAnomaly: boolean("is_anomaly").default(false), // Flagged as unusual movement
+  recordedAt: timestamp("recorded_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Location-based Security Alerts
+export const liveLocationAlerts = pgTable("live_location_alerts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  alertType: varchar("alert_type").notNull(), // geofence_breach, unauthorized_movement, device_missing, suspicious_location, network_anomaly
+  severity: varchar("severity").notNull().default("medium"), // low, medium, high, critical
+  status: varchar("status").notNull().default("active"), // active, acknowledged, resolved, false_positive
+  deviceId: varchar("device_id").references(() => liveLocationDevices.id),
+  geofenceId: varchar("geofence_id"),
+  locationHistoryId: varchar("location_history_id").references(() => liveLocationHistory.id),
+  threatId: varchar("threat_id").references(() => threats.id), // Link to related threat
+  alertTitle: varchar("alert_title").notNull(),
+  alertDescription: text("alert_description"),
+  currentLocation: jsonb("current_location"), // Current coordinates and details
+  expectedLocation: jsonb("expected_location"), // Where device should be
+  riskAssessment: jsonb("risk_assessment"), // Automated risk analysis
+  recommendedActions: jsonb("recommended_actions"), // Suggested response actions
+  automatedResponse: boolean("automated_response").default(false),
+  responseActions: jsonb("response_actions"), // Actions taken
+  acknowledgedBy: varchar("acknowledged_by").references(() => users.id),
+  acknowledgedAt: timestamp("acknowledged_at"),
+  resolvedBy: varchar("resolved_by").references(() => users.id),
+  resolvedAt: timestamp("resolved_at"),
+  escalationLevel: integer("escalation_level").default(0), // 0-5 escalation levels
+  notificationsSent: jsonb("notifications_sent").default('[]'), // Track notifications
+  complianceImpact: varchar("compliance_impact"), // FERPA, FISMA, HIPAA, etc.
+  investigationNotes: text("investigation_notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Geographic Boundaries and Rules
+export const liveLocationGeoFences = pgTable("live_location_geofences", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  fenceType: varchar("fence_type").notNull().default("circular"), // circular, polygon, corridor
+  centerLatitude: varchar("center_latitude"),
+  centerLongitude: varchar("center_longitude"),
+  radius: integer("radius"), // Radius in meters for circular fences
+  polygonCoordinates: jsonb("polygon_coordinates"), // Array of coordinates for polygon fences
+  organizationId: varchar("organization_id").notNull(),
+  isActive: boolean("is_active").default(true),
+  alertOnEntry: boolean("alert_on_entry").default(false),
+  alertOnExit: boolean("alert_on_exit").default(true),
+  allowedDeviceTypes: jsonb("allowed_device_types").default('[]'), // Restricted device types
+  timeRestrictions: jsonb("time_restrictions"), // Time-based access rules
+  complianceZone: boolean("compliance_zone").default(false),
+  complianceFramework: varchar("compliance_framework"), // FERPA, FISMA, etc.
+  securityLevel: varchar("security_level").default("standard"), // public, standard, restricted, classified
+  monitoringLevel: varchar("monitoring_level").default("standard"), // minimal, standard, enhanced, maximum
+  automatedResponses: jsonb("automated_responses").default('[]'), // Automated response rules
+  priority: integer("priority").default(5), // 1-10 priority level
+  createdBy: varchar("created_by").notNull().references(() => users.id),
+  lastModifiedBy: varchar("last_modified_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Physical Asset Tracking
+export const liveLocationAssets = pgTable("live_location_assets", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  assetTag: varchar("asset_tag").notNull().unique(),
+  assetName: varchar("asset_name").notNull(),
+  assetType: varchar("asset_type").notNull(), // laptop, server, mobile_device, tablet, networking_equipment, iot_device, vehicle, equipment
+  category: varchar("category").notNull(), // it_equipment, security_device, facility_equipment, vehicle, personal_device
+  deviceId: varchar("device_id").references(() => liveLocationDevices.id), // Link to device if applicable
+  serialNumber: varchar("serial_number"),
+  manufacturer: varchar("manufacturer"),
+  model: varchar("model"),
+  purchaseDate: timestamp("purchase_date"),
+  warrantyExpiration: timestamp("warranty_expiration"),
+  value: integer("value"), // Asset value in cents
+  condition: varchar("condition").default("good"), // excellent, good, fair, poor, damaged
+  status: varchar("status").notNull().default("active"), // active, inactive, maintenance, lost, stolen, disposed
+  assignedTo: varchar("assigned_to").references(() => users.id),
+  assignedLocation: varchar("assigned_location"), // Expected/assigned location
+  currentLocation: jsonb("current_location"), // Current tracked location
+  homeBase: jsonb("home_base"), // Primary/home location
+  custodian: varchar("custodian").references(() => users.id), // Person responsible for asset
+  organizationId: varchar("organization_id").notNull(),
+  criticality: varchar("criticality").default("standard"), // low, standard, high, critical
+  trackingMethod: varchar("tracking_method").default("manual"), // manual, gps, rfid, beacon, network
+  trackingEnabled: boolean("tracking_enabled").default(false),
+  complianceRequired: boolean("compliance_required").default(false),
+  complianceFrameworks: jsonb("compliance_frameworks").default('[]'), // Applicable compliance requirements
+  maintenanceSchedule: jsonb("maintenance_schedule"), // Maintenance requirements
+  lastInventory: timestamp("last_inventory"), // Last physical inventory check
+  inventoryFrequency: varchar("inventory_frequency").default("quarterly"), // monthly, quarterly, annually
+  riskAssessment: jsonb("risk_assessment"), // Security risk analysis
+  encryptionStatus: varchar("encryption_status"), // none, partial, full, unknown
+  accessControls: jsonb("access_controls"), // Access control settings
+  backupStatus: varchar("backup_status"), // none, partial, full, unknown
+  incidentHistory: jsonb("incident_history").default('[]'), // Previous security incidents
+  notes: text("notes"),
+  metadata: jsonb("metadata").default('{}'),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Network Topology Mapping
+export const liveLocationNetworkSegments = pgTable("live_location_network_segments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  segmentName: varchar("segment_name").notNull(),
+  segmentType: varchar("segment_type").notNull(), // lan, wan, dmz, guest, iot, management, production, development
+  networkRange: varchar("network_range").notNull(), // CIDR notation
+  vlanId: integer("vlan_id"),
+  subnetMask: varchar("subnet_mask"),
+  gateway: varchar("gateway"),
+  dnsServers: jsonb("dns_servers").default('[]'),
+  organizationId: varchar("organization_id").notNull(),
+  physicalLocation: text("physical_location"), // Building, floor, room
+  geographicLocation: jsonb("geographic_location"), // Lat/lng of network segment
+  securityZone: varchar("security_zone").notNull().default("internal"), // external, dmz, internal, restricted, isolated
+  trustLevel: varchar("trust_level").default("standard"), // untrusted, low, standard, high, critical
+  monitoringEnabled: boolean("monitoring_enabled").default(true),
+  isolationCapable: boolean("isolation_capable").default(false),
+  firewallRules: jsonb("firewall_rules").default('[]'), // Associated firewall rules
+  accessControlList: jsonb("access_control_list").default('[]'), // Network ACLs
+  deviceCount: integer("device_count").default(0), // Number of devices in segment
+  criticalDeviceCount: integer("critical_device_count").default(0),
+  lastScan: timestamp("last_scan"), // Last network discovery scan
+  scanFrequency: varchar("scan_frequency").default("daily"), // hourly, daily, weekly
+  threatLevel: varchar("threat_level").default("low"), // low, medium, high, critical
+  complianceZone: boolean("compliance_zone").default(false),
+  complianceRequirements: jsonb("compliance_requirements").default('[]'), // FERPA, FISMA, etc.
+  networkHealth: integer("network_health").default(100), // 0-100 health score
+  bandwidthUtilization: integer("bandwidth_utilization").default(0), // 0-100 percentage
+  latencyMs: integer("latency_ms"), // Average latency in milliseconds
+  packetLoss: integer("packet_loss").default(0), // Packet loss percentage * 100
+  availabilityScore: integer("availability_score").default(100), // 0-100 availability
+  integrationData: jsonb("integration_data"), // Nozomi Arc and other integration data
+  isActive: boolean("is_active").default(true),
+  createdBy: varchar("created_by").notNull().references(() => users.id),
+  lastModifiedBy: varchar("last_modified_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// ===== Live Location Insert Schemas =====
+
+export const insertLiveLocationDeviceSchema = createInsertSchema(liveLocationDevices).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLiveLocationHistorySchema = createInsertSchema(liveLocationHistory).omit({
+  id: true,
+  recordedAt: true,
+  createdAt: true,
+});
+
+export const insertLiveLocationAlertSchema = createInsertSchema(liveLocationAlerts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLiveLocationGeoFenceSchema = createInsertSchema(liveLocationGeoFences).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLiveLocationAssetSchema = createInsertSchema(liveLocationAssets).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertLiveLocationNetworkSegmentSchema = createInsertSchema(liveLocationNetworkSegments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// ===== Live Location Type Definitions =====
+
+export type LiveLocationDevice = typeof liveLocationDevices.$inferSelect;
+export type InsertLiveLocationDevice = z.infer<typeof insertLiveLocationDeviceSchema>;
+export type LiveLocationHistory = typeof liveLocationHistory.$inferSelect;
+export type InsertLiveLocationHistory = z.infer<typeof insertLiveLocationHistorySchema>;
+export type LiveLocationAlert = typeof liveLocationAlerts.$inferSelect;
+export type InsertLiveLocationAlert = z.infer<typeof insertLiveLocationAlertSchema>;
+export type LiveLocationGeoFence = typeof liveLocationGeoFences.$inferSelect;
+export type InsertLiveLocationGeoFence = z.infer<typeof insertLiveLocationGeoFenceSchema>;
+export type LiveLocationAsset = typeof liveLocationAssets.$inferSelect;
+export type InsertLiveLocationAsset = z.infer<typeof insertLiveLocationAssetSchema>;
+export type LiveLocationNetworkSegment = typeof liveLocationNetworkSegments.$inferSelect;
+export type InsertLiveLocationNetworkSegment = z.infer<typeof insertLiveLocationNetworkSegmentSchema>;

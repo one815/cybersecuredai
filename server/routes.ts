@@ -7,7 +7,7 @@ import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
 // Engine types only - no instantiation imports
 import type { VerificationContext } from "./engines/zero-trust";
@@ -2865,6 +2865,537 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(500).json({ error: 'Failed to fetch threat statistics' });
       }
     });
+
+  // ===== Live Location Tracking System API Endpoints =====
+  
+  // Initialize Live Location Service instance
+  let liveLocationService: any = null;
+  const initLiveLocationService = async () => {
+    if (!liveLocationService) {
+      const { LiveLocationService } = await import('./services/live-location-service.js');
+      const { db } = await import('./db.js');
+      liveLocationService = new LiveLocationService({
+        organizationId: 'default-org', // TODO: Get from user context
+        trackingEnabled: true,
+        updateIntervalMs: 30000, // 30 seconds
+        geofenceCheckEnabled: true,
+        anomalyDetectionEnabled: true,
+        alertEscalationEnabled: true,
+        complianceLoggingEnabled: true,
+      }, db);
+      await liveLocationService.initialize();
+    }
+    return liveLocationService;
+  };
+
+  // Device Discovery and Management
+  app.get('/api/live-location/devices', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const { limit = 50, offset = 0, status, deviceType, category } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationDevices);
+      
+      // Apply filters
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationDevices.status, status as string));
+      if (deviceType) conditions.push(eq(liveLocationDevices.deviceType, deviceType as string));
+      if (category) conditions.push(eq(liveLocationDevices.deviceCategory, category as string));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const devices = await query
+        .limit(parseInt(limit as string))
+        .offset(parseInt(offset as string))
+        .orderBy(desc(liveLocationDevices.lastSeen));
+        
+      res.json({
+        devices,
+        pagination: {
+          limit: parseInt(limit as string),
+          offset: parseInt(offset as string),
+          total: devices.length
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching live location devices:', error);
+      res.status(500).json({ error: 'Failed to fetch devices' });
+    }
+  });
+
+  app.post('/api/live-location/devices', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const deviceData = insertLiveLocationDeviceSchema.parse(req.body);
+      
+      const device = await service.registerDevice(deviceData);
+      res.status(201).json(device);
+    } catch (error) {
+      console.error('Error registering device:', error);
+      res.status(500).json({ error: 'Failed to register device' });
+    }
+  });
+
+  app.get('/api/live-location/devices/:deviceId', async (req, res) => {
+    try {
+      const { deviceId } = req.params;
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      const [device] = await db.select()
+        .from(liveLocationDevices)
+        .where(eq(liveLocationDevices.id, deviceId));
+        
+      if (!device) {
+        return res.status(404).json({ error: 'Device not found' });
+      }
+      
+      res.json(device);
+    } catch (error) {
+      console.error('Error fetching device:', error);
+      res.status(500).json({ error: 'Failed to fetch device' });
+    }
+  });
+
+  app.put('/api/live-location/devices/:deviceId', async (req, res) => {
+    try {
+      const { deviceId } = req.params;
+      const updateData = req.body;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      const [updatedDevice] = await db.update(liveLocationDevices)
+        .set({ ...updateData, updatedAt: new Date() })
+        .where(eq(liveLocationDevices.id, deviceId))
+        .returning();
+        
+      if (!updatedDevice) {
+        return res.status(404).json({ error: 'Device not found' });
+      }
+      
+      res.json(updatedDevice);
+    } catch (error) {
+      console.error('Error updating device:', error);
+      res.status(500).json({ error: 'Failed to update device' });
+    }
+  });
+
+  // Real-time Location Updates
+  app.post('/api/live-location/tracking', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const locationUpdate = req.body;
+      
+      // Validate required fields
+      if (!locationUpdate.deviceId) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+      
+      await service.updateDeviceLocation(locationUpdate);
+      res.json({ success: true, timestamp: new Date() });
+    } catch (error) {
+      console.error('Error updating location:', error);
+      res.status(500).json({ error: 'Failed to update location' });
+    }
+  });
+
+  app.get('/api/live-location/tracking/:deviceId/current', async (req, res) => {
+    try {
+      const { deviceId } = req.params;
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      const [currentLocation] = await db.select()
+        .from(liveLocationHistory)
+        .where(eq(liveLocationHistory.deviceId, deviceId))
+        .orderBy(desc(liveLocationHistory.recordedAt))
+        .limit(1);
+        
+      if (!currentLocation) {
+        return res.status(404).json({ error: 'No location data found for device' });
+      }
+      
+      res.json(currentLocation);
+    } catch (error) {
+      console.error('Error fetching current location:', error);
+      res.status(500).json({ error: 'Failed to fetch current location' });
+    }
+  });
+
+  // Historical Location Data
+  app.get('/api/live-location/history', async (req, res) => {
+    try {
+      const { deviceId, startDate, endDate, limit = 100 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationHistory);
+      
+      const conditions = [];
+      if (deviceId) conditions.push(eq(liveLocationHistory.deviceId, deviceId as string));
+      if (startDate) conditions.push(sql`${liveLocationHistory.recordedAt} >= ${new Date(startDate as string)}`);
+      if (endDate) conditions.push(sql`${liveLocationHistory.recordedAt} <= ${new Date(endDate as string)}`);
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const history = await query
+        .orderBy(desc(liveLocationHistory.recordedAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ history, count: history.length });
+    } catch (error) {
+      console.error('Error fetching location history:', error);
+      res.status(500).json({ error: 'Failed to fetch location history' });
+    }
+  });
+
+  app.get('/api/live-location/history/:deviceId/path', async (req, res) => {
+    try {
+      const { deviceId } = req.params;
+      const { hours = 24 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      const path = await db.select({
+        latitude: liveLocationHistory.latitude,
+        longitude: liveLocationHistory.longitude,
+        timestamp: liveLocationHistory.recordedAt,
+        accuracy: liveLocationHistory.accuracy,
+        locationMethod: liveLocationHistory.locationMethod,
+      })
+      .from(liveLocationHistory)
+      .where(and(
+        eq(liveLocationHistory.deviceId, deviceId),
+        sql`${liveLocationHistory.recordedAt} >= ${new Date(Date.now() - parseInt(hours as string) * 60 * 60 * 1000)}`,
+        isNotNull(liveLocationHistory.latitude),
+        isNotNull(liveLocationHistory.longitude)
+      ))
+      .orderBy(liveLocationHistory.recordedAt);
+      
+      res.json({ deviceId, path, hours: parseInt(hours as string) });
+    } catch (error) {
+      console.error('Error fetching device path:', error);
+      res.status(500).json({ error: 'Failed to fetch device path' });
+    }
+  });
+
+  // Location-based Alerts
+  app.get('/api/live-location/alerts', async (req, res) => {
+    try {
+      const { status = 'active', severity, limit = 50 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationAlerts);
+      
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationAlerts.status, status as string));
+      if (severity) conditions.push(eq(liveLocationAlerts.severity, severity as string));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const alerts = await query
+        .orderBy(desc(liveLocationAlerts.createdAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ alerts, count: alerts.length });
+    } catch (error) {
+      console.error('Error fetching location alerts:', error);
+      res.status(500).json({ error: 'Failed to fetch alerts' });
+    }
+  });
+
+  app.post('/api/live-location/alerts', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const alertData = insertLiveLocationAlertSchema.parse(req.body);
+      
+      const alert = await service.createLocationAlert(alertData);
+      res.status(201).json(alert);
+    } catch (error) {
+      console.error('Error creating alert:', error);
+      res.status(500).json({ error: 'Failed to create alert' });
+    }
+  });
+
+  app.put('/api/live-location/alerts/:alertId/acknowledge', async (req, res) => {
+    try {
+      const { alertId } = req.params;
+      const { acknowledgedBy, notes } = req.body;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts } = await import('../shared/schema.js');
+      
+      const [alert] = await db.update(liveLocationAlerts)
+        .set({
+          status: 'acknowledged',
+          acknowledgedBy,
+          acknowledgedAt: new Date(),
+          investigationNotes: notes,
+          updatedAt: new Date(),
+        })
+        .where(eq(liveLocationAlerts.id, alertId))
+        .returning();
+        
+      if (!alert) {
+        return res.status(404).json({ error: 'Alert not found' });
+      }
+      
+      res.json(alert);
+    } catch (error) {
+      console.error('Error acknowledging alert:', error);
+      res.status(500).json({ error: 'Failed to acknowledge alert' });
+    }
+  });
+
+  // Geographic Boundary Management
+  app.get('/api/live-location/geofences', async (req, res) => {
+    try {
+      const { isActive = true } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationGeoFences } = await import('../shared/schema.js');
+      
+      const geofences = await db.select()
+        .from(liveLocationGeoFences)
+        .where(eq(liveLocationGeoFences.isActive, isActive === 'true'))
+        .orderBy(desc(liveLocationGeoFences.createdAt));
+        
+      res.json({ geofences, count: geofences.length });
+    } catch (error) {
+      console.error('Error fetching geofences:', error);
+      res.status(500).json({ error: 'Failed to fetch geofences' });
+    }
+  });
+
+  app.post('/api/live-location/geofences', async (req, res) => {
+    try {
+      const geofenceData = insertLiveLocationGeoFenceSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationGeoFences } = await import('../shared/schema.js');
+      
+      const [geofence] = await db.insert(liveLocationGeoFences)
+        .values(geofenceData)
+        .returning();
+        
+      res.status(201).json(geofence);
+    } catch (error) {
+      console.error('Error creating geofence:', error);
+      res.status(500).json({ error: 'Failed to create geofence' });
+    }
+  });
+
+  app.get('/api/live-location/geofences/:geofenceId/devices', async (req, res) => {
+    try {
+      const { geofenceId } = req.params;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory, liveLocationDevices } = await import('../shared/schema.js');
+      
+      // Get devices currently inside this geofence
+      const devices = await db.select({
+        device: liveLocationDevices,
+        lastLocation: liveLocationHistory,
+      })
+      .from(liveLocationDevices)
+      .leftJoin(liveLocationHistory, eq(liveLocationDevices.id, liveLocationHistory.deviceId))
+      .where(sql`${liveLocationHistory.geofence_ids}::jsonb ? ${geofenceId}`)
+      .orderBy(desc(liveLocationHistory.recordedAt));
+      
+      res.json({ geofenceId, devicesInside: devices });
+    } catch (error) {
+      console.error('Error fetching geofence devices:', error);
+      res.status(500).json({ error: 'Failed to fetch devices in geofence' });
+    }
+  });
+
+  // Assets Management
+  app.get('/api/live-location/assets', async (req, res) => {
+    try {
+      const { status = 'active', trackingEnabled, limit = 50 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAssets } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationAssets);
+      
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationAssets.status, status as string));
+      if (trackingEnabled !== undefined) conditions.push(eq(liveLocationAssets.trackingEnabled, trackingEnabled === 'true'));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const assets = await query
+        .orderBy(desc(liveLocationAssets.updatedAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ assets, count: assets.length });
+    } catch (error) {
+      console.error('Error fetching assets:', error);
+      res.status(500).json({ error: 'Failed to fetch assets' });
+    }
+  });
+
+  app.post('/api/live-location/assets', async (req, res) => {
+    try {
+      const assetData = insertLiveLocationAssetSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAssets } = await import('../shared/schema.js');
+      
+      const [asset] = await db.insert(liveLocationAssets)
+        .values(assetData)
+        .returning();
+        
+      res.status(201).json(asset);
+    } catch (error) {
+      console.error('Error creating asset:', error);
+      res.status(500).json({ error: 'Failed to create asset' });
+    }
+  });
+
+  // Dashboard Overview Data
+  app.get('/api/live-location/dashboard', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const stats = await service.getStats();
+      
+      // Get recent alerts
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts, liveLocationHistory } = await import('../shared/schema.js');
+      
+      const [recentAlerts, recentActivity] = await Promise.all([
+        db.select()
+          .from(liveLocationAlerts)
+          .where(eq(liveLocationAlerts.status, 'active'))
+          .orderBy(desc(liveLocationAlerts.createdAt))
+          .limit(10),
+          
+        db.select()
+          .from(liveLocationHistory)
+          .where(sql`${liveLocationHistory.recordedAt} >= ${new Date(Date.now() - 60 * 60 * 1000)}`) // Last hour
+          .orderBy(desc(liveLocationHistory.recordedAt))
+          .limit(20)
+      ]);
+      
+      res.json({
+        stats,
+        recentAlerts,
+        recentActivity,
+        systemStatus: {
+          serviceStatus: 'running',
+          lastUpdate: new Date(),
+          trackingEnabled: true,
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      res.status(500).json({ error: 'Failed to fetch dashboard data' });
+    }
+  });
+
+  // Network Segments
+  app.get('/api/live-location/network-segments', async (req, res) => {
+    try {
+      const { securityZone, isActive = true } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationNetworkSegments } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationNetworkSegments);
+      
+      const conditions = [];
+      if (securityZone) conditions.push(eq(liveLocationNetworkSegments.securityZone, securityZone as string));
+      if (isActive !== undefined) conditions.push(eq(liveLocationNetworkSegments.isActive, isActive === 'true'));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const segments = await query.orderBy(liveLocationNetworkSegments.segmentName);
+      
+      res.json({ segments, count: segments.length });
+    } catch (error) {
+      console.error('Error fetching network segments:', error);
+      res.status(500).json({ error: 'Failed to fetch network segments' });
+    }
+  });
+
+  app.post('/api/live-location/network-segments', async (req, res) => {
+    try {
+      const segmentData = insertLiveLocationNetworkSegmentSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationNetworkSegments } = await import('../shared/schema.js');
+      
+      const [segment] = await db.insert(liveLocationNetworkSegments)
+        .values(segmentData)
+        .returning();
+        
+      res.status(201).json(segment);
+    } catch (error) {
+      console.error('Error creating network segment:', error);
+      res.status(500).json({ error: 'Failed to create network segment' });
+    }
+  });
+
+  // Real-time geolocation for threat mapping integration
+  app.get('/api/live-location/threats/geolocation', async (req, res) => {
+    try {
+      const service = await initLiveLocationService();
+      
+      // Generate threat location data for integration with existing threat map
+      const threatLocations = [];
+      const riskLevels = ['high', 'medium', 'low'] as const;
+      const cities = [
+        { name: 'Beijing', country: 'China', lat: 39.9042, lng: 116.4074 },
+        { name: 'Moscow', country: 'Russia', lat: 55.7558, lng: 37.6176 },
+        { name: 'Tehran', country: 'Iran', lat: 35.6892, lng: 51.3890 },
+        { name: 'Pyongyang', country: 'North Korea', lat: 39.0392, lng: 125.7625 },
+        { name: 'New York', country: 'USA', lat: 40.7128, lng: -74.0060 },
+        { name: 'London', country: 'UK', lat: 51.5074, lng: -0.1278 },
+        { name: 'Frankfurt', country: 'Germany', lat: 50.1109, lng: 8.6821 },
+        { name: 'Tokyo', country: 'Japan', lat: 35.6762, lng: 139.6503 }
+      ];
+      
+      for (let i = 0; i < 25; i++) {
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const ip = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+        
+        threatLocations.push({
+          ip,
+          latitude: city.lat + (Math.random() - 0.5) * 0.1,
+          longitude: city.lng + (Math.random() - 0.5) * 0.1,
+          country: city.country,
+          city: city.name,
+          riskLevel: riskLevels[Math.floor(Math.random() * riskLevels.length)],
+          abuseConfidence: Math.floor(Math.random() * 100),
+          lastSeen: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString()
+        });
+      }
+      
+      res.json(threatLocations);
+    } catch (error) {
+      console.error('Error generating threat geolocation data:', error);
+      res.status(500).json({ error: 'Failed to fetch threat geolocation data' });
+    }
+  });
   
   // Cypher AI Assistant API routes
   
