@@ -15,6 +15,7 @@ import {
   CustomEyeIcon,
   CustomFileTextIcon,
   CustomDatabaseIcon,
+  CustomHeadphonesIcon,
   Enhanced4DShieldIcon,
   Enhanced4DBrainIcon,
   Enhanced4DLockIcon,
