@@ -2890,7 +2890,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   };
 
   // Device Discovery and Management
-  app.get('/api/live-location/devices', async (req, res) => {
+  app.get('/api/live-location/devices', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
       const { limit = 50, offset = 0, status, deviceType, category } = req.query;
@@ -2929,7 +2929,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/live-location/devices', async (req, res) => {
+  app.post('/api/live-location/devices', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
       const deviceData = insertLiveLocationDeviceSchema.parse(req.body);
@@ -2942,7 +2942,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/live-location/devices/:deviceId', async (req, res) => {
+  app.get('/api/live-location/devices/:deviceId', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { deviceId } = req.params;
       const db = await import('./db.js').then(m => m.db);
@@ -2963,10 +2963,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/live-location/devices/:deviceId', async (req, res) => {
+  app.put('/api/live-location/devices/:deviceId', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const { deviceId } = req.params;
-      const updateData = req.body;
+      const updateData = insertLiveLocationDeviceSchema.omit({ id: true, organizationId: true, createdAt: true }).partial().parse(req.body);
       
       const db = await import('./db.js').then(m => m.db);
       const { liveLocationDevices } = await import('../shared/schema.js');
@@ -2988,12 +2988,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Real-time Location Updates
-  app.post('/api/live-location/tracking', async (req, res) => {
+  app.post('/api/live-location/tracking', authenticateJWT, authorizeRoles("user", "admin"), sensitiveOperationLimiter(50, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
-      const locationUpdate = req.body;
+      const locationUpdate = insertLiveLocationHistorySchema.omit({ id: true, organizationId: true, createdAt: true }).parse(req.body);
       
-      // Validate required fields
       if (!locationUpdate.deviceId) {
         return res.status(400).json({ error: 'Device ID is required' });
       }
@@ -3006,7 +3005,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/live-location/tracking/:deviceId/current', async (req, res) => {
+  app.get('/api/live-location/tracking/:deviceId/current', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { deviceId } = req.params;
       const db = await import('./db.js').then(m => m.db);
@@ -3030,7 +3029,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Historical Location Data
-  app.get('/api/live-location/history', async (req, res) => {
+  app.get('/api/live-location/history', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { deviceId, startDate, endDate, limit = 100 } = req.query;
       
@@ -3059,7 +3058,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/live-location/history/:deviceId/path', async (req, res) => {
+  app.get('/api/live-location/history/:deviceId/path', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { deviceId } = req.params;
       const { hours = 24 } = req.query;
@@ -3091,7 +3090,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Location-based Alerts
-  app.get('/api/live-location/alerts', async (req, res) => {
+  app.get('/api/live-location/alerts', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { status = 'active', severity, limit = 50 } = req.query;
       
@@ -3119,7 +3118,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/live-location/alerts', async (req, res) => {
+  app.post('/api/live-location/alerts', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
       const alertData = insertLiveLocationAlertSchema.parse(req.body);
@@ -3132,10 +3131,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/live-location/alerts/:alertId/acknowledge', async (req, res) => {
+  app.put('/api/live-location/alerts/:alertId/acknowledge', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const { alertId } = req.params;
-      const { acknowledgedBy, notes } = req.body;
+      const { acknowledgedBy, notes } = z.object({
+        acknowledgedBy: z.string().min(1),
+        notes: z.string().optional()
+      }).parse(req.body);
       
       const db = await import('./db.js').then(m => m.db);
       const { liveLocationAlerts } = await import('../shared/schema.js');
@@ -3163,7 +3165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Geographic Boundary Management
-  app.get('/api/live-location/geofences', async (req, res) => {
+  app.get('/api/live-location/geofences', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { isActive = true } = req.query;
       
@@ -3182,7 +3184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/live-location/geofences', async (req, res) => {
+  app.post('/api/live-location/geofences', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const geofenceData = insertLiveLocationGeoFenceSchema.parse(req.body);
       
@@ -3200,7 +3202,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/live-location/geofences/:geofenceId/devices', async (req, res) => {
+  app.get('/api/live-location/geofences/:geofenceId/devices', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { geofenceId } = req.params;
       
@@ -3225,7 +3227,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Assets Management
-  app.get('/api/live-location/assets', async (req, res) => {
+  app.get('/api/live-location/assets', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { status = 'active', trackingEnabled, limit = 50 } = req.query;
       
@@ -3253,7 +3255,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/live-location/assets', async (req, res) => {
+  app.post('/api/live-location/assets', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const assetData = insertLiveLocationAssetSchema.parse(req.body);
       
@@ -3272,7 +3274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Dashboard Overview Data
-  app.get('/api/live-location/dashboard', async (req, res) => {
+  app.get('/api/live-location/dashboard', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
       const stats = await service.getStats();
@@ -3312,7 +3314,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Network Segments
-  app.get('/api/live-location/network-segments', async (req, res) => {
+  app.get('/api/live-location/network-segments', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const { securityZone, isActive = true } = req.query;
       
@@ -3338,7 +3340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/live-location/network-segments', async (req, res) => {
+  app.post('/api/live-location/network-segments', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
     try {
       const segmentData = insertLiveLocationNetworkSegmentSchema.parse(req.body);
       
@@ -3357,7 +3359,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Real-time geolocation for threat mapping integration
-  app.get('/api/live-location/threats/geolocation', async (req, res) => {
+  app.get('/api/live-location/threats/geolocation', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
     try {
       const service = await initLiveLocationService();
       

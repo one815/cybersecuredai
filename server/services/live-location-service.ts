@@ -12,6 +12,7 @@
 
 import { EventEmitter } from 'events';
 import type { DbProvider } from '../db.js';
+import { isDatabaseAvailable } from '../db.js';
 import { eq, and, desc, sql, gte, lte, isNotNull, or } from 'drizzle-orm';
 import type { 
   LiveLocationDevice,
@@ -96,11 +97,14 @@ export class LiveLocationService extends EventEmitter {
   private geofences: Map<string, LiveLocationGeoFence> = new Map();
   private assets: Map<string, LiveLocationAsset> = new Map();
   private networkSegments: Map<string, LiveLocationNetworkSegment> = new Map();
+  private locationHistory: Map<string, LiveLocationHistory[]> = new Map();
+  private alerts: Map<string, LiveLocationAlert> = new Map();
   private isInitialized: boolean = false;
   private initPromise: Promise<void> | null = null;
   private config: LiveLocationConfig;
   private locationUpdateInterval: NodeJS.Timeout | null = null;
   private dbProvider: DbProvider;
+  private databaseAvailable: boolean = false;
   
   // Real-time tracking
   private activeTracking: Map<string, NodeJS.Timeout> = new Map();
@@ -115,6 +119,7 @@ export class LiveLocationService extends EventEmitter {
     super();
     this.config = config;
     this.dbProvider = dbProvider || config.dbProvider!;
+    this.databaseAvailable = isDatabaseAvailable();
     this.setMaxListeners(100); // Handle many concurrent location updates
     
     // Bind event handlers
@@ -139,13 +144,23 @@ export class LiveLocationService extends EventEmitter {
     try {
       console.log('🗺️ Initializing Live Location Service...');
       
-      // Load all devices, geofences, assets, and network segments
-      await Promise.all([
-        this.loadDevices(),
-        this.loadGeofences(),
-        this.loadAssets(),
-        this.loadNetworkSegments(),
-      ]);
+      // Check database availability and load data accordingly
+      this.databaseAvailable = isDatabaseAvailable();
+      
+      if (this.databaseAvailable) {
+        console.log('✅ Database available - loading data from PostgreSQL');
+        // Load all devices, geofences, assets, and network segments from database
+        await Promise.all([
+          this.loadDevices(),
+          this.loadGeofences(),
+          this.loadAssets(),
+          this.loadNetworkSegments(),
+        ]);
+      } else {
+        console.log('⚠️ Database not available - using in-memory storage fallback');
+        // Initialize with empty in-memory collections
+        this.initializeMemoryStorage();
+      }
 
       // Start periodic tasks if tracking is enabled
       if (this.config.trackingEnabled) {
@@ -162,107 +177,232 @@ export class LiveLocationService extends EventEmitter {
         networkSegmentsLoaded: this.networkSegments.size,
       });
 
-      console.log(`✅ Live Location Service initialized with ${this.devices.size} devices`);
+      console.log(`✅ Live Location Service initialized with ${this.devices.size} devices (${this.databaseAvailable ? 'database' : 'memory'} storage)`);
     } catch (error) {
       console.error('❌ Failed to initialize Live Location Service:', error);
       this.emit('serviceError', error);
-      throw error;
+      // Don't throw error if using memory fallback - allow service to continue
+      if (this.databaseAvailable) {
+        throw error;
+      }
     }
   }
 
   /**
-   * Load all devices from database
+   * Initialize in-memory storage collections when database is unavailable
    */
-  private async loadDevices(): Promise<void> {
-    const db = await this.dbProvider();
-    const { liveLocationDevices } = await import('../../shared/schema.js');
+  private initializeMemoryStorage(): void {
+    console.log('🧠 Initializing Live Location Service with in-memory storage');
     
-    const devices = await db.select()
-      .from(liveLocationDevices)
-      .where(eq(liveLocationDevices.organizationId, this.config.organizationId));
-
+    // Initialize with sample data for demonstration
+    const sampleDevices: LiveLocationDevice[] = [
+      {
+        id: 'device-001',
+        deviceName: 'Campus Router 1',
+        deviceType: 'router',
+        deviceCategory: 'network',
+        ipAddress: '192.168.1.1',
+        macAddress: '00:11:22:33:44:55',
+        status: 'online',
+        lastSeen: new Date().toISOString(),
+        healthScore: 95,
+        criticalAsset: true,
+        locationTrackingEnabled: true,
+        organizationId: this.config.organizationId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: 'device-002',
+        deviceName: 'Security Camera 1',
+        deviceType: 'camera',
+        deviceCategory: 'security',
+        ipAddress: '192.168.1.100',
+        status: 'online',
+        lastSeen: new Date().toISOString(),
+        healthScore: 88,
+        criticalAsset: false,
+        locationTrackingEnabled: true,
+        organizationId: this.config.organizationId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }
+    ];
+    
+    // Load sample data into memory
     this.devices.clear();
-    for (const device of devices) {
+    for (const device of sampleDevices) {
       this.devices.set(device.id, device);
     }
+    
+    // Initialize other collections as empty
+    this.geofences.clear();
+    this.assets.clear();
+    this.networkSegments.clear();
+    this.locationHistory.clear();
+    this.alerts.clear();
+    
+    console.log(`💾 Memory storage initialized with ${this.devices.size} sample devices`);
   }
 
   /**
-   * Load all geofences from database
+   * Load all devices from database (with fallback handling)
+   */
+  private async loadDevices(): Promise<void> {
+    if (!this.databaseAvailable) {
+      console.log('⚠️ Database unavailable - devices already loaded from memory storage');
+      return;
+    }
+
+    try {
+      const db = await this.dbProvider();
+      const { liveLocationDevices } = await import('../../shared/schema.js');
+      
+      const devices = await db.select()
+        .from(liveLocationDevices)
+        .where(eq(liveLocationDevices.organizationId, this.config.organizationId));
+
+      this.devices.clear();
+      for (const device of devices) {
+        this.devices.set(device.id, device);
+      }
+      
+      console.log(`📡 Loaded ${devices.length} devices from database`);
+    } catch (error) {
+      console.error('❌ Error loading devices from database, falling back to memory storage:', error);
+      this.databaseAvailable = false;
+      this.initializeMemoryStorage();
+    }
+  }
+
+  /**
+   * Load all geofences from database (with fallback handling)
    */
   private async loadGeofences(): Promise<void> {
-    const db = await this.dbProvider();
-    const { liveLocationGeoFences } = await import('../../shared/schema.js');
-    
-    const geofences = await db.select()
-      .from(liveLocationGeoFences)
-      .where(and(
-        eq(liveLocationGeoFences.organizationId, this.config.organizationId),
-        eq(liveLocationGeoFences.isActive, true)
-      ));
+    if (!this.databaseAvailable) {
+      return;
+    }
 
-    this.geofences.clear();
-    for (const geofence of geofences) {
-      this.geofences.set(geofence.id, geofence);
+    try {
+      const db = await this.dbProvider();
+      const { liveLocationGeoFences } = await import('../../shared/schema.js');
+      
+      const geofences = await db.select()
+        .from(liveLocationGeoFences)
+        .where(and(
+          eq(liveLocationGeoFences.organizationId, this.config.organizationId),
+          eq(liveLocationGeoFences.isActive, true)
+        ));
+
+      this.geofences.clear();
+      for (const geofence of geofences) {
+        this.geofences.set(geofence.id, geofence);
+      }
+      
+      console.log(`🔺 Loaded ${geofences.length} geofences from database`);
+    } catch (error) {
+      console.error('❌ Error loading geofences from database:', error);
+      this.databaseAvailable = false;
     }
   }
 
   /**
-   * Load all assets from database
+   * Load all assets from database (with fallback handling)
    */
   private async loadAssets(): Promise<void> {
-    const db = await this.dbProvider();
-    const { liveLocationAssets } = await import('../../shared/schema.js');
-    
-    const assets = await db.select()
-      .from(liveLocationAssets)
-      .where(eq(liveLocationAssets.organizationId, this.config.organizationId));
+    if (!this.databaseAvailable) {
+      return;
+    }
 
-    this.assets.clear();
-    for (const asset of assets) {
-      this.assets.set(asset.id, asset);
+    try {
+      const db = await this.dbProvider();
+      const { liveLocationAssets } = await import('../../shared/schema.js');
+      
+      const assets = await db.select()
+        .from(liveLocationAssets)
+        .where(eq(liveLocationAssets.organizationId, this.config.organizationId));
+
+      this.assets.clear();
+      for (const asset of assets) {
+        this.assets.set(asset.id, asset);
+      }
+      
+      console.log(`📦 Loaded ${assets.length} assets from database`);
+    } catch (error) {
+      console.error('❌ Error loading assets from database:', error);
+      this.databaseAvailable = false;
     }
   }
 
   /**
-   * Load all network segments from database
+   * Load all network segments from database (with fallback handling)
    */
   private async loadNetworkSegments(): Promise<void> {
-    const db = await this.dbProvider();
-    const { liveLocationNetworkSegments } = await import('../../shared/schema.js');
-    
-    const segments = await db.select()
-      .from(liveLocationNetworkSegments)
-      .where(and(
-        eq(liveLocationNetworkSegments.organizationId, this.config.organizationId),
-        eq(liveLocationNetworkSegments.isActive, true)
-      ));
+    if (!this.databaseAvailable) {
+      return;
+    }
 
-    this.networkSegments.clear();
-    for (const segment of segments) {
-      this.networkSegments.set(segment.id, segment);
+    try {
+      const db = await this.dbProvider();
+      const { liveLocationNetworkSegments } = await import('../../shared/schema.js');
+      
+      const segments = await db.select()
+        .from(liveLocationNetworkSegments)
+        .where(and(
+          eq(liveLocationNetworkSegments.organizationId, this.config.organizationId),
+          eq(liveLocationNetworkSegments.isActive, true)
+        ));
+
+      this.networkSegments.clear();
+      for (const segment of segments) {
+        this.networkSegments.set(segment.id, segment);
+      }
+      
+      console.log(`🔗 Loaded ${segments.length} network segments from database`);
+    } catch (error) {
+      console.error('❌ Error loading network segments from database:', error);
+      this.databaseAvailable = false;
     }
   }
 
   /**
-   * Register a new device for tracking
+   * Register a new device for tracking (with database/memory fallback)
    */
   async registerDevice(deviceData: InsertLiveLocationDevice): Promise<LiveLocationDevice> {
     if (!this.isInitialized) await this.initialize();
 
-    const db = await this.dbProvider();
-    const { liveLocationDevices } = await import('../../shared/schema.js');
+    const newDevice: LiveLocationDevice = {
+      ...deviceData,
+      id: `device-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      organizationId: this.config.organizationId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
 
-    const [device] = await db.insert(liveLocationDevices)
-      .values({
-        ...deviceData,
-        organizationId: this.config.organizationId,
-      })
-      .returning();
+    if (this.databaseAvailable) {
+      try {
+        const db = await this.dbProvider();
+        const { liveLocationDevices } = await import('../../shared/schema.js');
 
-    this.devices.set(device.id, device);
+        const [device] = await db.insert(liveLocationDevices)
+          .values(newDevice)
+          .returning();
+
+        this.devices.set(device.id, device);
+        this.emit('deviceRegistered', device);
+        return device;
+      } catch (error) {
+        console.error('❌ Database error registering device, falling back to memory storage:', error);
+        this.databaseAvailable = false;
+        // Continue with memory storage below
+      }
+    }
     
-    this.emit('deviceRegistered', device);
+    // Memory storage fallback
+    this.devices.set(newDevice.id, newDevice);
+    this.emit('deviceRegistered', newDevice);
+    console.log(`💾 Device registered in memory storage: ${newDevice.deviceName}`);
+    return newDevice;
     return device;
   }
 

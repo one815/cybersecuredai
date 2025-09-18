@@ -130,11 +130,16 @@ export default function LiveLocationDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const mapRef = useRef<HTMLDivElement>(null);
+  const wsRef = useRef<WebSocket | null>(null);
+  const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [geofenceOverlays, setGeofenceOverlays] = useState<any[]>([]);
   const [isMapReady, setIsMapReady] = useState(false);
+  const [mapsFallbackMode, setMapsFallbackMode] = useState(false);
   const [realTimeEnabled, setRealTimeEnabled] = useState(true);
+  const [wsConnected, setWsConnected] = useState(false);
+  const [wsReconnectAttempts, setWsReconnectAttempts] = useState(0);
   const [selectedDevice, setSelectedDevice] = useState<LiveLocationDevice | null>(null);
   const [mapView, setMapView] = useState<'satellite' | 'roadmap' | 'hybrid'>('satellite');
   const [showGeofences, setShowGeofences] = useState(true);
@@ -143,13 +148,13 @@ export default function LiveLocationDashboard() {
   const [filterDeviceType, setFilterDeviceType] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Fetch dashboard data
+  // Fetch dashboard data - use WebSocket when connected, fallback to polling
   const { data: dashboardData, isLoading: loadingDashboard, refetch: refetchDashboard } = useQuery({
     queryKey: ['/api/live-location/dashboard'],
-    refetchInterval: realTimeEnabled ? 10000 : false, // Refresh every 10 seconds if real-time enabled
+    refetchInterval: (realTimeEnabled && !wsConnected) ? 10000 : false, // Only poll if WebSocket not connected
   });
 
-  // Fetch devices with filtering
+  // Fetch devices with filtering - use WebSocket when connected, fallback to polling
   const { data: devicesData, isLoading: loadingDevices, refetch: refetchDevices } = useQuery({
     queryKey: ['/api/live-location/devices', filterStatus, filterDeviceType, searchQuery],
     queryFn: () => {
@@ -159,13 +164,13 @@ export default function LiveLocationDashboard() {
       if (searchQuery) params.append('search', searchQuery);
       return fetch(`/api/live-location/devices?${params}`).then(res => res.json());
     },
-    refetchInterval: realTimeEnabled ? 15000 : false,
+    refetchInterval: (realTimeEnabled && !wsConnected) ? 15000 : false, // Only poll if WebSocket not connected
   });
 
-  // Fetch alerts
+  // Fetch alerts - use WebSocket when connected, fallback to polling
   const { data: alertsData, isLoading: loadingAlerts, refetch: refetchAlerts } = useQuery({
     queryKey: ['/api/live-location/alerts'],
-    refetchInterval: realTimeEnabled ? 5000 : false,
+    refetchInterval: (realTimeEnabled && !wsConnected) ? 5000 : false, // Only poll if WebSocket not connected
   });
 
   // Fetch geofences
@@ -173,7 +178,143 @@ export default function LiveLocationDashboard() {
     queryKey: ['/api/live-location/geofences'],
   });
 
-  // Load Google Maps script
+  // WebSocket connection and real-time updates
+  useEffect(() => {
+    if (!realTimeEnabled) return;
+
+    const connectWebSocket = () => {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${protocol}//${window.location.host}/ws/live-location`;
+      
+      try {
+        const ws = new WebSocket(wsUrl);
+        wsRef.current = ws;
+        
+        ws.onopen = () => {
+          console.log('📍 Live Location WebSocket connected');
+          setWsConnected(true);
+          setWsReconnectAttempts(0);
+          
+          // Subscribe to live location events
+          ws.send(JSON.stringify({
+            type: 'subscribe',
+            events: ['locationUpdate', 'deviceStatusChange', 'alertUpdate', 'statsUpdate']
+          }));
+          
+          // Request initial stats
+          ws.send(JSON.stringify({ type: 'requestStats' }));
+          
+          toast({
+            title: "Real-time Updates Connected",
+            description: "WebSocket connection established for live location tracking.",
+          });
+        };
+        
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            handleWebSocketMessage(data);
+          } catch (error) {
+            console.error('❌ Error parsing WebSocket message:', error);
+          }
+        };
+        
+        ws.onerror = (error) => {
+          console.error('❌ Live Location WebSocket error:', error);
+          setWsConnected(false);
+        };
+        
+        ws.onclose = () => {
+          console.log('📍 Live Location WebSocket disconnected');
+          setWsConnected(false);
+          wsRef.current = null;
+          
+          // Attempt to reconnect with exponential backoff
+          if (realTimeEnabled && wsReconnectAttempts < 5) {
+            const backoffDelay = Math.min(1000 * Math.pow(2, wsReconnectAttempts), 30000);
+            setWsReconnectAttempts(prev => prev + 1);
+            
+            reconnectTimeoutRef.current = setTimeout(() => {
+              console.log(`🔄 Attempting WebSocket reconnection (${wsReconnectAttempts + 1}/5)...`);
+              connectWebSocket();
+            }, backoffDelay);
+          } else if (wsReconnectAttempts >= 5) {
+            toast({
+              title: "Connection Failed",
+              description: "WebSocket connection failed. Falling back to polling for updates.",
+              variant: "destructive"
+            });
+          }
+        };
+      } catch (error) {
+        console.error('❌ Failed to create WebSocket connection:', error);
+        setWsConnected(false);
+      }
+    };
+    
+    connectWebSocket();
+    
+    return () => {
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
+  }, [realTimeEnabled, toast]);
+  
+  // Handle WebSocket messages and update cache
+  const handleWebSocketMessage = useCallback((data: any) => {
+    switch (data.type) {
+      case 'locationUpdate':
+        // Invalidate devices query to trigger refetch with new location
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/devices'] });
+        break;
+      case 'deviceStatusChange':
+        // Invalidate relevant queries
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/devices'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/dashboard'] });
+        break;
+      case 'alertUpdate':
+        // Invalidate alerts query
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/alerts'] });
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/dashboard'] });
+        
+        if (data.data?.severity === 'high' || data.data?.severity === 'critical') {
+          toast({
+            title: `${data.data.severity.toUpperCase()} Alert`,
+            description: data.data.alertTitle || 'New security alert detected',
+            variant: "destructive"
+          });
+        }
+        break;
+      case 'statsUpdate':
+        // Invalidate dashboard stats
+        queryClient.invalidateQueries({ queryKey: ['/api/live-location/dashboard'] });
+        break;
+      case 'pong':
+        // Heartbeat response - connection is alive
+        break;
+      default:
+        console.log('📍 Unknown WebSocket message type:', data.type);
+    }
+  }, [queryClient, toast]);
+  
+  // Heartbeat to keep WebSocket alive
+  useEffect(() => {
+    if (!wsConnected || !wsRef.current) return;
+    
+    const heartbeatInterval = setInterval(() => {
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({ type: 'ping', timestamp: new Date().toISOString() }));
+      }
+    }, 30000); // Send ping every 30 seconds
+    
+    return () => clearInterval(heartbeatInterval);
+  }, [wsConnected]);
+
+  // Load Google Maps script with fallback handling
   useEffect(() => {
     const loadGoogleMaps = () => {
       if (window.google?.maps) {
@@ -185,6 +326,12 @@ export default function LiveLocationDashboard() {
       const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
       if (!apiKey) {
         console.error('Google Maps API key not configured. Please set VITE_GOOGLE_MAPS_API_KEY environment variable.');
+        setMapsFallbackMode(true);
+        toast({
+          title: "Maps Unavailable",
+          description: "Google Maps API key not configured. Using list view mode.",
+          variant: "destructive"
+        });
         return;
       }
       script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=marker,visualization,geometry,places&callback=initLiveLocationMap&v=weekly`;
@@ -195,11 +342,21 @@ export default function LiveLocationDashboard() {
         setIsMapReady(true);
       };
       
+      script.onerror = () => {
+        console.error('Failed to load Google Maps API');
+        setMapsFallbackMode(true);
+        toast({
+          title: "Maps Failed to Load",
+          description: "Google Maps could not be loaded. Using list view mode.",
+          variant: "destructive"
+        });
+      };
+      
       document.head.appendChild(script);
     };
 
     loadGoogleMaps();
-  }, []);
+  }, [toast]);
 
   // Initialize the map when ready
   useEffect(() => {
