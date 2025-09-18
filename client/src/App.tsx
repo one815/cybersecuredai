@@ -61,6 +61,7 @@ const ThreatIntelligenceDashboard = lazy(() => import("@/pages/ThreatIntelligenc
 const MISPLiveDashboard = lazy(() => import("@/pages/MISPLiveDashboard"));
 const MISPBenefits = lazy(() => import("@/pages/MISPBenefits"));
 const VulnerabilityTrendDashboard = lazy(() => import("@/pages/VulnerabilityTrendDashboard"));
+const CydefDashboard = lazy(() => import("@/pages/CydefDashboard"));
 // Heavy 3D visualization component - lazy loaded to reduce initial bundle
 const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
 
@@ -327,6 +328,11 @@ function Router() {
       <Route path="/vulnerability-trends">
         <Layout>
           <VulnerabilityTrendDashboard />
+        </Layout>
+      </Route>
+      <Route path="/cydef-dashboard">
+        <Layout>
+          <CydefDashboard />
         </Layout>
       </Route>
       <Route path="/threat-map-5d">

@@ -285,6 +285,111 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const { complianceAutomationEngine } = await import('./engines/compliance-automation');
     return complianceAutomationEngine;
   });
+
+  // Lazy HSM Integration Service factory
+  const getHsmIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_HSM_INTEGRATION !== 'true') return undefined;
+    console.log('🔐 Initializing HSM Integration Service...');
+    const { hsmIntegrationService } = await import('./services/hsm-integration');
+    return hsmIntegrationService;
+  });
+
+  // Lazy Biometric Integration Service factory
+  const getBiometricIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_BIOMETRIC_INTEGRATION !== 'true') return undefined;
+    console.log('👁️ Initializing Biometric Integration Service...');
+    const { biometricIntegrationService } = await import('./services/biometric-integration');
+    return biometricIntegrationService;
+  });
+
+  // Lazy Enhanced Threat Intelligence Service factory
+  const getEnhancedThreatIntelligenceService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ENHANCED_THREAT_INTEL !== 'true') return undefined;
+    console.log('🧠 Initializing Enhanced Threat Intelligence Service...');
+    const { enhancedThreatIntelligenceService } = await import('./services/enhanced-threat-intelligence');
+    return enhancedThreatIntelligenceService;
+  });
+
+  // Lazy PagerDuty Integration Service factory
+  const getPagerDutyIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_PAGERDUTY_INTEGRATION !== 'true') return undefined;
+    console.log('📟 Initializing PagerDuty Integration Service...');
+    const { pagerDutyIntegrationService } = await import('./services/pagerduty-integration');
+    return pagerDutyIntegrationService;
+  });
+
+  // Lazy TAXII/STIX Service factory
+  const getTaxiiStixService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_TAXII_STIX !== 'true') return undefined;
+    console.log('📊 Initializing TAXII/STIX Service...');
+    const { taxiiStixService } = await import('./services/taxii-stix');
+    return taxiiStixService;
+  });
+
+  // Lazy Mandiant Service factory
+  const getMandiantService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_MANDIANT_INTEGRATION !== 'true') return undefined;
+    console.log('🔥 Initializing Mandiant Service...');
+    const { mandiantService } = await import('./services/mandiant');
+    return mandiantService;
+  });
+
+  // Lazy Email Notification Service factory
+  const getEmailNotificationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_EMAIL_NOTIFICATIONS !== 'true') return undefined;
+    console.log('📧 Initializing Email Notification Service...');
+    const { emailNotificationService } = await import('./services/email-notification');
+    return emailNotificationService;
+  });
+
+  // Lazy AWS Machine Learning Service factory
+  const getAwsMachineLearningService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_AWS_ML !== 'true') return undefined;
+    console.log('🤖 Initializing AWS Machine Learning Service...');
+    const { awsMachineLearningService } = await import('./services/aws-machine-learning');
+    return awsMachineLearningService;
+  });
+
+  // Lazy IBM X-Force Service factory
+  const getIbmXForceService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_IBM_XFORCE !== 'true') return undefined;
+    console.log('🔒 Initializing IBM X-Force Service...');
+    const { ibmXForceService } = await import('./services/ibm-xforce');
+    return ibmXForceService;
+  });
+
+  // Lazy Alternative Threat Feeds Service factory
+  const getAlternativeThreatFeedsService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ALTERNATIVE_THREAT_FEEDS !== 'true') return undefined;
+    console.log('📡 Initializing Alternative Threat Feeds Service...');
+    const { alternativeThreatFeedsService } = await import('./services/alternative-threat-feeds');
+    return alternativeThreatFeedsService;
+  });
+
+  // Lazy ThreatConnect Service factory
+  const getThreatConnectService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_THREATCONNECT !== 'true') return undefined;
+    console.log('🔗 Initializing ThreatConnect Service...');
+    const { threatConnectService } = await import('./services/threatconnect');
+    return threatConnectService;
+  });
+
+  // Lazy AlienVault OTX Service factory
+  const getAttOTXService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ATT_OTX !== 'true') return undefined;
+    console.log('👽 Initializing AlienVault OTX Service...');
+    const { attOTXService } = await import('./services/att-otx');
+    return attOTXService;
+  });
+
+  // Lazy OneLogin Integration Service factory
+  const getOneLoginIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ONELOGIN_INTEGRATION !== 'true') return undefined;
+    console.log('🔑 Initializing OneLogin Integration Service...');
+    const { oneLoginIntegrationService } = await import('./services/onelogin-integration');
+    return oneLoginIntegrationService;
+  });
+
   // User routes
   app.get("/api/users", async (req, res) => {
     try {
@@ -940,7 +1045,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { suspiciousIPs } = req.body;
       const threatDetectionEngine = await getThreatDetectionEngine();
-      await threatDetectionEngine.updateThreatIntelligence(suspiciousIPs || []);
+      // Replace private method with public equivalent
+      if (suspiciousIPs && suspiciousIPs.length > 0) {
+        // Process each suspicious IP through public API
+        for (const ip of suspiciousIPs) {
+          await threatDetectionEngine.processNetworkEvent({
+            type: 'suspicious_ip',
+            sourceIP: ip,
+            timestamp: new Date(),
+            severity: 'medium',
+            description: `Manually added suspicious IP: ${ip}`
+          });
+        }
+      }
       res.json({ message: "Threat intelligence updated" });
     } catch (error) {
       console.error("Error updating threat intelligence:", error);
@@ -1401,6 +1518,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ML Threat Detection and Behavioral Analytics API routes
   app.get("/api/ai/threat-analysis", async (req, res) => {
     try {
+      const mlThreatEngine = await getMlThreatEngine();
+      if (!mlThreatEngine) return res.status(503).json({ error: 'ML engine disabled' });
+      
       const stats = mlThreatEngine.getThreatStatistics();
       
       // Generate some simulated threat vectors for demonstration
@@ -1423,6 +1543,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/analyze-threat", async (req, res) => {
     try {
+      const mlThreatEngine = await getMlThreatEngine();
+      if (!mlThreatEngine) return res.status(503).json({ error: 'ML engine disabled' });
+      
       const threatVector = req.body;
       const prediction = mlThreatEngine.analyzeThreatVector(threatVector);
       
@@ -1441,6 +1564,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/ai/behavioral-analysis", async (req, res) => {
     try {
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
+      
       const analytics = behavioralEngine.getAnalytics();
       
       res.json({
@@ -1457,6 +1583,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/process-user-activity", async (req, res) => {
     try {
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
+      
       const activity = req.body;
       const profile = await behavioralEngine.processUserActivity(activity);
       
@@ -1475,6 +1604,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/ai/user-risk-profile/:userId", async (req, res) => {
     try {
       const userId = req.params.userId;
+      
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
       
       // Generate simulated activities if none exist
       const activities = behavioralEngine.generateSimulatedActivities([userId], 50);
@@ -9030,6 +9162,289 @@ startxref
     }
   });
   */
+
+  // ===== CyDEF (Autonomous Cyber Defense) API Endpoints =====
+
+  // Lazy import CyDEF service
+  let cydefService: any = null;
+  const getCydefService = async () => {
+    if (!cydefService) {
+      const { CydefService } = await import('./services/cydef-service.js');
+      cydefService = new CydefService({
+        organizationId: 'default-org',
+        systemName: 'CyDEF-Primary',
+        targetAccuracy: 992, // 99.2%
+        autonomousMode: true,
+        threatDetectionEngine: 'pytorch_deap',
+        evolutionCycleIntervalMs: 30000, // 30 seconds
+      });
+      await cydefService.initialize();
+    }
+    return cydefService;
+  };
+
+  // Get CyDEF system status
+  app.get('/api/cydef/systems/status', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const status = await service.getSystemStatus();
+      
+      res.json(status);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF system status:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system status',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF real-time events
+  app.get('/api/cydef/events', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const limit = parseInt(req.query.limit as string) || 50;
+      const events = service.getRealTimeEvents(limit);
+      
+      res.json(events);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF events:', error);
+      res.status(500).json({ 
+        error: 'Failed to get real-time events',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF performance metrics
+  app.get('/api/cydef/metrics/:systemId?', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { systemId } = req.params;
+      const metricType = req.query.metricType as string;
+      
+      const metrics = service.getPerformanceMetrics(systemId || '', metricType);
+      
+      res.json(metrics);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get performance metrics',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get autonomous response history
+  app.get('/api/cydef/responses/:systemId?', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { systemId } = req.params;
+      const limit = parseInt(req.query.limit as string) || 100;
+      
+      // For demo purposes, return mock data
+      const responses = [
+        {
+          id: `response-${Date.now()}-1`,
+          responseType: 'isolate',
+          confidenceScore: 94,
+          executionStatus: 'completed',
+          threatId: 'threat-123',
+          executedAt: new Date(Date.now() - 300000),
+          completedAt: new Date(Date.now() - 295000),
+          effectivenessScore: 89
+        },
+        {
+          id: `response-${Date.now()}-2`,
+          responseType: 'block',
+          confidenceScore: 87,
+          executionStatus: 'executing',
+          threatId: 'threat-124',
+          executedAt: new Date(Date.now() - 120000),
+          completedAt: null,
+          effectivenessScore: null
+        },
+        {
+          id: `response-${Date.now()}-3`,
+          responseType: 'monitor',
+          confidenceScore: 76,
+          executionStatus: 'completed',
+          threatId: 'threat-125',
+          executedAt: new Date(Date.now() - 600000),
+          completedAt: new Date(Date.now() - 580000),
+          effectivenessScore: 92
+        }
+      ];
+      
+      res.json(responses.slice(0, limit));
+    } catch (error: any) {
+      console.error('❌ Failed to get autonomous responses:', error);
+      res.status(500).json({ 
+        error: 'Failed to get autonomous responses',
+        message: error.message 
+      });
+    }
+  });
+
+  // Process threat through CyDEF
+  app.post('/api/cydef/analyze-threat', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { threatData } = req.body;
+      
+      if (!threatData || !threatData.id) {
+        return res.status(400).json({
+          error: 'Invalid threat data provided'
+        });
+      }
+      
+      // Convert request data to threat format
+      const threat = {
+        id: threatData.id,
+        type: threatData.type || 'unknown',
+        severity: threatData.severity || 'medium',
+        source: threatData.source,
+        description: threatData.description
+      };
+      
+      const decision = await service.processThreat(threat);
+      
+      res.json({
+        decision,
+        threatId: threat.id,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to analyze threat:', error);
+      res.status(500).json({ 
+        error: 'Failed to analyze threat',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF dashboard overview
+  app.get('/api/cydef/dashboard', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const systemStatus = await service.getSystemStatus();
+      const events = service.getRealTimeEvents(10);
+      
+      const overview = {
+        systems: systemStatus,
+        recentEvents: events,
+        performanceSummary: {
+          totalSystems: systemStatus.length,
+          activeSystems: systemStatus.filter(s => s.status === 'active').length,
+          averageAccuracy: systemStatus.reduce((acc, s) => acc + s.actualAccuracy, 0) / systemStatus.length || 0,
+          totalThreatsProcessed: systemStatus.reduce((acc, s) => acc + s.totalThreatsProcessed, 0),
+          totalAutonomousResponses: systemStatus.reduce((acc, s) => acc + s.totalAutonomousResponses, 0)
+        },
+        timestamp: new Date().toISOString()
+      };
+      
+      res.json(overview);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF dashboard:', error);
+      res.status(500).json({ 
+        error: 'Failed to get dashboard data',
+        message: error.message 
+      });
+    }
+  });
+
+  // ===== WebSocket Integration for Real-time CyDEF Updates =====
+  
+  // Setup WebSocket server for real-time CyDEF events (guarded by feature flag)
+  if (process.env.ENABLE_WS !== 'false') {
+    try {
+      const { WebSocketServer } = await import('ws');
+      const wss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/cydef'
+      });
+
+  wss.on('connection', (ws) => {
+    console.log('🔗 CyDEF WebSocket client connected');
+    
+    // Send welcome message
+    ws.send(JSON.stringify({
+      type: 'welcome',
+      message: 'Connected to CyDEF real-time updates',
+      timestamp: new Date().toISOString()
+    }));
+
+    // Setup CyDEF service event handlers
+    const handleRealtimeEvent = (event: any) => {
+      if (ws.readyState === ws.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'realtimeEvent',
+          data: event
+        }));
+      }
+    };
+
+    // Initialize CyDEF service and setup listeners
+    getCydefService().then(service => {
+      service.on('realtimeEvent', handleRealtimeEvent);
+      
+      // Send current system status on connect
+      service.getSystemStatus().then(status => {
+        if (ws.readyState === ws.OPEN) {
+          ws.send(JSON.stringify({
+            type: 'systemStatus',
+            data: status
+          }));
+        }
+      });
+    }).catch(error => {
+      console.error('❌ Failed to initialize CyDEF service for WebSocket:', error);
+    });
+
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('📨 Received WebSocket message:', data);
+        
+        // Handle different message types
+        switch (data.type) {
+          case 'ping':
+            ws.send(JSON.stringify({ type: 'pong', timestamp: new Date().toISOString() }));
+            break;
+          case 'subscribe':
+            // Handle subscription to specific event types
+            break;
+          default:
+            console.log('Unknown WebSocket message type:', data.type);
+        }
+      } catch (error) {
+        console.error('❌ Failed to parse WebSocket message:', error);
+      }
+    });
+
+    ws.on('close', () => {
+      console.log('🔌 CyDEF WebSocket client disconnected');
+      // Remove event listeners when client disconnects
+      getCydefService().then(service => {
+        service.removeListener('realtimeEvent', handleRealtimeEvent);
+      }).catch(() => {
+        // Service may not be initialized
+      });
+    });
+
+    ws.on('error', (error) => {
+      console.error('❌ CyDEF WebSocket error:', error);
+    });
+  });
+
+      console.log('🚀 CyDEF WebSocket server initialized at /ws/cydef');
+    } catch (error) {
+      console.error('❌ Failed to initialize WebSocket server:', error instanceof Error ? error.message : String(error));
+      console.log('⚠️ CyDEF will continue without WebSocket support');
+    }
+  } else {
+    console.log('ℹ️ WebSocket disabled via ENABLE_WS environment variable');
+  }
 
   return httpServer;
 }

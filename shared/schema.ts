@@ -555,3 +555,180 @@ export type InsertBiometricAuthRecord = z.infer<typeof insertBiometricAuthRecord
 export type InsertIamIntegration = z.infer<typeof insertIamIntegrationSchema>;
 export type InsertSecurityInfrastructure = z.infer<typeof insertSecurityInfrastructureSchema>;
 export type InsertThreatIntelligenceSource = z.infer<typeof insertThreatIntelligenceSourceSchema>;
+
+// ===== CyDEF (Autonomous Cyber Defense) System Tables =====
+
+// CyDEF System Instances and Configuration
+export const cydefSystems = pgTable("cydef_systems", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  systemName: varchar("system_name").notNull(),
+  organizationId: varchar("organization_id").notNull(),
+  status: varchar("status").notNull().default("initializing"), // initializing, active, paused, maintenance, error
+  geneticAlgorithmStatus: varchar("genetic_algorithm_status").notNull().default("stopped"), // stopped, running, evolving, converged
+  currentGeneration: integer("current_generation").default(0),
+  bestFitnessScore: integer("best_fitness_score").default(0), // Out of 100
+  targetAccuracy: integer("target_accuracy").default(992), // 99.2% = 992 (stored as integer for precision)
+  actualAccuracy: integer("actual_accuracy").default(0), // Current accuracy in basis points
+  autonomousMode: boolean("autonomous_mode").default(true),
+  threatDetectionEngine: varchar("threat_detection_engine").default("pytorch_deap"), // pytorch_deap, tensorflow, hybrid
+  lastEvolutionCycle: timestamp("last_evolution_cycle"),
+  totalThreatsProcessed: integer("total_threats_processed").default(0),
+  totalAutonomousResponses: integer("total_autonomous_responses").default(0),
+  configuration: jsonb("configuration").default('{}'), // System-specific configuration
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Autonomous Response Actions and Outcomes
+export const cydefAutonomousResponses = pgTable("cydef_autonomous_responses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  cydefSystemId: varchar("cydef_system_id").notNull().references(() => cydefSystems.id),
+  threatId: varchar("threat_id").references(() => threats.id),
+  responseType: varchar("response_type").notNull(), // isolate, block, monitor, quarantine, escalate, adapt_policy
+  triggerEvent: text("trigger_event").notNull(), // What triggered this response
+  responseDetails: jsonb("response_details").notNull(), // Detailed response parameters
+  confidenceScore: integer("confidence_score").notNull(), // 0-100
+  executionStatus: varchar("execution_status").notNull().default("pending"), // pending, executing, completed, failed, rollback
+  autonomousDecision: boolean("autonomous_decision").default(true), // Was this fully autonomous?
+  geneticAlgorithmGeneration: integer("genetic_algorithm_generation"), // Which GA generation made this decision
+  effectivenessScore: integer("effectiveness_score"), // Post-execution effectiveness (0-100)
+  humanOverride: boolean("human_override").default(false),
+  humanOverrideReason: text("human_override_reason"),
+  executedAt: timestamp("executed_at"),
+  completedAt: timestamp("completed_at"),
+  rollbackAt: timestamp("rollback_at"),
+  metadata: jsonb("metadata").default('{}'),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Real-time Defense Policy Generation History  
+export const cydefPolicyGenerations = pgTable("cydef_policy_generations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  cydefSystemId: varchar("cydef_system_id").notNull().references(() => cydefSystems.id),
+  generation: integer("generation").notNull(),
+  sector: varchar("sector").notNull(), // FERPA, FISMA, CIPA, GENERAL
+  policyRules: jsonb("policy_rules").notNull(), // Generated security policy rules
+  fitnessScore: integer("fitness_score").notNull(), // 0-10000 (for precision)
+  accuracyRate: integer("accuracy_rate").notNull(), // In basis points (9920 = 99.2%)
+  threatDetectionRate: integer("threat_detection_rate").notNull(), // In basis points
+  falsePositiveRate: integer("false_positive_rate").notNull(), // In basis points
+  parentGenerations: jsonb("parent_generations"), // IDs of parent generations
+  mutationRate: integer("mutation_rate"), // In basis points
+  crossoverType: varchar("crossover_type"), // single_point, two_point, uniform
+  selectionMethod: varchar("selection_method"), // tournament, roulette, rank
+  populationSize: integer("population_size").default(100),
+  evolutionDurationMs: integer("evolution_duration_ms"), // Time taken for evolution
+  convergenceStatus: varchar("convergence_status").default("evolving"), // evolving, converged, stagnant
+  deploymentStatus: varchar("deployment_status").default("generated"), // generated, testing, deployed, retired
+  deployedAt: timestamp("deployed_at"),
+  retiredAt: timestamp("retired_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Real-time CyDEF Events for WebSocket Streaming
+export const cydefRealTimeEvents = pgTable("cydef_real_time_events", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  cydefSystemId: varchar("cydef_system_id").notNull().references(() => cydefSystems.id),
+  eventType: varchar("event_type").notNull(), // threat_detected, response_executed, policy_evolved, accuracy_improved, system_status
+  eventCategory: varchar("event_category").notNull(), // genetic_algorithm, threat_response, system_health, performance
+  severity: varchar("severity").notNull(), // info, warning, critical, emergency
+  title: varchar("title").notNull(),
+  message: text("message").notNull(),
+  eventData: jsonb("event_data"), // Structured event data
+  broadcastToUsers: boolean("broadcast_to_users").default(true),
+  acknowledgedBy: varchar("acknowledged_by").references(() => users.id),
+  acknowledgedAt: timestamp("acknowledged_at"),
+  resolvedAt: timestamp("resolved_at"),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// CyDEF Performance Metrics and Analytics
+export const cydefPerformanceMetrics = pgTable("cydef_performance_metrics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  cydefSystemId: varchar("cydef_system_id").notNull().references(() => cydefSystems.id),
+  metricType: varchar("metric_type").notNull(), // accuracy, response_time, threat_detection, false_positive_rate, throughput
+  metricCategory: varchar("metric_category").notNull(), // real_time, hourly, daily, weekly, monthly
+  value: integer("value").notNull(), // Metric value (scaled for precision)
+  unitType: varchar("unit_type").notNull(), // percentage_basis_points, milliseconds, count, rate
+  thresholdMin: integer("threshold_min"), // Minimum acceptable value
+  thresholdMax: integer("threshold_max"), // Maximum acceptable value
+  status: varchar("status").notNull().default("normal"), // normal, warning, critical
+  comparedToPrevious: integer("compared_to_previous"), // Percentage change from previous measurement
+  measurementPeriod: varchar("measurement_period").notNull(), // real_time, 1h, 24h, 7d, 30d
+  associatedGeneration: integer("associated_generation"), // GA generation when metric was recorded
+  contextMetadata: jsonb("context_metadata").default('{}'),
+  recordedAt: timestamp("recorded_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// CyDEF Threat Analysis Results
+export const cydefThreatAnalyses = pgTable("cydef_threat_analyses", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  cydefSystemId: varchar("cydef_system_id").notNull().references(() => cydefSystems.id),
+  threatId: varchar("threat_id").references(() => threats.id),
+  analysisType: varchar("analysis_type").notNull(), // real_time, batch, scheduled, on_demand
+  threatVector: varchar("threat_vector"), // email, network, web, malware, social_engineering
+  riskScore: integer("risk_score").notNull(), // 0-1000 for precision
+  confidenceLevel: integer("confidence_level").notNull(), // 0-10000 basis points
+  predictedImpact: varchar("predicted_impact"), // low, medium, high, critical
+  recommendedActions: jsonb("recommended_actions"), // Array of recommended responses
+  geneticAlgorithmContribution: integer("genetic_algorithm_contribution"), // How much GA contributed (0-100)
+  traditionalMLContribution: integer("traditional_ml_contribution"), // How much traditional ML contributed
+  humanExpertOverride: boolean("human_expert_override").default(false),
+  processingTimeMs: integer("processing_time_ms"),
+  modelVersion: varchar("model_version"), // Version of the AI model used
+  analysisResults: jsonb("analysis_results"), // Detailed analysis results
+  validatedByHuman: boolean("validated_by_human").default(false),
+  validatedAt: timestamp("validated_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// ===== CyDEF Insert Schemas =====
+
+export const insertCydefSystemSchema = createInsertSchema(cydefSystems).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCydefAutonomousResponseSchema = createInsertSchema(cydefAutonomousResponses).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCydefPolicyGenerationSchema = createInsertSchema(cydefPolicyGenerations).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCydefRealTimeEventSchema = createInsertSchema(cydefRealTimeEvents).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertCydefPerformanceMetricSchema = createInsertSchema(cydefPerformanceMetrics).omit({
+  id: true,
+  recordedAt: true,
+  createdAt: true,
+});
+
+export const insertCydefThreatAnalysisSchema = createInsertSchema(cydefThreatAnalyses).omit({
+  id: true,
+  createdAt: true,
+});
+
+// ===== CyDEF Type Definitions =====
+
+export type CydefSystem = typeof cydefSystems.$inferSelect;
+export type InsertCydefSystem = z.infer<typeof insertCydefSystemSchema>;
+export type CydefAutonomousResponse = typeof cydefAutonomousResponses.$inferSelect;
+export type InsertCydefAutonomousResponse = z.infer<typeof insertCydefAutonomousResponseSchema>;
+export type CydefPolicyGeneration = typeof cydefPolicyGenerations.$inferSelect;
+export type InsertCydefPolicyGeneration = z.infer<typeof insertCydefPolicyGenerationSchema>;
+export type CydefRealTimeEvent = typeof cydefRealTimeEvents.$inferSelect;
+export type InsertCydefRealTimeEvent = z.infer<typeof insertCydefRealTimeEventSchema>;
+export type CydefPerformanceMetric = typeof cydefPerformanceMetrics.$inferSelect;
+export type InsertCydefPerformanceMetric = z.infer<typeof insertCydefPerformanceMetricSchema>;
+export type CydefThreatAnalysis = typeof cydefThreatAnalyses.$inferSelect;
+export type InsertCydefThreatAnalysis = z.infer<typeof insertCydefThreatAnalysisSchema>;
