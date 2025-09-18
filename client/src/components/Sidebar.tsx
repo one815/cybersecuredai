@@ -39,9 +39,15 @@ import {
   FileText,
   Star,
   Monitor,
-  Users
+  Users,
+  MapPin,
+  Eye,
+  Drone,
+  Wifi,
+  WifiOff
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 // Define subscription tier requirements
 type SubscriptionTier = 'essential' | 'advanced' | 'enterprise' | 'cyber_cloud_essential' | 'cyber_cloud_advanced' | 'cyber_cloud_enterprise';
@@ -78,6 +84,19 @@ const navigationCategories: NavigationCategory[] = [
       { id: "threats", label: "Threat Monitoring", icon: Shield, path: "/threats" },
       { id: "incidents", label: "Incident Response", icon: AlertTriangle, path: "/incidents" },
       { id: "files", label: "Secure File Sharing", icon: Share2, path: "/files" },
+    ]
+  },
+
+  // REVOLUTIONARY CYBERSECURITY SYSTEMS - Federal Platform Core
+  {
+    id: "revolutionary-systems",
+    label: "Revolutionary Systems",
+    icon: Crown,
+    items: [
+      { id: "cydef-dashboard", label: "CyDEF Genetic AI", icon: Brain, path: "/cydef-dashboard" },
+      { id: "live-location-dashboard", label: "Live Location Tracking", icon: MapPin, path: "/live-location-dashboard" },
+      { id: "cypherhum-interface", label: "CypherHUM 3D Interface", icon: Eye, path: "/cypherhum-interface" },
+      { id: "acds-dashboard", label: "ACDS Drone Swarm", icon: Drone, path: "/acds-dashboard" },
     ]
   },
 

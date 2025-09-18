@@ -14,6 +14,11 @@ import ComplianceHealthIndicator from "@/components/ComplianceHealthIndicator";
 import BadgeDisplay from "@/components/BadgeDisplay";
 import CypherDashboardWidget from "@/components/CypherDashboardWidget";
 import ThreatFeedsDisplay from "@/components/ThreatFeedsDisplay";
+// Import unified federal cybersecurity platform components
+import UnifiedSystemStatus from "@/components/UnifiedSystemStatus";
+import CrossSystemAnalytics from "@/components/CrossSystemAnalytics";
+import UnifiedAlertCenter from "@/components/UnifiedAlertCenter";
+import ExecutiveSummary from "@/components/ExecutiveSummary";
 // Lazy load heavy components to reduce bundle size
 const GeospatialIntelligenceMap = lazy(() => import("@/components/GeospatialIntelligenceMap").then(module => ({ default: module.GeospatialIntelligenceMap })));
 const IntelligenceOverview = lazy(() => import("@/components/IntelligenceOverview").then(module => ({ default: module.IntelligenceOverview })));
@@ -50,7 +55,9 @@ import {
   Bot,
   Monitor,
   Globe,
-  Network
+  Network,
+  MapPin,
+  Plane
 } from "lucide-react";
 // Import custom icons synchronously for now since they're used throughout the header
 import {
@@ -500,6 +507,93 @@ export default function Dashboard() {
           </div>
         )}
 
+        {/* UNIFIED FEDERAL CYBERSECURITY PLATFORM INTEGRATION */}
+        <div className="mb-8">
+          <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl bg-gradient-to-r from-black/50 to-gray-900/50">
+            <CardHeader>
+              <CardTitle className="text-cyan-300 flex items-center justify-between font-bold tracking-wide text-xl">
+                <div className="flex items-center">
+                  <Shield className="w-7 h-7 mr-3 text-cyan-400 animate-pulse" />
+                  CYBERSECURED AI FEDERAL PLATFORM
+                  <Badge className="ml-3 bg-gradient-to-r from-green-500 to-blue-500 text-white animate-pulse">
+                    INTEGRATED SYSTEMS ACTIVE
+                  </Badge>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  <span className="text-green-400 text-sm font-medium">All Systems Operational</span>
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Four Revolutionary Systems Quick Navigation */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <Button
+                  onClick={() => setLocation('/cydef-dashboard')}
+                  className="h-24 bg-gradient-to-br from-purple-600/20 to-violet-700/20 border border-purple-500/30 hover:border-purple-400/50 flex flex-col items-center justify-center space-y-2 group transition-all duration-300"
+                  data-testid="nav-cydef-system"
+                >
+                  <Brain className="w-8 h-8 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-white">CyDEF Genetic AI</div>
+                    <div className="text-xs text-purple-400">Autonomous Defense</div>
+                  </div>
+                </Button>
+
+                <Button
+                  onClick={() => setLocation('/live-location-dashboard')}
+                  className="h-24 bg-gradient-to-br from-blue-600/20 to-cyan-700/20 border border-blue-500/30 hover:border-blue-400/50 flex flex-col items-center justify-center space-y-2 group transition-all duration-300"
+                  data-testid="nav-live-location-system"
+                >
+                  <MapPin className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-white">Live Location</div>
+                    <div className="text-xs text-blue-400">Asset Tracking</div>
+                  </div>
+                </Button>
+
+                <Button
+                  onClick={() => setLocation('/cypherhum-interface')}
+                  className="h-24 bg-gradient-to-br from-green-600/20 to-teal-700/20 border border-green-500/30 hover:border-green-400/50 flex flex-col items-center justify-center space-y-2 group transition-all duration-300"
+                  data-testid="nav-cypherhum-system"
+                >
+                  <Eye className="w-8 h-8 text-green-400 group-hover:text-green-300 transition-colors" />
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-white">CypherHUM 3D</div>
+                    <div className="text-xs text-green-400">Holographic Interface</div>
+                  </div>
+                </Button>
+
+                <Button
+                  onClick={() => setLocation('/acds-dashboard')}
+                  className="h-24 bg-gradient-to-br from-orange-600/20 to-red-700/20 border border-orange-500/30 hover:border-orange-400/50 flex flex-col items-center justify-center space-y-2 group transition-all duration-300"
+                  data-testid="nav-acds-system"
+                >
+                  <Plane className="w-8 h-8 text-orange-400 group-hover:text-orange-300 transition-colors" />
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-white">ACDS Swarm</div>
+                    <div className="text-xs text-orange-400">Drone Defense</div>
+                  </div>
+                </Button>
+              </div>
+
+              {/* Unified System Status */}
+              <div className="mb-8">
+                <UnifiedSystemStatus />
+              </div>
+
+              {/* Cross-System Analytics and Unified Alert Center */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <CrossSystemAnalytics />
+                <UnifiedAlertCenter />
+              </div>
+
+              {/* Executive Summary and Federal Compliance */}
+              <ExecutiveSummary />
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Essential Platform Overview */}
         <div className="mb-8">
           <Card className="holographic-card border-cyan-500/30 backdrop-blur-xl">
@@ -561,7 +655,7 @@ export default function Dashboard() {
             <CardContent className="p-0">
               <div className="h-[700px] overflow-hidden">
                 {loadedSections.has('geospatial-map') ? (
-                  <Suspense fallback={<MapLoadingSkeleton />}>
+                  <Suspense fallback={<MapLoadingSkeleton /> as React.ReactNode}>
                     <GeospatialIntelligenceMap className="w-full h-full" />
                   </Suspense>
                 ) : (
