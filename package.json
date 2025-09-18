@@ -16,7 +16,11 @@
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
+  "test": "node --test --test-only test/*.test.js",
   "dependencies": {
+    "fastify": "^4.23.0",
+    "pino": "^8.20.0",
+    "uuid": "^9.0.0",
     "@anthropic-ai/sdk": "^0.37.0",
     "@azure/msal-node": "^3.7.3",
     "@google-cloud/storage": "^7.17.0",
@@ -147,6 +151,7 @@
     "zod-validation-error": "^3.4.0"
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.2",
     "@replit/vite-plugin-cartographer": "^0.2.8",
     "@replit/vite-plugin-runtime-error-modal": "^0.0.3",
     "@tailwindcss/typography": "^0.5.15",
@@ -173,6 +178,7 @@
     "vite": "^5.4.19",
     "concurrently": "^8.2.0"
   },
+  
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
   }

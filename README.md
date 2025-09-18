@@ -128,6 +128,11 @@ Validation: zod schema in SPEC.md.
 - Prometheus metrics and OTel tracing
 - Vertex auth helper and image provider parity
 - Cost estimator pricing updates
+ 
+TODOs:
+- Implement real provider adapters: GPT-5, Claude, Gemini, DeepSeek
+- Implement POST /image provider wiring and auth
+- Add metrics and tracing
 
 ## Contributing
 
