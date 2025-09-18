@@ -34,7 +34,17 @@ import {
   type InsertCustomComplianceControl,
   type Subscriber,
   type InsertSubscriber,
-  type UpsertUser
+  type UpsertUser,
+  type CypherhumSession,
+  type InsertCypherhumSession,
+  type CypherhumVisualization,
+  type InsertCypherhumVisualization,
+  type CypherhumInteraction,
+  type InsertCypherhumInteraction,
+  type CypherhumThreatModel,
+  type InsertCypherhumThreatModel,
+  type CypherhumAnalytics,
+  type InsertCypherhumAnalytics
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -122,6 +132,43 @@ export interface IStorage {
   // Confirmation code operations
   createConfirmationCode(data: any): Promise<any>;
   verifyConfirmationCode(email: string, code: string): Promise<any | undefined>;
+
+  // ===== CypherHUM Operations =====
+  
+  // CypherHUM Session operations
+  getCypherhumSessions(userId?: string): Promise<CypherhumSession[]>;
+  getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined>;
+  createCypherhumSession(session: InsertCypherhumSession): Promise<CypherhumSession>;
+  updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession>;
+  deleteCypherhumSession(sessionId: string): Promise<void>;
+  
+  // CypherHUM Visualization operations  
+  getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]>;
+  getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined>;
+  createCypherhumVisualization(visualization: InsertCypherhumVisualization): Promise<CypherhumVisualization>;
+  updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization>;
+  deleteCypherhumVisualization(visualizationId: string): Promise<void>;
+  
+  // CypherHUM Interaction operations
+  getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]>;
+  getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined>;
+  createCypherhumInteraction(interaction: InsertCypherhumInteraction): Promise<CypherhumInteraction>;
+  updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction>;
+  deleteCypherhumInteraction(interactionId: string): Promise<void>;
+  
+  // CypherHUM Threat Model operations
+  getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]>;
+  getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined>;
+  createCypherhumThreatModel(threatModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel>;
+  updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel>;
+  deleteCypherhumThreatModel(modelId: string): Promise<void>;
+  
+  // CypherHUM Analytics operations
+  getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]>;
+  getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined>;
+  createCypherhumAnalytic(analytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics>;
+  updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics>;
+  deleteCypherhumAnalytic(analyticId: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -140,6 +187,13 @@ export class MemStorage implements IStorage {
   private confirmationCodes: Map<string, any> = new Map();
   private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
   private cypherReports: Map<string, any> = new Map();
+  
+  // CypherHUM Storage Maps
+  private cypherhumSessions: Map<string, CypherhumSession> = new Map();
+  private cypherhumVisualizations: Map<string, CypherhumVisualization> = new Map();
+  private cypherhumInteractions: Map<string, CypherhumInteraction> = new Map();
+  private cypherhumThreatModels: Map<string, CypherhumThreatModel> = new Map();
+  private cypherhumAnalytics: Map<string, CypherhumAnalytics> = new Map();
 
   constructor() {
     this.initializeData();
@@ -1136,6 +1190,227 @@ export class MemStorage implements IStorage {
     }
     
     return undefined;
+  }
+
+  // ===== CypherHUM Storage Implementations =====
+  
+  // CypherHUM Session operations
+  async getCypherhumSessions(userId?: string): Promise<CypherhumSession[]> {
+    const sessions = Array.from(this.cypherhumSessions.values());
+    return userId ? sessions.filter(s => s.userId === userId) : sessions;
+  }
+
+  async getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined> {
+    return this.cypherhumSessions.get(sessionId);
+  }
+
+  async createCypherhumSession(insertSession: InsertCypherhumSession): Promise<CypherhumSession> {
+    const id = randomUUID();
+    const session: CypherhumSession = {
+      ...insertSession,
+      id,
+      status: insertSession.status ?? "active",
+      startTime: insertSession.startTime ?? new Date(),
+      endTime: null,
+      duration: insertSession.duration ?? 0,
+      threatsVisualized: insertSession.threatsVisualized ?? 0,
+      aiInteractions: insertSession.aiInteractions ?? 0,
+      visualizationPresetId: insertSession.visualizationPresetId ?? null,
+      sessionData: insertSession.sessionData ?? {},
+      performanceMetrics: insertSession.performanceMetrics ?? {},
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumSessions.set(id, session);
+    return session;
+  }
+
+  async updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession> {
+    const session = this.cypherhumSessions.get(sessionId);
+    if (!session) throw new Error("CypherHUM session not found");
+    
+    const updatedSession = { ...session, ...updates, updatedAt: new Date() };
+    this.cypherhumSessions.set(sessionId, updatedSession);
+    return updatedSession;
+  }
+
+  async deleteCypherhumSession(sessionId: string): Promise<void> {
+    this.cypherhumSessions.delete(sessionId);
+  }
+
+  // CypherHUM Visualization operations  
+  async getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]> {
+    const visualizations = Array.from(this.cypherhumVisualizations.values());
+    if (userId) {
+      return visualizations.filter(v => v.createdBy === userId || v.isPublic === true);
+    }
+    return visualizations.filter(v => v.isPublic === true);
+  }
+
+  async getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined> {
+    return this.cypherhumVisualizations.get(visualizationId);
+  }
+
+  async createCypherhumVisualization(insertVisualization: InsertCypherhumVisualization): Promise<CypherhumVisualization> {
+    const id = randomUUID();
+    const visualization: CypherhumVisualization = {
+      ...insertVisualization,
+      id,
+      isDefault: insertVisualization.isDefault ?? false,
+      isPublic: insertVisualization.isPublic ?? false,
+      usageCount: insertVisualization.usageCount ?? 0,
+      rating: insertVisualization.rating ?? 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumVisualizations.set(id, visualization);
+    return visualization;
+  }
+
+  async updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization> {
+    const visualization = this.cypherhumVisualizations.get(visualizationId);
+    if (!visualization) throw new Error("CypherHUM visualization not found");
+    
+    const updatedVisualization = { ...visualization, ...updates, updatedAt: new Date() };
+    this.cypherhumVisualizations.set(visualizationId, updatedVisualization);
+    return updatedVisualization;
+  }
+
+  async deleteCypherhumVisualization(visualizationId: string): Promise<void> {
+    this.cypherhumVisualizations.delete(visualizationId);
+  }
+
+  // CypherHUM Interaction operations
+  async getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]> {
+    const interactions = Array.from(this.cypherhumInteractions.values());
+    return sessionId ? interactions.filter(i => i.sessionId === sessionId) : interactions;
+  }
+
+  async getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined> {
+    return this.cypherhumInteractions.get(interactionId);
+  }
+
+  async createCypherhumInteraction(insertInteraction: InsertCypherhumInteraction): Promise<CypherhumInteraction> {
+    const id = randomUUID();
+    const interaction: CypherhumInteraction = {
+      ...insertInteraction,
+      id,
+      responseType: insertInteraction.responseType ?? "acknowledgment",
+      processingTime: insertInteraction.processingTime ?? 0,
+      confidenceScore: insertInteraction.confidenceScore ?? null,
+      contextData: insertInteraction.contextData ?? null,
+      threeDManipulation: insertInteraction.threeDManipulation ?? null,
+      visualizationImpact: insertInteraction.visualizationImpact ?? null,
+      userFeedback: insertInteraction.userFeedback ?? null,
+      timestamp: new Date()
+    };
+    this.cypherhumInteractions.set(id, interaction);
+    return interaction;
+  }
+
+  async updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction> {
+    const interaction = this.cypherhumInteractions.get(interactionId);
+    if (!interaction) throw new Error("CypherHUM interaction not found");
+    
+    const updatedInteraction = { ...interaction, ...updates };
+    this.cypherhumInteractions.set(interactionId, updatedInteraction);
+    return updatedInteraction;
+  }
+
+  async deleteCypherhumInteraction(interactionId: string): Promise<void> {
+    this.cypherhumInteractions.delete(interactionId);
+  }
+
+  // CypherHUM Threat Model operations
+  async getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]> {
+    const models = Array.from(this.cypherhumThreatModels.values());
+    return threatId ? models.filter(m => m.threatId === threatId) : models;
+  }
+
+  async getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined> {
+    return this.cypherhumThreatModels.get(modelId);
+  }
+
+  async createCypherhumThreatModel(insertModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel> {
+    const id = randomUUID();
+    const model: CypherhumThreatModel = {
+      ...insertModel,
+      id,
+      geometryData: insertModel.geometryData ?? {},
+      materialProperties: insertModel.materialProperties ?? {},
+      animationData: insertModel.animationData ?? {},
+      interactionBehavior: insertModel.interactionBehavior ?? {},
+      severity3DMapping: insertModel.severity3DMapping ?? {},
+      realTimeProperties: insertModel.realTimeProperties ?? {},
+      renderingOptimization: insertModel.renderingOptimization ?? {},
+      aiEnhancement: insertModel.aiEnhancement ?? {},
+      spatialPosition: insertModel.spatialPosition ?? [0, 0, 0],
+      scale: insertModel.scale ?? [1, 1, 1],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumThreatModels.set(id, model);
+    return model;
+  }
+
+  async updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel> {
+    const model = this.cypherhumThreatModels.get(modelId);
+    if (!model) throw new Error("CypherHUM threat model not found");
+    
+    const updatedModel = { ...model, ...updates, updatedAt: new Date() };
+    this.cypherhumThreatModels.set(modelId, updatedModel);
+    return updatedModel;
+  }
+
+  async deleteCypherhumThreatModel(modelId: string): Promise<void> {
+    this.cypherhumThreatModels.delete(modelId);
+  }
+
+  // CypherHUM Analytics operations
+  async getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]> {
+    const analytics = Array.from(this.cypherhumAnalytics.values());
+    let filtered = analytics;
+    
+    if (sessionId) {
+      filtered = filtered.filter(a => a.sessionId === sessionId);
+    }
+    if (userId) {
+      filtered = filtered.filter(a => a.userId === userId);
+    }
+    
+    return filtered;
+  }
+
+  async getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined> {
+    return this.cypherhumAnalytics.get(analyticId);
+  }
+
+  async createCypherhumAnalytic(insertAnalytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics> {
+    const id = randomUUID();
+    const analytic: CypherhumAnalytics = {
+      ...insertAnalytic,
+      id,
+      sessionId: insertAnalytic.sessionId ?? null,
+      metricValue: insertAnalytic.metricValue ?? 0,
+      contextData: insertAnalytic.contextData ?? null,
+      aggregationPeriod: insertAnalytic.aggregationPeriod ?? "instant",
+      timestamp: new Date()
+    };
+    this.cypherhumAnalytics.set(id, analytic);
+    return analytic;
+  }
+
+  async updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics> {
+    const analytic = this.cypherhumAnalytics.get(analyticId);
+    if (!analytic) throw new Error("CypherHUM analytic not found");
+    
+    const updatedAnalytic = { ...analytic, ...updates };
+    this.cypherhumAnalytics.set(analyticId, updatedAnalytic);
+    return updatedAnalytic;
+  }
+
+  async deleteCypherhumAnalytic(analyticId: string): Promise<void> {
+    this.cypherhumAnalytics.delete(analyticId);
   }
 }
 
