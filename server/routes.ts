@@ -93,6 +93,261 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     res.json(health);
   });
+
+  // ===== UNIFIED SYSTEM API ENDPOINTS =====
+  
+  // Lazy Unified Service factory
+  const getUnifiedService = lazySingletonAsync(async () => {
+    console.log('🔄 Initializing Unified Service...');
+    const { getUnifiedService } = await import('./services/unified-service.ts');
+    const service = getUnifiedService({
+      organizationId: 'default',
+      enableRealTimeCorrelation: true,
+      correlationIntervalMs: 30000,
+      alertRetentionDays: 30,
+      executiveReportingEnabled: true,
+      complianceFrameworks: ['FISMA', 'FedRAMP', 'NIST'],
+      dbProvider: undefined
+    });
+    await service.initialize();
+    return service;
+  });
+
+  // Unified System Status - Overall system health from all four systems
+  app.get('/api/unified/system-status', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const systemStatus = await unifiedService.getUnifiedSystemStatus();
+      res.json(systemStatus);
+    } catch (error) {
+      console.error('❌ Failed to get unified system status:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system status',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified System Data - Aggregated data from all systems
+  app.get('/api/unified/system-data', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const [systemStatus, crossSystemMetrics] = await Promise.all([
+        unifiedService.getUnifiedSystemStatus(),
+        unifiedService.getCrossSystemMetrics()
+      ]);
+      
+      const systemData = {
+        status: systemStatus,
+        metrics: crossSystemMetrics,
+        lastUpdate: new Date().toISOString(),
+        correlationAnalysisEnabled: true,
+        realTimeUpdates: true
+      };
+      
+      res.json(systemData);
+    } catch (error) {
+      console.error('❌ Failed to get unified system data:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Threat Correlations - Cross-system threat analysis
+  app.get('/api/unified/threat-correlations', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const correlations = await unifiedService.performCorrelationAnalysis?.() || [];
+      
+      const response = {
+        correlations,
+        timeRange: timeRange || {
+          start: new Date(Date.now() - 86400000).toISOString(),
+          end: new Date().toISOString()
+        },
+        correlationTypes: ['spatial', 'temporal', 'behavioral', 'ai_pattern'],
+        totalCorrelations: correlations.length,
+        highRiskCorrelations: correlations.filter((c: any) => c.riskLevel === 'critical' || c.riskLevel === 'high').length
+      };
+      
+      res.json(response);
+    } catch (error) {
+      console.error('❌ Failed to get threat correlations:', error);
+      res.status(500).json({ 
+        error: 'Failed to get threat correlations',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Correlation Metrics - System integration metrics
+  app.get('/api/unified/correlation-metrics', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const correlationMetrics = await unifiedService.getCrossSystemMetrics(timeRange);
+      res.json(correlationMetrics);
+    } catch (error) {
+      console.error('❌ Failed to get correlation metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get correlation metrics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Executive Metrics - Executive dashboard data
+  app.get('/api/unified/executive-metrics', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const executiveMetrics = await unifiedService.getExecutiveMetrics();
+      res.json(executiveMetrics);
+    } catch (error) {
+      console.error('❌ Failed to get executive metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get executive metrics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Alerts - Centralized alert management with filtering and pagination
+  app.get('/api/unified/alerts', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      
+      // Parse query parameters for filtering
+      const filters: any = {};
+      if (req.query.severity) {
+        filters.severity = Array.isArray(req.query.severity) 
+          ? req.query.severity as string[]
+          : [req.query.severity as string];
+      }
+      if (req.query.status) {
+        filters.status = Array.isArray(req.query.status) 
+          ? req.query.status as string[]
+          : [req.query.status as string];
+      }
+      if (req.query.systems) {
+        filters.systems = Array.isArray(req.query.systems) 
+          ? req.query.systems as string[]
+          : [req.query.systems as string];
+      }
+      if (req.query.limit) {
+        filters.limit = parseInt(req.query.limit as string);
+      }
+      if (req.query.offset) {
+        filters.offset = parseInt(req.query.offset as string);
+      }
+
+      const alertsResult = await unifiedService.getUnifiedAlerts(filters);
+      res.json(alertsResult);
+    } catch (error) {
+      console.error('❌ Failed to get unified alerts:', error);
+      res.status(500).json({ 
+        error: 'Failed to get unified alerts',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Alert Statistics - Alert statistics and analytics
+  app.get('/api/unified/alert-stats', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const alertStats = await unifiedService.getAlertStats(timeRange);
+      res.json(alertStats);
+    } catch (error) {
+      console.error('❌ Failed to get alert statistics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get alert statistics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update unified alert status (acknowledge, resolve, etc.)
+  app.patch('/api/unified/alerts/:alertId', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const { alertId } = req.params;
+      const updates = req.body;
+      
+      // Validate updates
+      if (!updates.status && !updates.assignedTo && !updates.priority) {
+        return res.status(400).json({ error: 'No valid updates provided' });
+      }
+      
+      const unifiedService = await getUnifiedService();
+      const updatedAlert = await unifiedService.updateAlert?.(alertId, updates) || null;
+      
+      if (!updatedAlert) {
+        return res.status(404).json({ error: 'Alert not found' });
+      }
+      
+      res.json(updatedAlert);
+    } catch (error) {
+      console.error('❌ Failed to update unified alert:', error);
+      res.status(500).json({ 
+        error: 'Failed to update alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create manual unified alert
+  app.post('/api/unified/alerts', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const alertData = req.body;
+      
+      // Basic validation
+      if (!alertData.title || !alertData.severity || !alertData.alertType) {
+        return res.status(400).json({ 
+          error: 'Missing required alert fields: title, severity, alertType' 
+        });
+      }
+      
+      const newAlert = await unifiedService.createAlert?.(alertData) || null;
+      res.status(201).json(newAlert);
+    } catch (error) {
+      console.error('❌ Failed to create unified alert:', error);
+      res.status(500).json({ 
+        error: 'Failed to create alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Service Health Check
+  app.get('/api/unified/health', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const healthStatus = unifiedService.getServiceHealth();
+      res.json(healthStatus);
+    } catch (error) {
+      console.error('❌ Failed to get unified service health:', error);
+      res.status(500).json({ 
+        error: 'Failed to get service health',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
   
   // Object storage public asset serving endpoint (referenced from: javascript_object_storage integration)
   app.get("/public-objects/:filePath(*)", async (req, res) => {
@@ -11420,6 +11675,423 @@ startxref
       });
 
       console.log('🚁 ACDS WebSocket server initialized at /ws/acds');
+
+      // ===== UNIFIED SYSTEM WEBSOCKET SERVER =====
+      
+      // Unified WebSocket endpoint for real-time alerts from all four systems
+      const unifiedWss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/unified-alerts'
+      });
+
+      unifiedWss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid Unified WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/unified-alerts') {
+          console.warn(`⚠️ Unified WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ Unified WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ Unified WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ Unified WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🔄 Unified access granted for: ${payload.userId}`);
+        
+          // Track connection time for analytics
+          (ws as any).connectedAt = new Date().toISOString();
+          (ws as any).userId = payload.userId;
+          (ws as any).userEmail = payload.email;
+          
+          // Send welcome message with initial unified status
+          ws.send(JSON.stringify({
+            type: 'welcome',
+            message: 'Connected to Unified CyberSecured AI Platform',
+            user: payload.email,
+            timestamp: new Date().toISOString(),
+            systems: ['cydef', 'liveLocation', 'cypherHUM', 'acds']
+          }));
+
+          try {
+            // Initialize Unified Service for this WebSocket connection
+            const unifiedService = await getUnifiedService();
+            
+            // Setup real-time event handlers for unified alerts
+            const handleUnifiedAlert = (alert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'unified_alert',
+                  payload: alert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleSystemAlert = (systemAlert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'system_alert',
+                  payload: systemAlert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleThreatCorrelation = (correlation: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'threat_correlation',
+                  payload: correlation,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleSystemStatusUpdate = (statusUpdate: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'system_status_update',
+                  payload: statusUpdate,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleExecutiveAlert = (executiveAlert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'executive_alert',
+                  payload: executiveAlert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleCriticalIncident = (incident: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'critical_incident',
+                  payload: incident,
+                  priority: 'p1',
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            // Register event listeners for real-time unified updates
+            unifiedService.on('unifiedAlert', handleUnifiedAlert);
+            unifiedService.on('systemAlert', handleSystemAlert);
+            unifiedService.on('threatCorrelationDetected', handleThreatCorrelation);
+            unifiedService.on('systemStatusChange', handleSystemStatusUpdate);
+            unifiedService.on('executiveAlert', handleExecutiveAlert);
+            unifiedService.on('criticalIncident', handleCriticalIncident);
+
+            // Send initial unified system status on connection
+            try {
+              const [systemStatus, alertStats] = await Promise.all([
+                unifiedService.getUnifiedSystemStatus(),
+                unifiedService.getAlertStats()
+              ]);
+              
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'initial_status',
+                  payload: {
+                    systemStatus,
+                    alertStats,
+                    connectionTime: new Date().toISOString()
+                  },
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            } catch (error) {
+              console.error('❌ Failed to get initial unified status:', error);
+            }
+
+            // Handle incoming WebSocket messages
+            ws.on('message', async (message) => {
+              try {
+                const data = JSON.parse(message.toString());
+                console.log('📨 Received Unified WebSocket message:', data);
+                
+                // Handle different message types
+                switch (data.type) {
+                  case 'ping':
+                    ws.send(JSON.stringify({ 
+                      type: 'pong', 
+                      timestamp: new Date().toISOString() 
+                    }));
+                    break;
+                    
+                  case 'requestSystemStatus':
+                    try {
+                      const systemStatus = await unifiedService.getUnifiedSystemStatus();
+                      ws.send(JSON.stringify({
+                        type: 'system_status',
+                        payload: systemStatus,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get system status via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestAlerts':
+                    try {
+                      const filters = data.payload?.filters || {};
+                      const alertsResult = await unifiedService.getUnifiedAlerts(filters);
+                      ws.send(JSON.stringify({
+                        type: 'alerts',
+                        payload: alertsResult,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get alerts via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestAlertStats':
+                    try {
+                      const timeRange = data.payload?.timeRange;
+                      const alertStats = await unifiedService.getAlertStats(timeRange);
+                      ws.send(JSON.stringify({
+                        type: 'alert_stats',
+                        payload: alertStats,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get alert stats via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestExecutiveMetrics':
+                    try {
+                      const executiveMetrics = await unifiedService.getExecutiveMetrics();
+                      ws.send(JSON.stringify({
+                        type: 'executive_metrics',
+                        payload: executiveMetrics,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get executive metrics via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestCorrelationMetrics':
+                    try {
+                      const timeRange = data.payload?.timeRange;
+                      const correlationMetrics = await unifiedService.getCrossSystemMetrics(timeRange);
+                      ws.send(JSON.stringify({
+                        type: 'correlation_metrics',
+                        payload: correlationMetrics,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get correlation metrics via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'acknowledgeAlert':
+                    try {
+                      const { alertId, userId } = data.payload;
+                      const updatedAlert = await unifiedService.updateAlert?.(alertId, {
+                        status: 'acknowledged',
+                        acknowledgedBy: userId,
+                        acknowledgedAt: new Date().toISOString()
+                      });
+                      
+                      if (updatedAlert) {
+                        // Broadcast alert update to all connected clients
+                        unifiedWss.clients.forEach((client) => {
+                          if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                              type: 'alert_updated',
+                              payload: updatedAlert,
+                              timestamp: new Date().toISOString()
+                            }));
+                          }
+                        });
+                      }
+                    } catch (error) {
+                      console.error('❌ Failed to acknowledge alert via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'resolveAlert':
+                    try {
+                      const { alertId, userId, resolution } = data.payload;
+                      const updatedAlert = await unifiedService.updateAlert?.(alertId, {
+                        status: 'resolved',
+                        resolvedBy: userId,
+                        resolvedAt: new Date().toISOString(),
+                        resolution: resolution
+                      });
+                      
+                      if (updatedAlert) {
+                        // Broadcast alert resolution to all connected clients
+                        unifiedWss.clients.forEach((client) => {
+                          if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                              type: 'alert_resolved',
+                              payload: updatedAlert,
+                              timestamp: new Date().toISOString()
+                            }));
+                          }
+                        });
+                      }
+                    } catch (error) {
+                      console.error('❌ Failed to resolve alert via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'subscribe':
+                    // Handle subscription to specific event types
+                    console.log('📡 Unified WebSocket subscription request:', data.payload);
+                    const subscriptions = data.payload?.events || [];
+                    (ws as any).subscriptions = subscriptions;
+                    break;
+                    
+                  case 'emergencyBroadcast':
+                    try {
+                      // Only allow emergency broadcasts from admin users
+                      if (payload.role !== 'admin') {
+                        ws.send(JSON.stringify({
+                          type: 'error',
+                          message: 'Unauthorized: Emergency broadcast requires admin privileges',
+                          timestamp: new Date().toISOString()
+                        }));
+                        break;
+                      }
+                      
+                      const emergencyMessage = data.payload;
+                      
+                      // Broadcast emergency message to all connected clients
+                      unifiedWss.clients.forEach((client) => {
+                        if (client.readyState === WebSocket.OPEN) {
+                          client.send(JSON.stringify({
+                            type: 'emergency_broadcast',
+                            payload: emergencyMessage,
+                            priority: 'p1',
+                            timestamp: new Date().toISOString()
+                          }));
+                        }
+                      });
+                      
+                      console.log('🚨 Emergency broadcast sent to all unified clients');
+                    } catch (error) {
+                      console.error('❌ Failed to send emergency broadcast:', error);
+                    }
+                    break;
+                    
+                  default:
+                    console.log('Unknown Unified WebSocket message type:', data.type);
+                }
+              } catch (error) {
+                console.error('❌ Failed to parse Unified WebSocket message:', error);
+              }
+            });
+
+            // Setup periodic status updates (every 10 seconds)
+            const statusUpdateInterval = setInterval(async () => {
+              try {
+                if (ws.readyState === WebSocket.OPEN) {
+                  const healthStatus = unifiedService.getServiceHealth();
+                  ws.send(JSON.stringify({
+                    type: 'health_update',
+                    payload: healthStatus,
+                    timestamp: new Date().toISOString()
+                  }));
+                }
+              } catch (error) {
+                console.error('❌ Failed to send periodic health update:', error);
+              }
+            }, 10000);
+
+            // Cleanup interval and event listeners on connection close
+            ws.on('close', (code, reason) => {
+              clearInterval(statusUpdateInterval);
+              
+              const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+              const connectedDuration = (ws as any).connectedAt 
+                ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+                : '';
+              
+              console.log(`🔌 Unified WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+              console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+              
+              // Remove event listeners to prevent memory leaks
+              unifiedService.removeListener('unifiedAlert', handleUnifiedAlert);
+              unifiedService.removeListener('systemAlert', handleSystemAlert);
+              unifiedService.removeListener('threatCorrelationDetected', handleThreatCorrelation);
+              unifiedService.removeListener('systemStatusChange', handleSystemStatusUpdate);
+              unifiedService.removeListener('executiveAlert', handleExecutiveAlert);
+              unifiedService.removeListener('criticalIncident', handleCriticalIncident);
+            });
+
+          } catch (error) {
+            console.error('❌ Failed to initialize Unified Service for WebSocket:', error);
+            ws.send(JSON.stringify({
+              type: 'error',
+              message: 'Failed to initialize Unified Service',
+              timestamp: new Date().toISOString()
+            }));
+          }
+
+        } catch (authError) {
+          console.error('❌ Unified WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Enhanced error handling
+        ws.on('error', (error) => {
+          const userInfo = (ws as any).userEmail ? `(${(ws as any).userEmail})` : '(anonymous)';
+          console.error(`❌ Unified WebSocket error for user ${userInfo}:`, error);
+        });
+      });
+
+      console.log('🔄 Unified WebSocket server initialized at /ws/unified-alerts');
 
     } catch (error) {
       console.error('❌ Failed to initialize WebSocket server:', error instanceof Error ? error.message : String(error));
