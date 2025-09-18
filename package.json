@@ -101,6 +101,8 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^0.542.0",
     "mammoth": "^1.10.0",
+    "marked": "^16.3.0",
+    "md-to-pdf": "^5.2.4",
     "memoizee": "^0.4.17",
     "memorystore": "^1.6.7",
     "multer": "^2.0.2",
