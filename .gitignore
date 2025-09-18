@@ -75,6 +75,7 @@ eng.traineddata
 !index.html
 *.md
 !README.md
+!SPEC.md
 
 # Server public (already excluded)
 server/public

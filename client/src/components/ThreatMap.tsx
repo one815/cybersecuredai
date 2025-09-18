@@ -14,15 +14,12 @@ interface ThreatLocation {
 
 interface ThreatMapProps {
   className?: string;
+  height?: number | string;
 }
 
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+// rely on shared Window.google declaration in GeospatialIntelligenceMap.tsx
 
-export function ThreatMap({ className = "" }: ThreatMapProps) {
+export function ThreatMap({ className = "", height }: ThreatMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
@@ -111,7 +108,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
       hasMap: !!map, 
       hasData: !!threatLocations, 
       isArray: Array.isArray(threatLocations),
-      dataCount: threatLocations?.length,
+      dataCount: (threatLocations as any)?.length,
       data: threatLocations 
     });
 
@@ -179,7 +176,7 @@ export function ThreatMap({ className = "" }: ThreatMapProps) {
   return (
     <div className={`bg-gray-900/50 rounded-lg overflow-hidden relative ${className}`}>
       {/* Google Maps Container */}
-      <div ref={mapRef} className="w-full h-full min-h-[300px]" />
+    <div ref={mapRef} style={height ? { height } : undefined} className="w-full h-full min-h-[300px]" />
 
 
 

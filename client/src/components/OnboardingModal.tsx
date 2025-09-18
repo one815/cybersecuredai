@@ -110,7 +110,7 @@ export function OnboardingModal({ isOpen, onClose, onComplete }: OnboardingModal
         }
       };
       
-      await apiRequest('PUT', `/api/users/${user.id}/onboarding`, setupData);
+      await apiRequest(`/api/users/${user.id}/onboarding`, { method: 'PUT', data: setupData });
       
       if (isQuickSetup) {
         toast({

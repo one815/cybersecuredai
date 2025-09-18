@@ -40,7 +40,7 @@ export default function BasicSecurityScan() {
 
   const scanMutation = useMutation({
     mutationFn: async (domain: string) => {
-      const response = await apiRequest('POST', '/api/basic-security-scan', { domain });
+      const response = await apiRequest('/api/basic-security-scan', { method: 'POST', data: { domain } });
       return await response.json();
     },
     onSuccess: (data) => {

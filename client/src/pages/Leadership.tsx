@@ -265,6 +265,11 @@ export default function Leadership() {
     }
   ];
 
+    // Augment team objects with optional awards to satisfy TS checks in the template below
+    type LeaderWithAwards = {
+      awards?: string[];
+    } & Record<string, any>;
+
 
   // Camilia Anderson's Professional Certifications
   const camiliasCertifications = [
@@ -558,11 +563,11 @@ export default function Leadership() {
                       )}
                       
                       {/* Awards */}
-                      {leader.awards && (
+                      {Array.isArray((leader as any).awards) && (
                         <div className="mb-4">
                           <h4 className="text-sm font-semibold text-white mb-2">Awards & Recognition</h4>
                           <div className="space-y-1">
-                            {leader.awards.map((award, awardIndex) => (
+                            {(leader as any).awards.map((award: string, awardIndex: number) => (
                               <div key={awardIndex} className="flex items-start gap-2">
                                 <Enhanced4DStarIcon className="glass-icon w-4 h-4 mt-0.5 text-spring-400" size={16} />
                                 <span className="text-gray-300 text-sm">{award}</span>

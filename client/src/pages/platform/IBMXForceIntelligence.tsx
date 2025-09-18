@@ -73,6 +73,15 @@ interface VulnerabilityReport {
   }>;
 }
 
+interface XForceServiceStatus {
+  status?: 'configured' | 'degraded' | 'offline' | 'unknown';
+  service?: string;
+  last_checked?: string;
+  region?: string;
+  details?: string;
+  features?: string[];
+}
+
 export default function IBMXForceIntelligence() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -82,7 +91,7 @@ export default function IBMXForceIntelligence() {
   const [reportResults, setReportResults] = useState<any>(null);
 
   // Fetch service status
-  const { data: serviceStatus } = useQuery({
+  const { data: serviceStatus } = useQuery<XForceServiceStatus | null>({
     queryKey: ['/api/threat-intelligence/status'],
     refetchInterval: 60000,
   });
@@ -90,7 +99,7 @@ export default function IBMXForceIntelligence() {
   // Search mutations for different indicator types
   const ipReputationMutation = useMutation({
     mutationFn: (ip: string) => apiRequest(`/api/threat-intelligence/ip/${ip}`),
-    onSuccess: (result) => {
+    onSuccess: (result: XForceReport) => {
       setReportResults(result);
       toast({
         title: "IP Analysis Complete",
@@ -108,7 +117,7 @@ export default function IBMXForceIntelligence() {
 
   const urlAnalysisMutation = useMutation({
     mutationFn: (url: string) => apiRequest(`/api/threat-intelligence/url?url=${encodeURIComponent(url)}`),
-    onSuccess: (result) => {
+    onSuccess: (result: XForceReport) => {
       setReportResults(result);
       toast({
         title: "URL Analysis Complete",
@@ -119,7 +128,7 @@ export default function IBMXForceIntelligence() {
 
   const domainIntelligenceMutation = useMutation({
     mutationFn: (domain: string) => apiRequest(`/api/threat-intelligence/domain/${domain}`),
-    onSuccess: (result) => {
+    onSuccess: (result: any) => {
       setReportResults(result);
       toast({
         title: "Domain Analysis Complete",
@@ -130,7 +139,7 @@ export default function IBMXForceIntelligence() {
 
   const vulnerabilitySearchMutation = useMutation({
     mutationFn: (cve: string) => apiRequest(`/api/threat-intelligence/vulnerability/${cve}`),
-    onSuccess: (result) => {
+    onSuccess: (result: VulnerabilityReport) => {
       setReportResults(result);
       toast({
         title: "Vulnerability Analysis Complete",
@@ -141,7 +150,7 @@ export default function IBMXForceIntelligence() {
 
   const malwareSearchMutation = useMutation({
     mutationFn: (hash: string) => apiRequest(`/api/threat-intelligence/malware/${hash}`),
-    onSuccess: (result) => {
+    onSuccess: (result: any) => {
       setReportResults(result);
       toast({
         title: "Malware Analysis Complete",
@@ -155,7 +164,7 @@ export default function IBMXForceIntelligence() {
       method: 'POST',
       body: JSON.stringify({ indicators }),
     }),
-    onSuccess: (result) => {
+    onSuccess: (result: any[]) => {
       setReportResults(result);
       toast({
         title: "Bulk Analysis Complete",

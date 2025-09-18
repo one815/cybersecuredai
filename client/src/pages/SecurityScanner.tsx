@@ -106,7 +106,7 @@ export default function SecurityScanner() {
 
   const scanMutation = useMutation({
     mutationFn: async (config: any) => {
-      const response = await apiRequest('POST', '/api/security-scan', config);
+      const response = await apiRequest('/api/security-scan', { method: 'POST', data: config });
       return await response.json();
     },
     onSuccess: (data) => {

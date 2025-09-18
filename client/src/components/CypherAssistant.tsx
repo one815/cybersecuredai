@@ -57,7 +57,7 @@ export function CypherAssistant({
 
   const cypherMutation = useMutation({
     mutationFn: async (message: CypherMessage): Promise<CypherResponse> => {
-      const response = await apiRequest('/api/cypher/chat', 'POST', message);
+      const response = await apiRequest('/api/cypher/chat', { method: 'POST', data: message });
       return await response.json();
     },
     onSuccess: (response: CypherResponse) => {

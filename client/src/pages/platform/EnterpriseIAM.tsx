@@ -530,8 +530,8 @@ export default function EnterpriseIAM() {
                                 {key.replace(/([A-Z])/g, ' $1').toLowerCase()}:
                               </span>
                               <span className="text-white">
-                                {typeof value === 'boolean' ? (value ? 'Yes' : 'No') : 
-                                 Array.isArray(value) ? value.join(', ') : value}
+                                {(typeof value === 'boolean' ? (value ? 'Yes' : 'No') :
+                                  Array.isArray(value) ? (value as any).join(', ') : (value as any)) as any}
                               </span>
                             </div>
                           ))}

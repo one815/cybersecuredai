@@ -36,6 +36,14 @@ interface CypherDashboardWidgetProps {
   compact?: boolean;
 }
 
+interface SystemStatus {
+  threatLevel?: 'LOW' | 'MEDIUM' | 'HIGH' | string;
+  activeAlerts?: number;
+  systemHealth?: string;
+  uptime?: string;
+  [key: string]: any;
+}
+
 export default function CypherDashboardWidget({ enabled = true, compact = false }: CypherDashboardWidgetProps) {
   const [isMinimized, setIsMinimized] = useState(compact);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -58,15 +66,17 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
   });
 
   // Fetch daily recommendations
-  const { data: dailyRecommendations } = useQuery({
+  const { data: dailyRecommendations } = useQuery<any>({
     queryKey: ["/api/cypher/daily-recommendations/admin-1"],
     enabled: enabled,
     refetchInterval: 60000, // Refresh every minute
     staleTime: 30000,
   });
 
+  const dailyActions = Array.isArray((dailyRecommendations as any)?.actions) ? ((dailyRecommendations as any)?.actions as any[]) : [];
+
   // Fetch system status for live updates
-  const { data: systemStatus } = useQuery({
+  const { data: systemStatus } = useQuery<SystemStatus | null>({
     queryKey: ["/api/cypher/system-status"],
     enabled: enabled,
     refetchInterval: 10000, // Refresh every 10 seconds
@@ -148,7 +158,7 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
                 Online
               </Badge>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Threat Level:</span>
                 <span className="text-green-400 font-medium">
@@ -189,8 +199,8 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
                 </Badge>
               </div>
               <p className="text-xs text-gray-300 mb-3 leading-relaxed">{(dailyRecommendations as any)?.message}</p>
-              <div className="flex flex-wrap gap-2">
-                {(dailyRecommendations as any)?.actions?.slice(0, 3).map((action: any, index: number) => (
+        <div className="flex flex-wrap gap-2">
+          {dailyActions.slice(0,3).map((action: any, index: number) => (
                   <Button
                     key={index}
                     size="sm"
@@ -235,7 +245,7 @@ export default function CypherDashboardWidget({ enabled = true, compact = false 
                 </div>
               ) : cypherReports.length > 0 ? (
                 <div className="space-y-3 pr-3">
-                  {cypherReports.map((report) => (
+                  {cypherReports.map((report: CypherReport) => (
                     <div
                       key={report.id}
                       className="p-3 bg-gray-800/30 rounded-lg border border-gray-700/50 hover:border-blue-500/50 transition-colors"

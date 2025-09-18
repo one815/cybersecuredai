@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import type { MLModelPrediction, ThreatDetectionPrediction, BehavioralAnalysisPrediction, DocumentClassificationPrediction, AnomalyDetectionPrediction, ModelStatus, MLServiceStatus } from "@/types/api";
 import { 
   Brain, 
   Target, 
@@ -29,30 +30,13 @@ import {
   Eye
 } from "lucide-react";
 
-interface MLPrediction {
-  prediction: string;
-  confidence: number;
-  threat_type?: string;
-  severity?: string;
-  recommendations?: string[];
-  model_version: string;
-  inference_time_ms: number;
-}
-
-interface ModelStatus {
-  endpoint_name: string;
-  status: string;
-  instance_type: string;
-  instance_count: number;
-  model_version: string;
-  last_updated: string;
-}
+// ...existing code...
 
 export default function MLAnalytics() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("threat-detection");
-  const [predictionResults, setPredictionResults] = useState<MLPrediction | null>(null);
+  const [predictionResults, setPredictionResults] = useState<MLModelPrediction | null>(null);
 
   // Form states for different ML models
   const [threatData, setThreatData] = useState({
@@ -104,18 +88,18 @@ export default function MLAnalytics() {
     refetchInterval: 30000,
   });
 
-  const { data: serviceStatus } = useQuery({
+  const { data: serviceStatus } = useQuery<MLServiceStatus | null>({
     queryKey: ['/api/ml/service/status'],
     refetchInterval: 60000,
   });
 
   // ML prediction mutations
-  const threatDetectionMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('/api/ml/threat-detection/predict', {
+  const threatDetectionMutation = useMutation<ThreatDetectionPrediction, unknown, Record<string, any>>({
+    mutationFn: (data: Record<string, any>) => apiRequest('/api/ml/threat-detection/predict', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-    onSuccess: (result) => {
+    onSuccess: (result: ThreatDetectionPrediction) => {
       setPredictionResults(result);
       toast({
         title: "Threat Analysis Complete",
@@ -131,44 +115,48 @@ export default function MLAnalytics() {
     },
   });
 
-  const behavioralAnalysisMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('/api/ml/behavioral-analysis/predict', {
+  const behavioralAnalysisMutation = useMutation<BehavioralAnalysisPrediction, unknown, Record<string, any>>({
+    mutationFn: (data: Record<string, any>) => apiRequest('/api/ml/behavioral-analysis/predict', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-    onSuccess: (result) => {
+    onSuccess: (result: BehavioralAnalysisPrediction) => {
       setPredictionResults(result);
+      const risk = (result.risk_level ?? 'N/A');
+      const anomalyScore = (result.anomaly_score ?? null);
       toast({
         title: "Behavioral Analysis Complete",
-        description: `Risk Level: ${result.risk_level} (Anomaly Score: ${(result.anomaly_score * 100).toFixed(1)}%)`,
+        description: `Risk Level: ${risk} (Anomaly Score: ${anomalyScore !== null ? (anomalyScore * 100).toFixed(1) : 'N/A'}%)`,
       });
     },
   });
 
-  const documentClassificationMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('/api/ml/document-classification/predict', {
+  const documentClassificationMutation = useMutation<DocumentClassificationPrediction, unknown, Record<string, any>>({
+    mutationFn: (data: Record<string, any>) => apiRequest('/api/ml/document-classification/predict', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-    onSuccess: (result) => {
+    onSuccess: (result: DocumentClassificationPrediction) => {
       setPredictionResults(result);
+      const classification = result.classification ?? result.prediction ?? 'N/A';
       toast({
         title: "Document Classification Complete",
-        description: `Classification: ${result.classification} (${(result.confidence * 100).toFixed(1)}% confidence)`,
+        description: `Classification: ${classification} (${((result.confidence ?? 0) * 100).toFixed(1)}% confidence)`,
       });
     },
   });
 
-  const anomalyDetectionMutation = useMutation({
-    mutationFn: (data: any) => apiRequest('/api/ml/anomaly-detection/predict', {
+  const anomalyDetectionMutation = useMutation<AnomalyDetectionPrediction, unknown, Record<string, any>>({
+    mutationFn: (data: Record<string, any>) => apiRequest('/api/ml/anomaly-detection/predict', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
-    onSuccess: (result) => {
+    onSuccess: (result: AnomalyDetectionPrediction) => {
       setPredictionResults(result);
+      const anomalyScore = result.anomaly_score ?? null;
       toast({
         title: "Anomaly Detection Complete",
-        description: `${result.anomaly_detected ? 'Anomaly Detected' : 'Normal Activity'} (Score: ${(result.anomaly_score * 100).toFixed(1)}%)`,
+        description: `${(anomalyScore !== null && anomalyScore !== undefined) ? ((anomalyScore > 0.5) ? 'Anomaly Detected' : 'Normal Activity') : 'Result received'} (Score: ${anomalyScore !== null ? (anomalyScore * 100).toFixed(1) : 'N/A'}%)`,
       });
     },
   });
@@ -294,7 +282,7 @@ export default function MLAnalytics() {
             </CardContent>
           </Card>
         ) : (
-          modelStatus?.map((model) => (
+          modelStatus?.map((model: ModelStatus) => (
             <Card key={model.endpoint_name} data-testid={`model-status-${model.endpoint_name}`}>
               <CardContent className="p-6">
                 <div className="flex items-center space-x-2">
@@ -587,34 +575,43 @@ export default function MLAnalytics() {
                     </div>
                     <Progress value={predictionResults.confidence * 100} />
                   </div>
-                  {predictionResults.threat_type && (
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">Threat Type:</span>
-                      <span className="text-sm">{predictionResults.threat_type}</span>
-                    </div>
-                  )}
-                  {predictionResults.severity && (
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">Severity:</span>
-                      <div className="flex items-center gap-1">
-                        {getSeverityIcon(predictionResults.severity)}
-                        <span className="text-sm capitalize">{predictionResults.severity}</span>
-                      </div>
-                    </div>
-                  )}
-                  {predictionResults.recommendations && (
-                    <div>
-                      <span className="font-medium">Recommendations:</span>
-                      <ul className="mt-1 text-sm space-y-1">
-                        {predictionResults.recommendations.map((rec, index) => (
-                          <li key={index} className="flex items-center gap-2">
-                            <Shield className="h-3 w-3" />
-                            {rec}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                  {(() => {
+                    if (!predictionResults) return null;
+                    if (!('threat_type' in predictionResults || 'recommendations' in predictionResults || 'severity' in predictionResults)) return null;
+                    const threat = predictionResults as ThreatDetectionPrediction;
+                    return (
+                      <>
+                        {threat.threat_type && (
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium">Threat Type:</span>
+                            <span className="text-sm">{threat.threat_type}</span>
+                          </div>
+                        )}
+                        {threat.severity && (
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium">Severity:</span>
+                            <div className="flex items-center gap-1">
+                              {getSeverityIcon(threat.severity)}
+                              <span className="text-sm capitalize">{threat.severity}</span>
+                            </div>
+                          </div>
+                        )}
+                        {threat.recommendations && (
+                          <div>
+                            <span className="font-medium">Recommendations:</span>
+                            <ul className="mt-1 text-sm space-y-1">
+                              {threat.recommendations.map((rec: string, index: number) => (
+                                <li key={index} className="flex items-center gap-2">
+                                  <Shield className="h-3 w-3" />
+                                  {rec}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                   <div className="pt-2 border-t text-xs text-muted-foreground space-y-1">
                     <div>Model: {predictionResults.model_version}</div>
                     <div>Inference time: {predictionResults.inference_time_ms}ms</div>

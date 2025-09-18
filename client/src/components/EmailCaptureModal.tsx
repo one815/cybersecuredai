@@ -40,7 +40,7 @@ export function EmailCaptureModal({
 
   const generateCodeMutation = useMutation({
     mutationFn: async (data: { name: string; email: string; resourceTitle: string; resourceId: string; downloadUrl: string }) => {
-      return apiRequest("/api/generate-confirmation-code", "POST", data);
+      return apiRequest("/api/generate-confirmation-code", { method: "POST", data: data });
     },
     onSuccess: (response: any) => {
       setStep('code');
@@ -68,7 +68,7 @@ export function EmailCaptureModal({
 
   const verifyCodeMutation = useMutation({
     mutationFn: async (data: { email: string; code: string }) => {
-      return apiRequest("/api/verify-confirmation-code", "POST", data);
+      return apiRequest("/api/verify-confirmation-code", { method: "POST", data: data });
     },
     onSuccess: async (response: any) => {
       // Trigger download
@@ -85,12 +85,12 @@ export function EmailCaptureModal({
       });
 
       // Create subscriber record
-      await apiRequest("/api/subscribers", "POST", {
+      await apiRequest("/api/subscribers", { method: "POST", data: {
         name,
         email,
-        subscribedToEmails,
+        subscribedToEmails: subscribeToEmails,
         resourceId
-      });
+      } });
 
       handleClose();
       queryClient.invalidateQueries({ queryKey: ["/api/subscribers"] });

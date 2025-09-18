@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, ci/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20 (with cache)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          # prefer CI install, skip optional heavy deps if possible
+          npm ci --no-audit --prefer-offline --no-fund
+
+      - name: Build (if present)
+        run: npm run build --if-present
+
+      - name: Run tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || '' }}
+        run: npm test

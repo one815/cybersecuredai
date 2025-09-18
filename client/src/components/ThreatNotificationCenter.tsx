@@ -80,7 +80,7 @@ export function ThreatNotificationCenter() {
 
   const markAsReadMutation = useMutation({
     mutationFn: async (id: string) => {
-      await apiRequest(`/api/threat-notifications/${id}/read`, "PUT");
+      await apiRequest(`/api/threat-notifications/${id}/read`, { method: "PUT" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/threat-notifications"] });
@@ -89,7 +89,7 @@ export function ThreatNotificationCenter() {
 
   const acknowledgeMutation = useMutation({
     mutationFn: async (id: string) => {
-      await apiRequest(`/api/threat-notifications/${id}/acknowledge`, "PUT");
+      await apiRequest(`/api/threat-notifications/${id}/acknowledge`, { method: "PUT" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/threat-notifications"] });
@@ -98,7 +98,7 @@ export function ThreatNotificationCenter() {
 
   const dismissMutation = useMutation({
     mutationFn: async (id: string) => {
-      await apiRequest(`/api/threat-notifications/${id}`, "DELETE");
+      await apiRequest(`/api/threat-notifications/${id}`, { method: "DELETE" });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/threat-notifications"] });

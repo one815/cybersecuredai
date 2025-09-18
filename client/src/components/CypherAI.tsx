@@ -101,30 +101,38 @@ export function CypherAI({ isExpanded = false, onToggleExpand, className = "" }:
   // Initialize speech recognition
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition.current = new SpeechRecognition();
-      recognition.current.continuous = false;
-      recognition.current.interimResults = false;
-      recognition.current.lang = 'en-US';
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      try {
+        const localRec: SpeechRecognition = new SpeechRecognition();
+        localRec.continuous = false;
+        localRec.interimResults = false;
+        localRec.lang = 'en-US';
 
-      recognition.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setCurrentInput(transcript);
-        setIsListening(false);
-      };
+        localRec.onresult = (event: any) => {
+          const transcript = event?.results?.[0]?.[0]?.transcript;
+          if (transcript) {
+            setCurrentInput(transcript);
+          }
+          setIsListening(false);
+        };
 
-      recognition.current.onerror = () => {
-        setIsListening(false);
-        toast({
-          title: "Speech Recognition Error",
-          description: "Could not process voice input. Please try again.",
-          variant: "destructive",
-        });
-      };
+        localRec.onerror = () => {
+          setIsListening(false);
+          toast({
+            title: "Speech Recognition Error",
+            description: "Could not process voice input. Please try again.",
+            variant: "destructive",
+          });
+        };
 
-      recognition.current.onend = () => {
-        setIsListening(false);
-      };
+        localRec.onend = () => {
+          setIsListening(false);
+        };
+
+        recognition.current = localRec;
+      } catch (e) {
+        // silently ignore initialization errors
+      }
     }
   }, [toast]);
 

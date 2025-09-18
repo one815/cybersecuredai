@@ -114,7 +114,7 @@ export default function Achievements() {
   // Simulate assessment mutation
   const simulateAssessment = useMutation({
     mutationFn: async (data: { userId: string; frameworkId: string; score: number; previousScore?: number }) => {
-      return await apiRequest('/api/badges/simulate-assessment', 'POST', data);
+      return await apiRequest('/api/badges/simulate-assessment', { method: 'POST', data: data });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/badges/user'] });
@@ -239,7 +239,7 @@ export default function Achievements() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {userBadges && (
+              {Boolean(userBadges) && (
                 <div key="badge-display">
                   <BadgeDisplay 
                     userBadges={userBadges as any} 
