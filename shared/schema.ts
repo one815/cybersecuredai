@@ -1118,3 +1118,258 @@ export type CypherhumThreatModel = typeof cypherhumThreatModels.$inferSelect;
 export type InsertCypherhumThreatModel = z.infer<typeof insertCypherhumThreatModelSchema>;
 export type CypherhumAnalytics = typeof cypherhumAnalytics.$inferSelect;
 export type InsertCypherhumAnalytics = z.infer<typeof insertCypherhumAnalyticsSchema>;
+
+// ===== ACDS (Autonomous Cyber Defense Swarm) Tables =====
+
+// Individual Drone Specifications and Status
+export const acdsDrones = pgTable("acds_drones", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  droneId: varchar("drone_id").notNull().unique(), // Unique identifier for physical drone
+  droneName: varchar("drone_name").notNull(),
+  droneType: varchar("drone_type").notNull(), // cyber_patrol, network_scanner, threat_hunter, response_unit, reconnaissance, communication_relay
+  category: varchar("category").notNull().default("autonomous"), // autonomous, semi_autonomous, manual_control, ai_enhanced
+  manufacturerModel: varchar("manufacturer_model"), // Physical drone model information
+  capabilities: jsonb("capabilities").notNull(), // Detection sensors, communication equipment, defensive tools
+  maxFlightTime: integer("max_flight_time").default(3600), // Maximum flight time in seconds
+  maxRange: integer("max_range").default(10000), // Maximum operational range in meters
+  maxAltitude: integer("max_altitude").default(500), // Maximum altitude in meters
+  currentStatus: varchar("current_status").notNull().default("standby"), // standby, active, patrol, mission, maintenance, offline, emergency, charging
+  operationalHealth: integer("operational_health").default(100), // 0-100 health score
+  batteryLevel: integer("battery_level").default(100), // 0-100 battery percentage
+  currentLatitude: varchar("current_latitude"),
+  currentLongitude: varchar("current_longitude"),
+  currentAltitude: integer("current_altitude"), // Current altitude in meters
+  homeBaseLatitude: varchar("home_base_latitude").notNull(),
+  homeBaseLongitude: varchar("home_base_longitude").notNull(),
+  homeBaseAltitude: integer("home_base_altitude").default(0),
+  networkStatus: varchar("network_status").default("connected"), // connected, weak_signal, disconnected, intermittent
+  signalStrength: integer("signal_strength").default(100), // 0-100 signal strength
+  assignedMissionId: varchar("assigned_mission_id"),
+  swarmRole: varchar("swarm_role").default("follower"), // leader, coordinator, follower, scout, guardian, specialist
+  autonomyLevel: varchar("autonomy_level").default("semi_autonomous"), // manual, semi_autonomous, autonomous, ai_driven
+  cydefIntegration: boolean("cydef_integration").default(true), // Integration with CyDEF genetic algorithms
+  threatDetectionCapabilities: jsonb("threat_detection_capabilities").default('[]'), // AI threat detection sensors
+  communicationChannels: jsonb("communication_channels").default('[]'), // Available communication methods
+  defensiveCapabilities: jsonb("defensive_capabilities").default('[]'), // Countermeasure capabilities
+  sensorPackage: jsonb("sensor_package"), // Installed sensor specifications
+  aiProcessingUnit: jsonb("ai_processing_unit"), // Onboard AI capabilities
+  encryptionLevel: varchar("encryption_level").default("aes256"), // Data transmission encryption
+  complianceFrameworks: jsonb("compliance_frameworks").default('[]'), // FISMA, FedRAMP, etc.
+  lastMaintenance: timestamp("last_maintenance"),
+  nextMaintenancedue: timestamp("next_maintenance_due"),
+  totalFlightHours: integer("total_flight_hours").default(0),
+  totalMissions: integer("total_missions").default(0),
+  successfulMissions: integer("successful_missions").default(0),
+  organizationId: varchar("organization_id").notNull(),
+  operatorId: varchar("operator_id").references(() => users.id),
+  isActive: boolean("is_active").default(true),
+  emergencyContactProtocol: jsonb("emergency_contact_protocol"),
+  lastLocationUpdate: timestamp("last_location_update"),
+  lastStatusUpdate: timestamp("last_status_update"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Swarm Mission Planning and Execution
+export const acdsSwarmMissions = pgTable("acds_swarm_missions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  missionName: varchar("mission_name").notNull(),
+  missionType: varchar("mission_type").notNull(), // threat_response, perimeter_patrol, network_scan, incident_investigation, proactive_hunt, emergency_response
+  priority: varchar("priority").notNull().default("medium"), // low, medium, high, critical, emergency
+  status: varchar("status").notNull().default("planning"), // planning, active, paused, completed, failed, aborted, emergency
+  missionDescription: text("mission_description"),
+  targetArea: jsonb("target_area").notNull(), // Geographic area with coordinates, boundaries
+  objectives: jsonb("objectives").notNull(), // Mission-specific goals and success criteria
+  threatContext: jsonb("threat_context"), // Related threat information from CyDEF
+  estimatedDuration: integer("estimated_duration").default(3600), // Estimated duration in seconds
+  actualDuration: integer("actual_duration"), // Actual mission duration
+  requiredDroneCount: integer("required_drone_count").default(1),
+  assignedDrones: jsonb("assigned_drones").default('[]'), // Array of drone IDs
+  swarmConfiguration: jsonb("swarm_configuration"), // Formation patterns, roles, coordination rules
+  coordinationAlgorithm: varchar("coordination_algorithm").default("distributed_consensus"), // distributed_consensus, leader_follower, hierarchical, ai_optimized
+  autonomyLevel: varchar("autonomy_level").default("semi_autonomous"), // manual, semi_autonomous, autonomous, ai_driven
+  riskAssessment: jsonb("risk_assessment"), // Mission risk analysis and mitigation
+  weatherConditions: jsonb("weather_conditions"), // Weather impact assessment
+  airspaceRestrictions: jsonb("airspace_restrictions"), // Flight restrictions and compliance
+  communicationProtocol: varchar("communication_protocol").default("encrypted_mesh"), // Communication method between drones
+  dataCollectionRequirements: jsonb("data_collection_requirements"), // What data to collect
+  realTimeReporting: boolean("real_time_reporting").default(true),
+  emergencyProcedures: jsonb("emergency_procedures"), // Emergency protocols and fallback plans
+  cydefIntegration: jsonb("cydef_integration"), // Integration with genetic algorithm decisions
+  liveLocationIntegration: boolean("live_location_integration").default(true),
+  plannedStartTime: timestamp("planned_start_time"),
+  actualStartTime: timestamp("actual_start_time"),
+  plannedEndTime: timestamp("planned_end_time"),
+  actualEndTime: timestamp("actual_end_time"),
+  missionCommander: varchar("mission_commander").notNull().references(() => users.id),
+  approvedBy: varchar("approved_by").references(() => users.id),
+  organizationId: varchar("organization_id").notNull(),
+  complianceRequirements: jsonb("compliance_requirements").default('[]'),
+  resultsData: jsonb("results_data"), // Mission outcome and collected data
+  performanceMetrics: jsonb("performance_metrics"), // Success rates, efficiency metrics
+  lessonsLearned: text("lessons_learned"), // Post-mission analysis
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Real-time Drone Deployment and Positioning
+export const acdsDeployments = pgTable("acds_deployments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  deploymentId: varchar("deployment_id").notNull().unique(),
+  missionId: varchar("mission_id").references(() => acdsSwarmMissions.id),
+  droneId: varchar("drone_id").notNull().references(() => acdsDrones.id),
+  deploymentType: varchar("deployment_type").notNull(), // autonomous_patrol, threat_response, emergency_deployment, scheduled_mission, reactive_deployment
+  deploymentStatus: varchar("deployment_status").notNull().default("preparing"), // preparing, deploying, active, returning, completed, failed, emergency_recall
+  currentLatitude: varchar("current_latitude"),
+  currentLongitude: varchar("current_longitude"),
+  currentAltitude: integer("current_altitude"),
+  targetLatitude: varchar("target_latitude"),
+  targetLongitude: varchar("target_longitude"),
+  targetAltitude: integer("target_altitude"),
+  flightPath: jsonb("flight_path"), // Planned and actual flight trajectory
+  formationPosition: jsonb("formation_position"), // Position within swarm formation
+  speedKmh: integer("speed_kmh").default(0), // Current speed in km/h
+  heading: integer("heading").default(0), // Direction in degrees (0-360)
+  batteryConsumption: integer("battery_consumption").default(0), // Battery usage rate
+  estimatedRemainingTime: integer("estimated_remaining_time"), // Estimated time until battery critical
+  sensorReadings: jsonb("sensor_readings"), // Real-time sensor data
+  threatDetections: jsonb("threat_detections").default('[]'), // Detected threats during deployment
+  communicationLog: jsonb("communication_log").default('[]'), // Inter-drone communications
+  coordinationCommands: jsonb("coordination_commands").default('[]'), // Swarm coordination instructions
+  autonomousDecisions: jsonb("autonomous_decisions").default('[]'), // AI-driven decisions made
+  cydefResponses: jsonb("cydef_responses").default('[]'), // Responses from CyDEF genetic algorithms
+  environmentalFactors: jsonb("environmental_factors"), // Weather, obstacles, interference
+  riskLevelCurrent: varchar("risk_level_current").default("low"), // Current assessed risk level
+  emergencyProceduresActive: boolean("emergency_procedures_active").default(false),
+  returnToBaseInitiated: boolean("return_to_base_initiated").default(false),
+  missionObjectiveStatus: jsonb("mission_objective_status"), // Progress on specific objectives
+  dataCollected: jsonb("data_collected"), // Information gathered during deployment
+  anomaliesDetected: jsonb("anomalies_detected").default('[]'), // Unusual observations
+  networkConnectivity: varchar("network_connectivity").default("stable"), // stable, unstable, intermittent, lost
+  lastHeartbeat: timestamp("last_heartbeat"),
+  deploymentStartTime: timestamp("deployment_start_time").defaultNow(),
+  estimatedCompletionTime: timestamp("estimated_completion_time"),
+  actualCompletionTime: timestamp("actual_completion_time"),
+  organizationId: varchar("organization_id").notNull(),
+  operatorOverride: boolean("operator_override").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Swarm Coordination Algorithms and Decision Records
+export const acdsCoordination = pgTable("acds_coordination", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  coordinationEventId: varchar("coordination_event_id").notNull().unique(),
+  eventType: varchar("event_type").notNull(), // formation_change, role_reassignment, threat_response_coordination, emergency_coordination, optimization_decision
+  swarmId: varchar("swarm_id").notNull(), // Identifier for the coordinated swarm
+  participatingDrones: jsonb("participating_drones").notNull(), // Array of drone IDs involved
+  coordinationAlgorithm: varchar("coordination_algorithm").notNull(), // genetic_algorithm, consensus_protocol, leader_election, distributed_optimization
+  decisionTrigger: varchar("decision_trigger").notNull(), // threat_detected, mission_objective, operator_command, ai_recommendation, emergency_situation
+  inputData: jsonb("input_data").notNull(), // Data used for coordination decision
+  algorithmParameters: jsonb("algorithm_parameters"), // Configuration for coordination algorithm
+  geneticAlgorithmGeneration: integer("genetic_algorithm_generation"), // CyDEF integration data
+  geneticAlgorithmFitness: integer("genetic_algorithm_fitness"), // Fitness score from genetic algorithm
+  cydefRecommendation: jsonb("cydef_recommendation"), // AI recommendation from CyDEF system
+  coordinationDecision: jsonb("coordination_decision").notNull(), // Final coordination decision made
+  decisionConfidence: integer("decision_confidence").default(100), // 0-100 confidence in decision
+  implementationStatus: varchar("implementation_status").default("pending"), // pending, implementing, completed, failed, overridden
+  resultMetrics: jsonb("result_metrics"), // Effectiveness metrics of coordination
+  droneResponses: jsonb("drone_responses").default('[]'), // Individual drone responses to coordination
+  executionTime: integer("execution_time"), // Time to implement coordination in milliseconds
+  successRate: integer("success_rate"), // Success rate of coordination implementation
+  overrideReason: varchar("override_reason"), // Reason if operator override occurred
+  adaptiveLearning: jsonb("adaptive_learning"), // Learning data for algorithm improvement
+  emergencyContext: jsonb("emergency_context"), // Emergency situation details if applicable
+  threatContext: jsonb("threat_context"), // Related threat information
+  missionContext: jsonb("mission_context"), // Related mission information
+  environmentalFactors: jsonb("environmental_factors"), // Environmental considerations
+  complianceCheck: jsonb("compliance_check"), // Regulatory compliance verification
+  organizationId: varchar("organization_id").notNull(),
+  initiatedBy: varchar("initiated_by").references(() => users.id), // User or system that initiated
+  approvedBy: varchar("approved_by").references(() => users.id), // If approval was required
+  eventTimestamp: timestamp("event_timestamp").defaultNow(),
+  implementationStartTime: timestamp("implementation_start_time"),
+  implementationEndTime: timestamp("implementation_end_time"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Performance Metrics and Analytics
+export const acdsAnalytics = pgTable("acds_analytics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  analyticsType: varchar("analytics_type").notNull(), // performance, mission_success, drone_health, swarm_efficiency, threat_response, ai_effectiveness
+  metricCategory: varchar("metric_category").notNull(), // operational, financial, security, compliance, performance, predictive
+  metricName: varchar("metric_name").notNull(), // mission_success_rate, average_response_time, battery_efficiency, etc.
+  metricValue: integer("metric_value").notNull(),
+  metricUnit: varchar("metric_unit"), // percentage, seconds, meters, count, score
+  aggregationPeriod: varchar("aggregation_period").default("real_time"), // real_time, hourly, daily, weekly, monthly, mission_based
+  organizationId: varchar("organization_id").notNull(),
+  droneId: varchar("drone_id").references(() => acdsDrones.id), // Specific drone metrics
+  missionId: varchar("mission_id").references(() => acdsSwarmMissions.id), // Mission-specific metrics
+  swarmId: varchar("swarm_id"), // Swarm-level metrics
+  deploymentId: varchar("deployment_id").references(() => acdsDeployments.id), // Deployment metrics
+  coordinationEventId: varchar("coordination_event_id").references(() => acdsCoordination.id), // Coordination metrics
+  metricData: jsonb("metric_data").notNull(), // Detailed metric information and breakdowns
+  comparisonBaseline: jsonb("comparison_baseline"), // Historical or target values for comparison
+  trendAnalysis: jsonb("trend_analysis"), // Trend data and projections
+  anomalyFlags: jsonb("anomaly_flags").default('[]'), // Detected anomalies in metrics
+  performanceThresholds: jsonb("performance_thresholds"), // Acceptable performance ranges
+  alertsTriggered: jsonb("alerts_triggered").default('[]'), // Performance alerts generated
+  improvementSuggestions: jsonb("improvement_suggestions").default('[]'), // AI-generated recommendations
+  correlatedMetrics: jsonb("correlated_metrics").default('[]'), // Related metrics and dependencies
+  cydefIntegration: jsonb("cydef_integration"), // Integration with genetic algorithm metrics
+  liveLocationCorrelation: jsonb("live_location_correlation"), // Asset tracking correlations
+  environmentalImpact: jsonb("environmental_impact"), // Weather and environmental factors
+  operationalContext: jsonb("operational_context"), // Operational circumstances during measurement
+  dataQuality: varchar("data_quality").default("high"), // high, medium, low, uncertain
+  dataSource: varchar("data_source").notNull(), // drone_sensors, mission_system, coordination_algorithm, manual_input
+  validationStatus: varchar("validation_status").default("validated"), // validated, pending, flagged, rejected
+  reportingPeriodStart: timestamp("reporting_period_start"),
+  reportingPeriodEnd: timestamp("reporting_period_end"),
+  calculatedAt: timestamp("calculated_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// ===== ACDS Insert Schemas =====
+
+export const insertAcdsDroneSchema = createInsertSchema(acdsDrones).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAcdsSwarmMissionSchema = createInsertSchema(acdsSwarmMissions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAcdsDeploymentSchema = createInsertSchema(acdsDeployments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAcdsCoordinationSchema = createInsertSchema(acdsCoordination).omit({
+  id: true,
+  createdAt: true,
+  eventTimestamp: true,
+});
+
+export const insertAcdsAnalyticsSchema = createInsertSchema(acdsAnalytics).omit({
+  id: true,
+  calculatedAt: true,
+  createdAt: true,
+});
+
+// ===== ACDS Type Definitions =====
+
+export type AcdsDrone = typeof acdsDrones.$inferSelect;
+export type InsertAcdsDrone = z.infer<typeof insertAcdsDroneSchema>;
+export type AcdsSwarmMission = typeof acdsSwarmMissions.$inferSelect;
+export type InsertAcdsSwarmMission = z.infer<typeof insertAcdsSwarmMissionSchema>;
+export type AcdsDeployment = typeof acdsDeployments.$inferSelect;
+export type InsertAcdsDeployment = z.infer<typeof insertAcdsDeploymentSchema>;
+export type AcdsCoordination = typeof acdsCoordination.$inferSelect;
+export type InsertAcdsCoordination = z.infer<typeof insertAcdsCoordinationSchema>;
+export type AcdsAnalytics = typeof acdsAnalytics.$inferSelect;
+export type InsertAcdsAnalytics = z.infer<typeof insertAcdsAnalyticsSchema>;
