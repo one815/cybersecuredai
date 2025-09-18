@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 import express from "express";
 import path from "path";
 import multer from "multer";
@@ -9969,9 +9970,181 @@ startxref
   });
 
       console.log('🚀 CyDEF WebSocket server initialized at /ws/cydef');
+
+      // ===== Live Location WebSocket Support =====
+      
+      // Live Location WebSocket endpoint
+      wss.on('connection', (ws, request) => {
+        if (request.url !== '/ws/live-location') return;
+        
+        console.log('📍 Live Location WebSocket client connected');
+
+        // Initialize Live Location service and set up event listeners
+        initLiveLocationService().then(liveLocationService => {
+          // Real-time location update handler
+          const handleLocationUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'locationUpdate',
+                data: {
+                  device: data.device,
+                  location: data.location,
+                  geofenceStatus: data.geofenceStatus,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Device status change handler
+          const handleDeviceStatusChange = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'deviceStatusChange',
+                data: {
+                  deviceId: data.deviceId,
+                  status: data.status,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Location alert handler
+          const handleLocationAlert = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'locationAlert',
+                data: {
+                  alert: data.alert,
+                  severity: data.severity,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Geofence breach handler
+          const handleGeofenceBreach = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'geofenceBreach',
+                data: {
+                  deviceId: data.deviceId,
+                  geofenceId: data.geofenceId,
+                  breachType: data.breachType,
+                  location: data.location,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Statistics update handler
+          const handleStatsUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'statsUpdate',
+                data: {
+                  stats: data.stats,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Register event listeners
+          liveLocationService.on('locationUpdate', handleLocationUpdate);
+          liveLocationService.on('deviceStatusChange', handleDeviceStatusChange);
+          liveLocationService.on('locationAlert', handleLocationAlert);
+          liveLocationService.on('geofenceBreach', handleGeofenceBreach);
+          liveLocationService.on('statsUpdate', handleStatsUpdate);
+
+          // Send initial system status
+          liveLocationService.getStats().then(stats => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'systemStatus',
+                data: {
+                  status: 'active',
+                  stats,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          }).catch(error => {
+            console.error('❌ Failed to get Live Location stats for WebSocket:', error);
+          });
+
+          // Handle WebSocket close - remove listeners
+          ws.on('close', () => {
+            console.log('🔌 Live Location WebSocket client disconnected');
+            liveLocationService.removeListener('locationUpdate', handleLocationUpdate);
+            liveLocationService.removeListener('deviceStatusChange', handleDeviceStatusChange);
+            liveLocationService.removeListener('locationAlert', handleLocationAlert);
+            liveLocationService.removeListener('geofenceBreach', handleGeofenceBreach);
+            liveLocationService.removeListener('statsUpdate', handleStatsUpdate);
+          });
+
+        }).catch(error => {
+          console.error('❌ Failed to initialize Live Location service for WebSocket:', error);
+        });
+
+        // Handle incoming WebSocket messages
+        ws.on('message', (message) => {
+          try {
+            const data = JSON.parse(message.toString());
+            console.log('📨 Received Live Location WebSocket message:', data);
+            
+            // Handle different message types
+            switch (data.type) {
+              case 'ping':
+                ws.send(JSON.stringify({ type: 'pong', timestamp: new Date().toISOString() }));
+                break;
+              case 'subscribe':
+                // Handle subscription to specific event types
+                console.log('📡 Live Location WebSocket subscription:', data.events);
+                break;
+              case 'updateLocation':
+                // Handle real-time location updates from clients
+                initLiveLocationService().then(service => {
+                  return service.updateDeviceLocation(data.locationUpdate);
+                }).catch(error => {
+                  console.error('❌ Failed to update location via WebSocket:', error);
+                });
+                break;
+              case 'requestStats':
+                // Send current statistics
+                initLiveLocationService().then(service => {
+                  return service.getStats();
+                }).then(stats => {
+                  if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({
+                      type: 'statsUpdate',
+                      data: { stats, timestamp: new Date().toISOString() }
+                    }));
+                  }
+                }).catch(error => {
+                  console.error('❌ Failed to get stats via WebSocket:', error);
+                });
+                break;
+              default:
+                console.log('Unknown Live Location WebSocket message type:', data.type);
+            }
+          } catch (error) {
+            console.error('❌ Failed to parse Live Location WebSocket message:', error);
+          }
+        });
+
+        ws.on('error', (error) => {
+          console.error('❌ Live Location WebSocket error:', error);
+        });
+      });
+
+      console.log('📍 Live Location WebSocket server initialized at /ws/live-location');
     } catch (error) {
       console.error('❌ Failed to initialize WebSocket server:', error instanceof Error ? error.message : String(error));
-      console.log('⚠️ CyDEF will continue without WebSocket support');
+      console.log('⚠️ Live Location will continue without WebSocket support');
     }
   } else {
     console.log('ℹ️ WebSocket disabled via ENABLE_WS environment variable');
