@@ -67,7 +67,7 @@ const LiveLocationDashboard = lazy(() => import("@/pages/LiveLocationDashboard")
 const ACDSDashboard = lazy(() => import("@/pages/ACDSDashboard"));
 // Heavy 3D visualization component - lazy loaded to reduce initial bundle
 const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
-// Revolutionary CypherHUM 3D Holographic AI Interface - lazy loaded due to heavy Three.js dependencies
+// Revolutionary CypherHUM 5D Holographic AI Interface with Live Avatar - lazy loaded due to heavy dependencies
 const CypherHumInterface = lazy(() => import("@/pages/CypherHumInterface"));
 
 // Marketing Website Pages - Lazy loaded

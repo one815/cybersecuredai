@@ -413,7 +413,7 @@ export default function Platform() {
                 </span>
               </h2>
               <p className="text-xl md:text-2xl text-gray-200 max-w-5xl mx-auto mb-12 leading-relaxed">
-                Cross-system analytics and correlation across CyDEF, Live Location, CypherHUM, ACDS, 
+                Cross-system analytics and correlation across CyDEF, Live Location, CypherHUM with live avatar, ACDS, 
                 and Unified Integration - all powered by real-time WebSocket architecture
               </p>
             </div>
@@ -469,9 +469,9 @@ export default function Platform() {
                 </CardHeader>
                 <CardContent className="p-6 pt-0 text-center">
                   <h3 className="text-lg font-bold text-white mb-2">CypherHUM</h3>
-                  <p className="text-sm text-gray-300 mb-4">3D Visualization</p>
-                  <div className="text-2xl font-bold text-blue-400 mb-1">3D</div>
-                  <div className="text-xs text-blue-300">WebGL Interface</div>
+                  <p className="text-sm text-gray-300 mb-4">5D Avatar Interface</p>
+                  <div className="text-2xl font-bold text-blue-400 mb-1">5D</div>
+                  <div className="text-xs text-blue-300">Live Human-Like Avatar</div>
                 </CardContent>
               </Card>
 
@@ -529,9 +529,9 @@ export default function Platform() {
                   <div className="text-xs text-cyan-300 mt-1">Multi-System Security</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-blue-400 mb-2">3D</div>
-                  <div className="text-sm text-gray-300">Holographic Interface</div>
-                  <div className="text-xs text-blue-300 mt-1">Three.js WebGL</div>
+                  <div className="text-4xl font-bold text-blue-400 mb-2">5D</div>
+                  <div className="text-sm text-gray-300">Avatar-Guided Interface</div>
+                  <div className="text-xs text-blue-300 mt-1">Temporal Analysis Matrix</div>
                 </div>
                 <div className="text-center">
                   <div className="text-4xl font-bold text-red-400 mb-2">AI</div>
@@ -577,12 +577,12 @@ export default function Platform() {
                   👁️ REVOLUTIONARY INTERFACE TECHNOLOGY
                 </Badge>
                 <h3 className="text-4xl font-bold text-white mb-6">
-                  CypherHUM Holographic Interface
+                  CypherHUM Live Human-Like Avatar Interface
                 </h3>
                 <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                  The world's first holographic cybersecurity interface. Experience threat visualization 
-                  in true 3D space with WebGL rendering, natural language AI commands, and immersive 
-                  threat exploration that transforms how security teams understand and respond to attacks.
+                  The world's first human-like AI avatar cybersecurity interface. Experience threat visualization 
+                  in revolutionary 5D space with a live avatar guide featuring natural movements, facial expressions, 
+                  and contextual gestures that transform how security teams understand and respond to attacks.
                 </p>
                 
                 <div className="space-y-6 mb-8">
@@ -592,7 +592,7 @@ export default function Platform() {
                       <div className="space-y-3">
                         <div className="flex items-center text-sm text-gray-300">
                           <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
-                          Three.js WebGL 3D Rendering
+                          5D Holographic Display Matrix
                         </div>
                         <div className="flex items-center text-sm text-gray-300">
                           <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
@@ -644,15 +644,15 @@ export default function Platform() {
               <div className="relative">
                 <img 
                   src={networkSecurityImg}
-                  alt="CypherHUM Holographic Interface"
+                  alt="CypherHUM Live Avatar Interface"
                   className="w-full rounded-xl border border-blue-500/30 shadow-2xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent rounded-xl"></div>
                 <div className="absolute top-4 left-4 bg-blue-600/90 text-white text-sm px-3 py-1 rounded font-bold">
-                  3D HOLOGRAPHIC VIEW
+                  5D AVATAR INTERFACE
                 </div>
                 <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white text-xs px-3 py-1 rounded">
-                  WebGL Real-Time Rendering
+                  Live Avatar with Temporal Analysis
                 </div>
               </div>
             </div>

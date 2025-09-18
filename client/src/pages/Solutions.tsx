@@ -49,7 +49,7 @@ export default function Solutions() {
   const [, setLocation] = useLocation();
   const customerTestimonials = [
     {
-      quote: "The CyDEF genetic algorithm system discovered threats that our previous solutions completely missed. With 99.2% accuracy and autonomous policy generation, it's like having an AI security expert that evolves with every new threat. The holographic CypherHUM interface gives our SOC team unprecedented situational awareness - we can literally see threats in 3D space.",
+      quote: "The CyDEF genetic algorithm system discovered threats that our previous solutions completely missed. With 99.2% accuracy and autonomous policy generation, it's like having an AI security expert that evolves with every new threat. The CypherHUM live human-like avatar interface gives our SOC team unprecedented situational awareness - we can literally navigate threats in 5D space with an intelligent AI guide that responds to threats with natural movements and facial expressions.",
       name: "Dr. Sarah Chen",
       title: "University System Chancellor", 
       company: "State University System",
@@ -139,7 +139,7 @@ export default function Solutions() {
               </h2>
               <p className="text-xl md:text-2xl text-gray-200 max-w-5xl mx-auto mb-12 leading-relaxed">
                 Production-ready federal-grade cybersecurity systems with genetic AI evolution, 
-                holographic interfaces, autonomous drone coordination, and real-time threat intelligence
+                5D holographic interfaces with live human-like avatars, autonomous drone coordination, and real-time threat intelligence
               </p>
             </div>
 
@@ -331,15 +331,15 @@ export default function Solutions() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30">
-                    👁️ 3D HOLOGRAPHIC INTERFACE
+                    👁️ 5D HOLOGRAPHIC AVATAR INTERFACE
                   </Badge>
                   <h3 className="text-4xl font-bold text-white mb-6">
-                    CypherHUM - Holographic AI Interface
+                    CypherHUM - Live Human-Like Avatar Interface
                   </h3>
                   <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                    Revolutionary 3D threat visualization with Three.js WebGL holographic rendering. 
-                    AI-powered natural language processing creates an immersive cybersecurity 
-                    command interface unlike anything in the industry.
+                    Revolutionary 5D threat visualization with live human-like avatar guide featuring natural movements, 
+                    facial expressions, and contextual gestures. Experience temporal threat analysis across time, 
+                    3D space, and severity dimensions with an intelligent AI companion that responds to your interactions.
                   </p>
                   
                   <div className="space-y-6 mb-8">
@@ -349,11 +349,11 @@ export default function Solutions() {
                         <div className="space-y-3">
                           <div className="flex items-center text-sm text-gray-300">
                             <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
-                            3D Threat Visualization
+                            5D Holographic Threat Matrix
                           </div>
                           <div className="flex items-center text-sm text-gray-300">
                             <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
-                            WebGL Holographic Rendering
+                            Live Avatar with Facial Expressions
                           </div>
                           <div className="flex items-center text-sm text-gray-300">
                             <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
@@ -401,7 +401,7 @@ export default function Solutions() {
                 <div className="relative">
                   <img 
                     src={platformImg}
-                    alt="CypherHUM Holographic Interface"
+                    alt="CypherHUM Live Avatar Interface"
                     className="w-full rounded-xl border border-blue-500/30 shadow-2xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent rounded-xl"></div>
@@ -608,8 +608,8 @@ export default function Solutions() {
                   <Enhanced4DGlobeIcon className="w-8 h-8 text-cyan-400 mb-4" size={32} />
                   <h4 className="text-xl font-semibold text-white mb-3">Intelligence Services</h4>
                   <p className="text-gray-300 text-sm">
-                    Live Location tracking for asset security. CypherHUM provides immersive 
-                    threat analysis for intelligence operations.
+                    Live Location tracking for asset security. CypherHUM's human-like avatar provides 
+                    5D immersive threat analysis with contextual guidance for intelligence operations.
                   </p>
                 </div>
                 <div className="bg-slate-700/40 rounded-lg p-6 border border-green-500/30">

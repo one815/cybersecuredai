@@ -237,14 +237,14 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* Bottom Section with 3D Geospatial, Cambridge Analytics, and Compliance */}
+                    {/* Bottom Section with 5D Geospatial, Cambridge Analytics, and Compliance */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                      {/* 3D Geospatial Intelligence - Live Interactive Dashboard */}
+                      {/* 5D Geospatial Intelligence with Avatar Guide - Live Interactive Dashboard */}
                       <div className="lg:col-span-2 bg-slate-700/40 rounded-lg p-4 border border-gray-600/30">
                         <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center space-x-2">
                             <Enhanced4DGlobeIcon className="w-5 h-5 text-blue-400" size={20} />
-                            <h5 className="text-blue-400 font-bold text-sm uppercase">3D Geospatial Intelligence</h5>
+                            <h5 className="text-blue-400 font-bold text-sm uppercase">5D Geospatial Intelligence with Avatar Guide</h5>
                           </div>
                           <Badge className="bg-red-500/20 text-red-300 text-xs">LIVE</Badge>
                         </div>
@@ -530,25 +530,25 @@ export default function Home() {
                       <Enhanced4DEyeIcon className="w-8 h-8 text-blue-300" size={32} />
                     </div>
                     <Badge className="bg-blue-500/20 text-blue-300 border-blue-400/30 text-xs">
-                      👁️ 3D HOLOGRAPHIC
+                      👁️ 5D HOLOGRAPHIC AVATAR
                     </Badge>
                   </div>
                   <CardTitle className="text-2xl text-white mb-4">CypherHUM</CardTitle>
-                  <p className="text-lg text-blue-300 font-semibold mb-3">Holographic AI Interface</p>
+                  <p className="text-lg text-blue-300 font-semibold mb-3">Live Human-Like Avatar Interface</p>
                   <p className="text-gray-300 text-sm leading-relaxed">
-                    Revolutionary 3D threat visualization with Three.js WebGL holographic rendering, 
-                    AI-powered natural language processing, and immersive cybersecurity command interface.
+                    Revolutionary 5D threat visualization with live human-like avatar guide featuring natural movements, 
+                    facial expressions, and contextual gestures. Experience temporal threat analysis across time and space dimensions.
                   </p>
                 </CardHeader>
                 <CardContent className="p-8 pt-0">
                   <div className="space-y-2 mb-6">
                     <div className="flex items-center text-sm text-gray-300">
                       <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
-                      3D Threat Visualization
+                      5D Holographic Threat Matrix
                     </div>
                     <div className="flex items-center text-sm text-gray-300">
                       <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
-                      WebGL Holographic Rendering
+                      Live Avatar with Facial Expressions
                     </div>
                     <div className="flex items-center text-sm text-gray-300">
                       <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
@@ -675,8 +675,8 @@ export default function Home() {
                   <div className="text-sm text-gray-300">Role-Based Authorization</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-400 mb-2">3D</div>
-                  <div className="text-sm text-gray-300">Holographic Threat Visualization</div>
+                  <div className="text-3xl font-bold text-green-400 mb-2">5D</div>
+                  <div className="text-sm text-gray-300">Avatar-Guided Threat Visualization</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-red-400 mb-2">AI</div>
