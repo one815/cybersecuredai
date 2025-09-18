@@ -8,7 +8,7 @@ import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema } from "@shared/schema";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema, insertCypherhumSessionSchema, insertCypherhumVisualizationSchema, insertCypherhumInteractionSchema, insertCypherhumThreatModelSchema, insertCypherhumAnalyticsSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
 // Engine types only - no instantiation imports
 import type { VerificationContext } from "./engines/zero-trust";
@@ -9972,6 +9972,159 @@ startxref
   });
 
       console.log('🚀 CyDEF WebSocket server initialized at /ws/cydef');
+
+      // ===== CypherHUM WebSocket Support =====
+
+      // CypherHUM WebSocket endpoint for real-time 3D holographic updates
+      wss.on('connection', async (ws, request) => {
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid CypherHUM WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Handle CypherHUM WebSocket connections
+        if (url.pathname === '/ws/cypherhum') {
+          try {
+            // Extract and verify JWT token for WebSocket authentication
+            let token: string | null = null;
+            
+            // Check for token in Authorization header first
+            const authHeader = request.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+              token = authHeader.substring(7);
+            }
+            
+            // Check for token in query string as fallback
+            if (!token) {
+              token = url.searchParams.get('token');
+            }
+            
+            if (!token) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No authentication token provided');
+              ws.close(1008, 'Authentication required');
+              return;
+            }
+            
+            // Verify the token using AuthService
+            const { AuthService } = await import('./auth');
+            const payload = AuthService.verifyToken(token);
+            
+            if (!payload || !payload.userId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid authentication token');
+              ws.close(1008, 'Invalid authentication token');
+              return;
+            }
+            
+            // Log successful authentication with detailed info
+            console.log(`✅ CypherHUM WebSocket authenticated successfully:`);
+            console.log(`   📧 User: ${payload.email}`);
+            console.log(`   🔑 Role: ${payload.role}`);
+            console.log(`   🆔 User ID: ${payload.userId}`);
+            console.log(`   🕐 Token expires: ${payload.exp ? new Date(payload.exp * 1000).toISOString() : 'Unknown'}`);
+            
+            // Store user info for this WebSocket connection
+            (ws as any).userId = payload.userId;
+            (ws as any).userEmail = payload.email;
+            (ws as any).userRole = payload.role;
+            (ws as any).connectedAt = new Date().toISOString();
+            
+            // Initialize CypherHUM service
+            const service = await initCypherHumService();
+            
+            // Extract session ID from query parameters
+            const sessionId = url.searchParams.get('sessionId');
+            if (!sessionId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No session ID provided');
+              ws.close(1008, 'Session ID required');
+              return;
+            }
+            
+            // Verify session ownership
+            const session = await service.getSession(sessionId);
+            if (!session || (session.userId !== payload.userId && payload.role !== 'admin')) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid session or access denied');
+              ws.close(1008, 'Invalid session or access denied');
+              return;
+            }
+            
+            // Set up real-time 3D updates for this session
+            await service.setupRealTimeUpdates(sessionId, ws);
+            
+            // Send initial 3D data
+            const initial3DData = await service.generateRealTimeUpdates(sessionId);
+            if (initial3DData && ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'cypherhum_initial_data',
+                sessionId,
+                data: initial3DData
+              }));
+            }
+            
+            // Handle incoming messages for CypherHUM interactions
+            ws.on('message', async (message) => {
+              try {
+                const data = JSON.parse(message.toString());
+                
+                switch (data.type) {
+                  case 'ai_query':
+                    // Process AI threat analysis query
+                    const analysis = await service.processAIThreatQuery(sessionId, data.query, data.context);
+                    ws.send(JSON.stringify({
+                      type: 'ai_analysis_result',
+                      requestId: data.requestId,
+                      data: analysis
+                    }));
+                    break;
+                    
+                  case '3d_interaction':
+                    // Log 3D interaction for analytics
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'interaction',
+                      metricName: data.interactionType,
+                      metricValue: 1,
+                      metricUnit: 'count',
+                      additionalData: data.interactionData,
+                      visualizationContext: data.visualizationContext
+                    });
+                    break;
+                    
+                  case 'performance_metric':
+                    // Record performance metrics (FPS, render time, etc.)
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'performance',
+                      metricName: data.metricName,
+                      metricValue: data.metricValue,
+                      metricUnit: data.metricUnit,
+                      deviceInfo: data.deviceInfo
+                    });
+                    break;
+                }
+              } catch (error) {
+                console.error('❌ Error processing CypherHUM WebSocket message:', error);
+                ws.send(JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to process message'
+                }));
+              }
+            });
+            
+            ws.on('close', () => {
+              console.log(`🔌 CypherHUM WebSocket disconnected: ${payload.email}`);
+            });
+            
+          } catch (authError) {
+            console.error('❌ CypherHUM WebSocket authentication failed:', authError);
+            ws.close(1008, 'Authentication failed');
+            return;
+          }
+        }
+      });
 
       // ===== Live Location WebSocket Support =====
       

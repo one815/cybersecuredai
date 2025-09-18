@@ -65,6 +65,8 @@ const CydefDashboard = lazy(() => import("@/pages/CydefDashboard"));
 const LiveLocationDashboard = lazy(() => import("@/pages/LiveLocationDashboard"));
 // Heavy 3D visualization component - lazy loaded to reduce initial bundle
 const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
+// Revolutionary CypherHUM 3D Holographic AI Interface - lazy loaded due to heavy Three.js dependencies
+const CypherHumInterface = lazy(() => import("@/pages/CypherHumInterface"));
 
 // Marketing Website Pages - Lazy loaded
 const Home = lazy(() => import("@/pages/Home"));
@@ -184,7 +186,8 @@ function Router() {
                           location.startsWith('/training') ||
                           location.startsWith('/threat-') ||
                           location.startsWith('/ai-config') ||
-                          location.startsWith('/support');
+                          location.startsWith('/support') ||
+                          location.startsWith('/cypherhum-interface');
 
     // Show onboarding if user exists, is on a platform page, and lacks proper auth setup
     if (user && isPlatformPage && !isLoading) {
@@ -345,6 +348,15 @@ function Router() {
       <Route path="/threat-map-5d">
         <Layout>
           <ThreatMap5D />
+        </Layout>
+      </Route>
+      
+      {/* CypherHUM Revolutionary 3D Holographic AI Interface */}
+      <Route path="/cypherhum-interface">
+        <Layout>
+          <LazyErrorBoundary>
+            <CypherHumInterface />
+          </LazyErrorBoundary>
         </Layout>
       </Route>
       <Route path="/security-integrations">

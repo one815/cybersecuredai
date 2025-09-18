@@ -984,3 +984,137 @@ export type LiveLocationAsset = typeof liveLocationAssets.$inferSelect;
 export type InsertLiveLocationAsset = z.infer<typeof insertLiveLocationAssetSchema>;
 export type LiveLocationNetworkSegment = typeof liveLocationNetworkSegments.$inferSelect;
 export type InsertLiveLocationNetworkSegment = z.infer<typeof insertLiveLocationNetworkSegmentSchema>;
+
+// ===== CypherHUM Tables =====
+
+export const cypherhumSessions = pgTable("cypherhum_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  sessionType: varchar("session_type").notNull().default("holographic"), // holographic, ar, vr, mixed_reality
+  status: varchar("status").notNull().default("active"), // active, paused, completed, terminated
+  startTime: timestamp("start_time").defaultNow(),
+  endTime: timestamp("end_time"),
+  duration: integer("duration"), // in seconds
+  threatsVisualized: integer("threats_visualized").default(0),
+  aiInteractions: integer("ai_interactions").default(0),
+  visualizationPresetId: varchar("visualization_preset_id").references(() => cypherhumVisualizations.id),
+  sessionData: jsonb("session_data"), // Camera positions, user preferences, session state
+  performanceMetrics: jsonb("performance_metrics"), // FPS, rendering stats, interaction latency
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const cypherhumVisualizations = pgTable("cypherhum_visualizations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  visualizationType: varchar("visualization_type").notNull(), // threat_landscape, network_topology, attack_flow, ai_analysis
+  configurationData: jsonb("configuration_data").notNull(), // 3D scene configuration, lighting, materials
+  renderingSettings: jsonb("rendering_settings").notNull(), // Quality settings, effects, optimizations
+  cameraSettings: jsonb("camera_settings"), // Initial camera position, constraints, movement settings
+  interactionSettings: jsonb("interaction_settings"), // Hover effects, click behaviors, navigation
+  aiSettings: jsonb("ai_settings"), // AI processing preferences, analysis depth
+  isDefault: boolean("is_default").default(false),
+  isPublic: boolean("is_public").default(false),
+  createdBy: varchar("created_by").notNull().references(() => users.id),
+  organizationId: varchar("organization_id"),
+  usageCount: integer("usage_count").default(0),
+  rating: integer("rating").default(0), // User rating 1-5
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const cypherhumInteractions = pgTable("cypherhum_interactions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: varchar("session_id").notNull().references(() => cypherhumSessions.id),
+  interactionType: varchar("interaction_type").notNull(), // voice_command, text_query, gesture, eye_tracking, 3d_manipulation
+  inputData: jsonb("input_data").notNull(), // Raw input data (voice, text, coordinates, etc.)
+  processedInput: text("processed_input"), // Cleaned/processed input for AI analysis
+  aiResponse: jsonb("ai_response"), // AI analysis result and response data
+  responseType: varchar("response_type").notNull(), // visualization_update, data_display, action_execution, analysis_result
+  processingTime: integer("processing_time"), // AI processing time in milliseconds
+  confidenceScore: integer("confidence_score"), // AI confidence 0-100
+  contextData: jsonb("context_data"), // Session context, previous interactions, environmental data
+  threeDManipulation: jsonb("three_d_manipulation"), // 3D object manipulations performed
+  visualizationImpact: jsonb("visualization_impact"), // Changes made to 3D visualization
+  userFeedback: varchar("user_feedback"), // positive, negative, neutral
+  timestamp: timestamp("timestamp").defaultNow(),
+});
+
+export const cypherhumThreatModels = pgTable("cypherhum_threat_models", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  threatId: varchar("threat_id").notNull().references(() => threats.id),
+  modelType: varchar("model_type").notNull(), // particle_system, 3d_mesh, hologram, volumetric
+  geometryData: jsonb("geometry_data").notNull(), // 3D model vertices, faces, normals
+  materialProperties: jsonb("material_properties").notNull(), // Colors, textures, shaders, transparency
+  animationData: jsonb("animation_data"), // Movement patterns, transformations, particle behaviors
+  interactionBehavior: jsonb("interaction_behavior"), // Click/hover responses, drill-down data
+  severity3DMapping: jsonb("severity_3d_mapping"), // How severity affects 3D representation
+  realTimeProperties: jsonb("real_time_properties"), // Properties for live updates
+  renderingOptimization: jsonb("rendering_optimization"), // LOD, culling, instancing settings
+  aiEnhancement: jsonb("ai_enhancement"), // AI-generated visual enhancements
+  spatialPosition: jsonb("spatial_position"), // Default 3D position in threat landscape
+  scale: jsonb("scale"), // Size multipliers based on threat characteristics
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const cypherhumAnalytics = pgTable("cypherhum_analytics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: varchar("session_id").references(() => cypherhumSessions.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  metricType: varchar("metric_type").notNull(), // performance, interaction, ai_effectiveness, user_behavior
+  metricName: varchar("metric_name").notNull(), // fps, response_time, threat_detection_accuracy, etc.
+  metricValue: integer("metric_value").notNull(),
+  metricUnit: varchar("metric_unit"), // ms, fps, percentage, count
+  additionalData: jsonb("additional_data"), // Extended metric information
+  deviceInfo: jsonb("device_info"), // Hardware specs, browser, capabilities
+  visualizationContext: jsonb("visualization_context"), // What was being visualized
+  aiContext: jsonb("ai_context"), // AI processing context
+  organizationId: varchar("organization_id"),
+  timestamp: timestamp("timestamp").defaultNow(),
+});
+
+// ===== CypherHUM Insert Schemas =====
+
+export const insertCypherhumSessionSchema = createInsertSchema(cypherhumSessions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCypherhumVisualizationSchema = createInsertSchema(cypherhumVisualizations).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCypherhumInteractionSchema = createInsertSchema(cypherhumInteractions).omit({
+  id: true,
+  timestamp: true,
+});
+
+export const insertCypherhumThreatModelSchema = createInsertSchema(cypherhumThreatModels).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCypherhumAnalyticsSchema = createInsertSchema(cypherhumAnalytics).omit({
+  id: true,
+  timestamp: true,
+});
+
+// ===== CypherHUM Type Definitions =====
+
+export type CypherhumSession = typeof cypherhumSessions.$inferSelect;
+export type InsertCypherhumSession = z.infer<typeof insertCypherhumSessionSchema>;
+export type CypherhumVisualization = typeof cypherhumVisualizations.$inferSelect;
+export type InsertCypherhumVisualization = z.infer<typeof insertCypherhumVisualizationSchema>;
+export type CypherhumInteraction = typeof cypherhumInteractions.$inferSelect;
+export type InsertCypherhumInteraction = z.infer<typeof insertCypherhumInteractionSchema>;
+export type CypherhumThreatModel = typeof cypherhumThreatModels.$inferSelect;
+export type InsertCypherhumThreatModel = z.infer<typeof insertCypherhumThreatModelSchema>;
+export type CypherhumAnalytics = typeof cypherhumAnalytics.$inferSelect;
+export type InsertCypherhumAnalytics = z.infer<typeof insertCypherhumAnalyticsSchema>;
