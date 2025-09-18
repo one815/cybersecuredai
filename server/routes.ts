@@ -8,7 +8,7 @@ import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema } from "@shared/schema";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema, insertCypherhumSessionSchema, insertCypherhumVisualizationSchema, insertCypherhumInteractionSchema, insertCypherhumThreatModelSchema, insertCypherhumAnalyticsSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
 // Engine types only - no instantiation imports
 import type { VerificationContext } from "./engines/zero-trust";
@@ -2887,6 +2887,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await liveLocationService.initialize();
     }
     return liveLocationService;
+  };
+
+  // Initialize CypherHUM Service instance
+  let cypherhumService: any = null;
+  const initCypherHumService = async () => {
+    if (!cypherhumService) {
+      const CypherHumService = (await import('./services/cypherhum-service.js')).default;
+      const { db } = await import('./db.js');
+      cypherhumService = new CypherHumService({
+        organizationId: 'default-org', // TODO: Get from user context
+        dbProvider: {
+          query: db.query.bind(db),
+          select: db.select.bind(db),
+          insert: db.insert.bind(db),
+          update: db.update.bind(db),
+          delete: db.delete.bind(db)
+        },
+        storage: storage
+      });
+    }
+    return cypherhumService;
   };
 
   // Device Discovery and Management
@@ -9887,6 +9908,369 @@ startxref
     }
   });
 
+  // ===== CypherHUM API Endpoints =====
+  
+  // CypherHUM Dashboard - Main interface status and overview
+  app.get("/api/cypherhum/dashboard", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+
+      // Get user's active CypherHUM sessions
+      const sessions = await storage.getCypherhumSessions(userId);
+      const activeSessions = sessions.filter(s => s.status === "active");
+      
+      // Get user's visualizations
+      const visualizations = await storage.getCypherhumVisualizations(userId);
+      
+      // Get recent analytics
+      const analytics = await storage.getCypherhumAnalytics(undefined, userId);
+      const recentAnalytics = analytics.slice(0, 10);
+      
+      // Get threat models count
+      const threatModels = await storage.getCypherhumThreatModels();
+      
+      const dashboardData = {
+        status: "operational",
+        activeSessions: activeSessions.length,
+        totalSessions: sessions.length,
+        availableVisualizations: visualizations.length,
+        threatModelsCount: threatModels.length,
+        recentAnalytics,
+        aiStatus: "online",
+        holographicRendering: "enabled",
+        lastUpdate: new Date().toISOString()
+      };
+      
+      res.json(dashboardData);
+    } catch (error) {
+      console.error('Error fetching CypherHUM dashboard:', error);
+      res.status(500).json({ error: 'Failed to fetch dashboard data' });
+    }
+  });
+  
+  // CypherHUM Sessions - Holographic session management
+  app.get("/api/cypherhum/sessions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const sessions = await storage.getCypherhumSessions(userId);
+      res.json(sessions);
+    } catch (error) {
+      console.error('Error fetching CypherHUM sessions:', error);
+      res.status(500).json({ error: 'Failed to fetch sessions' });
+    }
+  });
+  
+  app.post("/api/cypherhum/sessions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      // Validate request body
+      const sessionData = insertCypherhumSessionSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      const session = await storage.createCypherhumSession(sessionData);
+      res.status(201).json(session);
+    } catch (error) {
+      console.error('Error creating CypherHUM session:', error);
+      res.status(400).json({ error: 'Failed to create session' });
+    }
+  });
+  
+  app.put("/api/cypherhum/sessions/:sessionId", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { sessionId } = req.params;
+      const updates = req.body;
+      
+      const session = await storage.updateCypherhumSession(sessionId, updates);
+      res.json(session);
+    } catch (error) {
+      console.error('Error updating CypherHUM session:', error);
+      res.status(400).json({ error: 'Failed to update session' });
+    }
+  });
+  
+  // CypherHUM Visualizations - 3D visualization presets and configurations
+  app.get("/api/cypherhum/visualizations", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const visualizations = await storage.getCypherhumVisualizations(userId);
+      res.json(visualizations);
+    } catch (error) {
+      console.error('Error fetching CypherHUM visualizations:', error);
+      res.status(500).json({ error: 'Failed to fetch visualizations' });
+    }
+  });
+  
+  app.post("/api/cypherhum/visualizations", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const visualizationData = insertCypherhumVisualizationSchema.parse({
+        ...req.body,
+        createdBy: userId
+      });
+      
+      const visualization = await storage.createCypherhumVisualization(visualizationData);
+      res.status(201).json(visualization);
+    } catch (error) {
+      console.error('Error creating CypherHUM visualization:', error);
+      res.status(400).json({ error: 'Failed to create visualization' });
+    }
+  });
+  
+  // CypherHUM AI Analysis - AI-powered threat analysis and processing
+  app.post("/api/cypherhum/ai-analysis", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const { threatData, analysisType, context } = req.body;
+      
+      if (!threatData || !analysisType) {
+        return res.status(400).json({ error: 'Threat data and analysis type are required' });
+      }
+      
+      // Simulate AI threat analysis processing
+      const analysis = {
+        id: `analysis_${Date.now()}`,
+        threatData,
+        analysisType,
+        context,
+        results: {
+          riskScore: Math.floor(Math.random() * 100),
+          threatLevel: ["low", "medium", "high", "critical"][Math.floor(Math.random() * 4)],
+          indicators: [
+            "Suspicious network traffic patterns detected",
+            "Anomalous authentication attempts",
+            "Potential malware signatures identified"
+          ],
+          recommendations: [
+            "Implement additional monitoring for affected systems",
+            "Review access controls for identified users",
+            "Update security policies based on threat patterns"
+          ],
+          confidence: Math.floor(Math.random() * 100),
+          processingTime: Math.floor(Math.random() * 1000) + 100
+        },
+        timestamp: new Date().toISOString(),
+        processedBy: "CypherHUM-AI-Engine",
+        userId
+      };
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error('Error processing CypherHUM AI analysis:', error);
+      res.status(500).json({ error: 'Failed to process AI analysis' });
+    }
+  });
+  
+  // CypherHUM Interactions - AI command processing and natural language interface
+  app.get("/api/cypherhum/interactions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { sessionId } = req.query;
+      const interactions = await storage.getCypherhumInteractions(sessionId as string);
+      res.json(interactions);
+    } catch (error) {
+      console.error('Error fetching CypherHUM interactions:', error);
+      res.status(500).json({ error: 'Failed to fetch interactions' });
+    }
+  });
+  
+  app.post("/api/cypherhum/interactions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const interactionData = insertCypherhumInteractionSchema.parse(req.body);
+      
+      // Process the interaction and generate AI response
+      const processedInput = typeof interactionData.inputData === 'object' && 
+        interactionData.inputData?.text ? 
+        String(interactionData.inputData.text).toLowerCase().trim() : 
+        'unknown command';
+      
+      const aiResponse = {
+        text: `Processing: "${processedInput}". CypherHUM AI is analyzing your request...`,
+        action: interactionData.interactionType === 'voice_command' ? 'voice_response' : 'text_response',
+        confidence: 0.85 + Math.random() * 0.15
+      };
+      
+      const interaction = await storage.createCypherhumInteraction({
+        ...interactionData,
+        processedInput,
+        aiResponse,
+        responseType: 'acknowledgment',
+        processingTime: Math.floor(Math.random() * 500) + 50,
+        confidenceScore: aiResponse.confidence
+      });
+      
+      res.status(201).json(interaction);
+    } catch (error) {
+      console.error('Error creating CypherHUM interaction:', error);
+      res.status(400).json({ error: 'Failed to process interaction' });
+    }
+  });
+  
+  // CypherHUM 3D Data - 3D rendering data generation for holographic displays  
+  app.get("/api/cypherhum/3d-data", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { threatId, modelType, complexity } = req.query;
+      
+      // Generate 3D rendering data for threats
+      const threeDData = {
+        threatId,
+        modelType: modelType || 'particle_system',
+        complexity: complexity || 'medium',
+        geometry: {
+          vertices: Array.from({length: 100}, () => [
+            Math.random() * 10 - 5,
+            Math.random() * 10 - 5, 
+            Math.random() * 10 - 5
+          ]),
+          faces: Array.from({length: 50}, (_, i) => [i, i+1, i+2]),
+          materials: {
+            baseColor: [Math.random(), Math.random(), Math.random()],
+            metallic: Math.random(),
+            roughness: Math.random(),
+            emission: [0.1, 0.1, 0.8]
+          }
+        },
+        animation: {
+          rotationSpeed: [0, 0.01, 0],
+          scaleVariation: 0.1,
+          particleCount: 1000
+        },
+        holographicProperties: {
+          transparency: 0.7,
+          refraction: 1.33,
+          hologramIntensity: 0.8
+        },
+        renderingHints: {
+          lodLevels: ['high', 'medium', 'low'],
+          cullingDistance: 100,
+          shadowCasting: true
+        }
+      };
+      
+      res.json(threeDData);
+    } catch (error) {
+      console.error('Error generating CypherHUM 3D data:', error);
+      res.status(500).json({ error: 'Failed to generate 3D data' });
+    }
+  });
+  
+  // CypherHUM Analytics - Performance analytics and usage statistics
+  app.get("/api/cypherhum/analytics", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      const { sessionId, metricType, timeRange } = req.query;
+      
+      const analytics = await storage.getCypherhumAnalytics(
+        sessionId as string, 
+        userId
+      );
+      
+      // Filter by metric type if specified
+      const filteredAnalytics = metricType ? 
+        analytics.filter(a => a.metricType === metricType) : 
+        analytics;
+      
+      // Generate summary statistics
+      const summary = {
+        totalMetrics: filteredAnalytics.length,
+        avgPerformance: filteredAnalytics.reduce((sum, a) => sum + (a.metricValue || 0), 0) / filteredAnalytics.length || 0,
+        timeRange: timeRange || '24h',
+        topMetrics: ['fps', 'response_time', 'interaction_count', 'rendering_quality'],
+        performanceTrends: {
+          improving: filteredAnalytics.length > 0 ? Math.random() > 0.5 : false,
+          degrading: filteredAnalytics.length > 0 ? Math.random() > 0.7 : false
+        }
+      };
+      
+      res.json({
+        analytics: filteredAnalytics,
+        summary
+      });
+    } catch (error) {
+      console.error('Error fetching CypherHUM analytics:', error);
+      res.status(500).json({ error: 'Failed to fetch analytics' });
+    }
+  });
+  
+  app.post("/api/cypherhum/analytics", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const analyticData = insertCypherhumAnalyticsSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      const analytic = await storage.createCypherhumAnalytic(analyticData);
+      res.status(201).json(analytic);
+    } catch (error) {
+      console.error('Error creating CypherHUM analytic:', error);
+      res.status(400).json({ error: 'Failed to create analytic' });
+    }
+  });
+  
+  // CypherHUM Threat Models - 3D threat model management and visualization
+  app.get("/api/cypherhum/threat-models", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { threatId } = req.query;
+      const threatModels = await storage.getCypherhumThreatModels(threatId as string);
+      res.json(threatModels);
+    } catch (error) {
+      console.error('Error fetching CypherHUM threat models:', error);
+      res.status(500).json({ error: 'Failed to fetch threat models' });
+    }
+  });
+  
+  app.post("/api/cypherhum/threat-models", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const threatModelData = insertCypherhumThreatModelSchema.parse(req.body);
+      const threatModel = await storage.createCypherhumThreatModel(threatModelData);
+      res.status(201).json(threatModel);
+    } catch (error) {
+      console.error('Error creating CypherHUM threat model:', error);
+      res.status(400).json({ error: 'Failed to create threat model' });
+    }
+  });
+  
+  app.put("/api/cypherhum/threat-models/:modelId", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { modelId } = req.params;
+      const updates = req.body;
+      
+      const threatModel = await storage.updateCypherhumThreatModel(modelId, updates);
+      res.json(threatModel);
+    } catch (error) {
+      console.error('Error updating CypherHUM threat model:', error);
+      res.status(400).json({ error: 'Failed to update threat model' });
+    }
+  });
+
   // ===== WebSocket Integration for Real-time CyDEF Updates =====
   
   // Setup WebSocket server for real-time CyDEF events (guarded by feature flag)
@@ -9972,6 +10356,159 @@ startxref
   });
 
       console.log('🚀 CyDEF WebSocket server initialized at /ws/cydef');
+
+      // ===== CypherHUM WebSocket Support =====
+
+      // CypherHUM WebSocket endpoint for real-time 3D holographic updates
+      wss.on('connection', async (ws, request) => {
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid CypherHUM WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Handle CypherHUM WebSocket connections
+        if (url.pathname === '/ws/cypherhum') {
+          try {
+            // Extract and verify JWT token for WebSocket authentication
+            let token: string | null = null;
+            
+            // Check for token in Authorization header first
+            const authHeader = request.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+              token = authHeader.substring(7);
+            }
+            
+            // Check for token in query string as fallback
+            if (!token) {
+              token = url.searchParams.get('token');
+            }
+            
+            if (!token) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No authentication token provided');
+              ws.close(1008, 'Authentication required');
+              return;
+            }
+            
+            // Verify the token using AuthService
+            const { AuthService } = await import('./auth');
+            const payload = AuthService.verifyToken(token);
+            
+            if (!payload || !payload.userId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid authentication token');
+              ws.close(1008, 'Invalid authentication token');
+              return;
+            }
+            
+            // Log successful authentication with detailed info
+            console.log(`✅ CypherHUM WebSocket authenticated successfully:`);
+            console.log(`   📧 User: ${payload.email}`);
+            console.log(`   🔑 Role: ${payload.role}`);
+            console.log(`   🆔 User ID: ${payload.userId}`);
+            console.log(`   🕐 Token expires: ${payload.exp ? new Date(payload.exp * 1000).toISOString() : 'Unknown'}`);
+            
+            // Store user info for this WebSocket connection
+            (ws as any).userId = payload.userId;
+            (ws as any).userEmail = payload.email;
+            (ws as any).userRole = payload.role;
+            (ws as any).connectedAt = new Date().toISOString();
+            
+            // Initialize CypherHUM service
+            const service = await initCypherHumService();
+            
+            // Extract session ID from query parameters
+            const sessionId = url.searchParams.get('sessionId');
+            if (!sessionId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No session ID provided');
+              ws.close(1008, 'Session ID required');
+              return;
+            }
+            
+            // Verify session ownership
+            const session = await service.getSession(sessionId);
+            if (!session || (session.userId !== payload.userId && payload.role !== 'admin')) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid session or access denied');
+              ws.close(1008, 'Invalid session or access denied');
+              return;
+            }
+            
+            // Set up real-time 3D updates for this session
+            await service.setupRealTimeUpdates(sessionId, ws);
+            
+            // Send initial 3D data
+            const initial3DData = await service.generateRealTimeUpdates(sessionId);
+            if (initial3DData && ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'cypherhum_initial_data',
+                sessionId,
+                data: initial3DData
+              }));
+            }
+            
+            // Handle incoming messages for CypherHUM interactions
+            ws.on('message', async (message) => {
+              try {
+                const data = JSON.parse(message.toString());
+                
+                switch (data.type) {
+                  case 'ai_query':
+                    // Process AI threat analysis query
+                    const analysis = await service.processAIThreatQuery(sessionId, data.query, data.context);
+                    ws.send(JSON.stringify({
+                      type: 'ai_analysis_result',
+                      requestId: data.requestId,
+                      data: analysis
+                    }));
+                    break;
+                    
+                  case '3d_interaction':
+                    // Log 3D interaction for analytics
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'interaction',
+                      metricName: data.interactionType,
+                      metricValue: 1,
+                      metricUnit: 'count',
+                      additionalData: data.interactionData,
+                      visualizationContext: data.visualizationContext
+                    });
+                    break;
+                    
+                  case 'performance_metric':
+                    // Record performance metrics (FPS, render time, etc.)
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'performance',
+                      metricName: data.metricName,
+                      metricValue: data.metricValue,
+                      metricUnit: data.metricUnit,
+                      deviceInfo: data.deviceInfo
+                    });
+                    break;
+                }
+              } catch (error) {
+                console.error('❌ Error processing CypherHUM WebSocket message:', error);
+                ws.send(JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to process message'
+                }));
+              }
+            });
+            
+            ws.on('close', () => {
+              console.log(`🔌 CypherHUM WebSocket disconnected: ${payload.email}`);
+            });
+            
+          } catch (authError) {
+            console.error('❌ CypherHUM WebSocket authentication failed:', authError);
+            ws.close(1008, 'Authentication failed');
+            return;
+          }
+        }
+      });
 
       // ===== Live Location WebSocket Support =====
       
