@@ -11,12 +11,7 @@ import { AlertTriangle, Shield, Eye, Filter, Clock, Globe, MapPin, Activity, Dat
 import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
 import { ThreatMap } from "@/components/ThreatMap";
 
-// Extend window interface for Google Maps
-declare global {
-  interface Window {
-    google: any;
-  }
-}
+// google maps types are provided by the @googlemaps/react-wrapper package at runtime; don't redeclare the global here
 
 export default function ThreatMonitoring() {
   const [selectedTab, setSelectedTab] = useState("map");
@@ -34,8 +29,24 @@ export default function ThreatMonitoring() {
     queryKey: ["/api/threats"],
     refetchInterval: 5000, // Real-time updates every 5 seconds
   });
+  interface AIAnalytics {
+    threatLevel?: string;
+    systemMetrics?: {
+      averageResponseTime?: string;
+      [k: string]: any;
+    };
+    threatDetection?: {
+      activeSources?: number;
+      totalThreats?: number;
+      blockedThreats?: number;
+      [k: string]: any;
+    };
+    [k: string]: any;
+  }
 
-  const { data: aiAnalytics = {} } = useQuery<any>({
+  // ...existing code above...
+
+  const { data: aiAnalytics = {} } = useQuery<AIAnalytics | null>({
     queryKey: ["/api/ai/analytics"],
     refetchInterval: 10000, // Update AI analytics every 10 seconds
   });

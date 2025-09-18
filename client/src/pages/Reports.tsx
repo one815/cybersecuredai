@@ -83,7 +83,7 @@ export default function Reports() {
   // Report generation mutation
   const generateReportMutation = useMutation({
     mutationFn: async (reportType: string) => {
-      const response = await apiRequest(`/api/reports/generate/${reportType}`, 'POST');
+      const response = await apiRequest(`/api/reports/generate/${reportType}`, { method: 'POST' });
       return await response.json();
     },
     onSuccess: (data, reportType) => {

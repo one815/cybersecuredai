@@ -1,4 +1,5 @@
 import express, { type Request, Response, NextFunction } from "express";
+import cors from "cors";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -38,6 +39,22 @@ app.use((req, res, next) => {
 
 (async () => {
   try {
+    // Register CORS early so preflight requests are handled before routes
+    // If running in Codespaces, allow the Vite dev and preview hostnames
+    const codespaceName = process.env.CODESPACE_NAME;
+    const origins: Array<string> = [];
+    if (codespaceName) {
+      origins.push(
+        `https://${codespaceName}-5173.github.dev`, // Vite dev
+        `https://${codespaceName}-4173.github.dev`  // Vite preview
+      );
+    }
+
+    // Always allow localhost during development as a fallback
+    origins.push("http://localhost:5173", "http://localhost:4173");
+
+    app.use(cors({ origin: origins, credentials: true }));
+
     const server = await registerRoutes(app);
 
     // Enhanced error handling middleware

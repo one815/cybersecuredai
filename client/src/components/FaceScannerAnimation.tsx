@@ -17,11 +17,14 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
   useEffect(() => {
     // Load the biometric face image
     const img = new Image();
-    img.src = biometricFaceImage;
-    img.onload = () => {
-      setImageLoaded(true);
-      imgRef.current = img;
-    };
+      img.src = biometricFaceImage;
+      img.onload = () => {
+        setImageLoaded(true);
+        // imgRef.current is read-only for some React setups; set the src instead
+        if (imgRef.current) {
+          try { imgRef.current.src = img.src; } catch (e) { /* ignore */ }
+        }
+      };
   }, []);
 
   useEffect(() => {
@@ -90,8 +93,9 @@ export function FaceScannerAnimation({ className = "" }: FaceScannerAnimationPro
         const headY = centerY - 5;
         
         // Create 3D head vertex points for geometric assembly
-        const vertices = [];
-        const faces = [];
+  type Vertex = { x: number; y: number; z: number };
+  const vertices: Vertex[] = [];
+  const faces: number[][] = [];
         
         // Define 3D head geometry vertices
         const baseVertices = [

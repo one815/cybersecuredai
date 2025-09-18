@@ -25,7 +25,7 @@ export default function Authentication() {
 
   const setupDigitalKeyMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest('PUT', `/api/users/${user?.id}/digital-key`, { enabled: true });
+      await apiRequest(`/api/users/${user?.id}/digital-key`, { method: 'PUT', data: { enabled: true } });
     },
     onSuccess: () => {
       toast({

@@ -99,7 +99,7 @@ export default function TaxiiStixManagement() {
   });
 
   // Fetch TAXII servers
-  const { data: servers = [], isLoading: serversLoading } = useQuery({
+  const { data: servers = [], isLoading: serversLoading } = useQuery<TaxiiServer[]>({
     queryKey: ['/api/taxii/servers'],
     refetchInterval: 30000
   });
@@ -111,7 +111,7 @@ export default function TaxiiStixManagement() {
   });
 
   // Fetch STIX objects for selected server/collection
-  const { data: stixObjects = [], isLoading: stixLoading } = useQuery({
+  const { data: stixObjects = [], isLoading: stixLoading } = useQuery<StixObject[]>({
     queryKey: ['/api/taxii/servers', selectedServer, 'collections', selectedCollection, 'objects', stixFilter],
     enabled: !!(selectedServer && selectedCollection),
     refetchInterval: 120000
@@ -155,7 +155,7 @@ export default function TaxiiStixManagement() {
     mutationFn: async () => {
       return await apiRequest('/api/taxii/sync', { method: 'POST' });
     },
-    onSuccess: (data) => {
+    onSuccess: (data: { success: number; failed: number }) => {
       toast({
         title: "Sync Completed",
         description: `${data.success} servers synced successfully, ${data.failed} failed.`,
@@ -377,7 +377,7 @@ export default function TaxiiStixManagement() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-spring-green">
-                {Object.values(cisaStats.stixObjectTypes).reduce((sum, count) => sum + count, 0)}
+                {Object.values(cisaStats.stixObjectTypes).map(v => Number(v) || 0).reduce((sum, count) => sum + count, 0)}
               </div>
               <p className="text-gray-400 text-sm">threat indicators</p>
             </CardContent>
@@ -417,7 +417,7 @@ export default function TaxiiStixManagement() {
                           <CardTitle className="text-white flex items-center">
                             {server.name}
                             {server.cisaCompliant && (
-                              <Shield className="w-4 h-4 ml-2 text-spring-green" title="CISA Compliant" />
+                              <Shield className="w-4 h-4 ml-2 text-spring-green" aria-label="CISA Compliant" />
                             )}
                           </CardTitle>
                           <p className="text-gray-400 text-sm">{server.url}</p>
@@ -532,7 +532,7 @@ export default function TaxiiStixManagement() {
                     <SelectValue placeholder="Select Collection" />
                   </SelectTrigger>
                   <SelectContent>
-                    {servers.find((s: TaxiiServer) => s.id === selectedServer)?.collections?.map((collection) => (
+                    {servers.find((s: TaxiiServer) => s.id === selectedServer)?.collections?.map((collection: TaxiiCollection) => (
                       <SelectItem key={collection.id} value={collection.id}>
                         {collection.title}
                       </SelectItem>
@@ -669,7 +669,7 @@ export default function TaxiiStixManagement() {
                     <div>
                       <h4 className="text-lg font-medium text-white mb-4">STIX Object Types</h4>
                       <div className="space-y-2 max-h-48 overflow-y-auto">
-                        {Object.entries(cisaStats.stixObjectTypes)
+                        {((Object.entries(cisaStats.stixObjectTypes) as [string, number][]))
                           .sort(([,a], [,b]) => b - a)
                           .map(([type, count]) => (
                           <div key={type} className="flex justify-between items-center">

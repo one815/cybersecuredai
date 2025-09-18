@@ -157,6 +157,8 @@ export function CambridgeAnalytics() {
       </Card>
     );
   }
+  // Narrow rechartsComponents for TypeScript so we can safely reference them in JSX
+  const R = isRechartsLoaded && rechartsComponents ? rechartsComponents : null;
 
   return (
     <Card className="holographic-card border-purple-500/30 backdrop-blur-xl floating-3d">
@@ -303,21 +305,23 @@ export function CambridgeAnalytics() {
                   <span className="ml-2 text-gray-400">Loading chart...</span>
                 </div>
               ) : (
-                <rechartsComponents.ResponsiveContainer width="100%" height="100%">
-                  <rechartsComponents.LineChart data={analyticsData?.behavioralPatterns || [
+                R ? (
+                  <R.ResponsiveContainer width="100%" height="100%">
+                    <R.LineChart data={analyticsData?.behavioralPatterns || [
                     { time: "00:00", anomalies: 2, normal: 1456, suspicious: 8 },
                     { time: "06:00", anomalies: 1, normal: 2134, suspicious: 3 },
                     { time: "12:00", anomalies: 5, normal: 3421, suspicious: 12 },
                     { time: "18:00", anomalies: 3, normal: 2876, suspicious: 7 },
                     { time: "24:00", anomalies: 1, normal: 1234, suspicious: 4 }
                   ]}>
-                    <rechartsComponents.XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
-                    <rechartsComponents.YAxis stroke="#6b7280" fontSize={12} />
-                    <rechartsComponents.Line type="monotone" dataKey="normal" stroke="#22c55e" strokeWidth={2} />
-                    <rechartsComponents.Line type="monotone" dataKey="suspicious" stroke="#eab308" strokeWidth={2} />
-                    <rechartsComponents.Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} />
-                  </rechartsComponents.LineChart>
-                </rechartsComponents.ResponsiveContainer>
+                      <R.XAxis dataKey="time" stroke="#6b7280" fontSize={12} />
+                      <R.YAxis stroke="#6b7280" fontSize={12} />
+                      <R.Line type="monotone" dataKey="normal" stroke="#22c55e" strokeWidth={2} />
+                      <R.Line type="monotone" dataKey="suspicious" stroke="#eab308" strokeWidth={2} />
+                      <R.Line type="monotone" dataKey="anomalies" stroke="#ef4444" strokeWidth={2} />
+                    </R.LineChart>
+                  </R.ResponsiveContainer>
+                ) : null
               )}
             </div>
             

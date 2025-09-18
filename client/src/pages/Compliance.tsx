@@ -461,7 +461,7 @@ function FrameworkControls({ framework }: { framework: CustomComplianceFramework
   const { data: controls = [] } = useQuery({
     queryKey: ['/api/compliance/custom/controls', framework.frameworkId],
     queryFn: async () => {
-      const response = await apiRequest('GET', `/api/compliance/custom/controls/${framework.frameworkId}`);
+      const response = await apiRequest(`/api/compliance/custom/controls/${framework.frameworkId}`, { method: 'GET' });
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     },
@@ -549,7 +549,7 @@ export default function Compliance() {
   const { data: customFrameworks = [], isLoading: customFrameworksLoading } = useQuery({
     queryKey: ['/api/compliance/custom/frameworks', organizationId],
     queryFn: async () => {
-      const response = await apiRequest('GET', `/api/compliance/custom/frameworks/${organizationId}`);
+      const response = await apiRequest(`/api/compliance/custom/frameworks/${organizationId}`, { method: 'GET' });
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     },
@@ -559,7 +559,7 @@ export default function Compliance() {
   const { data: customControls = [] } = useQuery({
     queryKey: ['/api/compliance/custom/controls', selectedCustomFramework?.frameworkId],
     queryFn: async () => {
-      const response = await apiRequest('GET', `/api/compliance/custom/controls/${selectedCustomFramework?.frameworkId}`);
+      const response = await apiRequest(`/api/compliance/custom/controls/${selectedCustomFramework?.frameworkId}`, { method: 'GET' });
       const data = await response.json();
       return Array.isArray(data) ? data : [];
     },
@@ -633,11 +633,11 @@ export default function Compliance() {
   // Custom compliance mutations
   const createFrameworkMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest('POST', '/api/compliance/custom/frameworks', { 
+      const response = await apiRequest('/api/compliance/custom/frameworks', { method: 'POST', data: { 
         ...data, 
         organizationId, 
         createdBy: organizationId 
-      });
+      } });
       return await response.json();
     },
     onSuccess: () => {
@@ -660,13 +660,13 @@ export default function Compliance() {
 
   const createControlMutation = useMutation({
     mutationFn: async (data: any) => {
-      const response = await apiRequest('POST', '/api/compliance/custom/controls', { 
+      const response = await apiRequest('/api/compliance/custom/controls', { method: 'POST', data: { 
         ...data, 
         frameworkId: selectedCustomFramework?.frameworkId,
         createdBy: organizationId,
         requiredEvidence: [],
         testMethods: []
-      });
+      } });
       return await response.json();
     },
     onSuccess: () => {
@@ -689,7 +689,7 @@ export default function Compliance() {
 
   const deleteFrameworkMutation = useMutation({
     mutationFn: async (frameworkId: string) => {
-      const response = await apiRequest('DELETE', `/api/compliance/custom/framework/${frameworkId}`);
+      const response = await apiRequest(`/api/compliance/custom/framework/${frameworkId}`, { method: 'DELETE' });
       return await response.json();
     },
     onSuccess: () => {

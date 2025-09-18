@@ -70,6 +70,14 @@ interface TheHiveSummary {
   };
 }
 
+interface TheHiveStatus {
+  initialized?: boolean;
+  version?: string;
+  host?: string;
+  uptime?: string;
+  message?: string;
+}
+
 export function TheHiveIntegration() {
   // Fetch TheHive summary data
   const { data: summary, isLoading: summaryLoading } = useQuery({
@@ -96,7 +104,7 @@ export function TheHiveIntegration() {
   }) as { data: TheHiveObservable[] | undefined; isLoading: boolean };
 
   // Fetch TheHive status
-  const { data: status } = useQuery({
+  const { data: status } = useQuery<TheHiveStatus | null>({
     queryKey: ['/api/thehive/status'],
     refetchInterval: 300000, // Check every 5 minutes
   });

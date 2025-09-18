@@ -116,7 +116,7 @@ export default function AlternativeThreatFeeds() {
 
   // Refresh specific feed mutation
   const refreshFeedMutation = useMutation({
-    mutationFn: (feedName: string) => apiRequest(`/api/alternative-feeds/refresh/${feedName}`, 'POST'),
+    mutationFn: (feedName: string) => apiRequest(`/api/alternative-feeds/refresh/${feedName}`, { method: 'POST' }),
     onSuccess: (result, feedName) => {
       toast({
         title: "Feed Refreshed",
