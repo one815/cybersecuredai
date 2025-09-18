@@ -1389,7 +1389,7 @@ export default function ACDSDashboard() {
                 <div className="text-3xl font-bold text-blue-400">
                   {analytics?.averageResponseTime ? `${Math.round(analytics.averageResponseTime)}ms` : '0ms'}
                 </div>
-                <p className="text-xs text-gray-500 mt-2">Target: < 200ms</p>
+                <p className="text-xs text-gray-500 mt-2">Target: &lt; 200ms</p>
               </CardContent>
             </Card>
 
