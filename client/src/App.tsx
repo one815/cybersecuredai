@@ -63,6 +63,8 @@ const MISPBenefits = lazy(() => import("@/pages/MISPBenefits"));
 const VulnerabilityTrendDashboard = lazy(() => import("@/pages/VulnerabilityTrendDashboard"));
 const CydefDashboard = lazy(() => import("@/pages/CydefDashboard"));
 const LiveLocationDashboard = lazy(() => import("@/pages/LiveLocationDashboard"));
+// Advanced ACDS (Autonomous Cyber Defense Swarm) Dashboard - lazy loaded due to heavy 3D/map components
+const ACDSDashboard = lazy(() => import("@/pages/ACDSDashboard"));
 // Heavy 3D visualization component - lazy loaded to reduce initial bundle
 const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
 // Revolutionary CypherHUM 3D Holographic AI Interface - lazy loaded due to heavy Three.js dependencies
@@ -187,6 +189,9 @@ function Router() {
                           location.startsWith('/threat-') ||
                           location.startsWith('/ai-config') ||
                           location.startsWith('/support') ||
+                          location.startsWith('/cydef-dashboard') ||
+                          location.startsWith('/live-location-dashboard') ||
+                          location.startsWith('/acds-dashboard') ||
                           location.startsWith('/cypherhum-interface');
 
     // Show onboarding if user exists, is on a platform page, and lacks proper auth setup
@@ -345,6 +350,16 @@ function Router() {
           <LiveLocationDashboard />
         </Layout>
       </Route>
+      
+      {/* ACDS (Autonomous Cyber Defense Swarm) Advanced Dashboard */}
+      <Route path="/acds-dashboard">
+        <Layout>
+          <LazyErrorBoundary>
+            <ACDSDashboard />
+          </LazyErrorBoundary>
+        </Layout>
+      </Route>
+      
       <Route path="/threat-map-5d">
         <Layout>
           <ThreatMap5D />
