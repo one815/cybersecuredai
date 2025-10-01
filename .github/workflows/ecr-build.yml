@@ -1,0 +1,52 @@
+name: Build and push orca-router (GovCloud ECR)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS (GovCloud via OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: 465947697623
+          mask-password: true
+
+      - name: Build, tag, and push
+        env:
+          AWS_REGION: us-gov-west-1
+          ACCOUNT_ID: 465947697623
+          REPO_NAME: orca-router
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          ECR_REPO="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME"
+          SHORT_TAG="${IMAGE_TAG::7}"
+
+          # Ensure repo exists (no-op if it already exists)
+          aws ecr describe-repositories --repository-name "$REPO_NAME" --region "$AWS_REGION" >/dev/null 2>&1 || \
+          aws ecr create-repository --repository-name "$REPO_NAME" --region "$AWS_REGION"
+
+          # Dockerfile is at repo root
+          docker build -t "$REPO_NAME:$SHORT_TAG" .
+
+          docker tag "$REPO_NAME:$SHORT_TAG" "$ECR_REPO:$SHORT_TAG"
+          docker tag "$REPO_NAME:$SHORT_TAG" "$ECR_REPO:latest"
+
+          docker push "$ECR_REPO:$SHORT_TAG"
+          docker push "$ECR_REPO:latest"
