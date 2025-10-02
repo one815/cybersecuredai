@@ -61,6 +61,13 @@ jobs:
           npm ci --legacy-peer-deps --include=dev
           npm run build
 
+      - name: "Diagnostic: list attached_assets on runner"
+        if: ${{ always() }}
+        run: |
+          echo "Reporting attached_assets contents (first 200 entries)"
+          ls -la attached_assets | sed -n '1,200p' || echo "attached_assets directory missing on runner"
+          echo "Count:" $(ls -1 attached_assets 2>/dev/null | wc -l || echo 0)
+
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
         with:
