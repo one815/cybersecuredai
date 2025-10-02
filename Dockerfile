@@ -61,10 +61,10 @@ RUN apk add --no-cache \
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install ONLY production dependencies (omit dev and optional dependencies)
-RUN npm ci --omit=dev --omit=optional && \
-    npm cache clean --force && \
-    rm -rf /tmp/* /var/cache/apk/* ~/.npm /root/.npm
+# Copy node_modules from the builder stage to avoid rebuilding native modules
+# (native modules like canvas are already built in the builder stage with
+# the required build deps installed)
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
