@@ -44,6 +44,37 @@ jobs:
           registries: 465947697623
           mask-password: true
 
+      - name: Sync generated assets from S3 (optional)
+        env:
+          ASSETS_S3_URI: ${{ secrets.ASSETS_S3_URI }}
+        run: |
+          set -euo pipefail
+          if [ -z "${ASSETS_S3_URI:-}" ]; then
+            echo "No ASSETS_S3_URI secret provided — skipping asset sync. If your build requires generated assets, set the ASSETS_S3_URI secret to an S3 URI (e.g. s3://bucket/path)."
+          else
+            echo "Syncing generated assets from $ASSETS_S3_URI into attached_assets/"
+            mkdir -p attached_assets
+            aws s3 sync "$ASSETS_S3_URI" attached_assets/ --only-show-errors || {
+              echo "aws s3 sync failed" >&2
+              exit 1
+            }
+            echo "Asset sync complete. Listing synced files:"
+            ls -la attached_assets | sed -n '1,200p' || true
+          fi
+
+
+      - name: 'CI pre-check: install Node and run build (fast-fail)'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 'Run npm install and build (fast-fail)'
+        run: |
+          set -euo pipefail
+          echo "Running fast-fail build on runner to catch errors early"
+          npm ci --legacy-peer-deps --include=dev
+          npm run build
+
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v2
         with:
