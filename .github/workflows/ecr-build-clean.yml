@@ -1,0 +1,91 @@
+name: Build and Push (GovCloud)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-gov-west-1
+  ECR_REPO: 465947697623.dkr.ecr.us-gov-west-1.amazonaws.com/orca-router
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node (for optional pre-build validation)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pre-build dependency install (fast fail)
+        run: npm ci --legacy-peer-deps --omit=optional || true
+
+      - name: Configure AWS GovCloud (OIDC)
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: AWS Identity
+        run: aws sts get-caller-identity
+
+      - name: Login to ECR
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+          REGISTRY: 465947697623.dkr.ecr.us-gov-west-1.amazonaws.com
+        run: |
+          aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+
+      - name: Ensure repository exists
+        env:
+          REPO: ${{ env.ECR_REPO }}
+        run: |
+          NAME=${REPO##*/}
+          aws ecr describe-repositories --repository-names "$NAME" >/dev/null 2>&1 || \
+            aws ecr create-repository --repository-name "$NAME" --image-scanning-configuration scanOnPush=true --encryption-configuration encryptionType=AES256
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache buildx layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ env.ECR_REPO }}:${{ github.sha }},${{ env.ECR_REPO }}:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+
+      - name: Verify pushed tags
+        env:
+          AWS_REGION: ${{ env.AWS_REGION }}
+          REPO: ${{ env.ECR_REPO }}
+          COMMIT: ${{ github.sha }}
+        run: |
+          NAME=${REPO##*/}
+          echo "Tags:" && aws ecr list-images --repository-name "$NAME" --region "$AWS_REGION" --query 'imageIds[].imageTag' --output text || true
+          aws ecr describe-images --repository-name "$NAME" --region "$AWS_REGION" --image-ids imageTag="$COMMIT" || { echo 'Commit tag missing'; exit 1; }
+          aws ecr describe-images --repository-name "$NAME" --region "$AWS_REGION" --image-ids imageTag=latest || { echo 'Latest tag missing'; exit 1; }
+
+      - name: Done
+        run: echo "Image pushed as $ECR_REPO:${{ github.sha }} and latest"
