@@ -3,33 +3,47 @@ name: Build and push orca-router (GovCloud ECR)
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
-
+jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    env:
+      AWS_REGION: us-gov-west-1
+      ACCOUNT_ID: 465947697623
+      REPO_NAME: orca-router
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Validate secrets
+        run: |
+          if [ -z "${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}" ]; then
+            echo "ERROR: AWS_GOVCLOUD_ROLE_ARN secret is not set or not available in this run (forks don't have access to secrets)." >&2
+            exit 1
+          else
+            echo "Found AWS_GOVCLOUD_ROLE_ARN secret. Continuing..."
+          fi
+
       - name: Configure AWS (GovCloud via OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-gov-west-1
           role-to-assume: ${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}
           role-session-name: gh-actions-orca-router
+
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
         with:
           registries: 465947697623
           mask-password: true
+
       - name: Build, tag, and push
         env:
-          AWS_REGION: us-gov-west-1
-          ACCOUNT_ID: 465947697623
-          REPO_NAME: orca-router
           IMAGE_TAG: ${{ github.sha }}
         run: |
           set -euo pipefail
