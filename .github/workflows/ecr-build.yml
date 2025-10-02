@@ -1,99 +1,43 @@
-name: Build and push orca-router (GovCloud ECR)
+name: Build and Push (GovCloud)
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-gov-west-1
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    env:
-      AWS_REGION: us-gov-west-1
-      ACCOUNT_ID: 465947697623
-      REPO_NAME: orca-router
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Validate secrets
-        run: |
-          if [ -z "${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}" ]; then
-            echo "ERROR: AWS_GOVCLOUD_ROLE_ARN secret is not set or not available in this run (forks don't have access to secrets)." >&2
-            exit 1
-          else
-            echo "Found AWS_GOVCLOUD_ROLE_ARN secret. Continuing..."
-          fi
-
-      - name: Configure AWS (GovCloud via OIDC)
+      - name: Configure AWS (OIDC → GovCloud)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ secrets.AWS_GOVCLOUD_ROLE_ARN }}
-          role-session-name: gh-actions-orca-router
+          role-to-assume: $ secrets.AWS_GOVCLOUD_ROLE_ARN 
+          aws-region: $ env.AWS_REGION 
+          audience: sts.amazonaws.com
 
-      - name: Login to Amazon ECR
+      - name: Who am I? (debug)
+        run: aws sts get-caller-identity
+
+      - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v2
-        with:
-          registries: 465947697623
-          mask-password: true
 
-      - name: Sync generated assets from S3 (optional)
+      - name: Build and push
         env:
-          ASSETS_S3_URI: ${{ secrets.ASSETS_S3_URI }}
+          ECR_REPO: $ secrets.ECR_REPO 
         run: |
-          set -euo pipefail
-          if [ -z "${ASSETS_S3_URI:-}" ]; then
-            echo "No ASSETS_S3_URI secret provided — skipping asset sync. If your build requires generated assets, set the ASSETS_S3_URI secret to an S3 URI (e.g. s3://bucket/path)."
-          else
-            echo "Syncing generated assets from $ASSETS_S3_URI into attached_assets/"
-            mkdir -p attached_assets
-            aws s3 sync "$ASSETS_S3_URI" attached_assets/ --only-show-errors || {
-              echo "aws s3 sync failed" >&2
-              exit 1
-            }
-            echo "Asset sync complete. Listing synced files:"
-            ls -la attached_assets | sed -n '1,200p' || true
-          fi
-
-
-      - name: 'CI pre-check: install Node and run build (fast-fail)'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: 'Run npm install and build (fast-fail)'
-        run: |
-          set -euo pipefail
-          echo "Running fast-fail build on runner to catch errors early"
-          npm ci --legacy-peer-deps --include=dev
-          npm run build
-
-      - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          buildkitd-flags: --debug
-
-      - name: Build, tag, and push
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          set -euo pipefail
-          ECR_REPO="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME"
-          SHORT_TAG="${IMAGE_TAG::7}"
-
-          echo "ECR repo: $ECR_REPO"
-
-          # Ensure ECR repo exists
-          if ! aws ecr describe-repositories --repository-name "$REPO_NAME" --region "$AWS_REGION" >/dev/null 2>&1; then
-            aws ecr create-repository --repository-name "$REPO_NAME" --region "$AWS_REGION"
-          fi
-
-          # Build with buildx for reproducible cross-platform images
-          docker buildx build --platform linux/amd64 --tag "$REPO_NAME:$SHORT_TAG" --tag "$ECR_REPO:$SHORT_TAG" --tag "$ECR_REPO:latest" --push .
+          TAG=${GITHUB_SHA::7}
+          docker build -t "$ECR_REPO:$TAG" .
+          docker tag "$ECR_REPO:$TAG" "$ECR_REPO:latest"
+          docker push "$ECR_REPO:$TAG"
+          docker push "$ECR_REPO:latest"
