@@ -9,12 +9,12 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  AWS_REGION: us-gov-west-1
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-gov-west-1
+      ECR_REPO: 465947697623.dkr.ecr.us-gov-west-1.amazonaws.com/orca-router
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,8 +22,8 @@ jobs:
       - name: Configure AWS (OIDC → GovCloud)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: $ secrets.AWS_GOVCLOUD_ROLE_ARN 
-          aws-region: $ env.AWS_REGION 
+          role-to-assume: arn:aws-us-gov:iam::465947697623:role/github-actions-ecr-pusher
+          aws-region: us-gov-west-1
           audience: sts.amazonaws.com
 
       - name: Who am I? (debug)
@@ -33,8 +33,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and push
-        env:
-          ECR_REPO: $ secrets.ECR_REPO 
         run: |
           TAG=${GITHUB_SHA::7}
           docker build -t "$ECR_REPO:$TAG" .
