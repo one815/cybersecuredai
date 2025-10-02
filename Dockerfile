@@ -28,7 +28,8 @@ ENV PUPPETEER_SKIP_DOWNLOAD=1
 ENV CHROMIUM_EXECUTABLE_PATH="/usr/bin/chromium-browser"
 
 # Install ALL dependencies for building (including devDependencies)
-RUN npm ci --include=dev
+# Use --legacy-peer-deps to avoid npm ERESOLVE failures for conflicting peer deps during CI/docker build
+RUN npm ci --legacy-peer-deps --include=dev
 
 # Copy source code
 COPY . .

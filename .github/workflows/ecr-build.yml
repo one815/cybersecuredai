@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Validate secrets
         run: |
@@ -42,6 +44,11 @@ jobs:
           registries: 465947697623
           mask-password: true
 
+      - name: Set up Docker buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          buildkitd-flags: --debug
+
       - name: Build, tag, and push
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -50,16 +57,12 @@ jobs:
           ECR_REPO="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME"
           SHORT_TAG="${IMAGE_TAG::7}"
 
+          echo "ECR repo: $ECR_REPO"
+
           # Ensure ECR repo exists
-          aws ecr describe-repositories --repository-name "$REPO_NAME" --region "$AWS_REGION" >/dev/null 2>&1 || \
-          aws ecr create-repository --repository-name "$REPO_NAME" --region "$AWS_REGION"
+          if ! aws ecr describe-repositories --repository-name "$REPO_NAME" --region "$AWS_REGION" >/dev/null 2>&1; then
+            aws ecr create-repository --repository-name "$REPO_NAME" --region "$AWS_REGION"
+          fi
 
-          # Dockerfile is at repo root
-          docker build -t "$REPO_NAME:$SHORT_TAG" .
-
-          # Tag and push
-          docker tag "$REPO_NAME:$SHORT_TAG" "$ECR_REPO:$SHORT_TAG"
-          docker tag "$REPO_NAME:$SHORT_TAG" "$ECR_REPO:latest"
-          docker push "$ECR_REPO:$SHORT_TAG"
-          docker push "$ECR_REPO:latest"
-          docker push "$ECR_REPO:$SHORT_TAG"
+          # Build with buildx for reproducible cross-platform images
+          docker buildx build --platform linux/amd64 --tag "$REPO_NAME:$SHORT_TAG" --tag "$ECR_REPO:$SHORT_TAG" --tag "$ECR_REPO:latest" --push .
