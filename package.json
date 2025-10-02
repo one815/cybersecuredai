@@ -166,4 +166,8 @@
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
   }
+  ,
+  "overrides": {
+    "@opentelemetry/api": "1.4.1"
+  }
 }

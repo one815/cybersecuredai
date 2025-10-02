@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Brain, Users, Shield, CheckCircle } from "lucide-react";
 // Import actual Cypher AI Gen image
-import cypherAiGenImage from "@assets/Cypher AI Gen_1757954427635.webp";
+import cypherAiGenImage from "@assets/images/placeholder.svg";
 
 export default function AIEthicsStatement() {
   return (

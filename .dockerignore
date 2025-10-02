@@ -70,7 +70,15 @@ generate-*.cjs
 *-imports.js
 
 # Exclude directories with large files - CRITICAL FOR SIZE REDUCTION
-attached_assets/
+# (attached_assets contains many large marketing files; we now allow small placeholders
+# and essential assets to be included. Do not exclude the whole directory to avoid
+# build-time ENOENT errors for imports.)
+# attached_assets/  <-- intentionally not excluded so small/essential assets are copied
+# Allow small build-time placeholders needed by Vite
+!attached_assets/images/
+!attached_assets/images/placeholder.svg
+!attached_assets/generated_images/
+!attached_assets/generated_images/*
 RFP/
 python/
 browser-extensions/
