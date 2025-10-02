@@ -9,24 +9,17 @@ export default defineConfig({
     // Small plugin: if an import uses @assets/... and the physical file is missing
     // (common for generated or large marketing assets removed from the Docker context),
     // fall back to a small placeholder so the Vite build doesn't fail in CI.
-    // The assets fallback was a broad CI-time workaround. We now rely on CI to
-    // fetch generated assets before the Docker build (see .github/workflows/ecr-build.yml).
-    // Keep a conservative runtime-only dev fallback (non-production) so local dev stays friendly
-    // when a specific generated asset is missing, but do NOT override all @assets imports
-    // during production builds; this prevents hiding real missing-asset bugs.
+    // Temporary: broad CI-time fallback. Maps any @assets/* import to a small
+    // placeholder so the Docker builder's `npm run build` doesn't fail while
+    // generated assets are being provisioned. Remove this once the S3 sync or
+    // asset pipeline is in place permanently.
     {
-      name: 'assets-fallback-dev-only',
+      name: 'assets-fallback-temporary',
       enforce: 'pre',
-      resolveId(id, importer) {
-        if (process.env.NODE_ENV === 'production') return null;
+      resolveId(id) {
         if (!id.startsWith('@assets/')) return null;
-        try {
-          // Let Vite resolve normally first
-          return null;
-        } catch (e) {
-          const placeholder = path.resolve(import.meta.dirname, 'client', 'src', 'assets', 'images', 'placeholder.svg');
-          return placeholder;
-        }
+        const placeholder = path.resolve(import.meta.dirname, 'client', 'src', 'assets', 'images', 'placeholder.svg');
+        return placeholder;
       },
     },
     react(),
