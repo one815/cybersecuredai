@@ -34,6 +34,10 @@ RUN npm ci --legacy-peer-deps --include=dev
 # Copy source code
 COPY . .
 
+# Ensure attached_assets are explicitly present in the build context for Vite
+# (some .dockerignore rules can unintentionally exclude top-level files).
+COPY attached_assets ./attached_assets
+
 # Build the application
 RUN npm run build
 
