@@ -41,7 +41,9 @@ COPY attached_assets ./attached_assets
 # Create small placeholder files for any attached_assets referenced by source files
 # This prevents Vite from failing the build when a referenced asset is missing from the
 # build context. It is safer and faster than copying a huge media directory into the image.
-RUN node -e "const fs=require('fs'),p=require('path');const collect=(dir)=>{try{for(const f of fs.readdirSync(dir)){const fp=p.join(dir,f);const st=fs.statSync(fp);if(st.isDirectory()) collect(fp); else { try{ const s=fs.readFileSync(fp,'utf8'); const re=/attached_assets\\/([^\"'\\)\\]\s>]+\\.(?:png|jpg|jpeg|webp|gif|svg))/gi; let m; while((m=re.exec(s))){ const target=p.join('attached_assets',m[1]); if(!fs.existsSync(target)){ fs.mkdirSync(p.dirname(target),{recursive:true}); fs.writeFileSync(target,Buffer.from('')) } } }catch(e){} } } }catch(e){}};['client','server','shared','.'].forEach(d=>{try{collect(d)}catch(e){}});
+# Use a dedicated script file to avoid shell quoting issues in Docker build.
+COPY scripts/ ./scripts/
+RUN node ./scripts/generate-asset-placeholders.cjs
 
 # Build the application
 RUN npm run build
