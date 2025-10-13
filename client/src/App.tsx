@@ -61,8 +61,16 @@ const ThreatIntelligenceDashboard = lazy(() => import("@/pages/ThreatIntelligenc
 const MISPLiveDashboard = lazy(() => import("@/pages/MISPLiveDashboard"));
 const MISPBenefits = lazy(() => import("@/pages/MISPBenefits"));
 const VulnerabilityTrendDashboard = lazy(() => import("@/pages/VulnerabilityTrendDashboard"));
+const CydefDashboard = lazy(() => import("@/pages/CydefDashboard"));
+const LiveLocationDashboard = lazy(() => import("@/pages/LiveLocationDashboard"));
+// Advanced ACDS (Autonomous Cyber Defense Swarm) Dashboard - lazy loaded due to heavy 3D/map components
+const ACDSDashboard = lazy(() => import("@/pages/ACDSDashboard"));
 // Heavy 3D visualization component - lazy loaded to reduce initial bundle
 const ThreatMap5D = lazy(() => import("@/pages/ThreatMap5D"));
+// Revolutionary CypherHUM 5D Holographic AI Interface with Live Avatar - lazy loaded due to heavy dependencies
+const CypherHumInterface = lazy(() => import("@/pages/CypherHumInterface"));
+// Public Health Dashboard - comprehensive disease surveillance and outbreak management
+const PublicHealthDashboard = lazy(() => import("@/pages/PublicHealthDashboard"));
 
 // Marketing Website Pages - Lazy loaded
 const Home = lazy(() => import("@/pages/Home"));
@@ -115,6 +123,9 @@ const IdentityAccessManagement = lazy(() => import("@/pages/platform/IdentityAcc
 const SystemAdministration = lazy(() => import("@/pages/platform/SystemAdministration"));
 const HardwareSecurityModules = lazy(() => import("@/pages/platform/HardwareSecurityModules"));
 const BiometricAuthentication = lazy(() => import("@/pages/platform/BiometricAuthentication"));
+
+// Catalog Management System - Internal pricing and product management
+const Catalog = lazy(() => import("@/pages/Catalog"));
 const EnhancedThreatIntelligence = lazy(() => import("@/pages/platform/EnhancedThreatIntelligence"));
 const SecurityInfrastructureMonitoring = lazy(() => import("@/pages/platform/SecurityInfrastructureMonitoring"));
 const EnterpriseIAM = lazy(() => import("@/pages/platform/EnterpriseIAM"));
@@ -182,7 +193,12 @@ function Router() {
                           location.startsWith('/training') ||
                           location.startsWith('/threat-') ||
                           location.startsWith('/ai-config') ||
-                          location.startsWith('/support');
+                          location.startsWith('/support') ||
+                          location.startsWith('/cydef-dashboard') ||
+                          location.startsWith('/live-location-dashboard') ||
+                          location.startsWith('/acds-dashboard') ||
+                          location.startsWith('/cypherhum-interface') ||
+                          location.startsWith('/public-health-dashboard');
 
     // Show onboarding if user exists, is on a platform page, and lacks proper auth setup
     if (user && isPlatformPage && !isLoading) {
@@ -329,9 +345,48 @@ function Router() {
           <VulnerabilityTrendDashboard />
         </Layout>
       </Route>
+      <Route path="/cydef-dashboard">
+        <Layout>
+          <CydefDashboard />
+        </Layout>
+      </Route>
+      
+      <Route path="/live-location-dashboard">
+        <Layout>
+          <LiveLocationDashboard />
+        </Layout>
+      </Route>
+      
+      {/* ACDS (Autonomous Cyber Defense Swarm) Advanced Dashboard */}
+      <Route path="/acds-dashboard">
+        <Layout>
+          <LazyErrorBoundary>
+            <ACDSDashboard />
+          </LazyErrorBoundary>
+        </Layout>
+      </Route>
+      
       <Route path="/threat-map-5d">
         <Layout>
           <ThreatMap5D />
+        </Layout>
+      </Route>
+      
+      {/* CypherHUM Revolutionary 3D Holographic AI Interface */}
+      <Route path="/cypherhum-interface">
+        <Layout>
+          <LazyErrorBoundary>
+            <CypherHumInterface />
+          </LazyErrorBoundary>
+        </Layout>
+      </Route>
+      
+      {/* Public Health Dashboard - Disease Surveillance and Outbreak Management */}
+      <Route path="/public-health-dashboard">
+        <Layout>
+          <LazyErrorBoundary>
+            <PublicHealthDashboard />
+          </LazyErrorBoundary>
         </Layout>
       </Route>
       <Route path="/security-integrations">
@@ -536,6 +591,11 @@ function Router() {
       <Route path="/ai-config">
         <Layout>
           <AIConfiguration />
+        </Layout>
+      </Route>
+      <Route path="/catalog">
+        <Layout>
+          <Catalog />
         </Layout>
       </Route>
       <Route path="/vulnerability-monitoring">

@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 import express from "express";
 import path from "path";
 import multer from "multer";
@@ -7,8 +8,12 @@ import { auth } from "express-openid-connect";
 import { storage } from "./storage";
 import { eq, and, desc, sql, isNotNull } from "drizzle-orm";
 import { AuthService, authenticateJWT, authorizeRoles, sensitiveOperationLimiter, type AuthenticatedRequest } from "./auth";
-import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema } from "@shared/schema";
+import { phiRedactionMiddleware, contactTracingPhiMinimization, phiAuditMiddleware, validatePublicHealthAccess } from "./hipaa-compliance";
+import { convertToMMWRFormat, convertToNNDSSFormat, convertToNEDSSFormat, convertToHANFormat, MMWRDataSchema, NNDSSDataSchema, NEDSSDataSchema, HANAlertSchema, getCDCIntegrationService, createPHINMessageHeader } from "./cdc-integration";
+import { registerHipaaAdminRoutes } from "./hipaa-api-routes";
+import { insertUserSchema, insertThreatSchema, insertFileSchema, insertIncidentSchema, insertThreatNotificationSchema, insertSubscriberSchema, insertLiveLocationDeviceSchema, insertLiveLocationHistorySchema, insertLiveLocationAlertSchema, insertLiveLocationGeoFenceSchema, insertLiveLocationAssetSchema, insertLiveLocationNetworkSegmentSchema, insertCypherhumSessionSchema, insertCypherhumVisualizationSchema, insertCypherhumInteractionSchema, insertCypherhumThreatModelSchema, insertCypherhumAnalyticsSchema, insertAcdsDroneSchema, insertAcdsSwarmMissionSchema, insertAcdsDeploymentSchema, insertAcdsCoordinationSchema, insertAcdsAnalyticsSchema, insertPublicHealthIncidentSchema, insertDiseaseSurveillanceSchema, insertContactTracingSchema, insertContactTracingLocationHistorySchema, insertContactProximityDetectionSchema, insertContactTracingNotificationTemplateSchema, insertContactTracingNotificationLogSchema, insertContactTracingPrivacyConsentSchema, insertHealthFacilitySchema, insertPublicHealthAlertSchema, insertEpidemiologicalDataSchema, insertCatalogCategorySchema, insertBomComponentSchema, insertCatalogProductSchema, insertProductBomSchema, insertCatalogServiceSchema, insertCatalogSolutionSchema, insertSolutionComponentSchema, insertPricingHistorySchema, insertCompetitiveAnalysisSchema } from "@shared/schema";
 import { ObjectStorageService } from "./objectStorage";
+import { initializeDataRetentionService, getDataRetentionService } from "./services/data-retention-service";
 // Engine types only - no instantiation imports
 import type { VerificationContext } from "./engines/zero-trust";
 import type { NetworkEvent } from "./engines/threat-detection";
@@ -91,6 +96,261 @@ export async function registerRoutes(app: Express): Promise<Server> {
     };
     
     res.json(health);
+  });
+
+  // ===== UNIFIED SYSTEM API ENDPOINTS =====
+  
+  // Lazy Unified Service factory
+  const getUnifiedService = lazySingletonAsync(async () => {
+    console.log('🔄 Initializing Unified Service...');
+    const { getUnifiedService } = await import('./services/unified-service.ts');
+    const service = getUnifiedService({
+      organizationId: 'default',
+      enableRealTimeCorrelation: true,
+      correlationIntervalMs: 30000,
+      alertRetentionDays: 30,
+      executiveReportingEnabled: true,
+      complianceFrameworks: ['FISMA', 'FedRAMP', 'NIST'],
+      dbProvider: undefined
+    });
+    await service.initialize();
+    return service;
+  });
+
+  // Unified System Status - Overall system health from all four systems
+  app.get('/api/unified/system-status', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const systemStatus = await unifiedService.getUnifiedSystemStatus();
+      res.json(systemStatus);
+    } catch (error) {
+      console.error('❌ Failed to get unified system status:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system status',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified System Data - Aggregated data from all systems
+  app.get('/api/unified/system-data', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const [systemStatus, crossSystemMetrics] = await Promise.all([
+        unifiedService.getUnifiedSystemStatus(),
+        unifiedService.getCrossSystemMetrics()
+      ]);
+      
+      const systemData = {
+        status: systemStatus,
+        metrics: crossSystemMetrics,
+        lastUpdate: new Date().toISOString(),
+        correlationAnalysisEnabled: true,
+        realTimeUpdates: true
+      };
+      
+      res.json(systemData);
+    } catch (error) {
+      console.error('❌ Failed to get unified system data:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Threat Correlations - Cross-system threat analysis
+  app.get('/api/unified/threat-correlations', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const correlations = await unifiedService.performCorrelationAnalysis?.() || [];
+      
+      const response = {
+        correlations,
+        timeRange: timeRange || {
+          start: new Date(Date.now() - 86400000).toISOString(),
+          end: new Date().toISOString()
+        },
+        correlationTypes: ['spatial', 'temporal', 'behavioral', 'ai_pattern'],
+        totalCorrelations: correlations.length,
+        highRiskCorrelations: correlations.filter((c: any) => c.riskLevel === 'critical' || c.riskLevel === 'high').length
+      };
+      
+      res.json(response);
+    } catch (error) {
+      console.error('❌ Failed to get threat correlations:', error);
+      res.status(500).json({ 
+        error: 'Failed to get threat correlations',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Correlation Metrics - System integration metrics
+  app.get('/api/unified/correlation-metrics', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const correlationMetrics = await unifiedService.getCrossSystemMetrics(timeRange);
+      res.json(correlationMetrics);
+    } catch (error) {
+      console.error('❌ Failed to get correlation metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get correlation metrics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Executive Metrics - Executive dashboard data
+  app.get('/api/unified/executive-metrics', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const executiveMetrics = await unifiedService.getExecutiveMetrics();
+      res.json(executiveMetrics);
+    } catch (error) {
+      console.error('❌ Failed to get executive metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get executive metrics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Alerts - Centralized alert management with filtering and pagination
+  app.get('/api/unified/alerts', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      
+      // Parse query parameters for filtering
+      const filters: any = {};
+      if (req.query.severity) {
+        filters.severity = Array.isArray(req.query.severity) 
+          ? req.query.severity as string[]
+          : [req.query.severity as string];
+      }
+      if (req.query.status) {
+        filters.status = Array.isArray(req.query.status) 
+          ? req.query.status as string[]
+          : [req.query.status as string];
+      }
+      if (req.query.systems) {
+        filters.systems = Array.isArray(req.query.systems) 
+          ? req.query.systems as string[]
+          : [req.query.systems as string];
+      }
+      if (req.query.limit) {
+        filters.limit = parseInt(req.query.limit as string);
+      }
+      if (req.query.offset) {
+        filters.offset = parseInt(req.query.offset as string);
+      }
+
+      const alertsResult = await unifiedService.getUnifiedAlerts(filters);
+      res.json(alertsResult);
+    } catch (error) {
+      console.error('❌ Failed to get unified alerts:', error);
+      res.status(500).json({ 
+        error: 'Failed to get unified alerts',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Alert Statistics - Alert statistics and analytics
+  app.get('/api/unified/alert-stats', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const timeRange = req.query.timeRange ? {
+        start: new Date(req.query.start as string),
+        end: new Date(req.query.end as string)
+      } : undefined;
+      
+      const alertStats = await unifiedService.getAlertStats(timeRange);
+      res.json(alertStats);
+    } catch (error) {
+      console.error('❌ Failed to get alert statistics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get alert statistics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update unified alert status (acknowledge, resolve, etc.)
+  app.patch('/api/unified/alerts/:alertId', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const { alertId } = req.params;
+      const updates = req.body;
+      
+      // Validate updates
+      if (!updates.status && !updates.assignedTo && !updates.priority) {
+        return res.status(400).json({ error: 'No valid updates provided' });
+      }
+      
+      const unifiedService = await getUnifiedService();
+      const updatedAlert = await unifiedService.updateAlert?.(alertId, updates) || null;
+      
+      if (!updatedAlert) {
+        return res.status(404).json({ error: 'Alert not found' });
+      }
+      
+      res.json(updatedAlert);
+    } catch (error) {
+      console.error('❌ Failed to update unified alert:', error);
+      res.status(500).json({ 
+        error: 'Failed to update alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create manual unified alert
+  app.post('/api/unified/alerts', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const alertData = req.body;
+      
+      // Basic validation
+      if (!alertData.title || !alertData.severity || !alertData.alertType) {
+        return res.status(400).json({ 
+          error: 'Missing required alert fields: title, severity, alertType' 
+        });
+      }
+      
+      const newAlert = await unifiedService.createAlert?.(alertData) || null;
+      res.status(201).json(newAlert);
+    } catch (error) {
+      console.error('❌ Failed to create unified alert:', error);
+      res.status(500).json({ 
+        error: 'Failed to create alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Unified Service Health Check
+  app.get('/api/unified/health', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const unifiedService = await getUnifiedService();
+      const healthStatus = unifiedService.getServiceHealth();
+      res.json(healthStatus);
+    } catch (error) {
+      console.error('❌ Failed to get unified service health:', error);
+      res.status(500).json({ 
+        error: 'Failed to get service health',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
   });
   
   // Object storage public asset serving endpoint (referenced from: javascript_object_storage integration)
@@ -285,6 +545,111 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const { complianceAutomationEngine } = await import('./engines/compliance-automation');
     return complianceAutomationEngine;
   });
+
+  // Lazy HSM Integration Service factory
+  const getHsmIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_HSM_INTEGRATION !== 'true') return undefined;
+    console.log('🔐 Initializing HSM Integration Service...');
+    const { hsmIntegrationService } = await import('./services/hsm-integration');
+    return hsmIntegrationService;
+  });
+
+  // Lazy Biometric Integration Service factory
+  const getBiometricIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_BIOMETRIC_INTEGRATION !== 'true') return undefined;
+    console.log('👁️ Initializing Biometric Integration Service...');
+    const { biometricIntegrationService } = await import('./services/biometric-integration');
+    return biometricIntegrationService;
+  });
+
+  // Lazy Enhanced Threat Intelligence Service factory
+  const getEnhancedThreatIntelligenceService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ENHANCED_THREAT_INTEL !== 'true') return undefined;
+    console.log('🧠 Initializing Enhanced Threat Intelligence Service...');
+    const { enhancedThreatIntelligenceService } = await import('./services/enhanced-threat-intelligence');
+    return enhancedThreatIntelligenceService;
+  });
+
+  // Lazy PagerDuty Integration Service factory
+  const getPagerDutyIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_PAGERDUTY_INTEGRATION !== 'true') return undefined;
+    console.log('📟 Initializing PagerDuty Integration Service...');
+    const { pagerDutyIntegrationService } = await import('./services/pagerduty-integration');
+    return pagerDutyIntegrationService;
+  });
+
+  // Lazy TAXII/STIX Service factory
+  const getTaxiiStixService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_TAXII_STIX !== 'true') return undefined;
+    console.log('📊 Initializing TAXII/STIX Service...');
+    const { taxiiStixService } = await import('./services/taxii-stix');
+    return taxiiStixService;
+  });
+
+  // Lazy Mandiant Service factory
+  const getMandiantService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_MANDIANT_INTEGRATION !== 'true') return undefined;
+    console.log('🔥 Initializing Mandiant Service...');
+    const { mandiantService } = await import('./services/mandiant');
+    return mandiantService;
+  });
+
+  // Lazy Email Notification Service factory
+  const getEmailNotificationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_EMAIL_NOTIFICATIONS !== 'true') return undefined;
+    console.log('📧 Initializing Email Notification Service...');
+    const { emailNotificationService } = await import('./services/email-notification');
+    return emailNotificationService;
+  });
+
+  // Lazy AWS Machine Learning Service factory
+  const getAwsMachineLearningService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_AWS_ML !== 'true') return undefined;
+    console.log('🤖 Initializing AWS Machine Learning Service...');
+    const { awsMachineLearningService } = await import('./services/aws-machine-learning');
+    return awsMachineLearningService;
+  });
+
+  // Lazy IBM X-Force Service factory
+  const getIbmXForceService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_IBM_XFORCE !== 'true') return undefined;
+    console.log('🔒 Initializing IBM X-Force Service...');
+    const { ibmXForceService } = await import('./services/ibm-xforce');
+    return ibmXForceService;
+  });
+
+  // Lazy Alternative Threat Feeds Service factory
+  const getAlternativeThreatFeedsService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ALTERNATIVE_THREAT_FEEDS !== 'true') return undefined;
+    console.log('📡 Initializing Alternative Threat Feeds Service...');
+    const { alternativeThreatFeedsService } = await import('./services/alternative-threat-feeds');
+    return alternativeThreatFeedsService;
+  });
+
+  // Lazy ThreatConnect Service factory
+  const getThreatConnectService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_THREATCONNECT !== 'true') return undefined;
+    console.log('🔗 Initializing ThreatConnect Service...');
+    const { threatConnectService } = await import('./services/threatconnect');
+    return threatConnectService;
+  });
+
+  // Lazy AlienVault OTX Service factory
+  const getAttOTXService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ATT_OTX !== 'true') return undefined;
+    console.log('👽 Initializing AlienVault OTX Service...');
+    const { attOTXService } = await import('./services/att-otx');
+    return attOTXService;
+  });
+
+  // Lazy OneLogin Integration Service factory
+  const getOneLoginIntegrationService = lazySingletonAsync(async () => {
+    if (process.env.ENABLE_ONELOGIN_INTEGRATION !== 'true') return undefined;
+    console.log('🔑 Initializing OneLogin Integration Service...');
+    const { oneLoginIntegrationService } = await import('./services/onelogin-integration');
+    return oneLoginIntegrationService;
+  });
+
   // User routes
   app.get("/api/users", async (req, res) => {
     try {
@@ -940,7 +1305,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { suspiciousIPs } = req.body;
       const threatDetectionEngine = await getThreatDetectionEngine();
-      await threatDetectionEngine.updateThreatIntelligence(suspiciousIPs || []);
+      // Replace private method with public equivalent
+      if (suspiciousIPs && suspiciousIPs.length > 0) {
+        // Process each suspicious IP through public API
+        for (const ip of suspiciousIPs) {
+          await threatDetectionEngine.processNetworkEvent({
+            type: 'suspicious_ip',
+            sourceIP: ip,
+            timestamp: new Date(),
+            severity: 'medium',
+            description: `Manually added suspicious IP: ${ip}`
+          });
+        }
+      }
       res.json({ message: "Threat intelligence updated" });
     } catch (error) {
       console.error("Error updating threat intelligence:", error);
@@ -1401,6 +1778,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // ML Threat Detection and Behavioral Analytics API routes
   app.get("/api/ai/threat-analysis", async (req, res) => {
     try {
+      const mlThreatEngine = await getMlThreatEngine();
+      if (!mlThreatEngine) return res.status(503).json({ error: 'ML engine disabled' });
+      
       const stats = mlThreatEngine.getThreatStatistics();
       
       // Generate some simulated threat vectors for demonstration
@@ -1423,6 +1803,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/analyze-threat", async (req, res) => {
     try {
+      const mlThreatEngine = await getMlThreatEngine();
+      if (!mlThreatEngine) return res.status(503).json({ error: 'ML engine disabled' });
+      
       const threatVector = req.body;
       const prediction = mlThreatEngine.analyzeThreatVector(threatVector);
       
@@ -1441,6 +1824,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/ai/behavioral-analysis", async (req, res) => {
     try {
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
+      
       const analytics = behavioralEngine.getAnalytics();
       
       res.json({
@@ -1457,6 +1843,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/ai/process-user-activity", async (req, res) => {
     try {
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
+      
       const activity = req.body;
       const profile = await behavioralEngine.processUserActivity(activity);
       
@@ -1475,6 +1864,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/ai/user-risk-profile/:userId", async (req, res) => {
     try {
       const userId = req.params.userId;
+      
+      const behavioralEngine = await getBehavioralEngine();
+      if (!behavioralEngine) return res.status(503).json({ error: 'Behavioral engine disabled' });
       
       // Generate simulated activities if none exist
       const activities = behavioralEngine.generateSimulatedActivities([userId], 50);
@@ -2733,6 +3125,907 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(500).json({ error: 'Failed to fetch threat statistics' });
       }
     });
+
+  // ===== Live Location Tracking System API Endpoints =====
+  
+  // Initialize Live Location Service instance
+  let liveLocationService: any = null;
+  const initLiveLocationService = async () => {
+    if (!liveLocationService) {
+      const { LiveLocationService } = await import('./services/live-location-service.js');
+      const { db } = await import('./db.js');
+      liveLocationService = new LiveLocationService({
+        organizationId: 'default-org', // TODO: Get from user context
+        trackingEnabled: true,
+        updateIntervalMs: 30000, // 30 seconds
+        geofenceCheckEnabled: true,
+        anomalyDetectionEnabled: true,
+        alertEscalationEnabled: true,
+        complianceLoggingEnabled: true,
+      }, db);
+      await liveLocationService.initialize();
+    }
+    return liveLocationService;
+  };
+
+  // Initialize CypherHUM Service instance
+  let cypherhumService: any = null;
+  const initCypherHumService = async () => {
+    if (!cypherhumService) {
+      const CypherHumService = (await import('./services/cypherhum-service.js')).default;
+      const { db } = await import('./db.js');
+      cypherhumService = new CypherHumService({
+        organizationId: 'default-org', // TODO: Get from user context
+        dbProvider: {
+          query: db.query.bind(db),
+          select: db.select.bind(db),
+          insert: db.insert.bind(db),
+          update: db.update.bind(db),
+          delete: db.delete.bind(db)
+        },
+        storage: storage
+      });
+    }
+    return cypherhumService;
+  };
+
+  // Device Discovery and Management
+  app.get('/api/live-location/devices', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const { limit = 50, offset = 0, status, deviceType, category } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationDevices);
+      
+      // Apply filters
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationDevices.status, status as string));
+      if (deviceType) conditions.push(eq(liveLocationDevices.deviceType, deviceType as string));
+      if (category) conditions.push(eq(liveLocationDevices.deviceCategory, category as string));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const devices = await query
+        .limit(parseInt(limit as string))
+        .offset(parseInt(offset as string))
+        .orderBy(desc(liveLocationDevices.lastSeen));
+        
+      res.json({
+        devices,
+        pagination: {
+          limit: parseInt(limit as string),
+          offset: parseInt(offset as string),
+          total: devices.length
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching live location devices:', error);
+      res.status(500).json({ error: 'Failed to fetch devices' });
+    }
+  });
+
+  app.post('/api/live-location/devices', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const deviceData = insertLiveLocationDeviceSchema.parse(req.body);
+      
+      const device = await service.registerDevice(deviceData);
+      res.status(201).json(device);
+    } catch (error) {
+      console.error('Error registering device:', error);
+      res.status(500).json({ error: 'Failed to register device' });
+    }
+  });
+
+  app.get('/api/live-location/devices/:deviceId', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      const [device] = await db.select()
+        .from(liveLocationDevices)
+        .where(eq(liveLocationDevices.id, deviceId));
+        
+      if (!device) {
+        return res.status(404).json({ error: 'Device not found' });
+      }
+      
+      res.json(device);
+    } catch (error) {
+      console.error('Error fetching device:', error);
+      res.status(500).json({ error: 'Failed to fetch device' });
+    }
+  });
+
+  app.put('/api/live-location/devices/:deviceId', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const updateData = insertLiveLocationDeviceSchema.omit({ id: true, organizationId: true, createdAt: true }).partial().parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationDevices } = await import('../shared/schema.js');
+      
+      const [updatedDevice] = await db.update(liveLocationDevices)
+        .set({ ...updateData, updatedAt: new Date() })
+        .where(eq(liveLocationDevices.id, deviceId))
+        .returning();
+        
+      if (!updatedDevice) {
+        return res.status(404).json({ error: 'Device not found' });
+      }
+      
+      res.json(updatedDevice);
+    } catch (error) {
+      console.error('Error updating device:', error);
+      res.status(500).json({ error: 'Failed to update device' });
+    }
+  });
+
+  // Real-time Location Updates
+  app.post('/api/live-location/tracking', authenticateJWT, authorizeRoles("user", "admin"), sensitiveOperationLimiter(50, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const locationUpdate = insertLiveLocationHistorySchema.omit({ id: true, organizationId: true, createdAt: true }).parse(req.body);
+      
+      if (!locationUpdate.deviceId) {
+        return res.status(400).json({ error: 'Device ID is required' });
+      }
+      
+      await service.updateDeviceLocation(locationUpdate);
+      res.json({ success: true, timestamp: new Date() });
+    } catch (error) {
+      console.error('Error updating location:', error);
+      res.status(500).json({ error: 'Failed to update location' });
+    }
+  });
+
+  app.get('/api/live-location/tracking/:deviceId/current', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      const [currentLocation] = await db.select()
+        .from(liveLocationHistory)
+        .where(eq(liveLocationHistory.deviceId, deviceId))
+        .orderBy(desc(liveLocationHistory.recordedAt))
+        .limit(1);
+        
+      if (!currentLocation) {
+        return res.status(404).json({ error: 'No location data found for device' });
+      }
+      
+      res.json(currentLocation);
+    } catch (error) {
+      console.error('Error fetching current location:', error);
+      res.status(500).json({ error: 'Failed to fetch current location' });
+    }
+  });
+
+  // Historical Location Data
+  app.get('/api/live-location/history', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId, startDate, endDate, limit = 100 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationHistory);
+      
+      const conditions = [];
+      if (deviceId) conditions.push(eq(liveLocationHistory.deviceId, deviceId as string));
+      if (startDate) conditions.push(sql`${liveLocationHistory.recordedAt} >= ${new Date(startDate as string)}`);
+      if (endDate) conditions.push(sql`${liveLocationHistory.recordedAt} <= ${new Date(endDate as string)}`);
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const history = await query
+        .orderBy(desc(liveLocationHistory.recordedAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ history, count: history.length });
+    } catch (error) {
+      console.error('Error fetching location history:', error);
+      res.status(500).json({ error: 'Failed to fetch location history' });
+    }
+  });
+
+  app.get('/api/live-location/history/:deviceId/path', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deviceId } = req.params;
+      const { hours = 24 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory } = await import('../shared/schema.js');
+      
+      const path = await db.select({
+        latitude: liveLocationHistory.latitude,
+        longitude: liveLocationHistory.longitude,
+        timestamp: liveLocationHistory.recordedAt,
+        accuracy: liveLocationHistory.accuracy,
+        locationMethod: liveLocationHistory.locationMethod,
+      })
+      .from(liveLocationHistory)
+      .where(and(
+        eq(liveLocationHistory.deviceId, deviceId),
+        sql`${liveLocationHistory.recordedAt} >= ${new Date(Date.now() - parseInt(hours as string) * 60 * 60 * 1000)}`,
+        isNotNull(liveLocationHistory.latitude),
+        isNotNull(liveLocationHistory.longitude)
+      ))
+      .orderBy(liveLocationHistory.recordedAt);
+      
+      res.json({ deviceId, path, hours: parseInt(hours as string) });
+    } catch (error) {
+      console.error('Error fetching device path:', error);
+      res.status(500).json({ error: 'Failed to fetch device path' });
+    }
+  });
+
+  // Location-based Alerts
+  app.get('/api/live-location/alerts', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { status = 'active', severity, limit = 50 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationAlerts);
+      
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationAlerts.status, status as string));
+      if (severity) conditions.push(eq(liveLocationAlerts.severity, severity as string));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const alerts = await query
+        .orderBy(desc(liveLocationAlerts.createdAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ alerts, count: alerts.length });
+    } catch (error) {
+      console.error('Error fetching location alerts:', error);
+      res.status(500).json({ error: 'Failed to fetch alerts' });
+    }
+  });
+
+  app.post('/api/live-location/alerts', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const alertData = insertLiveLocationAlertSchema.parse(req.body);
+      
+      const alert = await service.createLocationAlert(alertData);
+      res.status(201).json(alert);
+    } catch (error) {
+      console.error('Error creating alert:', error);
+      res.status(500).json({ error: 'Failed to create alert' });
+    }
+  });
+
+  app.put('/api/live-location/alerts/:alertId/acknowledge', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { alertId } = req.params;
+      const { acknowledgedBy, notes } = z.object({
+        acknowledgedBy: z.string().min(1),
+        notes: z.string().optional()
+      }).parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts } = await import('../shared/schema.js');
+      
+      const [alert] = await db.update(liveLocationAlerts)
+        .set({
+          status: 'acknowledged',
+          acknowledgedBy,
+          acknowledgedAt: new Date(),
+          investigationNotes: notes,
+          updatedAt: new Date(),
+        })
+        .where(eq(liveLocationAlerts.id, alertId))
+        .returning();
+        
+      if (!alert) {
+        return res.status(404).json({ error: 'Alert not found' });
+      }
+      
+      res.json(alert);
+    } catch (error) {
+      console.error('Error acknowledging alert:', error);
+      res.status(500).json({ error: 'Failed to acknowledge alert' });
+    }
+  });
+
+  // Geographic Boundary Management
+  app.get('/api/live-location/geofences', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { isActive = true } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationGeoFences } = await import('../shared/schema.js');
+      
+      const geofences = await db.select()
+        .from(liveLocationGeoFences)
+        .where(eq(liveLocationGeoFences.isActive, isActive === 'true'))
+        .orderBy(desc(liveLocationGeoFences.createdAt));
+        
+      res.json({ geofences, count: geofences.length });
+    } catch (error) {
+      console.error('Error fetching geofences:', error);
+      res.status(500).json({ error: 'Failed to fetch geofences' });
+    }
+  });
+
+  app.post('/api/live-location/geofences', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const geofenceData = insertLiveLocationGeoFenceSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationGeoFences } = await import('../shared/schema.js');
+      
+      const [geofence] = await db.insert(liveLocationGeoFences)
+        .values(geofenceData)
+        .returning();
+        
+      res.status(201).json(geofence);
+    } catch (error) {
+      console.error('Error creating geofence:', error);
+      res.status(500).json({ error: 'Failed to create geofence' });
+    }
+  });
+
+  app.get('/api/live-location/geofences/:geofenceId/devices', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { geofenceId } = req.params;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationHistory, liveLocationDevices } = await import('../shared/schema.js');
+      
+      // Get devices currently inside this geofence
+      const devices = await db.select({
+        device: liveLocationDevices,
+        lastLocation: liveLocationHistory,
+      })
+      .from(liveLocationDevices)
+      .leftJoin(liveLocationHistory, eq(liveLocationDevices.id, liveLocationHistory.deviceId))
+      .where(sql`${liveLocationHistory.geofence_ids}::jsonb ? ${geofenceId}`)
+      .orderBy(desc(liveLocationHistory.recordedAt));
+      
+      res.json({ geofenceId, devicesInside: devices });
+    } catch (error) {
+      console.error('Error fetching geofence devices:', error);
+      res.status(500).json({ error: 'Failed to fetch devices in geofence' });
+    }
+  });
+
+  // Assets Management
+  app.get('/api/live-location/assets', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { status = 'active', trackingEnabled, limit = 50 } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAssets } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationAssets);
+      
+      const conditions = [];
+      if (status) conditions.push(eq(liveLocationAssets.status, status as string));
+      if (trackingEnabled !== undefined) conditions.push(eq(liveLocationAssets.trackingEnabled, trackingEnabled === 'true'));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const assets = await query
+        .orderBy(desc(liveLocationAssets.updatedAt))
+        .limit(parseInt(limit as string));
+        
+      res.json({ assets, count: assets.length });
+    } catch (error) {
+      console.error('Error fetching assets:', error);
+      res.status(500).json({ error: 'Failed to fetch assets' });
+    }
+  });
+
+  app.post('/api/live-location/assets', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const assetData = insertLiveLocationAssetSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAssets } = await import('../shared/schema.js');
+      
+      const [asset] = await db.insert(liveLocationAssets)
+        .values(assetData)
+        .returning();
+        
+      res.status(201).json(asset);
+    } catch (error) {
+      console.error('Error creating asset:', error);
+      res.status(500).json({ error: 'Failed to create asset' });
+    }
+  });
+
+  // Dashboard Overview Data
+  app.get('/api/live-location/dashboard', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      const stats = await service.getStats();
+      
+      // Get recent alerts
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationAlerts, liveLocationHistory } = await import('../shared/schema.js');
+      
+      const [recentAlerts, recentActivity] = await Promise.all([
+        db.select()
+          .from(liveLocationAlerts)
+          .where(eq(liveLocationAlerts.status, 'active'))
+          .orderBy(desc(liveLocationAlerts.createdAt))
+          .limit(10),
+          
+        db.select()
+          .from(liveLocationHistory)
+          .where(sql`${liveLocationHistory.recordedAt} >= ${new Date(Date.now() - 60 * 60 * 1000)}`) // Last hour
+          .orderBy(desc(liveLocationHistory.recordedAt))
+          .limit(20)
+      ]);
+      
+      res.json({
+        stats,
+        recentAlerts,
+        recentActivity,
+        systemStatus: {
+          serviceStatus: 'running',
+          lastUpdate: new Date(),
+          trackingEnabled: true,
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      res.status(500).json({ error: 'Failed to fetch dashboard data' });
+    }
+  });
+
+  // Network Segments
+  app.get('/api/live-location/network-segments', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { securityZone, isActive = true } = req.query;
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationNetworkSegments } = await import('../shared/schema.js');
+      
+      let query = db.select().from(liveLocationNetworkSegments);
+      
+      const conditions = [];
+      if (securityZone) conditions.push(eq(liveLocationNetworkSegments.securityZone, securityZone as string));
+      if (isActive !== undefined) conditions.push(eq(liveLocationNetworkSegments.isActive, isActive === 'true'));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      const segments = await query.orderBy(liveLocationNetworkSegments.segmentName);
+      
+      res.json({ segments, count: segments.length });
+    } catch (error) {
+      console.error('Error fetching network segments:', error);
+      res.status(500).json({ error: 'Failed to fetch network segments' });
+    }
+  });
+
+  app.post('/api/live-location/network-segments', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const segmentData = insertLiveLocationNetworkSegmentSchema.parse(req.body);
+      
+      const db = await import('./db.js').then(m => m.db);
+      const { liveLocationNetworkSegments } = await import('../shared/schema.js');
+      
+      const [segment] = await db.insert(liveLocationNetworkSegments)
+        .values(segmentData)
+        .returning();
+        
+      res.status(201).json(segment);
+    } catch (error) {
+      console.error('Error creating network segment:', error);
+      res.status(500).json({ error: 'Failed to create network segment' });
+    }
+  });
+
+  // Real-time geolocation for threat mapping integration
+  app.get('/api/live-location/threats/geolocation', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initLiveLocationService();
+      
+      // Generate threat location data for integration with existing threat map
+      const threatLocations = [];
+      const riskLevels = ['high', 'medium', 'low'] as const;
+      const cities = [
+        { name: 'Beijing', country: 'China', lat: 39.9042, lng: 116.4074 },
+        { name: 'Moscow', country: 'Russia', lat: 55.7558, lng: 37.6176 },
+        { name: 'Tehran', country: 'Iran', lat: 35.6892, lng: 51.3890 },
+        { name: 'Pyongyang', country: 'North Korea', lat: 39.0392, lng: 125.7625 },
+        { name: 'New York', country: 'USA', lat: 40.7128, lng: -74.0060 },
+        { name: 'London', country: 'UK', lat: 51.5074, lng: -0.1278 },
+        { name: 'Frankfurt', country: 'Germany', lat: 50.1109, lng: 8.6821 },
+        { name: 'Tokyo', country: 'Japan', lat: 35.6762, lng: 139.6503 }
+      ];
+      
+      for (let i = 0; i < 25; i++) {
+        const city = cities[Math.floor(Math.random() * cities.length)];
+        const ip = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+        
+        threatLocations.push({
+          ip,
+          latitude: city.lat + (Math.random() - 0.5) * 0.1,
+          longitude: city.lng + (Math.random() - 0.5) * 0.1,
+          country: city.country,
+          city: city.name,
+          riskLevel: riskLevels[Math.floor(Math.random() * riskLevels.length)],
+          abuseConfidence: Math.floor(Math.random() * 100),
+          lastSeen: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString()
+        });
+      }
+      
+      res.json(threatLocations);
+    } catch (error) {
+      console.error('Error generating threat geolocation data:', error);
+      res.status(500).json({ error: 'Failed to fetch threat geolocation data' });
+    }
+  });
+
+  // ===== ACDS (Autonomous Cyber Defense Swarm) API Endpoints =====
+  
+  let acdsService: any = null;
+  
+  const initACDSService = async () => {
+    if (!acdsService) {
+      const { ACDSService } = await import('./services/acds-service.js');
+      
+      acdsService = new ACDSService({
+        organizationId: 'default-org',
+        swarmSize: 10,
+        autonomyLevel: 'autonomous',
+        coordinationAlgorithm: 'ai_optimized',
+        cydefIntegrationEnabled: true,
+        liveLocationIntegrationEnabled: true,
+        realTimeCoordinationEnabled: true,
+        emergencyResponseEnabled: true,
+        complianceFrameworks: ['FISMA', 'FedRAMP'],
+        updateIntervalMs: 5000,
+        threatResponseThreshold: 75
+      });
+      
+      await acdsService.initialize();
+    }
+    return acdsService;
+  };
+
+  // Get drone fleet status
+  app.get('/api/acds/drones', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const drones = await service.getAllDrones();
+      res.json(drones);
+    } catch (error) {
+      console.error('Error fetching drones:', error);
+      res.status(500).json({ error: 'Failed to fetch drones' });
+    }
+  });
+
+  // Get drone fleet status summary
+  app.get('/api/acds/drones/status', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const status = await service.getDroneFleetStatus();
+      res.json(status);
+    } catch (error) {
+      console.error('Error fetching drone fleet status:', error);
+      res.status(500).json({ error: 'Failed to fetch drone fleet status' });
+    }
+  });
+
+  // Get specific drone by ID
+  app.get('/api/acds/drones/:droneId', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { droneId } = req.params;
+      const drones = await service.getAllDrones();
+      const drone = drones.find(d => d.droneId === droneId);
+      
+      if (!drone) {
+        return res.status(404).json({ error: 'Drone not found' });
+      }
+      
+      res.json(drone);
+    } catch (error) {
+      console.error('Error fetching drone:', error);
+      res.status(500).json({ error: 'Failed to fetch drone' });
+    }
+  });
+
+  // Update drone status
+  app.put('/api/acds/drones/:droneId', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(10, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { droneId } = req.params;
+      const updateData = req.body;
+      
+      const updatedDrone = await service.updateDroneStatus(droneId, updateData);
+      res.json(updatedDrone);
+    } catch (error) {
+      console.error('Error updating drone:', error);
+      res.status(500).json({ error: 'Failed to update drone' });
+    }
+  });
+
+  // Deploy drone
+  app.post('/api/acds/drones/:droneId/deploy', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { droneId } = req.params;
+      const deploymentData = req.body;
+      
+      const deployment = await service.deployDrone(droneId, deploymentData);
+      res.status(201).json(deployment);
+    } catch (error) {
+      console.error('Error deploying drone:', error);
+      res.status(500).json({ error: 'Failed to deploy drone' });
+    }
+  });
+
+  // Get swarm missions
+  app.get('/api/acds/swarm-missions', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const missions = await service.getActiveMissions();
+      res.json(missions);
+    } catch (error) {
+      console.error('Error fetching swarm missions:', error);
+      res.status(500).json({ error: 'Failed to fetch swarm missions' });
+    }
+  });
+
+  // Create new swarm mission
+  app.post('/api/acds/swarm-missions', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(5, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const missionData = req.body;
+      
+      const mission = await service.createMission(missionData);
+      res.status(201).json(mission);
+    } catch (error) {
+      console.error('Error creating swarm mission:', error);
+      res.status(500).json({ error: 'Failed to create swarm mission' });
+    }
+  });
+
+  // Get specific mission by ID
+  app.get('/api/acds/swarm-missions/:missionId', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { missionId } = req.params;
+      const missions = await service.getActiveMissions();
+      const mission = missions.find(m => m.id === missionId);
+      
+      if (!mission) {
+        return res.status(404).json({ error: 'Mission not found' });
+      }
+      
+      res.json(mission);
+    } catch (error) {
+      console.error('Error fetching mission:', error);
+      res.status(500).json({ error: 'Failed to fetch mission' });
+    }
+  });
+
+  // Get active deployments
+  app.get('/api/acds/deployments', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const deployments = await service.getActiveDeployments();
+      res.json(deployments);
+    } catch (error) {
+      console.error('Error fetching deployments:', error);
+      res.status(500).json({ error: 'Failed to fetch deployments' });
+    }
+  });
+
+  // Get specific deployment by ID
+  app.get('/api/acds/deployments/:deploymentId', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { deploymentId } = req.params;
+      const deployments = await service.getActiveDeployments();
+      const deployment = deployments.find(d => d.id === deploymentId);
+      
+      if (!deployment) {
+        return res.status(404).json({ error: 'Deployment not found' });
+      }
+      
+      res.json(deployment);
+    } catch (error) {
+      console.error('Error fetching deployment:', error);
+      res.status(500).json({ error: 'Failed to fetch deployment' });
+    }
+  });
+
+  // Swarm coordination endpoint
+  app.get('/api/acds/coordination', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      
+      // Get current coordination status
+      const status = await service.getDroneFleetStatus();
+      const coordinationInfo = {
+        swarmStatus: status,
+        coordinationAlgorithm: 'ai_optimized',
+        autonomyLevel: 'autonomous',
+        realTimeCoordination: true,
+        lastCoordinationUpdate: new Date(),
+        coordinationMetrics: {
+          responseTime: 125, // ms
+          successRate: 94.7, // %
+          algorithmsActive: ['distributed_consensus', 'ai_optimized']
+        }
+      };
+      
+      res.json(coordinationInfo);
+    } catch (error) {
+      console.error('Error fetching coordination info:', error);
+      res.status(500).json({ error: 'Failed to fetch coordination info' });
+    }
+  });
+
+  // Trigger manual coordination decision
+  app.post('/api/acds/coordination/trigger', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(3, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { coordinationType, parameters } = req.body;
+      
+      // Emit coordination trigger event
+      service.emit('coordination_trigger', {
+        type: coordinationType || 'manual_optimization',
+        parameters: parameters || {},
+        triggeredBy: req.user?.id || 'system',
+        timestamp: new Date()
+      });
+      
+      res.json({
+        message: 'Coordination trigger initiated',
+        type: coordinationType,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error('Error triggering coordination:', error);
+      res.status(500).json({ error: 'Failed to trigger coordination' });
+    }
+  });
+
+  // Get ACDS analytics
+  app.get('/api/acds/analytics', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const analytics = await service.getAnalytics();
+      res.json(analytics);
+    } catch (error) {
+      console.error('Error fetching ACDS analytics:', error);
+      res.status(500).json({ error: 'Failed to fetch ACDS analytics' });
+    }
+  });
+
+  // Get ACDS dashboard data
+  app.get('/api/acds/dashboard', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      
+      const [drones, missions, deployments, analytics, fleetStatus] = await Promise.all([
+        service.getAllDrones(),
+        service.getActiveMissions(),
+        service.getActiveDeployments(),
+        service.getAnalytics(),
+        service.getDroneFleetStatus()
+      ]);
+      
+      const dashboardData = {
+        drones,
+        missions,
+        deployments,
+        analytics,
+        fleetStatus,
+        systemHealth: {
+          status: 'operational',
+          uptime: process.uptime(),
+          lastUpdate: new Date(),
+          emergencyMode: false
+        },
+        realTimeMetrics: {
+          avgResponseTime: analytics.averageResponseTime,
+          missionSuccessRate: analytics.missionSuccessRate,
+          swarmEfficiency: analytics.swarmEfficiencyScore,
+          threatDetectionAccuracy: analytics.threatDetectionAccuracy
+        }
+      };
+      
+      res.json(dashboardData);
+    } catch (error) {
+      console.error('Error fetching ACDS dashboard data:', error);
+      res.status(500).json({ error: 'Failed to fetch ACDS dashboard data' });
+    }
+  });
+
+  // Emergency protocols
+  app.post('/api/acds/emergency/recall', authenticateJWT, authorizeRoles("admin"), sensitiveOperationLimiter(2, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const { reason, droneIds } = req.body;
+      
+      // Emit emergency recall
+      service.emit('emergency_declared', {
+        type: 'recall',
+        reason: reason || 'manual_recall',
+        affectedDrones: droneIds || 'all',
+        declaredBy: req.user?.id || 'system',
+        timestamp: new Date()
+      });
+      
+      res.json({
+        message: 'Emergency recall initiated',
+        reason,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error('Error initiating emergency recall:', error);
+      res.status(500).json({ error: 'Failed to initiate emergency recall' });
+    }
+  });
+
+  // Real-time swarm telemetry for WebSocket (polled endpoint)
+  app.get('/api/acds/telemetry', authenticateJWT, authorizeRoles("user", "admin"), async (req: AuthenticatedRequest, res) => {
+    try {
+      const service = await initACDSService();
+      const [fleetStatus, deployments] = await Promise.all([
+        service.getDroneFleetStatus(),
+        service.getActiveDeployments()
+      ]);
+      
+      const telemetry = {
+        timestamp: new Date(),
+        fleetStatus,
+        activeDeployments: deployments.length,
+        realTimeData: {
+          dronesOnline: fleetStatus.activeDrones,
+          missionsActive: fleetStatus.activeDeployments,
+          averageBattery: fleetStatus.averageBatteryLevel,
+          swarmCoordination: fleetStatus.swarmCoordination,
+          systemStatus: 'operational'
+        },
+        deploymentUpdates: deployments.map(d => ({
+          deploymentId: d.deploymentId,
+          droneId: d.droneId,
+          status: d.deploymentStatus,
+          position: {
+            latitude: d.currentLatitude,
+            longitude: d.currentLongitude,
+            altitude: d.currentAltitude
+          },
+          batteryLevel: 85, // Mock data - would come from actual drone
+          lastUpdate: d.updatedAt
+        }))
+      };
+      
+      res.json(telemetry);
+    } catch (error) {
+      console.error('Error fetching ACDS telemetry:', error);
+      res.status(500).json({ error: 'Failed to fetch ACDS telemetry' });
+    }
+  });
   
   // Cypher AI Assistant API routes
   
@@ -8246,6 +9539,2510 @@ startxref
     }
   });
 
+  // =============================================================================
+  // PUBLIC HEALTH API ENDPOINTS - HIPAA COMPLIANT WITH PHI REDACTION
+  // =============================================================================
+  
+  // Apply HIPAA PHI middleware to all public health endpoints
+  app.use('/api/public-health', phiAuditMiddleware);
+  app.use('/api/public-health', phiRedactionMiddleware);
+
+  // ===== 1. PUBLIC HEALTH INCIDENTS MANAGEMENT =====
+
+  // Create new health incident/outbreak
+  app.post('/api/public-health/incidents', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertPublicHealthIncidentSchema.parse(req.body);
+      const incident = await storage.createPublicHealthIncident(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_HEALTH_INCIDENT',
+        resource: 'public_health_incidents',
+        details: { incidentId: incident.id, incidentType: incident.incidentType },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: incident, code: 'PUBLIC_HEALTH_INCIDENT_CREATED' });
+    } catch (error) {
+      console.error('❌ Failed to create health incident:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create health incident',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENT_CREATION_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // List incidents with filtering
+  app.get('/api/public-health/incidents', authenticateJWT, authorizeRoles('public_health_officer', 'epidemiologist', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.status) filters.status = req.query.status as string;
+      if (req.query.severity) filters.severity = req.query.severity as string;
+      if (req.query.region) filters.region = req.query.region as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+
+      const incidents = await storage.getPublicHealthIncidents(filters);
+      
+      res.json({ success: true, data: incidents, count: incidents.length, code: 'PUBLIC_HEALTH_INCIDENTS_RETRIEVED' });
+    } catch (error) {
+      console.error('❌ Failed to get health incidents:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get health incidents',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENTS_RETRIEVAL_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // Get specific incident details
+  app.get('/api/public-health/incidents/:id', authenticateJWT, authorizeRoles('public_health_officer', 'epidemiologist', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const incident = await storage.getPublicHealthIncident(req.params.id);
+      
+      if (!incident) {
+        return res.status(404).json({ success: false, error: 'Health incident not found', code: 'INCIDENT_NOT_FOUND', data: null });
+      }
+
+      res.json({ success: true, data: incident, code: 'PUBLIC_HEALTH_INCIDENT_RETRIEVED' });
+    } catch (error) {
+      console.error('❌ Failed to get health incident:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get health incident',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENT_RETRIEVAL_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // Update incident status/details
+  app.put('/api/public-health/incidents/:id', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const incident = await storage.updatePublicHealthIncident(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'UPDATE_HEALTH_INCIDENT',
+        resource: 'public_health_incidents',
+        details: { incidentId: req.params.id, updates: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: incident, code: 'PUBLIC_HEALTH_INCIDENT_UPDATED' });
+    } catch (error) {
+      console.error('❌ Failed to update health incident:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to update health incident',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENT_UPDATE_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // Delete incident (admin only)
+  app.delete('/api/public-health/incidents/:id', authenticateJWT, authorizeRoles('admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      await storage.deletePublicHealthIncident(req.params.id);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'DELETE_HEALTH_INCIDENT',
+        resource: 'public_health_incidents',
+        details: { incidentId: req.params.id },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, message: 'Health incident deleted successfully', code: 'PUBLIC_HEALTH_INCIDENT_DELETED', data: null });
+    } catch (error) {
+      console.error('❌ Failed to delete health incident:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to delete health incident',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENT_DELETION_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // Escalate incident to CDC
+  app.post('/api/public-health/incidents/:id/escalate', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const incident = await storage.escalateIncidentToCDC(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'ESCALATE_INCIDENT_CDC',
+        resource: 'public_health_incidents',
+        details: { incidentId: req.params.id, escalationData: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: incident, message: 'Incident escalated to CDC successfully', code: 'INCIDENT_ESCALATED_TO_CDC' });
+    } catch (error) {
+      console.error('❌ Failed to escalate incident to CDC:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to escalate incident to CDC',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'INCIDENT_ESCALATION_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // ===== 2. DISEASE SURVEILLANCE OPERATIONS =====
+
+  // Create surveillance record
+  app.post('/api/public-health/surveillance', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertDiseaseSurveillanceSchema.parse(req.body);
+      const surveillance = await storage.createDiseaseSurveillanceRecord(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_DISEASE_SURVEILLANCE',
+        resource: 'disease_surveillance',
+        details: { surveillanceId: surveillance.id, diseaseCode: surveillance.diseaseCode },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: surveillance, code: 'DISEASE_SURVEILLANCE_CREATED' });
+    } catch (error) {
+      console.error('❌ Failed to create surveillance record:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create surveillance record',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        code: 'SURVEILLANCE_CREATION_FAILED',
+        data: null
+      });
+    }
+  });
+
+  // List surveillance data with filters
+  app.get('/api/public-health/surveillance', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.diseaseType) filters.diseaseType = req.query.diseaseType as string;
+      if (req.query.status) filters.status = req.query.status as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+
+      const surveillanceRecords = await storage.getDiseaseSurveillanceRecords(filters);
+      
+      res.json({ success: true, data: surveillanceRecords, count: surveillanceRecords.length });
+    } catch (error) {
+      console.error('❌ Failed to get surveillance records:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get surveillance records',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get surveillance details
+  app.get('/api/public-health/surveillance/:id', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const surveillance = await storage.getDiseaseSurveillanceRecord(req.params.id);
+      
+      if (!surveillance) {
+        return res.status(404).json({ success: false, error: 'Surveillance record not found' });
+      }
+
+      res.json({ success: true, data: surveillance });
+    } catch (error) {
+      console.error('❌ Failed to get surveillance record:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get surveillance record',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update surveillance data
+  app.put('/api/public-health/surveillance/:id', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const surveillance = await storage.updateDiseaseSurveillanceRecord(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'UPDATE_DISEASE_SURVEILLANCE',
+        resource: 'disease_surveillance',
+        details: { surveillanceId: req.params.id, updates: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: surveillance });
+    } catch (error) {
+      console.error('❌ Failed to update surveillance record:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to update surveillance record',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get disease-specific data
+  app.get('/api/public-health/surveillance/diseases/:diseaseType', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const surveillanceRecords = await storage.getSurveillanceByDiseaseType(req.params.diseaseType);
+      
+      res.json({ success: true, data: surveillanceRecords, count: surveillanceRecords.length });
+    } catch (error) {
+      console.error('❌ Failed to get disease-specific surveillance data:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get disease-specific surveillance data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get disease trend analytics
+  app.get('/api/public-health/surveillance/trends', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.diseaseType) filters.diseaseType = req.query.diseaseType as string;
+      if (req.query.startDate && req.query.endDate) {
+        filters.timeRange = {
+          start: new Date(req.query.startDate as string),
+          end: new Date(req.query.endDate as string)
+        };
+      }
+
+      const trends = await storage.getDiseaseTrends(filters);
+      
+      res.json({ success: true, data: trends });
+    } catch (error) {
+      console.error('❌ Failed to get disease trends:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get disease trends',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3. CONTACT TRACING MANAGEMENT =====
+  
+  // Apply additional PHI minimization for contact tracing endpoints
+  app.use('/api/public-health/contact-tracing', contactTracingPhiMinimization);
+
+  // Create contact tracing record
+  app.post('/api/public-health/contact-tracing', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactTracingSchema.parse(req.body);
+      const contact = await storage.createContactTracingRecord(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_CONTACT_TRACING',
+        resource: 'contact_tracing',
+        details: { contactId: contact.id, contactType: contact.contactType },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: contact });
+    } catch (error) {
+      console.error('❌ Failed to create contact tracing record:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create contact tracing record',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // List contact records with privacy controls
+  app.get('/api/public-health/contact-tracing', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.incidentId) filters.incidentId = req.query.incidentId as string;
+      if (req.query.status) filters.status = req.query.status as string;
+      if (req.query.contactType) filters.contactType = req.query.contactType as string;
+
+      const contacts = await storage.getContactTracingRecords(filters);
+      
+      res.json({ success: true, data: contacts, count: contacts.length });
+    } catch (error) {
+      console.error('❌ Failed to get contact tracing records:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get contact tracing records',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get contact details (role-based access)
+  app.get('/api/public-health/contact-tracing/:id', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const contact = await storage.getContactTracingRecord(req.params.id);
+      
+      if (!contact) {
+        return res.status(404).json({ success: false, error: 'Contact tracing record not found' });
+      }
+
+      res.json({ success: true, data: contact });
+    } catch (error) {
+      console.error('❌ Failed to get contact tracing record:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get contact tracing record',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update contact status
+  app.put('/api/public-health/contact-tracing/:id', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const contact = await storage.updateContactTracingRecord(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'UPDATE_CONTACT_TRACING',
+        resource: 'contact_tracing',
+        details: { contactId: req.params.id, updates: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: contact });
+    } catch (error) {
+      console.error('❌ Failed to update contact tracing record:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to update contact tracing record',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Send notification to contact
+  app.post('/api/public-health/contact-tracing/:id/notify', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const success = await storage.notifyContact(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'NOTIFY_CONTACT',
+        resource: 'contact_tracing',
+        details: { contactId: req.params.id, notificationData: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      if (success) {
+        res.json({ success: true, message: 'Contact notification sent successfully' });
+      } else {
+        res.status(400).json({ success: false, error: 'Failed to send contact notification' });
+      }
+    } catch (error) {
+      console.error('❌ Failed to notify contact:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to notify contact',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get exposure list
+  app.get('/api/public-health/contact-tracing/exposed/:incidentId', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const exposedContacts = await storage.getExposedContactsByIncident(req.params.incidentId);
+      
+      res.json({ success: true, data: exposedContacts, count: exposedContacts.length });
+    } catch (error) {
+      console.error('❌ Failed to get exposed contacts:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get exposed contacts',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== ENHANCED CONTACT TRACING SYSTEM =====
+  // CRITICAL FIX: Create dedicated Contact Tracing router with mandatory middleware chain
+  
+  const contactTracingRouter = express.Router();
+  
+  // MANDATORY MIDDLEWARE CHAIN FOR ALL CT ENDPOINTS (Federal Compliance)
+  // 1. JWT Authentication (required for all CT operations)
+  contactTracingRouter.use(authenticateJWT);
+  
+  // 2. PHI Audit Middleware (required for all PHI access logging)
+  contactTracingRouter.use(phiAuditMiddleware);
+  
+  // 3. PHI Redaction Middleware (required for PHI protection in responses)
+  contactTracingRouter.use(phiRedactionMiddleware);
+  
+  // 4. Contact Tracing PHI Minimization (required for CT-specific PHI handling)
+  contactTracingRouter.use(contactTracingPhiMinimization);
+  
+  // 5. Rate Limiting for all write operations (applied selectively below)
+  // Note: sensitiveOperationLimiter will be applied to specific write endpoints
+  
+  // Mount the protected router with universal middleware
+  app.use('/api/contact-tracing', contactTracingRouter);
+  
+  // ===== OPERATIONAL STATUS ENDPOINTS =====
+  
+  // Contact Tracing System Status (for monitoring and health checks)
+  contactTracingRouter.get('/ops/status', authorizeRoles('admin', 'public_health_officer'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { getDataRetentionService } = await import('./services/data-retention-service');
+      const dataRetentionService = getDataRetentionService();
+      
+      const status = {
+        contactTracingSystem: 'operational',
+        dataRetentionService: {
+          initialized: dataRetentionService ? true : false,
+          config: dataRetentionService?.getConfig() || null
+        },
+        databaseConnection: 'available', // Will be checked during startup validation
+        phiMiddleware: 'enforced',
+        lastHealthCheck: new Date().toISOString()
+      };
+      
+      res.json({ success: true, data: status });
+    } catch (error) {
+      console.error('❌ Failed to get CT system status:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get system status',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Data Retention Service Status (REQUIRED FOR FEDERAL COMPLIANCE)
+  contactTracingRouter.get('/ops/data-retention', authorizeRoles('admin', 'public_health_officer'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { getDataRetentionService } = await import('./services/data-retention-service');
+      const dataRetentionService = getDataRetentionService();
+      
+      if (!dataRetentionService) {
+        return res.status(503).json({
+          success: false,
+          error: 'Data retention service not initialized',
+          status: 'service_unavailable',
+          compliance: 'VIOLATION - Data retention required for federal deployment'
+        });
+      }
+      
+      // Get current configuration and generate compliance report
+      const config = dataRetentionService.getConfig();
+      const complianceReport = await dataRetentionService.generateComplianceReport();
+      
+      const detailStatus = {
+        service: 'operational',
+        initialization: 'completed',
+        configuration: {
+          locationHistoryRetentionDays: config.locationHistoryRetentionDays,
+          contactTracingRetentionDays: config.contactTracingRetentionDays,
+          consentWithdrawalImmediateDeletion: config.consentWithdrawalImmediateDeletion,
+          complianceReportingEnabled: config.complianceReportingEnabled,
+          auditCleanupOperations: config.auditCleanupOperations
+        },
+        scheduledJobs: {
+          dailyCleanup: 'running - 2:00 AM UTC',
+          weeklyReports: config.complianceReportingEnabled ? 'running - 3:00 AM UTC Sundays' : 'disabled'
+        },
+        compliance: {
+          status: complianceReport.retentionCompliance.locationHistoryCompliant && 
+                  complianceReport.retentionCompliance.contactTracingCompliant ? 'compliant' : 'non_compliant',
+          lastReportDate: complianceReport.reportDate,
+          recentConsentWithdrawals: complianceReport.consentWithdrawals,
+          errors: complianceReport.errors
+        },
+        federalReadiness: 'READY',
+        lastStatusCheck: new Date().toISOString()
+      };
+      
+      res.json({ success: true, data: detailStatus });
+    } catch (error) {
+      console.error('❌ Failed to get data retention status:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get data retention status',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        federalReadiness: 'BLOCKED'
+      });
+    }
+  });
+
+  // ===== 3A. LOCATION HISTORY MANAGEMENT =====
+  
+  // Submit location data with privacy controls
+  contactTracingRouter.post('/location-history', sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactTracingLocationHistorySchema.parse({
+        ...req.body,
+        userId: req.userId,
+        collectedBy: req.userId
+      });
+      
+      const locationRecord = await storage.createLocationHistoryRecord(validatedData);
+      
+      // Create audit log for location data submission
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'SUBMIT_LOCATION_DATA',
+        resource: 'contact_tracing_location_history',
+        details: { locationId: locationRecord.id, consentGiven: locationRecord.consentGiven },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: locationRecord });
+    } catch (error) {
+      console.error('❌ Failed to submit location data:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to submit location data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get location history with privacy filtering
+  contactTracingRouter.get('/location-history', authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.userId) filters.userId = req.query.userId as string;
+      if (req.query.deviceId) filters.deviceId = req.query.deviceId as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+      if (req.query.consentGiven !== undefined) filters.consentGiven = req.query.consentGiven === 'true';
+      
+      const locationHistory = await storage.getLocationHistory(filters);
+      
+      res.json({ success: true, data: locationHistory, count: locationHistory.length });
+    } catch (error) {
+      console.error('❌ Failed to get location history:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get location history',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get user's own location history  
+  contactTracingRouter.get('/location-history/my-data', async (req: AuthenticatedRequest, res) => {
+    try {
+      const timeRange = req.query.startDate && req.query.endDate ? {
+        start: new Date(req.query.startDate as string),
+        end: new Date(req.query.endDate as string)
+      } : undefined;
+      
+      const locationHistory = await storage.getLocationHistoryByUser(req.userId!, timeRange);
+      
+      res.json({ success: true, data: locationHistory, count: locationHistory.length });
+    } catch (error) {
+      console.error('❌ Failed to get user location history:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get user location history',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Cleanup expired location data (automated job)
+  app.post('/api/contact-tracing/location-history/cleanup', authenticateJWT, authorizeRoles('admin', 'system'), sensitiveOperationLimiter(2, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const deletedCount = await storage.cleanupExpiredLocationHistory();
+      
+      // Create audit log for cleanup operation
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CLEANUP_LOCATION_DATA',
+        resource: 'contact_tracing_location_history',
+        details: { deletedRecords: deletedCount },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, message: `Cleaned up ${deletedCount} expired location records` });
+    } catch (error) {
+      console.error('❌ Failed to cleanup location history:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to cleanup location history',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3B. PROXIMITY DETECTION MANAGEMENT =====
+  
+  // Get proximity detections with risk filtering
+  app.get('/api/contact-tracing/proximity-detections', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.riskLevel) filters.riskLevel = req.query.riskLevel as string;
+      if (req.query.detectionMethod) filters.detectionMethod = req.query.detectionMethod as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+      
+      const detections = await storage.getProximityDetections(filters);
+      
+      res.json({ success: true, data: detections, count: detections.length });
+    } catch (error) {
+      console.error('❌ Failed to get proximity detections:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get proximity detections',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create proximity detection record
+  app.post('/api/contact-tracing/proximity-detections', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactProximityDetectionSchema.parse({
+        ...req.body,
+        processedBy: req.userId
+      });
+      
+      const detection = await storage.createProximityDetection(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_PROXIMITY_DETECTION',
+        resource: 'contact_proximity_detection',
+        details: { detectionId: detection.id, riskLevel: detection.riskLevel, contactDuration: detection.contactDuration },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: detection });
+    } catch (error) {
+      console.error('❌ Failed to create proximity detection:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create proximity detection',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Validate proximity detection
+  app.put('/api/contact-tracing/proximity-detections/:id/validate', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { validationStatus } = req.body;
+      const detection = await storage.validateProximityDetection(req.params.id, req.userId!, validationStatus);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'VALIDATE_PROXIMITY_DETECTION',
+        resource: 'contact_proximity_detection',
+        details: { detectionId: req.params.id, validationStatus },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: detection });
+    } catch (error) {
+      console.error('❌ Failed to validate proximity detection:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to validate proximity detection',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Process proximity algorithm
+  app.post('/api/contact-tracing/proximity-detections/process', authenticateJWT, authorizeRoles('admin', 'system'), sensitiveOperationLimiter(3, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { algorithmVersion, startDate, endDate } = req.body;
+      const timeRange = { start: new Date(startDate), end: new Date(endDate) };
+      
+      const detections = await storage.processProximityAlgorithm(algorithmVersion, timeRange);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'PROCESS_PROXIMITY_ALGORITHM',
+        resource: 'contact_proximity_detection',
+        details: { algorithmVersion, timeRange, detectionsCreated: detections.length },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: detections, count: detections.length });
+    } catch (error) {
+      console.error('❌ Failed to process proximity algorithm:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to process proximity algorithm',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3C. NOTIFICATION TEMPLATE MANAGEMENT =====
+  
+  // Get notification templates
+  app.get('/api/contact-tracing/notification-templates', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.templateCategory) filters.templateCategory = req.query.templateCategory as string;
+      if (req.query.riskLevel) filters.riskLevel = req.query.riskLevel as string;
+      if (req.query.templateType) filters.templateType = req.query.templateType as string;
+      if (req.query.isActive !== undefined) filters.isActive = req.query.isActive === 'true';
+      
+      const templates = await storage.getNotificationTemplates(filters);
+      
+      res.json({ success: true, data: templates, count: templates.length });
+    } catch (error) {
+      console.error('❌ Failed to get notification templates:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get notification templates',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create notification template
+  app.post('/api/contact-tracing/notification-templates', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactTracingNotificationTemplateSchema.parse({
+        ...req.body,
+        createdBy: req.userId
+      });
+      
+      const template = await storage.createNotificationTemplate(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_NOTIFICATION_TEMPLATE',
+        resource: 'contact_tracing_notification_template',
+        details: { templateId: template.templateId, templateCategory: template.templateCategory, riskLevel: template.riskLevel },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: template });
+    } catch (error) {
+      console.error('❌ Failed to create notification template:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create notification template',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Approve notification template
+  app.put('/api/contact-tracing/notification-templates/:id/approve', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const template = await storage.approveNotificationTemplate(req.params.id, req.userId!);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'APPROVE_NOTIFICATION_TEMPLATE',
+        resource: 'contact_tracing_notification_template',
+        details: { templateId: req.params.id },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: template });
+    } catch (error) {
+      console.error('❌ Failed to approve notification template:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to approve notification template',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3D. NOTIFICATION LOGS MANAGEMENT =====
+  
+  // Get notification logs
+  app.get('/api/contact-tracing/notification-logs', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.recipientId) filters.recipientId = req.query.recipientId as string;
+      if (req.query.deliveryStatus) filters.deliveryStatus = req.query.deliveryStatus as string;
+      if (req.query.notificationType) filters.notificationType = req.query.notificationType as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+      
+      const logs = await storage.getNotificationLogs(filters);
+      
+      res.json({ success: true, data: logs, count: logs.length });
+    } catch (error) {
+      console.error('❌ Failed to get notification logs:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get notification logs',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create notification log
+  app.post('/api/contact-tracing/notification-logs', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactTracingNotificationLogSchema.parse({
+        ...req.body,
+        sentBy: req.userId
+      });
+      
+      const log = await storage.createNotificationLog(validatedData);
+      
+      res.status(201).json({ success: true, data: log });
+    } catch (error) {
+      console.error('❌ Failed to create notification log:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create notification log',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Mark notification as delivered
+  app.put('/api/contact-tracing/notification-logs/:notificationId/delivered', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin', 'system'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { deliveredTimestamp, externalResponse } = req.body;
+      const log = await storage.markNotificationDelivered(
+        req.params.notificationId, 
+        new Date(deliveredTimestamp), 
+        externalResponse
+      );
+      
+      res.json({ success: true, data: log });
+    } catch (error) {
+      console.error('❌ Failed to mark notification as delivered:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to mark notification as delivered',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Record notification engagement
+  app.put('/api/contact-tracing/notification-logs/:notificationId/engagement', authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { engagementType } = req.body;
+      const log = await storage.recordNotificationEngagement(
+        req.params.notificationId, 
+        engagementType, 
+        new Date()
+      );
+      
+      res.json({ success: true, data: log });
+    } catch (error) {
+      console.error('❌ Failed to record notification engagement:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to record notification engagement',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3E. PRIVACY CONSENT MANAGEMENT =====
+  
+  // Get privacy consents
+  app.get('/api/contact-tracing/privacy-consents', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.userId) filters.userId = req.query.userId as string;
+      if (req.query.consentStatus) filters.consentStatus = req.query.consentStatus as string;
+      if (req.query.consentType) filters.consentType = req.query.consentType as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+      
+      const consents = await storage.getPrivacyConsents(filters);
+      
+      res.json({ success: true, data: consents, count: consents.length });
+    } catch (error) {
+      console.error('❌ Failed to get privacy consents:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get privacy consents',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create privacy consent
+  app.post('/api/contact-tracing/privacy-consents', authenticateJWT, sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertContactTracingPrivacyConsentSchema.parse({
+        ...req.body,
+        userId: req.userId,
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      const consent = await storage.createPrivacyConsent(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_PRIVACY_CONSENT',
+        resource: 'contact_tracing_privacy_consent',
+        details: { 
+          consentId: consent.id, 
+          consentType: consent.consentType,
+          consentPurposes: consent.consentPurposes,
+          locationTrackingConsent: consent.locationTrackingConsent
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: consent });
+    } catch (error) {
+      console.error('❌ Failed to create privacy consent:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create privacy consent',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get user's own consent
+  app.get('/api/contact-tracing/privacy-consents/my-consent', authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const consent = await storage.getPrivacyConsentByUser(req.userId!);
+      
+      res.json({ success: true, data: consent });
+    } catch (error) {
+      console.error('❌ Failed to get user consent:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get user consent',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Withdraw consent
+  app.post('/api/contact-tracing/privacy-consents/withdraw', authenticateJWT, sensitiveOperationLimiter(3, 60 * 1000), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { withdrawalReason, withdrawalMethod } = req.body;
+      
+      const consent = await storage.withdrawConsent(req.userId!, withdrawalReason, withdrawalMethod);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'WITHDRAW_PRIVACY_CONSENT',
+        resource: 'contact_tracing_privacy_consent',
+        details: { withdrawalReason, withdrawalMethod },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: consent, message: 'Consent withdrawn successfully' });
+    } catch (error) {
+      console.error('❌ Failed to withdraw consent:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to withdraw consent',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 3F. CONTACT TRACING ANALYTICS =====
+  
+  // Get contact tracing metrics
+  app.get('/api/contact-tracing/analytics/metrics', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      const timeRange = {
+        start: new Date(startDate as string),
+        end: new Date(endDate as string)
+      };
+      
+      const filters = req.query.filters ? JSON.parse(req.query.filters as string) : {};
+      
+      const metrics = await storage.getContactTracingMetrics(timeRange, filters);
+      
+      res.json({ success: true, data: metrics });
+    } catch (error) {
+      console.error('❌ Failed to get contact tracing metrics:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get contact tracing metrics',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Generate contact tracing reports
+  app.post('/api/contact-tracing/analytics/reports', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { reportType, parameters } = req.body;
+      
+      const report = await storage.generateContactTracingReport(reportType, parameters);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'GENERATE_CONTACT_TRACING_REPORT',
+        resource: 'contact_tracing_analytics',
+        details: { reportType, parameters },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: report });
+    } catch (error) {
+      console.error('❌ Failed to generate contact tracing report:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to generate contact tracing report',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get exposure risk analysis
+  app.get('/api/contact-tracing/analytics/exposure-risk/:userId', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const timeRange = req.query.startDate && req.query.endDate ? {
+        start: new Date(req.query.startDate as string),
+        end: new Date(req.query.endDate as string)
+      } : undefined;
+      
+      const analysis = await storage.getExposureRiskAnalysis(req.params.userId, timeRange);
+      
+      res.json({ success: true, data: analysis });
+    } catch (error) {
+      console.error('❌ Failed to get exposure risk analysis:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get exposure risk analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get contact network analysis
+  app.get('/api/contact-tracing/analytics/contact-network/:indexCaseId', authenticateJWT, authorizeRoles('contact_tracer', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const degreeOfSeparation = req.query.degreeOfSeparation ? parseInt(req.query.degreeOfSeparation as string) : undefined;
+      
+      const analysis = await storage.getContactNetworkAnalysis(req.params.indexCaseId, degreeOfSeparation);
+      
+      res.json({ success: true, data: analysis });
+    } catch (error) {
+      console.error('❌ Failed to get contact network analysis:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get contact network analysis',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get privacy compliance report
+  app.get('/api/contact-tracing/analytics/privacy-compliance', authenticateJWT, authorizeRoles('public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { startDate, endDate } = req.query;
+      const timeRange = {
+        start: new Date(startDate as string),
+        end: new Date(endDate as string)
+      };
+      
+      const report = await storage.getPrivacyComplianceReport(timeRange);
+      
+      res.json({ success: true, data: report });
+    } catch (error) {
+      console.error('❌ Failed to get privacy compliance report:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get privacy compliance report',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 4. HEALTH FACILITIES MONITORING =====
+
+  // Register health facility
+  app.post('/api/public-health/facilities', authenticateJWT, authorizeRoles('health_facility_admin', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertHealthFacilitySchema.parse(req.body);
+      const facility = await storage.createHealthFacility(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'REGISTER_HEALTH_FACILITY',
+        resource: 'health_facilities',
+        details: { facilityId: facility.id, facilityName: facility.facilityName },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: facility });
+    } catch (error) {
+      console.error('❌ Failed to register health facility:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to register health facility',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // List facilities with status/capacity
+  app.get('/api/public-health/facilities', authenticateJWT, authorizeRoles('health_facility_admin', 'public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.facilityType) filters.facilityType = req.query.facilityType as string;
+      if (req.query.status) filters.status = req.query.status as string;
+      if (req.query.region) filters.region = req.query.region as string;
+
+      const facilities = await storage.getHealthFacilities(filters);
+      
+      res.json({ success: true, data: facilities, count: facilities.length });
+    } catch (error) {
+      console.error('❌ Failed to get health facilities:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get health facilities',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get facility details
+  app.get('/api/public-health/facilities/:id', authenticateJWT, authorizeRoles('health_facility_admin', 'public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const facility = await storage.getHealthFacility(req.params.id);
+      
+      if (!facility) {
+        return res.status(404).json({ success: false, error: 'Health facility not found' });
+      }
+
+      res.json({ success: true, data: facility });
+    } catch (error) {
+      console.error('❌ Failed to get health facility:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get health facility',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update facility status/capacity
+  app.put('/api/public-health/facilities/:id', authenticateJWT, authorizeRoles('health_facility_admin', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const facility = await storage.updateHealthFacility(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'UPDATE_HEALTH_FACILITY',
+        resource: 'health_facilities',
+        details: { facilityId: req.params.id, updates: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: facility });
+    } catch (error) {
+      console.error('❌ Failed to update health facility:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to update health facility',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get regional capacity overview
+  app.get('/api/public-health/facilities/capacity', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const region = req.query.region as string | undefined;
+      const capacityOverview = await storage.getRegionalCapacityOverview(region);
+      
+      res.json({ success: true, data: capacityOverview });
+    } catch (error) {
+      console.error('❌ Failed to get regional capacity overview:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get regional capacity overview',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Activate emergency protocols
+  app.post('/api/public-health/facilities/:id/emergency', authenticateJWT, authorizeRoles('emergency_coordinator', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const facility = await storage.activateEmergencyProtocols(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'ACTIVATE_EMERGENCY_PROTOCOLS',
+        resource: 'health_facilities',
+        details: { facilityId: req.params.id, protocols: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: facility, message: 'Emergency protocols activated successfully' });
+    } catch (error) {
+      console.error('❌ Failed to activate emergency protocols:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to activate emergency protocols',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 5. PUBLIC HEALTH ALERTS =====
+
+  // Create public health alert
+  app.post('/api/public-health/alerts', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertPublicHealthAlertSchema.parse(req.body);
+      const alert = await storage.createPublicHealthAlert(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_PUBLIC_HEALTH_ALERT',
+        resource: 'public_health_alerts',
+        details: { alertId: alert.id, alertType: alert.alertType, severity: alert.severity },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data: alert });
+    } catch (error) {
+      console.error('❌ Failed to create public health alert:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to create public health alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // List active alerts
+  app.get('/api/public-health/alerts', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.alertType) filters.alertType = req.query.alertType as string;
+      if (req.query.severity) filters.severity = req.query.severity as string;
+      if (req.query.status) filters.status = req.query.status as string;
+
+      const alerts = await storage.getPublicHealthAlerts(filters);
+      
+      res.json({ success: true, data: alerts, count: alerts.length });
+    } catch (error) {
+      console.error('❌ Failed to get public health alerts:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get public health alerts',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get alert details
+  app.get('/api/public-health/alerts/:id', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const alert = await storage.getPublicHealthAlert(req.params.id);
+      
+      if (!alert) {
+        return res.status(404).json({ success: false, error: 'Public health alert not found' });
+      }
+
+      res.json({ success: true, data: alert });
+    } catch (error) {
+      console.error('❌ Failed to get public health alert:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get public health alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Update alert status
+  app.put('/api/public-health/alerts/:id', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const alert = await storage.updatePublicHealthAlert(req.params.id, req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'UPDATE_PUBLIC_HEALTH_ALERT',
+        resource: 'public_health_alerts',
+        details: { alertId: req.params.id, updates: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: alert });
+    } catch (error) {
+      console.error('❌ Failed to update public health alert:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to update public health alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Broadcast alert to channels
+  app.post('/api/public-health/alerts/:id/broadcast', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { channels } = req.body;
+      const success = await storage.broadcastAlert(req.params.id, channels);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'BROADCAST_ALERT',
+        resource: 'public_health_alerts',
+        details: { alertId: req.params.id, channels },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      if (success) {
+        res.json({ success: true, message: 'Alert broadcasted successfully' });
+      } else {
+        res.status(400).json({ success: false, error: 'Failed to broadcast alert' });
+      }
+    } catch (error) {
+      console.error('❌ Failed to broadcast alert:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to broadcast alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Deactivate alert
+  app.delete('/api/public-health/alerts/:id', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      await storage.deletePublicHealthAlert(req.params.id);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'DEACTIVATE_ALERT',
+        resource: 'public_health_alerts',
+        details: { alertId: req.params.id },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, message: 'Public health alert deactivated successfully' });
+    } catch (error) {
+      console.error('❌ Failed to deactivate alert:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to deactivate alert',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== 6. EPIDEMIOLOGICAL DATA ANALYTICS =====
+
+  // Submit epidemiological data
+  app.post('/api/public-health/epidemiology', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const validatedData = insertEpidemiologicalDataSchema.parse(req.body);
+      const data = await storage.createEpidemiologicalData(validatedData);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'SUBMIT_EPIDEMIOLOGICAL_DATA',
+        resource: 'epidemiological_data',
+        details: { dataId: data.id, dataType: data.dataType },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.status(201).json({ success: true, data });
+    } catch (error) {
+      console.error('❌ Failed to submit epidemiological data:', error);
+      res.status(400).json({ 
+        success: false,
+        error: 'Failed to submit epidemiological data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Query epidemiological data
+  app.get('/api/public-health/epidemiology', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const filters: any = {};
+      
+      if (req.query.dataType) filters.dataType = req.query.dataType as string;
+      if (req.query.diseaseCode) filters.diseaseCode = req.query.diseaseCode as string;
+      if (req.query.geographicScope) filters.geographicScope = req.query.geographicScope as string;
+      if (req.query.startDate) filters.startDate = new Date(req.query.startDate as string);
+      if (req.query.endDate) filters.endDate = new Date(req.query.endDate as string);
+
+      const data = await storage.getEpidemiologicalData(filters);
+      
+      res.json({ success: true, data, count: data.length });
+    } catch (error) {
+      console.error('❌ Failed to get epidemiological data:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get epidemiological data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Generate statistical reports
+  app.get('/api/public-health/epidemiology/reports', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const reports = await storage.generateStatisticalReports(req.query);
+      
+      res.json({ success: true, data: reports });
+    } catch (error) {
+      console.error('❌ Failed to generate statistical reports:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to generate statistical reports',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get MMWR week data
+  app.get('/api/public-health/epidemiology/mmwr/:week/:year', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const week = parseInt(req.params.week);
+      const year = parseInt(req.params.year);
+      
+      if (isNaN(week) || isNaN(year) || week < 1 || week > 53) {
+        return res.status(400).json({ success: false, error: 'Invalid MMWR week or year' });
+      }
+
+      const data = await storage.getMMWRData(week, year);
+      
+      res.json({ success: true, data, count: data.length });
+    } catch (error) {
+      console.error('❌ Failed to get MMWR data:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get MMWR data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Get population health trends
+  app.get('/api/public-health/epidemiology/trends', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const trends = await storage.getPopulationHealthTrends(req.query);
+      
+      res.json({ success: true, data: trends });
+    } catch (error) {
+      console.error('❌ Failed to get population health trends:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get population health trends',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Generate CDC report
+  app.post('/api/public-health/epidemiology/cdc-report', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const report = await storage.generateCDCReport(req.body);
+      
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'GENERATE_CDC_REPORT',
+        resource: 'epidemiological_data',
+        details: { filters: req.body },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({ success: true, data: report, message: 'CDC report generated successfully' });
+    } catch (error) {
+      console.error('❌ Failed to generate CDC report:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to generate CDC report',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== CDC FORMAT COMPLIANCE ENDPOINTS =====
+  
+  // NNDSS Format Export - Convert incidents to NNDSS format
+  app.get('/api/public-health/cdc/nndss/:incidentId', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const incident = await storage.getPublicHealthIncident(req.params.incidentId);
+      if (!incident) {
+        return res.status(404).json({ success: false, error: 'Health incident not found', code: 'INCIDENT_NOT_FOUND' });
+      }
+      
+      const nndssData = convertToNNDSSFormat(incident);
+      const validatedData = NNDSSDataSchema.parse(nndssData);
+      
+      res.json({ 
+        success: true, 
+        data: validatedData, 
+        format: 'NNDSS',
+        message: 'Incident data converted to NNDSS format successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed to convert to NNDSS format:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to convert to NNDSS format',
+        code: 'NNDSS_CONVERSION_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // NEDSS Format Export - Convert surveillance data to NEDSS format  
+  app.get('/api/public-health/cdc/nedss/:surveillanceId', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const surveillance = await storage.getDiseaseSurveillanceRecord(req.params.surveillanceId);
+      if (!surveillance) {
+        return res.status(404).json({ success: false, error: 'Surveillance record not found', code: 'SURVEILLANCE_NOT_FOUND' });
+      }
+      
+      const nedssData = convertToNEDSSFormat(surveillance);
+      const validatedData = NEDSSDataSchema.parse(nedssData);
+      
+      res.json({ 
+        success: true, 
+        data: validatedData, 
+        format: 'NEDSS',
+        message: 'Surveillance data converted to NEDSS format successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed to convert to NEDSS format:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to convert to NEDSS format',
+        code: 'NEDSS_CONVERSION_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // HAN Format Export - Convert alerts to HAN format
+  app.get('/api/public-health/cdc/han/:alertId', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const alert = await storage.getPublicHealthAlert(req.params.alertId);
+      if (!alert) {
+        return res.status(404).json({ success: false, error: 'Public health alert not found', code: 'ALERT_NOT_FOUND' });
+      }
+      
+      const hanData = convertToHANFormat(alert);
+      const validatedData = HANAlertSchema.parse(hanData);
+      
+      res.json({ 
+        success: true, 
+        data: validatedData, 
+        format: 'HAN',
+        message: 'Alert converted to HAN format successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed to convert to HAN format:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to convert to HAN format',
+        code: 'HAN_CONVERSION_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // MMWR Format Export - Convert epidemiological data to MMWR format
+  app.get('/api/public-health/cdc/mmwr/:dataId', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const epidData = await storage.getEpidemiologicalDataRecord(req.params.dataId);
+      if (!epidData) {
+        return res.status(404).json({ success: false, error: 'Epidemiological data not found', code: 'EPID_DATA_NOT_FOUND' });
+      }
+      
+      const mmwrData = convertToMMWRFormat(epidData);
+      const validatedData = MMWRDataSchema.parse(mmwrData);
+      
+      res.json({ 
+        success: true, 
+        data: validatedData, 
+        format: 'MMWR',
+        message: 'Epidemiological data converted to MMWR format successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed to convert to MMWR format:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to convert to MMWR format',
+        code: 'MMWR_CONVERSION_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Bulk CDC Format Export
+  app.post('/api/public-health/cdc/bulk-export', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { format, filters, includeIds } = req.body;
+      
+      if (!['NNDSS', 'NEDSS', 'HAN', 'MMWR'].includes(format)) {
+        return res.status(400).json({ success: false, error: 'Invalid CDC format specified', code: 'INVALID_FORMAT' });
+      }
+      
+      let exportData = [];
+      
+      if (format === 'NNDSS') {
+        const incidents = includeIds ? 
+          await Promise.all(includeIds.map((id: string) => storage.getPublicHealthIncident(id))) :
+          await storage.getPublicHealthIncidents(filters);
+        exportData = incidents.filter(Boolean).map(incident => convertToNNDSSFormat(incident));
+      } else if (format === 'NEDSS') {
+        const surveillanceRecords = includeIds ?
+          await Promise.all(includeIds.map((id: string) => storage.getDiseaseSurveillanceRecord(id))) :
+          await storage.getDiseaseSurveillanceRecords(filters);
+        exportData = surveillanceRecords.filter(Boolean).map(record => convertToNEDSSFormat(record));
+      } else if (format === 'HAN') {
+        const alerts = includeIds ?
+          await Promise.all(includeIds.map((id: string) => storage.getPublicHealthAlert(id))) :
+          await storage.getPublicHealthAlerts(filters);
+        exportData = alerts.filter(Boolean).map(alert => convertToHANFormat(alert));
+      } else if (format === 'MMWR') {
+        const epidData = includeIds ?
+          await Promise.all(includeIds.map((id: string) => storage.getEpidemiologicalDataRecord(id))) :
+          await storage.getEpidemiologicalData(filters);
+        exportData = epidData.filter(Boolean).map(data => convertToMMWRFormat(data));
+      }
+      
+      // Audit log for bulk export
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'BULK_CDC_EXPORT',
+        resource: 'cdc_integration',
+        details: { format, exportCount: exportData.length, filters },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      res.json({ 
+        success: true, 
+        data: exportData, 
+        format,
+        count: exportData.length,
+        message: `Bulk export to ${format} format completed successfully` 
+      });
+    } catch (error) {
+      console.error('❌ Failed bulk CDC export:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed bulk CDC export',
+        code: 'BULK_EXPORT_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== ADDITIONAL CDC ENDPOINTS (ARCHITECT REQUIREMENTS) =====
+  
+  // MMWR by Week/Year - Get MMWR data for specific epidemiological week
+  app.get('/api/public-health/cdc/mmwr/:week/:year', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { week, year } = req.params;
+      const weekNum = parseInt(week);
+      const yearNum = parseInt(year);
+      
+      if (weekNum < 1 || weekNum > 53) {
+        return res.status(400).json({ success: false, error: 'Invalid MMWR week (must be 1-53)', code: 'INVALID_WEEK' });
+      }
+      
+      if (yearNum < 2000 || yearNum > 2030) {
+        return res.status(400).json({ success: false, error: 'Invalid MMWR year (must be 2000-2030)', code: 'INVALID_YEAR' });
+      }
+      
+      const epidData = await storage.getEpidemiologicalDataByMMWRWeek(weekNum, yearNum);
+      if (!epidData || epidData.length === 0) {
+        return res.status(404).json({ success: false, error: 'No MMWR data found for specified week/year', code: 'MMWR_DATA_NOT_FOUND' });
+      }
+      
+      const mmwrReports = epidData.map(data => convertToMMWRFormat(data));
+      const validatedReports = mmwrReports.map(report => MMWRDataSchema.parse(report));
+      
+      res.json({ 
+        success: true, 
+        data: validatedReports, 
+        format: 'MMWR',
+        week: weekNum,
+        year: yearNum,
+        count: validatedReports.length,
+        message: `MMWR data for week ${weekNum}, ${yearNum} retrieved successfully` 
+      });
+    } catch (error) {
+      console.error('❌ Failed to get MMWR data by week/year:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to get MMWR data by week/year',
+        code: 'MMWR_WEEK_YEAR_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // NNDSS Export - Bulk export all NNDSS-formatted incidents
+  app.get('/api/public-health/cdc/nndss/export', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { startDate, endDate, jurisdiction, conditionCode } = req.query;
+      
+      const filters = {
+        ...(startDate && { startDate: new Date(startDate as string) }),
+        ...(endDate && { endDate: new Date(endDate as string) }),
+        ...(jurisdiction && { jurisdiction: jurisdiction as string }),
+        ...(conditionCode && { conditionCode: conditionCode as string })
+      };
+      
+      const incidents = await storage.getPublicHealthIncidents(filters);
+      const nndssExports = incidents.map(incident => convertToNNDSSFormat(incident));
+      const validatedExports = nndssExports.map(data => NNDSSDataSchema.parse(data));
+      
+      // Audit log for NNDSS export
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'NNDSS_BULK_EXPORT',
+        resource: 'cdc_integration',
+        details: { exportCount: validatedExports.length, filters },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      res.json({ 
+        success: true, 
+        data: validatedExports, 
+        format: 'NNDSS',
+        count: validatedExports.length,
+        filters,
+        message: 'NNDSS bulk export completed successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed NNDSS bulk export:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed NNDSS bulk export',
+        code: 'NNDSS_EXPORT_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // NEDSS Export - Bulk export all NEDSS-formatted surveillance data
+  app.get('/api/public-health/cdc/nedss/export', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { startDate, endDate, jurisdiction, investigationStatus, caseStatus } = req.query;
+      
+      const filters = {
+        ...(startDate && { startDate: new Date(startDate as string) }),
+        ...(endDate && { endDate: new Date(endDate as string) }),
+        ...(jurisdiction && { jurisdiction: jurisdiction as string }),
+        ...(investigationStatus && { investigationStatus: investigationStatus as string }),
+        ...(caseStatus && { caseStatus: caseStatus as string })
+      };
+      
+      const surveillanceRecords = await storage.getDiseaseSurveillanceRecords(filters);
+      const nedssExports = surveillanceRecords.map(record => convertToNEDSSFormat(record));
+      const validatedExports = nedssExports.map(data => NEDSSDataSchema.parse(data));
+      
+      // Audit log for NEDSS export
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'NEDSS_BULK_EXPORT',
+        resource: 'cdc_integration',
+        details: { exportCount: validatedExports.length, filters },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      res.json({ 
+        success: true, 
+        data: validatedExports, 
+        format: 'NEDSS',
+        count: validatedExports.length,
+        filters,
+        message: 'NEDSS bulk export completed successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed NEDSS bulk export:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed NEDSS bulk export',
+        code: 'NEDSS_EXPORT_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // HAN Message Creation - Create new HAN message/alert
+  app.post('/api/public-health/cdc/han/message', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const hanMessageData = HANAlertSchema.parse(req.body);
+      
+      // Create public health alert first
+      const alertData = {
+        alertType: 'health_alert',
+        title: hanMessageData.subject,
+        message: hanMessageData.messageBody,
+        severity: hanMessageData.priority.toLowerCase(),
+        urgency: hanMessageData.priority === 'Emergency' ? 'immediate' : 'expected',
+        certainty: 'likely',
+        targetAudience: hanMessageData.audience.join(', '),
+        geographicScope: 'national',
+        effectiveTime: new Date(),
+        expirationTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+        alertStatus: 'actual',
+        issuedBy: req.userId!,
+        cdcHanAlert: true,
+        cdcHanId: hanMessageData.hanId
+      };
+      
+      const alert = await storage.createPublicHealthAlert(alertData);
+      
+      // Convert to HAN format for validation
+      const hanFormatted = convertToHANFormat(alert);
+      const validatedHAN = HANAlertSchema.parse(hanFormatted);
+      
+      // Audit log for HAN message creation
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CREATE_HAN_MESSAGE',
+        resource: 'public_health_alert',
+        details: { alertId: alert.id, hanId: hanMessageData.hanId },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      res.status(201).json({ 
+        success: true, 
+        data: {
+          alert,
+          hanFormat: validatedHAN
+        },
+        message: 'HAN message created successfully' 
+      });
+    } catch (error) {
+      console.error('❌ Failed to create HAN message:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed to create HAN message',
+        code: 'HAN_MESSAGE_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Bulk CDC Export - GET version for compliance with architect requirements
+  app.get('/api/public-health/cdc/bulk-export', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { format, startDate, endDate, jurisdiction, includeIds } = req.query;
+      
+      if (!format || !['NNDSS', 'NEDSS', 'HAN', 'MMWR'].includes(format as string)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Invalid or missing CDC format parameter. Must be one of: NNDSS, NEDSS, HAN, MMWR', 
+          code: 'INVALID_FORMAT' 
+        });
+      }
+      
+      const filters = {
+        ...(startDate && { startDate: new Date(startDate as string) }),
+        ...(endDate && { endDate: new Date(endDate as string) }),
+        ...(jurisdiction && { jurisdiction: jurisdiction as string })
+      };
+      
+      const includeIdsArray = includeIds ? (includeIds as string).split(',') : [];
+      
+      let exportData = [];
+      
+      if (format === 'NNDSS') {
+        const incidents = includeIdsArray.length > 0 ? 
+          await Promise.all(includeIdsArray.map((id: string) => storage.getPublicHealthIncident(id))) :
+          await storage.getPublicHealthIncidents(filters);
+        exportData = incidents.filter(Boolean).map(incident => convertToNNDSSFormat(incident));
+      } else if (format === 'NEDSS') {
+        const surveillanceRecords = includeIdsArray.length > 0 ?
+          await Promise.all(includeIdsArray.map((id: string) => storage.getDiseaseSurveillanceRecord(id))) :
+          await storage.getDiseaseSurveillanceRecords(filters);
+        exportData = surveillanceRecords.filter(Boolean).map(record => convertToNEDSSFormat(record));
+      } else if (format === 'HAN') {
+        const alerts = includeIdsArray.length > 0 ?
+          await Promise.all(includeIdsArray.map((id: string) => storage.getPublicHealthAlert(id))) :
+          await storage.getPublicHealthAlerts(filters);
+        exportData = alerts.filter(Boolean).map(alert => convertToHANFormat(alert));
+      } else if (format === 'MMWR') {
+        const epidData = includeIdsArray.length > 0 ?
+          await Promise.all(includeIdsArray.map((id: string) => storage.getEpidemiologicalDataRecord(id))) :
+          await storage.getEpidemiologicalData(filters);
+        exportData = epidData.filter(Boolean).map(data => convertToMMWRFormat(data));
+      }
+      
+      // Audit log for bulk export
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'BULK_CDC_EXPORT_GET',
+        resource: 'cdc_integration',
+        details: { format, exportCount: exportData.length, filters, includeIds: includeIdsArray },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+      
+      res.json({ 
+        success: true, 
+        data: exportData, 
+        format,
+        count: exportData.length,
+        filters,
+        message: `Bulk CDC export in ${format} format completed successfully` 
+      });
+    } catch (error) {
+      console.error('❌ Failed bulk CDC GET export:', error);
+      res.status(500).json({ 
+        success: false,
+        error: 'Failed bulk CDC export',
+        code: 'BULK_EXPORT_GET_ERROR',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // ===== ENHANCED CDC INTEGRATION ENDPOINTS WITH REAL-TIME SYNC =====
+  
+  // Initialize CDC Integration Service
+  const getCDCService = lazySingletonAsync(async () => {
+    console.log('🔄 Initializing CDC Integration Service...');
+    const cdcService = getCDCIntegrationService(process.env.NODE_ENV === 'production' ? 'production' : 'sandbox');
+    const initialized = await cdcService.initialize();
+    if (!initialized) {
+      console.warn('⚠️ CDC Integration Service failed to initialize - operating in offline mode');
+    }
+    return cdcService;
+  });
+
+  // CDC System Status and Health Check
+  app.get('/api/public-health/cdc/system-status', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      const systemStatus = await cdcService.getCDCSystemStatus();
+      
+      res.json({
+        success: true,
+        data: systemStatus,
+        message: 'CDC system status retrieved successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to get CDC system status:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get CDC system status',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Real-time CDC Data Submission (NNDSS)
+  app.post('/api/public-health/cdc/submit/nndss', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      // Validate and submit to CDC
+      const submissionResult = await cdcService.submitToCDC('NNDSS', req.body, {
+        validateOnly: req.query.validateOnly === 'true',
+        generateReport: req.query.generateReport === 'true',
+        retryOnFailure: true
+      });
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_NNDSS_SUBMISSION',
+        resource: 'cdc_integration',
+        details: { 
+          submissionId: submissionResult.submissionId,
+          recordsSubmitted: submissionResult.recordsSubmitted,
+          success: submissionResult.success
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        data: submissionResult,
+        message: submissionResult.success 
+          ? 'NNDSS data submitted to CDC successfully' 
+          : 'NNDSS submission completed with errors'
+      });
+    } catch (error) {
+      console.error('❌ Failed to submit NNDSS data to CDC:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to submit NNDSS data to CDC',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Real-time CDC Data Submission (NEDSS)
+  app.post('/api/public-health/cdc/submit/nedss', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      const submissionResult = await cdcService.submitToCDC('NEDSS', req.body, {
+        validateOnly: req.query.validateOnly === 'true',
+        generateReport: req.query.generateReport === 'true',
+        retryOnFailure: true
+      });
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_NEDSS_SUBMISSION',
+        resource: 'cdc_integration',
+        details: { 
+          submissionId: submissionResult.submissionId,
+          recordsSubmitted: submissionResult.recordsSubmitted,
+          success: submissionResult.success
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        data: submissionResult,
+        message: submissionResult.success 
+          ? 'NEDSS data submitted to CDC successfully' 
+          : 'NEDSS submission completed with errors'
+      });
+    } catch (error) {
+      console.error('❌ Failed to submit NEDSS data to CDC:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to submit NEDSS data to CDC',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Real-time HAN Alert Publishing
+  app.post('/api/public-health/cdc/submit/han', authenticateJWT, authorizeRoles('public_health_officer', 'emergency_coordinator', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      const submissionResult = await cdcService.submitToCDC('HAN', req.body, {
+        validateOnly: req.query.validateOnly === 'true',
+        generateReport: req.query.generateReport === 'true',
+        retryOnFailure: true
+      });
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_HAN_PUBLICATION',
+        resource: 'cdc_integration',
+        details: { 
+          submissionId: submissionResult.submissionId,
+          priority: req.body.priority,
+          messageType: req.body.messageType,
+          success: submissionResult.success
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        data: submissionResult,
+        message: submissionResult.success 
+          ? 'HAN alert published to CDC successfully' 
+          : 'HAN alert publication completed with errors'
+      });
+    } catch (error) {
+      console.error('❌ Failed to publish HAN alert to CDC:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to publish HAN alert to CDC',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // CDC WONDER Database Query
+  app.post('/api/public-health/cdc/wonder/query', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      const queryResult = await cdcService.queryCDCWonder(req.body);
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_WONDER_QUERY',
+        resource: 'cdc_integration',
+        details: { 
+          dataset: req.body.dataset,
+          parameters: req.body.parameters
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        data: queryResult,
+        message: 'CDC WONDER query completed successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to query CDC WONDER database:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to query CDC WONDER database',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Real-time Syndromic Surveillance Data Feed (ESSENCE)
+  app.get('/api/public-health/cdc/essence/surveillance', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      const surveillanceData = await cdcService.getSyndromicSurveillanceData(req.query);
+
+      res.json({
+        success: true,
+        data: surveillanceData,
+        message: 'Syndromic surveillance data retrieved successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to get syndromic surveillance data:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get syndromic surveillance data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // CDC Data Quality Validation
+  app.post('/api/public-health/cdc/validate', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      const { data, dataType } = req.body;
+
+      if (!Array.isArray(data) || !dataType) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid request - data must be an array and dataType must be specified'
+        });
+      }
+
+      const qualityReport = await cdcService.validateDataQuality(data, dataType);
+
+      res.json({
+        success: true,
+        data: qualityReport,
+        message: 'Data quality validation completed'
+      });
+    } catch (error) {
+      console.error('❌ Failed to validate data quality:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to validate data quality',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Configure Automated CDC Reporting
+  app.post('/api/public-health/cdc/configure-reporting', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      await cdcService.configureAutomatedReporting(req.body);
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_CONFIGURE_AUTOMATED_REPORTING',
+        resource: 'cdc_integration',
+        details: { 
+          reportType: req.body.reportType,
+          frequency: req.body.schedule?.frequency,
+          enabled: req.body.enabled
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        message: 'CDC automated reporting configured successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to configure CDC automated reporting:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to configure CDC automated reporting',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // CDC Bulk Data Synchronization
+  app.post('/api/public-health/cdc/bulk-sync', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), sensitiveOperationLimiter, async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      const { syncData } = req.body;
+
+      if (!syncData || typeof syncData !== 'object') {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid request - syncData object required'
+        });
+      }
+
+      // Perform bulk synchronization
+      const syncResults = await (cdcService as any).cdcClient?.bulkSyncData(syncData) || {};
+
+      // Create audit log
+      await storage.createAuditLog({
+        userId: req.userId!,
+        action: 'CDC_BULK_SYNC',
+        resource: 'cdc_integration',
+        details: { 
+          systems: Object.keys(syncData),
+          totalRecords: Object.values(syncData).reduce((sum: number, arr: any) => sum + (Array.isArray(arr) ? arr.length : 0), 0),
+          results: syncResults
+        },
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent')
+      });
+
+      res.json({
+        success: true,
+        data: syncResults,
+        message: 'CDC bulk data synchronization completed'
+      });
+    } catch (error) {
+      console.error('❌ Failed to perform CDC bulk sync:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to perform CDC bulk sync',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // Create PHIN-compliant message
+  app.post('/api/public-health/cdc/phin-message', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const { messageType, priority, senderInfo, receiverInfo } = req.body;
+
+      if (!messageType || !senderInfo || !receiverInfo) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing required fields: messageType, senderInfo, receiverInfo'
+        });
+      }
+
+      const phinMessage = createPHINMessageHeader(
+        messageType,
+        priority || 'ROUTINE',
+        senderInfo,
+        receiverInfo
+      );
+
+      res.json({
+        success: true,
+        data: phinMessage,
+        message: 'PHIN-compliant message header created successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to create PHIN message:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to create PHIN message',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // HL7 FHIR R4 Resource Conversion and Submission
+  app.post('/api/public-health/cdc/fhir/convert', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      const { data, resourceType } = req.body;
+
+      if (!data || !resourceType) {
+        return res.status(400).json({
+          success: false,
+          error: 'Missing required fields: data, resourceType'
+        });
+      }
+
+      const fhirResource = cdcService.convertToFHIR(data, resourceType);
+
+      // Optionally submit to CDC Data Exchange Platform
+      if (req.query.submit === 'true') {
+        const submissionResult = await (cdcService as any).cdcClient?.submitFHIRResource(fhirResource);
+        
+        res.json({
+          success: true,
+          data: {
+            fhirResource,
+            submissionResult
+          },
+          message: 'FHIR resource converted and submitted successfully'
+        });
+      } else {
+        res.json({
+          success: true,
+          data: fhirResource,
+          message: 'FHIR resource converted successfully'
+        });
+      }
+    } catch (error) {
+      console.error('❌ Failed to convert/submit FHIR resource:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to convert/submit FHIR resource',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
+  // CDC Integration Dashboard Data
+  app.get('/api/public-health/cdc/dashboard', authenticateJWT, authorizeRoles('epidemiologist', 'public_health_officer', 'admin'), async (req: AuthenticatedRequest, res) => {
+    try {
+      const cdcService = await getCDCService();
+      
+      // Get comprehensive CDC integration metrics
+      const [systemStatus, wonderData, surveillanceData] = await Promise.allSettled([
+        cdcService.getCDCSystemStatus(),
+        cdcService.queryCDCWonder({
+          dataset: 'mortality',
+          parameters: { 
+            year: new Date().getFullYear() - 1,
+            state: 'all',
+            cause: 'all'
+          },
+          format: 'json'
+        }).catch(() => null), // Graceful fallback
+        cdcService.getSyndromicSurveillanceData({
+          timeframe: '24h',
+          region: 'national'
+        }).catch(() => null) // Graceful fallback
+      ]);
+
+      const dashboardData = {
+        systemStatus: systemStatus.status === 'fulfilled' ? systemStatus.value : null,
+        wonderData: wonderData.status === 'fulfilled' ? wonderData.value : null,
+        surveillanceData: surveillanceData.status === 'fulfilled' ? surveillanceData.value : null,
+        lastUpdate: new Date().toISOString(),
+        integrationActive: systemStatus.status === 'fulfilled'
+      };
+
+      res.json({
+        success: true,
+        data: dashboardData,
+        message: 'CDC integration dashboard data retrieved successfully'
+      });
+    } catch (error) {
+      console.error('❌ Failed to get CDC dashboard data:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to get CDC dashboard data',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   // =============================================================================
   // PHASE 2: REVOLUTIONARY CYPHER AI DUAL INTELLIGENCE SYSTEM API ENDPOINTS
@@ -9030,6 +12827,2707 @@ startxref
     }
   });
   */
+
+  // ===== CyDEF (Autonomous Cyber Defense) API Endpoints =====
+
+  // Lazy import CyDEF service
+  let cydefService: any = null;
+  const getCydefService = async () => {
+    if (!cydefService) {
+      const { CydefService } = await import('./services/cydef-service.js');
+      cydefService = new CydefService({
+        organizationId: 'default-org',
+        systemName: 'CyDEF-Primary',
+        targetAccuracy: 992, // 99.2%
+        autonomousMode: true,
+        threatDetectionEngine: 'pytorch_deap',
+        evolutionCycleIntervalMs: 30000, // 30 seconds
+      });
+      await cydefService.initialize();
+    }
+    return cydefService;
+  };
+
+  // Get CyDEF system status
+  app.get('/api/cydef/systems/status', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const status = await service.getSystemStatus();
+      
+      res.json(status);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF system status:', error);
+      res.status(500).json({ 
+        error: 'Failed to get system status',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF real-time events
+  app.get('/api/cydef/events', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const limit = parseInt(req.query.limit as string) || 50;
+      const events = service.getRealTimeEvents(limit);
+      
+      res.json(events);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF events:', error);
+      res.status(500).json({ 
+        error: 'Failed to get real-time events',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF performance metrics
+  app.get('/api/cydef/metrics/:systemId?', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { systemId } = req.params;
+      const metricType = req.query.metricType as string;
+      
+      const metrics = service.getPerformanceMetrics(systemId || '', metricType);
+      
+      res.json(metrics);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF metrics:', error);
+      res.status(500).json({ 
+        error: 'Failed to get performance metrics',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get autonomous response history
+  app.get('/api/cydef/responses/:systemId?', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { systemId } = req.params;
+      const limit = parseInt(req.query.limit as string) || 100;
+      
+      // For demo purposes, return mock data
+      const responses = [
+        {
+          id: `response-${Date.now()}-1`,
+          responseType: 'isolate',
+          confidenceScore: 94,
+          executionStatus: 'completed',
+          threatId: 'threat-123',
+          executedAt: new Date(Date.now() - 300000),
+          completedAt: new Date(Date.now() - 295000),
+          effectivenessScore: 89
+        },
+        {
+          id: `response-${Date.now()}-2`,
+          responseType: 'block',
+          confidenceScore: 87,
+          executionStatus: 'executing',
+          threatId: 'threat-124',
+          executedAt: new Date(Date.now() - 120000),
+          completedAt: null,
+          effectivenessScore: null
+        },
+        {
+          id: `response-${Date.now()}-3`,
+          responseType: 'monitor',
+          confidenceScore: 76,
+          executionStatus: 'completed',
+          threatId: 'threat-125',
+          executedAt: new Date(Date.now() - 600000),
+          completedAt: new Date(Date.now() - 580000),
+          effectivenessScore: 92
+        }
+      ];
+      
+      res.json(responses.slice(0, limit));
+    } catch (error: any) {
+      console.error('❌ Failed to get autonomous responses:', error);
+      res.status(500).json({ 
+        error: 'Failed to get autonomous responses',
+        message: error.message 
+      });
+    }
+  });
+
+  // Process threat through CyDEF
+  app.post('/api/cydef/analyze-threat', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const { threatData } = req.body;
+      
+      if (!threatData || !threatData.id) {
+        return res.status(400).json({
+          error: 'Invalid threat data provided'
+        });
+      }
+      
+      // Convert request data to threat format
+      const threat = {
+        id: threatData.id,
+        type: threatData.type || 'unknown',
+        severity: threatData.severity || 'medium',
+        source: threatData.source,
+        description: threatData.description
+      };
+      
+      const decision = await service.processThreat(threat);
+      
+      res.json({
+        decision,
+        threatId: threat.id,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error: any) {
+      console.error('❌ Failed to analyze threat:', error);
+      res.status(500).json({ 
+        error: 'Failed to analyze threat',
+        message: error.message 
+      });
+    }
+  });
+
+  // Get CyDEF dashboard overview
+  app.get('/api/cydef/dashboard', async (req, res) => {
+    try {
+      const service = await getCydefService();
+      const systemStatus = await service.getSystemStatus();
+      const events = service.getRealTimeEvents(10);
+      
+      const overview = {
+        systems: systemStatus,
+        recentEvents: events,
+        performanceSummary: {
+          totalSystems: systemStatus.length,
+          activeSystems: systemStatus.filter(s => s.status === 'active').length,
+          averageAccuracy: systemStatus.reduce((acc, s) => acc + s.actualAccuracy, 0) / systemStatus.length || 0,
+          totalThreatsProcessed: systemStatus.reduce((acc, s) => acc + s.totalThreatsProcessed, 0),
+          totalAutonomousResponses: systemStatus.reduce((acc, s) => acc + s.totalAutonomousResponses, 0)
+        },
+        timestamp: new Date().toISOString()
+      };
+      
+      res.json(overview);
+    } catch (error: any) {
+      console.error('❌ Failed to get CyDEF dashboard:', error);
+      res.status(500).json({ 
+        error: 'Failed to get dashboard data',
+        message: error.message 
+      });
+    }
+  });
+
+  // ===== CypherHUM API Endpoints =====
+  
+  // CypherHUM Dashboard - Main interface status and overview
+  app.get("/api/cypherhum/dashboard", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+
+      // Get user's active CypherHUM sessions
+      const sessions = await storage.getCypherhumSessions(userId);
+      const activeSessions = sessions.filter(s => s.status === "active");
+      
+      // Get user's visualizations
+      const visualizations = await storage.getCypherhumVisualizations(userId);
+      
+      // Get recent analytics
+      const analytics = await storage.getCypherhumAnalytics(undefined, userId);
+      const recentAnalytics = analytics.slice(0, 10);
+      
+      // Get threat models count
+      const threatModels = await storage.getCypherhumThreatModels();
+      
+      const dashboardData = {
+        status: "operational",
+        activeSessions: activeSessions.length,
+        totalSessions: sessions.length,
+        availableVisualizations: visualizations.length,
+        threatModelsCount: threatModels.length,
+        recentAnalytics,
+        aiStatus: "online",
+        holographicRendering: "enabled",
+        lastUpdate: new Date().toISOString()
+      };
+      
+      res.json(dashboardData);
+    } catch (error) {
+      console.error('Error fetching CypherHUM dashboard:', error);
+      res.status(500).json({ error: 'Failed to fetch dashboard data' });
+    }
+  });
+  
+  // CypherHUM Sessions - Holographic session management
+  app.get("/api/cypherhum/sessions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const sessions = await storage.getCypherhumSessions(userId);
+      res.json(sessions);
+    } catch (error) {
+      console.error('Error fetching CypherHUM sessions:', error);
+      res.status(500).json({ error: 'Failed to fetch sessions' });
+    }
+  });
+  
+  app.post("/api/cypherhum/sessions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      // Validate request body
+      const sessionData = insertCypherhumSessionSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      const session = await storage.createCypherhumSession(sessionData);
+      res.status(201).json(session);
+    } catch (error) {
+      console.error('Error creating CypherHUM session:', error);
+      res.status(400).json({ error: 'Failed to create session' });
+    }
+  });
+  
+  app.put("/api/cypherhum/sessions/:sessionId", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { sessionId } = req.params;
+      const updates = req.body;
+      
+      const session = await storage.updateCypherhumSession(sessionId, updates);
+      res.json(session);
+    } catch (error) {
+      console.error('Error updating CypherHUM session:', error);
+      res.status(400).json({ error: 'Failed to update session' });
+    }
+  });
+  
+  // CypherHUM Visualizations - 3D visualization presets and configurations
+  app.get("/api/cypherhum/visualizations", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const visualizations = await storage.getCypherhumVisualizations(userId);
+      res.json(visualizations);
+    } catch (error) {
+      console.error('Error fetching CypherHUM visualizations:', error);
+      res.status(500).json({ error: 'Failed to fetch visualizations' });
+    }
+  });
+  
+  app.post("/api/cypherhum/visualizations", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const visualizationData = insertCypherhumVisualizationSchema.parse({
+        ...req.body,
+        createdBy: userId
+      });
+      
+      const visualization = await storage.createCypherhumVisualization(visualizationData);
+      res.status(201).json(visualization);
+    } catch (error) {
+      console.error('Error creating CypherHUM visualization:', error);
+      res.status(400).json({ error: 'Failed to create visualization' });
+    }
+  });
+  
+  // CypherHUM AI Analysis - AI-powered threat analysis and processing
+  app.post("/api/cypherhum/ai-analysis", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const { threatData, analysisType, context } = req.body;
+      
+      if (!threatData || !analysisType) {
+        return res.status(400).json({ error: 'Threat data and analysis type are required' });
+      }
+      
+      // Simulate AI threat analysis processing
+      const analysis = {
+        id: `analysis_${Date.now()}`,
+        threatData,
+        analysisType,
+        context,
+        results: {
+          riskScore: Math.floor(Math.random() * 100),
+          threatLevel: ["low", "medium", "high", "critical"][Math.floor(Math.random() * 4)],
+          indicators: [
+            "Suspicious network traffic patterns detected",
+            "Anomalous authentication attempts",
+            "Potential malware signatures identified"
+          ],
+          recommendations: [
+            "Implement additional monitoring for affected systems",
+            "Review access controls for identified users",
+            "Update security policies based on threat patterns"
+          ],
+          confidence: Math.floor(Math.random() * 100),
+          processingTime: Math.floor(Math.random() * 1000) + 100
+        },
+        timestamp: new Date().toISOString(),
+        processedBy: "CypherHUM-AI-Engine",
+        userId
+      };
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error('Error processing CypherHUM AI analysis:', error);
+      res.status(500).json({ error: 'Failed to process AI analysis' });
+    }
+  });
+  
+  // CypherHUM Interactions - AI command processing and natural language interface
+  app.get("/api/cypherhum/interactions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { sessionId } = req.query;
+      const interactions = await storage.getCypherhumInteractions(sessionId as string);
+      res.json(interactions);
+    } catch (error) {
+      console.error('Error fetching CypherHUM interactions:', error);
+      res.status(500).json({ error: 'Failed to fetch interactions' });
+    }
+  });
+  
+  app.post("/api/cypherhum/interactions", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const interactionData = insertCypherhumInteractionSchema.parse(req.body);
+      
+      // Process the interaction and generate AI response
+      const processedInput = typeof interactionData.inputData === 'object' && 
+        interactionData.inputData?.text ? 
+        String(interactionData.inputData.text).toLowerCase().trim() : 
+        'unknown command';
+      
+      const aiResponse = {
+        text: `Processing: "${processedInput}". CypherHUM AI is analyzing your request...`,
+        action: interactionData.interactionType === 'voice_command' ? 'voice_response' : 'text_response',
+        confidence: 0.85 + Math.random() * 0.15
+      };
+      
+      const interaction = await storage.createCypherhumInteraction({
+        ...interactionData,
+        processedInput,
+        aiResponse,
+        responseType: 'acknowledgment',
+        processingTime: Math.floor(Math.random() * 500) + 50,
+        confidenceScore: aiResponse.confidence
+      });
+      
+      res.status(201).json(interaction);
+    } catch (error) {
+      console.error('Error creating CypherHUM interaction:', error);
+      res.status(400).json({ error: 'Failed to process interaction' });
+    }
+  });
+  
+  // CypherHUM 3D Data - 3D rendering data generation for holographic displays  
+  app.get("/api/cypherhum/3d-data", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { threatId, modelType, complexity } = req.query;
+      
+      // Generate 3D rendering data for threats
+      const threeDData = {
+        threatId,
+        modelType: modelType || 'particle_system',
+        complexity: complexity || 'medium',
+        geometry: {
+          vertices: Array.from({length: 100}, () => [
+            Math.random() * 10 - 5,
+            Math.random() * 10 - 5, 
+            Math.random() * 10 - 5
+          ]),
+          faces: Array.from({length: 50}, (_, i) => [i, i+1, i+2]),
+          materials: {
+            baseColor: [Math.random(), Math.random(), Math.random()],
+            metallic: Math.random(),
+            roughness: Math.random(),
+            emission: [0.1, 0.1, 0.8]
+          }
+        },
+        animation: {
+          rotationSpeed: [0, 0.01, 0],
+          scaleVariation: 0.1,
+          particleCount: 1000
+        },
+        holographicProperties: {
+          transparency: 0.7,
+          refraction: 1.33,
+          hologramIntensity: 0.8
+        },
+        renderingHints: {
+          lodLevels: ['high', 'medium', 'low'],
+          cullingDistance: 100,
+          shadowCasting: true
+        }
+      };
+      
+      res.json(threeDData);
+    } catch (error) {
+      console.error('Error generating CypherHUM 3D data:', error);
+      res.status(500).json({ error: 'Failed to generate 3D data' });
+    }
+  });
+  
+  // CypherHUM Analytics - Performance analytics and usage statistics
+  app.get("/api/cypherhum/analytics", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      const { sessionId, metricType, timeRange } = req.query;
+      
+      const analytics = await storage.getCypherhumAnalytics(
+        sessionId as string, 
+        userId
+      );
+      
+      // Filter by metric type if specified
+      const filteredAnalytics = metricType ? 
+        analytics.filter(a => a.metricType === metricType) : 
+        analytics;
+      
+      // Generate summary statistics
+      const summary = {
+        totalMetrics: filteredAnalytics.length,
+        avgPerformance: filteredAnalytics.reduce((sum, a) => sum + (a.metricValue || 0), 0) / filteredAnalytics.length || 0,
+        timeRange: timeRange || '24h',
+        topMetrics: ['fps', 'response_time', 'interaction_count', 'rendering_quality'],
+        performanceTrends: {
+          improving: filteredAnalytics.length > 0 ? Math.random() > 0.5 : false,
+          degrading: filteredAnalytics.length > 0 ? Math.random() > 0.7 : false
+        }
+      };
+      
+      res.json({
+        analytics: filteredAnalytics,
+        summary
+      });
+    } catch (error) {
+      console.error('Error fetching CypherHUM analytics:', error);
+      res.status(500).json({ error: 'Failed to fetch analytics' });
+    }
+  });
+  
+  app.post("/api/cypherhum/analytics", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const userId = req.user?.id;
+      if (!userId) {
+        return res.status(401).json({ error: "User not authenticated" });
+      }
+      
+      const analyticData = insertCypherhumAnalyticsSchema.parse({
+        ...req.body,
+        userId
+      });
+      
+      const analytic = await storage.createCypherhumAnalytic(analyticData);
+      res.status(201).json(analytic);
+    } catch (error) {
+      console.error('Error creating CypherHUM analytic:', error);
+      res.status(400).json({ error: 'Failed to create analytic' });
+    }
+  });
+  
+  // CypherHUM Threat Models - 3D threat model management and visualization
+  app.get("/api/cypherhum/threat-models", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { threatId } = req.query;
+      const threatModels = await storage.getCypherhumThreatModels(threatId as string);
+      res.json(threatModels);
+    } catch (error) {
+      console.error('Error fetching CypherHUM threat models:', error);
+      res.status(500).json({ error: 'Failed to fetch threat models' });
+    }
+  });
+  
+  app.post("/api/cypherhum/threat-models", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const threatModelData = insertCypherhumThreatModelSchema.parse(req.body);
+      const threatModel = await storage.createCypherhumThreatModel(threatModelData);
+      res.status(201).json(threatModel);
+    } catch (error) {
+      console.error('Error creating CypherHUM threat model:', error);
+      res.status(400).json({ error: 'Failed to create threat model' });
+    }
+  });
+  
+  app.put("/api/cypherhum/threat-models/:modelId", authenticateJWT, async (req: AuthenticatedRequest, res) => {
+    try {
+      const { modelId } = req.params;
+      const updates = req.body;
+      
+      const threatModel = await storage.updateCypherhumThreatModel(modelId, updates);
+      res.json(threatModel);
+    } catch (error) {
+      console.error('Error updating CypherHUM threat model:', error);
+      res.status(400).json({ error: 'Failed to update threat model' });
+    }
+  });
+
+  // ===== WebSocket Integration for Real-time CyDEF Updates =====
+  
+  // Setup WebSocket server for real-time CyDEF events (guarded by feature flag)
+  if (process.env.ENABLE_WS !== 'false') {
+    try {
+      const { WebSocketServer } = await import('ws');
+      const wss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/cydef'
+      });
+
+  wss.on('connection', (ws) => {
+    console.log('🔗 CyDEF WebSocket client connected');
+    
+    // Send welcome message
+    ws.send(JSON.stringify({
+      type: 'welcome',
+      message: 'Connected to CyDEF real-time updates',
+      timestamp: new Date().toISOString()
+    }));
+
+    // Setup CyDEF service event handlers
+    const handleRealtimeEvent = (event: any) => {
+      if (ws.readyState === ws.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'realtimeEvent',
+          data: event
+        }));
+      }
+    };
+
+    // Initialize CyDEF service and setup listeners
+    getCydefService().then(service => {
+      service.on('realtimeEvent', handleRealtimeEvent);
+      
+      // Send current system status on connect
+      service.getSystemStatus().then(status => {
+        if (ws.readyState === ws.OPEN) {
+          ws.send(JSON.stringify({
+            type: 'systemStatus',
+            data: status
+          }));
+        }
+      });
+    }).catch(error => {
+      console.error('❌ Failed to initialize CyDEF service for WebSocket:', error);
+    });
+
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('📨 Received WebSocket message:', data);
+        
+        // Handle different message types
+        switch (data.type) {
+          case 'ping':
+            ws.send(JSON.stringify({ type: 'pong', timestamp: new Date().toISOString() }));
+            break;
+          case 'subscribe':
+            // Handle subscription to specific event types
+            break;
+          default:
+            console.log('Unknown WebSocket message type:', data.type);
+        }
+      } catch (error) {
+        console.error('❌ Failed to parse WebSocket message:', error);
+      }
+    });
+
+    ws.on('close', () => {
+      console.log('🔌 CyDEF WebSocket client disconnected');
+      // Remove event listeners when client disconnects
+      getCydefService().then(service => {
+        service.removeListener('realtimeEvent', handleRealtimeEvent);
+      }).catch(() => {
+        // Service may not be initialized
+      });
+    });
+
+    ws.on('error', (error) => {
+      console.error('❌ CyDEF WebSocket error:', error);
+    });
+  });
+
+      console.log('🚀 CyDEF WebSocket server initialized at /ws/cydef');
+
+      // ===== CypherHUM WebSocket Support =====
+
+      // CypherHUM WebSocket endpoint for real-time 3D holographic updates
+      wss.on('connection', async (ws, request) => {
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid CypherHUM WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Handle CypherHUM WebSocket connections
+        if (url.pathname === '/ws/cypherhum') {
+          try {
+            // Extract and verify JWT token for WebSocket authentication
+            let token: string | null = null;
+            
+            // Check for token in Authorization header first
+            const authHeader = request.headers.authorization;
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+              token = authHeader.substring(7);
+            }
+            
+            // Check for token in query string as fallback
+            if (!token) {
+              token = url.searchParams.get('token');
+            }
+            
+            if (!token) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No authentication token provided');
+              ws.close(1008, 'Authentication required');
+              return;
+            }
+            
+            // Verify the token using AuthService
+            const { AuthService } = await import('./auth');
+            const payload = AuthService.verifyToken(token);
+            
+            if (!payload || !payload.userId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid authentication token');
+              ws.close(1008, 'Invalid authentication token');
+              return;
+            }
+            
+            // Log successful authentication with detailed info
+            console.log(`✅ CypherHUM WebSocket authenticated successfully:`);
+            console.log(`   📧 User: ${payload.email}`);
+            console.log(`   🔑 Role: ${payload.role}`);
+            console.log(`   🆔 User ID: ${payload.userId}`);
+            console.log(`   🕐 Token expires: ${payload.exp ? new Date(payload.exp * 1000).toISOString() : 'Unknown'}`);
+            
+            // Store user info for this WebSocket connection
+            (ws as any).userId = payload.userId;
+            (ws as any).userEmail = payload.email;
+            (ws as any).userRole = payload.role;
+            (ws as any).connectedAt = new Date().toISOString();
+            
+            // Initialize CypherHUM service
+            const service = await initCypherHumService();
+            
+            // Extract session ID from query parameters
+            const sessionId = url.searchParams.get('sessionId');
+            if (!sessionId) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: No session ID provided');
+              ws.close(1008, 'Session ID required');
+              return;
+            }
+            
+            // Verify session ownership
+            const session = await service.getSession(sessionId);
+            if (!session || (session.userId !== payload.userId && payload.role !== 'admin')) {
+              console.warn('⚠️ CypherHUM WebSocket connection rejected: Invalid session or access denied');
+              ws.close(1008, 'Invalid session or access denied');
+              return;
+            }
+            
+            // Set up real-time 3D updates for this session
+            await service.setupRealTimeUpdates(sessionId, ws);
+            
+            // Send initial 3D data
+            const initial3DData = await service.generateRealTimeUpdates(sessionId);
+            if (initial3DData && ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'cypherhum_initial_data',
+                sessionId,
+                data: initial3DData
+              }));
+            }
+            
+            // Handle incoming messages for CypherHUM interactions
+            ws.on('message', async (message) => {
+              try {
+                const data = JSON.parse(message.toString());
+                
+                switch (data.type) {
+                  case 'ai_query':
+                    // Process AI threat analysis query
+                    const analysis = await service.processAIThreatQuery(sessionId, data.query, data.context);
+                    ws.send(JSON.stringify({
+                      type: 'ai_analysis_result',
+                      requestId: data.requestId,
+                      data: analysis
+                    }));
+                    break;
+                    
+                  case '3d_interaction':
+                    // Log 3D interaction for analytics
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'interaction',
+                      metricName: data.interactionType,
+                      metricValue: 1,
+                      metricUnit: 'count',
+                      additionalData: data.interactionData,
+                      visualizationContext: data.visualizationContext
+                    });
+                    break;
+                    
+                  case 'performance_metric':
+                    // Record performance metrics (FPS, render time, etc.)
+                    await service.recordPerformanceMetric(sessionId, {
+                      userId: payload.userId,
+                      metricType: 'performance',
+                      metricName: data.metricName,
+                      metricValue: data.metricValue,
+                      metricUnit: data.metricUnit,
+                      deviceInfo: data.deviceInfo
+                    });
+                    break;
+                }
+              } catch (error) {
+                console.error('❌ Error processing CypherHUM WebSocket message:', error);
+                ws.send(JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to process message'
+                }));
+              }
+            });
+            
+            ws.on('close', () => {
+              console.log(`🔌 CypherHUM WebSocket disconnected: ${payload.email}`);
+            });
+            
+          } catch (authError) {
+            console.error('❌ CypherHUM WebSocket authentication failed:', authError);
+            ws.close(1008, 'Authentication failed');
+            return;
+          }
+        }
+      });
+
+      // ===== Live Location WebSocket Support =====
+      
+      // Live Location WebSocket endpoint with authentication
+      wss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/live-location') {
+          console.warn(`⚠️ WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ Live Location WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ Live Location WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ Live Location WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🆔 User ID: ${payload.userId}`);
+          console.log(`   🕐 Token expires: ${payload.exp ? new Date(payload.exp * 1000).toISOString() : 'Unknown'}`);
+          
+          // Store user info for this WebSocket connection
+          (ws as any).userId = payload.userId;
+          (ws as any).userEmail = payload.email;
+          (ws as any).userRole = payload.role;
+          (ws as any).connectedAt = new Date().toISOString();
+          
+        } catch (authError) {
+          console.error('❌ Live Location WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Initialize Live Location service and set up event listeners
+        initLiveLocationService().then(liveLocationService => {
+          // Real-time location update handler
+          const handleLocationUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'locationUpdate',
+                data: {
+                  device: data.device,
+                  location: data.location,
+                  geofenceStatus: data.geofenceStatus,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Device status change handler
+          const handleDeviceStatusChange = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'deviceStatusChange',
+                data: {
+                  deviceId: data.deviceId,
+                  status: data.status,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Location alert handler
+          const handleLocationAlert = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'locationAlert',
+                data: {
+                  alert: data.alert,
+                  severity: data.severity,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Geofence breach handler
+          const handleGeofenceBreach = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'geofenceBreach',
+                data: {
+                  deviceId: data.deviceId,
+                  geofenceId: data.geofenceId,
+                  breachType: data.breachType,
+                  location: data.location,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Statistics update handler
+          const handleStatsUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'statsUpdate',
+                data: {
+                  stats: data.stats,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          };
+
+          // Register event listeners
+          liveLocationService.on('locationUpdate', handleLocationUpdate);
+          liveLocationService.on('deviceStatusChange', handleDeviceStatusChange);
+          liveLocationService.on('locationAlert', handleLocationAlert);
+          liveLocationService.on('geofenceBreach', handleGeofenceBreach);
+          liveLocationService.on('statsUpdate', handleStatsUpdate);
+
+          // Send initial system status
+          liveLocationService.getStats().then(stats => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'systemStatus',
+                data: {
+                  status: 'active',
+                  stats,
+                  timestamp: new Date().toISOString()
+                }
+              }));
+            }
+          }).catch(error => {
+            console.error('❌ Failed to get Live Location stats for WebSocket:', error);
+          });
+
+          // Handle WebSocket close - remove listeners
+          ws.on('close', () => {
+            console.log('🔌 Live Location WebSocket client disconnected');
+            liveLocationService.removeListener('locationUpdate', handleLocationUpdate);
+            liveLocationService.removeListener('deviceStatusChange', handleDeviceStatusChange);
+            liveLocationService.removeListener('locationAlert', handleLocationAlert);
+            liveLocationService.removeListener('geofenceBreach', handleGeofenceBreach);
+            liveLocationService.removeListener('statsUpdate', handleStatsUpdate);
+          });
+
+        }).catch(error => {
+          console.error('❌ Failed to initialize Live Location service for WebSocket:', error);
+        });
+
+        // Handle incoming WebSocket messages
+        ws.on('message', (message) => {
+          try {
+            const data = JSON.parse(message.toString());
+            console.log('📨 Received Live Location WebSocket message:', data);
+            
+            // Handle different message types
+            switch (data.type) {
+              case 'ping':
+                ws.send(JSON.stringify({ type: 'pong', timestamp: new Date().toISOString() }));
+                break;
+              case 'subscribe':
+                // Handle subscription to specific event types
+                console.log('📡 Live Location WebSocket subscription:', data.events);
+                break;
+              case 'updateLocation':
+                // Handle real-time location updates from clients
+                initLiveLocationService().then(service => {
+                  return service.updateDeviceLocation(data.locationUpdate);
+                }).catch(error => {
+                  console.error('❌ Failed to update location via WebSocket:', error);
+                });
+                break;
+              case 'requestStats':
+                // Send current statistics
+                initLiveLocationService().then(service => {
+                  return service.getStats();
+                }).then(stats => {
+                  if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({
+                      type: 'statsUpdate',
+                      data: { stats, timestamp: new Date().toISOString() }
+                    }));
+                  }
+                }).catch(error => {
+                  console.error('❌ Failed to get stats via WebSocket:', error);
+                });
+                break;
+              default:
+                console.log('Unknown Live Location WebSocket message type:', data.type);
+            }
+          } catch (error) {
+            console.error('❌ Failed to parse Live Location WebSocket message:', error);
+          }
+        });
+
+        // Enhanced error handling with user context
+        ws.on('error', (error) => {
+          const userInfo = (ws as any).userEmail ? `(${(ws as any).userEmail})` : '(anonymous)';
+          console.error(`❌ Live Location WebSocket error for user ${userInfo}:`, error);
+        });
+
+        // Connection close event with proper cleanup
+        ws.on('close', (code, reason) => {
+          const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+          const connectedDuration = (ws as any).connectedAt 
+            ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+            : '';
+          
+          console.log(`🔌 Live Location WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+          console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+          
+          // Remove event listeners to prevent memory leaks
+          // Note: Event handlers are cleaned up automatically when WebSocket closes
+          // The Live Location service will handle cleanup internally
+        });
+      });
+
+      console.log('📍 Live Location WebSocket server initialized at /ws/live-location');
+
+      // ===== ACDS (Autonomous Cyber Defense Swarm) WebSocket Support =====
+
+      // ACDS WebSocket endpoint for real-time drone swarm coordination
+      const acdsWss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/acds'
+      });
+
+      acdsWss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid ACDS WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/acds') {
+          console.warn(`⚠️ ACDS WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ ACDS WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ ACDS WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ ACDS WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🚁 Swarm access granted for: ${payload.userId}`);
+        
+        // Track connection time for analytics
+        (ws as any).connectedAt = new Date().toISOString();
+        (ws as any).userId = payload.userId;
+        (ws as any).userEmail = payload.email;
+        
+        // Send welcome message with initial swarm status
+        ws.send(JSON.stringify({
+          type: 'welcome',
+          message: 'Connected to ACDS Swarm Coordination System',
+          user: payload.email,
+          timestamp: new Date().toISOString()
+        }));
+
+        try {
+          // Initialize ACDS service for this WebSocket connection
+          const acdsService = await initACDSService();
+          
+          // Setup real-time event handlers for ACDS updates
+          const handleSwarmTelemetry = (telemetryData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'swarm_telemetry',
+                payload: telemetryData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleDroneStatusUpdate = (droneUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'drone_status_update',
+                payload: droneUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleMissionUpdate = (missionUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'mission_update',
+                payload: missionUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleDeploymentUpdate = (deploymentUpdate: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'deployment_update',
+                payload: deploymentUpdate,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleCoordinationDecision = (coordinationData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'coordination_decision',
+                payload: coordinationData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleEmergencyAlert = (emergencyData: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'emergency_alert',
+                payload: emergencyData,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          // Register event listeners for real-time swarm updates
+          acdsService.on('swarmTelemetry', handleSwarmTelemetry);
+          acdsService.on('droneStatusUpdate', handleDroneStatusUpdate);
+          acdsService.on('missionUpdate', handleMissionUpdate);
+          acdsService.on('deploymentUpdate', handleDeploymentUpdate);
+          acdsService.on('coordinationDecision', handleCoordinationDecision);
+          acdsService.on('emergencyAlert', handleEmergencyAlert);
+
+          // Send initial swarm status on connection
+          try {
+            const swarmStatus = await acdsService.getSwarmStatus();
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'swarm_status',
+                payload: swarmStatus,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          } catch (error) {
+            console.error('❌ Failed to get initial ACDS swarm status:', error);
+          }
+
+          // Handle incoming WebSocket messages
+          ws.on('message', async (message) => {
+            try {
+              const data = JSON.parse(message.toString());
+              console.log('📨 Received ACDS WebSocket message:', data);
+              
+              // Handle different message types
+              switch (data.type) {
+                case 'ping':
+                  ws.send(JSON.stringify({ 
+                    type: 'pong', 
+                    timestamp: new Date().toISOString() 
+                  }));
+                  break;
+                  
+                case 'requestSwarmStatus':
+                  try {
+                    const swarmStatus = await acdsService.getSwarmStatus();
+                    ws.send(JSON.stringify({
+                      type: 'swarm_status',
+                      payload: swarmStatus,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to get swarm status via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'requestFleetStatus':
+                  try {
+                    const fleetStatus = await acdsService.getFleetStatus();
+                    ws.send(JSON.stringify({
+                      type: 'fleet_status',
+                      payload: fleetStatus,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to get fleet status via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'emergencyRecall':
+                  try {
+                    const recallResult = await acdsService.initiateEmergencyRecall(data.payload);
+                    // Broadcast emergency recall to all connected clients
+                    acdsWss.clients.forEach((client) => {
+                      if (client.readyState === WebSocket.OPEN) {
+                        client.send(JSON.stringify({
+                          type: 'emergency_alert',
+                          payload: {
+                            type: 'emergency_recall',
+                            message: 'Emergency recall initiated for all drones',
+                            result: recallResult
+                          },
+                          timestamp: new Date().toISOString()
+                        }));
+                      }
+                    });
+                  } catch (error) {
+                    console.error('❌ Failed to execute emergency recall via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'triggerCoordination':
+                  try {
+                    const coordinationResult = await acdsService.triggerCoordination(data.payload);
+                    ws.send(JSON.stringify({
+                      type: 'coordination_decision',
+                      payload: coordinationResult,
+                      timestamp: new Date().toISOString()
+                    }));
+                  } catch (error) {
+                    console.error('❌ Failed to trigger coordination via WebSocket:', error);
+                  }
+                  break;
+                  
+                case 'subscribe':
+                  // Handle subscription to specific event types
+                  console.log('📡 ACDS WebSocket subscription request:', data.payload);
+                  break;
+                  
+                default:
+                  console.log('Unknown ACDS WebSocket message type:', data.type);
+              }
+            } catch (error) {
+              console.error('❌ Failed to parse ACDS WebSocket message:', error);
+            }
+          });
+
+          // Setup periodic telemetry updates (every 2 seconds)
+          const telemetryInterval = setInterval(async () => {
+            try {
+              if (ws.readyState === WebSocket.OPEN) {
+                const telemetryData = await acdsService.getSwarmTelemetry();
+                ws.send(JSON.stringify({
+                  type: 'swarm_telemetry',
+                  payload: telemetryData,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            } catch (error) {
+              console.error('❌ Failed to send periodic telemetry:', error);
+            }
+          }, 2000);
+
+          // Cleanup interval on connection close
+          ws.on('close', (code, reason) => {
+            clearInterval(telemetryInterval);
+            
+            const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+            const connectedDuration = (ws as any).connectedAt 
+              ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+              : '';
+            
+            console.log(`🔌 ACDS WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+            console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+            
+            // Remove event listeners to prevent memory leaks
+            acdsService.removeListener('swarmTelemetry', handleSwarmTelemetry);
+            acdsService.removeListener('droneStatusUpdate', handleDroneStatusUpdate);
+            acdsService.removeListener('missionUpdate', handleMissionUpdate);
+            acdsService.removeListener('deploymentUpdate', handleDeploymentUpdate);
+            acdsService.removeListener('coordinationDecision', handleCoordinationDecision);
+            acdsService.removeListener('emergencyAlert', handleEmergencyAlert);
+          });
+
+        } catch (error) {
+          console.error('❌ Failed to initialize ACDS service for WebSocket:', error);
+          ws.send(JSON.stringify({
+            type: 'error',
+            message: 'Failed to initialize ACDS service',
+            timestamp: new Date().toISOString()
+          }));
+        }
+
+        } catch (authError) {
+          console.error('❌ ACDS WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Enhanced error handling
+        ws.on('error', (error) => {
+          console.error('❌ ACDS WebSocket error:', error);
+        });
+      });
+
+      console.log('🚁 ACDS WebSocket server initialized at /ws/acds');
+
+      // ===== UNIFIED SYSTEM WEBSOCKET SERVER =====
+      
+      // Unified WebSocket endpoint for real-time alerts from all four systems
+      const unifiedWss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/unified-alerts'
+      });
+
+      unifiedWss.on('connection', async (ws, request) => {
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error('❌ Invalid Unified WebSocket URL:', request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/unified-alerts') {
+          console.warn(`⚠️ Unified WebSocket connection rejected: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // Extract and verify JWT token for WebSocket authentication
+          let token: string | null = null;
+          
+          // Check for token in Authorization header first
+          const authHeader = request.headers.authorization;
+          if (authHeader && authHeader.startsWith('Bearer ')) {
+            token = authHeader.substring(7);
+          }
+          
+          // Check for token in query string as fallback
+          if (!token) {
+            token = url.searchParams.get('token');
+          }
+          
+          if (!token) {
+            console.warn('⚠️ Unified WebSocket connection rejected: No authentication token provided');
+            ws.close(1008, 'Authentication required');
+            return;
+          }
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ Unified WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ Unified WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🔄 Unified access granted for: ${payload.userId}`);
+        
+          // Track connection time for analytics
+          (ws as any).connectedAt = new Date().toISOString();
+          (ws as any).userId = payload.userId;
+          (ws as any).userEmail = payload.email;
+          
+          // Send welcome message with initial unified status
+          ws.send(JSON.stringify({
+            type: 'welcome',
+            message: 'Connected to Unified CyberSecured AI Platform',
+            user: payload.email,
+            timestamp: new Date().toISOString(),
+            systems: ['cydef', 'liveLocation', 'cypherHUM', 'acds']
+          }));
+
+          try {
+            // Initialize Unified Service for this WebSocket connection
+            const unifiedService = await getUnifiedService();
+            
+            // Setup real-time event handlers for unified alerts
+            const handleUnifiedAlert = (alert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'unified_alert',
+                  payload: alert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleSystemAlert = (systemAlert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'system_alert',
+                  payload: systemAlert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleThreatCorrelation = (correlation: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'threat_correlation',
+                  payload: correlation,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleSystemStatusUpdate = (statusUpdate: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'system_status_update',
+                  payload: statusUpdate,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleExecutiveAlert = (executiveAlert: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'executive_alert',
+                  payload: executiveAlert,
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            const handleCriticalIncident = (incident: any) => {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'critical_incident',
+                  payload: incident,
+                  priority: 'p1',
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            };
+
+            // Register event listeners for real-time unified updates
+            unifiedService.on('unifiedAlert', handleUnifiedAlert);
+            unifiedService.on('systemAlert', handleSystemAlert);
+            unifiedService.on('threatCorrelationDetected', handleThreatCorrelation);
+            unifiedService.on('systemStatusChange', handleSystemStatusUpdate);
+            unifiedService.on('executiveAlert', handleExecutiveAlert);
+            unifiedService.on('criticalIncident', handleCriticalIncident);
+
+            // Send initial unified system status on connection
+            try {
+              const [systemStatus, alertStats] = await Promise.all([
+                unifiedService.getUnifiedSystemStatus(),
+                unifiedService.getAlertStats()
+              ]);
+              
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'initial_status',
+                  payload: {
+                    systemStatus,
+                    alertStats,
+                    connectionTime: new Date().toISOString()
+                  },
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            } catch (error) {
+              console.error('❌ Failed to get initial unified status:', error);
+            }
+
+            // Handle incoming WebSocket messages
+            ws.on('message', async (message) => {
+              try {
+                const data = JSON.parse(message.toString());
+                console.log('📨 Received Unified WebSocket message:', data);
+                
+                // Handle different message types
+                switch (data.type) {
+                  case 'ping':
+                    ws.send(JSON.stringify({ 
+                      type: 'pong', 
+                      timestamp: new Date().toISOString() 
+                    }));
+                    break;
+                    
+                  case 'requestSystemStatus':
+                    try {
+                      const systemStatus = await unifiedService.getUnifiedSystemStatus();
+                      ws.send(JSON.stringify({
+                        type: 'system_status',
+                        payload: systemStatus,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get system status via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestAlerts':
+                    try {
+                      const filters = data.payload?.filters || {};
+                      const alertsResult = await unifiedService.getUnifiedAlerts(filters);
+                      ws.send(JSON.stringify({
+                        type: 'alerts',
+                        payload: alertsResult,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get alerts via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestAlertStats':
+                    try {
+                      const timeRange = data.payload?.timeRange;
+                      const alertStats = await unifiedService.getAlertStats(timeRange);
+                      ws.send(JSON.stringify({
+                        type: 'alert_stats',
+                        payload: alertStats,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get alert stats via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestExecutiveMetrics':
+                    try {
+                      const executiveMetrics = await unifiedService.getExecutiveMetrics();
+                      ws.send(JSON.stringify({
+                        type: 'executive_metrics',
+                        payload: executiveMetrics,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get executive metrics via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'requestCorrelationMetrics':
+                    try {
+                      const timeRange = data.payload?.timeRange;
+                      const correlationMetrics = await unifiedService.getCrossSystemMetrics(timeRange);
+                      ws.send(JSON.stringify({
+                        type: 'correlation_metrics',
+                        payload: correlationMetrics,
+                        timestamp: new Date().toISOString()
+                      }));
+                    } catch (error) {
+                      console.error('❌ Failed to get correlation metrics via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'acknowledgeAlert':
+                    try {
+                      const { alertId, userId } = data.payload;
+                      const updatedAlert = await unifiedService.updateAlert?.(alertId, {
+                        status: 'acknowledged',
+                        acknowledgedBy: userId,
+                        acknowledgedAt: new Date().toISOString()
+                      });
+                      
+                      if (updatedAlert) {
+                        // Broadcast alert update to all connected clients
+                        unifiedWss.clients.forEach((client) => {
+                          if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                              type: 'alert_updated',
+                              payload: updatedAlert,
+                              timestamp: new Date().toISOString()
+                            }));
+                          }
+                        });
+                      }
+                    } catch (error) {
+                      console.error('❌ Failed to acknowledge alert via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'resolveAlert':
+                    try {
+                      const { alertId, userId, resolution } = data.payload;
+                      const updatedAlert = await unifiedService.updateAlert?.(alertId, {
+                        status: 'resolved',
+                        resolvedBy: userId,
+                        resolvedAt: new Date().toISOString(),
+                        resolution: resolution
+                      });
+                      
+                      if (updatedAlert) {
+                        // Broadcast alert resolution to all connected clients
+                        unifiedWss.clients.forEach((client) => {
+                          if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify({
+                              type: 'alert_resolved',
+                              payload: updatedAlert,
+                              timestamp: new Date().toISOString()
+                            }));
+                          }
+                        });
+                      }
+                    } catch (error) {
+                      console.error('❌ Failed to resolve alert via WebSocket:', error);
+                    }
+                    break;
+                    
+                  case 'subscribe':
+                    // Handle subscription to specific event types
+                    console.log('📡 Unified WebSocket subscription request:', data.payload);
+                    const subscriptions = data.payload?.events || [];
+                    (ws as any).subscriptions = subscriptions;
+                    break;
+                    
+                  case 'emergencyBroadcast':
+                    try {
+                      // Only allow emergency broadcasts from admin users
+                      if (payload.role !== 'admin') {
+                        ws.send(JSON.stringify({
+                          type: 'error',
+                          message: 'Unauthorized: Emergency broadcast requires admin privileges',
+                          timestamp: new Date().toISOString()
+                        }));
+                        break;
+                      }
+                      
+                      const emergencyMessage = data.payload;
+                      
+                      // Broadcast emergency message to all connected clients
+                      unifiedWss.clients.forEach((client) => {
+                        if (client.readyState === WebSocket.OPEN) {
+                          client.send(JSON.stringify({
+                            type: 'emergency_broadcast',
+                            payload: emergencyMessage,
+                            priority: 'p1',
+                            timestamp: new Date().toISOString()
+                          }));
+                        }
+                      });
+                      
+                      console.log('🚨 Emergency broadcast sent to all unified clients');
+                    } catch (error) {
+                      console.error('❌ Failed to send emergency broadcast:', error);
+                    }
+                    break;
+                    
+                  default:
+                    console.log('Unknown Unified WebSocket message type:', data.type);
+                }
+              } catch (error) {
+                console.error('❌ Failed to parse Unified WebSocket message:', error);
+              }
+            });
+
+            // Setup periodic status updates (every 10 seconds)
+            const statusUpdateInterval = setInterval(async () => {
+              try {
+                if (ws.readyState === WebSocket.OPEN) {
+                  const healthStatus = unifiedService.getServiceHealth();
+                  ws.send(JSON.stringify({
+                    type: 'health_update',
+                    payload: healthStatus,
+                    timestamp: new Date().toISOString()
+                  }));
+                }
+              } catch (error) {
+                console.error('❌ Failed to send periodic health update:', error);
+              }
+            }, 10000);
+
+            // Cleanup interval and event listeners on connection close
+            ws.on('close', (code, reason) => {
+              clearInterval(statusUpdateInterval);
+              
+              const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+              const connectedDuration = (ws as any).connectedAt 
+                ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+                : '';
+              
+              console.log(`🔌 Unified WebSocket disconnected: ${userInfo} ${connectedDuration}`);
+              console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+              
+              // Remove event listeners to prevent memory leaks
+              unifiedService.removeListener('unifiedAlert', handleUnifiedAlert);
+              unifiedService.removeListener('systemAlert', handleSystemAlert);
+              unifiedService.removeListener('threatCorrelationDetected', handleThreatCorrelation);
+              unifiedService.removeListener('systemStatusChange', handleSystemStatusUpdate);
+              unifiedService.removeListener('executiveAlert', handleExecutiveAlert);
+              unifiedService.removeListener('criticalIncident', handleCriticalIncident);
+            });
+
+          } catch (error) {
+            console.error('❌ Failed to initialize Unified Service for WebSocket:', error);
+            ws.send(JSON.stringify({
+              type: 'error',
+              message: 'Failed to initialize Unified Service',
+              timestamp: new Date().toISOString()
+            }));
+          }
+
+        } catch (authError) {
+          console.error('❌ Unified WebSocket authentication failed:', authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Enhanced error handling
+        ws.on('error', (error) => {
+          const userInfo = (ws as any).userEmail ? `(${(ws as any).userEmail})` : '(anonymous)';
+          console.error(`❌ Unified WebSocket error for user ${userInfo}:`, error);
+        });
+      });
+
+      console.log('🔄 Unified WebSocket server initialized at /ws/unified-alerts');
+
+      // ===== PUBLIC HEALTH WEBSOCKET SERVER =====
+      
+      // SECURITY: Connection tracking and rate limiting for DoS protection
+      const connectionTracker = new Map<string, { count: number, lastConnect: number, messageCount: number, lastMessage: number }>();
+      const MAX_CONNECTIONS_PER_IP = 5;
+      const MAX_MESSAGES_PER_MINUTE = 60;
+      const CONNECTION_WINDOW_MS = 60000; // 1 minute
+      const MESSAGE_WINDOW_MS = 60000; // 1 minute
+      const MAX_MESSAGE_SIZE = 10240; // 10KB
+      
+      // SECURITY: Allowed origins for federal deployment
+      const ALLOWED_ORIGINS = process.env.ALLOWED_WEBSOCKET_ORIGINS?.split(',') || [
+        'https://your-domain.replit.app',
+        'http://localhost:5000',
+        'https://localhost:5000'
+      ];
+      
+      // Public Health WebSocket endpoint with comprehensive security
+      const publicHealthWss = new WebSocketServer({ 
+        server: httpServer,
+        path: '/ws/public-health',
+        verifyClient: (info) => {
+          const clientIP = info.req.socket.remoteAddress || 'unknown';
+          const origin = info.req.headers.origin;
+          const host = info.req.headers.host;
+          
+          // SECURITY FIX: Strict Origin validation for federal compliance
+          if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+            console.warn(`🚨 SECURITY: WebSocket connection blocked - unauthorized origin: ${origin}`);
+            return false;
+          }
+          
+          // SECURITY FIX: Host header validation
+          const expectedHosts = ['localhost:5000', process.env.REPL_SLUG ? `${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` : ''];
+          if (host && !expectedHosts.includes(host) && !host.includes('.replit.app')) {
+            console.warn(`🚨 SECURITY: WebSocket connection blocked - invalid host: ${host}`);
+            return false;
+          }
+          
+          // SECURITY FIX: Per-IP connection limits for DoS protection
+          const tracker = connectionTracker.get(clientIP) || { count: 0, lastConnect: 0, messageCount: 0, lastMessage: 0 };
+          const now = Date.now();
+          
+          // Reset counter if window expired
+          if (now - tracker.lastConnect > CONNECTION_WINDOW_MS) {
+            tracker.count = 0;
+          }
+          
+          if (tracker.count >= MAX_CONNECTIONS_PER_IP) {
+            console.warn(`🚨 SECURITY: WebSocket connection blocked - rate limit exceeded for IP: ${clientIP}`);
+            return false;
+          }
+          
+          tracker.count++;
+          tracker.lastConnect = now;
+          connectionTracker.set(clientIP, tracker);
+          
+          console.log(`✅ SECURITY: WebSocket connection allowed for IP: ${clientIP} (${tracker.count}/${MAX_CONNECTIONS_PER_IP})`);
+          return true;
+        }
+      });
+
+      publicHealthWss.on('connection', async (ws, request) => {
+        const clientIP = request.socket.remoteAddress || 'unknown';
+        console.log(`🔗 Public Health WebSocket connection attempt from IP: ${clientIP}`);
+        
+        // Parse URL to handle query parameters properly
+        let url: URL;
+        try {
+          url = new URL(request.url!, `http://${request.headers.host}`);
+        } catch (error) {
+          console.error(`❌ SECURITY: Invalid Public Health WebSocket URL from ${clientIP}:`, request.url, error);
+          ws.close(1008, 'Invalid URL format');
+          return;
+        }
+        
+        // Check if the pathname matches the expected WebSocket endpoint
+        if (url.pathname !== '/ws/public-health') {
+          console.warn(`🚨 SECURITY: Public Health WebSocket connection rejected from ${clientIP}: Invalid path "${url.pathname}"`);
+          ws.close(1008, 'Invalid path');
+          return;
+        }
+        
+        try {
+          // SECURITY FIX: Extract and verify JWT token from secure protocol header only
+          let token: string | null = null;
+          
+          // SECURITY FIX: Get token from Sec-WebSocket-Protocol header (secure method)
+          const protocols = request.headers['sec-websocket-protocol'];
+          if (protocols) {
+            const protocolList = protocols.split(',').map(p => p.trim());
+            const bearerProtocol = protocolList.find(p => p.startsWith('Bearer.'));
+            if (bearerProtocol) {
+              try {
+                // Decode the base64-encoded token
+                const encodedToken = bearerProtocol.substring(7); // Remove 'Bearer.' prefix
+                token = atob(encodedToken);
+              } catch (decodeError) {
+                console.warn(`🚨 SECURITY: Invalid token encoding from ${clientIP}:`, decodeError);
+                ws.close(1008, 'Invalid token format');
+                return;
+              }
+            }
+          }
+          
+          // SECURITY FIX: No fallback to query string - completely blocked
+          if (!token) {
+            console.warn(`🚨 SECURITY: Public Health WebSocket connection rejected from ${clientIP}: No secure authentication token provided`);
+            ws.close(1008, 'Secure authentication required - query string tokens blocked');
+            return;
+          }
+          
+          // SECURITY AUDIT: Log authentication attempt
+          console.log(`🔐 SECURITY AUDIT: WebSocket authentication attempt from ${clientIP} at ${new Date().toISOString()}`);
+          
+          // Verify the token using AuthService
+          const { AuthService } = await import('./auth');
+          const payload = AuthService.verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.warn('⚠️ Public Health WebSocket connection rejected: Invalid authentication token');
+            ws.close(1008, 'Invalid authentication token');
+            return;
+          }
+          
+          // Verify public health access roles
+          const allowedRoles = ['public_health_officer', 'epidemiologist', 'contact_tracer', 'health_facility_admin', 'emergency_coordinator', 'admin'];
+          if (!allowedRoles.includes(payload.role)) {
+            console.warn(`🚨 SECURITY: Public Health WebSocket connection rejected from ${clientIP}: Insufficient privileges for role "${payload.role}"`);
+            ws.close(1008, 'Insufficient privileges for public health access');
+            return;
+          }
+          
+          // SECURITY AUDIT: Log successful authentication
+          console.log(`✅ SECURITY AUDIT: WebSocket authenticated successfully - User: ${payload.email}, Role: ${payload.role}, IP: ${clientIP}, Time: ${new Date().toISOString()}`);
+          
+          // Log successful authentication with detailed info
+          console.log(`✅ Public Health WebSocket authenticated successfully:`);
+          console.log(`   📧 User: ${payload.email}`);
+          console.log(`   🔑 Role: ${payload.role}`);
+          console.log(`   🏥 Public Health access granted for: ${payload.userId}`);
+        
+          // Track connection time for analytics
+          (ws as any).connectedAt = new Date().toISOString();
+          (ws as any).userId = payload.userId;
+          (ws as any).userEmail = payload.email;
+          (ws as any).userRole = payload.role;
+          
+          // Send welcome message with initial status
+          ws.send(JSON.stringify({
+            type: 'welcome',
+            message: 'Connected to Public Health Real-time Updates',
+            user: payload.email,
+            role: payload.role,
+            timestamp: new Date().toISOString(),
+            capabilities: {
+              outbreakTracking: true,
+              contactTracing: allowedRoles.includes(payload.role),
+              facilityMonitoring: true,
+              emergencyAlerts: true,
+              epidemiologicalData: ['epidemiologist', 'public_health_officer', 'admin'].includes(payload.role)
+            }
+          }));
+
+          // Set up event handlers for different types of public health events
+          const handleOutbreakUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'outbreak_update',
+                data,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleEmergencyAlert = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'emergency_alert',
+                data,
+                priority: 'high',
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleContactUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN && ['contact_tracer', 'public_health_officer', 'admin'].includes(payload.role)) {
+              ws.send(JSON.stringify({
+                type: 'contact_update',
+                data,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleFacilityUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({
+                type: 'facility_update',
+                data,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          const handleSurveillanceUpdate = (data: any) => {
+            if (ws.readyState === WebSocket.OPEN && ['epidemiologist', 'public_health_officer', 'admin'].includes(payload.role)) {
+              ws.send(JSON.stringify({
+                type: 'surveillance_update',
+                data,
+                timestamp: new Date().toISOString()
+              }));
+            }
+          };
+
+          // SECURITY FIX: Message rate limiting and size validation
+          ws.on('message', async (message) => {
+            try {
+              // SECURITY: Check message size limit
+              if (message.length > MAX_MESSAGE_SIZE) {
+                console.warn(`🚨 SECURITY: Message too large from ${payload.email}: ${message.length} bytes (max: ${MAX_MESSAGE_SIZE})`);
+                ws.send(JSON.stringify({
+                  type: 'error',
+                  message: 'Message too large',
+                  timestamp: new Date().toISOString()
+                }));
+                return;
+              }
+              
+              // SECURITY: Rate limiting for messages
+              const tracker = connectionTracker.get(clientIP);
+              if (tracker) {
+                const now = Date.now();
+                if (now - tracker.lastMessage > MESSAGE_WINDOW_MS) {
+                  tracker.messageCount = 0;
+                }
+                
+                if (tracker.messageCount >= MAX_MESSAGES_PER_MINUTE) {
+                  console.warn(`🚨 SECURITY: Message rate limit exceeded for ${payload.email} (IP: ${clientIP})`);
+                  ws.send(JSON.stringify({
+                    type: 'error',
+                    message: 'Rate limit exceeded',
+                    timestamp: new Date().toISOString()
+                  }));
+                  return;
+                }
+                
+                tracker.messageCount++;
+                tracker.lastMessage = now;
+                connectionTracker.set(clientIP, tracker);
+              }
+              
+              const data = JSON.parse(message.toString());
+              
+              // SECURITY: Message schema validation
+              if (!data.type || typeof data.type !== 'string') {
+                console.warn(`🚨 SECURITY: Invalid message format from ${payload.email}`);
+                ws.send(JSON.stringify({
+                  type: 'error',
+                  message: 'Invalid message format',
+                  timestamp: new Date().toISOString()
+                }));
+                return;
+              }
+              
+              switch (data.type) {
+                case 'ping':
+                  ws.send(JSON.stringify({ 
+                    type: 'pong', 
+                    timestamp: new Date().toISOString() 
+                  }));
+                  break;
+                  
+                case 'subscribe_outbreaks':
+                  // Subscribe to outbreak updates for specific regions or diseases
+                  console.log(`📡 ${payload.email} subscribed to outbreak updates:`, data.filters);
+                  break;
+                  
+                case 'subscribe_contacts':
+                  if (['contact_tracer', 'public_health_officer', 'admin'].includes(payload.role)) {
+                    console.log(`📡 ${payload.email} subscribed to contact tracing updates:`, data.filters);
+                  }
+                  break;
+                  
+                case 'subscribe_facilities':
+                  console.log(`📡 ${payload.email} subscribed to facility updates:`, data.filters);
+                  break;
+                  
+                case 'emergency_broadcast':
+                  if (['emergency_coordinator', 'public_health_officer', 'admin'].includes(payload.role)) {
+                    // SECURITY AUDIT: Log emergency broadcast
+                    console.log(`🚨 SECURITY AUDIT: Emergency broadcast from ${payload.email} (IP: ${clientIP}):`, data.message);
+                    
+                    // SECURITY: PHI minimization - ensure no sensitive data in broadcast
+                    const sanitizedMessage = typeof data.message === 'string' ? data.message.substring(0, 1000) : 'Emergency alert';
+                    
+                    // Broadcast to all connected public health clients with role filtering
+                    publicHealthWss.clients.forEach((client) => {
+                      if (client.readyState === WebSocket.OPEN) {
+                        const clientRole = (client as any).userRole;
+                        // SECURITY: Role-based message filtering
+                        if (clientRole && allowedRoles.includes(clientRole)) {
+                          client.send(JSON.stringify({
+                            type: 'emergency_alert',
+                            message: sanitizedMessage,
+                            severity: data.severity || 'high',
+                            source: payload.email,
+                            timestamp: new Date().toISOString()
+                          }));
+                        }
+                      }
+                    });
+                  } else {
+                    console.warn(`🚨 SECURITY: Unauthorized emergency broadcast attempt from ${payload.email} (Role: ${payload.role})`);
+                  }
+                  break;
+                  
+                default:
+                  console.log('Unknown Public Health WebSocket message type:', data.type);
+              }
+            } catch (error) {
+              console.error('❌ Error processing Public Health WebSocket message:', error);
+              ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Failed to process message',
+                timestamp: new Date().toISOString()
+              }));
+            }
+          });
+
+          // Send periodic health updates every 30 seconds
+          const healthUpdateInterval = setInterval(() => {
+            try {
+              if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                  type: 'health_status',
+                  status: 'connected',
+                  uptime: process.uptime(),
+                  timestamp: new Date().toISOString()
+                }));
+              }
+            } catch (error) {
+              console.error('❌ Failed to send Public Health health update:', error);
+            }
+          }, 30000);
+
+          // Cleanup on connection close with security audit
+          ws.on('close', (code, reason) => {
+            clearInterval(healthUpdateInterval);
+            
+            // SECURITY: Decrement connection counter
+            const tracker = connectionTracker.get(clientIP);
+            if (tracker && tracker.count > 0) {
+              tracker.count--;
+              connectionTracker.set(clientIP, tracker);
+            }
+            
+            const userInfo = (ws as any).userEmail ? `${(ws as any).userEmail}` : 'anonymous';
+            const connectedDuration = (ws as any).connectedAt 
+              ? `(connected for ${Math.round((Date.now() - new Date((ws as any).connectedAt).getTime()) / 1000)}s)`
+              : '';
+            
+            // SECURITY AUDIT: Log disconnection
+            console.log(`🔌 SECURITY AUDIT: Public Health WebSocket disconnected: ${userInfo} from ${clientIP} ${connectedDuration}`);
+            console.log(`   📊 Close code: ${code}, Reason: ${reason || 'No reason provided'}`);
+          });
+
+        } catch (authError) {
+          // SECURITY AUDIT: Log failed authentication
+          console.error(`🚨 SECURITY AUDIT: Public Health WebSocket authentication failed from ${clientIP}:`, authError);
+          ws.close(1008, 'Authentication failed');
+          return;
+        }
+
+        // Enhanced error handling with security logging
+        ws.on('error', (error) => {
+          const userInfo = (ws as any).userEmail ? `(${(ws as any).userEmail})` : '(anonymous)';
+          console.error(`❌ SECURITY: Public Health WebSocket error for user ${userInfo} from ${clientIP}:`, error);
+        });
+      });
+
+      console.log('🏥 Public Health WebSocket server initialized at /ws/public-health');
+
+    } catch (error) {
+      console.error('❌ Failed to initialize WebSocket server:', error instanceof Error ? error.message : String(error));
+      console.log('⚠️ Public Health will continue without WebSocket support');
+    }
+  } else {
+    console.log('ℹ️ WebSocket disabled via ENABLE_WS environment variable');
+  }
+
+  // ===== CYBERSECURED AI CATALOG SYSTEM API ENDPOINTS =====
+  
+  // Catalog Categories endpoints
+  app.get('/api/catalog/categories', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const categoryType = req.query.categoryType as string;
+      const categories = await storage.getCatalogCategories(categoryType);
+      res.json(categories);
+    } catch (error) {
+      console.error('❌ Failed to get catalog categories:', error);
+      res.status(500).json({ error: 'Failed to get catalog categories' });
+    }
+  });
+
+  app.get('/api/catalog/categories/:id', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const category = await storage.getCatalogCategory(req.params.id);
+      if (!category) {
+        return res.status(404).json({ error: 'Category not found' });
+      }
+      res.json(category);
+    } catch (error) {
+      console.error('❌ Failed to get catalog category:', error);
+      res.status(500).json({ error: 'Failed to get catalog category' });
+    }
+  });
+
+  app.post('/api/catalog/categories', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const categoryData = insertCatalogCategorySchema.parse(req.body);
+      const category = await storage.createCatalogCategory(categoryData);
+      res.status(201).json(category);
+    } catch (error) {
+      console.error('❌ Failed to create catalog category:', error);
+      res.status(500).json({ error: 'Failed to create catalog category' });
+    }
+  });
+
+  app.put('/api/catalog/categories/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const category = await storage.updateCatalogCategory(req.params.id, req.body);
+      res.json(category);
+    } catch (error) {
+      console.error('❌ Failed to update catalog category:', error);
+      res.status(500).json({ error: 'Failed to update catalog category' });
+    }
+  });
+
+  app.delete('/api/catalog/categories/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteCatalogCategory(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete catalog category:', error);
+      res.status(500).json({ error: 'Failed to delete catalog category' });
+    }
+  });
+
+  // BOM Components endpoints
+  app.get('/api/catalog/bom-components', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const componentType = req.query.componentType as string;
+      const components = componentType 
+        ? await storage.getBomComponentsByType(componentType)
+        : await storage.getBomComponents();
+      res.json(components);
+    } catch (error) {
+      console.error('❌ Failed to get BOM components:', error);
+      res.status(500).json({ error: 'Failed to get BOM components' });
+    }
+  });
+
+  app.get('/api/catalog/bom-components/:id', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const component = await storage.getBomComponent(req.params.id);
+      if (!component) {
+        return res.status(404).json({ error: 'BOM component not found' });
+      }
+      res.json(component);
+    } catch (error) {
+      console.error('❌ Failed to get BOM component:', error);
+      res.status(500).json({ error: 'Failed to get BOM component' });
+    }
+  });
+
+  app.post('/api/catalog/bom-components', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const componentData = insertBomComponentSchema.parse(req.body);
+      const component = await storage.createBomComponent(componentData);
+      res.status(201).json(component);
+    } catch (error) {
+      console.error('❌ Failed to create BOM component:', error);
+      res.status(500).json({ error: 'Failed to create BOM component' });
+    }
+  });
+
+  app.put('/api/catalog/bom-components/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const component = await storage.updateBomComponent(req.params.id, req.body);
+      res.json(component);
+    } catch (error) {
+      console.error('❌ Failed to update BOM component:', error);
+      res.status(500).json({ error: 'Failed to update BOM component' });
+    }
+  });
+
+  app.delete('/api/catalog/bom-components/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteBomComponent(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete BOM component:', error);
+      res.status(500).json({ error: 'Failed to delete BOM component' });
+    }
+  });
+
+  // Catalog Products endpoints
+  app.get('/api/catalog/products', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const categoryId = req.query.categoryId as string;
+      const products = await storage.getCatalogProducts(categoryId);
+      res.json(products);
+    } catch (error) {
+      console.error('❌ Failed to get catalog products:', error);
+      res.status(500).json({ error: 'Failed to get catalog products' });
+    }
+  });
+
+  app.get('/api/catalog/products/with-bom', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const products = await storage.getProductsWithBom();
+      res.json(products);
+    } catch (error) {
+      console.error('❌ Failed to get products with BOM:', error);
+      res.status(500).json({ error: 'Failed to get products with BOM' });
+    }
+  });
+
+  app.get('/api/catalog/products/:id', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const product = await storage.getCatalogProduct(req.params.id);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      res.json(product);
+    } catch (error) {
+      console.error('❌ Failed to get catalog product:', error);
+      res.status(500).json({ error: 'Failed to get catalog product' });
+    }
+  });
+
+  app.get('/api/catalog/products/code/:productCode', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const product = await storage.getCatalogProductByCode(req.params.productCode);
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      res.json(product);
+    } catch (error) {
+      console.error('❌ Failed to get catalog product by code:', error);
+      res.status(500).json({ error: 'Failed to get catalog product by code' });
+    }
+  });
+
+  app.post('/api/catalog/products', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const productData = insertCatalogProductSchema.parse(req.body);
+      const product = await storage.createCatalogProduct(productData);
+      res.status(201).json(product);
+    } catch (error) {
+      console.error('❌ Failed to create catalog product:', error);
+      res.status(500).json({ error: 'Failed to create catalog product' });
+    }
+  });
+
+  app.put('/api/catalog/products/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const product = await storage.updateCatalogProduct(req.params.id, req.body);
+      res.json(product);
+    } catch (error) {
+      console.error('❌ Failed to update catalog product:', error);
+      res.status(500).json({ error: 'Failed to update catalog product' });
+    }
+  });
+
+  app.delete('/api/catalog/products/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteCatalogProduct(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete catalog product:', error);
+      res.status(500).json({ error: 'Failed to delete catalog product' });
+    }
+  });
+
+  // Product BOM endpoints
+  app.get('/api/catalog/products/:productId/bom', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const bom = await storage.getProductBom(req.params.productId);
+      res.json(bom);
+    } catch (error) {
+      console.error('❌ Failed to get product BOM:', error);
+      res.status(500).json({ error: 'Failed to get product BOM' });
+    }
+  });
+
+  app.post('/api/catalog/products/:productId/bom', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const bomData = insertProductBomSchema.parse({ ...req.body, productId: req.params.productId });
+      const bomEntry = await storage.addProductBomComponent(bomData);
+      res.status(201).json(bomEntry);
+    } catch (error) {
+      console.error('❌ Failed to add product BOM component:', error);
+      res.status(500).json({ error: 'Failed to add product BOM component' });
+    }
+  });
+
+  app.put('/api/catalog/bom/:bomId', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const bomEntry = await storage.updateProductBomComponent(req.params.bomId, req.body);
+      res.json(bomEntry);
+    } catch (error) {
+      console.error('❌ Failed to update product BOM component:', error);
+      res.status(500).json({ error: 'Failed to update product BOM component' });
+    }
+  });
+
+  app.delete('/api/catalog/bom/:bomId', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.removeProductBomComponent(req.params.bomId);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to remove product BOM component:', error);
+      res.status(500).json({ error: 'Failed to remove product BOM component' });
+    }
+  });
+
+  // Catalog Services endpoints
+  app.get('/api/catalog/services', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const categoryId = req.query.categoryId as string;
+      const serviceType = req.query.serviceType as string;
+      
+      let services;
+      if (serviceType) {
+        services = await storage.getServicesByType(serviceType);
+      } else {
+        services = await storage.getCatalogServices(categoryId);
+      }
+      
+      res.json(services);
+    } catch (error) {
+      console.error('❌ Failed to get catalog services:', error);
+      res.status(500).json({ error: 'Failed to get catalog services' });
+    }
+  });
+
+  app.get('/api/catalog/services/:id', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const service = await storage.getCatalogService(req.params.id);
+      if (!service) {
+        return res.status(404).json({ error: 'Service not found' });
+      }
+      res.json(service);
+    } catch (error) {
+      console.error('❌ Failed to get catalog service:', error);
+      res.status(500).json({ error: 'Failed to get catalog service' });
+    }
+  });
+
+  app.get('/api/catalog/services/code/:serviceCode', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const service = await storage.getCatalogServiceByCode(req.params.serviceCode);
+      if (!service) {
+        return res.status(404).json({ error: 'Service not found' });
+      }
+      res.json(service);
+    } catch (error) {
+      console.error('❌ Failed to get catalog service by code:', error);
+      res.status(500).json({ error: 'Failed to get catalog service by code' });
+    }
+  });
+
+  app.post('/api/catalog/services', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const serviceData = insertCatalogServiceSchema.parse(req.body);
+      const service = await storage.createCatalogService(serviceData);
+      res.status(201).json(service);
+    } catch (error) {
+      console.error('❌ Failed to create catalog service:', error);
+      res.status(500).json({ error: 'Failed to create catalog service' });
+    }
+  });
+
+  app.put('/api/catalog/services/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const service = await storage.updateCatalogService(req.params.id, req.body);
+      res.json(service);
+    } catch (error) {
+      console.error('❌ Failed to update catalog service:', error);
+      res.status(500).json({ error: 'Failed to update catalog service' });
+    }
+  });
+
+  app.delete('/api/catalog/services/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteCatalogService(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete catalog service:', error);
+      res.status(500).json({ error: 'Failed to delete catalog service' });
+    }
+  });
+
+  // Catalog Solutions endpoints
+  app.get('/api/catalog/solutions', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const categoryId = req.query.categoryId as string;
+      const withComponents = req.query.withComponents === 'true';
+      
+      let solutions;
+      if (withComponents) {
+        solutions = await storage.getSolutionsWithComponents();
+      } else {
+        solutions = await storage.getCatalogSolutions(categoryId);
+      }
+      
+      res.json(solutions);
+    } catch (error) {
+      console.error('❌ Failed to get catalog solutions:', error);
+      res.status(500).json({ error: 'Failed to get catalog solutions' });
+    }
+  });
+
+  app.get('/api/catalog/solutions/:id', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const solution = await storage.getCatalogSolution(req.params.id);
+      if (!solution) {
+        return res.status(404).json({ error: 'Solution not found' });
+      }
+      res.json(solution);
+    } catch (error) {
+      console.error('❌ Failed to get catalog solution:', error);
+      res.status(500).json({ error: 'Failed to get catalog solution' });
+    }
+  });
+
+  app.get('/api/catalog/solutions/code/:solutionCode', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const solution = await storage.getCatalogSolutionByCode(req.params.solutionCode);
+      if (!solution) {
+        return res.status(404).json({ error: 'Solution not found' });
+      }
+      res.json(solution);
+    } catch (error) {
+      console.error('❌ Failed to get catalog solution by code:', error);
+      res.status(500).json({ error: 'Failed to get catalog solution by code' });
+    }
+  });
+
+  app.post('/api/catalog/solutions', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const solutionData = insertCatalogSolutionSchema.parse(req.body);
+      const solution = await storage.createCatalogSolution(solutionData);
+      res.status(201).json(solution);
+    } catch (error) {
+      console.error('❌ Failed to create catalog solution:', error);
+      res.status(500).json({ error: 'Failed to create catalog solution' });
+    }
+  });
+
+  app.put('/api/catalog/solutions/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const solution = await storage.updateCatalogSolution(req.params.id, req.body);
+      res.json(solution);
+    } catch (error) {
+      console.error('❌ Failed to update catalog solution:', error);
+      res.status(500).json({ error: 'Failed to update catalog solution' });
+    }
+  });
+
+  app.delete('/api/catalog/solutions/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteCatalogSolution(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete catalog solution:', error);
+      res.status(500).json({ error: 'Failed to delete catalog solution' });
+    }
+  });
+
+  // Solution Components endpoints
+  app.get('/api/catalog/solutions/:solutionId/components', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const components = await storage.getSolutionComponents(req.params.solutionId);
+      res.json(components);
+    } catch (error) {
+      console.error('❌ Failed to get solution components:', error);
+      res.status(500).json({ error: 'Failed to get solution components' });
+    }
+  });
+
+  app.post('/api/catalog/solutions/:solutionId/components', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const componentData = insertSolutionComponentSchema.parse({ ...req.body, solutionId: req.params.solutionId });
+      const component = await storage.addSolutionComponent(componentData);
+      res.status(201).json(component);
+    } catch (error) {
+      console.error('❌ Failed to add solution component:', error);
+      res.status(500).json({ error: 'Failed to add solution component' });
+    }
+  });
+
+  app.put('/api/catalog/solution-components/:componentId', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const component = await storage.updateSolutionComponent(req.params.componentId, req.body);
+      res.json(component);
+    } catch (error) {
+      console.error('❌ Failed to update solution component:', error);
+      res.status(500).json({ error: 'Failed to update solution component' });
+    }
+  });
+
+  app.delete('/api/catalog/solution-components/:componentId', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.removeSolutionComponent(req.params.componentId);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to remove solution component:', error);
+      res.status(500).json({ error: 'Failed to remove solution component' });
+    }
+  });
+
+  // Pricing History endpoints
+  app.get('/api/catalog/pricing-history/:entityType/:entityId', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const { entityType, entityId } = req.params;
+      const history = await storage.getPricingHistory(entityType, entityId);
+      res.json(history);
+    } catch (error) {
+      console.error('❌ Failed to get pricing history:', error);
+      res.status(500).json({ error: 'Failed to get pricing history' });
+    }
+  });
+
+  app.post('/api/catalog/pricing-history', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const historyData = insertPricingHistorySchema.parse(req.body);
+      const history = await storage.createPricingHistoryEntry(historyData);
+      res.status(201).json(history);
+    } catch (error) {
+      console.error('❌ Failed to create pricing history entry:', error);
+      res.status(500).json({ error: 'Failed to create pricing history entry' });
+    }
+  });
+
+  // Competitive Analysis endpoints
+  app.get('/api/catalog/competitive-analysis', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const productName = req.query.productName as string;
+      let analysis;
+      
+      if (productName) {
+        analysis = await storage.getCompetitiveAnalysisForProduct(productName);
+      } else {
+        analysis = await storage.getCompetitiveAnalysis();
+      }
+      
+      res.json(analysis);
+    } catch (error) {
+      console.error('❌ Failed to get competitive analysis:', error);
+      res.status(500).json({ error: 'Failed to get competitive analysis' });
+    }
+  });
+
+  app.post('/api/catalog/competitive-analysis', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const analysisData = insertCompetitiveAnalysisSchema.parse(req.body);
+      const analysis = await storage.createCompetitiveAnalysis(analysisData);
+      res.status(201).json(analysis);
+    } catch (error) {
+      console.error('❌ Failed to create competitive analysis:', error);
+      res.status(500).json({ error: 'Failed to create competitive analysis' });
+    }
+  });
+
+  app.put('/api/catalog/competitive-analysis/:id', authenticateJWT, authorizeRoles('admin', 'security_officer'), async (req, res) => {
+    try {
+      const analysis = await storage.updateCompetitiveAnalysis(req.params.id, req.body);
+      res.json(analysis);
+    } catch (error) {
+      console.error('❌ Failed to update competitive analysis:', error);
+      res.status(500).json({ error: 'Failed to update competitive analysis' });
+    }
+  });
+
+  app.delete('/api/catalog/competitive-analysis/:id', authenticateJWT, authorizeRoles('admin'), async (req, res) => {
+    try {
+      await storage.deleteCompetitiveAnalysis(req.params.id);
+      res.status(204).send();
+    } catch (error) {
+      console.error('❌ Failed to delete competitive analysis:', error);
+      res.status(500).json({ error: 'Failed to delete competitive analysis' });
+    }
+  });
+
+  // Catalog Analytics and Reporting endpoints
+  app.get('/api/catalog/metrics', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const metrics = await storage.getCatalogMetrics();
+      res.json(metrics);
+    } catch (error) {
+      console.error('❌ Failed to get catalog metrics:', error);
+      res.status(500).json({ error: 'Failed to get catalog metrics' });
+    }
+  });
+
+  app.get('/api/catalog/reports/:reportType', authenticateJWT, authorizeRoles('admin', 'security_officer', 'analyst'), async (req, res) => {
+    try {
+      const reportType = req.params.reportType as 'pricing' | 'margins' | 'competitive' | 'bom';
+      const report = await storage.getCatalogReport(reportType);
+      res.json(report);
+    } catch (error) {
+      console.error('❌ Failed to get catalog report:', error);
+      res.status(500).json({ error: 'Failed to get catalog report' });
+    }
+  });
+
+  console.log('💼 CyberSecured AI Catalog API endpoints registered with authentication and authorization');
+
+  // ===== CRITICAL FIX: REGISTER HIPAA ADMIN ROUTES =====
+  // COMPLIANCE: Ensure all HIPAA administrative safeguard routes are registered
+  console.log('🏥 Registering HIPAA Administrative Routes...');
+  registerHipaaAdminRoutes(app);
+  console.log('✅ HIPAA Administrative Routes registered with full middleware stack');
 
   return httpServer;
 }

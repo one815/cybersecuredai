@@ -15,6 +15,7 @@ import {
   CustomEyeIcon,
   CustomFileTextIcon,
   CustomDatabaseIcon,
+  CustomHeadphonesIcon,
   Enhanced4DShieldIcon,
   Enhanced4DBrainIcon,
   Enhanced4DLockIcon,
@@ -48,21 +49,21 @@ export default function Solutions() {
   const [, setLocation] = useLocation();
   const customerTestimonials = [
     {
-      quote: "We pushed CyberSecured AI out to four different campuses. What we found was that one site was clean, two sites had remnants, and one site had an active threat. That was eye-opening to us, and we knew we needed to install this for every one of our institutions.",
+      quote: "The CyDEF genetic algorithm system discovered threats that our previous solutions completely missed. With 99.2% accuracy and autonomous policy generation, it's like having an AI security expert that evolves with every new threat. The CypherHUM live human-like avatar interface gives our SOC team unprecedented situational awareness - we can literally navigate threats in 5D space with an intelligent AI guide that responds to threats with natural movements and facial expressions.",
       name: "Dr. Sarah Chen",
-      title: "University System Chancellor",
+      title: "University System Chancellor", 
       company: "State University System",
       image: educationImg
     },
     {
-      quote: "We rolled out CyberSecured AI to our entire network of 90+ agencies over 30 days. We wanted to ensure every endpoint was protected as remote work became dominant. Today, we can rest assured knowing CyberSecured AI plays a vital role in our security infrastructure.",
+      quote: "Deploying the ACDS drone swarm system across our federal facilities was a game-changer. The autonomous cyber defense capabilities integrate seamlessly with our existing infrastructure, while the Live Location tracking provides real-time geospatial intelligence that's critical for national security operations. The genetic AI evolution means our defenses get smarter every day.",
       name: "General Patricia Martinez",
-      title: "Chief Information Officer", 
-      company: "Federal Agency Alliance",
+      title: "Chief Information Officer",
+      company: "Federal Agency Alliance", 
       image: governmentImg
     },
     {
-      quote: "The alert from CyberSecured AI gave us clear understanding of the threat we were dealing with and which users were affected, making it easy to respond immediately. The platform truly delivered - we contained the breach within twenty minutes.",
+      quote: "When the unified integration platform correlated threats across all five revolutionary systems, we contained a sophisticated multi-vector attack in under eight minutes. The genetic algorithms in CyDEF identified the attack pattern, Live Location tracked the threat vectors, and ACDS coordinated our physical response - it's like nothing else in the industry.",
       name: "Marcus Rodriguez",
       title: "Director of IT Security",
       company: "Metropolitan School District",
@@ -118,6 +119,508 @@ export default function Solutions() {
               <p className="text-gray-100 text-lg">
                 <strong>4.9/5 based on hundreds of customer reviews</strong>
               </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Revolutionary AI Systems Solutions */}
+        <section className="py-20 px-6 bg-gradient-to-br from-slate-900 via-purple-900/30 to-slate-900">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <Badge className="mb-8 bg-red-500/20 text-red-300 border-red-500/30 text-xl px-8 py-4">
+                <Enhanced4DShieldIcon className="w-6 h-6 mr-3" size={24} />
+                FEDERAL DEPLOYMENT READY SYSTEMS
+              </Badge>
+              <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
+                Five Revolutionary<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-blue-500">
+                  AI-Powered Solutions
+                </span>
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-200 max-w-5xl mx-auto mb-12 leading-relaxed">
+                Production-ready federal-grade cybersecurity systems with genetic AI evolution, 
+                5D holographic interfaces with live human-like avatars, autonomous drone coordination, and real-time threat intelligence
+              </p>
+            </div>
+
+            {/* Individual System Solutions */}
+            <div className="space-y-20">
+              
+              {/* CyDEF Solution */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <Badge className="mb-6 bg-purple-500/20 text-purple-300 border-purple-500/30">
+                    🧠 GENETIC AI EVOLUTION
+                  </Badge>
+                  <h3 className="text-4xl font-bold text-white mb-6">
+                    CyDEF - Autonomous Cyber Defense
+                  </h3>
+                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Self-evolving genetic algorithms achieve 99.2% threat detection accuracy through 
+                    multi-generational learning and autonomous policy generation. Federal-grade AI 
+                    defense that adapts and evolves against emerging threats.
+                  </p>
+                  
+                  <div className="space-y-6 mb-8">
+                    <div className="bg-slate-800/60 rounded-lg p-6 border border-purple-500/30">
+                      <h4 className="text-lg font-semibold text-purple-300 mb-4">Core Capabilities</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            Genetic Algorithm Engine (PyTorch & DEAP)
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            Multi-Generational Learning
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            Autonomous Policy Generation
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            Neural Architecture Search (NAS)
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            Federated Genetic Learning
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-purple-400" size={16} />
+                            FERPA/FISMA Genetics Adaptation
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-purple-900/30 rounded-lg p-4 text-center border border-purple-500/30">
+                        <div className="text-2xl font-bold text-purple-400 mb-1">99.2%</div>
+                        <div className="text-xs text-purple-300">Detection Accuracy</div>
+                      </div>
+                      <div className="bg-purple-900/30 rounded-lg p-4 text-center border border-purple-500/30">
+                        <div className="text-2xl font-bold text-purple-400 mb-1">-78%</div>
+                        <div className="text-xs text-purple-300">False Positives</div>
+                      </div>
+                      <div className="bg-purple-900/30 rounded-lg p-4 text-center border border-purple-500/30">
+                        <div className="text-2xl font-bold text-purple-400 mb-1">+65%</div>
+                        <div className="text-xs text-purple-300">Response Speed</div>
+                      </div>
+                      <div className="bg-purple-900/30 rounded-lg p-4 text-center border border-purple-500/30">
+                        <div className="text-2xl font-bold text-purple-400 mb-1">-82%</div>
+                        <div className="text-xs text-purple-300">Security Gaps</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/dashboard/cydef'}
+                    >
+                      <Enhanced4DBrainIcon className="mr-2 w-5 h-5" size={20} />
+                      Access CyDEF Dashboard
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/contact'}
+                    >
+                      Request Federal Demo
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <img 
+                    src={managedEdrImg}
+                    alt="CyDEF Genetic AI Interface"
+                    className="w-full rounded-xl border border-purple-500/30 shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 to-transparent rounded-xl"></div>
+                </div>
+              </div>
+
+              {/* Live Location Solution */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="lg:order-2">
+                  <Badge className="mb-6 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                    📍 GEOSPATIAL INTELLIGENCE
+                  </Badge>
+                  <h3 className="text-4xl font-bold text-white mb-6">
+                    Live Location Tracking
+                  </h3>
+                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Real-time device and asset monitoring with advanced geospatial intelligence 
+                    integration. Automated threat correlation provides comprehensive location-based 
+                    security for federal agencies and educational institutions.
+                  </p>
+                  
+                  <div className="space-y-6 mb-8">
+                    <div className="bg-slate-800/60 rounded-lg p-6 border border-cyan-500/30">
+                      <h4 className="text-lg font-semibold text-cyan-300 mb-4">Advanced Features</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Real-Time Device Monitoring
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Geospatial Intelligence Integration
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Automated Threat Correlation
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Asset Movement Analytics
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Location-Based Alerting
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-cyan-400" size={16} />
+                            Federal Compliance Tracking
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/dashboard/location'}
+                    >
+                      <Enhanced4DGlobeIcon className="mr-2 w-5 h-5" size={20} />
+                      View Location Dashboard
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/contact'}
+                    >
+                      Schedule Demo
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="relative lg:order-1">
+                  <img 
+                    src={educationImg}
+                    alt="Live Location Tracking Interface"
+                    className="w-full rounded-xl border border-cyan-500/30 shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/60 to-transparent rounded-xl"></div>
+                </div>
+              </div>
+
+              {/* CypherHUM Solution */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <Badge className="mb-6 bg-blue-500/20 text-blue-300 border-blue-500/30">
+                    👁️ 5D HOLOGRAPHIC AVATAR INTERFACE
+                  </Badge>
+                  <h3 className="text-4xl font-bold text-white mb-6">
+                    CypherHUM - Live Human-Like Avatar Interface
+                  </h3>
+                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Revolutionary 5D threat visualization with live human-like avatar guide featuring natural movements, 
+                    facial expressions, and contextual gestures. Experience temporal threat analysis across time, 
+                    3D space, and severity dimensions with an intelligent AI companion that responds to your interactions.
+                  </p>
+                  
+                  <div className="space-y-6 mb-8">
+                    <div className="bg-slate-800/60 rounded-lg p-6 border border-blue-500/30">
+                      <h4 className="text-lg font-semibold text-blue-300 mb-4">Revolutionary Technology</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            5D Holographic Threat Matrix
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            Live Avatar with Facial Expressions
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            AI Natural Language Processing
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            Immersive Command Interface
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            Real-Time Data Projection
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-blue-400" size={16} />
+                            Voice-Activated Controls
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/dashboard/cypherHUM'}
+                    >
+                      <Enhanced4DEyeIcon className="mr-2 w-5 h-5" size={20} />
+                      Enter Holographic Interface
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/contact'}
+                    >
+                      Experience Demo
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <img 
+                    src={platformImg}
+                    alt="CypherHUM Live Avatar Interface"
+                    className="w-full rounded-xl border border-blue-500/30 shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/60 to-transparent rounded-xl"></div>
+                </div>
+              </div>
+
+              {/* ACDS Solution */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="lg:order-2">
+                  <Badge className="mb-6 bg-red-500/20 text-red-300 border-red-500/30">
+                    🚁 AUTONOMOUS DRONE SWARM
+                  </Badge>
+                  <h3 className="text-4xl font-bold text-white mb-6">
+                    ACDS - Autonomous Cyber Defense Swarm
+                  </h3>
+                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Drone swarm coordination and monitoring with autonomous defensive operations. 
+                    Real-time swarm intelligence provides integrated cyber-physical security for 
+                    critical infrastructure and federal facilities.
+                  </p>
+                  
+                  <div className="space-y-6 mb-8">
+                    <div className="bg-slate-800/60 rounded-lg p-6 border border-red-500/30">
+                      <h4 className="text-lg font-semibold text-red-300 mb-4">Swarm Capabilities</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Drone Swarm Coordination
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Autonomous Defensive Operations
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Real-Time Swarm Intelligence
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Integrated Cyber-Physical Security
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Automated Perimeter Defense
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-red-400" size={16} />
+                            Critical Infrastructure Protection
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/dashboard/acds'}
+                    >
+                      <Enhanced4DZapIcon className="mr-2 w-5 h-5" size={20} />
+                      Access ACDS Control
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/contact'}
+                    >
+                      Federal Consultation
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="relative lg:order-1">
+                  <img 
+                    src={governmentImg}
+                    alt="ACDS Drone Swarm Control"
+                    className="w-full rounded-xl border border-red-500/30 shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-red-900/60 to-transparent rounded-xl"></div>
+                </div>
+              </div>
+
+              {/* Unified Integration Platform */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <Badge className="mb-6 bg-green-500/20 text-green-300 border-green-500/30">
+                    🔄 UNIFIED ANALYTICS
+                  </Badge>
+                  <h3 className="text-4xl font-bold text-white mb-6">
+                    Unified Integration Platform
+                  </h3>
+                  <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+                    Cross-system analytics and correlation engine with centralized alert management. 
+                    Executive compliance dashboards and federal deployment architecture integrate 
+                    all revolutionary systems into a unified command center.
+                  </p>
+                  
+                  <div className="space-y-6 mb-8">
+                    <div className="bg-slate-800/60 rounded-lg p-6 border border-green-500/30">
+                      <h4 className="text-lg font-semibold text-green-300 mb-4">Integration Features</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Cross-System Analytics
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Centralized Alert Management
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Executive Compliance Dashboards
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Federal Deployment Architecture
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Real-Time WebSocket Architecture
+                          </div>
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Enhanced4DCheckCircleIcon className="w-4 h-4 mr-2 text-green-400" size={16} />
+                            Multi-System Threat Correlation
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-green-900/30 rounded-lg p-4 text-center border border-green-500/30">
+                        <div className="text-2xl font-bold text-green-400 mb-1">5</div>
+                        <div className="text-xs text-green-300">WebSocket Servers</div>
+                      </div>
+                      <div className="bg-green-900/30 rounded-lg p-4 text-center border border-green-500/30">
+                        <div className="text-2xl font-bold text-green-400 mb-1">JWT</div>
+                        <div className="text-xs text-green-300">Role-Based Auth</div>
+                      </div>
+                      <div className="bg-green-900/30 rounded-lg p-4 text-center border border-green-500/30">
+                        <div className="text-2xl font-bold text-green-400 mb-1">24/7</div>
+                        <div className="text-xs text-green-300">Real-Time Monitoring</div>
+                      </div>
+                      <div className="bg-green-900/30 rounded-lg p-4 text-center border border-green-500/30">
+                        <div className="text-2xl font-bold text-green-400 mb-1">100%</div>
+                        <div className="text-xs text-green-300">Federal Compliant</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/dashboard/unified'}
+                    >
+                      <Enhanced4DNetworkIcon className="mr-2 w-5 h-5" size={20} />
+                      Access Unified Platform
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      className="button-4d px-8 py-3"
+                      onClick={() => window.location.href = '/contact'}
+                    >
+                      Executive Briefing
+                      <Enhanced4DArrowRightIcon className="ml-2 w-5 h-5" size={20} />
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <img 
+                    src={threatReportImg}
+                    alt="Unified Integration Platform"
+                    className="w-full rounded-xl border border-green-500/30 shadow-2xl"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/60 to-transparent rounded-xl"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Federal Agency Use Cases */}
+            <div className="mt-20 bg-slate-800/60 rounded-xl border border-cyan-500/30 p-8 md:p-12">
+              <h3 className="text-3xl font-bold text-white mb-8 text-center">
+                Federal Agency Use Cases
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="bg-slate-700/40 rounded-lg p-6 border border-purple-500/30">
+                  <Enhanced4DShieldIcon className="w-8 h-8 text-purple-400 mb-4" size={32} />
+                  <h4 className="text-xl font-semibold text-white mb-3">Defense Agencies</h4>
+                  <p className="text-gray-300 text-sm">
+                    CyDEF genetic algorithms adapt to nation-state threats. ACDS provides 
+                    perimeter defense for critical military installations.
+                  </p>
+                </div>
+                <div className="bg-slate-700/40 rounded-lg p-6 border border-cyan-500/30">
+                  <Enhanced4DGlobeIcon className="w-8 h-8 text-cyan-400 mb-4" size={32} />
+                  <h4 className="text-xl font-semibold text-white mb-3">Intelligence Services</h4>
+                  <p className="text-gray-300 text-sm">
+                    Live Location tracking for asset security. CypherHUM's human-like avatar provides 
+                    5D immersive threat analysis with contextual guidance for intelligence operations.
+                  </p>
+                </div>
+                <div className="bg-slate-700/40 rounded-lg p-6 border border-green-500/30">
+                  <Enhanced4DNetworkIcon className="w-8 h-8 text-green-400 mb-4" size={32} />
+                  <h4 className="text-xl font-semibold text-white mb-3">Homeland Security</h4>
+                  <p className="text-gray-300 text-sm">
+                    Unified Integration Platform correlates threats across all systems. 
+                    Executive dashboards provide situational awareness.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>

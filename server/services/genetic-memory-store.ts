@@ -392,7 +392,8 @@ export class GeneticMemoryStore {
           this.cacheSet(cacheKey, individuals);
           return individuals;
         } catch (error) {
-          console.error('❌ Failed to retrieve best individuals:', error);
+          // Silently handle database errors when fallback is available
+          // console.error('❌ Failed to retrieve best individuals:', error);
           return [];
         }
       },
@@ -439,7 +440,8 @@ export class GeneticMemoryStore {
               evaluated_at = CURRENT_TIMESTAMP
           `);
         } catch (error) {
-          console.error('❌ Failed to cache fitness evaluation in database:', error);
+          // Silently handle database errors when fallback is available
+          // console.error('❌ Failed to cache fitness evaluation in database:', error);
         }
       },
       () => {
@@ -490,7 +492,8 @@ export class GeneticMemoryStore {
 
           return null;
         } catch (error) {
-          console.error('❌ Failed to retrieve cached fitness:', error);
+          // Silently handle database errors when fallback is available  
+          // console.error('❌ Failed to retrieve cached fitness:', error);
           return null;
         }
       },

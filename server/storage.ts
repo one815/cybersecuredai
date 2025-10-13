@@ -12,6 +12,32 @@ import {
   customComplianceControls,
   subscribers,
   confirmationCodes,
+  // HIPAA Compliance tables
+  hipaaSecurityOfficers,
+  hipaaPolicies,
+  hipaaTraining,
+  hipaaTrainingRecords,
+  hipaaBusinessAssociates,
+  hipaaWorkstationSecurity,
+  hipaaMediaControls,
+  hipaaFacilityAccess,
+  hipaaSecureAuditLogs,
+  hipaaEmergencyAccess,
+  hipaaBreachIncidents,
+  hipaaRiskAssessments,
+  hipaaTimeBasedAccess,
+  hipaaAccessRequests,
+  hipaaEncryptionKeys,
+  // Catalog system imports
+  catalogCategories,
+  bomComponents,
+  catalogProducts,
+  productBom,
+  catalogServices,
+  catalogSolutions,
+  solutionComponents,
+  pricingHistory,
+  competitiveAnalysis,
   type User, 
   type InsertUser,
   type Threat,
@@ -34,7 +60,90 @@ import {
   type InsertCustomComplianceControl,
   type Subscriber,
   type InsertSubscriber,
-  type UpsertUser
+  type UpsertUser,
+  type CypherhumSession,
+  type InsertCypherhumSession,
+  type CypherhumVisualization,
+  type InsertCypherhumVisualization,
+  type CypherhumInteraction,
+  type InsertCypherhumInteraction,
+  type CypherhumThreatModel,
+  type InsertCypherhumThreatModel,
+  type CypherhumAnalytics,
+  type InsertCypherhumAnalytics,
+  type AcdsDrone,
+  type InsertAcdsDrone,
+  type AcdsSwarmMission,
+  type InsertAcdsSwarmMission,
+  type AcdsDeployment,
+  type InsertAcdsDeployment,
+  type AcdsCoordination,
+  type InsertAcdsCoordination,
+  type AcdsAnalytics,
+  type InsertAcdsAnalytics,
+  // Public Health imports
+  type PublicHealthIncident,
+  type InsertPublicHealthIncident,
+  type DiseaseSurveillance,
+  type InsertDiseaseSurveillance,
+  type ContactTracing,
+  type InsertContactTracing,
+  type HealthFacility,
+  type InsertHealthFacility,
+  type PublicHealthAlert,
+  type InsertPublicHealthAlert,
+  type EpidemiologicalData,
+  type InsertEpidemiologicalData,
+  // HIPAA Compliance types
+  type HipaaSecurityOfficer,
+  type InsertHipaaSecurityOfficer,
+  type HipaaPolicy,
+  type InsertHipaaPolicy,
+  type HipaaTraining,
+  type InsertHipaaTraining,
+  type HipaaTrainingRecord,
+  type InsertHipaaTrainingRecord,
+  type HipaaBusinessAssociate,
+  type InsertHipaaBusinessAssociate,
+  type HipaaWorkstationSecurity,
+  type InsertHipaaWorkstationSecurity,
+  type HipaaMediaControl,
+  type InsertHipaaMediaControl,
+  type HipaaFacilityAccess,
+  type InsertHipaaFacilityAccess,
+  type HipaaSecureAuditLog,
+  type InsertHipaaSecureAuditLog,
+  type HipaaEmergencyAccess,
+  type InsertHipaaEmergencyAccess,
+  type HipaaBreachIncident,
+  type InsertHipaaBreachIncident,
+  type HipaaRiskAssessment,
+  type InsertHipaaRiskAssessment,
+  type HipaaTimeBasedAccess,
+  type InsertHipaaTimeBasedAccess,
+  type HipaaAccessRequest,
+  type InsertHipaaAccessRequest,
+  type HipaaEncryptionKey,
+  type InsertHipaaEncryptionKey,
+  // Catalog system types
+  type CatalogCategory,
+  type InsertCatalogCategory,
+  type BomComponent,
+  type InsertBomComponent,
+  type CatalogProduct,
+  type InsertCatalogProduct,
+  type ProductBom,
+  type InsertProductBom,
+  type CatalogService,
+  type InsertCatalogService,
+  type CatalogSolution,
+  type InsertCatalogSolution,
+  type SolutionComponent,
+  type InsertSolutionComponent,
+  type PricingHistory,
+  type InsertPricingHistory,
+  type CompetitiveAnalysis,
+  type InsertCompetitiveAnalysis
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -122,6 +231,437 @@ export interface IStorage {
   // Confirmation code operations
   createConfirmationCode(data: any): Promise<any>;
   verifyConfirmationCode(email: string, code: string): Promise<any | undefined>;
+
+  // ===== CypherHUM Operations =====
+  
+  // CypherHUM Session operations
+  getCypherhumSessions(userId?: string): Promise<CypherhumSession[]>;
+  getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined>;
+  createCypherhumSession(session: InsertCypherhumSession): Promise<CypherhumSession>;
+  updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession>;
+  deleteCypherhumSession(sessionId: string): Promise<void>;
+  
+  // CypherHUM Visualization operations  
+  getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]>;
+  getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined>;
+  createCypherhumVisualization(visualization: InsertCypherhumVisualization): Promise<CypherhumVisualization>;
+  updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization>;
+  deleteCypherhumVisualization(visualizationId: string): Promise<void>;
+  
+  // CypherHUM Interaction operations
+  getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]>;
+  getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined>;
+  createCypherhumInteraction(interaction: InsertCypherhumInteraction): Promise<CypherhumInteraction>;
+  updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction>;
+  deleteCypherhumInteraction(interactionId: string): Promise<void>;
+  
+  // CypherHUM Threat Model operations
+  getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]>;
+  getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined>;
+  createCypherhumThreatModel(threatModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel>;
+  updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel>;
+  deleteCypherhumThreatModel(modelId: string): Promise<void>;
+  
+  // CypherHUM Analytics operations
+  getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]>;
+  getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined>;
+  createCypherhumAnalytic(analytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics>;
+  updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics>;
+  deleteCypherhumAnalytic(analyticId: string): Promise<void>;
+
+  // ===== ACDS (Autonomous Cyber Defense Swarm) Operations =====
+  
+  // ACDS Drone operations
+  getAcdsDrones(organizationId?: string): Promise<AcdsDrone[]>;
+  getAcdsDrone(droneId: string): Promise<AcdsDrone | undefined>;
+  createAcdsDrone(drone: InsertAcdsDrone): Promise<AcdsDrone>;
+  updateAcdsDrone(droneId: string, updates: Partial<AcdsDrone>): Promise<AcdsDrone>;
+  deleteAcdsDrone(droneId: string): Promise<void>;
+  getAcdsDronesByStatus(status: string, organizationId?: string): Promise<AcdsDrone[]>;
+  getAcdsDronesBySwarmRole(role: string, organizationId?: string): Promise<AcdsDrone[]>;
+  
+  // ACDS Swarm Mission operations
+  getAcdsSwarmMissions(organizationId?: string, status?: string): Promise<AcdsSwarmMission[]>;
+  getAcdsSwarmMission(missionId: string): Promise<AcdsSwarmMission | undefined>;
+  createAcdsSwarmMission(mission: InsertAcdsSwarmMission): Promise<AcdsSwarmMission>;
+  updateAcdsSwarmMission(missionId: string, updates: Partial<AcdsSwarmMission>): Promise<AcdsSwarmMission>;
+  deleteAcdsSwarmMission(missionId: string): Promise<void>;
+  getActiveAcdsSwarmMissions(organizationId?: string): Promise<AcdsSwarmMission[]>;
+  
+  // ACDS Deployment operations
+  getAcdsDeployments(organizationId?: string, status?: string): Promise<AcdsDeployment[]>;
+  getAcdsDeployment(deploymentId: string): Promise<AcdsDeployment | undefined>;
+  createAcdsDeployment(deployment: InsertAcdsDeployment): Promise<AcdsDeployment>;
+  updateAcdsDeployment(deploymentId: string, updates: Partial<AcdsDeployment>): Promise<AcdsDeployment>;
+  deleteAcdsDeployment(deploymentId: string): Promise<void>;
+  getAcdsDeploymentsByDrone(droneId: string): Promise<AcdsDeployment[]>;
+  getAcdsDeploymentsByMission(missionId: string): Promise<AcdsDeployment[]>;
+  getActiveAcdsDeployments(organizationId?: string): Promise<AcdsDeployment[]>;
+  
+  // ACDS Coordination operations
+  getAcdsCoordinations(organizationId?: string): Promise<AcdsCoordination[]>;
+  getAcdsCoordination(coordinationId: string): Promise<AcdsCoordination | undefined>;
+  createAcdsCoordination(coordination: InsertAcdsCoordination): Promise<AcdsCoordination>;
+  updateAcdsCoordination(coordinationId: string, updates: Partial<AcdsCoordination>): Promise<AcdsCoordination>;
+  deleteAcdsCoordination(coordinationId: string): Promise<void>;
+  getAcdsCoordinationsByEvent(eventType: string, organizationId?: string): Promise<AcdsCoordination[]>;
+  getAcdsCoordinationsBySwarm(swarmId: string): Promise<AcdsCoordination[]>;
+  
+  // ACDS Analytics operations
+  getAcdsAnalytics(organizationId?: string, analyticsType?: string): Promise<AcdsAnalytics[]>;
+  getAcdsAnalytic(analyticId: string): Promise<AcdsAnalytics | undefined>;
+  createAcdsAnalytic(analytic: InsertAcdsAnalytics): Promise<AcdsAnalytics>;
+  updateAcdsAnalytic(analyticId: string, updates: Partial<AcdsAnalytics>): Promise<AcdsAnalytics>;
+  deleteAcdsAnalytic(analyticId: string): Promise<void>;
+  getAcdsAnalyticsByCategory(category: string, organizationId?: string): Promise<AcdsAnalytics[]>;
+  getAcdsAnalyticsByDateRange(startDate: Date, endDate: Date, organizationId?: string): Promise<AcdsAnalytics[]>;
+
+  // ===== PUBLIC HEALTH OPERATIONS =====
+  
+  // Public Health Incidents operations
+  getPublicHealthIncidents(filters?: { status?: string; severity?: string; region?: string; startDate?: Date; endDate?: Date }): Promise<PublicHealthIncident[]>;
+  getPublicHealthIncident(id: string): Promise<PublicHealthIncident | undefined>;
+  createPublicHealthIncident(incident: InsertPublicHealthIncident): Promise<PublicHealthIncident>;
+  updatePublicHealthIncident(id: string, updates: Partial<PublicHealthIncident>): Promise<PublicHealthIncident>;
+  deletePublicHealthIncident(id: string): Promise<void>;
+  escalateIncidentToCDC(id: string, escalationData: any): Promise<PublicHealthIncident>;
+  
+  // Disease Surveillance operations
+  getDiseaseSurveillanceRecords(filters?: { diseaseType?: string; status?: string; startDate?: Date; endDate?: Date }): Promise<DiseaseSurveillance[]>;
+  getDiseaseSurveillanceRecord(id: string): Promise<DiseaseSurveillance | undefined>;
+  createDiseaseSurveillanceRecord(surveillance: InsertDiseaseSurveillance): Promise<DiseaseSurveillance>;
+  updateDiseaseSurveillanceRecord(id: string, updates: Partial<DiseaseSurveillance>): Promise<DiseaseSurveillance>;
+  deleteDiseaseSurveillanceRecord(id: string): Promise<void>;
+  getSurveillanceByDiseaseType(diseaseType: string): Promise<DiseaseSurveillance[]>;
+  getDiseaseTrends(filters?: { diseaseType?: string; timeRange?: { start: Date; end: Date } }): Promise<any[]>;
+  
+  // Contact Tracing operations
+  getContactTracingRecords(filters?: { incidentId?: string; status?: string; contactType?: string }): Promise<ContactTracing[]>;
+  getContactTracingRecord(id: string): Promise<ContactTracing | undefined>;
+  createContactTracingRecord(contact: InsertContactTracing): Promise<ContactTracing>;
+  updateContactTracingRecord(id: string, updates: Partial<ContactTracing>): Promise<ContactTracing>;
+  deleteContactTracingRecord(id: string): Promise<void>;
+  notifyContact(id: string, notificationData: any): Promise<boolean>;
+  getExposedContactsByIncident(incidentId: string): Promise<ContactTracing[]>;
+  
+  // ===== ENHANCED CONTACT TRACING SYSTEM OPERATIONS =====
+  
+  // Contact Tracing Location History operations
+  getLocationHistory(filters?: { userId?: string; deviceId?: string; startDate?: Date; endDate?: Date; consentGiven?: boolean }): Promise<ContactTracingLocationHistory[]>;
+  getLocationHistoryRecord(id: string): Promise<ContactTracingLocationHistory | undefined>;
+  createLocationHistoryRecord(location: InsertContactTracingLocationHistory): Promise<ContactTracingLocationHistory>;
+  updateLocationHistoryRecord(id: string, updates: Partial<ContactTracingLocationHistory>): Promise<ContactTracingLocationHistory>;
+  deleteLocationHistoryRecord(id: string): Promise<void>;
+  getLocationHistoryByDevice(deviceId: string, timeRange?: { start: Date; end: Date }): Promise<ContactTracingLocationHistory[]>;
+  getLocationHistoryByUser(userId: string, timeRange?: { start: Date; end: Date }): Promise<ContactTracingLocationHistory[]>;
+  cleanupExpiredLocationHistory(beforeDate?: Date): Promise<number>; // Returns number of records deleted
+  anonymizeLocationHistory(beforeDate: Date): Promise<number>; // Returns number of records anonymized
+  getLocationsByGeofence(latitude: number, longitude: number, radiusMeters: number, timeRange?: { start: Date; end: Date }): Promise<ContactTracingLocationHistory[]>;
+  
+  // Contact Proximity Detection operations
+  getProximityDetections(filters?: { riskLevel?: string; detectionMethod?: string; startDate?: Date; endDate?: Date }): Promise<ContactProximityDetection[]>;
+  getProximityDetection(id: string): Promise<ContactProximityDetection | undefined>;
+  createProximityDetection(detection: InsertContactProximityDetection): Promise<ContactProximityDetection>;
+  updateProximityDetection(id: string, updates: Partial<ContactProximityDetection>): Promise<ContactProximityDetection>;
+  deleteProximityDetection(id: string): Promise<void>;
+  getProximityDetectionsByDevice(deviceId: string, timeRange?: { start: Date; end: Date }): Promise<ContactProximityDetection[]>;
+  getProximityDetectionsByUser(userId: string, timeRange?: { start: Date; end: Date }): Promise<ContactProximityDetection[]>;
+  getProximityDetectionsByRisk(riskLevel: string, limit?: number): Promise<ContactProximityDetection[]>;
+  processProximityAlgorithm(algorithmVersion: string, timeRange: { start: Date; end: Date }): Promise<ContactProximityDetection[]>;
+  validateProximityDetection(id: string, validatedBy: string, validationStatus: string): Promise<ContactProximityDetection>;
+  
+  // Contact Tracing Notification Templates operations
+  getNotificationTemplates(filters?: { templateCategory?: string; riskLevel?: string; templateType?: string; isActive?: boolean }): Promise<ContactTracingNotificationTemplate[]>;
+  getNotificationTemplate(id: string): Promise<ContactTracingNotificationTemplate | undefined>;
+  getNotificationTemplateByTemplateId(templateId: string): Promise<ContactTracingNotificationTemplate | undefined>;
+  createNotificationTemplate(template: InsertContactTracingNotificationTemplate): Promise<ContactTracingNotificationTemplate>;
+  updateNotificationTemplate(id: string, updates: Partial<ContactTracingNotificationTemplate>): Promise<ContactTracingNotificationTemplate>;
+  deleteNotificationTemplate(id: string): Promise<void>;
+  getTemplatesByAudience(targetAudience: string, languageCode?: string): Promise<ContactTracingNotificationTemplate[]>;
+  getTemplatesByRiskLevel(riskLevel: string, templateType?: string): Promise<ContactTracingNotificationTemplate[]>;
+  approveNotificationTemplate(id: string, approvedBy: string): Promise<ContactTracingNotificationTemplate>;
+  incrementTemplateUsage(templateId: string): Promise<void>;
+  
+  // Contact Tracing Notification Logs operations
+  getNotificationLogs(filters?: { recipientId?: string; deliveryStatus?: string; notificationType?: string; startDate?: Date; endDate?: Date }): Promise<ContactTracingNotificationLog[]>;
+  getNotificationLog(id: string): Promise<ContactTracingNotificationLog | undefined>;
+  createNotificationLog(log: InsertContactTracingNotificationLog): Promise<ContactTracingNotificationLog>;
+  updateNotificationLog(id: string, updates: Partial<ContactTracingNotificationLog>): Promise<ContactTracingNotificationLog>;
+  deleteNotificationLog(id: string): Promise<void>;
+  getNotificationLogsByRecipient(recipientId: string, timeRange?: { start: Date; end: Date }): Promise<ContactTracingNotificationLog[]>;
+  getNotificationLogsByTemplate(templateId: string, timeRange?: { start: Date; end: Date }): Promise<ContactTracingNotificationLog[]>;
+  getFailedNotifications(retryEligible?: boolean): Promise<ContactTracingNotificationLog[]>;
+  markNotificationDelivered(notificationId: string, deliveredTimestamp: Date, externalResponse?: any): Promise<ContactTracingNotificationLog>;
+  markNotificationFailed(notificationId: string, errorCode: string, errorMessage: string): Promise<ContactTracingNotificationLog>;
+  recordNotificationEngagement(notificationId: string, engagementType: string, timestamp: Date): Promise<ContactTracingNotificationLog>;
+  escalateNotification(notificationId: string, escalatedTo: string, escalationReason: string): Promise<ContactTracingNotificationLog>;
+  
+  // Contact Tracing Privacy Consent operations
+  getPrivacyConsents(filters?: { userId?: string; consentStatus?: string; consentType?: string; startDate?: Date; endDate?: Date }): Promise<ContactTracingPrivacyConsent[]>;
+  getPrivacyConsent(id: string): Promise<ContactTracingPrivacyConsent | undefined>;
+  getPrivacyConsentByUser(userId: string): Promise<ContactTracingPrivacyConsent | undefined>;
+  getPrivacyConsentByDevice(deviceId: string): Promise<ContactTracingPrivacyConsent | undefined>;
+  createPrivacyConsent(consent: InsertContactTracingPrivacyConsent): Promise<ContactTracingPrivacyConsent>;
+  updatePrivacyConsent(id: string, updates: Partial<ContactTracingPrivacyConsent>): Promise<ContactTracingPrivacyConsent>;
+  deletePrivacyConsent(id: string): Promise<void>;
+  withdrawConsent(userId: string, withdrawalReason: string, withdrawalMethod: string): Promise<ContactTracingPrivacyConsent>;
+  verifyConsent(id: string, verifiedBy: string): Promise<ContactTracingPrivacyConsent>;
+  getConsentsByExpiry(beforeDate: Date): Promise<ContactTracingPrivacyConsent[]>;
+  recordDataSubjectRequest(userId: string, requestType: string, requestData: any): Promise<ContactTracingPrivacyConsent>;
+  getMinorConsents(parentGuardianId?: string): Promise<ContactTracingPrivacyConsent[]>;
+  
+  // ===== DATA RETENTION AND PRIVACY MANAGEMENT OPERATIONS =====
+  
+  // Enhanced data retention operations for compliance
+  cleanupExpiredContactTracingRecords?(beforeDate: Date): Promise<number>;
+  cleanupExpiredProximityDetections?(beforeDate: Date): Promise<number>;
+  cleanupExpiredNotificationLogs?(beforeDate: Date): Promise<number>;
+  
+  // Consent withdrawal data deletion operations
+  deleteUserLocationHistory?(userId: string): Promise<number>;
+  deleteUserContactTracingRecords?(userId: string): Promise<number>;
+  deleteUserNotifications?(userId: string): Promise<number>;
+  deleteUserProximityDetections?(userId: string): Promise<number>;
+  markConsentWithdrawn?(userId: string, withdrawalReason: string): Promise<void>;
+  
+  // Compliance monitoring and reporting operations
+  getOverdueLocationHistoryRecords?(retentionDays: number): Promise<number>;
+  getOverdueContactTracingRecords?(retentionDays: number): Promise<number>;
+  getRecentConsentWithdrawals?(days: number): Promise<number>;
+  
+  // Contact Tracing Advanced Analytics operations
+  getContactTracingMetrics(timeRange: { start: Date; end: Date }, filters?: any): Promise<any>;
+  generateContactTracingReport(reportType: string, parameters: any): Promise<any>;
+  getExposureRiskAnalysis(userId: string, timeRange?: { start: Date; end: Date }): Promise<any>;
+  getContactNetworkAnalysis(indexCaseId: string, degreeOfSeparation?: number): Promise<any>;
+  getLocationClusterAnalysis(timeRange: { start: Date; end: Date }, radiusMeters?: number): Promise<any>;
+  getNotificationEffectivenessMetrics(campaignId?: string, timeRange?: { start: Date; end: Date }): Promise<any>;
+  getPrivacyComplianceReport(timeRange: { start: Date; end: Date }): Promise<any>;
+  
+  // Health Facilities operations
+  getHealthFacilities(filters?: { facilityType?: string; status?: string; region?: string }): Promise<HealthFacility[]>;
+  getHealthFacility(id: string): Promise<HealthFacility | undefined>;
+  createHealthFacility(facility: InsertHealthFacility): Promise<HealthFacility>;
+  updateHealthFacility(id: string, updates: Partial<HealthFacility>): Promise<HealthFacility>;
+  deleteHealthFacility(id: string): Promise<void>;
+  getRegionalCapacityOverview(region?: string): Promise<any>;
+  activateEmergencyProtocols(id: string, protocols: any): Promise<HealthFacility>;
+  
+  // Public Health Alerts operations
+  getPublicHealthAlerts(filters?: { alertType?: string; severity?: string; status?: string }): Promise<PublicHealthAlert[]>;
+  getPublicHealthAlert(id: string): Promise<PublicHealthAlert | undefined>;
+  createPublicHealthAlert(alert: InsertPublicHealthAlert): Promise<PublicHealthAlert>;
+  updatePublicHealthAlert(id: string, updates: Partial<PublicHealthAlert>): Promise<PublicHealthAlert>;
+  deletePublicHealthAlert(id: string): Promise<void>;
+  broadcastAlert(id: string, channels: string[]): Promise<boolean>;
+  
+  // Epidemiological Data operations
+  getEpidemiologicalData(filters?: { dataType?: string; diseaseCode?: string; geographicScope?: string; startDate?: Date; endDate?: Date }): Promise<EpidemiologicalData[]>;
+  getEpidemiologicalDataRecord(id: string): Promise<EpidemiologicalData | undefined>;
+  createEpidemiologicalData(data: InsertEpidemiologicalData): Promise<EpidemiologicalData>;
+  updateEpidemiologicalData(id: string, updates: Partial<EpidemiologicalData>): Promise<EpidemiologicalData>;
+  deleteEpidemiologicalData(id: string): Promise<void>;
+  generateStatisticalReports(filters?: any): Promise<any[]>;
+  getMMWRData(week: number, year: number): Promise<EpidemiologicalData[]>;
+  getPopulationHealthTrends(filters?: any): Promise<any[]>;
+  generateCDCReport(filters?: any): Promise<any>;
+
+  // ===== HIPAA COMPLIANCE OPERATIONS =====
+  
+  // HIPAA Security Officer operations
+  getSecurityOfficers(organizationId: string): Promise<HipaaSecurityOfficer[]>;
+  getSecurityOfficer(id: string): Promise<HipaaSecurityOfficer | undefined>;
+  createSecurityOfficer(officer: InsertHipaaSecurityOfficer): Promise<HipaaSecurityOfficer>;
+  updateSecurityOfficer(id: string, updates: Partial<HipaaSecurityOfficer>): Promise<HipaaSecurityOfficer>;
+  deleteSecurityOfficer(id: string): Promise<void>;
+  getActiveSecurityOfficers(organizationId: string): Promise<HipaaSecurityOfficer[]>;
+  findActiveSecurityOfficer(organizationId: string, officerType: string, designation?: string): Promise<HipaaSecurityOfficer | undefined>;
+  
+  // HIPAA Policy operations  
+  getHipaaPolicies(organizationId: string, status?: string): Promise<HipaaPolicy[]>;
+  getHipaaPolicyById(policyId: string): Promise<HipaaPolicy | undefined>;
+  createHipaaPolicy(policy: InsertHipaaPolicy): Promise<HipaaPolicy>;
+  updateHipaaPolicy(policyId: string, updates: Partial<HipaaPolicy>): Promise<HipaaPolicy>;
+  deleteHipaaPolicy(policyId: string): Promise<void>;
+  getNextPolicySequence(organizationId: string, category: string): Promise<number>;
+  
+  // HIPAA Training operations
+  getHipaaTrainings(organizationId: string, status?: string): Promise<HipaaTraining[]>;
+  getHipaaTrainingById(trainingId: string): Promise<HipaaTraining | undefined>;
+  createHipaaTraining(training: InsertHipaaTraining): Promise<HipaaTraining>;
+  updateHipaaTraining(id: string, updates: Partial<HipaaTraining>): Promise<HipaaTraining>;
+  deleteHipaaTraining(id: string): Promise<void>;
+  getNextTrainingSequence(organizationId: string, trainingType: string): Promise<number>;
+  
+  // HIPAA Training Record operations
+  getTrainingRecords(organizationId: string, userId?: string, status?: string): Promise<HipaaTrainingRecord[]>;
+  getTrainingRecord(id: string): Promise<HipaaTrainingRecord | undefined>;
+  createTrainingRecord(record: InsertHipaaTrainingRecord): Promise<HipaaTrainingRecord>;
+  updateTrainingRecord(id: string, updates: Partial<HipaaTrainingRecord>): Promise<HipaaTrainingRecord>;
+  deleteTrainingRecord(id: string): Promise<void>;
+  bulkCreateTrainingRecords(records: InsertHipaaTrainingRecord[]): Promise<HipaaTrainingRecord[]>;
+  getTrainingComplianceStats(organizationId: string): Promise<{
+    totalUsers: number;
+    compliantUsers: number;
+    overdueUsers: number;
+    upcomingDeadlines: any[];
+  }>;
+  
+  // HIPAA Business Associate operations
+  getBusinessAssociates(organizationId: string, status?: string): Promise<HipaaBusinessAssociate[]>;
+  getBusinessAssociateById(baId: string): Promise<HipaaBusinessAssociate | undefined>;
+  createBusinessAssociate(ba: InsertHipaaBusinessAssociate): Promise<HipaaBusinessAssociate>;
+  updateBusinessAssociate(baId: string, updates: Partial<HipaaBusinessAssociate>): Promise<HipaaBusinessAssociate>;
+  deleteBusinessAssociate(baId: string): Promise<void>;
+  getNextBASequence(organizationId: string): Promise<number>;
+  
+  // HIPAA Workstation Security operations
+  getWorkstationSecurity(organizationId: string, status?: string): Promise<HipaaWorkstationSecurity[]>;
+  getWorkstationSecurityById(id: string): Promise<HipaaWorkstationSecurity | undefined>;
+  createWorkstationSecurity(workstation: InsertHipaaWorkstationSecurity): Promise<HipaaWorkstationSecurity>;
+  updateWorkstationSecurity(id: string, updates: Partial<HipaaWorkstationSecurity>): Promise<HipaaWorkstationSecurity>;
+  deleteWorkstationSecurity(id: string): Promise<void>;
+  
+  // HIPAA Media Controls operations
+  getMediaControls(organizationId: string, status?: string): Promise<HipaaMediaControl[]>;
+  getMediaControlById(id: string): Promise<HipaaMediaControl | undefined>;
+  createMediaControl(media: InsertHipaaMediaControl): Promise<HipaaMediaControl>;
+  updateMediaControl(id: string, updates: Partial<HipaaMediaControl>): Promise<HipaaMediaControl>;
+  deleteMediaControl(id: string): Promise<void>;
+  
+  // HIPAA Facility Access operations
+  getFacilityAccess(organizationId: string, status?: string): Promise<HipaaFacilityAccess[]>;
+  getFacilityAccessById(id: string): Promise<HipaaFacilityAccess | undefined>;
+  createFacilityAccess(facility: InsertHipaaFacilityAccess): Promise<HipaaFacilityAccess>;
+  updateFacilityAccess(id: string, updates: Partial<HipaaFacilityAccess>): Promise<HipaaFacilityAccess>;
+  deleteFacilityAccess(id: string): Promise<void>;
+  
+  // HIPAA Secure Audit Log operations
+  getSecureAuditLogs(organizationId: string, filters?: { userId?: string; action?: string; resource?: string; startDate?: Date; endDate?: Date }): Promise<HipaaSecureAuditLog[]>;
+  getSecureAuditLog(id: string): Promise<HipaaSecureAuditLog | undefined>;
+  createSecureAuditLog(auditLog: InsertHipaaSecureAuditLog): Promise<HipaaSecureAuditLog>;
+  verifyAuditLogIntegrity(chainHash: string): Promise<boolean>;
+  
+  // HIPAA Emergency Access operations
+  getEmergencyAccess(organizationId: string, status?: string): Promise<HipaaEmergencyAccess[]>;
+  getEmergencyAccessById(id: string): Promise<HipaaEmergencyAccess | undefined>;
+  createEmergencyAccess(access: InsertHipaaEmergencyAccess): Promise<HipaaEmergencyAccess>;
+  updateEmergencyAccess(id: string, updates: Partial<HipaaEmergencyAccess>): Promise<HipaaEmergencyAccess>;
+  deleteEmergencyAccess(id: string): Promise<void>;
+  
+  // HIPAA Breach Incident operations
+  getBreachIncidents(organizationId: string, status?: string): Promise<HipaaBreachIncident[]>;
+  getBreachIncidentById(id: string): Promise<HipaaBreachIncident | undefined>;
+  createBreachIncident(incident: InsertHipaaBreachIncident): Promise<HipaaBreachIncident>;
+  updateBreachIncident(id: string, updates: Partial<HipaaBreachIncident>): Promise<HipaaBreachIncident>;
+  deleteBreachIncident(id: string): Promise<void>;
+  
+  // HIPAA Risk Assessment operations
+  getRiskAssessments(organizationId: string, status?: string): Promise<HipaaRiskAssessment[]>;
+  getRiskAssessmentById(id: string): Promise<HipaaRiskAssessment | undefined>;
+  createRiskAssessment(assessment: InsertHipaaRiskAssessment): Promise<HipaaRiskAssessment>;
+  updateRiskAssessment(id: string, updates: Partial<HipaaRiskAssessment>): Promise<HipaaRiskAssessment>;
+  deleteRiskAssessment(id: string): Promise<void>;
+  
+  // HIPAA Time-based Access operations
+  getTimeBasedAccess(organizationId: string, userId?: string): Promise<HipaaTimeBasedAccess[]>;
+  getTimeBasedAccessById(id: string): Promise<HipaaTimeBasedAccess | undefined>;
+  createTimeBasedAccess(access: InsertHipaaTimeBasedAccess): Promise<HipaaTimeBasedAccess>;
+  updateTimeBasedAccess(id: string, updates: Partial<HipaaTimeBasedAccess>): Promise<HipaaTimeBasedAccess>;
+  deleteTimeBasedAccess(id: string): Promise<void>;
+  
+  // HIPAA Access Request operations
+  getAccessRequests(organizationId: string, status?: string): Promise<HipaaAccessRequest[]>;
+  getAccessRequestById(id: string): Promise<HipaaAccessRequest | undefined>;
+  createAccessRequest(request: InsertHipaaAccessRequest): Promise<HipaaAccessRequest>;
+  updateAccessRequest(id: string, updates: Partial<HipaaAccessRequest>): Promise<HipaaAccessRequest>;
+  deleteAccessRequest(id: string): Promise<void>;
+  
+  // HIPAA Encryption Key operations
+  getEncryptionKeys(organizationId: string, status?: string): Promise<HipaaEncryptionKey[]>;
+  getEncryptionKeyById(id: string): Promise<HipaaEncryptionKey | undefined>;
+  createEncryptionKey(key: InsertHipaaEncryptionKey): Promise<HipaaEncryptionKey>;
+  updateEncryptionKey(id: string, updates: Partial<HipaaEncryptionKey>): Promise<HipaaEncryptionKey>;
+  deleteEncryptionKey(id: string): Promise<void>;
+
+  // ===== CATALOG SYSTEM OPERATIONS =====
+  
+  // Catalog Category operations
+  getCatalogCategories(categoryType?: string): Promise<CatalogCategory[]>;
+  getCatalogCategory(id: string): Promise<CatalogCategory | undefined>;
+  createCatalogCategory(category: InsertCatalogCategory): Promise<CatalogCategory>;
+  updateCatalogCategory(id: string, updates: Partial<CatalogCategory>): Promise<CatalogCategory>;
+  deleteCatalogCategory(id: string): Promise<void>;
+  
+  // BOM Component operations  
+  getBomComponents(): Promise<BomComponent[]>;
+  getBomComponent(id: string): Promise<BomComponent | undefined>;
+  createBomComponent(component: InsertBomComponent): Promise<BomComponent>;
+  updateBomComponent(id: string, updates: Partial<BomComponent>): Promise<BomComponent>;
+  deleteBomComponent(id: string): Promise<void>;
+  getBomComponentsByType(componentType: string): Promise<BomComponent[]>;
+  
+  // Catalog Product operations
+  getCatalogProducts(categoryId?: string): Promise<CatalogProduct[]>;
+  getCatalogProduct(id: string): Promise<CatalogProduct | undefined>;
+  getCatalogProductByCode(productCode: string): Promise<CatalogProduct | undefined>;
+  createCatalogProduct(product: InsertCatalogProduct): Promise<CatalogProduct>;
+  updateCatalogProduct(id: string, updates: Partial<CatalogProduct>): Promise<CatalogProduct>;
+  deleteCatalogProduct(id: string): Promise<void>;
+  getProductsWithBom(): Promise<(CatalogProduct & { bom: (ProductBom & { component: BomComponent })[] })[]>;
+  
+  // Product BOM operations
+  getProductBom(productId: string): Promise<(ProductBom & { component: BomComponent })[]>;
+  addProductBomComponent(productBom: InsertProductBom): Promise<ProductBom>;
+  updateProductBomComponent(id: string, updates: Partial<ProductBom>): Promise<ProductBom>;
+  removeProductBomComponent(id: string): Promise<void>;
+  
+  // Catalog Service operations
+  getCatalogServices(categoryId?: string): Promise<CatalogService[]>;
+  getCatalogService(id: string): Promise<CatalogService | undefined>;
+  getCatalogServiceByCode(serviceCode: string): Promise<CatalogService | undefined>;
+  createCatalogService(service: InsertCatalogService): Promise<CatalogService>;
+  updateCatalogService(id: string, updates: Partial<CatalogService>): Promise<CatalogService>;
+  deleteCatalogService(id: string): Promise<void>;
+  getServicesByType(serviceType: string): Promise<CatalogService[]>;
+  
+  // Catalog Solution operations
+  getCatalogSolutions(categoryId?: string): Promise<CatalogSolution[]>;
+  getCatalogSolution(id: string): Promise<CatalogSolution | undefined>;
+  getCatalogSolutionByCode(solutionCode: string): Promise<CatalogSolution | undefined>;
+  createCatalogSolution(solution: InsertCatalogSolution): Promise<CatalogSolution>;
+  updateCatalogSolution(id: string, updates: Partial<CatalogSolution>): Promise<CatalogSolution>;
+  deleteCatalogSolution(id: string): Promise<void>;
+  getSolutionsWithComponents(): Promise<(CatalogSolution & { components: SolutionComponent[] })[]>;
+  
+  // Solution Component operations
+  getSolutionComponents(solutionId: string): Promise<SolutionComponent[]>;
+  addSolutionComponent(component: InsertSolutionComponent): Promise<SolutionComponent>;
+  updateSolutionComponent(id: string, updates: Partial<SolutionComponent>): Promise<SolutionComponent>;
+  removeSolutionComponent(id: string): Promise<void>;
+  
+  // Pricing History operations
+  getPricingHistory(entityType: string, entityId: string): Promise<PricingHistory[]>;
+  createPricingHistoryEntry(entry: InsertPricingHistory): Promise<PricingHistory>;
+  
+  // Competitive Analysis operations
+  getCompetitiveAnalysis(): Promise<CompetitiveAnalysis[]>;
+  getCompetitiveAnalysisForProduct(productName: string): Promise<CompetitiveAnalysis[]>;
+  createCompetitiveAnalysis(analysis: InsertCompetitiveAnalysis): Promise<CompetitiveAnalysis>;
+  updateCompetitiveAnalysis(id: string, updates: Partial<CompetitiveAnalysis>): Promise<CompetitiveAnalysis>;
+  deleteCompetitiveAnalysis(id: string): Promise<void>;
+  
+  // Catalog Analytics and Reporting
+  getCatalogMetrics(): Promise<{
+    totalProducts: number;
+    totalServices: number;
+    totalSolutions: number;
+    averageProductMargin: number;
+    averageServiceMargin: number;
+    totalCatalogValue: number;
+  }>;
+  
+  getCatalogReport(reportType: 'pricing' | 'margins' | 'competitive' | 'bom'): Promise<any>;
 }
 
 export class MemStorage implements IStorage {
@@ -140,6 +680,36 @@ export class MemStorage implements IStorage {
   private confirmationCodes: Map<string, any> = new Map();
   private cypherSettings = { enabled: true, dailyReports: true, issueAlerts: true };
   private cypherReports: Map<string, any> = new Map();
+  
+  // CypherHUM Storage Maps
+  private cypherhumSessions: Map<string, CypherhumSession> = new Map();
+  private cypherhumVisualizations: Map<string, CypherhumVisualization> = new Map();
+  private cypherhumInteractions: Map<string, CypherhumInteraction> = new Map();
+  private cypherhumThreatModels: Map<string, CypherhumThreatModel> = new Map();
+  private cypherhumAnalytics: Map<string, CypherhumAnalytics> = new Map();
+
+  // ACDS Storage Maps
+  private acdsDrones: Map<string, AcdsDrone> = new Map();
+  private acdsSwarmMissions: Map<string, AcdsSwarmMission> = new Map();
+  private acdsDeployments: Map<string, AcdsDeployment> = new Map();
+  private acdsCoordinations: Map<string, AcdsCoordination> = new Map();
+  private acdsAnalytics: Map<string, AcdsAnalytics> = new Map();
+
+  // HIPAA Storage Maps
+  private hipaaWorkstationSecurity: Map<string, HipaaWorkstationSecurity> = new Map();
+  private hipaaMediaControls: Map<string, HipaaMediaControl> = new Map();
+  private hipaaFacilityAccess: Map<string, HipaaFacilityAccess> = new Map();
+
+  // Catalog System Storage Maps
+  private catalogCategories: Map<string, CatalogCategory> = new Map();
+  private bomComponents: Map<string, BomComponent> = new Map();
+  private catalogProducts: Map<string, CatalogProduct> = new Map();
+  private productBom: Map<string, ProductBom> = new Map();
+  private catalogServices: Map<string, CatalogService> = new Map();
+  private catalogSolutions: Map<string, CatalogSolution> = new Map();
+  private solutionComponents: Map<string, SolutionComponent> = new Map();
+  private pricingHistory: Map<string, PricingHistory> = new Map();
+  private competitiveAnalysis: Map<string, CompetitiveAnalysis> = new Map();
 
   constructor() {
     this.initializeData();
@@ -1137,6 +1707,1027 @@ export class MemStorage implements IStorage {
     
     return undefined;
   }
+
+  // ===== CypherHUM Storage Implementations =====
+  
+  // CypherHUM Session operations
+  async getCypherhumSessions(userId?: string): Promise<CypherhumSession[]> {
+    const sessions = Array.from(this.cypherhumSessions.values());
+    return userId ? sessions.filter(s => s.userId === userId) : sessions;
+  }
+
+  async getCypherhumSession(sessionId: string): Promise<CypherhumSession | undefined> {
+    return this.cypherhumSessions.get(sessionId);
+  }
+
+  async createCypherhumSession(insertSession: InsertCypherhumSession): Promise<CypherhumSession> {
+    const id = randomUUID();
+    const session: CypherhumSession = {
+      ...insertSession,
+      id,
+      status: insertSession.status ?? "active",
+      startTime: insertSession.startTime ?? new Date(),
+      endTime: null,
+      duration: insertSession.duration ?? 0,
+      threatsVisualized: insertSession.threatsVisualized ?? 0,
+      aiInteractions: insertSession.aiInteractions ?? 0,
+      visualizationPresetId: insertSession.visualizationPresetId ?? null,
+      sessionData: insertSession.sessionData ?? {},
+      performanceMetrics: insertSession.performanceMetrics ?? {},
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumSessions.set(id, session);
+    return session;
+  }
+
+  async updateCypherhumSession(sessionId: string, updates: Partial<CypherhumSession>): Promise<CypherhumSession> {
+    const session = this.cypherhumSessions.get(sessionId);
+    if (!session) throw new Error("CypherHUM session not found");
+    
+    const updatedSession = { ...session, ...updates, updatedAt: new Date() };
+    this.cypherhumSessions.set(sessionId, updatedSession);
+    return updatedSession;
+  }
+
+  async deleteCypherhumSession(sessionId: string): Promise<void> {
+    this.cypherhumSessions.delete(sessionId);
+  }
+
+  // CypherHUM Visualization operations  
+  async getCypherhumVisualizations(userId?: string): Promise<CypherhumVisualization[]> {
+    const visualizations = Array.from(this.cypherhumVisualizations.values());
+    if (userId) {
+      return visualizations.filter(v => v.createdBy === userId || v.isPublic === true);
+    }
+    return visualizations.filter(v => v.isPublic === true);
+  }
+
+  async getCypherhumVisualization(visualizationId: string): Promise<CypherhumVisualization | undefined> {
+    return this.cypherhumVisualizations.get(visualizationId);
+  }
+
+  async createCypherhumVisualization(insertVisualization: InsertCypherhumVisualization): Promise<CypherhumVisualization> {
+    const id = randomUUID();
+    const visualization: CypherhumVisualization = {
+      ...insertVisualization,
+      id,
+      isDefault: insertVisualization.isDefault ?? false,
+      isPublic: insertVisualization.isPublic ?? false,
+      usageCount: insertVisualization.usageCount ?? 0,
+      rating: insertVisualization.rating ?? 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumVisualizations.set(id, visualization);
+    return visualization;
+  }
+
+  async updateCypherhumVisualization(visualizationId: string, updates: Partial<CypherhumVisualization>): Promise<CypherhumVisualization> {
+    const visualization = this.cypherhumVisualizations.get(visualizationId);
+    if (!visualization) throw new Error("CypherHUM visualization not found");
+    
+    const updatedVisualization = { ...visualization, ...updates, updatedAt: new Date() };
+    this.cypherhumVisualizations.set(visualizationId, updatedVisualization);
+    return updatedVisualization;
+  }
+
+  async deleteCypherhumVisualization(visualizationId: string): Promise<void> {
+    this.cypherhumVisualizations.delete(visualizationId);
+  }
+
+  // CypherHUM Interaction operations
+  async getCypherhumInteractions(sessionId?: string): Promise<CypherhumInteraction[]> {
+    const interactions = Array.from(this.cypherhumInteractions.values());
+    return sessionId ? interactions.filter(i => i.sessionId === sessionId) : interactions;
+  }
+
+  async getCypherhumInteraction(interactionId: string): Promise<CypherhumInteraction | undefined> {
+    return this.cypherhumInteractions.get(interactionId);
+  }
+
+  async createCypherhumInteraction(insertInteraction: InsertCypherhumInteraction): Promise<CypherhumInteraction> {
+    const id = randomUUID();
+    const interaction: CypherhumInteraction = {
+      ...insertInteraction,
+      id,
+      responseType: insertInteraction.responseType ?? "acknowledgment",
+      processingTime: insertInteraction.processingTime ?? 0,
+      confidenceScore: insertInteraction.confidenceScore ?? null,
+      contextData: insertInteraction.contextData ?? null,
+      threeDManipulation: insertInteraction.threeDManipulation ?? null,
+      visualizationImpact: insertInteraction.visualizationImpact ?? null,
+      userFeedback: insertInteraction.userFeedback ?? null,
+      timestamp: new Date()
+    };
+    this.cypherhumInteractions.set(id, interaction);
+    return interaction;
+  }
+
+  async updateCypherhumInteraction(interactionId: string, updates: Partial<CypherhumInteraction>): Promise<CypherhumInteraction> {
+    const interaction = this.cypherhumInteractions.get(interactionId);
+    if (!interaction) throw new Error("CypherHUM interaction not found");
+    
+    const updatedInteraction = { ...interaction, ...updates };
+    this.cypherhumInteractions.set(interactionId, updatedInteraction);
+    return updatedInteraction;
+  }
+
+  async deleteCypherhumInteraction(interactionId: string): Promise<void> {
+    this.cypherhumInteractions.delete(interactionId);
+  }
+
+  // CypherHUM Threat Model operations
+  async getCypherhumThreatModels(threatId?: string): Promise<CypherhumThreatModel[]> {
+    const models = Array.from(this.cypherhumThreatModels.values());
+    return threatId ? models.filter(m => m.threatId === threatId) : models;
+  }
+
+  async getCypherhumThreatModel(modelId: string): Promise<CypherhumThreatModel | undefined> {
+    return this.cypherhumThreatModels.get(modelId);
+  }
+
+  async createCypherhumThreatModel(insertModel: InsertCypherhumThreatModel): Promise<CypherhumThreatModel> {
+    const id = randomUUID();
+    const model: CypherhumThreatModel = {
+      ...insertModel,
+      id,
+      geometryData: insertModel.geometryData ?? {},
+      materialProperties: insertModel.materialProperties ?? {},
+      animationData: insertModel.animationData ?? {},
+      interactionBehavior: insertModel.interactionBehavior ?? {},
+      severity3DMapping: insertModel.severity3DMapping ?? {},
+      realTimeProperties: insertModel.realTimeProperties ?? {},
+      renderingOptimization: insertModel.renderingOptimization ?? {},
+      aiEnhancement: insertModel.aiEnhancement ?? {},
+      spatialPosition: insertModel.spatialPosition ?? [0, 0, 0],
+      scale: insertModel.scale ?? [1, 1, 1],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.cypherhumThreatModels.set(id, model);
+    return model;
+  }
+
+  async updateCypherhumThreatModel(modelId: string, updates: Partial<CypherhumThreatModel>): Promise<CypherhumThreatModel> {
+    const model = this.cypherhumThreatModels.get(modelId);
+    if (!model) throw new Error("CypherHUM threat model not found");
+    
+    const updatedModel = { ...model, ...updates, updatedAt: new Date() };
+    this.cypherhumThreatModels.set(modelId, updatedModel);
+    return updatedModel;
+  }
+
+  async deleteCypherhumThreatModel(modelId: string): Promise<void> {
+    this.cypherhumThreatModels.delete(modelId);
+  }
+
+  // CypherHUM Analytics operations
+  async getCypherhumAnalytics(sessionId?: string, userId?: string): Promise<CypherhumAnalytics[]> {
+    const analytics = Array.from(this.cypherhumAnalytics.values());
+    let filtered = analytics;
+    
+    if (sessionId) {
+      filtered = filtered.filter(a => a.sessionId === sessionId);
+    }
+    if (userId) {
+      filtered = filtered.filter(a => a.userId === userId);
+    }
+    
+    return filtered;
+  }
+
+  async getCypherhumAnalytic(analyticId: string): Promise<CypherhumAnalytics | undefined> {
+    return this.cypherhumAnalytics.get(analyticId);
+  }
+
+  async createCypherhumAnalytic(insertAnalytic: InsertCypherhumAnalytics): Promise<CypherhumAnalytics> {
+    const id = randomUUID();
+    const analytic: CypherhumAnalytics = {
+      ...insertAnalytic,
+      id,
+      sessionId: insertAnalytic.sessionId ?? null,
+      metricValue: insertAnalytic.metricValue ?? 0,
+      contextData: insertAnalytic.contextData ?? null,
+      aggregationPeriod: insertAnalytic.aggregationPeriod ?? "instant",
+      timestamp: new Date()
+    };
+    this.cypherhumAnalytics.set(id, analytic);
+    return analytic;
+  }
+
+  async updateCypherhumAnalytic(analyticId: string, updates: Partial<CypherhumAnalytics>): Promise<CypherhumAnalytics> {
+    const analytic = this.cypherhumAnalytics.get(analyticId);
+    if (!analytic) throw new Error("CypherHUM analytic not found");
+    
+    const updatedAnalytic = { ...analytic, ...updates };
+    this.cypherhumAnalytics.set(analyticId, updatedAnalytic);
+    return updatedAnalytic;
+  }
+
+  async deleteCypherhumAnalytic(analyticId: string): Promise<void> {
+    this.cypherhumAnalytics.delete(analyticId);
+  }
+
+  // ===== ACDS (Autonomous Cyber Defense Swarm) Operations =====
+  
+  // ACDS Drone operations
+  async getAcdsDrones(organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = Array.from(this.acdsDrones.values());
+    return organizationId ? drones.filter(d => d.organizationId === organizationId) : drones;
+  }
+
+  async getAcdsDrone(droneId: string): Promise<AcdsDrone | undefined> {
+    return Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+  }
+
+  async createAcdsDrone(insertDrone: InsertAcdsDrone): Promise<AcdsDrone> {
+    const id = randomUUID();
+    const drone: AcdsDrone = {
+      ...insertDrone,
+      id,
+      currentLatitude: insertDrone.currentLatitude ?? null,
+      currentLongitude: insertDrone.currentLongitude ?? null,
+      currentAltitude: insertDrone.currentAltitude ?? null,
+      assignedMissionId: insertDrone.assignedMissionId ?? null,
+      operatorId: insertDrone.operatorId ?? null,
+      emergencyContactProtocol: insertDrone.emergencyContactProtocol ?? {},
+      lastLocationUpdate: insertDrone.lastLocationUpdate ?? new Date(),
+      lastStatusUpdate: insertDrone.lastStatusUpdate ?? new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsDrones.set(id, drone);
+    return drone;
+  }
+
+  async updateAcdsDrone(droneId: string, updates: Partial<AcdsDrone>): Promise<AcdsDrone> {
+    const drone = Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+    if (!drone) throw new Error("ACDS drone not found");
+    
+    const updatedDrone = { ...drone, ...updates, updatedAt: new Date() };
+    this.acdsDrones.set(drone.id, updatedDrone);
+    return updatedDrone;
+  }
+
+  async deleteAcdsDrone(droneId: string): Promise<void> {
+    const drone = Array.from(this.acdsDrones.values()).find(d => d.droneId === droneId);
+    if (drone) {
+      this.acdsDrones.delete(drone.id);
+    }
+  }
+
+  async getAcdsDronesByStatus(status: string, organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = await this.getAcdsDrones(organizationId);
+    return drones.filter(d => d.currentStatus === status);
+  }
+
+  async getAcdsDronesBySwarmRole(role: string, organizationId?: string): Promise<AcdsDrone[]> {
+    const drones = await this.getAcdsDrones(organizationId);
+    return drones.filter(d => d.swarmRole === role);
+  }
+  
+  // ACDS Swarm Mission operations
+  async getAcdsSwarmMissions(organizationId?: string, status?: string): Promise<AcdsSwarmMission[]> {
+    const missions = Array.from(this.acdsSwarmMissions.values());
+    let filtered = organizationId ? missions.filter(m => m.organizationId === organizationId) : missions;
+    return status ? filtered.filter(m => m.status === status) : filtered;
+  }
+
+  async getAcdsSwarmMission(missionId: string): Promise<AcdsSwarmMission | undefined> {
+    return this.acdsSwarmMissions.get(missionId);
+  }
+
+  async createAcdsSwarmMission(insertMission: InsertAcdsSwarmMission): Promise<AcdsSwarmMission> {
+    const id = randomUUID();
+    const mission: AcdsSwarmMission = {
+      ...insertMission,
+      id,
+      threatContext: insertMission.threatContext ?? null,
+      actualDuration: insertMission.actualDuration ?? null,
+      swarmConfiguration: insertMission.swarmConfiguration ?? {},
+      riskAssessment: insertMission.riskAssessment ?? {},
+      weatherConditions: insertMission.weatherConditions ?? {},
+      airspaceRestrictions: insertMission.airspaceRestrictions ?? [],
+      dataCollectionRequirements: insertMission.dataCollectionRequirements ?? [],
+      emergencyProcedures: insertMission.emergencyProcedures ?? {},
+      cydefIntegration: insertMission.cydefIntegration ?? {},
+      plannedStartTime: insertMission.plannedStartTime ?? null,
+      actualStartTime: insertMission.actualStartTime ?? null,
+      plannedEndTime: insertMission.plannedEndTime ?? null,
+      actualEndTime: insertMission.actualEndTime ?? null,
+      complianceRequirements: insertMission.complianceRequirements ?? [],
+      resultsData: insertMission.resultsData ?? null,
+      performanceMetrics: insertMission.performanceMetrics ?? null,
+      lessonsLearned: insertMission.lessonsLearned ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsSwarmMissions.set(id, mission);
+    return mission;
+  }
+
+  async updateAcdsSwarmMission(missionId: string, updates: Partial<AcdsSwarmMission>): Promise<AcdsSwarmMission> {
+    const mission = this.acdsSwarmMissions.get(missionId);
+    if (!mission) throw new Error("ACDS swarm mission not found");
+    
+    const updatedMission = { ...mission, ...updates, updatedAt: new Date() };
+    this.acdsSwarmMissions.set(missionId, updatedMission);
+    return updatedMission;
+  }
+
+  async deleteAcdsSwarmMission(missionId: string): Promise<void> {
+    this.acdsSwarmMissions.delete(missionId);
+  }
+
+  async getActiveAcdsSwarmMissions(organizationId?: string): Promise<AcdsSwarmMission[]> {
+    return this.getAcdsSwarmMissions(organizationId, 'active');
+  }
+  
+  // ACDS Deployment operations
+  async getAcdsDeployments(organizationId?: string, status?: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    let filtered = organizationId ? deployments.filter(d => d.organizationId === organizationId) : deployments;
+    return status ? filtered.filter(d => d.deploymentStatus === status) : filtered;
+  }
+
+  async getAcdsDeployment(deploymentId: string): Promise<AcdsDeployment | undefined> {
+    return Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+  }
+
+  async createAcdsDeployment(insertDeployment: InsertAcdsDeployment): Promise<AcdsDeployment> {
+    const id = randomUUID();
+    const deployment: AcdsDeployment = {
+      ...insertDeployment,
+      id,
+      missionId: insertDeployment.missionId ?? null,
+      currentLatitude: insertDeployment.currentLatitude ?? null,
+      currentLongitude: insertDeployment.currentLongitude ?? null,
+      currentAltitude: insertDeployment.currentAltitude ?? null,
+      flightPath: insertDeployment.flightPath ?? [],
+      formationPosition: insertDeployment.formationPosition ?? {},
+      speedKmh: insertDeployment.speedKmh ?? 0,
+      heading: insertDeployment.heading ?? 0,
+      batteryConsumption: insertDeployment.batteryConsumption ?? 0,
+      estimatedRemainingTime: insertDeployment.estimatedRemainingTime ?? null,
+      sensorReadings: insertDeployment.sensorReadings ?? {},
+      threatDetections: insertDeployment.threatDetections ?? [],
+      communicationLog: insertDeployment.communicationLog ?? [],
+      coordinationCommands: insertDeployment.coordinationCommands ?? [],
+      autonomousDecisions: insertDeployment.autonomousDecisions ?? [],
+      cydefResponses: insertDeployment.cydefResponses ?? [],
+      environmentalFactors: insertDeployment.environmentalFactors ?? {},
+      riskLevelCurrent: insertDeployment.riskLevelCurrent ?? 'low',
+      emergencyProceduresActive: insertDeployment.emergencyProceduresActive ?? false,
+      returnToBaseInitiated: insertDeployment.returnToBaseInitiated ?? false,
+      missionObjectiveStatus: insertDeployment.missionObjectiveStatus ?? {},
+      dataCollected: insertDeployment.dataCollected ?? {},
+      anomaliesDetected: insertDeployment.anomaliesDetected ?? [],
+      networkConnectivity: insertDeployment.networkConnectivity ?? 'stable',
+      lastHeartbeat: insertDeployment.lastHeartbeat ?? new Date(),
+      estimatedCompletionTime: insertDeployment.estimatedCompletionTime ?? null,
+      actualCompletionTime: insertDeployment.actualCompletionTime ?? null,
+      operatorOverride: insertDeployment.operatorOverride ?? false,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.acdsDeployments.set(id, deployment);
+    return deployment;
+  }
+
+  async updateAcdsDeployment(deploymentId: string, updates: Partial<AcdsDeployment>): Promise<AcdsDeployment> {
+    const deployment = Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+    if (!deployment) throw new Error("ACDS deployment not found");
+    
+    const updatedDeployment = { ...deployment, ...updates, updatedAt: new Date() };
+    this.acdsDeployments.set(deployment.id, updatedDeployment);
+    return updatedDeployment;
+  }
+
+  async deleteAcdsDeployment(deploymentId: string): Promise<void> {
+    const deployment = Array.from(this.acdsDeployments.values()).find(d => d.deploymentId === deploymentId);
+    if (deployment) {
+      this.acdsDeployments.delete(deployment.id);
+    }
+  }
+
+  async getAcdsDeploymentsByDrone(droneId: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    return deployments.filter(d => d.droneId === droneId);
+  }
+
+  async getAcdsDeploymentsByMission(missionId: string): Promise<AcdsDeployment[]> {
+    const deployments = Array.from(this.acdsDeployments.values());
+    return deployments.filter(d => d.missionId === missionId);
+  }
+
+  async getActiveAcdsDeployments(organizationId?: string): Promise<AcdsDeployment[]> {
+    return this.getAcdsDeployments(organizationId, 'active');
+  }
+  
+  // ACDS Coordination operations
+  async getAcdsCoordinations(organizationId?: string): Promise<AcdsCoordination[]> {
+    const coordinations = Array.from(this.acdsCoordinations.values());
+    return organizationId ? coordinations.filter(c => c.organizationId === organizationId) : coordinations;
+  }
+
+  async getAcdsCoordination(coordinationId: string): Promise<AcdsCoordination | undefined> {
+    return Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+  }
+
+  async createAcdsCoordination(insertCoordination: InsertAcdsCoordination): Promise<AcdsCoordination> {
+    const id = randomUUID();
+    const coordination: AcdsCoordination = {
+      ...insertCoordination,
+      id,
+      swarmId: insertCoordination.swarmId ?? `swarm-${insertCoordination.organizationId}`,
+      participatingDrones: insertCoordination.participatingDrones ?? [],
+      inputData: insertCoordination.inputData ?? {},
+      coordinationDecision: insertCoordination.coordinationDecision ?? {},
+      implementationStartTime: insertCoordination.implementationStartTime ?? null,
+      implementationEndTime: insertCoordination.implementationEndTime ?? null,
+      implementationResults: insertCoordination.implementationResults ?? null,
+      geneticAlgorithmGeneration: insertCoordination.geneticAlgorithmGeneration ?? null,
+      geneticAlgorithmFitness: insertCoordination.geneticAlgorithmFitness ?? null,
+      cydefRecommendation: insertCoordination.cydefRecommendation ?? null,
+      performanceMetrics: insertCoordination.performanceMetrics ?? null,
+      lessonsLearned: insertCoordination.lessonsLearned ?? null
+    };
+    this.acdsCoordinations.set(id, coordination);
+    return coordination;
+  }
+
+  async updateAcdsCoordination(coordinationId: string, updates: Partial<AcdsCoordination>): Promise<AcdsCoordination> {
+    const coordination = Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+    if (!coordination) throw new Error("ACDS coordination not found");
+    
+    const updatedCoordination = { ...coordination, ...updates };
+    this.acdsCoordinations.set(coordination.id, updatedCoordination);
+    return updatedCoordination;
+  }
+
+  async deleteAcdsCoordination(coordinationId: string): Promise<void> {
+    const coordination = Array.from(this.acdsCoordinations.values()).find(c => c.coordinationEventId === coordinationId);
+    if (coordination) {
+      this.acdsCoordinations.delete(coordination.id);
+    }
+  }
+
+  async getAcdsCoordinationsByEvent(eventType: string, organizationId?: string): Promise<AcdsCoordination[]> {
+    const coordinations = await this.getAcdsCoordinations(organizationId);
+    return coordinations.filter(c => c.eventType === eventType);
+  }
+
+  async getAcdsCoordinationsBySwarm(swarmId: string): Promise<AcdsCoordination[]> {
+    const coordinations = Array.from(this.acdsCoordinations.values());
+    return coordinations.filter(c => c.swarmId === swarmId);
+  }
+  
+  // ACDS Analytics operations
+  async getAcdsAnalytics(organizationId?: string, analyticsType?: string): Promise<AcdsAnalytics[]> {
+    const analytics = Array.from(this.acdsAnalytics.values());
+    let filtered = organizationId ? analytics.filter(a => a.organizationId === organizationId) : analytics;
+    return analyticsType ? filtered.filter(a => a.analyticsType === analyticsType) : filtered;
+  }
+
+  async getAcdsAnalytic(analyticId: string): Promise<AcdsAnalytics | undefined> {
+    return this.acdsAnalytics.get(analyticId);
+  }
+
+  async createAcdsAnalytic(insertAnalytic: InsertAcdsAnalytics): Promise<AcdsAnalytics> {
+    const id = randomUUID();
+    const analytic: AcdsAnalytics = {
+      ...insertAnalytic,
+      id,
+      aggregationPeriod: insertAnalytic.aggregationPeriod ?? 'real_time',
+      metricData: insertAnalytic.metricData ?? null,
+      complianceFramework: insertAnalytic.complianceFramework ?? null,
+      complianceScore: insertAnalytic.complianceScore ?? null,
+      benchmarkComparison: insertAnalytic.benchmarkComparison ?? null,
+      trendAnalysis: insertAnalytic.trendAnalysis ?? null,
+      predictiveInsights: insertAnalytic.predictiveInsights ?? null,
+      alertThresholds: insertAnalytic.alertThresholds ?? null,
+      dataSource: insertAnalytic.dataSource ?? 'acds_service',
+      validationStatus: insertAnalytic.validationStatus ?? 'pending',
+      dataQualityScore: insertAnalytic.dataQualityScore ?? null,
+      correlationFactors: insertAnalytic.correlationFactors ?? null,
+      timestamp: new Date()
+    };
+    this.acdsAnalytics.set(id, analytic);
+    return analytic;
+  }
+
+  async updateAcdsAnalytic(analyticId: string, updates: Partial<AcdsAnalytics>): Promise<AcdsAnalytics> {
+    const analytic = this.acdsAnalytics.get(analyticId);
+    if (!analytic) throw new Error("ACDS analytic not found");
+    
+    const updatedAnalytic = { ...analytic, ...updates };
+    this.acdsAnalytics.set(analyticId, updatedAnalytic);
+    return updatedAnalytic;
+  }
+
+  async deleteAcdsAnalytic(analyticId: string): Promise<void> {
+    this.acdsAnalytics.delete(analyticId);
+  }
+
+  async getAcdsAnalyticsByCategory(category: string, organizationId?: string): Promise<AcdsAnalytics[]> {
+    const analytics = await this.getAcdsAnalytics(organizationId);
+    return analytics.filter(a => a.metricCategory === category);
+  }
+
+  async getAcdsAnalyticsByDateRange(startDate: Date, endDate: Date, organizationId?: string): Promise<AcdsAnalytics[]> {
+    const analytics = await this.getAcdsAnalytics(organizationId);
+    return analytics.filter(a => a.timestamp >= startDate && a.timestamp <= endDate);
+  }
+
+  // ===== HIPAA WORKSTATION SECURITY OPERATIONS =====
+  
+  async getWorkstationSecurity(organizationId: string, status?: string): Promise<HipaaWorkstationSecurity[]> {
+    const workstations = Array.from(this.hipaaWorkstationSecurity.values());
+    let filtered = workstations.filter(w => w.organizationId === organizationId);
+    return status ? filtered.filter(w => w.status === status) : filtered;
+  }
+
+  async getWorkstationSecurityById(id: string): Promise<HipaaWorkstationSecurity | undefined> {
+    return this.hipaaWorkstationSecurity.get(id);
+  }
+
+  async createWorkstationSecurity(workstation: InsertHipaaWorkstationSecurity): Promise<HipaaWorkstationSecurity> {
+    const id = randomUUID();
+    const newWorkstation: HipaaWorkstationSecurity = {
+      ...workstation,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.hipaaWorkstationSecurity.set(id, newWorkstation);
+    return newWorkstation;
+  }
+
+  async updateWorkstationSecurity(id: string, updates: Partial<HipaaWorkstationSecurity>): Promise<HipaaWorkstationSecurity> {
+    const workstation = this.hipaaWorkstationSecurity.get(id);
+    if (!workstation) throw new Error("HIPAA workstation security record not found");
+    
+    const updatedWorkstation = { ...workstation, ...updates, updatedAt: new Date() };
+    this.hipaaWorkstationSecurity.set(id, updatedWorkstation);
+    return updatedWorkstation;
+  }
+
+  async deleteWorkstationSecurity(id: string): Promise<void> {
+    this.hipaaWorkstationSecurity.delete(id);
+  }
+
+  // ===== HIPAA MEDIA CONTROLS OPERATIONS =====
+
+  async getMediaControls(organizationId: string, status?: string): Promise<HipaaMediaControl[]> {
+    const mediaControls = Array.from(this.hipaaMediaControls.values());
+    let filtered = mediaControls.filter(m => m.organizationId === organizationId);
+    return status ? filtered.filter(m => m.status === status) : filtered;
+  }
+
+  async getMediaControlById(id: string): Promise<HipaaMediaControl | undefined> {
+    return this.hipaaMediaControls.get(id);
+  }
+
+  async createMediaControl(media: InsertHipaaMediaControl): Promise<HipaaMediaControl> {
+    const id = randomUUID();
+    const newMedia: HipaaMediaControl = {
+      ...media,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.hipaaMediaControls.set(id, newMedia);
+    return newMedia;
+  }
+
+  async updateMediaControl(id: string, updates: Partial<HipaaMediaControl>): Promise<HipaaMediaControl> {
+    const media = this.hipaaMediaControls.get(id);
+    if (!media) throw new Error("HIPAA media control record not found");
+    
+    const updatedMedia = { ...media, ...updates, updatedAt: new Date() };
+    this.hipaaMediaControls.set(id, updatedMedia);
+    return updatedMedia;
+  }
+
+  async deleteMediaControl(id: string): Promise<void> {
+    this.hipaaMediaControls.delete(id);
+  }
+
+  // ===== HIPAA FACILITY ACCESS OPERATIONS =====
+
+  async getFacilityAccess(organizationId: string, status?: string): Promise<HipaaFacilityAccess[]> {
+    const facilityAccess = Array.from(this.hipaaFacilityAccess.values());
+    let filtered = facilityAccess.filter(f => f.organizationId === organizationId);
+    return status ? filtered.filter(f => f.status === status) : filtered;
+  }
+
+  async getFacilityAccessById(id: string): Promise<HipaaFacilityAccess | undefined> {
+    return this.hipaaFacilityAccess.get(id);
+  }
+
+  async createFacilityAccess(facility: InsertHipaaFacilityAccess): Promise<HipaaFacilityAccess> {
+    const id = randomUUID();
+    const newFacility: HipaaFacilityAccess = {
+      ...facility,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.hipaaFacilityAccess.set(id, newFacility);
+    return newFacility;
+  }
+
+  async updateFacilityAccess(id: string, updates: Partial<HipaaFacilityAccess>): Promise<HipaaFacilityAccess> {
+    const facility = this.hipaaFacilityAccess.get(id);
+    if (!facility) throw new Error("HIPAA facility access record not found");
+    
+    const updatedFacility = { ...facility, ...updates, updatedAt: new Date() };
+    this.hipaaFacilityAccess.set(id, updatedFacility);
+    return updatedFacility;
+  }
+
+  async deleteFacilityAccess(id: string): Promise<void> {
+    this.hipaaFacilityAccess.delete(id);
+  }
+
+  // ===== CATALOG SYSTEM OPERATIONS =====
+  
+  // Catalog Category operations
+  async getCatalogCategories(categoryType?: string): Promise<CatalogCategory[]> {
+    const categories = Array.from(this.catalogCategories.values());
+    return categoryType ? categories.filter(c => c.categoryType === categoryType) : categories;
+  }
+
+  async getCatalogCategory(id: string): Promise<CatalogCategory | undefined> {
+    return this.catalogCategories.get(id);
+  }
+
+  async createCatalogCategory(category: InsertCatalogCategory): Promise<CatalogCategory> {
+    const id = randomUUID();
+    const newCategory: CatalogCategory = {
+      ...category,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.catalogCategories.set(id, newCategory);
+    return newCategory;
+  }
+
+  async updateCatalogCategory(id: string, updates: Partial<CatalogCategory>): Promise<CatalogCategory> {
+    const category = this.catalogCategories.get(id);
+    if (!category) throw new Error("Catalog category not found");
+    const updated = { ...category, ...updates, updatedAt: new Date() };
+    this.catalogCategories.set(id, updated);
+    return updated;
+  }
+
+  async deleteCatalogCategory(id: string): Promise<void> {
+    this.catalogCategories.delete(id);
+  }
+
+  // BOM Component operations
+  async getBomComponents(): Promise<BomComponent[]> {
+    return Array.from(this.bomComponents.values());
+  }
+
+  async getBomComponent(id: string): Promise<BomComponent | undefined> {
+    return this.bomComponents.get(id);
+  }
+
+  async createBomComponent(component: InsertBomComponent): Promise<BomComponent> {
+    const id = randomUUID();
+    const newComponent: BomComponent = {
+      ...component,
+      id,
+      isActive: component.isActive ?? true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.bomComponents.set(id, newComponent);
+    return newComponent;
+  }
+
+  async updateBomComponent(id: string, updates: Partial<BomComponent>): Promise<BomComponent> {
+    const component = this.bomComponents.get(id);
+    if (!component) throw new Error("BOM component not found");
+    const updated = { ...component, ...updates, updatedAt: new Date() };
+    this.bomComponents.set(id, updated);
+    return updated;
+  }
+
+  async deleteBomComponent(id: string): Promise<void> {
+    this.bomComponents.delete(id);
+  }
+
+  async getBomComponentsByType(componentType: string): Promise<BomComponent[]> {
+    return Array.from(this.bomComponents.values()).filter(c => c.componentType === componentType);
+  }
+
+  // Catalog Product operations
+  async getCatalogProducts(categoryId?: string): Promise<CatalogProduct[]> {
+    const products = Array.from(this.catalogProducts.values());
+    return categoryId ? products.filter(p => p.categoryId === categoryId) : products;
+  }
+
+  async getCatalogProduct(id: string): Promise<CatalogProduct | undefined> {
+    return this.catalogProducts.get(id);
+  }
+
+  async getCatalogProductByCode(productCode: string): Promise<CatalogProduct | undefined> {
+    return Array.from(this.catalogProducts.values()).find(p => p.productCode === productCode);
+  }
+
+  async createCatalogProduct(product: InsertCatalogProduct): Promise<CatalogProduct> {
+    const id = randomUUID();
+    const newProduct: CatalogProduct = {
+      ...product,
+      id,
+      isActive: product.isActive ?? true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.catalogProducts.set(id, newProduct);
+    return newProduct;
+  }
+
+  async updateCatalogProduct(id: string, updates: Partial<CatalogProduct>): Promise<CatalogProduct> {
+    const product = this.catalogProducts.get(id);
+    if (!product) throw new Error("Catalog product not found");
+    const updated = { ...product, ...updates, updatedAt: new Date() };
+    this.catalogProducts.set(id, updated);
+    return updated;
+  }
+
+  async deleteCatalogProduct(id: string): Promise<void> {
+    this.catalogProducts.delete(id);
+  }
+
+  async getProductsWithBom(): Promise<(CatalogProduct & { bom: (ProductBom & { component: BomComponent })[] })[]> {
+    const products = Array.from(this.catalogProducts.values());
+    return products.map(product => ({
+      ...product,
+      bom: Array.from(this.productBom.values())
+        .filter(bom => bom.productId === product.id)
+        .map(bom => ({
+          ...bom,
+          component: this.bomComponents.get(bom.componentId)!
+        }))
+    }));
+  }
+
+  // Product BOM operations  
+  async getProductBom(productId: string): Promise<(ProductBom & { component: BomComponent })[]> {
+    return Array.from(this.productBom.values())
+      .filter(bom => bom.productId === productId)
+      .map(bom => ({
+        ...bom,
+        component: this.bomComponents.get(bom.componentId)!
+      }));
+  }
+
+  async addProductBomComponent(productBom: InsertProductBom): Promise<ProductBom> {
+    const id = randomUUID();
+    const newBom: ProductBom = { ...productBom, id };
+    this.productBom.set(id, newBom);
+    return newBom;
+  }
+
+  async updateProductBomComponent(id: string, updates: Partial<ProductBom>): Promise<ProductBom> {
+    const bom = this.productBom.get(id);
+    if (!bom) throw new Error("Product BOM not found");
+    const updated = { ...bom, ...updates };
+    this.productBom.set(id, updated);
+    return updated;
+  }
+
+  async removeProductBomComponent(id: string): Promise<void> {
+    this.productBom.delete(id);
+  }
+
+  // Catalog Service operations
+  async getCatalogServices(categoryId?: string): Promise<CatalogService[]> {
+    const services = Array.from(this.catalogServices.values());
+    return categoryId ? services.filter(s => s.categoryId === categoryId) : services;
+  }
+
+  async getCatalogService(id: string): Promise<CatalogService | undefined> {
+    return this.catalogServices.get(id);
+  }
+
+  async getCatalogServiceByCode(serviceCode: string): Promise<CatalogService | undefined> {
+    return Array.from(this.catalogServices.values()).find(s => s.serviceCode === serviceCode);
+  }
+
+  async createCatalogService(service: InsertCatalogService): Promise<CatalogService> {
+    const id = randomUUID();
+    const newService: CatalogService = {
+      ...service,
+      id,
+      isActive: service.isActive ?? true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.catalogServices.set(id, newService);
+    return newService;
+  }
+
+  async updateCatalogService(id: string, updates: Partial<CatalogService>): Promise<CatalogService> {
+    const service = this.catalogServices.get(id);
+    if (!service) throw new Error("Catalog service not found");
+    const updated = { ...service, ...updates, updatedAt: new Date() };
+    this.catalogServices.set(id, updated);
+    return updated;
+  }
+
+  async deleteCatalogService(id: string): Promise<void> {
+    this.catalogServices.delete(id);
+  }
+
+  async getServicesByType(serviceType: string): Promise<CatalogService[]> {
+    return Array.from(this.catalogServices.values()).filter(s => s.serviceType === serviceType);
+  }
+
+  // Catalog Solution operations
+  async getCatalogSolutions(categoryId?: string): Promise<CatalogSolution[]> {
+    const solutions = Array.from(this.catalogSolutions.values());
+    return categoryId ? solutions.filter(s => s.categoryId === categoryId) : solutions;
+  }
+
+  async getCatalogSolution(id: string): Promise<CatalogSolution | undefined> {
+    return this.catalogSolutions.get(id);
+  }
+
+  async getCatalogSolutionByCode(solutionCode: string): Promise<CatalogSolution | undefined> {
+    return Array.from(this.catalogSolutions.values()).find(s => s.solutionCode === solutionCode);
+  }
+
+  async createCatalogSolution(solution: InsertCatalogSolution): Promise<CatalogSolution> {
+    const id = randomUUID();
+    const newSolution: CatalogSolution = {
+      ...solution,
+      id,
+      isActive: solution.isActive ?? true,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.catalogSolutions.set(id, newSolution);
+    return newSolution;
+  }
+
+  async updateCatalogSolution(id: string, updates: Partial<CatalogSolution>): Promise<CatalogSolution> {
+    const solution = this.catalogSolutions.get(id);
+    if (!solution) throw new Error("Catalog solution not found");
+    const updated = { ...solution, ...updates, updatedAt: new Date() };
+    this.catalogSolutions.set(id, updated);
+    return updated;
+  }
+
+  async deleteCatalogSolution(id: string): Promise<void> {
+    this.catalogSolutions.delete(id);
+  }
+
+  async getSolutionsWithComponents(): Promise<(CatalogSolution & { components: SolutionComponent[] })[]> {
+    const solutions = Array.from(this.catalogSolutions.values());
+    return solutions.map(solution => ({
+      ...solution,
+      components: Array.from(this.solutionComponents.values()).filter(c => c.solutionId === solution.id)
+    }));
+  }
+
+  // Solution Component operations
+  async getSolutionComponents(solutionId: string): Promise<SolutionComponent[]> {
+    return Array.from(this.solutionComponents.values()).filter(c => c.solutionId === solutionId);
+  }
+
+  async addSolutionComponent(component: InsertSolutionComponent): Promise<SolutionComponent> {
+    const id = randomUUID();
+    const newComponent: SolutionComponent = { ...component, id };
+    this.solutionComponents.set(id, newComponent);
+    return newComponent;
+  }
+
+  async updateSolutionComponent(id: string, updates: Partial<SolutionComponent>): Promise<SolutionComponent> {
+    const component = this.solutionComponents.get(id);
+    if (!component) throw new Error("Solution component not found");
+    const updated = { ...component, ...updates };
+    this.solutionComponents.set(id, updated);
+    return updated;
+  }
+
+  async removeSolutionComponent(id: string): Promise<void> {
+    this.solutionComponents.delete(id);
+  }
+
+  // Pricing History operations
+  async getPricingHistory(entityType: string, entityId: string): Promise<PricingHistory[]> {
+    return Array.from(this.pricingHistory.values())
+      .filter(p => p.entityType === entityType && p.entityId === entityId);
+  }
+
+  async createPricingHistoryEntry(entry: InsertPricingHistory): Promise<PricingHistory> {
+    const id = randomUUID();
+    const newEntry: PricingHistory = {
+      ...entry,
+      id,
+      effectiveDate: entry.effectiveDate || new Date(),
+      createdAt: new Date()
+    };
+    this.pricingHistory.set(id, newEntry);
+    return newEntry;
+  }
+
+  // Competitive Analysis operations
+  async getCompetitiveAnalysis(): Promise<CompetitiveAnalysis[]> {
+    return Array.from(this.competitiveAnalysis.values());
+  }
+
+  async getCompetitiveAnalysisForProduct(productName: string): Promise<CompetitiveAnalysis[]> {
+    return Array.from(this.competitiveAnalysis.values()).filter(c => c.productName === productName);
+  }
+
+  async createCompetitiveAnalysis(analysis: InsertCompetitiveAnalysis): Promise<CompetitiveAnalysis> {
+    const id = randomUUID();
+    const newAnalysis: CompetitiveAnalysis = {
+      ...analysis,
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.competitiveAnalysis.set(id, newAnalysis);
+    return newAnalysis;
+  }
+
+  async updateCompetitiveAnalysis(id: string, updates: Partial<CompetitiveAnalysis>): Promise<CompetitiveAnalysis> {
+    const analysis = this.competitiveAnalysis.get(id);
+    if (!analysis) throw new Error("Competitive analysis not found");
+    const updated = { ...analysis, ...updates, updatedAt: new Date() };
+    this.competitiveAnalysis.set(id, updated);
+    return updated;
+  }
+
+  async deleteCompetitiveAnalysis(id: string): Promise<void> {
+    this.competitiveAnalysis.delete(id);
+  }
+
+  // Catalog Analytics and Reporting
+  async getCatalogMetrics(): Promise<{
+    totalProducts: number;
+    totalServices: number;
+    totalSolutions: number;
+    averageProductMargin: number;
+    averageServiceMargin: number;
+    totalCatalogValue: number;
+  }> {
+    const products = Array.from(this.catalogProducts.values());
+    const services = Array.from(this.catalogServices.values());
+    const solutions = Array.from(this.catalogSolutions.values());
+
+    const productMargins = products.map(p => 
+      ((p.commercialSellPrice - p.totalCostPrice) / p.commercialSellPrice) * 100
+    );
+    const serviceMargins = services.map(s => 
+      ((s.commercialSellPrice - s.deliveryCost) / s.commercialSellPrice) * 100
+    );
+
+    return {
+      totalProducts: products.length,
+      totalServices: services.length,
+      totalSolutions: solutions.length,
+      averageProductMargin: productMargins.reduce((a, b) => a + b, 0) / productMargins.length || 0,
+      averageServiceMargin: serviceMargins.reduce((a, b) => a + b, 0) / serviceMargins.length || 0,
+      totalCatalogValue: products.reduce((sum, p) => sum + p.commercialSellPrice, 0) +
+                        services.reduce((sum, s) => sum + s.commercialSellPrice, 0) +
+                        solutions.reduce((sum, s) => sum + s.commercialSellPrice, 0)
+    };
+  }
+
+  async getCatalogReport(reportType: 'pricing' | 'margins' | 'competitive' | 'bom'): Promise<any> {
+    switch (reportType) {
+      case 'pricing':
+        return {
+          products: Array.from(this.catalogProducts.values()),
+          services: Array.from(this.catalogServices.values()),
+          solutions: Array.from(this.catalogSolutions.values())
+        };
+      case 'margins':
+        return await this.getCatalogMetrics();
+      case 'competitive':
+        return Array.from(this.competitiveAnalysis.values());
+      case 'bom':
+        return await this.getProductsWithBom();
+      default:
+        return {};
+    }
+  }
 }
 
-export const storage = new MemStorage();
+// Import database storage for HIPAA compliance
+import { DbStorage } from "./db-storage";
+import { isDatabaseAvailable } from "./db";
+
+// Use database storage for HIPAA compliance or fallback to MemStorage for development
+export const storage = isDatabaseAvailable() 
+  ? new DbStorage() 
+  : new MemStorage();

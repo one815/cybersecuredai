@@ -29,7 +29,6 @@ import {
   Enhanced4DArrowRightIcon,
   Enhanced4DExternalLinkIcon,
   Enhanced4DBuildingIcon,
-  Enhanced4DSettingsIcon,
   Enhanced4DStarIcon
 } from "@/components/LazyCustomIcons";
 import { 

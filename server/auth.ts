@@ -1,14 +1,26 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import CryptoJS from 'crypto-js';
+import * as crypto from 'crypto';
 import { Request, Response, NextFunction } from 'express';
 import type { User } from '@shared/schema';
 import { storage } from './storage';
 
-// Environment variables for security
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-jwt-secret-change-in-production';
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-256-bit-encryption-key-change-in-production';
+// CRITICAL FIX: Remove permissive defaults for production security
+const JWT_SECRET = process.env.JWT_SECRET;
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
+
+// Boot-time security validation
+if (process.env.NODE_ENV === 'production') {
+  if (!JWT_SECRET || JWT_SECRET.length < 32) {
+    throw new Error('SECURITY VIOLATION: JWT_SECRET must be at least 32 characters in production');
+  }
+  if (!process.env.FIPS_ENCRYPTION_KEY || process.env.FIPS_ENCRYPTION_KEY.length < 64) {
+    throw new Error('SECURITY VIOLATION: FIPS_ENCRYPTION_KEY must be at least 64 hex characters in production');
+  }
+  console.log('✅ Production security validation passed');
+}
 
 // Enhanced JWT payload interface
 export interface JWTPayload {
@@ -26,35 +38,109 @@ export interface AuthenticatedRequest extends Request {
 }
 
 /**
- * High-level AES-256 encryption for sensitive data
+ * FIPS 140-2 Compliant Encryption Service for HIPAA compliance
+ * Replaces CryptoJS with Node.js native crypto for FIPS validation
  */
 export class EncryptionService {
-  private static key = ENCRYPTION_KEY;
+  private static readonly ALGORITHM = 'aes-256-gcm';
+  private static readonly KEY_LENGTH = 32; // 256 bits
+  private static readonly IV_LENGTH = 16;
+  private static readonly TAG_LENGTH = 16;
+  
+  private static getKey(): Buffer {
+    const key = process.env.FIPS_ENCRYPTION_KEY;
+    if (!key) {
+      throw new Error('FIPS_ENCRYPTION_KEY environment variable is required for HIPAA compliance');
+    }
+    // CRITICAL FIX: Expect key as hex (consistent with db-storage.ts)
+    return Buffer.from(key, 'hex');
+  }
 
-  static encrypt(text: string): string {
+  static encrypt(text: string, context: string = 'general'): string {
     try {
-      const encrypted = CryptoJS.AES.encrypt(text, this.key).toString();
-      return encrypted;
+      const baseKey = this.getKey();
+      const salt = crypto.randomBytes(32); // CRITICAL FIX: Use random salt per encryption
+      const iv = crypto.randomBytes(this.IV_LENGTH);
+      
+      // CRITICAL FIX: Derive key using PBKDF2 with random salt
+      const derivedKey = crypto.pbkdf2Sync(baseKey, salt, 100000, this.KEY_LENGTH, 'sha256');
+      
+      const cipher = crypto.createCipheriv(this.ALGORITHM, derivedKey, iv);
+      cipher.setAAD(Buffer.from(`HIPAA-${context}`));
+      
+      let encrypted = cipher.update(text, 'utf8', 'hex');
+      encrypted += cipher.final('hex');
+      
+      const tag = cipher.getAuthTag();
+      
+      // CRITICAL FIX: Include salt in output for decryption
+      return salt.toString('hex') + ':' + iv.toString('hex') + ':' + tag.toString('hex') + ':' + encrypted;
     } catch (error) {
-      console.error('Encryption error:', error);
-      throw new Error('Failed to encrypt data');
+      console.error('❌ FIPS encryption error:', error);
+      throw new Error('Failed to encrypt data with FIPS compliance');
     }
   }
 
-  static decrypt(encryptedText: string): string {
+  static decrypt(encryptedText: string, context: string = 'general'): string {
     try {
-      const bytes = CryptoJS.AES.decrypt(encryptedText, this.key);
-      const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+      const baseKey = this.getKey();
+      const parts = encryptedText.split(':');
+      
+      if (parts.length !== 4) {
+        throw new Error('Invalid encrypted data format - expected salt:iv:tag:encrypted');
+      }
+      
+      const salt = Buffer.from(parts[0], 'hex');
+      const iv = Buffer.from(parts[1], 'hex');
+      const tag = Buffer.from(parts[2], 'hex');
+      const encrypted = parts[3];
+      
+      // CRITICAL FIX: Derive key using same salt and parameters
+      const derivedKey = crypto.pbkdf2Sync(baseKey, salt, 100000, this.KEY_LENGTH, 'sha256');
+      
+      const decipher = crypto.createDecipheriv(this.ALGORITHM, derivedKey, iv);
+      decipher.setAAD(Buffer.from(`HIPAA-${context}`));
+      decipher.setAuthTag(tag);
+      
+      let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+      decrypted += decipher.final('utf8');
+      
       return decrypted;
     } catch (error) {
-      console.error('Decryption error:', error);
-      throw new Error('Failed to decrypt data');
+      console.error('❌ FIPS decryption error:', error);
+      throw new Error('Failed to decrypt data with FIPS compliance');
     }
   }
 
-  // Secure hash generation for TOTP secrets
-  static generateSecureHash(data: string): string {
-    return CryptoJS.SHA256(data + this.key).toString();
+  // FIPS 140-2 compliant secure hash generation
+  static generateSecureHash(data: string, context: string = 'general'): string {
+    const key = this.getKey();
+    const hmac = crypto.createHmac('sha256', key);
+    hmac.update(`${context}:${data}`);
+    return hmac.digest('hex');
+  }
+
+  // Cross-service compatibility test
+  static testEncryptionInteroperability(): boolean {
+    try {
+      const testData = 'HIPAA-test-data-' + Date.now();
+      const encrypted = this.encrypt(testData, 'interop-test');
+      const decrypted = this.decrypt(encrypted, 'interop-test');
+      return testData === decrypted;
+    } catch (error) {
+      console.error('❌ Encryption interoperability test failed:', error);
+      return false;
+    }
+  }
+
+  // Generate FIPS-compliant random bytes for cryptographic operations
+  static generateSecureRandom(length: number): Buffer {
+    return crypto.randomBytes(length);
+  }
+
+  // FIPS 140-2 compliant key derivation function using PBKDF2
+  static deriveKey(password: string, salt: string | Buffer, keyLength: number = 32, iterations: number = 100000): Buffer {
+    return crypto.pbkdf2Sync(password, salt, iterations, keyLength, 'sha256');
   }
 }
 
@@ -91,7 +177,7 @@ export class AuthService {
       expiresIn: JWT_EXPIRES_IN,
       issuer: 'cybersecure-ai',
       audience: 'cybersecure-platform'
-    });
+    } as jwt.SignOptions);
   }
 
   /**
